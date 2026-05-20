@@ -20,7 +20,7 @@ const CODEX_XIAOJU_STATES: Record<string, PetStateConfig> = {
   notice_cursor: { row: 3, frames: 4, fps: 10, loop: false, priority: 20 },
   chase_cursor: { row: 4, frames: 5, fps: 12, loop: true, priority: 30 },
   hover_eat: { row: 8, frames: 6, fps: 8, loop: true, priority: 40 },
-  tickle: { row: 3, frames: 4, fps: 12, loop: false, priority: 50 },
+  tickle: { row: 3, frames: 4, fps: 12, loop: true, priority: 50 },
   super_happy: { row: 4, frames: 5, fps: 12, loop: false, priority: 55 },
   grabbed_start: { row: 1, frames: 8, fps: 12, loop: false, priority: 90 },
   grabbed_loop: { row: 1, frames: 8, fps: 8, loop: true, priority: 100 },

@@ -5,7 +5,7 @@ import { decidePresenceMode, type ForcedPresenceMode, type PresenceMode } from '
 import { chooseBestPerch, createIconEdgeCandidates, type Rect } from '../pet-core/perchPlanner';
 import { PixiPetStage } from '../pet-renderer/PixiPetStage';
 import { DEFAULT_PET_SCALE } from './petPreviewConfig';
-import { decidePreviewAction, pickActionBubble } from './previewAction';
+import { TICKLE_HOLD_MS, decidePreviewAction, pickActionBubble } from './previewAction';
 
 const PET_ASSET_ROOT = '/pets/xiaoju';
 const ICONS: Rect[] = [
@@ -39,6 +39,7 @@ export function App() {
   const [clickBurst, setClickBurst] = useState(0);
   const [bubble, setBubble] = useState('这块地方不错。');
   const dragOffsetRef = useRef({ x: 0, y: 0 });
+  const clearTickleTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     fetch(`${PET_ASSET_ROOT}/codex-pet.json`)
@@ -53,6 +54,14 @@ export function App() {
           }),
         ),
       );
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (clearTickleTimeoutRef.current !== null) {
+        window.clearTimeout(clearTickleTimeoutRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -162,8 +171,14 @@ export function App() {
     if (presence === 'passive') {
       return;
     }
-    setClickBurst((value) => Math.min(value + 1, 4));
-    window.setTimeout(() => setClickBurst(0), 1600);
+    setClickBurst(1);
+    if (clearTickleTimeoutRef.current !== null) {
+      window.clearTimeout(clearTickleTimeoutRef.current);
+    }
+    clearTickleTimeoutRef.current = window.setTimeout(() => {
+      setClickBurst(0);
+      clearTickleTimeoutRef.current = null;
+    }, TICKLE_HOLD_MS);
   };
 
   if (!manifest) {

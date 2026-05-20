@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { decidePreviewAction, pickActionBubble } from './previewAction';
+import { TICKLE_HOLD_MS, decidePreviewAction, pickActionBubble } from './previewAction';
 
 describe('decidePreviewAction', () => {
   it('keeps the default preview action stable instead of time-toggling idle states', () => {
@@ -61,5 +61,11 @@ describe('pickActionBubble', () => {
         'idle_sleep',
       ),
     ).toBe('我先睡一会儿。');
+  });
+});
+
+describe('TICKLE_HOLD_MS', () => {
+  it('keeps a single click in the tickle animation long enough to read as a continuous action', () => {
+    expect(TICKLE_HOLD_MS).toBeGreaterThanOrEqual(2000);
   });
 });

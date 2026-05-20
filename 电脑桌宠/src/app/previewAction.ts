@@ -1,5 +1,7 @@
 import type { PresenceMode } from '../pet-core/presence';
 
+export const TICKLE_HOLD_MS = 2200;
+
 export type PetActionState =
   | 'idle_sleep'
   | 'idle_fishing'

@@ -30,6 +30,11 @@ describe('normalizePetManifest', () => {
       row: 8,
       frames: 6,
     });
+    expect(manifest.states.tickle).toMatchObject({
+      row: 3,
+      frames: 4,
+      loop: true,
+    });
     expect(manifest.states.grabbed_loop).toMatchObject({
       row: 1,
       frames: 8,

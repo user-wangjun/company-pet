@@ -16,6 +16,7 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
   const stateRef = useRef(state);
   const pausedRef = useRef(paused);
   const transitionRef = useRef<null | { startedAtMs: number; durationMs: number }>(null);
+  const resetAnimationClockRef = useRef(false);
   const activeSpriteRef = useRef<Sprite | null>(null);
   const activeNextFrameSpriteRef = useRef<Sprite | null>(null);
   const outgoingSpriteRef = useRef<Sprite | null>(null);
@@ -41,6 +42,7 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
       }
     }
     stateRef.current = state;
+    resetAnimationClockRef.current = true;
     transitionRef.current = {
       startedAtMs: performance.now(),
       durationMs: 320,
@@ -111,6 +113,15 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
     app.ticker.add((tickerDelta) => {
       if (pausedRef.current || !activeSprite || !activeNextFrameSprite || !outgoingSprite || !baseTexture) {
         return;
+      }
+
+      if (resetAnimationClockRef.current) {
+        elapsedMs = 0;
+        currentFrame = -1;
+        currentNextFrame = -1;
+        currentRow = -1;
+        currentNextRow = -1;
+        resetAnimationClockRef.current = false;
       }
 
       elapsedMs += app.ticker.deltaMS * tickerDelta;
