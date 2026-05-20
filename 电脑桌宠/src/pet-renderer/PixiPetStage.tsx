@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Application, Assets, Rectangle, SCALE_MODES, Sprite, Texture } from 'pixi.js';
 import type { NormalizedPetManifest, PetStateConfig } from '../pet-assets/types';
-import { getTransitionPose } from './animationTransition';
+import { getFrameBlend, getTransitionPose } from './animationTransition';
 
 interface PixiPetStageProps {
   manifest: NormalizedPetManifest;
@@ -17,6 +17,7 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
   const pausedRef = useRef(paused);
   const transitionRef = useRef<null | { startedAtMs: number; durationMs: number }>(null);
   const activeSpriteRef = useRef<Sprite | null>(null);
+  const activeNextFrameSpriteRef = useRef<Sprite | null>(null);
   const outgoingSpriteRef = useRef<Sprite | null>(null);
 
   useEffect(() => {
@@ -28,12 +29,16 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
       return;
     }
     const activeSprite = activeSpriteRef.current;
+    const activeNextFrameSprite = activeNextFrameSpriteRef.current;
     const outgoingSprite = outgoingSpriteRef.current;
     if (activeSprite && outgoingSprite && activeSprite.texture !== Texture.EMPTY) {
       outgoingSprite.texture = activeSprite.texture;
       outgoingSprite.alpha = 1;
       outgoingSprite.visible = true;
       activeSprite.alpha = 0;
+      if (activeNextFrameSprite) {
+        activeNextFrameSprite.alpha = 0;
+      }
     }
     stateRef.current = state;
     transitionRef.current = {
@@ -63,8 +68,11 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
 
     let elapsedMs = 0;
     let currentFrame = -1;
+    let currentNextFrame = -1;
     let currentRow = -1;
+    let currentNextRow = -1;
     let activeSprite: Sprite | null = null;
+    let activeNextFrameSprite: Sprite | null = null;
     let outgoingSprite: Sprite | null = null;
     let baseTexture: Texture['baseTexture'] | null = null;
 
@@ -84,41 +92,64 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
       );
     };
 
-    const setFrame = (frame: number, row: number) => {
-      if (!activeSprite || (frame === currentFrame && row === currentRow)) {
+    const setFrame = (frame: number, nextFrame: number, row: number) => {
+      if (!activeSprite || !activeNextFrameSprite) {
         return;
       }
-      currentFrame = frame;
-      currentRow = row;
-      activeSprite.texture = makeFrameTexture(frame, row);
+      if (frame !== currentFrame || row !== currentRow) {
+        currentFrame = frame;
+        currentRow = row;
+        activeSprite.texture = makeFrameTexture(frame, row);
+      }
+      if (nextFrame !== currentNextFrame || row !== currentNextRow) {
+        currentNextFrame = nextFrame;
+        currentNextRow = row;
+        activeNextFrameSprite.texture = makeFrameTexture(nextFrame, row);
+      }
     };
 
     app.ticker.add((tickerDelta) => {
-      if (pausedRef.current || !activeSprite || !outgoingSprite || !baseTexture) {
+      if (pausedRef.current || !activeSprite || !activeNextFrameSprite || !outgoingSprite || !baseTexture) {
         return;
       }
 
       elapsedMs += app.ticker.deltaMS * tickerDelta;
       const activeState = stateRef.current;
       const frameDurationMs = 1000 / activeState.fps;
-      const rawFrame = Math.floor(elapsedMs / frameDurationMs);
-      const frame = activeState.loop ? rawFrame % activeState.frames : Math.min(rawFrame, activeState.frames - 1);
-      setFrame(frame, activeState.row);
+      const frameBlend = getFrameBlend({
+        elapsedMs,
+        frameDurationMs,
+        frames: activeState.frames,
+        loop: activeState.loop,
+      });
+      setFrame(frameBlend.currentFrame, frameBlend.nextFrame, activeState.row);
 
       if (transitionRef.current) {
         const elapsedTransitionMs = performance.now() - transitionRef.current.startedAtMs;
         const pose = getTransitionPose(elapsedTransitionMs, transitionRef.current.durationMs);
-        applyPose(activeSprite, pose.incoming, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
+        applyPose(
+          activeSprite,
+          { ...pose.incoming, alpha: pose.incoming.alpha * (1 - frameBlend.alpha) },
+          manifest.sprite.cellWidth,
+          manifest.sprite.cellHeight,
+        );
+        applyPose(
+          activeNextFrameSprite,
+          { ...pose.incoming, alpha: pose.incoming.alpha * frameBlend.alpha },
+          manifest.sprite.cellWidth,
+          manifest.sprite.cellHeight,
+        );
         applyPose(outgoingSprite, pose.outgoing, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
         outgoingSprite.visible = pose.outgoing.alpha > 0.01;
+        activeNextFrameSprite.visible = frameBlend.alpha > 0.01;
 
         if (pose.incoming.alpha >= 1) {
           transitionRef.current = null;
-          applyPose(activeSprite, pose.incoming, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
+          applyFrameBlendPose(activeSprite, activeNextFrameSprite, frameBlend.alpha, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
           outgoingSprite.visible = false;
         }
       } else {
-        applyPose(activeSprite, null, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
+        applyFrameBlendPose(activeSprite, activeNextFrameSprite, frameBlend.alpha, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
         outgoingSprite.visible = false;
       }
     });
@@ -139,15 +170,23 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
       activeSprite = new Sprite(Texture.EMPTY);
       configureSprite(activeSprite, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
       app.stage.addChild(activeSprite);
+
+      activeNextFrameSprite = new Sprite(Texture.EMPTY);
+      configureSprite(activeNextFrameSprite, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
+      activeNextFrameSprite.visible = false;
+      app.stage.addChild(activeNextFrameSprite);
+
       activeSpriteRef.current = activeSprite;
+      activeNextFrameSpriteRef.current = activeNextFrameSprite;
       outgoingSpriteRef.current = outgoingSprite;
 
-      setFrame(0, stateRef.current.row);
+      setFrame(0, stateRef.current.frames > 1 ? 1 : 0, stateRef.current.row);
     });
 
     return () => {
       disposed = true;
       activeSpriteRef.current = null;
+      activeNextFrameSpriteRef.current = null;
       outgoingSpriteRef.current = null;
       app.destroy(true, { children: true, texture: false, baseTexture: false });
     };
@@ -189,4 +228,32 @@ function applyPose(sprite: Sprite, pose: SpritePose | null, cellWidth: number, c
   sprite.alpha = nextPose.alpha;
   sprite.scale.set(nextPose.scaleX, nextPose.scaleY);
   sprite.position.set(cellWidth / 2 + nextPose.x, cellHeight + nextPose.y);
+}
+
+function applyFrameBlendPose(current: Sprite, next: Sprite, nextAlpha: number, cellWidth: number, cellHeight: number) {
+  applyPose(
+    current,
+    {
+      alpha: 1 - nextAlpha,
+      x: 0,
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
+    },
+    cellWidth,
+    cellHeight,
+  );
+  applyPose(
+    next,
+    {
+      alpha: nextAlpha,
+      x: 0,
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
+    },
+    cellWidth,
+    cellHeight,
+  );
+  next.visible = nextAlpha > 0.01;
 }
