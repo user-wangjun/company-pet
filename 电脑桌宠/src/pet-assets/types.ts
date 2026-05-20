@@ -28,6 +28,7 @@ export interface PetStateConfig {
   fps: number;
   loop: boolean;
   priority: number;
+  frameSequence?: number[];
 }
 
 export interface RawPetManifest {

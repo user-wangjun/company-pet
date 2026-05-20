@@ -121,6 +121,7 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
         frameDurationMs,
         frames: activeState.frames,
         loop: activeState.loop,
+        frameSequence: activeState.frameSequence,
       });
       setFrame(frameBlend.currentFrame, frameBlend.nextFrame, activeState.row);
 

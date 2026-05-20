@@ -16,9 +16,15 @@ describe('normalizePetManifest', () => {
     expect(manifest.sprite.cellHeight).toBe(208);
     expect(manifest.states.idle_sleep).toMatchObject({
       row: 0,
-      frames: 6,
-      fps: 8,
+      frames: 5,
+      fps: 3,
       loop: true,
+      frameSequence: [0, 1, 2, 4, 5],
+    });
+    expect(manifest.states.perch_sleep).toMatchObject({
+      row: 0,
+      frames: 5,
+      frameSequence: [0, 1, 2, 4, 5],
     });
     expect(manifest.states.hover_eat).toMatchObject({
       row: 8,

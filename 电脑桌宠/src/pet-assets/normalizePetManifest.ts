@@ -15,7 +15,7 @@ const DEFAULT_SPRITE: Omit<PetSpriteConfig, 'file'> = {
 const DEFAULT_PERSONALITY = ['lazy', 'foodie', 'curious', 'proud'];
 
 const CODEX_XIAOJU_STATES: Record<string, PetStateConfig> = {
-  idle_sleep: { row: 0, frames: 6, fps: 8, loop: true, priority: 10 },
+  idle_sleep: { row: 0, frames: 5, fps: 3, loop: true, priority: 10, frameSequence: [0, 1, 2, 4, 5] },
   idle_fishing: { row: 7, frames: 6, fps: 8, loop: true, priority: 10 },
   notice_cursor: { row: 3, frames: 4, fps: 10, loop: false, priority: 20 },
   chase_cursor: { row: 4, frames: 5, fps: 12, loop: true, priority: 30 },
@@ -27,7 +27,7 @@ const CODEX_XIAOJU_STATES: Record<string, PetStateConfig> = {
   drop: { row: 4, frames: 5, fps: 12, loop: false, priority: 80 },
   annoyed: { row: 5, frames: 8, fps: 8, loop: false, priority: 60 },
   return_home: { row: 4, frames: 5, fps: 10, loop: false, priority: 15 },
-  perch_sleep: { row: 0, frames: 6, fps: 8, loop: true, priority: 10 },
+  perch_sleep: { row: 0, frames: 5, fps: 3, loop: true, priority: 10, frameSequence: [0, 1, 2, 4, 5] },
 };
 
 const DEFAULT_BUBBLES: Record<string, string[]> = {
@@ -47,6 +47,7 @@ function normalizeState(state: Partial<PetStateConfig> & Pick<PetStateConfig, 'r
     fps: state.fps ?? 8,
     loop: state.loop ?? true,
     priority: state.priority ?? 10,
+    frameSequence: state.frameSequence,
   };
 }
 

@@ -80,6 +80,20 @@ describe('getFrameBlend', () => {
     expect(blend.alpha).toBeGreaterThan(0);
   });
 
+  it('maps non-contiguous frame sequences so idle actions can skip disruptive frames', () => {
+    const blend = getFrameBlend({
+      elapsedMs: 3 * 250 + 225,
+      frameDurationMs: 250,
+      frames: 5,
+      loop: true,
+      frameSequence: [0, 1, 2, 4, 5],
+    });
+
+    expect(blend.currentFrame).toBe(4);
+    expect(blend.nextFrame).toBe(5);
+    expect(blend.alpha).toBeGreaterThan(0.75);
+  });
+
   it('does not blend past the final frame for non-looping actions', () => {
     const blend = getFrameBlend({
       elapsedMs: 5 * 250 + 180,

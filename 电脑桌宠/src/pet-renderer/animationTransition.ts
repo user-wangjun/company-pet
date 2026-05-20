@@ -22,6 +22,7 @@ export interface FrameBlendInput {
   frames: number;
   loop: boolean;
   blendWindowRatio?: number;
+  frameSequence?: number[];
 }
 
 export interface FrameBlend {
@@ -31,14 +32,17 @@ export interface FrameBlend {
 }
 
 export function getFrameBlend(input: FrameBlendInput): FrameBlend {
-  const frames = Math.max(1, input.frames);
+  const frameSequence = normalizeFrameSequence(input.frameSequence);
+  const frames = frameSequence?.length ?? Math.max(1, input.frames);
   const frameDurationMs = Math.max(1, input.frameDurationMs);
   const blendWindowRatio = clamp(input.blendWindowRatio ?? 0.32, 0.01, 1);
   const blendStart = 1 - blendWindowRatio;
   const rawFrame = Math.floor(input.elapsedMs / frameDurationMs);
   const localProgress = (input.elapsedMs % frameDurationMs) / frameDurationMs;
-  const currentFrame = input.loop ? rawFrame % frames : Math.min(rawFrame, frames - 1);
-  const nextFrame = input.loop ? (currentFrame + 1) % frames : Math.min(currentFrame + 1, frames - 1);
+  const currentFrameIndex = input.loop ? rawFrame % frames : Math.min(rawFrame, frames - 1);
+  const nextFrameIndex = input.loop ? (currentFrameIndex + 1) % frames : Math.min(currentFrameIndex + 1, frames - 1);
+  const currentFrame = frameSequence?.[currentFrameIndex] ?? currentFrameIndex;
+  const nextFrame = frameSequence?.[nextFrameIndex] ?? nextFrameIndex;
 
   if (currentFrame === nextFrame) {
     return {
@@ -118,6 +122,14 @@ function settledPose(alpha: number): TransitionSpritePose {
 function smoothStep(progress: number) {
   const clamped = clamp(progress, 0, 1);
   return clamped * clamped * (3 - 2 * clamped);
+}
+
+function normalizeFrameSequence(frameSequence: number[] | undefined) {
+  if (!frameSequence?.length) {
+    return undefined;
+  }
+
+  return frameSequence.filter((frame) => Number.isInteger(frame) && frame >= 0);
 }
 
 function clamp(value: number, min: number, max: number) {
