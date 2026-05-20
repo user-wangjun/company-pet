@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Application, Assets, Rectangle, SCALE_MODES, Sprite, Texture } from 'pixi.js';
 import type { NormalizedPetManifest, PetStateConfig } from '../pet-assets/types';
-import { getTransitionAlpha } from './animationTransition';
+import { getTransitionPose } from './animationTransition';
 
 interface PixiPetStageProps {
   manifest: NormalizedPetManifest;
@@ -38,7 +38,7 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
     stateRef.current = state;
     transitionRef.current = {
       startedAtMs: performance.now(),
-      durationMs: 180,
+      durationMs: 320,
     };
   }, [state]);
 
@@ -107,18 +107,18 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
 
       if (transitionRef.current) {
         const elapsedTransitionMs = performance.now() - transitionRef.current.startedAtMs;
-        const alpha = getTransitionAlpha(elapsedTransitionMs, transitionRef.current.durationMs);
-        activeSprite.alpha = alpha.incoming;
-        outgoingSprite.alpha = alpha.outgoing;
-        outgoingSprite.visible = alpha.outgoing > 0.01;
+        const pose = getTransitionPose(elapsedTransitionMs, transitionRef.current.durationMs);
+        applyPose(activeSprite, pose.incoming, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
+        applyPose(outgoingSprite, pose.outgoing, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
+        outgoingSprite.visible = pose.outgoing.alpha > 0.01;
 
-        if (alpha.incoming >= 1) {
+        if (pose.incoming.alpha >= 1) {
           transitionRef.current = null;
-          activeSprite.alpha = 1;
+          applyPose(activeSprite, pose.incoming, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
           outgoingSprite.visible = false;
         }
       } else {
-        activeSprite.alpha = 1;
+        applyPose(activeSprite, null, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
         outgoingSprite.visible = false;
       }
     });
@@ -132,14 +132,12 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
       baseTexture.scaleMode = SCALE_MODES.LINEAR;
 
       outgoingSprite = new Sprite(Texture.EMPTY);
-      outgoingSprite.width = manifest.sprite.cellWidth;
-      outgoingSprite.height = manifest.sprite.cellHeight;
+      configureSprite(outgoingSprite, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
       outgoingSprite.visible = false;
       app.stage.addChild(outgoingSprite);
 
       activeSprite = new Sprite(Texture.EMPTY);
-      activeSprite.width = manifest.sprite.cellWidth;
-      activeSprite.height = manifest.sprite.cellHeight;
+      configureSprite(activeSprite, manifest.sprite.cellWidth, manifest.sprite.cellHeight);
       app.stage.addChild(activeSprite);
       activeSpriteRef.current = activeSprite;
       outgoingSpriteRef.current = outgoingSprite;
@@ -165,4 +163,30 @@ export function PixiPetStage({ manifest, state, spriteUrl, scale, paused = false
       }}
     />
   );
+}
+
+interface SpritePose {
+  alpha: number;
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+}
+
+function configureSprite(sprite: Sprite, cellWidth: number, cellHeight: number) {
+  sprite.anchor.set(0.5, 1);
+  sprite.position.set(cellWidth / 2, cellHeight);
+}
+
+function applyPose(sprite: Sprite, pose: SpritePose | null, cellWidth: number, cellHeight: number) {
+  const nextPose = pose ?? {
+    alpha: 1,
+    x: 0,
+    y: 0,
+    scaleX: 1,
+    scaleY: 1,
+  };
+  sprite.alpha = nextPose.alpha;
+  sprite.scale.set(nextPose.scaleX, nextPose.scaleY);
+  sprite.position.set(cellWidth / 2 + nextPose.x, cellHeight + nextPose.y);
 }
