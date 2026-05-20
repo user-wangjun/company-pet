@@ -4,9 +4,9 @@ import type { NormalizedPetManifest, RawPetManifest } from '../pet-assets/types'
 import { decidePresenceMode, type ForcedPresenceMode, type PresenceMode } from '../pet-core/presence';
 import { chooseBestPerch, createIconEdgeCandidates, type Rect } from '../pet-core/perchPlanner';
 import { PixiPetStage } from '../pet-renderer/PixiPetStage';
+import { DEFAULT_PET_SCALE } from './petPreviewConfig';
 
 const PET_ASSET_ROOT = '/pets/xiaoju';
-const SCALE = 1.16;
 const ICONS: Rect[] = [
   { x: 62, y: 76, width: 74, height: 94 },
   { x: 62, y: 188, width: 74, height: 94 },
@@ -71,9 +71,9 @@ export function App() {
 
   const petSize = useMemo(() => {
     if (!manifest) {
-      return { width: 192 * SCALE, height: 208 * SCALE };
+      return { width: 192 * DEFAULT_PET_SCALE, height: 208 * DEFAULT_PET_SCALE };
     }
-    return { width: manifest.sprite.cellWidth * SCALE, height: manifest.sprite.cellHeight * SCALE };
+    return { width: manifest.sprite.cellWidth * DEFAULT_PET_SCALE, height: manifest.sprite.cellHeight * DEFAULT_PET_SCALE };
   }, [manifest]);
 
   const obstructionScore = useMemo(() => {
@@ -230,7 +230,7 @@ export function App() {
         onClick={handlePetClick}
       >
         <div className="pet-bubble">{bubble}</div>
-        <PixiPetStage manifest={manifest} state={activeState} spriteUrl={spriteUrl} scale={SCALE} />
+        <PixiPetStage manifest={manifest} state={activeState} spriteUrl={spriteUrl} scale={DEFAULT_PET_SCALE} />
       </div>
 
       <div className={`presence-badge presence-${presence}`}>
