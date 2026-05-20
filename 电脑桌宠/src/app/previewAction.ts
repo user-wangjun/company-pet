@@ -26,11 +26,11 @@ export function decidePreviewAction(input: PreviewActionInput): PetActionState {
   if (input.presence === 'passive' && input.obstructionScore >= 70) {
     return 'perch_sleep';
   }
+  if (input.clickBurst >= 1) {
+    return 'tickle';
+  }
   if (input.hoverMs > 900 && input.presence === 'solid') {
     return 'hover_eat';
-  }
-  if (input.clickBurst >= 3) {
-    return 'tickle';
   }
 
   return 'idle_sleep';

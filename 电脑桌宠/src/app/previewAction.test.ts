@@ -37,6 +37,18 @@ describe('decidePreviewAction', () => {
       }),
     ).toBe('hover_eat');
   });
+
+  it('treats one left click as tickling and lets it override hover eating', () => {
+    expect(
+      decidePreviewAction({
+        isDragging: false,
+        presence: 'solid',
+        obstructionScore: 0,
+        hoverMs: 1200,
+        clickBurst: 1,
+      }),
+    ).toBe('tickle');
+  });
 });
 
 describe('pickActionBubble', () => {
