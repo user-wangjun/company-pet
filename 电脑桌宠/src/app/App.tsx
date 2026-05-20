@@ -5,6 +5,7 @@ import { decidePresenceMode, type ForcedPresenceMode, type PresenceMode } from '
 import { chooseBestPerch, createIconEdgeCandidates, type Rect } from '../pet-core/perchPlanner';
 import { PixiPetStage } from '../pet-renderer/PixiPetStage';
 import { DEFAULT_PET_SCALE } from './petPreviewConfig';
+import { decidePreviewAction, pickActionBubble } from './previewAction';
 
 const PET_ASSET_ROOT = '/pets/xiaoju';
 const ICONS: Rect[] = [
@@ -15,16 +16,6 @@ const ICONS: Rect[] = [
   { x: 170, y: 188, width: 74, height: 94 },
   { x: 170, y: 300, width: 74, height: 94 },
 ];
-
-type PetActionState =
-  | 'idle_sleep'
-  | 'idle_fishing'
-  | 'notice_cursor'
-  | 'chase_cursor'
-  | 'hover_eat'
-  | 'tickle'
-  | 'grabbed_loop'
-  | 'perch_sleep';
 
 interface DesktopIcon {
   id: string;
@@ -65,9 +56,12 @@ export function App() {
   }, []);
 
   useEffect(() => {
+    if (hoverStart === null) {
+      return;
+    }
     const interval = window.setInterval(() => setNow(performance.now()), 120);
     return () => window.clearInterval(interval);
-  }, []);
+  }, [hoverStart]);
 
   const petSize = useMemo(() => {
     if (!manifest) {
@@ -90,29 +84,24 @@ export function App() {
     forcedMode,
   });
 
-  const actionState = useMemo<PetActionState>(() => {
-    if (isDragging) {
-      return 'grabbed_loop';
-    }
-    if (presence === 'passive' && obstructionScore >= 70) {
-      return 'perch_sleep';
-    }
-    if (hoverMs > 900 && presence === 'solid') {
-      return 'hover_eat';
-    }
-    if (clickBurst >= 3) {
-      return 'tickle';
-    }
-    return now % 16000 > 8000 ? 'idle_fishing' : 'idle_sleep';
-  }, [clickBurst, hoverMs, isDragging, now, obstructionScore, presence]);
+  const actionState = useMemo(
+    () =>
+      decidePreviewAction({
+        isDragging,
+        presence,
+        obstructionScore,
+        hoverMs,
+        clickBurst,
+      }),
+    [clickBurst, hoverMs, isDragging, obstructionScore, presence],
+  );
 
   useEffect(() => {
     if (!manifest) {
       return;
     }
-    const lines = manifest.bubbles[actionState] ?? manifest.bubbles.idle_sleep ?? ['哼。'];
-    setBubble(lines[Math.floor((now / 2500) % lines.length)]);
-  }, [actionState, manifest, now]);
+    setBubble(pickActionBubble(manifest.bubbles, actionState));
+  }, [actionState, manifest]);
 
   useEffect(() => {
     const onMove = (event: MouseEvent) => {
