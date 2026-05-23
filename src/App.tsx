@@ -6,6 +6,8 @@ import type {
 } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { getCurrentWindow, PhysicalPosition } from "@tauri-apps/api/window";
+import { listen } from "@tauri-apps/api/event";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import {
   AnimatedSprite,
   Application,
@@ -153,22 +155,54 @@ function App() {
   const currentAnimation = useRef<AnimationName>("idle");
   const [bubbleText, setBubbleText] = useState(getTimedDefaultBubble());
 
-  const checkForUpdates = async () => {
+  const checkForUpdates = async (manual = false) => {
     try {
+      if (manual) {
+        setBubbleText("正在检查更新中，喵... 🔍");
+      }
       const response = await fetch(GITHUB_RELEASE_API);
-      if (!response.ok) return;
+      if (!response.ok) {
+        if (manual) {
+          setBubbleText("检查更新失败喵，网络似乎有些问题 😿");
+        }
+        return;
+      }
       const data = await response.json();
       const latestVersion = data.tag_name;
       const currentVersion = "v0.1.0";
       if (latestVersion && latestVersion !== currentVersion) {
+        setBubbleText(`发现新版本 ${latestVersion} 喵！正在为你打开升级网页... 🎈`);
         setTimeout(() => {
-          setBubbleText(`发现新版本 ${latestVersion} 喵！快去 GitHub 升级吧！🎈`);
-        }, 3000);
+          void openUrl("https://github.com/user-wangjun/company-pet/releases/latest").catch(() => {});
+        }, 1500);
+      } else {
+        if (manual) {
+          setBubbleText("当前已经是最新版本啦喵！橘橘很满足~ 🐾");
+        }
       }
     } catch {
-      // silent
+      if (manual) {
+        setBubbleText("检查更新失败喵，请稍后再试！😿");
+      }
     }
   };
+
+  useEffect(() => {
+    // 监听来自托盘的“检查更新”事件
+    const unlistenPromise = listen("check-update", () => {
+      void checkForUpdates(true);
+    });
+
+    // 启动 3 秒后进行一次静默的自动更新检测
+    const startupTimer = window.setTimeout(() => {
+      void checkForUpdates(false);
+    }, 3000);
+
+    return () => {
+      window.clearTimeout(startupTimer);
+      void unlistenPromise.then((unlisten) => unlisten());
+    };
+  }, []);
 
   const clearHoverEatTimer = () => {
     if (hoverEatTimer.current !== null) {
@@ -485,7 +519,7 @@ function App() {
     clearHoverEatTimer();
     recordInteraction("double_click");
     playHoverFishSequence();
-    void checkForUpdates();
+    void checkForUpdates(true);
   };
 
   const handleContextMenu = (event: ReactMouseEvent<HTMLElement>) => {

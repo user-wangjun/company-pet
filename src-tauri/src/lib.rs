@@ -5,10 +5,11 @@ mod desktop_icons;
 use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-    AppHandle, Manager, Runtime,
+    AppHandle, Manager, Runtime, Emitter,
 };
 
 const MENU_SHOW: &str = "show-xiaoju";
+const MENU_CHECK_UPDATE: &str = "check-update-xiaoju";
 const MENU_QUIT: &str = "quit-xiaoju";
 
 #[tauri::command]
@@ -28,8 +29,9 @@ fn record_interaction(event: String) -> Result<(), String> {
 
 fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
     let show = MenuItem::with_id(app, MENU_SHOW, "隐藏小橘", true, None::<&str>)?;
+    let check_update = MenuItem::with_id(app, MENU_CHECK_UPDATE, "检查更新", true, None::<&str>)?;
     let quit = MenuItem::with_id(app, MENU_QUIT, "退出", true, None::<&str>)?;
-    let menu = Menu::with_items(app, &[&show, &quit])?;
+    let menu = Menu::with_items(app, &[&show, &check_update, &quit])?;
 
     let show_item_menu = show.clone();
     let show_item_tray = show.clone();
@@ -56,6 +58,9 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
                             let _ = show_item_menu.set_text(new_text);
                         }
                     }
+                }
+                MENU_CHECK_UPDATE => {
+                    let _ = app.emit("check-update", ());
                 }
                 MENU_QUIT => app.exit(0),
                 _ => {}
