@@ -149,6 +149,8 @@ function App() {
     scaleFactor?: number;
   } | null>(null);
   const lastPointerEventAt = useRef(0);
+  const clickCount = useRef(0);
+  const clickTimer = useRef<number | null>(null);
   const nextEyeCareTime = useRef(Date.now() + randomInRange(30, 50) * 60 * 1000);
   const nextWaterCareTime = useRef(Date.now() + randomInRange(60, 90) * 60 * 1000);
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
@@ -203,6 +205,27 @@ function App() {
       void unlistenPromise.then((unlisten) => unlisten());
     };
   }, []);
+
+  const handleClicks = () => {
+    const currentCount = clickCount.current;
+    clickCount.current = 0;
+    clickTimer.current = null;
+
+    if (currentCount === 1) {
+      // 单击：挠痒
+      recordInteraction("click");
+      setBubbleText("哼，还行。");
+      playAnimation("tickle", 1000);
+    } else if (currentCount === 2) {
+      // 双击：抓鱼
+      recordInteraction("double_click");
+      playHoverFishSequence();
+    } else if (currentCount >= 3) {
+      // 三击：检查更新
+      recordInteraction("triple_click");
+      void checkForUpdates(true);
+    }
+  };
 
   const clearHoverEatTimer = () => {
     if (hoverEatTimer.current !== null) {
@@ -431,9 +454,11 @@ function App() {
     pointerState.current = null;
 
     if (!pointer.dragging) {
-      recordInteraction("click");
-      setBubbleText("哼，还行。");
-      playAnimation("tickle", 1000);
+      clickCount.current += 1;
+      if (clickTimer.current !== null) {
+        window.clearTimeout(clickTimer.current);
+      }
+      clickTimer.current = window.setTimeout(handleClicks, 250);
       return;
     }
 
@@ -515,13 +540,6 @@ function App() {
     finishPress("mouse");
   };
 
-  const handleDoubleClick = () => {
-    clearHoverEatTimer();
-    recordInteraction("double_click");
-    playHoverFishSequence();
-    void checkForUpdates(true);
-  };
-
   const handleContextMenu = (event: ReactMouseEvent<HTMLElement>) => {
     event.preventDefault();
     if (getPetContextMenuAction() === "keep-open") {
@@ -595,17 +613,17 @@ function App() {
         recordInteraction("idle_quirk_triggered");
         const quirks = [
           {
-            text: "（咂嘴）……梦见超大金枪鱼了喵 🐟",
+            text: "（砸嘴）……梦见超大金枪鱼了喵 🐟",
             animation: "fishEat" as AnimationName,
             duration: 2500,
           },
           {
-            text: "（伸个懒腰）~ 换个舒服的姿势继续睡…… 🐾",
+            text: "（幸福地翻个身）~ 换个姿势继续睡喵…… 🐾",
             animation: "tickle" as AnimationName,
             duration: 2000,
           },
           {
-            text: "（打个哈欠）……主人工作辛苦啦，小橘陪着你喵 💤",
+            text: "（亲昵地蹭了蹭）……主人工作辛苦啦，小橘陪着你喵 💤",
             animation: "tickle" as AnimationName,
             duration: 2000,
           },
@@ -845,7 +863,6 @@ function App() {
         { "--pet-bubble-bottom": `${PET_BUBBLE_BOTTOM_PX}px` } as CSSProperties
       }
       onContextMenu={handleContextMenu}
-      onDoubleClick={handleDoubleClick}
       onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
