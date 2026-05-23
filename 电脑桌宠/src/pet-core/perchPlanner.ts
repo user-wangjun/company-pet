@@ -36,6 +36,13 @@ export function createIconEdgeCandidates(
     const verticalGap = 8;
     return [
       {
+        x: icon.x + icon.width / 2 - petSize.width / 2,
+        y: icon.y + icon.height - petSize.height - 16,
+        type: 'icon-edge' as const,
+        score: 95,
+        reason: 'hug icon center',
+      },
+      {
         x: icon.x + icon.width + horizontalGap,
         y: icon.y + icon.height - petSize.height,
         type: 'icon-edge' as const,

@@ -22,9 +22,10 @@ describe('normalizePetManifest', () => {
       frameSequence: [0, 1, 2, 4, 5],
     });
     expect(manifest.states.perch_sleep).toMatchObject({
-      row: 0,
-      frames: 5,
-      frameSequence: [0, 1, 2, 4, 5],
+      row: 1,
+      frames: 8,
+      fps: 4,
+      loop: true,
     });
     expect(manifest.states.hover_eat).toMatchObject({
       row: 8,

@@ -1,13 +1,18 @@
-import { PointerEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { MouseEvent as ReactMouseEvent, PointerEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { normalizePetManifest } from '../pet-assets/normalizePetManifest';
 import type { NormalizedPetManifest, RawPetManifest } from '../pet-assets/types';
 import { decidePresenceMode, type ForcedPresenceMode, type PresenceMode } from '../pet-core/presence';
+import { canStartPetInteraction } from '../pet-core/interactionGate';
 import { chooseBestPerch, createIconEdgeCandidates, type Rect } from '../pet-core/perchPlanner';
 import { PixiPetStage } from '../pet-renderer/PixiPetStage';
+import { readDesktopInteractionContext } from './desktopInteractionContext';
 import { DEFAULT_PET_SCALE } from './petPreviewConfig';
 import { TICKLE_HOLD_MS, decidePreviewAction, pickActionBubble } from './previewAction';
+import { checkForAppUpdate } from './updateService';
 
 const PET_ASSET_ROOT = '/pets/xiaoju';
+const APP_VERSION = import.meta.env.VITE_APP_VERSION ?? '0.1.0';
+const UPDATE_MANIFEST_URL = import.meta.env.VITE_UPDATE_MANIFEST_URL ?? '';
 const ICONS: Rect[] = [
   { x: 62, y: 76, width: 74, height: 94 },
   { x: 62, y: 188, width: 74, height: 94 },
@@ -38,8 +43,23 @@ export function App() {
   const [now, setNow] = useState(performance.now());
   const [clickBurst, setClickBurst] = useState(0);
   const [bubble, setBubble] = useState('这块地方不错。');
+  const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
   const clearTickleTimeoutRef = useRef<number | null>(null);
+  const activePointerIdRef = useRef<number | null>(null);
+  const lastActivityRef = useRef(performance.now());
+
+  const isTauri = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
+  const dragStartScreenRef = useRef({ x: 0, y: 0 });
+  const initialWindowPosRef = useRef({ x: 0, y: 0 });
+  const scaleFactorRef = useRef(1.0);
+
+  const petSize = useMemo(() => {
+    if (!manifest) {
+      return { width: 192 * DEFAULT_PET_SCALE, height: 208 * DEFAULT_PET_SCALE };
+    }
+    return { width: manifest.sprite.cellWidth * DEFAULT_PET_SCALE, height: manifest.sprite.cellHeight * DEFAULT_PET_SCALE };
+  }, [manifest]);
 
   useEffect(() => {
     fetch(`${PET_ASSET_ROOT}/codex-pet.json`)
@@ -72,12 +92,69 @@ export function App() {
     return () => window.clearInterval(interval);
   }, [hoverStart]);
 
-  const petSize = useMemo(() => {
-    if (!manifest) {
-      return { width: 192 * DEFAULT_PET_SCALE, height: 208 * DEFAULT_PET_SCALE };
+  useEffect(() => {
+    const updateActivity = () => {
+      lastActivityRef.current = performance.now();
+    };
+
+    window.addEventListener('mousemove', updateActivity);
+    window.addEventListener('mousedown', updateActivity);
+    window.addEventListener('keydown', updateActivity);
+
+    return () => {
+      window.removeEventListener('mousemove', updateActivity);
+      window.removeEventListener('mousedown', updateActivity);
+      window.removeEventListener('keydown', updateActivity);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isDragging || forcedMode === 'passive') {
+      return;
     }
-    return { width: manifest.sprite.cellWidth * DEFAULT_PET_SCALE, height: manifest.sprite.cellHeight * DEFAULT_PET_SCALE };
-  }, [manifest]);
+
+    const checkIdle = window.setInterval(() => {
+      const timeSinceLastActivity = performance.now() - lastActivityRef.current;
+      if (timeSinceLastActivity >= 15000) {
+        readDesktopInteractionContext({
+          x: position.x + petSize.width / 2,
+          y: position.y + petSize.height / 2,
+        }).then((desktopContext) => {
+          const isOnDesktop =
+            desktopContext.surface === 'desktop' ||
+            (desktopContext.surface === 'unknown' && desktopContext.allowUnknown !== false);
+
+          if (!isOnDesktop) {
+            return; // Not on desktop (e.g. floating over active application window), abort auto-perch!
+          }
+
+          // Check if we are already perched
+          const perched = ICONS.some((icon) => {
+            const candidates = createIconEdgeCandidates([icon], petSize);
+            return candidates.some((cand) => Math.hypot(cand.x - position.x, cand.y - position.y) < 2);
+          });
+
+          if (!perched) {
+            const best = chooseBestPerch(createIconEdgeCandidates(ICONS, petSize), {
+              current: position,
+              screen: { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight },
+              taskbar: { x: 0, y: window.innerHeight - 54, width: window.innerWidth, height: 54 },
+              petSize,
+            });
+
+            if (best) {
+              setPosition({ x: best.x, y: best.y });
+              setBubble('这里舒服。');
+            }
+          }
+        });
+      }
+    }, 1000);
+
+    return () => window.clearInterval(checkIdle);
+  }, [isDragging, position, petSize, forcedMode]);
+
+
 
   const obstructionScore = useMemo(() => {
     const petRect = { x: position.x, y: position.y, width: petSize.width, height: petSize.height };
@@ -126,14 +203,71 @@ export function App() {
       });
 
       if (isDragging) {
-        setPosition({
-          x: event.clientX - dragOffsetRef.current.x,
-          y: event.clientY - dragOffsetRef.current.y,
-        });
+        if (isTauri) {
+          const deltaX = (event.screenX - dragStartScreenRef.current.x) * scaleFactorRef.current;
+          const deltaY = (event.screenY - dragStartScreenRef.current.y) * scaleFactorRef.current;
+          const newX = Math.round(initialWindowPosRef.current.x + deltaX);
+          const newY = Math.round(initialWindowPosRef.current.y + deltaY);
+          
+          Promise.all([
+            import('@tauri-apps/api/window'),
+            import('@tauri-apps/api/dpi')
+          ]).then(([{ getCurrentWindow }, { PhysicalPosition }]) => {
+            getCurrentWindow().setPosition(new PhysicalPosition(newX, newY)).catch(console.error);
+          });
+        } else {
+          setPosition({
+            x: event.clientX - dragOffsetRef.current.x,
+            y: event.clientY - dragOffsetRef.current.y,
+          });
+        }
       }
     };
 
-    const onUp = () => setIsDragging(false);
+    const onUp = (event: MouseEvent) => {
+      if (isDragging) {
+        if (isTauri) {
+          setIsDragging(false);
+          activePointerIdRef.current = null;
+          return;
+        }
+
+        const finalX = event.clientX - dragOffsetRef.current.x;
+        const finalY = event.clientY - dragOffsetRef.current.y;
+
+        readDesktopInteractionContext({
+          x: finalX + petSize.width / 2,
+          y: finalY + petSize.height / 2,
+        }).then((desktopContext) => {
+          const isOnDesktop =
+            desktopContext.surface === 'desktop' ||
+            (desktopContext.surface === 'unknown' && desktopContext.allowUnknown !== false);
+
+          if (isOnDesktop) {
+            const candidates = createIconEdgeCandidates(ICONS, petSize);
+            const best = chooseBestPerch(candidates, {
+              current: { x: finalX, y: finalY },
+              screen: { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight },
+              taskbar: { x: 0, y: window.innerHeight - 54, width: window.innerWidth, height: 54 },
+              petSize,
+            });
+
+            if (best) {
+              const distance = Math.hypot(best.x - finalX, best.y - finalY);
+              const SNAP_THRESHOLD = 100;
+              if (distance <= SNAP_THRESHOLD) {
+                setPosition({ x: best.x, y: best.y });
+                setBubble('抱住！');
+                return;
+              }
+            }
+          }
+          setPosition({ x: finalX, y: finalY });
+        });
+      }
+      activePointerIdRef.current = null;
+      setIsDragging(false);
+    };
 
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onUp);
@@ -156,21 +290,62 @@ export function App() {
     }
   };
 
-  const handlePetPointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (presence === 'passive') {
+  const resolvePetInteractionGate = async (pointer: { x: number; y: number }) => {
+    const petRect = { x: position.x, y: position.y, width: petSize.width, height: petSize.height };
+    const desktopContext = await readDesktopInteractionContext(pointer);
+    return canStartPetInteraction({
+      pointer,
+      petRect,
+      presence,
+      desktopContext,
+    });
+  };
+
+  const handlePetPointerDown = async (event: PointerEvent<HTMLDivElement>) => {
+    const pointer = { x: event.clientX, y: event.clientY };
+    const pointerId = event.pointerId;
+    const pointerTarget = event.currentTarget;
+    activePointerIdRef.current = pointerId;
+    const gate = await resolvePetInteractionGate(pointer);
+
+    if (activePointerIdRef.current !== pointerId || !gate.canStart) {
       return;
     }
+
+    try {
+      pointerTarget.setPointerCapture(pointerId);
+    } catch {
+      // Pointer capture is best-effort; window-level mouseup still clears dragging.
+    }
+
     dragOffsetRef.current = {
-      x: event.clientX - position.x,
-      y: event.clientY - position.y,
+      x: pointer.x - position.x,
+      y: pointer.y - position.y,
     };
+
+    if (isTauri) {
+      try {
+        const { getCurrentWindow } = await import('@tauri-apps/api/window');
+        const appWindow = getCurrentWindow();
+        const pos = await appWindow.outerPosition();
+        const scale = await appWindow.scaleFactor();
+        initialWindowPosRef.current = { x: pos.x, y: pos.y };
+        scaleFactorRef.current = scale;
+        dragStartScreenRef.current = { x: event.screenX, y: event.screenY };
+      } catch (err) {
+        console.error('Failed to initialize Tauri window drag:', err);
+      }
+    }
+
     setIsDragging(true);
   };
 
-  const handlePetClick = () => {
-    if (presence === 'passive') {
+  const handlePetClick = async (event: ReactMouseEvent<HTMLDivElement>) => {
+    const gate = await resolvePetInteractionGate({ x: event.clientX, y: event.clientY });
+    if (!gate.canStart) {
       return;
     }
+
     setClickBurst(1);
     if (clearTickleTimeoutRef.current !== null) {
       window.clearTimeout(clearTickleTimeoutRef.current);
@@ -179,6 +354,30 @@ export function App() {
       setClickBurst(0);
       clearTickleTimeoutRef.current = null;
     }, TICKLE_HOLD_MS);
+  };
+
+  const handleCheckUpdate = async () => {
+    setIsCheckingUpdate(true);
+    const status = await checkForAppUpdate({
+      currentVersion: APP_VERSION,
+      manifestUrl: UPDATE_MANIFEST_URL,
+    });
+    setIsCheckingUpdate(false);
+
+    if (status.kind === 'not-configured') {
+      setBubble('更新接口已预留。');
+      return;
+    }
+    if (status.kind === 'available') {
+      setBubble(`发现 ${status.latestVersion}。`);
+      return;
+    }
+    if (status.kind === 'current') {
+      setBubble('已经是最新版。');
+      return;
+    }
+
+    setBubble('暂时检查不了更新。');
   };
 
   if (!manifest) {
@@ -217,6 +416,9 @@ export function App() {
         </button>
         <button type="button" onClick={perchNearIcons}>
           趴边缘
+        </button>
+        <button type="button" onClick={handleCheckUpdate} disabled={isCheckingUpdate}>
+          {isCheckingUpdate ? '检查中' : '更新'}
         </button>
       </section>
 

@@ -16,8 +16,8 @@ describe('perchPlanner', () => {
     });
 
     expect(best?.type).toBe('icon-edge');
-    expect(best?.x).toBeGreaterThan(120);
-    expect(best?.reason).toContain('icon edge');
+    expect(best?.x).toBe(20);
+    expect(best?.reason).toContain('hug icon');
   });
 
   it('rejects candidates overlapping the taskbar', () => {

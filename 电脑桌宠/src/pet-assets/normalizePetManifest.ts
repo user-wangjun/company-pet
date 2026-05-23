@@ -27,7 +27,7 @@ const CODEX_XIAOJU_STATES: Record<string, PetStateConfig> = {
   drop: { row: 4, frames: 5, fps: 12, loop: false, priority: 80 },
   annoyed: { row: 5, frames: 8, fps: 8, loop: false, priority: 60 },
   return_home: { row: 4, frames: 5, fps: 10, loop: false, priority: 15 },
-  perch_sleep: { row: 0, frames: 5, fps: 3, loop: true, priority: 10, frameSequence: [0, 1, 2, 4, 5] },
+  perch_sleep: { row: 1, frames: 8, fps: 4, loop: true, priority: 10 },
 };
 
 const DEFAULT_BUBBLES: Record<string, string[]> = {
@@ -37,7 +37,7 @@ const DEFAULT_BUBBLES: Record<string, string[]> = {
   tickle: ['哼，还行。', '再挠一下也不是不行。'],
   grabbed_loop: ['喵？！', '你要带我去哪？'],
   annoyed: ['你很闲吗？', '够啦。'],
-  perch_sleep: ['这里归我了。', '这块地方不错。'],
+  perch_sleep: ['抱住！不许抢！', '贴贴～', '这个图标归我啦！'],
 };
 
 function normalizeState(state: Partial<PetStateConfig> & Pick<PetStateConfig, 'row' | 'frames'>): PetStateConfig {
