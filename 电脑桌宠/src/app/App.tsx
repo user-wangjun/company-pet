@@ -380,6 +380,19 @@ export function App() {
     setBubble('暂时检查不了更新。');
   };
 
+  useEffect(() => {
+    if (isTauri) {
+      const promise = import('@tauri-apps/api/event').then(({ listen }) => {
+        return listen('check-update', () => {
+          handleCheckUpdate();
+        });
+      });
+      return () => {
+        promise.then((unlisten) => unlisten());
+      };
+    }
+  }, [isTauri]);
+
   if (!manifest) {
     return <main className="desktop-preview" />;
   }

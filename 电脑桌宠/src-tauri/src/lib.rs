@@ -3,7 +3,7 @@ mod desktop_sensing;
 use tauri::{
     menu::{MenuBuilder, MenuItemBuilder},
     tray::TrayIconBuilder,
-    Manager,
+    Emitter, Manager,
 };
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -15,12 +15,16 @@ pub fn run() {
             let toggle_item = MenuItemBuilder::new("隐藏小橘")
                 .id("toggle")
                 .build(app)?;
+            let update_item = MenuItemBuilder::new("检查更新")
+                .id("check_update")
+                .build(app)?;
             let exit_item = MenuItemBuilder::new("退出")
                 .id("exit")
                 .build(app)?;
 
             let menu = MenuBuilder::new(app)
                 .item(&toggle_item)
+                .item(&update_item)
                 .item(&exit_item)
                 .build()?;
 
@@ -43,6 +47,16 @@ pub fn run() {
                                     let _ = window.set_focus();
                                     let _ = toggle_item_clone.set_text("隐藏小橘");
                                 }
+                            }
+                        }
+                        "check_update" => {
+                            if let Some(window) = app.get_webview_window("main") {
+                                if !window.is_visible().unwrap_or(true) {
+                                    let _ = window.show();
+                                    let _ = window.set_focus();
+                                    let _ = toggle_item_clone.set_text("隐藏小橘");
+                                }
+                                let _ = window.emit("check-update", ());
                             }
                         }
                         "exit" => {
