@@ -1,0 +1,10 @@
+node_modules/
+dist/
+target/
+src-tauri/target/
+src-tauri/gen/
+.vite/
+*.log
+orange_cat_pet_prd_extract.md
+prd_render/
+output/
