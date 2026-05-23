@@ -1,4 +1,4 @@
-# Xiaoju Desktop Pet
+# Xiaoju Desktop Pet 小橘猫桌宠
 
 Windows-first desktop pet prototype built with Tauri, React, TypeScript, and PixiJS.
 
