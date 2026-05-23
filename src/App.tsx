@@ -69,12 +69,15 @@ function randomInRange(min: number, max: number): number {
 const CELL_WIDTH = 192;
 const CELL_HEIGHT = 208;
 const ANIMATION_ROWS = {
-  idle: { row: 0, frames: 2, speed: 0.03, loop: true },
+  idle: { row: 0, frames: 6, speed: 0.05, loop: true },
   drag: { row: 1, frames: 8, speed: 0.18, loop: true },
   tickle: { row: 3, frames: 4, speed: 0.16, loop: false },
   fishChase: { row: 7, frames: 6, speed: 0.18, loop: false },
   fishEat: { row: 8, frames: 6, speed: 0.14, loop: false },
   iconHug: { row: 0, frames: 6, speed: 0.08, loop: false },
+  crouchAlert: { row: 4, frames: 5, speed: 0.12, loop: true },
+  hugFish: { row: 5, frames: 8, speed: 0.12, loop: true },
+  gnawFish: { row: 6, frames: 6, speed: 0.14, loop: true },
 } as const;
 
 type AnimationName = keyof typeof ANIMATION_ROWS;
@@ -627,6 +630,21 @@ function App() {
             animation: "tickle" as AnimationName,
             duration: 2000,
           },
+          {
+            text: "（趴下警觉喵喵叫）~ 好像有大鱼的气味？🐾",
+            animation: "crouchAlert" as AnimationName,
+            duration: 2500,
+          },
+          {
+            text: "（抱着小鱼撒娇）~ 嘿嘿，这只小鱼是橘橘的宝贝！🐟",
+            animation: "hugFish" as AnimationName,
+            duration: 3000,
+          },
+          {
+            text: "（美滋滋地坐着嚼鱼）~ 金枪鱼味儿的玩具鱼，真香！🐾",
+            animation: "gnawFish" as AnimationName,
+            duration: 2500,
+          },
         ];
         const chosen = quirks[Math.floor(Math.random() * quirks.length)];
         setBubbleText(chosen.text);
@@ -802,6 +820,21 @@ function App() {
             iconHugTexture,
             ANIMATION_ROWS.iconHug.row,
             ANIMATION_ROWS.iconHug.frames,
+          ),
+          crouchAlert: sliceRowFrames(
+            texture,
+            ANIMATION_ROWS.crouchAlert.row,
+            ANIMATION_ROWS.crouchAlert.frames,
+          ),
+          hugFish: sliceRowFrames(
+            texture,
+            ANIMATION_ROWS.hugFish.row,
+            ANIMATION_ROWS.hugFish.frames,
+          ),
+          gnawFish: sliceRowFrames(
+            texture,
+            ANIMATION_ROWS.gnawFish.row,
+            ANIMATION_ROWS.gnawFish.frames,
           ),
         };
         animationsRef.current = animations;
