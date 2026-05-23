@@ -48,6 +48,7 @@ type PetManifest = {
 };
 
 const PET_BASE_PATH = "/pets/xiaoju";
+const GITHUB_RELEASE_API = "https://api.github.com/repos/user-wangjun/company-pet/releases/latest";
 
 function getTimedDefaultBubble(): string {
   const hour = new Date().getHours();
@@ -151,6 +152,23 @@ function App() {
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
   const [bubbleText, setBubbleText] = useState(getTimedDefaultBubble());
+
+  const checkForUpdates = async () => {
+    try {
+      const response = await fetch(GITHUB_RELEASE_API);
+      if (!response.ok) return;
+      const data = await response.json();
+      const latestVersion = data.tag_name;
+      const currentVersion = "v0.1.0";
+      if (latestVersion && latestVersion !== currentVersion) {
+        setTimeout(() => {
+          setBubbleText(`发现新版本 ${latestVersion} 喵！快去 GitHub 升级吧！🎈`);
+        }, 3000);
+      }
+    } catch {
+      // silent
+    }
+  };
 
   const clearHoverEatTimer = () => {
     if (hoverEatTimer.current !== null) {
@@ -461,6 +479,7 @@ function App() {
     clearHoverEatTimer();
     recordInteraction("double_click");
     playHoverFishSequence();
+    void checkForUpdates();
   };
 
   const handleContextMenu = (event: ReactMouseEvent<HTMLElement>) => {
