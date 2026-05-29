@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type {
   CSSProperties,
   MouseEvent as ReactMouseEvent,
   PointerEvent as ReactPointerEvent,
 } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { getCurrentWindow, PhysicalPosition } from "@tauri-apps/api/window";
+import {
+  getCurrentWindow,
+  LogicalSize,
+  PhysicalPosition,
+} from "@tauri-apps/api/window";
 import { listen } from "@tauri-apps/api/event";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import {
@@ -41,16 +45,34 @@ import {
   PET_ICON_HUG_SPRITESHEET_PATH,
   PET_VISUAL_SCALE,
 } from "./pet-core/visual";
+import {
+  APP_DISPLAY_NAME,
+  PLATFORM_START_OPEN,
+} from "./pet-core/platform";
+import {
+  chooseInitialPetId,
+  createPetCatalog,
+  DEFAULT_PET_ID,
+  getPetIndexUrl,
+  getPetManifestUrl,
+  type PetCatalogItem,
+  type PetManifest,
+  resolvePetAssetUrl,
+} from "./pet-core/petAssets";
+import {
+  createPetSoundPlayer,
+  type PetSoundEvent,
+  type PetSoundPlayer,
+} from "./pet-core/sound";
 
-type PetManifest = {
-  id: string;
-  displayName: string;
-  description: string;
-  spritesheetPath: string;
-};
-
-const PET_BASE_PATH = "/pets/xiaoju";
 const GITHUB_RELEASE_API = "https://api.github.com/repos/user-wangjun/company-pet/releases/latest";
+const CURRENT_PET_STORAGE_KEY = "desktop-pet.currentPetId";
+const PET_WINDOW_SIZE = { width: 165, height: 215 };
+const PLATFORM_WINDOW_SIZE = { width: 680, height: 520 };
+
+type PetIndex = {
+  pets: string[];
+};
 
 function getTimedDefaultBubble(): string {
   const hour = new Date().getHours();
@@ -82,9 +104,17 @@ const ANIMATION_ROWS = {
 
 type AnimationName = keyof typeof ANIMATION_ROWS;
 type PressSource = "pointer" | "mouse";
+type TauriWindow = ReturnType<typeof getCurrentWindow>;
 
-async function loadPetManifest(): Promise<PetManifest> {
-  const response = await fetch(`${PET_BASE_PATH}/pet.json`);
+function isTauriRuntime(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    "__TAURI_INTERNALS__" in window
+  );
+}
+
+async function loadPetManifest(petId = DEFAULT_PET_ID): Promise<PetManifest> {
+  const response = await fetch(getPetManifestUrl(petId));
 
   if (!response.ok) {
     throw new Error(`Failed to load pet manifest: ${response.status}`);
@@ -93,8 +123,56 @@ async function loadPetManifest(): Promise<PetManifest> {
   return response.json() as Promise<PetManifest>;
 }
 
+function readSavedPetId(): string | null {
+  try {
+    return window.localStorage.getItem(CURRENT_PET_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function saveSelectedPetId(petId: string): void {
+  try {
+    window.localStorage.setItem(CURRENT_PET_STORAGE_KEY, petId);
+  } catch {
+    // Persisting the choice is best effort; the active in-memory pet still changes.
+  }
+}
+
+function getOptionalCurrentWindow(): TauriWindow | null {
+  if (!isTauriRuntime()) return null;
+
+  try {
+    return getCurrentWindow();
+  } catch {
+    return null;
+  }
+}
+
+function resizeAppWindow(width: number, height: number): void {
+  const appWindow = getOptionalCurrentWindow();
+  if (!appWindow) return;
+
+  void appWindow.setSize(new LogicalSize(width, height)).catch(() => {});
+}
+
 function recordInteraction(event: string): Promise<unknown> {
   return invoke("record_interaction", { event }).catch(() => {});
+}
+
+function listenToAppEvent(
+  event: string,
+  handler: () => void,
+): Promise<() => void> {
+  if (!isTauriRuntime()) {
+    return Promise.resolve(() => {});
+  }
+
+  try {
+    return listen(event, handler).catch(() => () => {});
+  } catch {
+    return Promise.resolve(() => {});
+  }
 }
 
 function sliceRowFrames(
@@ -121,6 +199,7 @@ function App() {
   const pixiHost = useRef<HTMLDivElement>(null);
   const spriteRef = useRef<AnimatedSprite | null>(null);
   const animationsRef = useRef<Record<AnimationName, Texture[]> | null>(null);
+  const soundPlayerRef = useRef<PetSoundPlayer | null>(null);
   const returnToIdleTimer = useRef<number | null>(null);
   const hoverEatTimer = useRef<number | null>(null);
   const iconHugClickThroughTimer = useRef<number | null>(null);
@@ -159,6 +238,24 @@ function App() {
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
   const [bubbleText, setBubbleText] = useState(getTimedDefaultBubble());
+  const [isPlatformOpen, setIsPlatformOpen] = useState(PLATFORM_START_OPEN);
+  const [availablePetIds, setAvailablePetIds] = useState<string[]>([
+    DEFAULT_PET_ID,
+  ]);
+  const [petManifestsById, setPetManifestsById] = useState<
+    Record<string, PetManifest>
+  >({});
+  const [activePetId, setActivePetId] = useState(DEFAULT_PET_ID);
+  const petCatalog = useMemo(
+    () => createPetCatalog(availablePetIds, petManifestsById, activePetId),
+    [activePetId, availablePetIds, petManifestsById],
+  );
+  const activePet = petCatalog.find((pet) => pet.id === activePetId);
+  const activePetManifest = petManifestsById[activePetId];
+
+  if (soundPlayerRef.current === null) {
+    soundPlayerRef.current = createPetSoundPlayer();
+  }
 
   const checkForUpdates = async (manual = false) => {
     try {
@@ -193,9 +290,12 @@ function App() {
   };
 
   useEffect(() => {
-    // 监听来自托盘的“检查更新”事件
-    const unlistenPromise = listen("check-update", () => {
+    const unlistenUpdatePromise = listenToAppEvent("check-update", () => {
       void checkForUpdates(true);
+    });
+    const unlistenPlatformPromise = listenToAppEvent("open-platform", () => {
+      setIsPlatformOpen(true);
+      recordInteraction("platform_open_from_tray");
     });
 
     // 启动 3 秒后进行一次静默的自动更新检测
@@ -205,9 +305,107 @@ function App() {
 
     return () => {
       window.clearTimeout(startupTimer);
-      void unlistenPromise.then((unlisten) => unlisten());
+      void unlistenUpdatePromise.then((unlisten) => unlisten());
+      void unlistenPlatformPromise.then((unlisten) => unlisten());
     };
   }, []);
+
+  useEffect(() => {
+    let disposed = false;
+
+    const loadPetCatalog = async () => {
+      try {
+        const indexResponse = await fetch(getPetIndexUrl());
+
+        if (!indexResponse.ok) {
+          throw new Error(`Failed to load pet index: ${indexResponse.status}`);
+        }
+
+        const index = (await indexResponse.json()) as PetIndex;
+        const petIds =
+          Array.isArray(index.pets) && index.pets.length > 0
+            ? index.pets
+            : [DEFAULT_PET_ID];
+        const manifestEntries = await Promise.all(
+          petIds.map(async (petId) => [petId, await loadPetManifest(petId)] as const),
+        );
+        const manifests = Object.fromEntries(manifestEntries);
+        const initialPetId = chooseInitialPetId(petIds, readSavedPetId());
+
+        if (disposed) return;
+        setAvailablePetIds(petIds);
+        setPetManifestsById(manifests);
+        setActivePetId(initialPetId);
+      } catch {
+        const fallbackManifest = await loadPetManifest(DEFAULT_PET_ID).catch(
+          () => null,
+        );
+
+        if (disposed || !fallbackManifest) return;
+        setAvailablePetIds([DEFAULT_PET_ID]);
+        setPetManifestsById({ [DEFAULT_PET_ID]: fallbackManifest });
+        setActivePetId(DEFAULT_PET_ID);
+      }
+    };
+
+    void loadPetCatalog();
+
+    return () => {
+      disposed = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    soundPlayerRef.current?.setManifest(activePetId, activePetManifest?.sounds);
+
+    return () => {
+      soundPlayerRef.current?.clear();
+    };
+  }, [activePetId, activePetManifest]);
+
+  useEffect(() => {
+    const targetSize = isPlatformOpen ? PLATFORM_WINDOW_SIZE : PET_WINDOW_SIZE;
+    resizeAppWindow(targetSize.width, targetSize.height);
+  }, [isPlatformOpen]);
+
+  const stopPlatformEvent = (
+    event: ReactMouseEvent<HTMLElement> | ReactPointerEvent<HTMLElement>,
+  ) => {
+    event.stopPropagation();
+  };
+
+  const startPlatformWindowDrag = (
+    event: ReactPointerEvent<HTMLElement>,
+  ) => {
+    if (event.button !== 0) return;
+
+    event.stopPropagation();
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) return;
+
+    void appWindow.startDragging().catch(() => {});
+  };
+
+  const closePlatform = (
+    event: ReactMouseEvent<HTMLButtonElement> | ReactPointerEvent<HTMLButtonElement>,
+  ) => {
+    event.stopPropagation();
+    setIsPlatformOpen(false);
+    recordInteraction("platform_close");
+  };
+
+  const selectPet = (pet: PetCatalogItem) => {
+    if (pet.id === activePetId) return;
+
+    saveSelectedPetId(pet.id);
+    setActivePetId(pet.id);
+    setBubbleText(`${pet.displayName} 来啦。`);
+    recordInteraction("platform_pet_selected");
+  };
+
+  const playPetSound = (eventName: PetSoundEvent) => {
+    soundPlayerRef.current?.play(eventName);
+  };
 
   const handleClicks = () => {
     const currentCount = clickCount.current;
@@ -218,6 +416,7 @@ function App() {
       // 单击：挠痒
       recordInteraction("click");
       setBubbleText("哼，还行。");
+      playPetSound("tickle");
       playAnimation("tickle", 1000);
     } else if (currentCount === 2) {
       // 双击：抓鱼
@@ -265,7 +464,10 @@ function App() {
       iconHugClickThroughTimer.current = null;
     }
 
-    void getCurrentWindow()
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) return;
+
+    void appWindow
       .setIgnoreCursorEvents(false)
       .then(() => {
         recordInteraction("desktop_icon_click_through_off");
@@ -314,11 +516,13 @@ function App() {
 
     setBubbleText("鱼！");
     recordInteraction("fish_chase");
+    playPetSound("fishChase");
     playAnimation(chaseAnimation);
 
     returnToIdleTimer.current = window.setTimeout(() => {
       setBubbleText("吃到了。");
       recordInteraction("fish_eat");
+      playPetSound("fishEat");
       playAnimation(eatAnimation);
 
       returnToIdleTimer.current = window.setTimeout(() => {
@@ -364,7 +568,9 @@ function App() {
       currentScreenY: screenY,
     };
 
-    const appWindow = getCurrentWindow();
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) return true;
+
     void Promise.all([appWindow.outerPosition(), appWindow.scaleFactor()])
       .then(([position, scaleFactor]) => {
         const pointer = pointerState.current;
@@ -418,6 +624,7 @@ function App() {
       clearHoverEatTimer();
       recordInteraction("drag_start");
       setBubbleText("喵？！你要带我去哪？");
+      playPetSound("drag");
       playAnimation("drag");
     }
 
@@ -440,7 +647,10 @@ function App() {
       scaleFactor: pointer.scaleFactor,
     });
 
-    void getCurrentWindow()
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) return;
+
+    void appWindow
       .setPosition(new PhysicalPosition(position.x, position.y))
       .catch((err) => {
         const errMsg = err instanceof Error ? err.message : String(err);
@@ -467,6 +677,7 @@ function App() {
 
     recordInteraction("drag_end");
     setBubbleText("放这儿也行。");
+    playPetSound("drag_end");
     playAnimation("idle", 900);
     window.setTimeout(probeDesktopIconInteraction, 250);
   };
@@ -594,12 +805,14 @@ function App() {
     } else if (nowTimestamp >= nextEyeCareTime.current) {
       recordInteraction("eye_care_reminder");
       setBubbleText("看屏幕太久啦，陪小橘眺望一下窗外，放松一下眼睛吧~ 👀");
+      playPetSound("care_reminder");
       playAnimation("idle", 8000); // 维持 8 秒
       nextEyeCareTime.current = nowTimestamp + randomInRange(30, 50) * 60 * 1000;
       return; // 触发提醒，推迟本次吸附检测
     } else if (nowTimestamp >= nextWaterCareTime.current) {
       recordInteraction("water_care_reminder");
       setBubbleText("（吸溜）主人，该喝杯水润润嗓子啦，不要一直盯着屏幕喵！🥛");
+      playPetSound("care_reminder");
       playAnimation("fishChase", 8000); // 追着鱼玩去喝水，维持 8 秒
       nextWaterCareTime.current = nowTimestamp + randomInRange(60, 90) * 60 * 1000;
       return; // 触发提醒，推迟本次吸附检测
@@ -618,36 +831,43 @@ function App() {
           {
             text: "（砸嘴）……梦见超大金枪鱼了喵 🐟",
             animation: "fishEat" as AnimationName,
+            sound: "fishEat" as PetSoundEvent,
             duration: 2500,
           },
           {
             text: "（幸福地翻个身）~ 换个姿势继续睡喵…… 🐾",
             animation: "tickle" as AnimationName,
+            sound: "idle" as PetSoundEvent,
             duration: 2000,
           },
           {
             text: "（亲昵地蹭了蹭）……主人工作辛苦啦，小橘陪着你喵 💤",
             animation: "tickle" as AnimationName,
+            sound: "idle" as PetSoundEvent,
             duration: 2000,
           },
           {
             text: "（趴下警觉喵喵叫）~ 好像有大鱼的气味？🐾",
             animation: "crouchAlert" as AnimationName,
+            sound: "crouchAlert" as PetSoundEvent,
             duration: 2500,
           },
           {
             text: "（抱着小鱼撒娇）~ 嘿嘿，这只小鱼是橘橘的宝贝！🐟",
             animation: "hugFish" as AnimationName,
+            sound: "hugFish" as PetSoundEvent,
             duration: 3000,
           },
           {
             text: "（美滋滋地坐着嚼鱼）~ 金枪鱼味儿的玩具鱼，真香！🐾",
             animation: "gnawFish" as AnimationName,
+            sound: "gnawFish" as PetSoundEvent,
             duration: 2500,
           },
         ];
         const chosen = quirks[Math.floor(Math.random() * quirks.length)];
         setBubbleText(chosen.text);
+        playPetSound(chosen.sound);
         playAnimation(chosen.animation, chosen.duration);
         nextIdleQuirkTime.current = nowTimestamp + randomInRange(25, 45) * 1000;
         return; // 触发微动作，推迟本次桌面图标探测
@@ -659,7 +879,11 @@ function App() {
     if (Date.now() < iconHugLockedUntil.current) return;
 
     desktopIconProbeInFlight.current = true;
-    const appWindow = getCurrentWindow();
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) {
+      desktopIconProbeInFlight.current = false;
+      return;
+    }
 
     void Promise.all([
       invoke<boolean>("is_point_on_desktop", { x: 82, y: 172 }),
@@ -717,6 +941,7 @@ function App() {
             recordInteraction("desktop_icon_click_through_on");
             setBubbleText(formatDesktopIconWrapBubbleText(iconTarget.title));
             recordInteraction("desktop_icon_hug_pose");
+            playPetSound("iconHug");
             if (playAnimation(getDesktopIconHugAnimationName())) {
               recordInteraction("desktop_icon_custom_hug_sprite");
             } else {
@@ -745,7 +970,7 @@ function App() {
 
   useEffect(() => {
     const host = pixiHost.current;
-    if (!host) return;
+    if (!host || isPlatformOpen) return;
 
     let disposed = false;
     let initialized = false;
@@ -776,9 +1001,16 @@ function App() {
 
         host.appendChild(app.canvas);
 
-        const manifest = await loadPetManifest();
-        const spritesheetUrl = `${PET_BASE_PATH}/${manifest.spritesheetPath}`;
-        const iconHugSpritesheetUrl = `${PET_BASE_PATH}/${PET_ICON_HUG_SPRITESHEET_PATH}`;
+        const petId = activePetId;
+        const manifest = await loadPetManifest(petId);
+        const spritesheetUrl = resolvePetAssetUrl(
+          petId,
+          manifest.spritesheetPath,
+        );
+        const iconHugSpritesheetUrl = resolvePetAssetUrl(
+          petId,
+          PET_ICON_HUG_SPRITESHEET_PATH,
+        );
         const [texture, iconHugTexture] = await Promise.all([
           Assets.load<Texture>(spritesheetUrl),
           Assets.load<Texture>(iconHugSpritesheetUrl),
@@ -887,31 +1119,93 @@ function App() {
       animationsRef.current = null;
       destroyApp();
     };
-  }, []);
+  }, [activePetId, isPlatformOpen]);
 
   return (
     <main
-      className="pet-shell"
+      className={`pet-shell${isPlatformOpen ? " platform-open" : ""}`}
       style={
         { "--pet-bubble-bottom": `${PET_BUBBLE_BOTTOM_PX}px` } as CSSProperties
       }
-      onContextMenu={handleContextMenu}
-      onMouseDown={handleMouseDown}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onPointerDown={handlePointerDown}
-      onPointerEnter={handlePointerEnter}
-      onPointerLeave={handlePointerLeave}
-      onPointerMove={handlePointerMove}
-      onPointerCancel={handlePointerInterruption}
-      onLostPointerCapture={handlePointerInterruption}
-      onPointerUp={handlePointerUp}
+      onContextMenu={isPlatformOpen ? undefined : handleContextMenu}
+      onMouseDown={isPlatformOpen ? undefined : handleMouseDown}
+      onMouseEnter={isPlatformOpen ? undefined : handleMouseEnter}
+      onMouseLeave={isPlatformOpen ? undefined : handleMouseLeave}
+      onMouseMove={isPlatformOpen ? undefined : handleMouseMove}
+      onMouseUp={isPlatformOpen ? undefined : handleMouseUp}
+      onPointerDown={isPlatformOpen ? undefined : handlePointerDown}
+      onPointerEnter={isPlatformOpen ? undefined : handlePointerEnter}
+      onPointerLeave={isPlatformOpen ? undefined : handlePointerLeave}
+      onPointerMove={isPlatformOpen ? undefined : handlePointerMove}
+      onPointerCancel={isPlatformOpen ? undefined : handlePointerInterruption}
+      onLostPointerCapture={
+        isPlatformOpen ? undefined : handlePointerInterruption
+      }
+      onPointerUp={isPlatformOpen ? undefined : handlePointerUp}
     >
       <div className="pet-hit-area" aria-hidden="true" />
       <div ref={pixiHost} className="pet-canvas" />
       <div className="bubble">{bubbleText}</div>
+      {isPlatformOpen && (
+        <section
+          className="platform-panel"
+          aria-label="桌宠平台"
+          onMouseDown={stopPlatformEvent}
+          onPointerDown={stopPlatformEvent}
+        >
+          <header className="platform-header" onPointerDown={startPlatformWindowDrag}>
+            <div>
+              <p className="platform-kicker">Desktop Pet Platform</p>
+              <h1>{APP_DISPLAY_NAME}</h1>
+            </div>
+            <button
+              className="platform-close"
+              type="button"
+              aria-label="关闭桌宠平台"
+              onClick={closePlatform}
+              onPointerDown={stopPlatformEvent}
+            >
+              ×
+            </button>
+          </header>
+
+          <div className="platform-status">
+            <span>当前显示</span>
+            <strong>{activePet?.displayName ?? activePetId}</strong>
+            <span>{petCatalog.length} 个桌宠包</span>
+          </div>
+
+          <div className="pet-grid">
+            {petCatalog.map((pet) => (
+              <article
+                className={`pet-card${pet.isActive ? " is-active" : ""}`}
+                key={pet.id}
+              >
+                <div
+                  className="pet-card-preview"
+                  aria-hidden="true"
+                  style={{ backgroundImage: `url(${pet.previewUrl})` }}
+                />
+                <div className="pet-card-body">
+                  <div className="pet-card-title-row">
+                    <h2>{pet.displayName}</h2>
+                    <span>{pet.id}</span>
+                  </div>
+                  <p>{pet.description}</p>
+                  <button
+                    className="pet-card-action"
+                    type="button"
+                    disabled={pet.isActive}
+                    onClick={() => selectPet(pet)}
+                  >
+                    {pet.isActive ? "使用中" : "启用"}
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 }

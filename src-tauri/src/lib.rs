@@ -5,12 +5,14 @@ mod desktop_icons;
 use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-    AppHandle, Manager, Runtime, Emitter,
+    Emitter, Manager,
 };
 
-const MENU_SHOW: &str = "show-xiaoju";
-const MENU_CHECK_UPDATE: &str = "check-update-xiaoju";
-const MENU_QUIT: &str = "quit-xiaoju";
+const MENU_SHOW: &str = "show-yuxin";
+const MENU_OPEN_PLATFORM: &str = "open-platform-yuxin";
+const MENU_CHECK_UPDATE: &str = "check-update-yuxin";
+const MENU_QUIT: &str = "quit-yuxin";
+const OPEN_PLATFORM_EVENT: &str = "open-platform";
 
 #[tauri::command]
 fn record_interaction(event: String) -> Result<(), String> {
@@ -28,32 +30,44 @@ fn record_interaction(event: String) -> Result<(), String> {
 }
 
 fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
-    let show = MenuItem::with_id(app, MENU_SHOW, "隐藏小橘", true, None::<&str>)?;
+    let open_platform =
+        MenuItem::with_id(app, MENU_OPEN_PLATFORM, "打开平台", true, None::<&str>)?;
+    let show = MenuItem::with_id(app, MENU_SHOW, "隐藏愈心桌宠", true, None::<&str>)?;
     let check_update = MenuItem::with_id(app, MENU_CHECK_UPDATE, "检查更新", true, None::<&str>)?;
     let quit = MenuItem::with_id(app, MENU_QUIT, "退出", true, None::<&str>)?;
-    let menu = Menu::with_items(app, &[&show, &check_update, &quit])?;
+    let menu = Menu::with_items(app, &[&open_platform, &show, &check_update, &quit])?;
 
     let show_item_menu = show.clone();
     let show_item_tray = show.clone();
 
     if let Some(icon) = app.default_window_icon().cloned() {
-        TrayIconBuilder::with_id("xiaoju-tray")
-            .tooltip("小橘桌宠")
+        TrayIconBuilder::with_id("yuxin-tray")
+            .tooltip("愈心桌宠")
             .icon(icon)
             .menu(&menu)
-            .show_menu_on_left_click(true)
+            .show_menu_on_left_click(false)
             .on_menu_event(move |app, event| match event.id().as_ref() {
+                MENU_OPEN_PLATFORM => {
+                    if let Some(window) = app.get_webview_window("main") {
+                        let _ = window.show();
+                        let _ = window.unminimize();
+                        let _ = window.set_focus();
+                        let _ = app.emit(OPEN_PLATFORM_EVENT, ());
+                        let _ = show_item_menu.set_text("隐藏愈心桌宠");
+                    }
+                }
                 MENU_SHOW => {
                     if let Some(window) = app.get_webview_window("main") {
                         if let Ok(visible) = window.is_visible() {
                             let new_text = if visible {
                                 let _ = window.hide();
-                                "显示小橘"
+                                "显示愈心桌宠"
                             } else {
                                 let _ = window.show();
                                 let _ = window.unminimize();
                                 let _ = window.set_focus();
-                                "隐藏小橘"
+                                let _ = app.emit(OPEN_PLATFORM_EVENT, ());
+                                "隐藏愈心桌宠"
                             };
                             let _ = show_item_menu.set_text(new_text);
                         }
@@ -81,7 +95,8 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
                         let _ = window.show();
                         let _ = window.unminimize();
                         let _ = window.set_focus();
-                        let _ = show_item_tray.set_text("隐藏小橘");
+                        let _ = app.emit(OPEN_PLATFORM_EVENT, ());
+                        let _ = show_item_tray.set_text("隐藏愈心桌宠");
                     }
                 }
             })
@@ -107,4 +122,3 @@ pub fn run() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
-

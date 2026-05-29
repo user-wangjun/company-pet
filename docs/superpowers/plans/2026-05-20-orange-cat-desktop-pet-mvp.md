@@ -112,12 +112,12 @@ Expected: all perch planner tests pass.
 - Create: `src/app/App.tsx`
 - Create: `src/app/App.css`
 - Create: `src/pet-renderer/PixiPetStage.tsx`
-- Copy: `public/pets/xiaoju/spritesheet.webp`
-- Copy: `public/pets/xiaoju/codex-pet.json`
+- Copy: `public/pets/xiaoju-cat/spritesheet.webp`
+- Copy: `public/pets/xiaoju-cat/pet.json`
 
-- [ ] **Step 1: Copy xiaoju assets**
+- [ ] **Step 1: Copy xiaoju-cat assets**
 
-Copy existing Codex pet assets into `public/pets/xiaoju/`.
+Copy existing Codex pet assets into `public/pets/xiaoju-cat/`.
 
 - [ ] **Step 2: Implement PixiJS pet stage**
 

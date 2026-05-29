@@ -1,9 +1,9 @@
-# 小橘桌宠更新接口
+# 愈心桌宠更新接口
 
 应用已预留远程更新检查入口。打包时通过环境变量传入 manifest 地址：
 
 ```powershell
-$env:VITE_UPDATE_MANIFEST_URL="https://example.com/xiaoju/update.json"
+$env:VITE_UPDATE_MANIFEST_URL="https://example.com/yuxin/update.json"
 $env:VITE_APP_VERSION="0.1.0"
 npm run tauri build
 ```
@@ -13,7 +13,7 @@ manifest JSON 格式：
 ```json
 {
   "version": "0.2.0",
-  "downloadUrl": "https://example.com/xiaoju/小橘桌宠-0.2.0-setup.exe",
+  "downloadUrl": "https://example.com/yuxin/愈心桌宠-0.2.0-setup.exe",
   "notes": "更新说明"
 }
 ```

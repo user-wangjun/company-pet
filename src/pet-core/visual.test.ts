@@ -12,9 +12,9 @@ describe("desktop pet visual sizing", () => {
     expect(PET_VISUAL_SCALE).toBeCloseTo(0.46);
   });
 
-  test("keeps the transparent window close to the smaller pet body", () => {
+  test("matches the transparent desktop pet window size", () => {
     expect(PET_WINDOW_WIDTH).toBe(165);
-    expect(PET_WINDOW_HEIGHT).toBe(155);
+    expect(PET_WINDOW_HEIGHT).toBe(215);
   });
 
   test("uses a dedicated desktop icon hug spritesheet", () => {
