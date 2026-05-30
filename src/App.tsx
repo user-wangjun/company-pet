@@ -256,7 +256,7 @@ function DesktopPetApp() {
   const activePetManifest = petManifestsById[activePetId];
 
   if (soundPlayerRef.current === null) {
-    soundPlayerRef.current = createPetSoundPlayer();
+    soundPlayerRef.current = createPetSoundPlayer({ enabled: false });
   }
 
   const checkForUpdates = async (manual = false) => {
@@ -292,12 +292,19 @@ function DesktopPetApp() {
   };
 
   useEffect(() => {
+    let soundEnabled = false;
+
     const unlistenUpdatePromise = listenToAppEvent("check-update", () => {
       void checkForUpdates(true);
     });
     const unlistenPlatformPromise = listenToAppEvent("open-platform", () => {
       setIsPlatformOpen(true);
       recordInteraction("platform_open_from_tray");
+    });
+    const unlistenSoundPromise = listenToAppEvent("toggle-sound", () => {
+      soundEnabled = !soundEnabled;
+      soundPlayerRef.current?.setEnabled(soundEnabled);
+      recordInteraction(soundEnabled ? "sound_enabled" : "sound_disabled");
     });
 
     // 启动 3 秒后进行一次静默的自动更新检测
@@ -309,6 +316,7 @@ function DesktopPetApp() {
       window.clearTimeout(startupTimer);
       void unlistenUpdatePromise.then((unlisten) => unlisten());
       void unlistenPlatformPromise.then((unlisten) => unlisten());
+      void unlistenSoundPromise.then((unlisten) => unlisten());
     };
   }, []);
 
