@@ -1,0 +1,153 @@
+Created At: 2026-05-30T08:57:13Z
+Completed At: 2026-05-30T08:57:13Z
+File Path: `file:///d:/CodeWorkspace/%E7%94%B5%E8%84%91%E6%A1%8C%E5%AE%A0/src/App.css`
+Total Lines: 2265
+Total Bytes: 43310
+Showing lines 1466 to 2265
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1466:     transform: translate3d(0, -5px, 0);
+1467:   }
+1468: }
+1469: 
+1470: @keyframes marketing-earth-float {
+1471:   0%, 100% {
+1472:     transform: translate3d(0, 0, 0);
+1473:   }
+1474:   50% {
+1475:     transform: translate3d(0, -9px, 0);
+1476:   }
+1477: }
+1478: 
+1479: @keyframes marketing-clouds-sway {
+1480:   0%, 100% {
+1481:     transform: translate3d(0, 0, 0);
+1482:   }
+1483:   50% {
+1484:     transform: translate3d(-6px, 2px, 0);
+1485:   }
+1486: }
+1487: 
+1488: @keyframes marketing-ufo-wobble {
+1489:   0% {
+1490:     transform: translate3d(calc(-50% + var(--parallax-stars-x)), calc(-50% + var(--parallax-stars-y)), 0) scale(1.05) rotate(-3deg);
+1491:   }
+1492:   100% {
+1493:     transform: translate3d(calc(-50% + var(--parallax-stars-x)), calc(-50% + var(--parallax-stars-y)), 0) scale(1.05) rotate(3deg);
+1494:   }
+1495: }
+1496: 
+1497: @keyframes marketing-bunny-bounce {
+1498:   0% {
+1499:     transform: translate3d(calc(-50% + var(--parallax-stars-x)), calc(-50% + var(--parallax-stars-y)), 0) scale(1.05) translateY(0);
+1500:   }
+1501:   100% {
+1502:     transform: translate3d(calc(-50% + var(--parallax-stars-x)), calc(-50% + var(--parallax-stars-y)), 0) scale(1.05) translateY(-8px);
+1503:   }
+1504: }
+1505: 
+1506: .marketing-hidden-title {
+1507:   position: absolute;
+1508:   width: 1px;
+1509:   height: 1px;
+1510:   overflow: hidden;
+1511:   clip: rect(0 0 0 0);
+1512:   white-space: nowrap;
+1513: }
+1514: 
+1515: @media (max-width: 900px) {
+1516:   .marketing-topbar {
+1517:     height: 82px;
+1518:     padding: 0 24px;
+1519:   }
+1520: 
+1521:   .marketing-bra
+<truncated 17109 bytes>
+-index: 7;
+2179:   pointer-events: none;
+2180: }
+2181: 
+2182: .marketing-polished-social {
+2183:   top: 3%;
+2184:   width: 4.2%;
+2185:   height: 5.4%;
+2186:   pointer-events: auto;
+2187: }
+2188: 
+2189: .marketing-polished-social-discord {
+2190:   left: 70.9%;
+2191: }
+2192: 
+2193: .marketing-polished-social-x {
+2194:   left: 76.2%;
+2195: }
+2196: 
+2197: .marketing-polished-social-wechat {
+2198:   left: 81.5%;
+2199: }
+2200: 
+2201: .marketing-polished-social-qq {
+2202:   left: 86.6%;
+2203: }
+2204: 
+2205: .marketing-polished-social-user {
+2206:   left: 92.5%;
+2207:   top: 2.15%;
+2208:   width: 5%;
+2209:   height: 7.1%;
+2210: }
+2211: 
+2212: .marketing-polished-shell .marketing-hotspot-layer {
+2213:   z-index: 8;
+2214: }
+2215: 
+2216: .marketing-polished-shell .marketing-hotspot::before {
+2217:   background: transparent;
+2218:   box-shadow: none;
+2219: }
+2220: 
+2221: .marketing-polished-shell .marketing-hotspot-bubble {
+2222:   box-shadow: 0 10px 24px rgba(239, 79, 126, 0.18);
+2223: }
+2224: 
+2225: @keyframes marketing-polished-floaters {
+2226:   0%, 100% {
+2227:     opacity: 0.02;
+2228:     translate: 0 -1px;
+2229:   }
+2230: 
+2231:   50% {
+2232:     opacity: 0.055;
+2233:     translate: 0 -3px;
+2234:   }
+2235: }
+2236: 
+2237: @keyframes marketing-polished-clouds-a {
+2238:   0%, 100% {
+2239:     translate: -1.2% 1px;
+2240:   }
+2241: 
+2242:   50% {
+2243:     translate: 1.35% 7px;
+2244:   }
+2245: }
+2246: 
+2247: @keyframes marketing-polished-clouds-b {
+2248:   0%, 100% {
+2249:     translate: 1.1% 8px;
+2250:   }
+2251: 
+2252:   50% {
+2253:     translate: -1.35% -1px;
+2254:   }
+2255: }
+2256: 
+2257: @media (prefers-reduced-motion: reduce) {
+2258:   .marketing-motion-floaters,
+2259:   .marketing-motion-clouds {
+2260:     animation: none !important;
+2261:     transform: none !important;
+2262:     transition: none !important;
+2263:   }
+2264: }
+2265: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

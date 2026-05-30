@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Move cloud wrapper 30px further down (bottom: -155px) in App.css.\"",
+  "EndLine": "1333",
+  "Instruction": "\"Change bottom: -125px to bottom: -155px in .marketing-layer-clouds-wrapper.\"",
+  "ReplacementContent": "\".marketing-layer-clouds-wrapper {\\n  z-index: 4;\\n  bottom: -155px;\\n}\"",
+  "StartLine": "1326",
+  "TargetContent": "\".marketing-layer-clouds-wrapper {\\n  z-index: 4;\\n  bottom: -125px;\\n}\"",
+  "TargetFile": "\"d:\\\\CodeWorkspace\\\\电脑桌宠\\\\src\\\\App.css\"",
+  "toolAction": "\"Updating clouds offset in App.css\"",
+  "toolSummary": "\"Editing file\""
+}

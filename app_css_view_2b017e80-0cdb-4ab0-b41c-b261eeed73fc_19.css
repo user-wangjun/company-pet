@@ -1,0 +1,115 @@
+Created At: 2026-05-23T09:00:41Z
+Completed At: 2026-05-23T09:00:41Z
+File Path: `file:///d:/Users/Desktop/%E7%94%B5%E8%84%91%E6%A1%8C%E5%AE%A0/src/App.tsx`
+Total Lines: 830
+Total Bytes: 25624
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { useEffect, useRef, useState } from "react";
+2: import type {
+3:   CSSProperties,
+4:   MouseEvent as ReactMouseEvent,
+5:   PointerEvent as ReactPointerEvent,
+6: } from "react";
+7: import { invoke } from "@tauri-apps/api/core";
+8: import { getCurrentWindow, PhysicalPosition } from "@tauri-apps/api/window";
+9: import {
+10:   AnimatedSprite,
+11:   Application,
+12:   Assets,
+13:   Rectangle,
+14:   Texture,
+15: } from "pixi.js";
+16: import "./App.css";
+17: import type {
+18:   DesktopIconBounds,
+19:   DesktopIconInteractionState,
+20: } from "./pet-core/interaction";
+21: import {
+22:   HOVER_EAT_DELAY_MS,
+23:   findDesktopIconTarget,
+24:   formatDesktopIconBubbleText,
+25:   formatDesktopIconWrapBubbleText,
+26:   getDesktopIconHugAnimationName,
+27:   getDesktopIconWrapWindowPosition,
+28:   getHoverFishAnimationSequence,
+29:   getPetContextMenuAction,
+30:   getDraggedWindowPosition,
+31:   isPrimaryButtonPressed,
+32:   isPointerCancellation,
+33:   shouldStartDrag,
+34:   shouldTriggerHoverEat,
+35:   updateDesktopIconInteraction,
+36: } from "./pet-core/interaction";
+37: import {
+38:   PET_BUBBLE_BOTTOM_PX,
+39:   PET_ICON_HUG_SPRITESHEET_PATH,
+40:   PET_VISUAL_SCALE,
+41: } from "./pet-core/visual";
+42: 
+43: type PetManifest = {
+44:   id: string;
+45:   displayName: string;
+46:   description: string;
+47:   spritesheetPath: string;
+48: };
+49: 
+50: const PET_BASE_PATH = "/pets/xiaoju";
+51: const GITHUB_RELEASE_API = "https://api.github.com/repos/user-wangjun/company-pet/releases/latest";
+52: 
+53: function getTimedDefaultBubble(): string {
+54:   const hour = new Date().get
+<truncated 25141 bytes>
+imationsRef.current = animations;
+750:         const sprite = new AnimatedSprite({
+751:           textures: animations.idle,
+752:           animationSpeed: ANIMATION_ROWS.idle.speed,
+753:           autoPlay: true,
+754:           loop: ANIMATION_ROWS.idle.loop,
+755:         });
+756: 
+757:         spriteRef.current = sprite;
+758:         sprite.anchor.set(0.5, 1);
+759:         sprite.scale.set(PET_VISUAL_SCALE);
+760:         sprite.x = app.screen.width / 2;
+761:         sprite.y = app.screen.height - 6;
+762:         app.stage.addChild(sprite);
+763: 
+764:         host.dataset.petLoaded = "true";
+765:         host.dataset.petId = manifest.id;
+766:         host.dataset.spriteSource = manifest.spritesheetPath;
+767:         host.dataset.iconHugSource = PET_ICON_HUG_SPRITESHEET_PATH;
+768:         recordInteraction("app_ready");
+769:         desktopIconProbeTimer.current = window.setInterval(
+770:           probeDesktopIconInteraction,
+771:           1200,
+772:         );
+773: 
+774:         app.ticker.add(() => {
+775:           sprite.x = app.screen.width / 2;
+776:           sprite.y = app.screen.height - 6;
+777:         });
+778:       })
+779:       .catch(() => {
+780:         recordInteraction("app_init_failed");
+781:       });
+782: 
+783:     return () => {
+784:       disposed = true;
+785:       if (returnToIdleTimer.current !== null) {
+786:         window.clearTimeout(returnToIdleTimer.current);
+787:         returnToIdleTimer.current = null;
+788:       }
+789:       clearHoverEatTimer();
+790:       restoreCursorEvents();
+791:       if (desktopIconProbeTimer.current !== null) {
+792:         window.clearInterval(desktopIconProbeTimer.current);
+793:         desktopIconProbeTimer.current = null;
+794:       }
+795:       spriteRef.current = null;
+796:       animationsRef.current = null;
+797:       destroyApp();
+798:     };
+799:   }, []);
+800: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

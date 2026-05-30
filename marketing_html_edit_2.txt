@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Change background-size to cover in public/marketing.html to fill the screen completely\"",
+  "EndLine": "168",
+  "Instruction": "\"Change background-size of hero bg and layers to cover\"",
+  "ReplacementContent": "\"        background-size: cover;\"",
+  "StartLine": "164",
+  "TargetContent": "\"        background-size: 92% auto;\"",
+  "TargetFile": "\"D:\\\\CodeWorkspace\\\\电脑桌宠\\\\public\\\\marketing.html\"",
+  "toolAction": "\"Updating background-size in public/marketing.html\"",
+  "toolSummary": "\"Edit marketing.html style\""
+}

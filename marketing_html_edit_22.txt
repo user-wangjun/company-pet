@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Update WeChat popover copy to '扫码加入微信群' in marketing.html\"",
+  "EndLine": "488",
+  "Instruction": "\"Update WeChat popover text to say '扫码加入微信群' in marketing.html.\"",
+  "ReplacementContent": "\"            <div class=\\\"marketing-wechat-popover\\\">\\n              <img src=\\\"./marketing-assets/wechat-qrcode.jpg\\\" alt=\\\"微信二维码\\\" />\\n              <div class=\\\"marketing-wechat-popover-text\\\">扫码加入微信群</div>\\n            </div>\"",
+  "StartLine": "482",
+  "TargetContent": "\"            <div class=\\\"marketing-wechat-popover\\\">\\n              <img src=\\\"./marketing-assets/wechat-qrcode.jpg\\\" alt=\\\"微信二维码\\\" />\\n              <div class=\\\"marketing-wechat-popover-text\\\">扫码关注官方微信</div>\\n            </div>\"",
+  "TargetFile": "\"d:\\\\CodeWorkspace\\\\电脑桌宠\\\\public\\\\marketing.html\"",
+  "toolAction": "\"Updating popover text in marketing.html\"",
+  "toolSummary": "\"Edit marketing.html\""
+}

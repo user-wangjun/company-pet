@@ -1,0 +1,684 @@
+.marketing-page {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(255, 225, 232, 0.92), transparent 28%),
+    radial-gradient(circle at 82% 24%, rgba(211, 239, 255, 0.88), transparent 26%),
+    linear-gradient(135deg, #fff9fb 0%, #f7fcff 48%, #fffdf4 100%);
+  color: #34232a;
+  cursor: default;
+}
+
+.marketing-browser {
+  position: relative;
+  width: calc(100vw - 24px);
+  height: calc(100vh - 24px);
+  margin: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(35, 26, 28, 0.92);
+  border-radius: 12px;
+  background: rgba(255, 255, 253, 0.96);
+  box-shadow: 0 22px 70px rgba(94, 71, 88, 0.16);
+}
+
+.marketing-topbar {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 86px;
+  box-sizing: border-box;
+  padding: 0 36px;
+  border-bottom: 2px solid rgba(35, 26, 28, 0.78);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+}
+
+.marketing-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: #ff5f7e;
+  text-decoration: none;
+}
+
+.marketing-hero {
+  height: calc(100% - 100px);
+  background: #07185d;
+  overflow: hidden;
+  isolation: isolate;
+  position: relative;
+}
+
+.marketing-hero-bg,
+.marketing-layer {
+  position: absolute;
+  inset: 0;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  will-change: transform;
+}
+
+.marketing-hero-bg {
+  z-index: 1;
+  background-image: url("./marketing/assets/yuxin-space-reference.png?v=2");
+}
+
+.marketing-layer-stars-wrapper,
+.marketing-layer-earth-wrapper,
+.marketing-layer-clouds-wrapper {
+  z-index: 2;
+  pointer-events: none;
+  transition: transform 0.15s ease-out;
+  transform-origin: center bottom;
+}
+
+.marketing-layer-earth-wrapper {
+  z-index: 3;
+}
+
+.marketing-layer-clouds-wrapper {
+  z-index: 4;
+  bottom: -185px;
+}
+
+.marketing-hotspots-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  transform-origin: center bottom;
+}
+
+.marketing-layer-stars-inner,
+.marketing-layer-earth-inner,
+.marketing-layer-clouds-inner {
+  position: absolute;
+  inset: 0;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.marketing-layer-stars-inner {
+  background-image: url("./marketing/assets/yuxin-floating-objects.png?v=2");
+  animation: marketing-stars-float 7s ease-in-out infinite;
+  background-size: 82% auto;
+}
+
+.marketing-layer-earth-inner {
+  background-image: url("./marketing/assets/yuxin-earth.png?v=2");
+  animation: marketing-earth-float 5.5s ease-in-out infinite;
+  background-size: 82% auto;
+}
+
+.marketing-layer-clouds-inner {
+  background-image: url("./marketing/assets/yuxin-clouds.png?v=2");
+  animation: marketing-clouds-sway 9s ease-in-out infinite;
+  background-size: 115% auto;
+}
+
+/* Hotspots overlay is styled above near wrappers */
+
+  pointer-events: none;
+}
+
+.marketing-hotspot {
+  position: absolute;
+}
+
+@media (max-width: 620px) {
+  .marketing-browser {
+    width: calc(100vw - 14px);
+    height: calc(100vh - 14px);
+    margin: 7px;
+  }
+
+  .marketing-topbar {
+    height: 66px;
+    gap: 12px;
+    padding: 0 14px;
+  }
+
+  .marketing-brand-text {
+    font-size: 1.38rem;
+    -webkit-text-stroke-width: 0.6px;
+  }
+
+  .marketing-brand-spark {
+    width: 16px;
+    height: 16px;
+  }
+
+  .marketing-socials {
+    gap: 8px;
+  }
+
+  .marketing-social-icon {
+    width: 31px;
+    height: 31px;
+  }
+
+  .marketing-social-user {
+    width: 36px;
+    height: 36px;
+  }
+
+  .marketing-social-icon path,
+  .marketing-social-icon circle {
+    stroke-width: 4.1;
+  }
+
+  .marketing-hero {
+    height: calc(100% - 66px);
+  }
+
+  .marketing-hero-art {
+    background-position: center bottom;
+    background-size: auto 92%;
+  }
+
+  .marketing-planet-float {
+    background-position: center bottom;
+    background-size: auto 92%;
+    clip-path: ellipse(48% 34% at 50% 43%);
+    mask-image: radial-gradient(
+      ellipse 48% 34% at 50% 43%,
+      #000 58%,
+  z-index: 100;
+}
+
+.marketing-hotspot-bubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #ef3f6e transparent transparent transparent;
+}
+
+@keyframes bubble-pop {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, 10px, 0) scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0) scale(1);
+  }
+}
+
+@keyframes marketing-stars-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0);
+  }
+}
+
+@keyframes marketing-earth-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -9px, 0);
+  }
+}
+
+@keyframes marketing-clouds-sway {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-6px, 2px, 0);
+  }
+}
+
+@keyframes marketing-ufo-wobble {
+  0% {
+    transform: translate3d(calc(-50% + var(--parallax-stars-x)), calc(-50% + var(--parallax-stars-y)), 0) scale(1.05) rotate(-3deg);
+  }
+  100% {
+    transform: translate3d(calc(-50% + var(--parallax-stars-x)), calc(-50% + var(--parallax-stars-y)), 0) scale(1.05) rotate(3deg);
+  }
+}
+
+@keyframes m
+  0% {
+    transform: translate3d(calc(-50% + var(--parallax-stars-x)), calc(-50% + var(--parallax-stars-y)), 0) scale(1.05) translateY(0);
+  }
+  100% {
+    transform: translate3d(calc(-50% + var(--parallax-stars-x)), calc(-50% + var(--parallax-stars-y)), 0) scale(1.05) translateY(-8px);
+  }
+}
+
+.marketing-hidden-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .marketing-topbar {
+    height: 82px;
+    padding: 0 24px;
+  }
+
+  .marketing-brand-text {
+    font-size: 1.95rem;
+  }
+
+  .marketing-socials {
+    gap: 18px;
+  }
+
+  .marketing-social-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .marketing-social-user {
+    width: 48px;
+    height: 48px;
+  }
+
+  .marketing-hero {
+    height: calc(100% - 82px);
+  }
+}
+
+@media (max-width: 620px) {
+  .marketing-browser {
+    width: calc(100vw - 14px);
+    height: calc(100vh - 14px);
+    margin: 7px;
+  }
+
+  .marketing-topbar {
+    height: 66px;
+    gap: 12px;
+    padding: 0 14px;
+  }
+
+  .marketing-brand-text {
+    font-size: 1.38rem;
+    -webkit-text-stroke-width: 0.6px;
+  }
+
+  .marketing-brand-spark {
+    width: 16px;
+    height: 16px;
+  }
+
+  .marketing-socials {
+    gap: 8px;
+  }
+
+  .marketing-social-icon {
+    width: 31px;
+    height: 31px;
+  }
+
+  .marketing-social-user {
+    width: 36px;
+    height: 36px;
+  }
+
+  .marketing-social-icon path,
+  .marketing-social-icon circle {
+    stroke-width: 4.1;
+  }
+
+  .marketing-hero {
+    height: calc(100% - 66px);
+  }
+
+  .marketing-hero-bg,
+  .marketing-layer,
+  .marketing-layer-stars-inner,
+  .marketing-layer-earth-inner,
+  .marketing-layer-clouds-inner {
+    background-position: center bottom;
+    background-size: cover;
+  }
+
+  .marketing-hotspot-cat {
+    width: 100px;
+    height: 90px;
+  }
+
+  .marketing-hotspot-ufo {
+    width: 90px;
+    height: 80px;
+  }
+
+  .marketing-hotspot-saturn {
+    width: 90px;
+    height: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marketing-hero-bg,
+  .marketing-layer,
+  .marketing-layer-stars-inner,
+  .marketing-layer-earth-inner,
+  .marketing-layer-clouds-inner,
+  .marketing-hotspot {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+.marketing-stage-shell {
+  position: relative;
+  width: calc(100vw - 24px);
+  height: calc(100vh - 24px);
+  margin: 12px;
+  overflow: hidden;
+  border: 2px solid #2c2024;
+  border-radius: 12px;
+  background: #07185d;
+  box-sizing: border-box;
+  isolation: isolate;
+  --marketing-topbar-height: clamp(66px, 5.98vw, 100px);
+  --marketing-earth-x: 0px;
+  --marketing-earth-y: 0px;
+  --marketing-cloud-x: 0px;
+  --marketing-cloud-y: 0px;
+  --marketing-float-x: 0px;
+  --marketing-float-y: 0px;
+}
+
+.marketing-stage-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #07185d;
+}
+
+.marketing-stage-layer,
+.marketing-layer-parallax {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.marketing-motion-clouds-b {
+  filter: blur(2.5px) saturate(1.12);
+  opacity: 0.1;
+  animation: marketing-polished-clouds-b 17s ease-in-out infinite;
+}
+
+.marketing-polished-hit,
+.marketing-polished-social {
+  position: absolute;
+  z-index: 7;
+  display: block;
+  border: 0;
+  background: transparent;
+}
+
+.marketing-polished-brand-hit {
+  left: 2.15%;
+  top: 2.3%;
+  width: 14.6%;
+  height: 6.5%;
+}
+
+.marketing-polished-socials {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+}
+
+.marketing-polished-social {
+  top: 3%;
+  width: 4.2%;
+  height: 5.4%;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.marketing-polished-social-discord {
+  left: 70.9%;
+}
+
+.marketing-polished-social-x {
+  left: 76.2%;
+}
+
+.marketing-polished-social-wechat {
+  left: 81.5%;
+}
+
+.marketing-polished-social-qq {
+  left: 86.6%;
+}
+
+.marketing-polished-social-user {
+  left: 92.5%;
+  top: 2.15%;
+  width: 5%;
+  height: 7.1%;
+}
+
+.marketing-polished-shell .marketing-hotspot-layer {
+  z-index: 8;
+}
+
+.marketing-polished-shell .marketing-hotspot::before {
+  background: transparent;
+  box-shadow: none;
+}
+
+.marketing-polished-shell .marketing-hotspot-bubble {
+  box-shadow: 0 10px 24px rgba(239, 79, 126, 0.18);
+}
+
+@keyframes marketing-polished-floaters {
+  0%, 100% {
+    opacity: 0.02;
+    translate: 0 -1px;
+  }
+
+  50% {
+    opacity: 0.055;
+    translate: 0 -3px;
+  }
+}
+
+@keyframes marketing-polished-clouds-a {
+  0%, 100% {
+    translate: -1.2% 1px;
+  }
+
+  50% {
+    translate: 1.35% 7px;
+  }
+}
+
+@keyframes marketing-polished-clouds-b {
+  0%, 100% {
+    translate: 1.1% 8px;
+  }
+
+  50% {
+    translate: -1.35% -1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marketing-motion-floaters,
+  .marketing-motion-clouds {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Premium WeChat Dark Popover (similar to Image 2) */
+.marketing-wechat-popover {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px) scale(0.94);
+  width: 170px;
+  background: rgba(30, 30, 34, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  padding: 12px;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+/* Upward pointing arrow in dark style */
+.marketing-wechat-popover::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(1px);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent rgba(30, 30, 34, 0.96) transparent;
+  z-index: 2;
+}
+
+.marketing-modal-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.marketing-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #ef4f7e;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(239, 79, 126, 0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  padding: 32px 24px;
+  text-align: center;
+  transform: scale(0.9) translateY(10px);
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  backdrop-filter: blur(8px);
+}
+
+.marketing-modal-overlay.is-open .marketing-modal-content {
+  transform: scale(1) translateY(0);
+}
+
+/* Subtle border for the arrow */
+.marketing-wechat-popover::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 7px;
+  border-style: solid;
+  border-color: transparent transparent rgba(255, 255, 255, 0.15) transparent;
+  z-index: 1;
+}
+
+.marketing-wechat-popover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.marketing-wechat-popover-text {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  text-align: center;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Show on hover or when parent is active (clicked) */
+.marketing-polished-social-wechat:hover .marketing-wechat-popover,
+.marketing-polished-social-wechat:focus-within .marketing-wechat-popover,
+.marketing-polished-social-wechat.is-active .marketing-wechat-popover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Responsive adjustment for small screens to prevent clipping */
+@media (max-width: 768px) {
+  .marketing-wechat-popover {
+    left: auto;
+    right: -10px;
+    transform: translateY(8px) scale(0.94);
+  }
+
+  .marketing-wechat-popover::before {
+    left: auto;
+    right: 20px;
+    transform: translateY(2px);
+  }
+
+  .marketing-wechat-popover::after {
+    left: auto;
+    right: 19px;
+  }
+
+  .marketing-polished-social-wechat:hover .marketing-wechat-popover,
+  .marketing-polished-social-wechat:focus-within .marketing-wechat-popover,
+  .marketing-polished-social-wechat.is-active .marketing-wechat-popover {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Premium Toast Notification */
+.marketing-toast {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  z-index: 9999;
+  background: linear-gradient(135deg, #ef4f7e 0%, #ff6c8f 100%);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 15px 35px rgba(239, 79, 126, 0.35);
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 300ms ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.marketing-toast.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.marketing-toast::before {
+  content: "✨";
+  font-size: 1.1rem;
+}
+

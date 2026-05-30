@@ -6,50 +6,50 @@
   "sounds": {
     "idle": [
       { "path": "sounds/purr-whiskers.ogg", "volume": 0.16, "maxDurationMs": 1200 },
-      { "path": "sounds/meow-young-female.ogg", "volume": 0.11, "maxDurationMs": 420 }
+      { "path": "sounds/meow-young-female.ogg", "volume": 0.11, "maxDurationMs": 1150 }
     ],
     "tickle": [
-      { "path": "sounds/meow-young-female.ogg", "volume": 0.22, "maxDurationMs": 700 },
-      { "path": "sounds/meow-pleading.oga", "volume": 0.2, "maxDurationMs": 650 },
+      { "path": "sounds/meow-young-female.ogg", "volume": 0.22, "maxDurationMs": 1150 },
+      { "path": "sounds/meow-pleading.oga", "volume": 0.2, "maxDurationMs": 1500 },
       { "path": "sounds/purr-whiskers.ogg", "volume": 0.14, "maxDurationMs": 900 }
     ],
     "drag": [
-      { "path": "sounds/meow-impatient.ogg", "volume": 0.22, "maxDurationMs": 620 },
-      { "path": "sounds/meow-pleading.oga", "volume": 0.2, "maxDurationMs": 650 },
-      { "path": "sounds/meow-notrip.ogg", "volume": 0.18, "maxDurationMs": 700 }
+      { "path": "sounds/meow-impatient.ogg", "volume": 0.22, "maxDurationMs": 650 },
+      { "path": "sounds/meow-pleading.oga", "volume": 0.2, "maxDurationMs": 1500 },
+      { "path": "sounds/meow-notrip.ogg", "volume": 0.18, "maxDurationMs": 1300 }
     ],
     "drag_end": [
       { "path": "sounds/purr-whiskers.ogg", "volume": 0.13, "maxDurationMs": 700 },
-      { "path": "sounds/meow-young-female.ogg", "volume": 0.14, "maxDurationMs": 420 }
+      { "path": "sounds/meow-young-female.ogg", "volume": 0.14, "maxDurationMs": 1150 }
     ],
     "fishChase": [
-      { "path": "sounds/meow-young-female.ogg", "volume": 0.2, "maxDurationMs": 520 },
-      { "path": "sounds/meow-impatient.ogg", "volume": 0.18, "maxDurationMs": 500 }
+      { "path": "sounds/meow-young-female.ogg", "volume": 0.2, "maxDurationMs": 1150 },
+      { "path": "sounds/meow-impatient.ogg", "volume": 0.18, "maxDurationMs": 650 }
     ],
     "fishEat": [
       { "path": "sounds/purr-whiskers.ogg", "volume": 0.16, "maxDurationMs": 1100 },
-      { "path": "sounds/meow-pleading.oga", "volume": 0.13, "maxDurationMs": 380 }
+      { "path": "sounds/meow-pleading.oga", "volume": 0.13, "maxDurationMs": 1500 }
     ],
     "crouchAlert": [
-      { "path": "sounds/meow-young-female.ogg", "volume": 0.18, "maxDurationMs": 520 },
-      { "path": "sounds/meow-impatient.ogg", "volume": 0.17, "maxDurationMs": 520 }
+      { "path": "sounds/meow-young-female.ogg", "volume": 0.18, "maxDurationMs": 1150 },
+      { "path": "sounds/meow-impatient.ogg", "volume": 0.17, "maxDurationMs": 650 }
     ],
     "hugFish": [
       { "path": "sounds/purr-whiskers.ogg", "volume": 0.16, "maxDurationMs": 1200 },
-      { "path": "sounds/meow-pleading.oga", "volume": 0.12, "maxDurationMs": 400 }
+      { "path": "sounds/meow-pleading.oga", "volume": 0.12, "maxDurationMs": 1500 }
     ],
     "gnawFish": [
       { "path": "sounds/purr-whiskers.ogg", "volume": 0.12, "maxDurationMs": 800 },
-      { "path": "sounds/meow-young-female.ogg", "volume": 0.12, "maxDurationMs": 320 }
+      { "path": "sounds/meow-young-female.ogg", "volume": 0.12, "maxDurationMs": 1150 }
     ],
     "iconHug": [
       { "path": "sounds/purr-whiskers.ogg", "volume": 0.18, "maxDurationMs": 1000 },
-      { "path": "sounds/meow-young-female.ogg", "volume": 0.14, "maxDurationMs": 420 }
+      { "path": "sounds/meow-young-female.ogg", "volume": 0.14, "maxDurationMs": 1150 }
     ],
     "care_reminder": [
-      { "path": "sounds/meow-pleading.oga", "volume": 0.18, "maxDurationMs": 700 },
-      { "path": "sounds/meow-impatient.ogg", "volume": 0.16, "maxDurationMs": 600 },
-      { "path": "sounds/meow-notrip.ogg", "volume": 0.14, "maxDurationMs": 650 }
+      { "path": "sounds/meow-pleading.oga", "volume": 0.18, "maxDurationMs": 1500 },
+      { "path": "sounds/meow-impatient.ogg", "volume": 0.16, "maxDurationMs": 650 },
+      { "path": "sounds/meow-notrip.ogg", "volume": 0.14, "maxDurationMs": 1300 }
     ]
   }
 }

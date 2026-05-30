@@ -1,0 +1,9 @@
+[3] Conv: 12d163ea-518d-4922-a90e-d5f1401faf15, Line: 46, Tool: replace_file_content, Created At: 2026-05-30T08:57:31Z
+========================================================
+StartLine: 127, EndLine: 138
+TargetContent:
+"        <nav className=\"marketing-polished-socials\" aria-label=\"社交入口\">\n          {socialLinks.map((link) => (\n            <span\n              key={link.label}\n              className={`marketing-polished-social marketing-polished-social-${link.icon}`}\n              role=\"img\"\n              aria-label={link.label}\n              title={link.label}\n            />\n          ))}\n        </nav>"
+ReplacementContent:
+"        <nav className=\"marketing-polished-socials\" aria-label=\"社交入口\">\n          {socialLinks.map((link) =>\n            link.href ? (\n              <a\n                key={link.label}\n                className={`marketing-polished-social marketing-polished-social-${link.icon}`}\n                href={link.href}\n                target=\"_blank\"\n                rel=\"noopener noreferrer\"\n                aria-label={link.label}\n                title={link.label}\n              />\n            ) : (\n              <span\n                key={link.label}\n                className={`marketing-polished-social marketing-polished-social-${link.icon}`}\n                role=\"img\"\n                aria-label={link.label}\n                title={link.label}\n              />\n            )\n          )}\n        </nav>"
+
+========================================================

@@ -1,0 +1,111 @@
+Created At: 2026-05-30T09:15:32Z
+Completed At: 2026-05-30T09:15:33Z
+File Path: `file:///d:/CodeWorkspace/%E7%94%B5%E8%84%91%E6%A1%8C%E5%AE%A0/public/marketing.html`
+Total Lines: 649
+Total Bytes: 21488
+Showing lines 1 to 649
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!doctype html>
+2: <html lang="zh-CN">
+3:   <head>
+4:     <meta charset="UTF-8" />
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+6:     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+7:     <link rel="preload" as="image" href="./marketing-assets/marketing-base.png" />
+8:     <link rel="preload" as="image" href="./marketing-assets/yuxin-floating-motion.png" />
+9:     <link rel="preload" as="image" href="./marketing-assets/yuxin-clouds-clean.png" />
+10:     <title>愈心桌宠</title>
+11:     <style>
+12:       :root {
+13:         font-family:
+14:           "Microsoft YaHei", Inter, Avenir, Helvetica, Arial, sans-serif;
+15:         color: #191416;
+16:         background: #f8ecf1;
+17:         font-synthesis: none;
+18:         text-rendering: optimizeLegibility;
+19:         -webkit-font-smoothing: antialiased;
+20:         -moz-osx-font-smoothing: grayscale;
+21:       }
+22: 
+23:       html,
+24:       body {
+25:         width: 100%;
+26:         height: 100%;
+27:         margin: 0;
+28:         overflow: hidden;
+29:       }
+30: 
+31:       body {
+32:         user-select: none;
+33:       }
+34: 
+35:       .marketing-page {
+36:         width: 100vw;
+37:         height: 100vh;
+38:         overflow: hidden;
+39:         background: #f8ecf1;
+40:       }
+41: 
+42:       .marketing-stage-shell {
+43:         position: relative;
+44:         width: calc(100vw - 24px);
+45:         height: calc(100vh - 24px);
+46:         margin: 12px;
+47:         overflow: hidden;
+48:         border: 2px solid #2c2024;
+49:         border-radius: 
+<truncated 21078 bytes>
+          activeTimer = window.setTimeout(() => {
+598:               hotspot.classList.remove("is-active");
+599:             }, 2800);
+600:           });
+601:         });
+602: 
+603:         // WeChat QR Code Popover control
+604:         const wechatSocial = shell.querySelector(".marketing-polished-social-wechat");
+605:         if (wechatSocial) {
+606:           wechatSocial.addEventListener("click", (e) => {
+607:             e.stopPropagation();
+608:             wechatSocial.classList.toggle("is-active");
+609:           });
+610: 
+611:           document.addEventListener("click", () => {
+612:             wechatSocial.classList.remove("is-active");
+613:           });
+614:         }
+615: 
+616:         // Toast notification helper
+617:         const toastEl = document.createElement("div");
+618:         toastEl.className = "marketing-toast";
+619:         toastEl.innerText = "亟待开发中";
+620:         shell.appendChild(toastEl);
+621: 
+622:         let toastTimer = 0;
+623:         const showToast = () => {
+624:           toastEl.classList.add("is-visible");
+625:           window.clearTimeout(toastTimer);
+626:           toastTimer = window.setTimeout(() => {
+627:             toastEl.classList.remove("is-visible");
+628:           }, 2200);
+629:         };
+630: 
+631:         // Attach click listeners to X, QQ, and User buttons
+632:         const xBtn = shell.querySelector(".marketing-polished-social-x");
+633:         const qqBtn = shell.querySelector(".marketing-polished-social-qq");
+634:         const userBtn = shell.querySelector(".marketing-polished-social-user");
+635: 
+636:         [xBtn, qqBtn, userBtn].forEach(btn => {
+637:           if (btn) {
+638:             btn.addEventListener("click", (e) => {
+639:               e.preventDefault();
+640:               e.stopPropagation();
+641:               showToast();
+642:             });
+643:           }
+644:         });
+645:       })();
+646:     </script>
+647:   </body>
+648: </html>
+649: 
+The above content shows the entire, complete file contents of the requested file.

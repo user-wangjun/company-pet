@@ -286,3 +286,594 @@ button {
   color: #4e6862;
   cursor: default;
 }
+
+.marketing-page {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #f8ecf1;
+  color: #25151b;
+  cursor: default;
+}
+
+.marketing-stage-shell {
+  --marketing-floater-x: 0px;
+  --marketing-floater-y: 0px;
+  --marketing-cloud-x: 0px;
+  --marketing-cloud-y: 0px;
+  position: relative;
+  width: calc(100vw - 24px);
+  height: calc(100vh - 24px);
+  margin: 12px;
+  overflow: hidden;
+  border: 2px solid #2c2024;
+  border-radius: 12px;
+  background: #07185d;
+  box-sizing: border-box;
+  isolation: isolate;
+}
+
+.marketing-polished-art {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  pointer-events: none;
+  user-select: none;
+}
+
+.marketing-motion-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.marketing-motion-floaters {
+  background-image: var(--marketing-floaters-url);
+  transform: translate3d(
+    var(--marketing-floater-x),
+    var(--marketing-floater-y),
+    0
+  );
+  animation: marketing-floaters-drift 8s ease-in-out infinite;
+}
+
+.marketing-motion-clouds {
+  z-index: 3;
+  inset: auto 0 -155px;
+  height: 100%;
+  background-image: var(--marketing-clouds-url);
+  background-size: 115% auto;
+  transform: translate3d(var(--marketing-cloud-x), var(--marketing-cloud-y), 0);
+}
+
+.marketing-motion-clouds-a {
+  opacity: 0.82;
+  animation: marketing-clouds-sway-a 13s ease-in-out infinite;
+}
+
+.marketing-motion-clouds-b {
+  opacity: 0.24;
+  filter: blur(2px) saturate(1.08);
+  animation: marketing-clouds-sway-b 17s ease-in-out infinite;
+}
+
+.marketing-polished-topbar {
+  position: relative;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: clamp(66px, 5.8vw, 92px);
+  box-sizing: border-box;
+  padding: 0 clamp(18px, 3vw, 42px);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 244, 249, 0.92) 0%,
+    rgba(255, 244, 249, 0.62) 72%,
+    rgba(255, 244, 249, 0) 100%
+  );
+}
+
+.marketing-polished-brand {
+  color: #fb557e;
+  font-size: clamp(1.45rem, 2.35vw, 2.45rem);
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  text-shadow:
+    0 2px 0 #ffffff,
+    0 10px 26px rgba(144, 57, 84, 0.24);
+  white-space: nowrap;
+}
+
+.marketing-polished-socials {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1vw, 14px);
+}
+
+.marketing-polished-social {
+  position: relative;
+  display: grid;
+  width: clamp(34px, 3vw, 46px);
+  height: clamp(34px, 3vw, 46px);
+  place-items: center;
+  border: 2px solid rgba(45, 32, 36, 0.72);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #2c2024;
+  cursor: pointer;
+  box-shadow: 0 9px 18px rgba(56, 30, 42, 0.13);
+}
+
+.marketing-polished-social::before {
+  color: currentColor;
+  font-size: clamp(0.72rem, 1vw, 0.92rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.marketing-polished-social-discord::before {
+  content: "D";
+}
+
+.marketing-polished-social-x::before {
+  content: "X";
+}
+
+.marketing-polished-social-wechat::before {
+  content: "微";
+}
+
+.marketing-polished-social-qq::before {
+  content: "Q";
+}
+
+.marketing-polished-social-user::before {
+  content: "人";
+}
+
+.marketing-hotspot-layer {
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  pointer-events: none;
+}
+
+.marketing-hotspot {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.marketing-hotspot::before {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  background: rgba(239, 79, 126, 0.68);
+  box-shadow:
+    0 0 0 8px rgba(239, 79, 126, 0.14),
+    0 0 28px rgba(255, 255, 255, 0.55);
+  content: "";
+  opacity: 0;
+  transform: scale(0.72);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.marketing-hotspot:hover::before,
+.marketing-hotspot:focus-visible::before,
+.marketing-hotspot.is-active::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.marketing-hotspot-cat {
+  left: 45.8%;
+  top: 27%;
+  width: 13%;
+  height: 15%;
+}
+
+.marketing-hotspot-earth {
+  left: 36%;
+  top: 38%;
+  width: 29%;
+  height: 38%;
+}
+
+.marketing-hotspot-ufo {
+  left: 69%;
+  top: 22%;
+  width: 12%;
+  height: 13%;
+}
+
+.marketing-hotspot-bunny {
+  left: 75%;
+  top: 46%;
+  width: 12%;
+  height: 17%;
+}
+
+.marketing-hotspot-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  width: max-content;
+  max-width: min(260px, 36vw);
+  padding: 8px 12px;
+  border: 1px solid rgba(239, 79, 126, 0.26);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #37202b;
+  font-size: 13px;
+  line-height: 1.35;
+  box-shadow: 0 12px 28px rgba(56, 29, 48, 0.16);
+  opacity: 0;
+  transform: translate3d(-50%, 6px, 0) scale(0.96);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.marketing-hotspot:hover .marketing-hotspot-bubble,
+.marketing-hotspot:focus-visible .marketing-hotspot-bubble,
+.marketing-hotspot.is-active .marketing-hotspot-bubble {
+  opacity: 1;
+  transform: translate3d(-50%, 0, 0) scale(1);
+}
+
+.marketing-wechat-popover {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  width: 170px;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  background: rgba(30, 30, 34, 0.96);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.34);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(8px) scale(0.94);
+  transition:
+    opacity 220ms ease,
+    transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.marketing-wechat-popover::before {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent rgba(30, 30, 34, 0.96);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.marketing-wechat-popover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.marketing-wechat-popover-text {
+  display: block;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.marketing-polished-social-wechat:hover .marketing-wechat-popover,
+.marketing-polished-social-wechat:focus-visible .marketing-wechat-popover,
+.marketing-polished-social-wechat.is-active .marketing-wechat-popover,
+.marketing-morning-wechat:hover .marketing-wechat-popover,
+.marketing-morning-wechat:focus-visible .marketing-wechat-popover,
+.marketing-morning-wechat.is-active .marketing-wechat-popover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.marketing-toast {
+  position: fixed;
+  z-index: 30;
+  top: 30px;
+  left: 50%;
+  padding: 11px 24px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ef4f7e 0%, #ff6c8f 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 15px 35px rgba(239, 79, 126, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-16px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.marketing-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.marketing-screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@keyframes marketing-floaters-drift {
+  0%,
+  100% {
+    translate: 0 -2px;
+  }
+
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+@keyframes marketing-clouds-sway-a {
+  0%,
+  100% {
+    translate: -1.2% 2px;
+  }
+
+  50% {
+    translate: 1.2% 9px;
+  }
+}
+
+@keyframes marketing-clouds-sway-b {
+  0%,
+  100% {
+    translate: 1.1% 8px;
+  }
+
+  50% {
+    translate: -1.4% -1px;
+  }
+}
+
+@media (max-width: 700px) {
+  .marketing-stage-shell {
+    width: calc(100vw - 14px);
+    height: calc(100vh - 14px);
+    margin: 7px;
+  }
+
+  .marketing-polished-topbar {
+    gap: 12px;
+    min-height: 62px;
+    padding: 0 12px;
+  }
+
+  .marketing-polished-socials {
+    gap: 6px;
+  }
+
+  .marketing-hotspot-bubble {
+    max-width: min(220px, 58vw);
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marketing-motion-floaters,
+  .marketing-motion-clouds {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+.marketing-morning-shell {
+  background: #ffffff;
+}
+
+.marketing-morning-art {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.marketing-cloud-surge {
+  position: absolute;
+  z-index: 2;
+  left: -8%;
+  right: -8%;
+  bottom: -5%;
+  height: 45%;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.72;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 22%,
+    rgba(0, 0, 0, 0.86) 48%,
+    #000000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 22%,
+    rgba(0, 0, 0, 0.86) 48%,
+    #000000 100%
+  );
+}
+
+.marketing-cloud-surge-layer {
+  position: absolute;
+  display: block;
+  border-radius: 48% 48% 0 0;
+  background-repeat: repeat-x;
+  background-size: 72% 100%;
+  filter: blur(8px);
+  transform-origin: center bottom;
+  transition:
+    transform 180ms linear,
+    opacity 180ms linear,
+    background-position 180ms linear;
+  will-change: transform, opacity, background-position;
+}
+
+.marketing-cloud-surge-layer-a {
+  inset: 7% -10% -20%;
+  opacity: 0.58;
+  background-image:
+    radial-gradient(ellipse at 8% 72%, rgba(167, 153, 255, 0.55) 0 12%, transparent 31%),
+    radial-gradient(ellipse at 23% 64%, rgba(255, 184, 232, 0.56) 0 15%, transparent 34%),
+    radial-gradient(ellipse at 39% 74%, rgba(255, 230, 190, 0.42) 0 11%, transparent 28%),
+    radial-gradient(ellipse at 56% 66%, rgba(194, 166, 255, 0.58) 0 16%, transparent 36%),
+    radial-gradient(ellipse at 75% 72%, rgba(255, 188, 231, 0.5) 0 14%, transparent 34%),
+    radial-gradient(ellipse at 92% 68%, rgba(255, 238, 198, 0.42) 0 11%, transparent 31%);
+  background-position: var(--cloud-a-bg, 0% 0%);
+  opacity: var(--cloud-a-opacity, 0.58);
+  transform: translate3d(var(--cloud-a-x, -1.4%), var(--cloud-a-y, 0.5%), 0)
+    scaleX(var(--cloud-a-scale-x, 1.05))
+    scaleY(var(--cloud-a-scale-y, 1.02));
+}
+
+.marketing-cloud-surge-layer-b {
+  inset: 16% -13% -18%;
+  opacity: 0.48;
+  background-size: 64% 100%;
+  background-image:
+    radial-gradient(ellipse at 12% 68%, rgba(112, 132, 255, 0.4) 0 14%, transparent 34%),
+    radial-gradient(ellipse at 31% 76%, rgba(216, 160, 255, 0.46) 0 17%, transparent 37%),
+    radial-gradient(ellipse at 51% 66%, rgba(255, 210, 228, 0.42) 0 13%, transparent 31%),
+    radial-gradient(ellipse at 70% 76%, rgba(145, 139, 255, 0.38) 0 16%, transparent 35%),
+    radial-gradient(ellipse at 91% 70%, rgba(255, 222, 187, 0.34) 0 12%, transparent 30%);
+  filter: blur(13px);
+  background-position: var(--cloud-b-bg, 0% 0%);
+  opacity: var(--cloud-b-opacity, 0.46);
+  transform: translate3d(var(--cloud-b-x, 1.8%), var(--cloud-b-y, 0.9%), 0)
+    scaleX(var(--cloud-b-scale-x, 1.08))
+    scaleY(var(--cloud-b-scale-y, 1));
+}
+
+.marketing-cloud-surge-layer-c {
+  inset: 31% -18% -18%;
+  opacity: 0.34;
+  background-size: 58% 100%;
+  background-image:
+    radial-gradient(ellipse at 6% 72%, rgba(255, 255, 255, 0.38) 0 10%, transparent 28%),
+    radial-gradient(ellipse at 26% 70%, rgba(255, 178, 228, 0.3) 0 13%, transparent 31%),
+    radial-gradient(ellipse at 48% 78%, rgba(156, 160, 255, 0.32) 0 15%, transparent 34%),
+    radial-gradient(ellipse at 67% 70%, rgba(255, 242, 206, 0.32) 0 11%, transparent 28%),
+    radial-gradient(ellipse at 88% 76%, rgba(202, 166, 255, 0.34) 0 15%, transparent 34%);
+  filter: blur(18px);
+  background-position: var(--cloud-c-bg, 0% 0%);
+  opacity: var(--cloud-c-opacity, 0.32);
+  transform: translate3d(var(--cloud-c-x, -0.8%), var(--cloud-c-y, 0.6%), 0)
+    scaleX(var(--cloud-c-scale-x, 1.06))
+    scaleY(var(--cloud-c-scale-y, 1.05));
+}
+
+.marketing-morning-socials {
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  pointer-events: none;
+}
+
+.marketing-morning-hit {
+  position: absolute;
+  z-index: 7;
+  display: block;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.marketing-morning-brand-hit {
+  left: 1.7%;
+  top: 2.2%;
+  width: 16%;
+  height: 7.3%;
+}
+
+.marketing-morning-discord,
+.marketing-morning-x,
+.marketing-morning-wechat,
+.marketing-morning-qq {
+  top: 2.6%;
+  width: 5.6%;
+  height: 7.4%;
+}
+
+.marketing-morning-discord {
+  left: 70.5%;
+}
+
+.marketing-morning-x {
+  left: 76%;
+}
+
+.marketing-morning-wechat {
+  left: 81.5%;
+}
+
+.marketing-morning-qq {
+  left: 87%;
+}
+
+.marketing-morning-user {
+  left: 93%;
+  top: 1.7%;
+  width: 5.1%;
+  height: 8.8%;
+}
+
+.marketing-morning-hit:focus-visible {
+  outline: 2px solid rgba(239, 79, 126, 0.75);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marketing-cloud-surge-layer {
+    transform: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,86 @@
+Created At: 2026-05-30T09:02:06Z
+Completed At: 2026-05-30T09:02:06Z
+File Path: `file:///d:/CodeWorkspace/%E7%94%B5%E8%84%91%E6%A1%8C%E5%AE%A0/src/App.tsx`
+Total Lines: 1227
+Total Bytes: 38327
+Showing lines 1150 to 1227
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1150:       <div className="bubble">{bubbleText}</div>
+1151:       {isPlatformOpen && (
+1152:         <section
+1153:           className="platform-panel"
+1154:           aria-label="桌宠平台"
+1155:           onMouseDown={stopPlatformEvent}
+1156:           onPointerDown={stopPlatformEvent}
+1157:         >
+1158:           <header className="platform-header" onPointerDown={startPlatformWindowDrag}>
+1159:             <div>
+1160:               <p className="platform-kicker">Desktop Pet Platform</p>
+1161:               <h1>{APP_DISPLAY_NAME}</h1>
+1162:             </div>
+1163:             <button
+1164:               className="platform-close"
+1165:               type="button"
+1166:               aria-label="关闭桌宠平台"
+1167:               onClick={closePlatform}
+1168:               onPointerDown={stopPlatformEvent}
+1169:             >
+1170:               ×
+1171:             </button>
+1172:           </header>
+1173: 
+1174:           <div className="platform-status">
+1175:             <span>当前显示</span>
+1176:             <strong>{activePet?.displayName ?? activePetId}</strong>
+1177:             <span>{petCatalog.length} 个桌宠包</span>
+1178:           </div>
+1179: 
+1180:           <div className="pet-grid">
+1181:             {petCatalog.map((pet) => (
+1182:               <article
+1183:                 className={`pet-card${pet.isActive ? " is-active" : ""}`}
+1184:                 key={pet.id}
+1185:               >
+1186:                 <div
+1187:                   className="pet-card-preview"
+1188:                   aria-hidden="true"
+1189:                   style={{ backgroundImage: `url(${pet.previewUrl})` }}
+1190:                 />
+1191:                 <div className="pet-card-body">
+1192:                   <div className="pet-card-title-row">
+1193:                     <h2>{pet.displayName}</h2>
+1194:                     <span>{pet.id}</span>
+1195:                   </div>
+1196:                   <p>{pet.description}</p>
+1197:                   <button
+1198:                     className="pet-card-action"
+1199:                     type="button"
+1200:                     disabled={pet.isActive}
+1201:                     onClick={() => selectPet(pet)}
+1202:                   >
+1203:                     {pet.isActive ? "使用中" : "启用"}
+1204:                   </button>
+1205:                 </div>
+1206:               </article>
+1207:             ))}
+1208:           </div>
+1209:         </section>
+1210:       )}
+1211:     </main>
+1212:   );
+1213: }
+1214: 
+1215: function App() {
+1216:   const pathname =
+1217:     typeof window === "undefined" ? "/" : window.location.pathname;
+1218: 
+1219:   if (isMarketingRoute(pathname)) {
+1220:     return <MarketingPage />;
+1221:   }
+1222: 
+1223:   return <DesktopPetApp />;
+1224: }
+1225: 
+1226: export default App;
+1227: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

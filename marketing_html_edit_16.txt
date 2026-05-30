@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Increase z-index of marketing-polished-socials to 10 in marketing.html style\"",
+  "EndLine": "182",
+  "Instruction": "\"Increase z-index of .marketing-polished-socials to 10.\"",
+  "ReplacementContent": "\"      .marketing-polished-socials {\\n        position: absolute;\\n        inset: 0;\\n        z-index: 10;\\n        pointer-events: none;\\n      }\"",
+  "StartLine": "174",
+  "TargetContent": "\"      .marketing-polished-socials {\\n        position: absolute;\\n        inset: 0;\\n        z-index: 7;\\n        pointer-events: none;\\n      }\"",
+  "TargetFile": "\"d:\\\\CodeWorkspace\\\\电脑桌宠\\\\public\\\\marketing.html\"",
+  "toolAction": "\"Updating socials z-index in marketing.html style\"",
+  "toolSummary": "\"Edit marketing.html\""
+}

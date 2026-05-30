@@ -1,0 +1,57 @@
+".marketing-hero-bg {
+  z-index: 1;
+  background-image: url("./marketing/assets/yuxin-space-reference.png?v=2");
+}
+
+.marketing-layer-stars-wrapper,
+.marketing-layer-earth-wrapper,
+.marketing-layer-clouds-wrapper {
+  z-index: 2;
+  pointer-events: none;
+  transition: transform 0.15s ease-out;
+  transform-origin: center bottom;
+}
+
+.marketing-layer-earth-wrapper {
+  z-index: 3;
+}
+
+.marketing-layer-clouds-wrapper {
+  z-index: 4;
+  bottom: -25px;
+}
+
+.marketing-hotspots-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  transform-origin: center bottom;
+}
+
+.marketing-layer-stars-inner,
+.marketing-layer-earth-inner,
+.marketing-layer-clouds-inner {
+  position: absolute;
+  inset: 0;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.marketing-layer-stars-inner {
+  background-image: url("./marketing/assets/yuxin-floating-objects.png?v=2");
+  animation: marketing-stars-float 7s ease-in-out infinite;
+  background-size: 82% auto;
+}
+
+.marketing-layer-earth-inner {
+  background-image: url("./marketing/assets/yuxin-earth.png?v=2");
+  animation: marketing-earth-float 5.5s ease-in-out infinite;
+  background-size: 82% auto;
+}
+
+.marketing-layer-clouds-inner {
+  background-image: url("./marketing/assets/yuxin-clouds.png?v=2");
+  animation: marketing-clouds-sway 9s ease-in-out infinite;
+}"

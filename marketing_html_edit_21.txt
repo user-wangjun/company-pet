@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Change WeChat modal control script to WeChat popover click toggle control in marketing.html\"",
+  "EndLine": "596",
+  "Instruction": "\"Update the WeChat modal control script with click-toggle popover logic.\"",
+  "ReplacementContent": "\"        // WeChat QR Code Popover control\\n        const wechatSocial = shell.querySelector(\\\".marketing-polished-social-wechat\\\");\\n        if (wechatSocial) {\\n          wechatSocial.addEventListener(\\\"click\\\", (e) => {\\n            e.stopPropagation();\\n            wechatSocial.classList.toggle(\\\"is-active\\\");\\n          });\\n\\n          document.addEventListener(\\\"click\\\", () => {\\n            wechatSocial.classList.remove(\\\"is-active\\\");\\n          });\\n        }\"",
+  "StartLine": "571",
+  "TargetContent": "\"        // WeChat QR Code Modal control\\n        const wechatBtn = shell.querySelector(\\\".marketing-polished-social-wechat\\\");\\n        const wechatModal = document.getElementById(\\\"wechat-modal\\\");\\n        const closeModal = wechatModal ? wechatModal.querySelector(\\\".marketing-modal-close\\\") : null;\\n\\n        if (wechatBtn && wechatModal) {\\n          wechatBtn.addEventListener(\\\"click\\\", (e) => {\\n            e.preventDefault();\\n            wechatModal.classList.add(\\\"is-open\\\");\\n            wechatModal.setAttribute(\\\"aria-hidden\\\", \\\"false\\\");\\n          });\\n        }\\n\\n        if (closeModal && wechatModal) {\\n          closeModal.addEventListener(\\\"click\\\", () => {\\n            wechatModal.classList.remove(\\\"is-open\\\");\\n            wechatModal.setAttribute(\\\"aria-hidden\\\", \\\"true\\\");\\n          });\\n\\n          wechatModal.addEventListener(\\\"click\\\", (e) => {\\n            if (e.target === wechatModal) {\\n              wechatModal.classList.remove(\\\"is-open\\\");\\n              wechatModal.setAttribute(\\\"aria-hidden\\\", \\\"true\\\");\\n            }\\n          });\\n        }\"",
+  "TargetFile": "\"d:\\\\CodeWorkspace\\\\电脑桌宠\\\\public\\\\marketing.html\"",
+  "toolAction": "\"Updating script section in marketing.html with popover toggle\"",
+  "toolSummary": "\"Edit marketing.html\""
+}

@@ -1,0 +1,9 @@
+[2] Conv: 0dafbcfb-5ae3-4ea5-82ab-911f34d336e2, Line: 326, Tool: replace_file_content, Created At: 2026-05-30T01:42:04Z
+========================================================
+StartLine: 168, EndLine: 183
+TargetContent:
+"          {/* Layer 2: Floating Starry Objects & Side Pets with Parallax */}\n          <div\n            className=\"marketing-layer marketing-layer-stars-wrapper\"\n            style={{ transform: `translate3d(var(--parallax-stars-x), var(--parallax-stars-y), 0) scale(0.82)` }}\n          >\n            <div className=\"marketing-layer-stars-inner\" />\n          </div>\n\n          {/* Layer 3: Central Planet & Peek Cat with Parallax */}\n          <div\n            className=\"marketing-layer marketing-layer-earth-wrapper\"\n            style={{ transform: `translate3d(var(--parallax-earth-x), var(--parallax-earth-y), 0) scale(0.82)` }}\n          >\n            <div className=\"marketing-layer-earth-inner\" />\n          </div>"
+ReplacementContent:
+"          {/* Layer 2: Floating Starry Objects & Side Pets with Parallax */}\n          <div\n            className=\"marketing-layer marketing-layer-stars-wrapper\"\n            style={{ transform: `translate3d(var(--parallax-stars-x), var(--parallax-stars-y), 0)` }}\n          >\n            <div className=\"marketing-layer-stars-inner\" />\n          </div>\n\n          {/* Layer 3: Central Planet & Peek Cat with Parallax */}\n          <div\n            className=\"marketing-layer marketing-layer-earth-wrapper\"\n            style={{ transform: `translate3d(var(--parallax-earth-x), var(--parallax-earth-y), 0)` }}\n          >\n            <div className=\"marketing-layer-earth-inner\" />\n          </div>"
+
+========================================================

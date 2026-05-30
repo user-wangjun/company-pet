@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./vite.svg" type="image/svg+xml" />
+    <link rel="preload" as="image" href="./marketing-assets/marketing-morning.png" />
+    <link rel="preload" as="image" href="./marketing-assets/wechat-qrcode.jpg" />
+    <title>愈心桌宠</title>
+    <style>
+      :root {
+        font-family:
+          "Microsoft YaHei", Inter, Avenir, Helvetica, Arial, sans-serif;
+        color: #25151b;
+        background: #f8ecf1;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        user-select: none;
+      }
+
+      .marketing-page {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #f8ecf1;
+      }
+
+      .marketing-stage-shell {
+        position: relative;
+        width: calc(100vw - 24px);
+        height: calc(100vh - 24px);
+        margin: 12px;
+        overflow: hidden;
+        border: 2px solid #2c2024;
+        border-radius: 12px;
+        background: #ffffff;
+        box-sizing: border-box;
+        isolation: isolate;
+      }
+
+      .marketing-morning-art {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .marketing-cloud-surge {
+        position: absolute;
+        z-index: 2;
+        left: -8%;
+        right: -8%;
+        bottom: -5%;
+        height: 45%;
+        overflow: hidden;
+        pointer-events: none;
+        opacity: 0.72;
+        mix-blend-mode: screen;
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          rgba(0, 0, 0, 0.18) 22%,
+          rgba(0, 0, 0, 0.86) 48%,
+          #000000 100%
+        );
+        mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          rgba(0, 0, 0, 0.18) 22%,
+          rgba(0, 0, 0, 0.86) 48%,
+          #000000 100%
+        );
+      }
+
+      .marketing-cloud-surge-layer {
+        position: absolute;
+        display: block;
+        border-radius: 48% 48% 0 0;
+        background-repeat: repeat-x;
+        background-size: 72% 100%;
+        filter: blur(8px);
+        transform-origin: center bottom;
+        transition:
+          transform 180ms linear,
+          opacity 180ms linear,
+          background-position 180ms linear;
+        will-change: transform, opacity, background-position;
+      }
+
+      .marketing-cloud-surge-layer-a {
+        inset: 7% -10% -20%;
+        opacity: 0.58;
+        background-image:
+          radial-gradient(ellipse at 8% 72%, rgba(167, 153, 255, 0.55) 0 12%, transparent 31%),
+          radial-gradient(ellipse at 23% 64%, rgba(255, 184, 232, 0.56) 0 15%, transparent 34%),
+          radial-gradient(ellipse at 39% 74%, rgba(255, 230, 190, 0.42) 0 11%, transparent 28%),
+          radial-gradient(ellipse at 56% 66%, rgba(194, 166, 255, 0.58) 0 16%, transparent 36%),
+          radial-gradient(ellipse at 75% 72%, rgba(255, 188, 231, 0.5) 0 14%, transparent 34%),
+          radial-gradient(ellipse at 92% 68%, rgba(255, 238, 198, 0.42) 0 11%, transparent 31%);
+        background-position: var(--cloud-a-bg, 0% 0%);
+        opacity: var(--cloud-a-opacity, 0.58);
+        transform: translate3d(var(--cloud-a-x, -1.4%), var(--cloud-a-y, 0.5%), 0)
+          scaleX(var(--cloud-a-scale-x, 1.05))
+          scaleY(var(--cloud-a-scale-y, 1.02));
+      }
+
+      .marketing-cloud-surge-layer-b {
+        inset: 16% -13% -18%;
+        opacity: 0.48;
+        background-size: 64% 100%;
+        background-image:
+          radial-gradient(ellipse at 12% 68%, rgba(112, 132, 255, 0.4) 0 14%, transparent 34%),
+          radial-gradient(ellipse at 31% 76%, rgba(216, 160, 255, 0.46) 0 17%, transparent 37%),
+          radial-gradient(ellipse at 51% 66%, rgba(255, 210, 228, 0.42) 0 13%, transparent 31%),
+          radial-gradient(ellipse at 70% 76%, rgba(145, 139, 255, 0.38) 0 16%, transparent 35%),
+          radial-gradient(ellipse at 91% 70%, rgba(255, 222, 187, 0.34) 0 12%, transparent 30%);
+        filter: blur(13px);
+        background-position: var(--cloud-b-bg, 0% 0%);
+        opacity: var(--cloud-b-opacity, 0.46);
+        transform: translate3d(var(--cloud-b-x, 1.8%), var(--cloud-b-y, 0.9%), 0)
+          scaleX(var(--cloud-b-scale-x, 1.08))
+          scaleY(var(--cloud-b-scale-y, 1));
+      }
+
+      .marketing-cloud-surge-layer-c {
+        inset: 31% -18% -18%;
+        opacity: 0.34;
+        background-size: 58% 100%;
+        background-image:
+          radial-gradient(ellipse at 6% 72%, rgba(255, 255, 255, 0.38) 0 10%, transparent 28%),
+          radial-gradient(ellipse at 26% 70%, rgba(255, 178, 228, 0.3) 0 13%, transparent 31%),
+          radial-gradient(ellipse at 48% 78%, rgba(156, 160, 255, 0.32) 0 15%, transparent 34%),
+          radial-gradient(ellipse at 67% 70%, rgba(255, 242, 206, 0.32) 0 11%, transparent 28%),
+          radial-gradient(ellipse at 88% 76%, rgba(202, 166, 255, 0.34) 0 15%, transparent 34%);
+        filter: blur(18px);
+        background-position: var(--cloud-c-bg, 0% 0%);
+        opacity: var(--cloud-c-opacity, 0.32);
+        transform: translate3d(var(--cloud-c-x, -0.8%), var(--cloud-c-y, 0.6%), 0)
+          scaleX(var(--cloud-c-scale-x, 1.06))
+          scaleY(var(--cloud-c-scale-y, 1.05));
+      }
+
+      .marketing-morning-socials {
+        position: absolute;
+        z-index: 7;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .marketing-morning-hit {
+        position: absolute;
+        z-index: 7;
+        display: block;
+        border: 0;
+        background: transparent;
+        color: transparent;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      .marketing-morning-brand-hit {
+        left: 1.7%;
+        top: 2.2%;
+        width: 16%;
+        height: 7.3%;
+      }
+
+      .marketing-morning-discord,
+      .marketing-morning-x,
+      .marketing-morning-wechat,
+      .marketing-morning-qq {
+        top: 2.6%;
+        width: 5.6%;
+        height: 7.4%;
+      }
+
+      .marketing-morning-discord {
+        left: 70.5%;
+      }
+
+      .marketing-morning-x {
+        left: 76%;
+      }
+
+      .marketing-morning-wechat {
+        left: 81.5%;
+      }
+
+      .marketing-morning-qq {
+        left: 87%;
+      }
+
+      .marketing-morning-user {
+        left: 93%;
+        top: 1.7%;
+        width: 5.1%;
+        height: 8.8%;
+      }
+
+      .marketing-morning-hit:focus-visible {
+        outline: 2px solid rgba(239, 79, 126, 0.75);
+        outline-offset: 2px;
+        border-radius: 8px;
+      }
+
+      .marketing-wechat-popover {
+        position: absolute;
+        top: calc(100% + 12px);
+        left: 50%;
+        width: 170px;
+        box-sizing: border-box;
+        padding: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        background: rgba(30, 30, 34, 0.96);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.34);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-50%) translateY(8px) scale(0.94);
+        transition:
+          opacity 220ms ease,
+          transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .marketing-wechat-popover img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+      }
+
+      .marketing-wechat-popover-text {
+        display: block;
+        margin-top: 8px;
+        color: rgba(255, 255, 255, 0.74);
+        font-size: 12px;
+        line-height: 1.2;
+        text-align: center;
+      }
+
+      .marketing-morning-wechat:hover .marketing-wechat-popover,
+      .marketing-morning-wechat.is-active .marketing-wechat-popover {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+
+      .marketing-toast {
+        position: fixed;
+        z-index: 30;
+        top: 30px;
+        left: 50%;
+        padding: 11px 24px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #ef4f7e 0%, #ff6c8f 100%);
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: 0 15px 35px rgba(239, 79, 126, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-50%) translateY(-16px);
+        transition:
+          opacity 220ms ease,
+          transform 220ms ease;
+      }
+
+      .marketing-toast.is-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .marketing-screen-reader-text {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .marketing-cloud-surge-layer {
+          transform: none !important;
+          transition: none !important;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .marketing-stage-shell {
+          width: calc(100vw - 14px);
+          height: calc(100vh - 14px);
+          margin: 7px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="marketing-page">
+      <section class="marketing-stage-shell marketing-morning-shell" aria-label="愈心桌宠宣传首页">
+        <img
+          class="marketing-morning-art"
+          src="./marketing-assets/marketing-morning.png"
+          width="1672"
+          height="941"
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+
+        <div class="marketing-cloud-surge" data-cloud-surge="active" aria-hidden="true">
+          <span class="marketing-cloud-surge-layer marketing-cloud-surge-layer-a"></span>
+          <span class="marketing-cloud-surge-layer marketing-cloud-surge-layer-b"></span>
+          <span class="marketing-cloud-surge-layer marketing-cloud-surge-layer-c"></span>
+        </div>
+
+        <a class="marketing-morning-hit marketing-morning-brand-hit" href="./marketing.html" aria-label="愈心桌宠首页"></a>
+
+        <nav class="marketing-morning-socials" aria-label="社交入口">
+          <a class="marketing-morning-hit marketing-morning-discord" href="https://discord.gg/AEQqraAtER" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord"></a>
+          <button class="marketing-morning-hit marketing-morning-x" type="button" aria-label="X" title="X"></button>
+          <button class="marketing-morning-hit marketing-morning-wechat" type="button" aria-label="微信" title="微信">
+            <span class="marketing-wechat-popover">
+              <img src="./marketing-assets/wechat-qrcode.jpg" alt="微信二维码" />
+              <span class="marketing-wechat-popover-text">扫码加入微信群</span>
+            </span>
+          </button>
+          <button class="marketing-morning-hit marketing-morning-qq" type="button" aria-label="QQ" title="QQ"></button>
+          <button class="marketing-morning-hit marketing-morning-user" type="button" aria-label="用户头像" title="用户头像"></button>
+        </nav>
+
+        <div class="marketing-toast" role="status" aria-live="polite">亟待展示</div>
+        <h1 class="marketing-screen-reader-text">愈心桌宠</h1>
+        <p class="marketing-screen-reader-text">彩色星空主视觉</p>
+        <p class="marketing-screen-reader-text">宇宙星球主视觉</p>
+      </section>
+    </main>
+    <script>
+      (() => {
+        const shell = document.querySelector(".marketing-stage-shell");
+        if (!shell) return;
+
+        const setCloudSurgeFrame = (cloudSurge, elapsed) => {
+          const set = (name, value) => cloudSurge.style.setProperty(name, value);
+          const a = Math.sin(elapsed * 0.62);
+          const b = Math.cos(elapsed * 0.48);
+          const c = Math.sin(elapsed * 0.38 + 1.4);
+
+          set("--cloud-a-x", `${(-1.4 + a * 2.6).toFixed(3)}%`);
+          set("--cloud-a-y", `${(0.5 - b * 1.4).toFixed(3)}%`);
+          set("--cloud-a-scale-x", `${(1.05 + b * 0.045).toFixed(3)}`);
+          set("--cloud-a-scale-y", `${(1.02 + a * 0.06).toFixed(3)}`);
+          set("--cloud-a-opacity", `${(0.58 + c * 0.08).toFixed(3)}`);
+          set("--cloud-a-bg", `${(elapsed * 2.1).toFixed(2)}% 0%`);
+
+          set("--cloud-b-x", `${(1.8 - b * 3.1).toFixed(3)}%`);
+          set("--cloud-b-y", `${(0.9 + a * 1.1).toFixed(3)}%`);
+          set("--cloud-b-scale-x", `${(1.08 + a * 0.055).toFixed(3)}`);
+          set("--cloud-b-scale-y", `${(1.0 + c * 0.08).toFixed(3)}`);
+          set("--cloud-b-opacity", `${(0.46 + b * 0.07).toFixed(3)}`);
+          set("--cloud-b-bg", `${(-elapsed * 1.7).toFixed(2)}% 0%`);
+
+          set("--cloud-c-x", `${(-0.8 + c * 2.2).toFixed(3)}%`);
+          set("--cloud-c-y", `${(0.6 - a * 1.3).toFixed(3)}%`);
+          set("--cloud-c-scale-x", `${(1.06 + c * 0.05).toFixed(3)}`);
+          set("--cloud-c-scale-y", `${(1.05 + b * 0.09).toFixed(3)}`);
+          set("--cloud-c-opacity", `${(0.32 + a * 0.06).toFixed(3)}`);
+          set("--cloud-c-bg", `${(elapsed * 1.25).toFixed(2)}% 0%`);
+        };
+
+        const cloudSurge = shell.querySelector(".marketing-cloud-surge");
+        const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+        if (cloudSurge && !prefersReducedMotion) {
+          const startedAt = window.performance.now();
+          const updateCloudSurge = () => {
+            setCloudSurgeFrame(cloudSurge, (window.performance.now() - startedAt) / 1000);
+          };
+
+          updateCloudSurge();
+          window.setInterval(updateCloudSurge, 120);
+        }
+
+        const wechatSocial = shell.querySelector(".marketing-morning-wechat");
+        if (wechatSocial) {
+          wechatSocial.addEventListener("click", (event) => {
+            event.stopPropagation();
+            wechatSocial.classList.toggle("is-active");
+          });
+
+          document.addEventListener("click", () => {
+            wechatSocial.classList.remove("is-active");
+          });
+        }
+
+        const toastEl = shell.querySelector(".marketing-toast");
+        let toastTimer = 0;
+        const showToast = () => {
+          if (!toastEl) return;
+          toastEl.classList.add("is-visible");
+          window.clearTimeout(toastTimer);
+          toastTimer = window.setTimeout(() => {
+            toastEl.classList.remove("is-visible");
+          }, 2200);
+        };
+
+        const pendingButtons = [
+          shell.querySelector(".marketing-morning-x"),
+          shell.querySelector(".marketing-morning-qq"),
+          shell.querySelector(".marketing-morning-user"),
+        ];
+
+        pendingButtons.forEach((button) => {
+          if (!button) return;
+          button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            showToast();
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

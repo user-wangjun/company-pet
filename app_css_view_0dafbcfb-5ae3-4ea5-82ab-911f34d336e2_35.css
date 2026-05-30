@@ -1,0 +1,176 @@
+Created At: 2026-05-29T16:26:54Z
+Completed At: 2026-05-29T16:26:54Z
+File Path: `file:///D:/CodeWorkspace/%E7%94%B5%E8%84%91%E6%A1%8C%E5%AE%A0/src/App.css`
+Total Lines: 1453
+Total Bytes: 26848
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: :root {
+2:   font-family:
+3:     "Microsoft YaHei", Inter, Avenir, Helvetica, Arial, sans-serif;
+4:   color: #2d1b12;
+5:   background: transparent;
+6:   font-synthesis: none;
+7:   text-rendering: optimizeLegibility;
+8:   -webkit-font-smoothing: antialiased;
+9:   -moz-osx-font-smoothing: grayscale;
+10:   -webkit-text-size-adjust: 100%;
+11: }
+12: 
+13: html,
+14: body,
+15: #root {
+16:   width: 100%;
+17:   height: 100%;
+18:   margin: 0;
+19:   overflow: hidden;
+20:   background: transparent;
+21: }
+22: 
+23: body {
+24:   user-select: none;
+25: }
+26: 
+27: button {
+28:   font: inherit;
+29: }
+30: 
+31: .pet-shell {
+32:   position: relative;
+33:   width: 100vw;
+34:   height: 100vh;
+35:   overflow: hidden;
+36:   background: transparent;
+37:   cursor: grab;
+38: }
+39: 
+40: .pet-shell:active {
+41:   cursor: grabbing;
+42: }
+43: 
+44: .pet-shell.platform-open {
+45:   background: #f4f7f2;
+46:   cursor: default;
+47: }
+48: 
+49: .pet-hit-area {
+50:   position: absolute;
+51:   z-index: 0;
+52:   left: 24px;
+53:   top: 118px;
+54:   width: 117px;
+55:   height: 91px;
+56:   border-radius: 50%;
+57:   background: transparent;
+58: }
+59: 
+60: .platform-open .pet-hit-area,
+61: .platform-open .pet-canvas,
+62: .platform-open .bubble {
+63:   display: none;
+64: }
+65: 
+66: .pet-canvas {
+67:   position: absolute;
+68:   inset: 0;
+69:   z-index: 1;
+70:   pointer-events: none;
+71: }
+72: 
+73: .pet-canvas canvas {
+74:   display: block;
+75:   width: 100%;
+76:   height: 100%;
+77:   pointer-events: none;
+78: }
+79: 
+80: .bubble {
+81:   position: absolute;
+82:   z-index: 4;
+83:   left: 50%;
+84:   bottom: var(--p
+<truncated 16088 bytes>
+   background: transparent;
+719:   cursor: pointer;
+720:   transform: translate(var(--float-x), var(--float-y));
+721:   transition:
+722:     transform 180ms ease-out,
+723:     filter 180ms ease;
+724: }
+725: 
+726: .marketing-pet:hover {
+727:   filter: drop-shadow(0 12px 16px rgba(255, 120, 150, 0.24));
+728:   transform: translate(var(--float-x), var(--float-y)) rotate(-4deg) scale(1.06);
+729: }
+730: 
+731: .marketing-pet-name {
+732:   position: absolute;
+733:   width: 1px;
+734:   height: 1px;
+735:   overflow: hidden;
+736:   clip: rect(0 0 0 0);
+737:   white-space: nowrap;
+738: }
+739: 
+740: .marketing-pet-peek-cat {
+741:   left: 34%;
+742:   top: 8%;
+743:   width: 124px;
+744:   height: 122px;
+745: }
+746: 
+747: .marketing-pet-face {
+748:   position: absolute;
+749:   left: 18px;
+750:   top: 25px;
+751:   width: 86px;
+752:   height: 68px;
+753:   border: 3px solid #2f2728;
+754:   border-radius: 47% 47% 42% 42%;
+755:   background: #ffffff;
+756: }
+757: 
+758: .marketing-pet-face::before {
+759:   position: absolute;
+760:   left: 26px;
+761:   top: 28px;
+762:   width: 7px;
+763:   height: 7px;
+764:   border-radius: 50%;
+765:   background: #2f2728;
+766:   box-shadow: 28px 0 0 #2f2728;
+767:   content: "";
+768: }
+769: 
+770: .marketing-pet-face::after {
+771:   position: absolute;
+772:   left: 39px;
+773:   top: 40px;
+774:   width: 12px;
+775:   height: 8px;
+776:   border-bottom: 2px solid #2f2728;
+777:   border-radius: 50%;
+778:   content: "";
+779: }
+780: 
+781: .marketing-pet-ear {
+782:   position: absolute;
+783:   z-index: -1;
+784:   top: 11px;
+785:   width: 28px;
+786:   height: 28px;
+787:   border: 3px solid #2f2728;
+788:   border-radius: 8px 8px 0 0;
+789:   background: #ffffff;
+790:   transform: rotate(45deg);
+791: }
+792: 
+793: .marketing-pet-ear-left {
+794:   left: 29px;
+795: }
+796: 
+797: .marketing-pet-ear-right {
+798:   right: 30px;
+799: }
+800: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

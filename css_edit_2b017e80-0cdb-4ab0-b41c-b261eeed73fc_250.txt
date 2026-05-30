@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Shifting pet-hit-area vertical top offset in App.css from 58px to 118px to maintain perfect alignment with the cat.\"",
+  "EndLine": "47",
+  "Instruction": "\"Update top offset of pet-hit-area to 118px\"",
+  "ReplacementContent": "\"  left: 24px;\\n  top: 118px;\\n  width: 117px;\"",
+  "StartLine": "43",
+  "TargetContent": "\"  left: 24px;\\n  top: 58px;\\n  width: 117px;\"",
+  "TargetFile": "\"d:\\\\Users\\\\Desktop\\\\电脑桌宠\\\\src\\\\App.css\"",
+  "toolAction": "\"Updating hit area vertical position\"",
+  "toolSummary": "\"Replace hit area vertical top\""
+}

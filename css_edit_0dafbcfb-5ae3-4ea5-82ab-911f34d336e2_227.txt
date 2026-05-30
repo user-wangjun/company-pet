@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Apply transform-origin and bottom offset to React layer wrappers in App.css\"",
+  "EndLine": "1330",
+  "Instruction": "\"Add transform-origin: center bottom to stars-wrapper and earth-wrapper, transform-origin: center bottom and transform: scale(0.82) to hotspots overlay, and bottom: -25px to clouds-wrapper in App.css\"",
+  "ReplacementContent": "\".marketing-layer-stars-wrapper,\\n.marketing-layer-earth-wrapper,\\n.marketing-layer-clouds-wrapper {\\n  z-index: 2;\\n  pointer-events: none;\\n  transition: transform 0.15s ease-out;\\n  transform-origin: center bottom;\\n}\\n\\n.marketing-layer-earth-wrapper {\\n  z-index: 3;\\n}\\n\\n.marketing-layer-clouds-wrapper {\\n  z-index: 4;\\n  bottom: -25px;\\n}\\n\\n.marketing-hotspots-overlay {\\n  position: absolute;\\n  inset: 0;\\n  z-index: 10;\\n  pointer-events: none;\\n  transform-origin: center bottom;\\n}\"",
+  "StartLine": "1315",
+  "TargetContent": "\".marketing-layer-stars-wrapper,\\n.marketing-layer-earth-wrapper,\\n.marketing-layer-clouds-wrapper {\\n  z-index: 2;\\n  pointer-events: none;\\n  transition: transform 0.15s ease-out;\\n}\\n\\n.marketing-layer-earth-wrapper {\\n  z-index: 3;\\n}\\n\\n.marketing-layer-clouds-wrapper {\\n  z-index: 4;\\n}\"",
+  "TargetFile": "\"D:\\\\CodeWorkspace\\\\电脑桌宠\\\\src\\\\App.css\"",
+  "toolAction": "\"Updating layer wrapper styles in App.css\"",
+  "toolSummary": "\"Edit App.css style\""
+}

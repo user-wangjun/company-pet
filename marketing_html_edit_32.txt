@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Fix missing newline between floaters keyframe closing brace and cloud-drift-a keyframe.\"",
+  "EndLine": "327",
+  "Instruction": "\"Add proper newline spacing between the two keyframe blocks\"",
+  "ReplacementContent": "\"      }\\n\\n      @keyframes cloud-drift-a {\"",
+  "StartLine": "327",
+  "TargetContent": "\"      }      @keyframes cloud-drift-a {\"",
+  "TargetFile": "\"D:\\\\CodeWorkspace\\\\电脑桌宠\\\\public\\\\marketing.html\"",
+  "toolAction": "\"Fixing formatting\"",
+  "toolSummary": "\"Keyframe spacing fix\""
+}

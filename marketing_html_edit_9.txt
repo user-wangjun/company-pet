@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Move clouds 30px further down (bottom: -155px) in marketing.html.\"",
+  "EndLine": "197",
+  "Instruction": "\"Change bottom: -125px to bottom: -155px in .marketing-layer-clouds in marketing.html.\"",
+  "ReplacementContent": "\"      .marketing-layer-clouds {\\n        z-index: 4;\\n        background-image: url(\\\"./marketing-assets/yuxin-clouds.png?v=2\\\");\\n        animation: marketing-clouds-sway 9s ease-in-out infinite;\\n        pointer-events: none;\\n        bottom: -155px;\\n        background-size: 115% auto;\\n      }\"",
+  "StartLine": "185",
+  "TargetContent": "\"      .marketing-layer-clouds {\\n        z-index: 4;\\n        background-image: url(\\\"./marketing-assets/yuxin-clouds.png?v=2\\\");\\n        animation: marketing-clouds-sway 9s ease-in-out infinite;\\n        pointer-events: none;\\n        bottom: -125px;\\n        background-size: 115% auto;\\n      }\"",
+  "TargetFile": "\"d:\\\\CodeWorkspace\\\\电脑桌宠\\\\public\\\\marketing.html\"",
+  "toolAction": "\"Updating clouds offset in marketing.html\"",
+  "toolSummary": "\"Editing file\""
+}

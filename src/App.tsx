@@ -20,6 +20,8 @@ import {
   Texture,
 } from "pixi.js";
 import "./App.css";
+import MarketingPage from "./marketing/MarketingPage";
+import { isMarketingRoute } from "./marketing/marketingContent";
 import type {
   DesktopIconBounds,
   DesktopIconInteractionState,
@@ -195,7 +197,7 @@ function sliceRowFrames(
   );
 }
 
-function App() {
+function DesktopPetApp() {
   const pixiHost = useRef<HTMLDivElement>(null);
   const spriteRef = useRef<AnimatedSprite | null>(null);
   const animationsRef = useRef<Record<AnimationName, Texture[]> | null>(null);
@@ -1208,6 +1210,17 @@ function App() {
       )}
     </main>
   );
+}
+
+function App() {
+  const pathname =
+    typeof window === "undefined" ? "/" : window.location.pathname;
+
+  if (isMarketingRoute(pathname)) {
+    return <MarketingPage />;
+  }
+
+  return <DesktopPetApp />;
 }
 
 export default App;
