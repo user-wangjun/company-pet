@@ -1,11 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import {
   MARKETING_FILE_NAME,
+  WINDOWS_DOWNLOAD_URL,
   socialLinks,
   type SocialLink,
 } from "./marketingContent";
+import { startCloudSurgeMotion } from "./cloudSurgeMotion";
 
 const MARKETING_MORNING_ART = "./marketing-assets/marketing-morning.png";
+const MARKETING_MORNING_BLINK_ART =
+  "./marketing-assets/marketing-morning-blink.png";
+const MARKETING_XIAOJU_TAIL_CLEAR_ART =
+  "./marketing-assets/marketing-xiaoju-tail-clear.png";
+const MARKETING_XIAOJU_TAIL_ART =
+  "./marketing-assets/marketing-xiaoju-tail.png";
 const WECHAT_QRCODE_ART = "./marketing-assets/wechat-qrcode.jpg";
 
 function MarketingMorningHit({
@@ -13,11 +21,13 @@ function MarketingMorningHit({
   isWeChatActive,
   onWeChatToggle,
   onToast,
+  onDownload,
 }: {
   link: SocialLink;
   isWeChatActive: boolean;
   onWeChatToggle: () => void;
-  onToast: () => void;
+  onToast: (message: string) => void;
+  onDownload: () => void;
 }) {
   const className = `marketing-morning-hit marketing-morning-${link.icon}`;
 
@@ -54,15 +64,35 @@ function MarketingMorningHit({
     );
   }
 
+  if (link.behavior === "download") {
+    return (
+      <button
+        className={className}
+        type="button"
+        aria-label={link.label}
+        title="下载 Windows 安装包"
+        onClick={(event) => {
+          event.stopPropagation();
+          onDownload();
+        }}
+      >
+        <span className="marketing-morning-download-label">下载</span>
+      </button>
+    );
+  }
+
+  const toastMessage = link.toastMessage ?? "亟待展示";
+
   return (
     <button
       className={className}
       type="button"
       aria-label={link.label}
       title={link.label}
+      data-toast-message={toastMessage}
       onClick={(event) => {
         event.stopPropagation();
-        onToast();
+        onToast(toastMessage);
       }}
     />
   );
@@ -71,6 +101,8 @@ function MarketingMorningHit({
 function MarketingPage() {
   const [isWeChatActive, setIsWeChatActive] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState("亟待展示");
+  const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false);
   const toastTimerRef = useRef<number | null>(null);
   const cloudSurgeRef = useRef<HTMLDivElement | null>(null);
   const homeHref =
@@ -101,48 +133,11 @@ function MarketingPage() {
       return undefined;
     }
 
-    const startedAt = window.performance.now();
-    const setLayerProperty = (name: string, value: string) => {
-      cloudSurge.style.setProperty(name, value);
-    };
-
-    const setCloudSurgeFrame = () => {
-      const elapsed = (window.performance.now() - startedAt) / 1000;
-      const a = Math.sin(elapsed * 0.62);
-      const b = Math.cos(elapsed * 0.48);
-      const c = Math.sin(elapsed * 0.38 + 1.4);
-
-      setLayerProperty("--cloud-a-x", `${(-1.4 + a * 2.6).toFixed(3)}%`);
-      setLayerProperty("--cloud-a-y", `${(0.5 - b * 1.4).toFixed(3)}%`);
-      setLayerProperty("--cloud-a-scale-x", `${(1.05 + b * 0.045).toFixed(3)}`);
-      setLayerProperty("--cloud-a-scale-y", `${(1.02 + a * 0.06).toFixed(3)}`);
-      setLayerProperty("--cloud-a-opacity", `${(0.58 + c * 0.08).toFixed(3)}`);
-      setLayerProperty("--cloud-a-bg", `${(elapsed * 2.1).toFixed(2)}% 0%`);
-
-      setLayerProperty("--cloud-b-x", `${(1.8 - b * 3.1).toFixed(3)}%`);
-      setLayerProperty("--cloud-b-y", `${(0.9 + a * 1.1).toFixed(3)}%`);
-      setLayerProperty("--cloud-b-scale-x", `${(1.08 + a * 0.055).toFixed(3)}`);
-      setLayerProperty("--cloud-b-scale-y", `${(1.0 + c * 0.08).toFixed(3)}`);
-      setLayerProperty("--cloud-b-opacity", `${(0.46 + b * 0.07).toFixed(3)}`);
-      setLayerProperty("--cloud-b-bg", `${(-elapsed * 1.7).toFixed(2)}% 0%`);
-
-      setLayerProperty("--cloud-c-x", `${(-0.8 + c * 2.2).toFixed(3)}%`);
-      setLayerProperty("--cloud-c-y", `${(0.6 - a * 1.3).toFixed(3)}%`);
-      setLayerProperty("--cloud-c-scale-x", `${(1.06 + c * 0.05).toFixed(3)}`);
-      setLayerProperty("--cloud-c-scale-y", `${(1.05 + b * 0.09).toFixed(3)}`);
-      setLayerProperty("--cloud-c-opacity", `${(0.32 + a * 0.06).toFixed(3)}`);
-      setLayerProperty("--cloud-c-bg", `${(elapsed * 1.25).toFixed(2)}% 0%`);
-    };
-
-    setCloudSurgeFrame();
-    const cloudSurgeTimer = window.setInterval(setCloudSurgeFrame, 120);
-
-    return () => {
-      window.clearInterval(cloudSurgeTimer);
-    };
+    return startCloudSurgeMotion(cloudSurge);
   }, []);
 
-  const showToast = () => {
+  const showToast = (message: string) => {
+    setToastMessage(message);
     setIsToastVisible(true);
     if (toastTimerRef.current !== null) {
       window.clearTimeout(toastTimerRef.current);
@@ -152,9 +147,25 @@ function MarketingPage() {
     }, 2200);
   };
 
+  const handleDownloadClick = () => {
+    setIsDownloadDialogOpen(true);
+  };
+
+  const handleDownloadConfirm = () => {
+    setIsDownloadDialogOpen(false);
+    window.open(WINDOWS_DOWNLOAD_URL, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDownloadCancel = () => {
+    setIsDownloadDialogOpen(false);
+  };
+
   return (
     <>
       <link rel="preload" as="image" href={MARKETING_MORNING_ART} />
+      <link rel="preload" as="image" href={MARKETING_MORNING_BLINK_ART} />
+      <link rel="preload" as="image" href={MARKETING_XIAOJU_TAIL_CLEAR_ART} />
+      <link rel="preload" as="image" href={MARKETING_XIAOJU_TAIL_ART} />
       <link rel="preload" as="image" href={WECHAT_QRCODE_ART} />
       <main className="marketing-page">
         <section
@@ -164,6 +175,33 @@ function MarketingPage() {
           <img
             className="marketing-morning-art"
             src={MARKETING_MORNING_ART}
+            width="1672"
+            height="941"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+          />
+          <img
+            className="marketing-morning-art marketing-morning-blink-art"
+            src={MARKETING_MORNING_BLINK_ART}
+            width="1672"
+            height="941"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+          />
+          <img
+            className="marketing-morning-art marketing-xiaoju-tail-clear-art"
+            src={MARKETING_XIAOJU_TAIL_CLEAR_ART}
+            width="1672"
+            height="941"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+          />
+          <img
+            className="marketing-morning-art marketing-xiaoju-tail-art"
+            src={MARKETING_XIAOJU_TAIL_ART}
             width="1672"
             height="941"
             alt=""
@@ -196,6 +234,7 @@ function MarketingPage() {
                 isWeChatActive={isWeChatActive}
                 onWeChatToggle={() => setIsWeChatActive((active) => !active)}
                 onToast={showToast}
+                onDownload={handleDownloadClick}
               />
             ))}
           </nav>
@@ -205,13 +244,59 @@ function MarketingPage() {
             role="status"
             aria-live="polite"
           >
-            亟待展示
+            {toastMessage}
           </div>
           <h1 className="marketing-screen-reader-text">愈心桌宠</h1>
           <p className="marketing-screen-reader-text">彩色星空主视觉</p>
           <p className="marketing-screen-reader-text">宇宙星球主视觉</p>
         </section>
       </main>
+
+      {isDownloadDialogOpen && (
+        <div
+          className="download-dialog-overlay"
+          onClick={handleDownloadCancel}
+          role="presentation"
+        >
+          <div
+            className="download-dialog"
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="download-dialog-title"
+            aria-describedby="download-dialog-desc"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="download-dialog-icon" aria-hidden="true">
+              🖥️
+            </div>
+            <h2 id="download-dialog-title" className="download-dialog-title">
+              下载 Windows 安装包
+            </h2>
+            <p id="download-dialog-desc" className="download-dialog-desc">
+              此安装包仅适用于 <strong>Windows 系统（64位）</strong>。
+              <br />
+              请确认你的电脑是 Windows 操作系统后再下载。
+            </p>
+            <div className="download-dialog-actions">
+              <button
+                className="download-dialog-btn download-dialog-btn-cancel"
+                type="button"
+                onClick={handleDownloadCancel}
+              >
+                取消
+              </button>
+              <button
+                className="download-dialog-btn download-dialog-btn-confirm"
+                type="button"
+                onClick={handleDownloadConfirm}
+                autoFocus
+              >
+                确认，开始下载
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -33,11 +33,18 @@ describe("MarketingPage", () => {
     expect(html).toContain("宇宙星球主视觉");
     expect(html).toContain("marketing-stage-shell");
     expect(html).toContain("marketing-morning-art");
+    expect(html).toContain("marketing-morning-blink-art");
+    expect(html).toContain("marketing-xiaoju-tail-clear-art");
+    expect(html).toContain("marketing-xiaoju-tail-art");
     expect(html).toContain("marketing-morning-hit");
     expect(html).toContain("marketing-cloud-surge");
     expect(html).toContain("marketing-cloud-surge-layer");
     expect(html).toContain("data-cloud-surge");
     expect(html).toContain("marketing-morning.png");
+    expect(html).toContain("marketing-morning-blink.png");
+    expect(html).toContain("marketing-xiaoju-tail-clear.png");
+    expect(html).toContain("marketing-xiaoju-tail.png");
+    expect(html).toContain("marketing-xiaoju-tail-art");
     expect(html).not.toContain("marketing-motion-floaters");
     expect(html).not.toContain("marketing-motion-clouds");
     expect(html).not.toContain("marketing-cloud-flow");
@@ -45,7 +52,7 @@ describe("MarketingPage", () => {
     expect(html).not.toContain("yuxin-floating-motion.png");
     expect(html).not.toContain("yuxin-clouds-clean.png");
     expect(html).not.toContain("marketing-cloud-surge-roll");
-    expect(html).not.toContain("下载");
+    expect(html).toContain("下载");
   });
 
   test("keeps the morning topbar hit targets available", () => {
@@ -60,6 +67,8 @@ describe("MarketingPage", () => {
     expect(html).toContain("marketing-morning-wechat");
     expect(html).toContain("marketing-morning-qq");
     expect(html).toContain("marketing-morning-user");
+    expect(html).toContain("marketing-morning-download");
+    expect(html).toContain('data-toast-message="亟待展示"');
   });
 
   test("wires social clicks to the requested destinations and placeholders", () => {

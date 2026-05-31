@@ -1,11 +1,15 @@
 export const MARKETING_ROUTE_PATH = "/marketing";
 export const MARKETING_FILE_NAME = "marketing.html";
 
+export const WINDOWS_DOWNLOAD_URL =
+  "https://github.com/user-wangjun/company-pet/releases/latest/download/%E6%84%88%E5%BF%83%E6%A1%8C%E5%AE%A0_0.1.0_x64-setup.exe";
+
 export type SocialLink = {
   label: string;
-  icon: "discord" | "x" | "wechat" | "qq" | "user";
+  icon: "discord" | "download" | "x" | "wechat" | "qq" | "user";
   href?: string;
-  behavior: "link" | "wechat" | "toast";
+  behavior: "link" | "wechat" | "toast" | "download";
+  toastMessage?: string;
 };
 
 export function isMarketingRoute(pathname: string): boolean {
@@ -23,6 +27,11 @@ export const socialLinks: SocialLink[] = [
     icon: "discord",
     href: "https://discord.gg/AEQqraAtER",
     behavior: "link",
+  },
+  {
+    label: "下载",
+    icon: "download",
+    behavior: "download",
   },
   { label: "X", icon: "x", behavior: "toast" },
   { label: "微信", icon: "wechat", behavior: "wechat" },

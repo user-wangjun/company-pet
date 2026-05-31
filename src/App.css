@@ -713,6 +713,52 @@ button {
   user-select: none;
 }
 
+.marketing-morning-blink-art {
+  z-index: 4;
+  opacity: 0;
+  animation: marketing-xiaoju-blink 15s linear 2.4s infinite;
+}
+
+.marketing-xiaoju-tail-clear-art {
+  z-index: 5;
+}
+
+.marketing-xiaoju-tail-art {
+  z-index: 6;
+  transform-origin: 31.8% 32.2%;
+  animation: marketing-xiaoju-tail-sway 4.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes marketing-xiaoju-blink {
+  0%,
+  93.8%,
+  96.4%,
+  100% {
+    opacity: 0;
+  }
+
+  94.7%,
+  95.4% {
+    opacity: 1;
+  }
+}
+
+@keyframes marketing-xiaoju-tail-sway {
+  0%,
+  100% {
+    transform: rotate(-0.8deg);
+  }
+
+  45% {
+    transform: rotate(1.8deg);
+  }
+
+  72% {
+    transform: rotate(0.3deg);
+  }
+}
+
 .marketing-cloud-surge {
   position: absolute;
   z-index: 2;
@@ -748,11 +794,8 @@ button {
   background-size: 72% 100%;
   filter: blur(8px);
   transform-origin: center bottom;
-  transition:
-    transform 180ms linear,
-    opacity 180ms linear,
-    background-position 180ms linear;
-  will-change: transform, opacity, background-position;
+  contain: paint;
+  will-change: transform, opacity;
 }
 
 .marketing-cloud-surge-layer-a {
@@ -765,11 +808,11 @@ button {
     radial-gradient(ellipse at 56% 66%, rgba(194, 166, 255, 0.58) 0 16%, transparent 36%),
     radial-gradient(ellipse at 75% 72%, rgba(255, 188, 231, 0.5) 0 14%, transparent 34%),
     radial-gradient(ellipse at 92% 68%, rgba(255, 238, 198, 0.42) 0 11%, transparent 31%);
-  background-position: var(--cloud-a-bg, 0% 0%);
   opacity: var(--cloud-a-opacity, 0.58);
-  transform: translate3d(var(--cloud-a-x, -1.4%), var(--cloud-a-y, 0.5%), 0)
-    scaleX(var(--cloud-a-scale-x, 1.05))
-    scaleY(var(--cloud-a-scale-y, 1.02));
+  transform: var(
+    --cloud-a-transform,
+    translate3d(-1.4%, 0.5%, 0) scale3d(1.05, 1.02, 1)
+  );
 }
 
 .marketing-cloud-surge-layer-b {
@@ -783,11 +826,11 @@ button {
     radial-gradient(ellipse at 70% 76%, rgba(145, 139, 255, 0.38) 0 16%, transparent 35%),
     radial-gradient(ellipse at 91% 70%, rgba(255, 222, 187, 0.34) 0 12%, transparent 30%);
   filter: blur(13px);
-  background-position: var(--cloud-b-bg, 0% 0%);
   opacity: var(--cloud-b-opacity, 0.46);
-  transform: translate3d(var(--cloud-b-x, 1.8%), var(--cloud-b-y, 0.9%), 0)
-    scaleX(var(--cloud-b-scale-x, 1.08))
-    scaleY(var(--cloud-b-scale-y, 1));
+  transform: var(
+    --cloud-b-transform,
+    translate3d(1.8%, 0.9%, 0) scale3d(1.08, 1, 1)
+  );
 }
 
 .marketing-cloud-surge-layer-c {
@@ -801,11 +844,11 @@ button {
     radial-gradient(ellipse at 67% 70%, rgba(255, 242, 206, 0.32) 0 11%, transparent 28%),
     radial-gradient(ellipse at 88% 76%, rgba(202, 166, 255, 0.34) 0 15%, transparent 34%);
   filter: blur(18px);
-  background-position: var(--cloud-c-bg, 0% 0%);
   opacity: var(--cloud-c-opacity, 0.32);
-  transform: translate3d(var(--cloud-c-x, -0.8%), var(--cloud-c-y, 0.6%), 0)
-    scaleX(var(--cloud-c-scale-x, 1.06))
-    scaleY(var(--cloud-c-scale-y, 1.05));
+  transform: var(
+    --cloud-c-transform,
+    translate3d(-0.8%, 0.6%, 0) scale3d(1.06, 1.05, 1)
+  );
 }
 
 .marketing-morning-socials {
@@ -846,6 +889,42 @@ button {
   left: 70.5%;
 }
 
+.marketing-morning-download {
+  left: calc(70.5% - clamp(52px, 6.9%, 92px) - 8px);
+  top: 2.9%;
+  display: flex;
+  width: clamp(52px, 6.9%, 92px);
+  height: clamp(30px, 5.8%, 44px);
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  color: #2c2024;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 8px 18px rgba(44, 32, 36, 0.16);
+  backdrop-filter: blur(8px);
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.marketing-morning-download:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 22px rgba(44, 32, 36, 0.2);
+  transform: translateY(-1px);
+}
+
+.marketing-morning-download-label {
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 .marketing-morning-x {
   left: 76%;
 }
@@ -872,8 +951,148 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .marketing-morning-blink-art {
+    opacity: 0 !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .marketing-xiaoju-tail-art {
+    animation: none !important;
+    transform: none !important;
+  }
+
   .marketing-cloud-surge-layer {
     transform: none !important;
-    transition: none !important;
   }
+}
+
+/* ─── Download Confirmation Dialog ─── */
+
+.download-dialog-overlay {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(7, 24, 93, 0.55);
+  backdrop-filter: blur(6px);
+  animation: download-overlay-fadein 220ms ease forwards;
+}
+
+@keyframes download-overlay-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.download-dialog {
+  position: relative;
+  width: min(420px, calc(100vw - 48px));
+  box-sizing: border-box;
+  padding: 36px 32px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 20px;
+  background: linear-gradient(
+    168deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(248, 236, 241, 0.98) 100%
+  );
+  box-shadow:
+    0 24px 56px rgba(7, 24, 93, 0.28),
+    0 6px 16px rgba(239, 79, 126, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  text-align: center;
+  animation: download-dialog-enter 320ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes download-dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.download-dialog-icon {
+  font-size: 44px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.download-dialog-title {
+  margin: 0 0 12px;
+  color: #2c2024;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.download-dialog-desc {
+  margin: 0 0 24px;
+  color: #5a4350;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.download-dialog-desc strong {
+  color: #ef4f7e;
+  font-weight: 700;
+}
+
+.download-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.download-dialog-btn {
+  min-width: 110px;
+  min-height: 42px;
+  padding: 0 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.download-dialog-btn-cancel {
+  border: 1px solid rgba(44, 32, 36, 0.18);
+  background: rgba(255, 255, 255, 0.82);
+  color: #5a4350;
+}
+
+.download-dialog-btn-cancel:hover {
+  background: rgba(248, 236, 241, 0.95);
+  transform: translateY(-1px);
+}
+
+.download-dialog-btn-confirm {
+  border: 1px solid rgba(239, 79, 126, 0.3);
+  background: linear-gradient(135deg, #ef4f7e 0%, #ff6c8f 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(239, 79, 126, 0.3);
+}
+
+.download-dialog-btn-confirm:hover {
+  background: linear-gradient(135deg, #e8447a 0%, #fb5e84 100%);
+  box-shadow: 0 8px 22px rgba(239, 79, 126, 0.4);
+  transform: translateY(-1px);
+}
+
+.download-dialog-btn-confirm:focus-visible,
+.download-dialog-btn-cancel:focus-visible {
+  outline: 2px solid rgba(239, 79, 126, 0.75);
+  outline-offset: 2px;
 }
