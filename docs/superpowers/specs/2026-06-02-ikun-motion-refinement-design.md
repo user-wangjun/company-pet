@@ -6,7 +6,7 @@ Refine the existing `ikun` desktop-pet package using the approved route 1: match
 
 This pass focuses on the user's newly confirmed action references:
 
-- `D:/Users/Desktop/9997f7334b7e9e4acf436a73e3a84149.jpg` -> row 3 `bie-ganmao`, with an added bubble.
+- `D:/Users/Desktop/9997f7334b7e9e4acf436a73e3a84149.jpg` -> row 3 `bie-ganmao`.
 - `D:/Users/Desktop/5a424dcef6de752289def3554032d2e7.jpg` -> row 1 `tieshankao`.
 - `D:/Users/Desktop/13307dea98bb06e28b95f690ee47327e.jpg` -> row 7 `step-back`.
 
@@ -66,14 +66,10 @@ Reference image: `D:/Users/Desktop/9997f7334b7e9e4acf436a73e3a84149.jpg`.
 
 Use the first reference's front-facing red-scarf sequence. The row remains no-ball. The action should read as cold-weather reminder: front idle, hand lifts toward scarf/mouth, hand-to-mouth hold, small cough/reminder beat, recover.
 
-The user requested a bubble. Implement it as a small attached, opaque, hard-edged bubble near the raised hand or mouth area. It should be visually connected to the gesture and stay inside the 192 x 208 frame. Use no readable text in the first implementation so the bubble remains clean at desktop-pet scale and does not create extraction artifacts. If text is later requested, it should become a separate explicit design change.
-
 Acceptance details:
 
 - Red scarf is visible and consistent across the row.
 - The raised arm replaces the down-arm layer in lift/hold frames.
-- Bubble appears only in the reminder/hold frames, not every frame.
-- Bubble does not cover the eyes, hand pose, or scarf silhouette.
 - No basketball in any frame.
 
 ### Row 7: `step-back`
