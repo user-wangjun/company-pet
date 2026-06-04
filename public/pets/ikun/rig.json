@@ -1,0 +1,258 @@
+{
+  "version": 2,
+  "id": "ikun-source-puppet-rig",
+  "status": "route1-v11-no-bubble",
+  "sourceImages": {
+    "model": "reference.png",
+    "restPose": "static-frame.png",
+    "characterViews": "references/character-views-ref.png"
+  },
+  "route1References": {
+    "tieshankao": "references/tieshankao-ref.jpg",
+    "bieGanmao": "references/bie-ganmao-ref.jpg",
+    "stepBack": "references/step-back-ref.jpg",
+    "characterViews": "references/character-views-ref.png"
+  },
+  "actionPoseTracks": {
+    "tieshankao": [
+      {"frame": 0, "view": "front-three-quarter", "root": {"x": 0, "y": 0, "r": 0}, "spine": {"r": 0}, "phase": "neutral", "basketball": "none"},
+      {"frame": 1, "view": "front-three-quarter", "root": {"x": -2, "y": 8, "r": -4}, "spine": {"r": -6}, "phase": "crouch", "basketball": "none"},
+      {"frame": 2, "view": "front-three-quarter", "root": {"x": -5, "y": 10, "r": -10}, "spine": {"r": -12}, "phase": "load-left", "basketball": "none"},
+      {"frame": 3, "view": "back-three-quarter", "root": {"x": 6, "y": 9, "r": 13}, "spine": {"r": 16}, "phase": "shoulder-drive", "basketball": "none"},
+      {"frame": 4, "view": "back-three-quarter", "root": {"x": 12, "y": 8, "r": 18}, "spine": {"r": 20}, "phase": "impact-hold", "basketball": "none"},
+      {"frame": 5, "view": "front-three-quarter", "root": {"x": 6, "y": 7, "r": 8}, "spine": {"r": 10}, "phase": "recoil", "basketball": "none"},
+      {"frame": 6, "view": "front-three-quarter", "root": {"x": 2, "y": 3, "r": 3}, "spine": {"r": 4}, "phase": "recover", "basketball": "none"},
+      {"frame": 7, "view": "front-three-quarter", "root": {"x": 0, "y": 0, "r": 0}, "spine": {"r": 0}, "phase": "neutral", "basketball": "none"}
+    ],
+    "bieGanmao": [
+      {"frame": 0, "view": "front", "root": {"x": 0, "y": 0, "r": 0}, "rightArm": "down", "phase": "front-idle", "basketball": "none"},
+      {"frame": 1, "view": "front", "root": {"x": 0, "y": 2, "r": -1}, "rightArm": "lift-to-scarf", "phase": "raise-hand", "basketball": "none"},
+      {"frame": 2, "view": "front", "root": {"x": 0, "y": 4, "r": -2}, "rightArm": "hand-near-mouth", "phase": "hand-to-mouth", "basketball": "none"},
+      {"frame": 3, "view": "front", "root": {"x": -1, "y": 5, "r": -3}, "rightArm": "hand-near-mouth", "phase": "cough-reminder", "basketball": "none"},
+      {"frame": 4, "view": "front", "root": {"x": 1, "y": 4, "r": 2}, "rightArm": "hand-near-mouth", "phase": "hold-reminder", "basketball": "none"},
+      {"frame": 5, "view": "front", "root": {"x": 1, "y": 2, "r": 1}, "rightArm": "lower-from-mouth", "phase": "lower-hand", "basketball": "none"},
+      {"frame": 6, "view": "front", "root": {"x": 0, "y": 1, "r": 0}, "rightArm": "down", "phase": "recover", "basketball": "none"},
+      {"frame": 7, "view": "front", "root": {"x": 0, "y": 0, "r": 0}, "rightArm": "down", "phase": "front-idle", "basketball": "none"}
+    ],
+    "stepBack": [
+      {"frame": 0, "view": "front", "root": {"x": 0, "y": 0, "r": 0}, "rightFoot": "plant", "basketball": {"state": "held-right", "rotationDegrees": 0}},
+      {"frame": 1, "view": "front", "root": {"x": -2, "y": 2, "r": -3}, "rightFoot": "gather", "basketball": {"state": "dribble-low", "rotationDegrees": 45}},
+      {"frame": 2, "view": "front-three-quarter", "root": {"x": -6, "y": 4, "r": -8}, "rightFoot": "lift", "basketball": {"state": "controlled-high", "rotationDegrees": 90}},
+      {"frame": 3, "view": "front-three-quarter", "root": {"x": -12, "y": 5, "r": -12}, "rightFoot": "step-back", "basketball": {"state": "held-right-side", "rotationDegrees": 135}},
+      {"frame": 4, "view": "front-three-quarter", "root": {"x": -16, "y": 4, "r": -10}, "rightFoot": "back-plant", "basketball": {"state": "held-right-side", "rotationDegrees": 180}},
+      {"frame": 5, "view": "front-three-quarter", "root": {"x": -10, "y": 3, "r": -6}, "rightFoot": "slide-recover", "basketball": {"state": "held-right", "rotationDegrees": 225}},
+      {"frame": 6, "view": "front", "root": {"x": -3, "y": 1, "r": -2}, "rightFoot": "recover", "basketball": {"state": "recover", "rotationDegrees": 270}},
+      {"frame": 7, "view": "front", "root": {"x": 0, "y": 0, "r": 0}, "rightFoot": "plant", "basketball": {"state": "held-right", "rotationDegrees": 315}}
+    ]
+  },
+  "views": [
+    {
+      "id": "front",
+      "displayName": "正面",
+      "source": "reference.png front model plus references/character-views-ref.png character-view identity lock",
+      "status": "available",
+      "rule": "Use for front and slight three-quarter actions."
+    },
+    {
+      "id": "back",
+      "displayName": "背面",
+      "source": "reference.png back model plus references/character-views-ref.png character-view identity lock",
+      "status": "derive-before-animation",
+      "rule": "Back-facing actions must use the back model. Do not mirror the front face."
+    },
+    {
+      "id": "left",
+      "displayName": "左侧",
+      "source": "reference.png side model plus references/character-views-ref.png character-view identity lock",
+      "status": "derive-before-animation",
+      "rule": "Use for step-back or throw frames when the body turns sideways."
+    },
+    {
+      "id": "right",
+      "displayName": "右侧",
+      "source": "reference.png side model mirrored only after cleanup plus references/character-views-ref.png character-view identity lock",
+      "status": "derive-before-animation",
+      "rule": "Mirroring is allowed for side silhouette, but face and strap details must be corrected."
+    }
+  ],
+  "parts": [
+    "root-shadow",
+    "head",
+    "hair",
+    "face",
+    "neck",
+    "torso-shirt",
+    "overalls-body",
+    "left-strap",
+    "right-strap",
+    "pendant",
+    "left-upper-arm",
+    "left-forearm",
+    "left-hand",
+    "right-upper-arm",
+    "right-forearm",
+    "right-hand",
+    "hips",
+    "left-thigh",
+    "left-shin",
+    "left-foot",
+    "right-thigh",
+    "right-shin",
+    "right-foot",
+    "basketball"
+  ],
+  "joints": [
+    {
+      "id": "root",
+      "part": "hips",
+      "channels": ["translateX", "translateY", "rotateZ"],
+      "notes": "Main body offset for step-back, lean, crouch, and landing."
+    },
+    {
+      "id": "spine",
+      "part": "torso-shirt",
+      "channels": ["rotateZ", "scaleY"],
+      "notes": "Controls shoulder lean, chest pop, and tie-shan-kao body hit."
+    },
+    {
+      "id": "neck",
+      "part": "head",
+      "channels": ["translateY", "rotateZ"],
+      "notes": "Small nods and recoil. Keep head attached to neck."
+    },
+    {
+      "id": "left-shoulder",
+      "part": "left-upper-arm",
+      "channels": ["rotateZ"],
+      "notes": "Arm swing, hold, throw wind-up."
+    },
+    {
+      "id": "left-elbow",
+      "part": "left-forearm",
+      "channels": ["rotateZ"],
+      "notes": "Ball carry and gesture bend."
+    },
+    {
+      "id": "left-wrist",
+      "part": "left-hand",
+      "channels": ["rotateZ", "translateX", "translateY"],
+      "notes": "Hand follows ball contact frames."
+    },
+    {
+      "id": "right-shoulder",
+      "part": "right-upper-arm",
+      "channels": ["rotateZ"],
+      "notes": "Arm swing, dribble, and shoulder hit."
+    },
+    {
+      "id": "right-elbow",
+      "part": "right-forearm",
+      "channels": ["rotateZ"],
+      "notes": "Dribble bounce and throw release."
+    },
+    {
+      "id": "right-wrist",
+      "part": "right-hand",
+      "channels": ["rotateZ", "translateX", "translateY"],
+      "notes": "Hand follows ball contact frames."
+    },
+    {
+      "id": "left-hip",
+      "part": "left-thigh",
+      "channels": ["rotateZ"],
+      "notes": "Under-leg dribble clearance and step-back footwork."
+    },
+    {
+      "id": "left-knee",
+      "part": "left-shin",
+      "channels": ["rotateZ"],
+      "notes": "Crouch and foot plant."
+    },
+    {
+      "id": "left-ankle",
+      "part": "left-foot",
+      "channels": ["rotateZ", "translateY"],
+      "notes": "Toe lift during back step."
+    },
+    {
+      "id": "right-hip",
+      "part": "right-thigh",
+      "channels": ["rotateZ"],
+      "notes": "Under-leg dribble clearance and lean support."
+    },
+    {
+      "id": "right-knee",
+      "part": "right-shin",
+      "channels": ["rotateZ"],
+      "notes": "Crouch and foot plant."
+    },
+    {
+      "id": "right-ankle",
+      "part": "right-foot",
+      "channels": ["rotateZ", "translateY"],
+      "notes": "Toe lift during side or back step."
+    },
+    {
+      "id": "basketball-prop",
+      "part": "basketball",
+      "channels": ["translateX", "translateY", "rotateZ", "scale"],
+      "notes": "Whole-object ball motion only. Never split the ball into fragments."
+    }
+  ],
+  "propRules": {
+    "basketball": {
+      "isWholeProp": true,
+      "fragmentationAllowed": false,
+      "canBeHidden": true,
+      "canBeAttachedToHand": true,
+      "canPassUnderLeg": true,
+      "canBeThrown": true,
+      "states": [
+        "hidden",
+        "held-left",
+        "held-left-low",
+        "held-right",
+        "held-right-side",
+        "dribble-low",
+        "dribble-high",
+        "controlled-high",
+        "under-leg",
+        "recover-low",
+        "release-near-hand",
+        "recover",
+        "airborne"
+      ],
+      "visibilityRule": "Use actions.json and action-board.json. Do not draw a basketball in source ranges marked none.",
+      "rotationRule": "When the ball moves, rotate the complete basketball layer as one object and record frame angles for planned actions."
+    }
+  },
+  "strapRules": {
+    "front": {
+      "leftStrap": "Anchor from left shoulder to overalls waist. It can stretch slightly during shoulder and spine rotation.",
+      "rightStrap": "Anchor from right shoulder to overalls waist. It can stretch slightly during shoulder and spine rotation."
+    },
+    "back": {
+      "shape": "Use back-derived crossed shoulder straps from the reference model.",
+      "rule": "Back-view actions must show back straps and back hair shape, not front face or front overalls highlights."
+    },
+    "motion": "Straps follow spine and shoulder joints, but remain attached to the overalls body."
+  },
+  "constraints": [
+    {
+      "id": "series-continuity",
+      "rule": "Rows in the same action series should be played by sequenceIndex unless a future runtime explicitly branches."
+    },
+    {
+      "id": "back-view-only",
+      "rule": "Any action marked back must use the back view layers, not a rotated front model."
+    },
+    {
+      "id": "basketball-source-truth",
+      "rule": "No-ball source segments stay no-ball. Mixed segments must list visible and absent frames."
+    },
+    {
+      "id": "whole-ball",
+      "rule": "Basketball is one prop layer. It may rotate, translate, scale, hide, or leave the frame, but it may not break apart."
+    }
+  ]
+}

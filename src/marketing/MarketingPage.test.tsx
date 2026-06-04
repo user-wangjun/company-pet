@@ -21,6 +21,7 @@ describe("marketing homepage route", () => {
     expect(isMarketingRoute("/")).toBe(false);
     expect(isMarketingRoute("/dist/index.html")).toBe(false);
     expect(isMarketingRoute("/platform")).toBe(false);
+    expect(isMarketingRoute("/marketing-3d")).toBe(false);
   });
 });
 

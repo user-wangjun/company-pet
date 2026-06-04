@@ -1,0 +1,515 @@
+{
+  "sourceVideo": {
+    "url": "https://www.bilibili.com/video/BV1ct4y1n7t9/",
+    "title": "【4K顶级画质60FPS】蔡徐坤《只因你太美》原版完整版现场！一晃眼6年过去了",
+    "durationSeconds": 59.43
+  },
+  "retargeting": "Video keyframes and the user-provided three-view model were translated into ikun sprite poses. Source frames are pose references only; no video pixels are copied into final sprites.",
+  "revision": "route1-v11-no-bubble",
+  "rows": {
+    "0": [
+      {
+        "frame": 0,
+        "videoTime": 0.0,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 1,
+        "videoTime": 1.0,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 2,
+        "videoTime": 2.0,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 3,
+        "videoTime": 3.0,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 4,
+        "videoTime": 4.0,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 5,
+        "videoTime": 5.0,
+        "view": "front",
+        "basketball": "none"
+      }
+    ],
+    "1": [
+      {
+        "frame": 0,
+        "prototypeAction": "tieshankao",
+        "view": "front-three-quarter",
+        "basketball": "none",
+        "motionPhase": "neutral"
+      },
+      {
+        "frame": 1,
+        "prototypeAction": "tieshankao",
+        "view": "front-three-quarter",
+        "basketball": "none",
+        "motionPhase": "crouch"
+      },
+      {
+        "frame": 2,
+        "prototypeAction": "tieshankao",
+        "view": "front-three-quarter",
+        "basketball": "none",
+        "motionPhase": "load-left"
+      },
+      {
+        "frame": 3,
+        "prototypeAction": "tieshankao",
+        "view": "back-three-quarter",
+        "basketball": "none",
+        "motionPhase": "shoulder-drive"
+      },
+      {
+        "frame": 4,
+        "prototypeAction": "tieshankao",
+        "view": "back-three-quarter",
+        "basketball": "none",
+        "motionPhase": "impact-hold"
+      },
+      {
+        "frame": 5,
+        "prototypeAction": "tieshankao",
+        "view": "front-three-quarter",
+        "basketball": "none",
+        "motionPhase": "recoil"
+      },
+      {
+        "frame": 6,
+        "prototypeAction": "tieshankao",
+        "view": "front-three-quarter",
+        "basketball": "none",
+        "motionPhase": "recover"
+      },
+      {
+        "frame": 7,
+        "prototypeAction": "tieshankao",
+        "view": "front-three-quarter",
+        "basketball": "none",
+        "motionPhase": "neutral"
+      }
+    ],
+    "2": [
+      {
+        "frame": 0,
+        "prototypeAction": "back-turn-no-ball",
+        "view": "back",
+        "basketball": "none",
+        "sourceImage": "reference.png back model"
+      },
+      {
+        "frame": 1,
+        "prototypeAction": "back-turn-no-ball",
+        "view": "back",
+        "basketball": "none",
+        "sourceImage": "reference.png back model"
+      },
+      {
+        "frame": 2,
+        "prototypeAction": "back-turn-no-ball",
+        "view": "back",
+        "basketball": "none",
+        "sourceImage": "reference.png back model"
+      },
+      {
+        "frame": 3,
+        "prototypeAction": "back-turn-no-ball",
+        "view": "back",
+        "basketball": "none",
+        "sourceImage": "reference.png back model"
+      },
+      {
+        "frame": 4,
+        "prototypeAction": "back-turn-no-ball",
+        "view": "back",
+        "basketball": "none",
+        "sourceImage": "reference.png back model"
+      },
+      {
+        "frame": 5,
+        "prototypeAction": "back-turn-no-ball",
+        "view": "back",
+        "basketball": "none",
+        "sourceImage": "reference.png back model"
+      },
+      {
+        "frame": 6,
+        "prototypeAction": "back-turn-no-ball",
+        "view": "back",
+        "basketball": "none",
+        "sourceImage": "reference.png back model"
+      },
+      {
+        "frame": 7,
+        "prototypeAction": "back-turn-no-ball",
+        "view": "back",
+        "basketball": "none",
+        "sourceImage": "reference.png back model"
+      }
+    ],
+    "3": [
+      {
+        "frame": 0,
+        "prototypeAction": "bie-ganmao",
+        "sourceVideo": "BV1A7rmBrEWX",
+        "videoTime": 4.0,
+        "view": "front",
+        "basketball": "none",
+        "motionPhase": "front-idle"
+      },
+      {
+        "frame": 1,
+        "prototypeAction": "bie-ganmao",
+        "sourceVideo": "BV1A7rmBrEWX",
+        "videoTime": 4.5,
+        "view": "front",
+        "basketball": "none",
+        "motionPhase": "raise-hand",
+        "motionDetail": "transition frame uses replaced right arm layer instead of leaving the old down hand visible"
+      },
+      {
+        "frame": 2,
+        "prototypeAction": "bie-ganmao",
+        "sourceVideo": "BV1A7rmBrEWX",
+        "videoTime": 5.0,
+        "view": "front",
+        "basketball": "none",
+        "motionPhase": "hand-to-mouth",
+        "motionDetail": "old down-arm layer removed; connected raised sleeve brings visible hand to mouth"
+      },
+      {
+        "frame": 3,
+        "prototypeAction": "bie-ganmao",
+        "sourceVideo": "BV1A7rmBrEWX",
+        "videoTime": 6.0,
+        "view": "front",
+        "basketball": "none",
+        "motionPhase": "cough-reminder",
+        "motionDetail": "old down-arm layer removed; connected raised sleeve brings visible hand to mouth"
+      },
+      {
+        "frame": 4,
+        "prototypeAction": "bie-ganmao",
+        "sourceVideo": "BV1A7rmBrEWX",
+        "videoTime": 8.0,
+        "view": "front",
+        "basketball": "none",
+        "motionPhase": "hold-reminder",
+        "motionDetail": "old down-arm layer removed; connected raised sleeve brings visible hand to mouth"
+      },
+      {
+        "frame": 5,
+        "prototypeAction": "bie-ganmao",
+        "sourceVideo": "BV1A7rmBrEWX",
+        "videoTime": 9.0,
+        "view": "front",
+        "basketball": "none",
+        "motionPhase": "lower-hand",
+        "motionDetail": "old down-arm layer removed; connected raised sleeve brings visible hand to mouth"
+      },
+      {
+        "frame": 6,
+        "prototypeAction": "bie-ganmao",
+        "sourceVideo": "BV1A7rmBrEWX",
+        "videoTime": 10.0,
+        "view": "front",
+        "basketball": "none",
+        "motionPhase": "recover",
+        "motionDetail": "transition frame uses replaced right arm layer instead of leaving the old down hand visible"
+      },
+      {
+        "frame": 7,
+        "prototypeAction": "bie-ganmao",
+        "sourceVideo": "BV1A7rmBrEWX",
+        "videoTime": 12.0,
+        "view": "front",
+        "basketball": "none",
+        "motionPhase": "front-idle"
+      }
+    ],
+    "4": [
+      {
+        "frame": 0,
+        "prototypeAction": "under-leg-dribble",
+        "view": "front",
+        "basketball": "held-right",
+        "rotationDegrees": 0
+      },
+      {
+        "frame": 1,
+        "prototypeAction": "under-leg-dribble",
+        "view": "front",
+        "basketball": "dribble-low",
+        "rotationDegrees": 35
+      },
+      {
+        "frame": 2,
+        "prototypeAction": "under-leg-dribble",
+        "view": "front",
+        "basketball": "under-leg",
+        "rotationDegrees": 75
+      },
+      {
+        "frame": 3,
+        "prototypeAction": "under-leg-dribble",
+        "view": "front",
+        "basketball": "under-leg",
+        "rotationDegrees": 115
+      },
+      {
+        "frame": 4,
+        "prototypeAction": "under-leg-dribble",
+        "view": "front",
+        "basketball": "under-leg",
+        "rotationDegrees": 155
+      },
+      {
+        "frame": 5,
+        "prototypeAction": "under-leg-dribble",
+        "view": "front",
+        "basketball": "held-left-low",
+        "rotationDegrees": 200
+      },
+      {
+        "frame": 6,
+        "prototypeAction": "under-leg-dribble",
+        "view": "front",
+        "basketball": "recover-low",
+        "rotationDegrees": 245
+      },
+      {
+        "frame": 7,
+        "prototypeAction": "under-leg-dribble",
+        "view": "front",
+        "basketball": "held-right",
+        "rotationDegrees": 290
+      }
+    ],
+    "5": [
+      {
+        "frame": 0,
+        "videoTime": 29.7,
+        "view": "front",
+        "basketball": "none",
+        "cleanup": true
+      },
+      {
+        "frame": 1,
+        "videoTime": 30.7,
+        "view": "front",
+        "basketball": "none",
+        "cleanup": true
+      },
+      {
+        "frame": 2,
+        "videoTime": 31.7,
+        "view": "front",
+        "basketball": "none",
+        "cleanup": true
+      },
+      {
+        "frame": 3,
+        "videoTime": 32.7,
+        "view": "front",
+        "basketball": "none",
+        "cleanup": true
+      },
+      {
+        "frame": 4,
+        "videoTime": 33.7,
+        "view": "front",
+        "basketball": "none",
+        "cleanup": true
+      },
+      {
+        "frame": 5,
+        "videoTime": 34.7,
+        "view": "front",
+        "basketball": "none",
+        "cleanup": true
+      },
+      {
+        "frame": 6,
+        "videoTime": 32.7,
+        "view": "front",
+        "basketball": "none",
+        "cleanup": true
+      },
+      {
+        "frame": 7,
+        "videoTime": 31.7,
+        "view": "front",
+        "basketball": "none",
+        "cleanup": true
+      }
+    ],
+    "6": [
+      {
+        "frame": 0,
+        "prototypeAction": "throw-basketball",
+        "view": "front",
+        "basketball": "held-right",
+        "rotationDegrees": 0
+      },
+      {
+        "frame": 1,
+        "prototypeAction": "throw-basketball",
+        "view": "front",
+        "basketball": "held-right",
+        "rotationDegrees": 30
+      },
+      {
+        "frame": 2,
+        "prototypeAction": "throw-basketball",
+        "view": "front",
+        "basketball": "release-near-hand",
+        "rotationDegrees": 85
+      },
+      {
+        "frame": 3,
+        "prototypeAction": "throw-basketball",
+        "view": "front",
+        "basketball": "release-near-hand",
+        "rotationDegrees": 130
+      },
+      {
+        "frame": 4,
+        "prototypeAction": "throw-basketball",
+        "view": "front",
+        "basketball": "hidden",
+        "rotationDegrees": 130
+      },
+      {
+        "frame": 5,
+        "prototypeAction": "throw-basketball",
+        "view": "front",
+        "basketball": "hidden",
+        "rotationDegrees": 130
+      },
+      {
+        "frame": 6,
+        "prototypeAction": "throw-basketball",
+        "view": "front",
+        "basketball": "hidden",
+        "rotationDegrees": 130
+      },
+      {
+        "frame": 7,
+        "prototypeAction": "throw-basketball",
+        "view": "front",
+        "basketball": "hidden",
+        "rotationDegrees": 130
+      }
+    ],
+    "7": [
+      {
+        "frame": 0,
+        "prototypeAction": "step-back",
+        "view": "front",
+        "basketball": "held-right",
+        "rotationDegrees": 0
+      },
+      {
+        "frame": 1,
+        "prototypeAction": "step-back",
+        "view": "front",
+        "basketball": "dribble-low",
+        "rotationDegrees": 45
+      },
+      {
+        "frame": 2,
+        "prototypeAction": "step-back",
+        "view": "front",
+        "basketball": "controlled-high",
+        "rotationDegrees": 90
+      },
+      {
+        "frame": 3,
+        "prototypeAction": "step-back",
+        "view": "front",
+        "basketball": "held-right-side",
+        "rotationDegrees": 135
+      },
+      {
+        "frame": 4,
+        "prototypeAction": "step-back",
+        "view": "front",
+        "basketball": "held-right-side",
+        "rotationDegrees": 180
+      },
+      {
+        "frame": 5,
+        "prototypeAction": "step-back",
+        "view": "front",
+        "basketball": "held-right",
+        "rotationDegrees": 225
+      },
+      {
+        "frame": 6,
+        "prototypeAction": "step-back",
+        "view": "front",
+        "basketball": "recover",
+        "rotationDegrees": 270
+      },
+      {
+        "frame": 7,
+        "prototypeAction": "step-back",
+        "view": "front",
+        "basketball": "held-right",
+        "rotationDegrees": 315
+      }
+    ],
+    "8": [
+      {
+        "frame": 0,
+        "videoTime": 44.6,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 1,
+        "videoTime": 45.6,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 2,
+        "videoTime": 46.6,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 3,
+        "videoTime": 47.5,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 4,
+        "videoTime": 48.5,
+        "view": "front",
+        "basketball": "none"
+      },
+      {
+        "frame": 5,
+        "videoTime": 49.5,
+        "view": "front",
+        "basketball": "none"
+      }
+    ]
+  }
+}

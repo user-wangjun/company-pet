@@ -25,16 +25,26 @@ import { isMarketingRoute } from "./marketing/marketingContent";
 import type {
   DesktopIconBounds,
   DesktopIconInteractionState,
+  PetInteractionAction,
+  RuntimeAnimationName,
 } from "./pet-core/interaction";
 import {
   HOVER_EAT_DELAY_MS,
   findDesktopIconTarget,
+  getDesktopIconBumpWindowPosition,
   formatDesktopIconBubbleText,
   formatDesktopIconWrapBubbleText,
-  getDesktopIconHugAnimationName,
   getDesktopIconWrapWindowPosition,
   getHoverFishAnimationSequence,
+  getPetCareReminderAction,
+  getPetClickAction,
   getPetContextMenuAction,
+  getPetDesktopIconInteractionAction,
+  getPetDragEndAction,
+  getPetDragStartAction,
+  getPetHoverEatingAction,
+  getPetIdleAnimationName,
+  getPetIdleBubbleText,
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
@@ -42,6 +52,7 @@ import {
   shouldTriggerHoverEat,
   updateDesktopIconInteraction,
 } from "./pet-core/interaction";
+import { ANIMATION_ROWS } from "./pet-core/animationRows";
 import {
   PET_BUBBLE_BOTTOM_PX,
   PET_ICON_HUG_SPRITESHEET_PATH,
@@ -92,19 +103,8 @@ function randomInRange(min: number, max: number): number {
 
 const CELL_WIDTH = 192;
 const CELL_HEIGHT = 208;
-const ANIMATION_ROWS = {
-  idle: { row: 0, frames: 6, speed: 0.05, loop: true },
-  drag: { row: 1, frames: 8, speed: 0.18, loop: true },
-  tickle: { row: 3, frames: 4, speed: 0.16, loop: false },
-  fishChase: { row: 7, frames: 6, speed: 0.18, loop: false },
-  fishEat: { row: 8, frames: 6, speed: 0.14, loop: false },
-  iconHug: { row: 0, frames: 6, speed: 0.08, loop: false },
-  crouchAlert: { row: 4, frames: 5, speed: 0.12, loop: true },
-  hugFish: { row: 5, frames: 8, speed: 0.12, loop: true },
-  gnawFish: { row: 6, frames: 6, speed: 0.14, loop: true },
-} as const;
 
-type AnimationName = keyof typeof ANIMATION_ROWS;
+type AnimationName = RuntimeAnimationName;
 type PressSource = "pointer" | "mouse";
 type TauriWindow = ReturnType<typeof getCurrentWindow>;
 
@@ -374,6 +374,10 @@ function DesktopPetApp() {
   }, [activePetId, activePetManifest]);
 
   useEffect(() => {
+    setBubbleText(getPetIdleBubbleText(activePetId, getTimedDefaultBubble()));
+  }, [activePetId]);
+
+  useEffect(() => {
     const targetSize = isPlatformOpen ? PLATFORM_WINDOW_SIZE : PET_WINDOW_SIZE;
     resizeAppWindow(targetSize.width, targetSize.height);
   }, [isPlatformOpen]);
@@ -409,7 +413,7 @@ function DesktopPetApp() {
 
     saveSelectedPetId(pet.id);
     setActivePetId(pet.id);
-    setBubbleText(`${pet.displayName} 来啦。`);
+    setBubbleText(getPetIdleBubbleText(pet.id, `${pet.displayName} 来啦。`));
     recordInteraction("platform_pet_selected");
   };
 
@@ -417,22 +421,37 @@ function DesktopPetApp() {
     soundPlayerRef.current?.play(eventName);
   };
 
+  const getDefaultBubbleText = () =>
+    getPetIdleBubbleText(activePetId, getTimedDefaultBubble());
+
+  const playInteractionAction = (action: PetInteractionAction) => {
+    setBubbleText(action.bubbleText);
+    playPetSound(action.sound);
+    playAnimation(action.animation, action.durationMs);
+  };
+
   const handleClicks = () => {
     const currentCount = clickCount.current;
     clickCount.current = 0;
     clickTimer.current = null;
 
-    if (currentCount === 1) {
-      // 单击：挠痒
-      recordInteraction("click");
-      setBubbleText("哼，还行。");
-      playPetSound("tickle");
-      playAnimation("tickle", 1000);
-    } else if (currentCount === 2) {
-      // 双击：抓鱼
-      recordInteraction("double_click");
-      playHoverFishSequence();
-    } else if (currentCount >= 3) {
+    const clickAction = getPetClickAction(activePetId, currentCount);
+    if (clickAction) {
+      if (currentCount === 1) {
+        recordInteraction("click");
+      } else if (currentCount === 2) {
+        recordInteraction("double_click");
+      }
+
+      if ("sequence" in clickAction) {
+        playHoverFishSequence();
+      } else {
+        playInteractionAction(clickAction);
+      }
+      return;
+    }
+
+    if (currentCount >= 3) {
       // 三击：检查更新
       recordInteraction("triple_click");
       void checkForUpdates(true);
@@ -462,8 +481,11 @@ function DesktopPetApp() {
           isDragging: Boolean(pointerState.current?.dragging),
         })
       ) {
-        recordInteraction("hover_eat");
-        playHoverFishSequence();
+        const hoverEatingAction = getPetHoverEatingAction(activePetId);
+        if (hoverEatingAction?.sequence === "hover-fish") {
+          recordInteraction("hover_eat");
+          playHoverFishSequence();
+        }
       }
     }, HOVER_EAT_DELAY_MS);
   };
@@ -507,8 +529,8 @@ function DesktopPetApp() {
 
     if (returnAfterMs) {
       returnToIdleTimer.current = window.setTimeout(() => {
-        setBubbleText(getTimedDefaultBubble());
-        playAnimation("idle");
+        setBubbleText(getDefaultBubbleText());
+        playAnimation(getPetIdleAnimationName(activePetId));
         scheduleHoverEat();
       }, returnAfterMs);
     }
@@ -536,8 +558,8 @@ function DesktopPetApp() {
       playAnimation(eatAnimation);
 
       returnToIdleTimer.current = window.setTimeout(() => {
-        setBubbleText(getTimedDefaultBubble());
-        playAnimation("idle");
+        setBubbleText(getDefaultBubbleText());
+        playAnimation(getPetIdleAnimationName(activePetId));
       }, 1300);
     }, 950);
   };
@@ -633,9 +655,7 @@ function DesktopPetApp() {
       pointer.dragging = true;
       clearHoverEatTimer();
       recordInteraction("drag_start");
-      setBubbleText("喵？！你要带我去哪？");
-      playPetSound("drag");
-      playAnimation("drag");
+      playInteractionAction(getPetDragStartAction(activePetId));
     }
 
     if (
@@ -686,9 +706,7 @@ function DesktopPetApp() {
     }
 
     recordInteraction("drag_end");
-    setBubbleText("放这儿也行。");
-    playPetSound("drag_end");
-    playAnimation("idle", 900);
+    playInteractionAction(getPetDragEndAction(activePetId));
     window.setTimeout(probeDesktopIconInteraction, 250);
   };
 
@@ -768,8 +786,8 @@ function DesktopPetApp() {
     event.preventDefault();
     if (getPetContextMenuAction() === "keep-open") {
       recordInteraction("context_menu");
-      setBubbleText("喵？");
-      playAnimation("idle", 900);
+      setBubbleText(getPetIdleBubbleText(activePetId, "喵？"));
+      playAnimation(getPetIdleAnimationName(activePetId), 900);
     }
   };
 
@@ -798,8 +816,8 @@ function DesktopPetApp() {
     pointerState.current = null;
     recordInteraction("pointer_cancel");
     clearHoverEatTimer();
-    setBubbleText(getTimedDefaultBubble());
-    playAnimation("idle");
+    setBubbleText(getDefaultBubbleText());
+    playAnimation(getPetIdleAnimationName(activePetId));
   };
 
   const probeDesktopIconInteraction = () => {
@@ -814,16 +832,26 @@ function DesktopPetApp() {
       nextWaterCareTime.current = Math.max(nextWaterCareTime.current, nowTimestamp + 30000);
     } else if (nowTimestamp >= nextEyeCareTime.current) {
       recordInteraction("eye_care_reminder");
-      setBubbleText("看屏幕太久啦，陪小橘眺望一下窗外，放松一下眼睛吧~ 👀");
-      playPetSound("care_reminder");
-      playAnimation("idle", 8000); // 维持 8 秒
+      const careAction = getPetCareReminderAction(activePetId);
+      if (careAction) {
+        playInteractionAction(careAction);
+      } else {
+        setBubbleText("看屏幕太久啦，陪小橘眺望一下窗外，放松一下眼睛吧~ 👀");
+        playPetSound("care_reminder");
+        playAnimation("idle", 8000); // 维持 8 秒
+      }
       nextEyeCareTime.current = nowTimestamp + randomInRange(30, 50) * 60 * 1000;
       return; // 触发提醒，推迟本次吸附检测
     } else if (nowTimestamp >= nextWaterCareTime.current) {
       recordInteraction("water_care_reminder");
-      setBubbleText("（吸溜）主人，该喝杯水润润嗓子啦，不要一直盯着屏幕喵！🥛");
-      playPetSound("care_reminder");
-      playAnimation("fishChase", 8000); // 追着鱼玩去喝水，维持 8 秒
+      const careAction = getPetCareReminderAction(activePetId);
+      if (careAction) {
+        playInteractionAction(careAction);
+      } else {
+        setBubbleText("（吸溜）主人，该喝杯水润润嗓子啦，不要一直盯着屏幕喵！🥛");
+        playPetSound("care_reminder");
+        playAnimation("fishChase", 8000); // 追着鱼玩去喝水，维持 8 秒
+      }
       nextWaterCareTime.current = nowTimestamp + randomInRange(60, 90) * 60 * 1000;
       return; // 触发提醒，推迟本次吸附检测
     }
@@ -835,7 +863,9 @@ function DesktopPetApp() {
     } else if (nowTimestamp >= nextIdleQuirkTime.current) {
       const quirkRandom = Math.random();
       // 15% 概率触发，若未触发，仅推迟 5 秒再次检测
-      if (quirkRandom < 0.15) {
+      if (getPetIdleAnimationName(activePetId) !== "idle") {
+        nextIdleQuirkTime.current = nowTimestamp + randomInRange(25, 45) * 1000;
+      } else if (quirkRandom < 0.15) {
         recordInteraction("idle_quirk_triggered");
         const quirks = [
           {
@@ -907,8 +937,8 @@ function DesktopPetApp() {
           return;
         }
 
+        const desktopIconAction = getPetDesktopIconInteractionAction(activePetId);
         const target = findDesktopIconTarget(
-
           {
             x: position.x,
             y: position.y,
@@ -916,6 +946,8 @@ function DesktopPetApp() {
             height: size.height,
           },
           icons,
+          undefined,
+          desktopIconAction.animation === "drag" ? { side: "right" } : {},
         );
         const result = updateDesktopIconInteraction({
           now: Date.now(),
@@ -939,8 +971,30 @@ function DesktopPetApp() {
 
         const iconTarget = result.target;
         clearHoverEatTimer();
-        iconHugLockedUntil.current = Date.now() + 6500;
         recordInteraction("desktop_icon_interact");
+
+        if (desktopIconAction.animation !== "iconHug") {
+          iconHugLockedUntil.current =
+            Date.now() + (desktopIconAction.durationMs ?? 1800) + 1000;
+          const bumpPosition = getDesktopIconBumpWindowPosition(
+            iconTarget,
+            size,
+            scaleFactor,
+          );
+
+          void appWindow
+            .setPosition(new PhysicalPosition(bumpPosition.x, bumpPosition.y))
+            .then(() => {
+              recordInteraction("desktop_icon_shoulder_hit");
+              playInteractionAction(desktopIconAction);
+            })
+            .catch(() => {
+              recordInteraction("desktop_icon_shoulder_hit_failed");
+            });
+          return;
+        }
+
+        iconHugLockedUntil.current = Date.now() + 6500;
         setBubbleText(formatDesktopIconBubbleText(iconTarget.title));
         const wrapPosition = getDesktopIconWrapWindowPosition(iconTarget, size, scaleFactor);
         void appWindow
@@ -951,8 +1005,8 @@ function DesktopPetApp() {
             recordInteraction("desktop_icon_click_through_on");
             setBubbleText(formatDesktopIconWrapBubbleText(iconTarget.title));
             recordInteraction("desktop_icon_hug_pose");
-            playPetSound("iconHug");
-            if (playAnimation(getDesktopIconHugAnimationName())) {
+            playPetSound(desktopIconAction.sound);
+            if (playAnimation(desktopIconAction.animation)) {
               recordInteraction("desktop_icon_custom_hug_sprite");
             } else {
               recordInteraction("desktop_icon_custom_hug_sprite_missing");
@@ -1080,13 +1134,15 @@ function DesktopPetApp() {
           ),
         };
         animationsRef.current = animations;
+        const idleAnimationName = getPetIdleAnimationName(petId);
         const sprite = new AnimatedSprite({
-          textures: animations.idle,
-          animationSpeed: ANIMATION_ROWS.idle.speed,
+          textures: animations[idleAnimationName],
+          animationSpeed: ANIMATION_ROWS[idleAnimationName].speed,
           autoPlay: true,
-          loop: ANIMATION_ROWS.idle.loop,
+          loop: ANIMATION_ROWS[idleAnimationName].loop,
         });
 
+        currentAnimation.current = idleAnimationName;
         spriteRef.current = sprite;
         sprite.anchor.set(0.5, 1);
         sprite.scale.set(PET_VISUAL_SCALE);

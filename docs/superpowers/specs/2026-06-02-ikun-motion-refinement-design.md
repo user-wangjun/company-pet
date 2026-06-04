@@ -10,6 +10,10 @@ This pass focuses on the user's newly confirmed action references:
 - `D:/Users/Desktop/5a424dcef6de752289def3554032d2e7.jpg` -> row 1 `tieshankao`.
 - `D:/Users/Desktop/13307dea98bb06e28b95f690ee47327e.jpg` -> row 7 `step-back`.
 
+Additional user update on 2026-06-03:
+
+- `public/pets/ikun/references/character-views-ref.png` -> primary character-view sheet for Route 1 v11 identity and front/side/back view locking, copied from the user-provided 2026-06-03 view reference.
+
 ## Current State
 
 The package already exists at `public/pets/ikun/` and is registered in `public/pets/index.json`. Its `pet.json` points to `spritesheet.webp`, `preview.png`, `actions.json`, `rig.json`, and `action-board.json`, all relative to the pet package folder. The platform can load the package without a shared renderer change.
@@ -41,6 +45,7 @@ Do not change `DEFAULT_PET_ID`, shared renderer behavior, platform routing, or g
 Upgrade `rig.json` from a descriptive redraw note into the source of truth for motion retargeting:
 
 - Keep front, back, left, and right view rules. Back-view actions must use back hair, crossed back straps, and back-body layers rather than a mirrored front face.
+- Use the package-local `references/character-views-ref.png` as the primary identity/view lock for rows 1, 3, and 7 after copying the 2026-06-03 user-provided view sheet into the pet package.
 - Keep simple joints for root, spine, neck, shoulders, elbows, wrists, hips, knees, and ankles.
 - Add action-specific pose tracks for rows 1, 3, and 7. Each track records frame-level intent for root offset, spine lean, head angle, arm contact, leg stance, and prop visibility.
 - Keep the basketball as one whole prop layer. The ball may move, rotate, scale slightly, attach to a hand, pass under a leg, leave the visible frame, or hide. It must never fragment or leave orange residue in no-ball rows.

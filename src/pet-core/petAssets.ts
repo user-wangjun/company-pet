@@ -17,6 +17,9 @@ export type PetManifest = {
   description: string;
   spritesheetPath: string;
   previewPath?: string;
+  actionsPath?: string;
+  rigPath?: string;
+  actionBoardPath?: string;
   sounds?: PetManifestSounds;
 };
 

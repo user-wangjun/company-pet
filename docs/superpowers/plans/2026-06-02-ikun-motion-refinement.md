@@ -16,6 +16,7 @@
 - Create: `public/pets/ikun/references/bie-ganmao-ref.jpg` from `D:/Users/Desktop/9997f7334b7e9e4acf436a73e3a84149.jpg`.
 - Create: `public/pets/ikun/references/tieshankao-ref.jpg` from `D:/Users/Desktop/5a424dcef6de752289def3554032d2e7.jpg`.
 - Create: `public/pets/ikun/references/step-back-ref.jpg` from `D:/Users/Desktop/13307dea98bb06e28b95f690ee47327e.jpg`.
+- Create: `public/pets/ikun/references/character-views-ref.png` from the user-provided 2026-06-03 view reference; use it as the primary identity/view lock for rows 1, 3, and 7.
 - Modify: `public/pets/ikun/rig.json` to add route-one row pose tracks.
 - Modify: `public/pets/ikun/actions.json` to move to revision 11 and bind the new references.
 - Modify: `public/pets/ikun/action-board.json` to describe the refined row plan.
@@ -251,6 +252,7 @@ Inputs:
 public/pets/ikun/reference.png
 public/pets/ikun/static-frame.png
 public/pets/ikun/references/tieshankao-ref.jpg
+public/pets/ikun/references/character-views-ref.png
 ```
 
 Prompt:
@@ -275,6 +277,7 @@ Inputs:
 public/pets/ikun/reference.png
 public/pets/ikun/static-frame.png
 public/pets/ikun/references/bie-ganmao-ref.jpg
+public/pets/ikun/references/character-views-ref.png
 ```
 
 Prompt:
@@ -299,6 +302,7 @@ Inputs:
 public/pets/ikun/reference.png
 public/pets/ikun/static-frame.png
 public/pets/ikun/references/step-back-ref.jpg
+public/pets/ikun/references/character-views-ref.png
 ```
 
 Prompt:

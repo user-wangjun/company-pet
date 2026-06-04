@@ -4,6 +4,7 @@ import {
   DESKTOP_ICON_INTERACTION_DELAY_MS,
   HOVER_EAT_DELAY_MS,
   findDesktopIconTarget,
+  getDesktopIconBumpWindowPosition,
   formatDesktopIconBubbleText,
   formatDesktopIconWrapBubbleText,
   getDesktopIconHugAnimationName,
@@ -11,7 +12,15 @@ import {
   getDesktopIconHugLayerBounds,
   getDesktopIconWrapWindowPosition,
   getHoverFishAnimationSequence,
+  getPetCareReminderAction,
+  getPetClickAction,
   getPetContextMenuAction,
+  getPetDesktopIconInteractionAction,
+  getPetDragEndAction,
+  getPetDragStartAction,
+  getPetHoverEatingAction,
+  getPetIdleAnimationName,
+  getPetIdleBubbleText,
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
@@ -88,6 +97,70 @@ describe("desktop pet interaction rules", () => {
     expect(getHoverFishAnimationSequence()).toEqual(["fishChase", "fishEat"]);
   });
 
+  test("uses ikun-specific idle animation and self-introduction bubble", () => {
+    expect(getPetIdleAnimationName("ikun")).toBe("crouchAlert");
+    expect(getPetIdleBubbleText("ikun", "fallback bubble")).toBe(
+      "中分头，背带裤，我是ikun你记住",
+    );
+    expect(getPetIdleAnimationName("xiaoju-cat")).toBe("idle");
+    expect(getPetIdleBubbleText("xiaoju-cat", "fallback bubble")).toBe(
+      "fallback bubble",
+    );
+  });
+
+  test("maps ikun click and drag interactions to the requested action rows", () => {
+    expect(getPetDragStartAction("ikun")).toMatchObject({
+      animation: "fishChase",
+      sound: "fishChase",
+    });
+    expect(getPetDragEndAction("ikun")).toMatchObject({
+      animation: "crouchAlert",
+      bubbleText: "中分头，背带裤，我是ikun你记住",
+    });
+    expect(getPetClickAction("ikun", 1)).toMatchObject({
+      animation: "gnawFish",
+      sound: "gnawFish",
+      bubbleText: "丢球。",
+    });
+    expect(getPetClickAction("ikun", 2)).toMatchObject({
+      animation: "fishEat",
+      sound: "fishEat",
+      bubbleText: "练习收尾。",
+    });
+    expect(getPetClickAction("ikun", 3)).toBeNull();
+  });
+
+  test("keeps default pet click and drag interactions unchanged", () => {
+    expect(getPetDragStartAction("xiaoju-cat")).toMatchObject({
+      animation: "drag",
+      sound: "drag",
+    });
+    expect(getPetClickAction("xiaoju-cat", 1)).toMatchObject({
+      animation: "tickle",
+      sound: "tickle",
+      bubbleText: "哼，还行。",
+    });
+    expect(getPetClickAction("xiaoju-cat", 2)).toEqual({
+      sequence: "hover-fish",
+    });
+  });
+
+  test("does not reuse the fish eating sequence for ikun before a dedicated eating action exists", () => {
+    expect(getPetHoverEatingAction("ikun")).toBeNull();
+    expect(getPetHoverEatingAction("xiaoju-cat")).toEqual({
+      sequence: "hover-fish",
+    });
+  });
+
+  test("uses bie-ganmao for ikun care reminders", () => {
+    expect(getPetCareReminderAction("ikun")).toEqual({
+      animation: "tickle",
+      sound: "care_reminder",
+      bubbleText: "ikun们，看很久电脑了，要注意休息",
+      durationMs: 8000,
+    });
+  });
+
   test("selects the nearest desktop icon when the pet is close enough", () => {
     const target = findDesktopIconTarget(
       { x: 100, y: 80, width: 165, height: 155 },
@@ -99,6 +172,20 @@ describe("desktop pet interaction rules", () => {
 
     expect(target?.title).toBe("浏览器");
     expect(target?.key).toBe("浏览器:152:178:74:82");
+  });
+
+  test("selects only right-side desktop icons for ikun shoulder hits", () => {
+    const target = findDesktopIconTarget(
+      { x: 100, y: 80, width: 165, height: 155 },
+      [
+        { title: "左边更近", x: 130, y: 178, width: 74, height: 82 },
+        { title: "右边应用", x: 210, y: 178, width: 74, height: 82 },
+      ],
+      undefined,
+      { side: "right" },
+    );
+
+    expect(target?.title).toBe("右边应用");
   });
 
   test("ignores desktop icons beyond the interaction distance", () => {
@@ -194,6 +281,20 @@ describe("desktop pet interaction rules", () => {
     expect(getDesktopIconHugAnimationName()).toBe("iconHug");
   });
 
+  test("uses tie-shan-kao instead of icon hugging for ikun desktop icon interaction", () => {
+    expect(getPetDesktopIconInteractionAction("ikun")).toEqual({
+      animation: "drag",
+      sound: "drag",
+      bubbleText: "姬霓太美",
+      durationMs: 1800,
+    });
+    expect(getPetDesktopIconInteractionAction("xiaoju-cat")).toEqual({
+      animation: "iconHug",
+      sound: "iconHug",
+      bubbleText: "抱住了",
+    });
+  });
+
   test("positions the pet window so the icon lands in the holding pose", () => {
     expect(
       getDesktopIconWrapWindowPosition(
@@ -201,6 +302,15 @@ describe("desktop pet interaction rules", () => {
         { width: 165, height: 155 },
       ),
     ).toEqual({ x: 361, y: 206 });
+  });
+
+  test("positions ikun just left of the target icon before the shoulder hit", () => {
+    expect(
+      getDesktopIconBumpWindowPosition(
+        { title: "浏览器", x: 400, y: 300, width: 74, height: 82 },
+        { width: 165, height: 155 },
+      ),
+    ).toEqual({ x: 280, y: 207 });
   });
 
   test("places the hugged icon reveal at the held object position inside the pet window", () => {

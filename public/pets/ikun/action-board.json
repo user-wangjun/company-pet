@@ -1,0 +1,456 @@
+{
+  "version": 11,
+  "status": "route1-v11-no-bubble",
+  "notes": [
+    "Rows marked repaired-first-pass are visible in spritesheet.webp, contact-sheet.png, and row GIF previews.",
+    "Back-view row is now no-ball to avoid unrelated basketball props.",
+    "Throw row hides the ball after frame 3 so no stray floating basketball remains.",
+    "Tie-shan-kao row is now body-led and no longer uses a standalone black shoulder blob.",
+    "Unused atlas cells in shorter rows are visual padding only; actions.json keeps the real runtime frame counts.",
+    "Back-view row was full-cell rebuilt from a clean no-ball back base to remove basketball-erasure layer gaps.",
+    "Bie-ganmao row now draws a visible raised black sleeve from shoulder to mouth so the hand lift reads clearly.",
+    "Bie-ganmao v10 removes the old down-arm/hand in lift frames before drawing the raised sleeve, so the hand-to-mouth gesture is a real replacement pose instead of an overlay.",
+    "Route 1 v11 uses package-local references for rows 1, 3, and 7; row 3 has no bubble, and row 7 keeps exactly one complete basketball prop per frame."
+  ],
+  "currentAtlasRows": [
+    {
+      "row": 0,
+      "actionId": "ready-idle",
+      "seriesId": "intro-no-ball",
+      "view": "front",
+      "basketball": "none",
+      "matchStatus": "usable",
+      "review": "Source is a simple front stance, so this stays as the quiet idle base."
+    },
+    {
+      "row": 1,
+      "actionId": "tieshankao",
+      "seriesId": "body-hit-no-ball",
+      "view": "front-three-quarter",
+      "basketball": "none",
+      "matchStatus": "planned-route1-v11",
+      "review": "Route 1 v11 no-ball tie-shan-kao from references/tieshankao-ref.jpg: crouch, load-left, shoulder/back drive, impact-hold, recoil, recover."
+    },
+    {
+      "row": 2,
+      "actionId": "back-turn-no-ball",
+      "seriesId": "back-view-no-ball",
+      "view": "back",
+      "basketball": "none",
+      "matchStatus": "repaired-first-pass",
+      "review": "Back-facing no-ball motion. The row was rebuilt from a clean gap-filled back base so the left body and arm layers are not cut away."
+    },
+    {
+      "row": 3,
+      "actionId": "bie-ganmao",
+      "seriesId": "gesture-no-ball",
+      "view": "front",
+      "basketball": "none",
+      "matchStatus": "planned-route1-v11",
+      "review": "Route 1 v11 no-ball cold-reminder gesture from references/bie-ganmao-ref.jpg: red scarf, hand to mouth, cough/remind, recover; no bubble in this pass."
+    },
+    {
+      "row": 4,
+      "actionId": "under-leg-dribble",
+      "seriesId": "basketball-under-leg",
+      "view": "front",
+      "basketball": "all",
+      "matchStatus": "implemented-first-pass",
+      "review": "Basketball is a complete rotating prop and passes through the low center under-leg path."
+    },
+    {
+      "row": 5,
+      "actionId": "ji-ni-tai-mei-dance",
+      "seriesId": "chorus-dance-no-ball",
+      "view": "front",
+      "basketball": "none",
+      "matchStatus": "implemented-first-pass-cleanup",
+      "review": "No-ball dance cleanup row. Previous fragment artifacts were removed."
+    },
+    {
+      "row": 6,
+      "actionId": "throw-basketball",
+      "seriesId": "basketball-throw",
+      "view": "front",
+      "basketball": "mixed",
+      "matchStatus": "repaired-first-pass",
+      "review": "Basketball is visible in frames 0-3 near the hand/release and hidden in frames 4-7.",
+      "basketballFrames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "absentFrames": [
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "row": 7,
+      "actionId": "step-back",
+      "seriesId": "basketball-step-back",
+      "view": "front",
+      "basketball": "all",
+      "matchStatus": "planned-route1-v11",
+      "review": "Route 1 v11 step-back from references/step-back-ref.jpg with one complete basketball prop in every frame; no fragmented or duplicate balls."
+    },
+    {
+      "row": 8,
+      "actionId": "practice-finish",
+      "seriesId": "gesture-no-ball",
+      "view": "front",
+      "basketball": "none",
+      "matchStatus": "usable",
+      "review": "No-ball closing gesture can stay as a short front-facing finish."
+    }
+  ],
+  "seriesPlayback": [
+    {
+      "seriesId": "intro-no-ball",
+      "rows": [
+        0
+      ],
+      "basketball": "none",
+      "playbackRule": "开场站定镜头没有篮球，只保留轻微呼吸和头部摆动。"
+    },
+    {
+      "seriesId": "body-hit-no-ball",
+      "rows": [
+        1
+      ],
+      "basketball": "none",
+      "playbackRule": "下沉、侧向蓄力、身体带肩顶出、撞击停顿、回弹。"
+    },
+    {
+      "seriesId": "back-view-no-ball",
+      "rows": [
+        2
+      ],
+      "basketball": "none",
+      "playbackRule": "背面无球动作；只验证背部模型和背带裤肩带，且不保留清球后的透明缺层。"
+    },
+    {
+      "seriesId": "gesture-no-ball",
+      "rows": [
+        3,
+        8
+      ],
+      "basketball": "none",
+      "playbackRule": "第 3 行参考 references/bie-ganmao-ref.jpg 做红围巾别感冒动作，本轮不加气泡；第 8 行是无球收尾摆手和点头。"
+    },
+    {
+      "seriesId": "basketball-under-leg",
+      "rows": [
+        4
+      ],
+      "basketball": "all",
+      "playbackRule": "篮球作为完整旋转道具，从右手低位穿到胯下再回到接球位。"
+    },
+    {
+      "seriesId": "chorus-dance-no-ball",
+      "rows": [
+        5
+      ],
+      "basketball": "none",
+      "playbackRule": "副歌舞步段没有篮球。本版清掉了上一版的碎片残留。"
+    },
+    {
+      "seriesId": "basketball-throw",
+      "rows": [
+        6
+      ],
+      "basketball": "mixed",
+      "playbackRule": "0-3 帧篮球靠近手部释放，4-7 帧隐藏。"
+    },
+    {
+      "seriesId": "basketball-step-back",
+      "rows": [
+        7
+      ],
+      "basketball": "all",
+      "playbackRule": "正面后撤步，每帧只有一个完整篮球道具，跟手整体旋转。"
+    }
+  ],
+  "plannedSimpleActions": [
+    {
+      "id": "tieshankao",
+      "displayName": "铁山靠",
+      "priority": 1,
+      "status": "planned-route1-v11",
+      "implementedRow": 1,
+      "view": "front-three-quarter",
+      "basketball": {
+        "mode": "none",
+        "reason": "The readable prototype is no-ball and body-led so the shoulder/body hit is clear without extra prop-like shapes."
+      },
+      "keyframes": [
+        "neutral stance",
+        "crouch preparation",
+        "pull back away from the hit side",
+        "body drives the shoulder outward",
+        "impact hold",
+        "recoil",
+        "return to neutral"
+      ],
+      "rigRequirements": [
+        "root",
+        "spine",
+        "neck",
+        "right-shoulder",
+        "right-hip",
+        "right-knee"
+      ]
+    },
+    {
+      "id": "under-leg-dribble",
+      "displayName": "胯下运球",
+      "priority": 2,
+      "status": "implemented-first-pass",
+      "implementedRow": 4,
+      "view": "front",
+      "basketball": {
+        "mode": "all",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "statesByFrame": [
+          {
+            "frame": 0,
+            "state": "held-right",
+            "rotationDegrees": 0
+          },
+          {
+            "frame": 1,
+            "state": "dribble-low",
+            "rotationDegrees": 35
+          },
+          {
+            "frame": 2,
+            "state": "under-leg",
+            "rotationDegrees": 75
+          },
+          {
+            "frame": 3,
+            "state": "under-leg",
+            "rotationDegrees": 115
+          },
+          {
+            "frame": 4,
+            "state": "under-leg",
+            "rotationDegrees": 155
+          },
+          {
+            "frame": 5,
+            "state": "held-left-low",
+            "rotationDegrees": 200
+          },
+          {
+            "frame": 6,
+            "state": "recover-low",
+            "rotationDegrees": 245
+          },
+          {
+            "frame": 7,
+            "state": "held-right",
+            "rotationDegrees": 290
+          }
+        ],
+        "sourceObservation": "第一批动作原型；篮球全程存在，并作为完整旋转道具穿过胯下。"
+      },
+      "keyframes": [
+        "right hand controls ball",
+        "knees open and body crouches",
+        "ball passes under pelvis between legs",
+        "left hand receives ball low",
+        "body rises and resets"
+      ],
+      "rigRequirements": [
+        "root",
+        "spine",
+        "left-hip",
+        "right-hip",
+        "left-knee",
+        "right-knee",
+        "basketball-prop"
+      ]
+    },
+    {
+      "id": "step-back",
+      "displayName": "后撤步",
+      "priority": 3,
+      "status": "planned-route1-v11",
+      "implementedRow": 7,
+      "view": "front",
+      "basketball": {
+        "mode": "all",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "statesByFrame": [
+          {
+            "frame": 0,
+            "state": "held-right",
+            "rotationDegrees": 0
+          },
+          {
+            "frame": 1,
+            "state": "dribble-low",
+            "rotationDegrees": 45
+          },
+          {
+            "frame": 2,
+            "state": "controlled-high",
+            "rotationDegrees": 90
+          },
+          {
+            "frame": 3,
+            "state": "held-right-side",
+            "rotationDegrees": 135
+          },
+          {
+            "frame": 4,
+            "state": "held-right-side",
+            "rotationDegrees": 180
+          },
+          {
+            "frame": 5,
+            "state": "held-right",
+            "rotationDegrees": 225
+          },
+          {
+            "frame": 6,
+            "state": "recover",
+            "rotationDegrees": 270
+          },
+          {
+            "frame": 7,
+            "state": "held-right",
+            "rotationDegrees": 315
+          }
+        ],
+        "sourceObservation": "Route 1 v11 正面后撤步，每帧只保留一个完整篮球道具。"
+      },
+      "keyframes": [
+        "front stance",
+        "front foot plants",
+        "root shifts backward",
+        "side view appears as shoulders turn",
+        "ball stays controlled near right hand",
+        "settle into ready stance"
+      ],
+      "rigRequirements": [
+        "root",
+        "spine",
+        "left-ankle",
+        "right-ankle",
+        "right-wrist",
+        "basketball-prop"
+      ]
+    },
+    {
+      "id": "throw-basketball",
+      "displayName": "丢篮球",
+      "priority": 4,
+      "status": "repaired-first-pass",
+      "implementedRow": 6,
+      "view": "front",
+      "basketball": {
+        "mode": "mixed",
+        "frames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "absentFrames": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "statesByFrame": [
+          {
+            "frame": 0,
+            "state": "held-right",
+            "rotationDegrees": 0
+          },
+          {
+            "frame": 1,
+            "state": "held-right",
+            "rotationDegrees": 30
+          },
+          {
+            "frame": 2,
+            "state": "release-near-hand",
+            "rotationDegrees": 85
+          },
+          {
+            "frame": 3,
+            "state": "release-near-hand",
+            "rotationDegrees": 130
+          },
+          {
+            "frame": 4,
+            "state": "hidden",
+            "rotationDegrees": 130
+          },
+          {
+            "frame": 5,
+            "state": "hidden",
+            "rotationDegrees": 130
+          },
+          {
+            "frame": 6,
+            "state": "hidden",
+            "rotationDegrees": 130
+          },
+          {
+            "frame": 7,
+            "state": "hidden",
+            "rotationDegrees": 130
+          }
+        ],
+        "sourceObservation": "本轮修复：只保留 0-3 帧近手释放球，4-7 帧隐藏，避免漂浮多余篮球。",
+        "visibleFrames": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "keyframes": [
+        "hold ball near body",
+        "wind-up with elbow bend",
+        "release as a complete ball prop",
+        "ball arcs upward and rotates",
+        "ball leaves frame or hides",
+        "body follows through"
+      ],
+      "rigRequirements": [
+        "root",
+        "spine",
+        "right-shoulder",
+        "right-elbow",
+        "right-wrist",
+        "basketball-prop"
+      ]
+    }
+  ]
+}

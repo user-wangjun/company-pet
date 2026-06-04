@@ -1,0 +1,66 @@
+{
+  "source": "D:\\Users\\Downloads\\微信图片_20260602085009_3582_2232.png",
+  "reference": "reference.png",
+  "cell": {
+    "width": 192,
+    "height": 208,
+    "columns": 8,
+    "rows": 9
+  },
+  "rows": [
+    {
+      "row": 0,
+      "runtime": "idle",
+      "frames": 6,
+      "source": "happy poses"
+    },
+    {
+      "row": 1,
+      "runtime": "drag",
+      "frames": 8,
+      "source": "jump poses"
+    },
+    {
+      "row": 2,
+      "runtime": "reserved running-left",
+      "frames": 8,
+      "source": "mirrored jump poses"
+    },
+    {
+      "row": 3,
+      "runtime": "tickle",
+      "frames": 8,
+      "source": "affection poses"
+    },
+    {
+      "row": 4,
+      "runtime": "crouchAlert",
+      "frames": 8,
+      "source": "jump poses"
+    },
+    {
+      "row": 5,
+      "runtime": "hugFish",
+      "frames": 8,
+      "source": "affection poses"
+    },
+    {
+      "row": 6,
+      "runtime": "gnawFish",
+      "frames": 8,
+      "source": "happy poses"
+    },
+    {
+      "row": 7,
+      "runtime": "fishChase",
+      "frames": 8,
+      "source": "active jump poses"
+    },
+    {
+      "row": 8,
+      "runtime": "fishEat",
+      "frames": 6,
+      "source": "calm happy poses"
+    }
+  ]
+}

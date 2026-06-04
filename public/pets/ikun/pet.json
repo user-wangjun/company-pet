@@ -1,0 +1,10 @@
+{
+  "id": "ikun",
+  "displayName": "ikun",
+  "description": "一个黄脸、黑发、背带裤、抱着篮球的Q版桌宠。",
+  "spritesheetPath": "spritesheet.webp",
+  "previewPath": "preview.png",
+  "actionsPath": "actions.json",
+  "rigPath": "rig.json",
+  "actionBoardPath": "action-board.json"
+}

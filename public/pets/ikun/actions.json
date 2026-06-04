@@ -1,0 +1,540 @@
+{
+  "version": 11,
+  "cell": {
+    "width": 192,
+    "height": 208,
+    "columns": 8,
+    "rows": 9
+  },
+  "notes": [
+    "Actions are prepared as art assets first. Runtime trigger assignment is intentionally left for a later pass.",
+    "Rows match the current spritesheet grid so the platform can load this pet without extra renderer changes.",
+    "This revision repairs stray basketball artifacts: back-view row is no-ball, throw row hides the ball after frame 3, and step-back uses one explicit ball prop only.",
+    "Tie-shan-kao is a no-ball body-led crouch, pullback, shoulder-drive, impact-hold, recoil loop rather than a plain lean or a standalone shoulder blob.",
+    "The back-view no-ball row was rebuilt from a clean gap-filled back base so basketball removal no longer leaves missing body layers.",
+    "Bie-ganmao now references BV1A7rmBrEWX with an explicit raised forearm: shoulder shrink, sleeve lifts hand to mouth, cough/remind, and recover."
+  ],
+  "sourceVideo": {
+    "url": "https://www.bilibili.com/video/BV1ct4y1n7t9/",
+    "title": "【4K顶级画质60FPS】蔡徐坤《只因你太美》原版完整版现场！一晃眼6年过去了",
+    "durationSeconds": 59.43,
+    "referenceOnly": true
+  },
+  "series": [
+    {
+      "id": "intro-no-ball",
+      "displayName": "开场无球站定",
+      "sourceRange": [
+        0.0,
+        5.0
+      ],
+      "rows": [
+        0
+      ],
+      "basketball": "none",
+      "notes": "开场站定镜头没有篮球，只保留轻微呼吸和头部摆动。"
+    },
+    {
+      "id": "body-hit-no-ball",
+      "displayName": "无球铁山靠",
+      "sourceRange": null,
+      "rows": [
+        1
+      ],
+      "basketball": "none",
+      "notes": "无球铁山靠：下沉、向侧面蓄力、身体带肩顶出、停顿、回弹。"
+    },
+    {
+      "id": "back-view-no-ball",
+      "displayName": "背面无球动作",
+      "sourceRange": null,
+      "rows": [
+        2
+      ],
+      "basketball": "none",
+      "notes": "使用 reference.png 的背面模型衍生；本行只验证背面动作，不再放篮球。本轮重建左侧背部和手臂图层，避免清球后透明缺口。"
+    },
+    {
+      "id": "gesture-no-ball",
+      "displayName": "无球手势收尾",
+      "sourceRange": [
+        38.6,
+        49.5
+      ],
+      "rows": [
+        3,
+        8
+      ],
+      "basketball": "none",
+      "notes": "无球手势和收尾镜头；第 3 行参考 BV1A7rmBrEWX 的红围巾别感冒动作，第 8 行是摆手和点头收尾。"
+    },
+    {
+      "id": "basketball-under-leg",
+      "displayName": "胯下运球",
+      "sourceRange": null,
+      "rows": [
+        4
+      ],
+      "basketball": "all",
+      "notes": "篮球作为完整旋转道具，从右手低位穿到胯下再回到接球位。"
+    },
+    {
+      "id": "chorus-dance-no-ball",
+      "displayName": "副歌无球舞步",
+      "sourceRange": [
+        29.7,
+        34.7
+      ],
+      "rows": [
+        5
+      ],
+      "basketball": "none",
+      "notes": "副歌舞步段没有篮球。本版清掉了上一版的碎片残留。"
+    },
+    {
+      "id": "basketball-throw",
+      "displayName": "丢篮球",
+      "sourceRange": null,
+      "rows": [
+        6
+      ],
+      "basketball": "mixed",
+      "notes": "前 4 帧篮球作为完整道具靠近手部释放，第 5-8 帧隐藏，避免漂浮的多余篮球。"
+    },
+    {
+      "id": "basketball-step-back",
+      "displayName": "后撤步",
+      "sourceRange": null,
+      "rows": [
+        7
+      ],
+      "basketball": "all",
+      "notes": "正面后撤步原型，篮球保持跟手并整体旋转；暂不使用侧面带球素材。"
+    }
+  ],
+  "actions": [
+    {
+      "id": "ready-idle",
+      "displayName": "待机准备",
+      "seriesId": "intro-no-ball",
+      "sequenceIndex": 0,
+      "sequenceRole": "intro-idle",
+      "row": 0,
+      "frames": 6,
+      "currentRuntimeAnimation": "idle",
+      "view": "front",
+      "basketball": {
+        "mode": "none",
+        "frames": [],
+        "sourceObservation": "0.0s-5.0s 开场站定镜头没有篮球。"
+      },
+      "referenceMatch": "direct-stance",
+      "motionStatus": "usable",
+      "cue": "参考视频开头站定状态，做轻微呼吸和头部摆动。",
+      "sourceTimes": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0
+      ]
+    },
+    {
+      "id": "tieshankao",
+      "displayName": "铁山靠",
+      "seriesId": "body-hit-no-ball",
+      "sequenceIndex": 0,
+      "sequenceRole": "shoulder-body-hit-loop",
+      "row": 1,
+      "frames": 8,
+      "currentRuntimeAnimation": "drag",
+      "view": "front-three-quarter",
+      "basketball": {
+        "mode": "none",
+        "frames": [],
+        "sourceObservation": "第一批动作原型先做无球铁山靠；本轮改成身体带动肩部顶出，不再使用额外肩部块。"
+      },
+      "referenceMatch": "route1-reference-tieshankao-ref",
+      "motionStatus": "planned-route1-v11",
+      "cue": "参考 references/tieshankao-ref.jpg：下沉、侧身蓄力、肩背顶出、停顿、回弹；全程无篮球。",
+      "prototypeFrames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "back-turn-no-ball",
+      "displayName": "背面无球动作",
+      "seriesId": "back-view-no-ball",
+      "sequenceIndex": 0,
+      "sequenceRole": "back-view-no-ball-loop",
+      "row": 2,
+      "frames": 8,
+      "currentRuntimeAnimation": null,
+      "view": "back",
+      "basketball": {
+        "mode": "none",
+        "frames": [],
+        "sourceObservation": "由参考图背面模型衍生。本轮整行重建无球背面基础帧，补回被篮球遮住后缺失的左侧身体/手臂层。"
+      },
+      "referenceMatch": "derived-from-back-model-no-ball",
+      "motionStatus": "repaired-first-pass",
+      "cue": "背面身体左右轻摆，背带裤肩带使用背面交叉结构，不显示篮球，不保留清球后的透明硬切口。",
+      "prototypeFrames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "bie-ganmao",
+      "displayName": "别感冒",
+      "seriesId": "gesture-no-ball",
+      "sequenceIndex": 0,
+      "sequenceRole": "hand-to-head-gesture",
+      "row": 3,
+      "frames": 8,
+      "currentRuntimeAnimation": "tickle",
+      "view": "front",
+      "basketball": {
+        "mode": "none",
+        "frames": [],
+        "sourceObservation": "BV1A7rmBrEWX 参考视频为无篮球红围巾保暖提醒动作；v10 抬手帧已移除旧下垂手臂层。"
+      },
+      "referenceMatch": "route1-reference-bie-ganmao-ref-no-bubble",
+      "motionStatus": "planned-route1-v11",
+      "cue": "参考 references/bie-ganmao-ref.jpg：红围巾、抬手到嘴边、轻咳/提醒、放下恢复；本轮不加气泡。",
+      "sourceTimes": [
+        4.0,
+        4.5,
+        5.0,
+        6.0,
+        8.0,
+        9.0,
+        10.0,
+        12.0
+      ],
+      "sourceVideo": {
+        "url": "https://www.bilibili.com/video/BV1A7rmBrEWX/",
+        "bvid": "BV1A7rmBrEWX",
+        "title": "别感冒",
+        "durationSeconds": 15.6,
+        "referenceOnly": true
+      }
+    },
+    {
+      "id": "under-leg-dribble",
+      "displayName": "胯下运球",
+      "seriesId": "basketball-under-leg",
+      "sequenceIndex": 0,
+      "sequenceRole": "under-leg-dribble-loop",
+      "row": 4,
+      "frames": 8,
+      "currentRuntimeAnimation": "crouchAlert",
+      "view": "front",
+      "basketball": {
+        "mode": "all",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "statesByFrame": [
+          {
+            "frame": 0,
+            "state": "held-right",
+            "rotationDegrees": 0
+          },
+          {
+            "frame": 1,
+            "state": "dribble-low",
+            "rotationDegrees": 35
+          },
+          {
+            "frame": 2,
+            "state": "under-leg",
+            "rotationDegrees": 75
+          },
+          {
+            "frame": 3,
+            "state": "under-leg",
+            "rotationDegrees": 115
+          },
+          {
+            "frame": 4,
+            "state": "under-leg",
+            "rotationDegrees": 155
+          },
+          {
+            "frame": 5,
+            "state": "held-left-low",
+            "rotationDegrees": 200
+          },
+          {
+            "frame": 6,
+            "state": "recover-low",
+            "rotationDegrees": 245
+          },
+          {
+            "frame": 7,
+            "state": "held-right",
+            "rotationDegrees": 290
+          }
+        ],
+        "sourceObservation": "第一批动作原型；篮球全程存在，并作为完整旋转道具穿过胯下。"
+      },
+      "referenceMatch": "derived-simple-action",
+      "motionStatus": "implemented-first-pass",
+      "cue": "身体下蹲，篮球从右侧低位进入胯下，穿过中心后回到控球位。",
+      "prototypeFrames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "ji-ni-tai-mei-dance",
+      "displayName": "姬霓太美舞步",
+      "seriesId": "chorus-dance-no-ball",
+      "sequenceIndex": 0,
+      "sequenceRole": "chorus-dance-loop",
+      "row": 5,
+      "frames": 8,
+      "currentRuntimeAnimation": "hugFish",
+      "view": "front",
+      "basketball": {
+        "mode": "none",
+        "frames": [],
+        "sourceObservation": "29.7s-34.7s 副歌舞步段没有篮球。"
+      },
+      "referenceMatch": "cleaned-no-ball-dance",
+      "motionStatus": "implemented-first-pass-cleanup",
+      "cue": "无球舞步清理版，保留左右摆动和下蹲节奏，移除碎片残留。",
+      "sourceTimes": [
+        29.7,
+        30.7,
+        31.7,
+        32.7,
+        33.7,
+        34.7,
+        32.7,
+        31.7
+      ]
+    },
+    {
+      "id": "throw-basketball",
+      "displayName": "丢篮球",
+      "seriesId": "basketball-throw",
+      "sequenceIndex": 0,
+      "sequenceRole": "whole-ball-throw-and-hide",
+      "row": 6,
+      "frames": 8,
+      "currentRuntimeAnimation": "gnawFish",
+      "view": "front",
+      "basketball": {
+        "mode": "mixed",
+        "frames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "absentFrames": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "statesByFrame": [
+          {
+            "frame": 0,
+            "state": "held-right",
+            "rotationDegrees": 0
+          },
+          {
+            "frame": 1,
+            "state": "held-right",
+            "rotationDegrees": 30
+          },
+          {
+            "frame": 2,
+            "state": "release-near-hand",
+            "rotationDegrees": 85
+          },
+          {
+            "frame": 3,
+            "state": "release-near-hand",
+            "rotationDegrees": 130
+          },
+          {
+            "frame": 4,
+            "state": "hidden",
+            "rotationDegrees": 130
+          },
+          {
+            "frame": 5,
+            "state": "hidden",
+            "rotationDegrees": 130
+          },
+          {
+            "frame": 6,
+            "state": "hidden",
+            "rotationDegrees": 130
+          },
+          {
+            "frame": 7,
+            "state": "hidden",
+            "rotationDegrees": 130
+          }
+        ],
+        "sourceObservation": "本轮修复：只保留 0-3 帧近手释放球，4-7 帧隐藏，避免漂浮多余篮球。"
+      },
+      "referenceMatch": "derived-simple-action",
+      "motionStatus": "repaired-first-pass",
+      "cue": "从右侧持球到近手释放，之后隐藏篮球；篮球不再漂到画面上方。",
+      "prototypeFrames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "step-back",
+      "displayName": "后撤步",
+      "seriesId": "basketball-step-back",
+      "sequenceIndex": 0,
+      "sequenceRole": "front-step-back",
+      "row": 7,
+      "frames": 8,
+      "currentRuntimeAnimation": "fishChase",
+      "view": "front",
+      "basketball": {
+        "mode": "all",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "statesByFrame": [
+          {
+            "frame": 0,
+            "state": "held-right",
+            "rotationDegrees": 0
+          },
+          {
+            "frame": 1,
+            "state": "dribble-low",
+            "rotationDegrees": 45
+          },
+          {
+            "frame": 2,
+            "state": "controlled-high",
+            "rotationDegrees": 90
+          },
+          {
+            "frame": 3,
+            "state": "held-right-side",
+            "rotationDegrees": 135
+          },
+          {
+            "frame": 4,
+            "state": "held-right-side",
+            "rotationDegrees": 180
+          },
+          {
+            "frame": 5,
+            "state": "held-right",
+            "rotationDegrees": 225
+          },
+          {
+            "frame": 6,
+            "state": "recover",
+            "rotationDegrees": 270
+          },
+          {
+            "frame": 7,
+            "state": "held-right",
+            "rotationDegrees": 315
+          }
+        ],
+        "sourceObservation": "本轮修复：后撤步使用正面身体和一个明确篮球道具，避免侧面参考图自带篮球残留。"
+      },
+      "referenceMatch": "route1-reference-step-back-ref",
+      "motionStatus": "planned-route1-v11",
+      "cue": "参考 references/step-back-ref.jpg：后撤步脚步和身体后仰，篮球作为一个完整道具跟手旋转。",
+      "prototypeFrames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "practice-finish",
+      "displayName": "练习收尾",
+      "seriesId": "gesture-no-ball",
+      "sequenceIndex": 1,
+      "sequenceRole": "closing-wave-and-nod",
+      "row": 8,
+      "frames": 6,
+      "currentRuntimeAnimation": "fishEat",
+      "view": "front",
+      "basketball": {
+        "mode": "none",
+        "frames": [],
+        "sourceObservation": "44.6s-49.5s 收尾手势段没有篮球。"
+      },
+      "referenceMatch": "direct-no-ball-closing-gesture",
+      "motionStatus": "usable",
+      "cue": "参考 44.6s-49.5s 近景收尾手势，做练习结束后的摆手和点头。",
+      "sourceTimes": [
+        44.6,
+        45.6,
+        46.6,
+        47.5,
+        48.5,
+        49.5
+      ]
+    }
+  ],
+  "revisionNotes": [
+    "Route 1 v11: row 1 tieshankao uses references/tieshankao-ref.jpg, row 3 bie-ganmao uses references/bie-ganmao-ref.jpg with no bubble, and row 7 step-back uses references/step-back-ref.jpg.",
+    "Basketball remains a whole equipment prop; rows 1 and 3 are no-ball rows, and row 7 contains exactly one complete basketball per frame."
+  ]
+}

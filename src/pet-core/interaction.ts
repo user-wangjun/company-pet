@@ -50,6 +50,37 @@ export type DesktopIconInteractionState = {
   lastTriggeredAt: number | null;
 };
 
+export type RuntimeAnimationName =
+  | "idle"
+  | "drag"
+  | "tickle"
+  | "fishChase"
+  | "fishEat"
+  | "iconHug"
+  | "crouchAlert"
+  | "hugFish"
+  | "gnawFish";
+
+export type RuntimeSoundEvent =
+  | RuntimeAnimationName
+  | "drag_end"
+  | "care_reminder";
+
+export type PetInteractionAction = {
+  animation: RuntimeAnimationName;
+  sound: RuntimeSoundEvent;
+  bubbleText: string;
+  durationMs?: number;
+};
+
+export type PetSequenceAction = {
+  sequence: "hover-fish";
+};
+
+type DesktopIconTargetOptions = {
+  side?: "any" | "right";
+};
+
 type DesktopIconInteractionInput = {
   now: number;
   state: DesktopIconInteractionState;
@@ -105,6 +136,139 @@ export function getDesktopIconHugAnimationName(): "iconHug" {
   return "iconHug";
 }
 
+const IKUN_PET_ID = "ikun";
+const IKUN_IDLE_BUBBLE = "中分头，背带裤，我是ikun你记住";
+const IKUN_CARE_REMINDER_BUBBLE = "ikun们，看很久电脑了，要注意休息";
+
+function isIkunPet(petId: string): boolean {
+  return petId === IKUN_PET_ID;
+}
+
+export function getPetIdleAnimationName(petId: string): RuntimeAnimationName {
+  return isIkunPet(petId) ? "crouchAlert" : "idle";
+}
+
+export function getPetIdleBubbleText(
+  petId: string,
+  fallbackBubbleText: string,
+): string {
+  return isIkunPet(petId) ? IKUN_IDLE_BUBBLE : fallbackBubbleText;
+}
+
+export function getPetDragStartAction(petId: string): PetInteractionAction {
+  if (isIkunPet(petId)) {
+    return {
+      animation: "fishChase",
+      sound: "fishChase",
+      bubbleText: "后撤步。",
+    };
+  }
+
+  return {
+    animation: "drag",
+    sound: "drag",
+    bubbleText: "喵？！你要带我去哪？",
+  };
+}
+
+export function getPetDragEndAction(petId: string): PetInteractionAction {
+  if (isIkunPet(petId)) {
+    return {
+      animation: "crouchAlert",
+      sound: "drag_end",
+      bubbleText: IKUN_IDLE_BUBBLE,
+      durationMs: 900,
+    };
+  }
+
+  return {
+    animation: "idle",
+    sound: "drag_end",
+    bubbleText: "放这儿也行。",
+    durationMs: 900,
+  };
+}
+
+export function getPetClickAction(
+  petId: string,
+  clickCount: number,
+): PetInteractionAction | PetSequenceAction | null {
+  if (isIkunPet(petId)) {
+    if (clickCount === 1) {
+      return {
+        animation: "gnawFish",
+        sound: "gnawFish",
+        bubbleText: "丢球。",
+        durationMs: 1300,
+      };
+    }
+
+    if (clickCount === 2) {
+      return {
+        animation: "fishEat",
+        sound: "fishEat",
+        bubbleText: "练习收尾。",
+        durationMs: 1300,
+      };
+    }
+
+    return null;
+  }
+
+  if (clickCount === 1) {
+    return {
+      animation: "tickle",
+      sound: "tickle",
+      bubbleText: "哼，还行。",
+      durationMs: 1000,
+    };
+  }
+
+  if (clickCount === 2) {
+    return { sequence: "hover-fish" };
+  }
+
+  return null;
+}
+
+export function getPetHoverEatingAction(
+  petId: string,
+): PetSequenceAction | null {
+  return isIkunPet(petId) ? null : { sequence: "hover-fish" };
+}
+
+export function getPetCareReminderAction(
+  petId: string,
+): PetInteractionAction | null {
+  if (!isIkunPet(petId)) return null;
+
+  return {
+    animation: "tickle",
+    sound: "care_reminder",
+    bubbleText: IKUN_CARE_REMINDER_BUBBLE,
+    durationMs: 8000,
+  };
+}
+
+export function getPetDesktopIconInteractionAction(
+  petId: string,
+): PetInteractionAction {
+  if (isIkunPet(petId)) {
+    return {
+      animation: "drag",
+      sound: "drag",
+      bubbleText: "姬霓太美",
+      durationMs: 1800,
+    };
+  }
+
+  return {
+    animation: "iconHug",
+    sound: "iconHug",
+    bubbleText: "抱住了",
+  };
+}
+
 export function getDesktopIconKey(icon: DesktopIconBounds): string {
   return `${icon.title}:${icon.x}:${icon.y}:${icon.width}:${icon.height}`;
 }
@@ -130,11 +294,16 @@ export function findDesktopIconTarget(
   petBounds: Bounds,
   icons: DesktopIconBounds[],
   maxDistance = DESKTOP_ICON_INTERACTION_DISTANCE_PX,
+  options: DesktopIconTargetOptions = {},
 ): DesktopIconTarget | null {
   const anchor = getPetIconAnchor(petBounds);
   let closest: DesktopIconTarget | null = null;
 
   for (const icon of icons) {
+    if (options.side === "right" && !isIconRightOfPet(petBounds, icon)) {
+      continue;
+    }
+
     const distance = getPointToBoundsDistance(anchor, icon);
     if (distance > maxDistance) continue;
 
@@ -150,6 +319,13 @@ export function findDesktopIconTarget(
   }
 
   return closest;
+}
+
+function isIconRightOfPet(petBounds: Bounds, icon: DesktopIconBounds): boolean {
+  const petCenterX = petBounds.x + petBounds.width / 2;
+  const iconCenterX = icon.x + icon.width / 2;
+
+  return iconCenterX >= petCenterX;
 }
 
 export function updateDesktopIconInteraction({
@@ -211,6 +387,18 @@ export function getDesktopIconWrapWindowPosition(
   return {
     x: Math.round(artworkBounds.x - 51 * scaleFactor),
     y: Math.round(artworkBounds.y - 101 * scaleFactor),
+  };
+}
+
+export function getDesktopIconBumpWindowPosition(
+  icon: DesktopIconBounds,
+  _windowSize: { width: number; height: number },
+  scaleFactor = 1,
+): { x: number; y: number } {
+  const artworkBounds = getDesktopIconArtworkBounds(icon);
+  return {
+    x: Math.round(artworkBounds.x - 132 * scaleFactor),
+    y: Math.round(artworkBounds.y - 100 * scaleFactor),
   };
 }
 
