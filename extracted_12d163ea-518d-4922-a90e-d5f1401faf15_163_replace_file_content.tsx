@@ -1,1 +1,0 @@
-"        <h1 className=\"marketing-screen-reader-text\">愈心桌宠</h1>\n        <p className=\"marketing-screen-reader-text\">彩色星空主视觉</p>\n        <p className=\"marketing-screen-reader-text\">宇宙星球主视觉</p>"

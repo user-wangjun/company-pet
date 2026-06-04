@@ -1,9 +1,0 @@
-[10] Conv: 12d163ea-518d-4922-a90e-d5f1401faf15, Line: 171, Tool: replace_file_content, Created At: 2026-05-30T09:08:40Z
-========================================================
-StartLine: 158, EndLine: 173
-TargetContent:
-"                  <div className=\"marketing-wechat-popover\" onClick={(e) => e.stopPropagation()}>\n                    <img src={WECHAT_QRCODE_ART} alt=\"微信二维码\" />\n                    <div className=\"marketing-wechat-popover-text\">扫码关注官方微信</div>\n                  </div>"
-ReplacementContent:
-"                  <div className=\"marketing-wechat-popover\" onClick={(e) => e.stopPropagation()}>\n                    <img src={WECHAT_QRCODE_ART} alt=\"微信二维码\" />\n                    <div className=\"marketing-wechat-popover-text\">扫码加入微信群</div>\n                  </div>"
-
-========================================================

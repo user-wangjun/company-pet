@@ -1,9 +1,0 @@
-[13] Conv: 12d163ea-518d-4922-a90e-d5f1401faf15, Line: 203, Tool: replace_file_content, Created At: 2026-05-30T09:11:50Z
-========================================================
-StartLine: 234, EndLine: 239
-TargetContent:
-"        <h1 className=\"marketing-screen-reader-text\">愈心桌宠</h1>\n        <p className=\"marketing-screen-reader-text\">彩色星空主视觉</p>\n        <p className=\"marketing-screen-reader-text\">宇宙星球主视觉</p>\n      </section>\n    </main>"
-ReplacementContent:
-"        {/* Toast Notification */}\n        <div className={`marketing-toast${isToastVisible ? \" is-visible\" : \"\"}`} aria-live=\"polite\">\n          {toastMessage}\n        </div>\n\n        <h1 className=\"marketing-screen-reader-text\">愈心桌宠</h1>\n        <p className=\"marketing-screen-reader-text\">彩色星空主视觉</p>\n        <p className=\"marketing-screen-reader-text\">宇宙星球主视觉</p>\n      </section>\n    </main>"
-
-========================================================

@@ -1,1 +1,0 @@
-"                  <div className=\"marketing-wechat-popover\" onClick={(e) => e.stopPropagation()}>\n                    <img src={WECHAT_QRCODE_ART} alt=\"微信二维码\" />\n                    <div className=\"marketing-wechat-popover-text\">扫码加入微信群</div>\n                  </div>"
