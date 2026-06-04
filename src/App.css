@@ -220,9 +220,17 @@ button {
   border: 1px solid rgba(43, 77, 72, 0.12);
   border-radius: 8px;
   background-color: #edf4f0;
-  background-position: 0 0;
   background-repeat: no-repeat;
+}
+
+.pet-card-preview.is-spritesheet {
+  background-position: 0 0;
   background-size: 768px 936px;
+}
+
+.pet-card-preview.is-image {
+  background-position: center;
+  background-size: contain;
 }
 
 .pet-card-body {

@@ -17,6 +17,7 @@ export type PetManifest = {
   description: string;
   spritesheetPath: string;
   previewPath?: string;
+  iconHugSpritesheetPath?: string;
   actionsPath?: string;
   rigPath?: string;
   actionBoardPath?: string;
@@ -26,6 +27,7 @@ export type PetManifest = {
 export type PetCatalogItem = PetManifest & {
   manifestUrl: string;
   previewUrl: string;
+  previewKind: "image" | "spritesheet";
   isActive: boolean;
 };
 
@@ -48,6 +50,10 @@ export function getPetManifestUrl(petId: string): string {
 export function resolvePetAssetUrl(petId: string, filePath: string): string {
   const normalizedFilePath = trimSlashes(filePath.replace(/\\/g, "/"));
   return `${getPetBasePath(petId)}/${normalizedFilePath}`;
+}
+
+export function getPetIconHugSpritesheetPath(manifest: PetManifest): string {
+  return manifest.iconHugSpritesheetPath ?? manifest.spritesheetPath;
 }
 
 export function chooseInitialPetId(
@@ -80,6 +86,7 @@ export function createPetCatalog(
         manifest.id,
         manifest.previewPath ?? manifest.spritesheetPath,
       ),
+      previewKind: manifest.previewPath ? "image" : "spritesheet",
       isActive: manifest.id === activePetId,
     }));
 }

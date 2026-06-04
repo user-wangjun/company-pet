@@ -55,7 +55,6 @@ import {
 import { ANIMATION_ROWS } from "./pet-core/animationRows";
 import {
   PET_BUBBLE_BOTTOM_PX,
-  PET_ICON_HUG_SPRITESHEET_PATH,
   PET_VISUAL_SCALE,
 } from "./pet-core/visual";
 import {
@@ -66,6 +65,7 @@ import {
   chooseInitialPetId,
   createPetCatalog,
   DEFAULT_PET_ID,
+  getPetIconHugSpritesheetPath,
   getPetIndexUrl,
   getPetManifestUrl,
   type PetCatalogItem,
@@ -1073,7 +1073,7 @@ function DesktopPetApp() {
         );
         const iconHugSpritesheetUrl = resolvePetAssetUrl(
           petId,
-          PET_ICON_HUG_SPRITESHEET_PATH,
+          getPetIconHugSpritesheetPath(manifest),
         );
         const [texture, iconHugTexture] = await Promise.all([
           Assets.load<Texture>(spritesheetUrl),
@@ -1153,7 +1153,7 @@ function DesktopPetApp() {
         host.dataset.petLoaded = "true";
         host.dataset.petId = manifest.id;
         host.dataset.spriteSource = manifest.spritesheetPath;
-        host.dataset.iconHugSource = PET_ICON_HUG_SPRITESHEET_PATH;
+        host.dataset.iconHugSource = getPetIconHugSpritesheetPath(manifest);
         recordInteraction("app_ready");
         desktopIconProbeTimer.current = window.setInterval(
           probeDesktopIconInteraction,
@@ -1248,7 +1248,7 @@ function DesktopPetApp() {
                 key={pet.id}
               >
                 <div
-                  className="pet-card-preview"
+                  className={`pet-card-preview is-${pet.previewKind}`}
                   aria-hidden="true"
                   style={{ backgroundImage: `url(${pet.previewUrl})` }}
                 />

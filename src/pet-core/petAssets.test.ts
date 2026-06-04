@@ -11,6 +11,7 @@ import {
   DEFAULT_PET_ID,
   chooseInitialPetId,
   createPetCatalog,
+  getPetIconHugSpritesheetPath,
   getPetBasePath,
   getPetIndexUrl,
   getPetManifestUrl,
@@ -77,6 +78,7 @@ describe("pet asset paths", () => {
     expect(ikunManifest.id).toBe("ikun");
     expect(ikunManifest.spritesheetPath).toBe("spritesheet.webp");
     expect(ikunManifest.previewPath).toBe("preview.png");
+    expect(ikunManifest.iconHugSpritesheetPath).toBe("icon-hug.webp");
     expect(ikunManifest.actionsPath).toBe("actions.json");
     expect(ikunManifest.rigPath).toBe("rig.json");
     expect(ikunManifest.actionBoardPath).toBe("action-board.json");
@@ -86,6 +88,7 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ikun", "icon-hug.webp")).toBe(
       "/pets/ikun/icon-hug.webp",
     );
+    expect(getPetIconHugSpritesheetPath(ikunManifest)).toBe("icon-hug.webp");
     expect(resolvePetAssetUrl("ikun", ikunManifest.actionsPath)).toBe(
       "/pets/ikun/actions.json",
     );
@@ -102,12 +105,14 @@ describe("pet asset paths", () => {
     expect(dsManifest.id).toBe("ds");
     expect(dsManifest.spritesheetPath).toBe("spritesheet.webp");
     expect(dsManifest.previewPath).toBe("preview.png");
+    expect("iconHugSpritesheetPath" in dsManifest).toBe(false);
     expect(resolvePetAssetUrl("ds", dsManifest.spritesheetPath)).toBe(
       "/pets/ds/spritesheet.webp",
     );
     expect(resolvePetAssetUrl("ds", dsManifest.previewPath)).toBe(
       "/pets/ds/preview.png",
     );
+    expect(getPetIconHugSpritesheetPath(dsManifest)).toBe("spritesheet.webp");
   });
 
   test("documents the route 1 v11 ikun action rows before runtime assignment", () => {
@@ -404,6 +409,28 @@ describe("pet asset paths", () => {
         spritesheetPath: "spritesheet-scruff.webp",
         manifestUrl: "/pets/xiaoju-cat/pet.json",
         previewUrl: "/pets/xiaoju-cat/spritesheet-scruff.webp",
+        previewKind: "spritesheet",
+        isActive: true,
+      },
+    ]);
+
+    expect(
+      createPetCatalog(
+        ["ikun", "ds"],
+        { ikun: ikunManifest, ds: dsManifest },
+        "ds",
+      ),
+    ).toMatchObject([
+      {
+        id: "ikun",
+        previewUrl: "/pets/ikun/preview.png",
+        previewKind: "image",
+        isActive: false,
+      },
+      {
+        id: "ds",
+        previewUrl: "/pets/ds/preview.png",
+        previewKind: "image",
         isActive: true,
       },
     ]);

@@ -4,6 +4,7 @@
   "description": "一个黄脸、黑发、背带裤、抱着篮球的Q版桌宠。",
   "spritesheetPath": "spritesheet.webp",
   "previewPath": "preview.png",
+  "iconHugSpritesheetPath": "icon-hug.webp",
   "actionsPath": "actions.json",
   "rigPath": "rig.json",
   "actionBoardPath": "action-board.json"
