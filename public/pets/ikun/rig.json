@@ -1,7 +1,7 @@
 {
   "version": 2,
   "id": "ikun-source-puppet-rig",
-  "status": "route1-v11-no-bubble",
+  "status": "route1-v12-under-leg-reference",
   "sourceImages": {
     "model": "reference.png",
     "restPose": "static-frame.png",
@@ -10,6 +10,7 @@
   "route1References": {
     "tieshankao": "references/tieshankao-ref.jpg",
     "bieGanmao": "references/bie-ganmao-ref.jpg",
+    "underLegDribble": "references/under-leg-dribble-ref.png",
     "stepBack": "references/step-back-ref.jpg",
     "characterViews": "references/character-views-ref.png"
   },
@@ -43,6 +44,16 @@
       {"frame": 5, "view": "front-three-quarter", "root": {"x": -10, "y": 3, "r": -6}, "rightFoot": "slide-recover", "basketball": {"state": "held-right", "rotationDegrees": 225}},
       {"frame": 6, "view": "front", "root": {"x": -3, "y": 1, "r": -2}, "rightFoot": "recover", "basketball": {"state": "recover", "rotationDegrees": 270}},
       {"frame": 7, "view": "front", "root": {"x": 0, "y": 0, "r": 0}, "rightFoot": "plant", "basketball": {"state": "held-right", "rotationDegrees": 315}}
+    ],
+    "underLegDribble": [
+      {"frame": 0, "view": "front", "sourceFrame": "01", "root": {"x": 0, "y": 0, "r": 0}, "phase": "upright-hold", "basketball": {"state": "held-image-left", "rotationDegrees": 0}},
+      {"frame": 1, "view": "front", "sourceFrame": "02", "root": {"x": 0, "y": 8, "r": 0}, "phase": "lower-and-guide", "basketball": {"state": "dribble-image-left-low", "rotationDegrees": 35}},
+      {"frame": 2, "view": "front", "sourceFrame": "03", "root": {"x": 0, "y": 8, "r": 0}, "phase": "center-entry", "basketball": {"state": "center-entry", "rotationDegrees": 75}},
+      {"frame": 3, "view": "front", "sourceFrame": "04", "root": {"x": 0, "y": 14, "r": 0}, "phase": "deepest-crouch", "basketball": {"state": "under-leg-center", "rotationDegrees": 115}},
+      {"frame": 4, "view": "front", "sourceFrame": "05", "root": {"x": 0, "y": 8, "r": 0}, "phase": "opposite-side-emerge", "basketball": {"state": "emerge-image-left", "rotationDegrees": 155}},
+      {"frame": 5, "view": "front", "sourceFrame": "06", "root": {"x": 0, "y": 8, "r": 0}, "phase": "low-side-control", "basketball": {"state": "controlled-image-left-low", "rotationDegrees": 200}},
+      {"frame": 6, "view": "front", "sourceFrame": "07", "root": {"x": 0, "y": 8, "r": 0}, "phase": "center-return", "basketball": {"state": "center-return", "rotationDegrees": 245}},
+      {"frame": 7, "view": "front", "sourceFrame": "08", "root": {"x": 0, "y": 0, "r": 0}, "phase": "upright-catch", "basketball": {"state": "held-image-right", "rotationDegrees": 290}}
     ]
   },
   "views": [
@@ -220,10 +231,19 @@
         "recover-low",
         "release-near-hand",
         "recover",
-        "airborne"
+        "airborne",
+        "held-image-left",
+        "dribble-image-left-low",
+        "center-entry",
+        "under-leg-center",
+        "emerge-image-left",
+        "controlled-image-left-low",
+        "center-return",
+        "held-image-right"
       ],
       "visibilityRule": "Use actions.json and action-board.json. Do not draw a basketball in source ranges marked none.",
-      "rotationRule": "When the ball moves, rotate the complete basketball layer as one object and record frame angles for planned actions."
+      "rotationRule": "When the ball moves, rotate the complete basketball layer as one object and record frame angles for planned actions.",
+      "underLegReferenceRule": "All under-leg dribble frames use references/under-leg-dribble-ref.png frame 01-08 as the pose, crouch, hand-contact, eye-line, and ball-path standard."
     }
   },
   "strapRules": {

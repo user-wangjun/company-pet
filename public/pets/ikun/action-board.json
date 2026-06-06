@@ -1,6 +1,6 @@
 {
-  "version": 11,
-  "status": "route1-v11-no-bubble",
+  "version": 12,
+  "status": "route1-v12-under-leg-reference",
   "notes": [
     "Rows marked repaired-first-pass are visible in spritesheet.webp, contact-sheet.png, and row GIF previews.",
     "Back-view row is now no-ball to avoid unrelated basketball props.",
@@ -10,7 +10,8 @@
     "Back-view row was full-cell rebuilt from a clean no-ball back base to remove basketball-erasure layer gaps.",
     "Bie-ganmao row now draws a visible raised black sleeve from shoulder to mouth so the hand lift reads clearly.",
     "Bie-ganmao v10 removes the old down-arm/hand in lift frames before drawing the raised sleeve, so the hand-to-mouth gesture is a real replacement pose instead of an overlay.",
-    "Route 1 v11 uses package-local references for rows 1, 3, and 7; row 3 has no bubble, and row 7 keeps exactly one complete basketball prop per frame."
+    "Route 1 v11 uses package-local references for rows 1, 3, and 7; row 3 has no bubble, and row 7 keeps exactly one complete basketball prop per frame.",
+    "Row 4 under-leg dribble now follows references/under-leg-dribble-ref.png frame 01-08 and is the ikun idle standard."
   ],
   "currentAtlasRows": [
     {
@@ -55,8 +56,9 @@
       "seriesId": "basketball-under-leg",
       "view": "front",
       "basketball": "all",
-      "matchStatus": "implemented-first-pass",
-      "review": "Basketball is a complete rotating prop and passes through the low center under-leg path."
+      "matchStatus": "reference-standard-v12",
+      "review": "User-provided 01-08 reference standard: wide crouch, eyes track the ball, one complete basketball per frame, image-left to under-leg center to image-right catch.",
+      "reference": "references/under-leg-dribble-ref.png"
     },
     {
       "row": 5,
@@ -147,7 +149,7 @@
         4
       ],
       "basketball": "all",
-      "playbackRule": "篮球作为完整旋转道具，从右手低位穿到胯下再回到接球位。"
+      "playbackRule": "严格按 references/under-leg-dribble-ref.png 的 01-08 顺序播放，完整篮球从图像左侧进入胯下中心并在图像右侧接住。"
     },
     {
       "seriesId": "chorus-dance-no-ball",
@@ -208,7 +210,7 @@
       "id": "under-leg-dribble",
       "displayName": "胯下运球",
       "priority": 2,
-      "status": "implemented-first-pass",
+      "status": "reference-standard-v12",
       "implementedRow": 4,
       "view": "front",
       "basketball": {
@@ -226,53 +228,56 @@
         "statesByFrame": [
           {
             "frame": 0,
-            "state": "held-right",
+            "state": "held-image-left",
             "rotationDegrees": 0
           },
           {
             "frame": 1,
-            "state": "dribble-low",
+            "state": "dribble-image-left-low",
             "rotationDegrees": 35
           },
           {
             "frame": 2,
-            "state": "under-leg",
+            "state": "center-entry",
             "rotationDegrees": 75
           },
           {
             "frame": 3,
-            "state": "under-leg",
+            "state": "under-leg-center",
             "rotationDegrees": 115
           },
           {
             "frame": 4,
-            "state": "under-leg",
+            "state": "emerge-image-left",
             "rotationDegrees": 155
           },
           {
             "frame": 5,
-            "state": "held-left-low",
+            "state": "controlled-image-left-low",
             "rotationDegrees": 200
           },
           {
             "frame": 6,
-            "state": "recover-low",
+            "state": "center-return",
             "rotationDegrees": 245
           },
           {
             "frame": 7,
-            "state": "held-right",
+            "state": "held-image-right",
             "rotationDegrees": 290
           }
         ],
-        "sourceObservation": "第一批动作原型；篮球全程存在，并作为完整旋转道具穿过胯下。"
+        "sourceObservation": "用户提供的 01-08 多帧图是唯一标准；篮球每帧完整存在，沿图像左侧、胯下中心、图像右侧形成可循环球路。"
       },
       "keyframes": [
-        "right hand controls ball",
-        "knees open and body crouches",
-        "ball passes under pelvis between legs",
-        "left hand receives ball low",
-        "body rises and resets"
+        "image-left upright hold",
+        "lower into wide stance",
+        "guide ball toward center",
+        "deepest crouch with ball under the legs",
+        "ball emerges on the opposite side",
+        "low side control",
+        "return through center",
+        "image-right upright catch"
       ],
       "rigRequirements": [
         "root",
@@ -282,7 +287,9 @@
         "left-knee",
         "right-knee",
         "basketball-prop"
-      ]
+      ],
+      "referenceMatch": "route1-reference-under-leg-dribble-ref",
+      "sourceImage": "references/under-leg-dribble-ref.png"
     },
     {
       "id": "step-back",

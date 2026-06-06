@@ -5,7 +5,7 @@
     "durationSeconds": 59.43
   },
   "retargeting": "Video keyframes and the user-provided three-view model were translated into ikun sprite poses. Source frames are pose references only; no video pixels are copied into final sprites.",
-  "revision": "route1-v11-no-bubble",
+  "revision": "route1-v12-under-leg-reference",
   "rows": {
     "0": [
       {
@@ -245,58 +245,82 @@
       {
         "frame": 0,
         "prototypeAction": "under-leg-dribble",
+        "sourceImage": "references/under-leg-dribble-ref.png",
+        "sourceFrame": "01",
         "view": "front",
-        "basketball": "held-right",
-        "rotationDegrees": 0
+        "basketball": "held-image-left",
+        "rotationDegrees": 0,
+        "motionPhase": "upright-hold"
       },
       {
         "frame": 1,
         "prototypeAction": "under-leg-dribble",
+        "sourceImage": "references/under-leg-dribble-ref.png",
+        "sourceFrame": "02",
         "view": "front",
-        "basketball": "dribble-low",
-        "rotationDegrees": 35
+        "basketball": "dribble-image-left-low",
+        "rotationDegrees": 35,
+        "motionPhase": "lower-and-guide"
       },
       {
         "frame": 2,
         "prototypeAction": "under-leg-dribble",
+        "sourceImage": "references/under-leg-dribble-ref.png",
+        "sourceFrame": "03",
         "view": "front",
-        "basketball": "under-leg",
-        "rotationDegrees": 75
+        "basketball": "center-entry",
+        "rotationDegrees": 75,
+        "motionPhase": "center-entry"
       },
       {
         "frame": 3,
         "prototypeAction": "under-leg-dribble",
+        "sourceImage": "references/under-leg-dribble-ref.png",
+        "sourceFrame": "04",
         "view": "front",
-        "basketball": "under-leg",
-        "rotationDegrees": 115
+        "basketball": "under-leg-center",
+        "rotationDegrees": 115,
+        "motionPhase": "deepest-crouch"
       },
       {
         "frame": 4,
         "prototypeAction": "under-leg-dribble",
+        "sourceImage": "references/under-leg-dribble-ref.png",
+        "sourceFrame": "05",
         "view": "front",
-        "basketball": "under-leg",
-        "rotationDegrees": 155
+        "basketball": "emerge-image-left",
+        "rotationDegrees": 155,
+        "motionPhase": "opposite-side-emerge"
       },
       {
         "frame": 5,
         "prototypeAction": "under-leg-dribble",
+        "sourceImage": "references/under-leg-dribble-ref.png",
+        "sourceFrame": "06",
         "view": "front",
-        "basketball": "held-left-low",
-        "rotationDegrees": 200
+        "basketball": "controlled-image-left-low",
+        "rotationDegrees": 200,
+        "motionPhase": "low-side-control"
       },
       {
         "frame": 6,
         "prototypeAction": "under-leg-dribble",
+        "sourceImage": "references/under-leg-dribble-ref.png",
+        "sourceFrame": "07",
         "view": "front",
-        "basketball": "recover-low",
-        "rotationDegrees": 245
+        "basketball": "center-return",
+        "rotationDegrees": 245,
+        "motionPhase": "center-return"
       },
       {
         "frame": 7,
         "prototypeAction": "under-leg-dribble",
+        "sourceImage": "references/under-leg-dribble-ref.png",
+        "sourceFrame": "08",
         "view": "front",
-        "basketball": "held-right",
-        "rotationDegrees": 290
+        "basketball": "held-image-right",
+        "rotationDegrees": 290,
+        "motionPhase": "upright-catch"
       }
     ],
     "5": [
@@ -511,5 +535,8 @@
         "basketball": "none"
       }
     ]
+  },
+  "actionReferences": {
+    "underLegDribble": "references/under-leg-dribble-ref.png"
   }
 }

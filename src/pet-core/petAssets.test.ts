@@ -115,16 +115,19 @@ describe("pet asset paths", () => {
     expect(getPetIconHugSpritesheetPath(dsManifest)).toBe("spritesheet.webp");
   });
 
-  test("documents the route 1 v11 ikun action rows before runtime assignment", () => {
+  test("documents the route 1 v12 ikun action rows before runtime assignment", () => {
     expect(ikunActions.cell).toEqual({
       width: 192,
       height: 208,
       columns: 8,
       rows: 9,
     });
-    expect(ikunActions.version).toBe(11);
+    expect(ikunActions.version).toBe(12);
     expect(ikunActions.revisionNotes).toContain(
       "Route 1 v11: row 1 tieshankao uses references/tieshankao-ref.jpg, row 3 bie-ganmao uses references/bie-ganmao-ref.jpg with no bubble, and row 7 step-back uses references/step-back-ref.jpg.",
+    );
+    expect(ikunActions.revisionNotes).toContain(
+      "Route 1 v12: row 4 under-leg-dribble uses references/under-leg-dribble-ref.png as the authoritative 01-08 pose and ball-path standard.",
     );
     expect(ikunActions.sourceVideo.url).toBe(
       "https://www.bilibili.com/video/BV1ct4y1n7t9/",
@@ -200,7 +203,16 @@ describe("pet asset paths", () => {
       (implementedUnderLegAction?.basketball.statesByFrame ?? []).map(
         (frame) => frame.state,
       ),
-    ).toContain("under-leg");
+    ).toEqual([
+      "held-image-left",
+      "dribble-image-left-low",
+      "center-entry",
+      "under-leg-center",
+      "emerge-image-left",
+      "controlled-image-left-low",
+      "center-return",
+      "held-image-right",
+    ]);
     expect(implementedBackAction?.view).toBe("back");
 
     const motionStatuses = Object.fromEntries(
@@ -212,7 +224,7 @@ describe("pet asset paths", () => {
       "tieshankao": "planned-route1-v11",
       "back-turn-no-ball": "repaired-first-pass",
       "bie-ganmao": "planned-route1-v11",
-      "under-leg-dribble": "implemented-first-pass",
+      "under-leg-dribble": "reference-standard-v12",
       "ji-ni-tai-mei-dance": "implemented-first-pass-cleanup",
       "throw-basketball": "repaired-first-pass",
       "step-back": "planned-route1-v11",
@@ -226,6 +238,7 @@ describe("pet asset paths", () => {
     expect(referenceMatches).toMatchObject({
       tieshankao: "route1-reference-tieshankao-ref",
       "bie-ganmao": "route1-reference-bie-ganmao-ref-no-bubble",
+      "under-leg-dribble": "route1-reference-under-leg-dribble-ref",
       "step-back": "route1-reference-step-back-ref",
     });
     expect(
@@ -240,10 +253,11 @@ describe("pet asset paths", () => {
 
   test("documents the ikun rig and next motion board", () => {
     expect(ikunRig.version).toBe(2);
-    expect(ikunRig.status).toBe("route1-v11-no-bubble");
+    expect(ikunRig.status).toBe("route1-v12-under-leg-reference");
     expect(ikunRig.route1References).toMatchObject({
       tieshankao: "references/tieshankao-ref.jpg",
       bieGanmao: "references/bie-ganmao-ref.jpg",
+      underLegDribble: "references/under-leg-dribble-ref.png",
       stepBack: "references/step-back-ref.jpg",
       characterViews: "references/character-views-ref.png",
     });
@@ -318,7 +332,16 @@ describe("pet asset paths", () => {
       (underLegAction?.basketball.statesByFrame ?? []).map(
         (frame) => frame.state,
       ),
-    ).toContain("under-leg");
+    ).toEqual([
+      "held-image-left",
+      "dribble-image-left-low",
+      "center-entry",
+      "under-leg-center",
+      "emerge-image-left",
+      "controlled-image-left-low",
+      "center-return",
+      "held-image-right",
+    ]);
     expect(throwAction?.basketball).toMatchObject({
       mode: "mixed",
       absentFrames: [4, 5, 6, 7],
@@ -327,13 +350,13 @@ describe("pet asset paths", () => {
       ikunActionBoard.plannedSimpleActions.map((action) => action.status),
     ).toEqual([
       "planned-route1-v11",
-      "implemented-first-pass",
+      "reference-standard-v12",
       "planned-route1-v11",
       "repaired-first-pass",
     ]);
 
     expect(ikunMotionReview.source).toBe(
-      "route1-v11-no-bubble-character-views",
+      "route1-v12-under-leg-reference",
     );
     expect(ikunMotionReview.rows).toHaveLength(9);
     for (const row of ikunMotionReview.rows) {
@@ -355,6 +378,13 @@ describe("pet asset paths", () => {
       bubble: "none",
     });
     expect(ikunMotionReview.referenceUpdates).toContainEqual({
+      row: 4,
+      action: "under-leg-dribble",
+      reference: "references/under-leg-dribble-ref.png",
+      basketball: "one-complete-ball-per-frame",
+      frameOrder: "01-08",
+    });
+    expect(ikunMotionReview.referenceUpdates).toContainEqual({
       row: 7,
       action: "step-back",
       reference: "references/step-back-ref.jpg",
@@ -363,6 +393,9 @@ describe("pet asset paths", () => {
     });
     expect(ikunMotionReview.notes).toContain(
       "Rows 1, 3, and 7 were replaced from route1-v11 decoded strips.",
+    );
+    expect(ikunMotionReview.notes).toContain(
+      "Row 4 was replaced from the user-provided 01-08 under-leg dribble reference and is the idle dribble standard.",
     );
   });
 

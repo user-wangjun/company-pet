@@ -1,5 +1,5 @@
 {
-  "version": 11,
+  "version": 12,
   "cell": {
     "width": 192,
     "height": 208,
@@ -12,7 +12,8 @@
     "This revision repairs stray basketball artifacts: back-view row is no-ball, throw row hides the ball after frame 3, and step-back uses one explicit ball prop only.",
     "Tie-shan-kao is a no-ball body-led crouch, pullback, shoulder-drive, impact-hold, recoil loop rather than a plain lean or a standalone shoulder blob.",
     "The back-view no-ball row was rebuilt from a clean gap-filled back base so basketball removal no longer leaves missing body layers.",
-    "Bie-ganmao now references BV1A7rmBrEWX with an explicit raised forearm: shoulder shrink, sleeve lifts hand to mouth, cough/remind, and recover."
+    "Bie-ganmao now references BV1A7rmBrEWX with an explicit raised forearm: shoulder shrink, sleeve lifts hand to mouth, cough/remind, and recover.",
+    "Route 1 v12 replaces row 4 with the user-provided 01-08 under-leg dribble reference; this row is the ikun idle animation standard."
   ],
   "sourceVideo": {
     "url": "https://www.bilibili.com/video/BV1ct4y1n7t9/",
@@ -76,7 +77,8 @@
         4
       ],
       "basketball": "all",
-      "notes": "篮球作为完整旋转道具，从右手低位穿到胯下再回到接球位。"
+      "notes": "严格按 references/under-leg-dribble-ref.png 的 01-08 顺序：左侧持球、下压、入胯、最低点、另一侧出球、低位控制、回中、右侧接球。",
+      "reference": "references/under-leg-dribble-ref.png"
     },
     {
       "id": "chorus-dance-no-ball",
@@ -163,7 +165,7 @@
         1,
         2,
         3,
-        4,
+        4.0,
         5,
         6,
         7
@@ -217,7 +219,7 @@
       "motionStatus": "planned-route1-v11",
       "cue": "参考 references/bie-ganmao-ref.jpg：红围巾、抬手到嘴边、轻咳/提醒、放下恢复；本轮不加气泡。",
       "sourceTimes": [
-        4.0,
+        4,
         4.5,
         5.0,
         6.0,
@@ -259,50 +261,50 @@
         "statesByFrame": [
           {
             "frame": 0,
-            "state": "held-right",
+            "state": "held-image-left",
             "rotationDegrees": 0
           },
           {
             "frame": 1,
-            "state": "dribble-low",
+            "state": "dribble-image-left-low",
             "rotationDegrees": 35
           },
           {
             "frame": 2,
-            "state": "under-leg",
+            "state": "center-entry",
             "rotationDegrees": 75
           },
           {
             "frame": 3,
-            "state": "under-leg",
+            "state": "under-leg-center",
             "rotationDegrees": 115
           },
           {
             "frame": 4,
-            "state": "under-leg",
+            "state": "emerge-image-left",
             "rotationDegrees": 155
           },
           {
             "frame": 5,
-            "state": "held-left-low",
+            "state": "controlled-image-left-low",
             "rotationDegrees": 200
           },
           {
             "frame": 6,
-            "state": "recover-low",
+            "state": "center-return",
             "rotationDegrees": 245
           },
           {
             "frame": 7,
-            "state": "held-right",
+            "state": "held-image-right",
             "rotationDegrees": 290
           }
         ],
-        "sourceObservation": "第一批动作原型；篮球全程存在，并作为完整旋转道具穿过胯下。"
+        "sourceObservation": "用户提供的 01-08 多帧图是唯一标准；篮球每帧完整存在，沿图像左侧、胯下中心、图像右侧形成可循环球路。"
       },
-      "referenceMatch": "derived-simple-action",
-      "motionStatus": "implemented-first-pass",
-      "cue": "身体下蹲，篮球从右侧低位进入胯下，穿过中心后回到控球位。",
+      "referenceMatch": "route1-reference-under-leg-dribble-ref",
+      "motionStatus": "reference-standard-v12",
+      "cue": "严格按 references/under-leg-dribble-ref.png：宽站姿下蹲，视线跟球，篮球从图像左侧进入胯下中心，再到图像右侧接住并循环。",
       "prototypeFrames": [
         0,
         1,
@@ -312,7 +314,8 @@
         5,
         6,
         7
-      ]
+      ],
+      "sourceImage": "references/under-leg-dribble-ref.png"
     },
     {
       "id": "ji-ni-tai-mei-dance",
@@ -535,6 +538,7 @@
   ],
   "revisionNotes": [
     "Route 1 v11: row 1 tieshankao uses references/tieshankao-ref.jpg, row 3 bie-ganmao uses references/bie-ganmao-ref.jpg with no bubble, and row 7 step-back uses references/step-back-ref.jpg.",
-    "Basketball remains a whole equipment prop; rows 1 and 3 are no-ball rows, and row 7 contains exactly one complete basketball per frame."
+    "Basketball remains a whole equipment prop; rows 1 and 3 are no-ball rows, and row 7 contains exactly one complete basketball per frame.",
+    "Route 1 v12: row 4 under-leg-dribble uses references/under-leg-dribble-ref.png as the authoritative 01-08 pose and ball-path standard."
   ]
 }
