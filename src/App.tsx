@@ -52,7 +52,10 @@ import {
   shouldTriggerHoverEat,
   updateDesktopIconInteraction,
 } from "./pet-core/interaction";
-import { ANIMATION_ROWS } from "./pet-core/animationRows";
+import {
+  ANIMATION_ROWS,
+  appendPetAnimationFinishFrame,
+} from "./pet-core/animationRows";
 import {
   PET_BUBBLE_BOTTOM_PX,
   PET_VISUAL_SCALE,
@@ -66,6 +69,7 @@ import {
   createPetCatalog,
   DEFAULT_PET_ID,
   getPetIconHugSpritesheetPath,
+  getPetThrowFinishPath,
   getPetIndexUrl,
   getPetManifestUrl,
   type PetCatalogItem,
@@ -1075,9 +1079,16 @@ function DesktopPetApp() {
           petId,
           getPetIconHugSpritesheetPath(manifest),
         );
-        const [texture, iconHugTexture] = await Promise.all([
+        const throwFinishPath = getPetThrowFinishPath(manifest);
+        const throwFinishUrl = throwFinishPath
+          ? resolvePetAssetUrl(petId, throwFinishPath)
+          : null;
+        const [texture, iconHugTexture, throwFinishTexture] = await Promise.all([
           Assets.load<Texture>(spritesheetUrl),
           Assets.load<Texture>(iconHugSpritesheetUrl),
+          throwFinishUrl
+            ? Assets.load<Texture>(throwFinishUrl)
+            : Promise.resolve<Texture | null>(null),
         ]);
 
         if (disposed) {
@@ -1127,10 +1138,15 @@ function DesktopPetApp() {
             ANIMATION_ROWS.hugFish.row,
             ANIMATION_ROWS.hugFish.frames,
           ),
-          gnawFish: sliceRowFrames(
-            texture,
-            ANIMATION_ROWS.gnawFish.row,
-            ANIMATION_ROWS.gnawFish.frames,
+          gnawFish: appendPetAnimationFinishFrame(
+            petId,
+            "gnawFish",
+            sliceRowFrames(
+              texture,
+              ANIMATION_ROWS.gnawFish.row,
+              ANIMATION_ROWS.gnawFish.frames,
+            ),
+            throwFinishTexture,
           ),
         };
         animationsRef.current = animations;
@@ -1154,6 +1170,7 @@ function DesktopPetApp() {
         host.dataset.petId = manifest.id;
         host.dataset.spriteSource = manifest.spritesheetPath;
         host.dataset.iconHugSource = getPetIconHugSpritesheetPath(manifest);
+        host.dataset.throwFinishSource = throwFinishPath ?? "";
         recordInteraction("app_ready");
         desktopIconProbeTimer.current = window.setInterval(
           probeDesktopIconInteraction,

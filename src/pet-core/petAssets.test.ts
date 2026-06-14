@@ -12,6 +12,7 @@ import {
   chooseInitialPetId,
   createPetCatalog,
   getPetIconHugSpritesheetPath,
+  getPetThrowFinishPath,
   getPetBasePath,
   getPetIndexUrl,
   getPetManifestUrl,
@@ -82,6 +83,7 @@ describe("pet asset paths", () => {
     expect(ikunManifest.actionsPath).toBe("actions.json");
     expect(ikunManifest.rigPath).toBe("rig.json");
     expect(ikunManifest.actionBoardPath).toBe("action-board.json");
+    expect(ikunManifest.throwFinishPath).toBe("throw-finish.png");
     expect(resolvePetAssetUrl("ikun", ikunManifest.spritesheetPath)).toBe(
       "/pets/ikun/spritesheet.webp",
     );
@@ -98,6 +100,8 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ikun", ikunManifest.actionBoardPath)).toBe(
       "/pets/ikun/action-board.json",
     );
+    expect(getPetThrowFinishPath(ikunManifest)).toBe("throw-finish.png");
+    expect(getPetThrowFinishPath(builtInPetManifest)).toBeNull();
   });
 
   test("declares ds as a third isolated pet package", () => {
@@ -115,19 +119,22 @@ describe("pet asset paths", () => {
     expect(getPetIconHugSpritesheetPath(dsManifest)).toBe("spritesheet.webp");
   });
 
-  test("documents the route 1 v12 ikun action rows before runtime assignment", () => {
+  test("documents the route 1 v14 ikun action rows and independent finish frame", () => {
     expect(ikunActions.cell).toEqual({
       width: 192,
       height: 208,
       columns: 8,
       rows: 9,
     });
-    expect(ikunActions.version).toBe(12);
+    expect(ikunActions.version).toBe(14);
     expect(ikunActions.revisionNotes).toContain(
       "Route 1 v11: row 1 tieshankao uses references/tieshankao-ref.jpg, row 3 bie-ganmao uses references/bie-ganmao-ref.jpg with no bubble, and row 7 step-back uses references/step-back-ref.jpg.",
     );
     expect(ikunActions.revisionNotes).toContain(
       "Route 1 v12: row 4 under-leg-dribble uses references/under-leg-dribble-ref.png as the authoritative 01-08 pose and ball-path standard.",
+    );
+    expect(ikunActions.revisionNotes).toContain(
+      "路线 1 v14：第 6 行 09-16 帧清除脚边白色背景，运行时追加 throw-finish.png 作为无球第 17 帧。",
     );
     expect(ikunActions.sourceVideo.url).toBe(
       "https://www.bilibili.com/video/BV1ct4y1n7t9/",
@@ -158,7 +165,9 @@ describe("pet asset paths", () => {
       expect(action.row).toBeGreaterThanOrEqual(0);
       expect(action.row).toBeLessThan(ikunActions.cell.rows);
       expect(action.frames).toBeGreaterThan(0);
-      expect(action.frames).toBeLessThanOrEqual(ikunActions.cell.columns);
+      const atlasFrames =
+        "atlasFrames" in action ? action.atlasFrames : action.frames;
+      expect(atlasFrames).toBeLessThanOrEqual(ikunActions.cell.columns);
       expect(action.sourceTimes ?? action.prototypeFrames).toHaveLength(
         action.frames,
       );
@@ -178,7 +187,7 @@ describe("pet asset paths", () => {
       "bie-ganmao": "none",
       "under-leg-dribble": "all",
       "ji-ni-tai-mei-dance": "none",
-      "throw-basketball": "mixed",
+      "throw-basketball": "throw-then-disappear",
       "step-back": "all",
       "practice-finish": "none",
     });
@@ -186,9 +195,19 @@ describe("pet asset paths", () => {
       ikunActions.actions.find((action) => action.id === "throw-basketball")
         ?.basketball,
     ).toMatchObject({
-      mode: "mixed",
-      frames: [0, 1, 2, 3],
-      absentFrames: [4, 5, 6, 7],
+      mode: "throw-then-disappear",
+      frames: [0, 1, 2, 3, 4, 5, 6, 7],
+      absentFrames: [8],
+    });
+    expect(
+      ikunActions.actions.find((action) => action.id === "throw-basketball"),
+    ).toMatchObject({
+      sourceImage: "references/throw-09-16-ref.png",
+      finishSourceImage: "references/throw-finish-ref.png",
+      finishFramePath: "throw-finish.png",
+      atlasFrames: 8,
+      runtimeFrames: 9,
+      sourceFrames: ["09", "10", "11", "12", "13", "14", "15", "16", "17"],
     });
     const implementedUnderLegAction = ikunActions.actions.find(
       (action) => action.id === "under-leg-dribble",
@@ -226,7 +245,7 @@ describe("pet asset paths", () => {
       "bie-ganmao": "planned-route1-v11",
       "under-leg-dribble": "reference-standard-v12",
       "ji-ni-tai-mei-dance": "implemented-first-pass-cleanup",
-      "throw-basketball": "repaired-first-pass",
+      "throw-basketball": "reference-standard-v14",
       "step-back": "planned-route1-v11",
       "practice-finish": "usable",
     });
@@ -239,6 +258,7 @@ describe("pet asset paths", () => {
       tieshankao: "route1-reference-tieshankao-ref",
       "bie-ganmao": "route1-reference-bie-ganmao-ref-no-bubble",
       "under-leg-dribble": "route1-reference-under-leg-dribble-ref",
+      "throw-basketball": "route1-reference-throw-09-17-finish",
       "step-back": "route1-reference-step-back-ref",
     });
     expect(
@@ -308,7 +328,7 @@ describe("pet asset paths", () => {
       [3, "gesture-no-ball", "none"],
       [4, "basketball-under-leg", "all"],
       [5, "chorus-dance-no-ball", "none"],
-      [6, "basketball-throw", "mixed"],
+      [6, "basketball-throw", "all-in-atlas-final-none"],
       [7, "basketball-step-back", "all"],
       [8, "gesture-no-ball", "none"],
     ]);
@@ -343,8 +363,15 @@ describe("pet asset paths", () => {
       "held-image-right",
     ]);
     expect(throwAction?.basketball).toMatchObject({
-      mode: "mixed",
-      absentFrames: [4, 5, 6, 7],
+      mode: "throw-then-disappear",
+      frames: [0, 1, 2, 3, 4, 5, 6, 7],
+      absentFrames: [8],
+    });
+    expect(throwAction).toMatchObject({
+      sourceImage: "references/throw-09-16-ref.png",
+      finishSourceImage: "references/throw-finish-ref.png",
+      finishFramePath: "throw-finish.png",
+      sourceFrames: ["09", "10", "11", "12", "13", "14", "15", "16", "17"],
     });
     expect(
       ikunActionBoard.plannedSimpleActions.map((action) => action.status),
@@ -352,15 +379,13 @@ describe("pet asset paths", () => {
       "planned-route1-v11",
       "reference-standard-v12",
       "planned-route1-v11",
-      "repaired-first-pass",
+      "reference-standard-v14",
     ]);
 
-    expect(ikunMotionReview.source).toBe(
-      "route1-v12-under-leg-reference",
-    );
+    expect(ikunMotionReview.source).toBe("route1-v14-throw-finish");
     expect(ikunMotionReview.rows).toHaveLength(9);
     for (const row of ikunMotionReview.rows) {
-      expect(row.frames).toHaveLength(8);
+      expect(row.frames).toHaveLength(row.row === 6 ? 9 : 8);
     }
     expect(ikunMotionReview.referenceUpdates).toContainEqual({
       row: 1,
@@ -383,6 +408,15 @@ describe("pet asset paths", () => {
       reference: "references/under-leg-dribble-ref.png",
       basketball: "one-complete-ball-per-frame",
       frameOrder: "01-08",
+    });
+    expect(ikunMotionReview.referenceUpdates).toContainEqual({
+      row: 6,
+      action: "throw-basketball",
+      reference: "references/throw-09-16-ref.png",
+      finishReference: "references/throw-finish-ref.png",
+      finishFramePath: "throw-finish.png",
+      basketball: "frames-09-16-ball-frame-17-none",
+      frameOrder: "09-17",
     });
     expect(ikunMotionReview.referenceUpdates).toContainEqual({
       row: 7,

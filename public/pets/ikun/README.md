@@ -29,6 +29,14 @@ Rows 0 and 8 have fewer runtime frames than the 8-column atlas. Their unused cel
 - The loop standard is: image-left hold, lower, center entry, deepest under-leg crouch, emerge, low control, center return, image-right catch.
 - Every frame contains exactly one complete basketball. Eyes, hands, leg spread, and crouch height follow the reference rather than the old nearly-standing prototype.
 
+### 路线 1 v14 丢球动作标准
+
+- 第 6 行图集使用 `references/throw-09-16-ref.png` 的 09-16 连续动作。
+- 运行时在图集八帧后追加 `throw-finish.png`，形成 9 帧完整动作。
+- 第 17 帧来自 `references/throw-finish-ref.png`，人物保持向右指向，篮球完全消失。
+- 所有帧都清除灰色背景、编号、地面阴影、腿间白块和白色动效线。
+- 原来的第 6 行丢球图片已全部移除，不与新动作混用。
+
 ## Action rows
 
 | Row | Frames | Series | Action | Basketball |
@@ -39,13 +47,13 @@ Rows 0 and 8 have fewer runtime frames than the 8-column atlas. Their unused cel
 | 3 | 8 | 无球手势收尾 | 别感冒 | 无 |
 | 4 | 8 | 胯下运球 | 胯下运球 | 全帧有 |
 | 5 | 8 | 副歌无球舞步 | 姬霓太美舞步 | 无 |
-| 6 | 8 | 丢篮球 | 丢篮球 | 0-3 帧有，4-7 帧无 |
+| 6 | 9 | 09-17 连续丢球 | 丢篮球 | 前 8 帧有，第 9 帧消失 |
 | 7 | 8 | 后撤步 | 后撤步 | 全帧有 |
 | 8 | 6 | 无球手势收尾 | 练习收尾 | 无 |
 
 ## Motion review
 
-Current rows are mixed refinement levels. `action-board.json` marks row 1 as the body-led tie-shan-kao pass, row 2 as the rebuilt no-ball back-view row, row 3 as the BV1A7rmBrEWX `别感冒` reference pass, row 4 as the user-approved v12 idle dribble standard, row 6 as the shortened throw, and row 7 as the front-only step-back repair.
+当前动作行处于不同精修阶段。`action-board.json` 将第 1 行记录为身体带动的铁山靠，第 2 行记录为重建的背面无球动作，第 3 行记录为 BV1A7rmBrEWX `别感冒` 参考动作，第 4 行记录为用户确认的 v12 待机胯下运球标准，第 6 行记录为 v14 九帧丢球标准，第 7 行记录为正面后撤步修复。
 
 `qa/motion-review.json` tracks `paddingCells` for the copied visual-only cells and keeps `blankCells` empty.
 It also records row 2 in `repairedRows` because that row was rebuilt to fix the missing back-body layer.
@@ -58,6 +66,6 @@ The implemented simple action pass is:
 | 别感冒 | 正面 | 无球 | 红围巾、缩肩；抬手帧先移除原本下垂的右手/袖口，再把袖子连到嘴边的黄手，轻咳/提醒后回收。 |
 | 胯下运球 | 正面 | 全帧有球 | 严格按 `references/under-leg-dribble-ref.png` 的 01-08 顺序，宽站姿下蹲并从胯下穿球；这是 `ikun` 的待机动作标准。 |
 | 后撤步 | 正面 | 全帧有球 | 重心后移，球跟手走并整体旋转。 |
-| 丢篮球 | 正面 | 混合 | 0-3 帧近手释放，4-7 帧隐藏，避免漂浮多余球。 |
+| 丢篮球 | 正面 | 前 8 帧有球，第 9 帧无球 | 按 09-16 完成持球、旋球和出手，再播放 `throw-finish.png`，保持指向并让篮球完全消失。 |
 
 Back-facing moves must be drawn from the back model in `reference.png`; do not rotate or mirror the front face for back actions. Overall straps follow the torso and shoulder joints, and back-view straps should use the back-derived crossed shape.

@@ -21,7 +21,7 @@ The `ikun` action rows are rough desk-pet interpretations of user-requested meme
 
 - `铁山靠` is represented visually as a no-ball crouch, side pullback, shoulder-led body hit, impact hold, and recoil.
 - `胯下运球` uses the user-provided `references/under-leg-dribble-ref.png` as the authoritative 01-08 idle-loop standard.
-- `后撤步` and `丢篮球` are represented as first-pass simple basketball actions.
+- `后撤步` 是正面篮球动作；`丢篮球` 的 09-16 帧使用 `references/throw-09-16-ref.png`，第 17 帧使用 `references/throw-finish-ref.png`。
 - `别感冒` is represented visually from BV1A7rmBrEWX as a red-scarf cold reminder: shrink shoulders, replace the original down-arm layer with a connected raised sleeve/hand to the mouth, cough/remind, recover.
 
 ## Retargeting notes
@@ -38,7 +38,7 @@ This revision splits the action rows into prop-aware series:
 - Row 2 is a no-ball back-view prototype derived from the back model in `reference.png`; it was rebuilt from a clean gap-filled back base so the removed basketball does not leave missing body or arm layers.
 - Row 3 is the BV1A7rmBrEWX `别感冒` reference pass: an 8-frame red-scarf, shrink-shoulders, hand-to-mouth cold-reminder gesture. In lift frames, the old down right arm/hand is removed before the raised sleeve is drawn so the pose is not an extra overlay.
 - Row 4 is the v12 under-leg dribble standard with basketball visible in every frame. Its pose order, wide crouch, eye line, hand contact, and ball path follow `references/under-leg-dribble-ref.png` frames 01-08.
-- Row 6 is a repaired throw prototype: frames 0-3 keep the basketball near the hand/release, while frames 4-7 hide it to avoid a stray floating ball.
+- 第 6 行是 v14 丢球参考标准：09-16 表现持球、旋球和出手，运行时追加无球第 17 帧；旧图片和白色背景残留均已移除。
 - Row 7 is a front-only step-back prototype with one explicit basketball prop in every frame.
 - Rows 0, 3, 5, and 8 are no-ball rows and the spritesheet removes the basketball from those rows.
 
@@ -58,3 +58,12 @@ These user-provided local references were copied into this pet package so the ac
 - `references/under-leg-dribble-ref.png`: user-provided 8-frame action board for row 4 `under-leg-dribble`.
 - Frame order is 01 through 08. The package keeps this reference locally so later redraws use the same crouch depth, hand-to-ball contact, eye tracking, and image-left-to-image-right ball path.
 - Row 4 is also the `ikun`-specific idle animation, selected by `getPetIdleAnimationName("ikun")`.
+
+## 丢球动作参考，2026-06-13
+
+- `references/throw-09-16-ref.png`：用户提供的第 6 行 `throw-basketball` 八帧动作图。
+- 帧顺序为 09-16，并与待机参考 01-08 构成连续动作。
+- 提取时移除灰色背景、编号、地面阴影和白色动效线，只保留角色与完整篮球。
+- `references/throw-finish-ref.png`：用户提供的第 17 帧参考图。
+- `throw-finish.png`：透明的独立运行时收尾帧，保留人物指向姿势，移除篮球、白色动作线和地面阴影。
+- 原第 6 行丢球图片不再保留或参与运行时播放。

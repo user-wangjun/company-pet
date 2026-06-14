@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "file": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\ikun\\spritesheet.webp",
+  "reference": "references/throw-09-16-ref.png",
+  "sourceFrames": [
+    "09",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+  ],
+  "atlas": {
+    "width": 1536,
+    "height": 1872,
+    "transparentRgbResiduePixels": 0,
+    "throwRow": [
+      {
+        "frame": 0,
+        "usedPixels": 13432,
+        "transparentCorners": true,
+        "paleFloorPixels": 66
+      },
+      {
+        "frame": 1,
+        "usedPixels": 12386,
+        "transparentCorners": true,
+        "paleFloorPixels": 75
+      },
+      {
+        "frame": 2,
+        "usedPixels": 12629,
+        "transparentCorners": true,
+        "paleFloorPixels": 83
+      },
+      {
+        "frame": 3,
+        "usedPixels": 12715,
+        "transparentCorners": true,
+        "paleFloorPixels": 69
+      },
+      {
+        "frame": 4,
+        "usedPixels": 12621,
+        "transparentCorners": true,
+        "paleFloorPixels": 94
+      },
+      {
+        "frame": 5,
+        "usedPixels": 11522,
+        "transparentCorners": true,
+        "paleFloorPixels": 83
+      },
+      {
+        "frame": 6,
+        "usedPixels": 11525,
+        "transparentCorners": true,
+        "paleFloorPixels": 95
+      },
+      {
+        "frame": 7,
+        "usedPixels": 11347,
+        "transparentCorners": true,
+        "paleFloorPixels": 86
+      }
+    ]
+  },
+  "finishFrame": {
+    "usedPixels": 13067,
+    "transparentCorners": true,
+    "paleFloorPixels": 47,
+    "largestOrangeComponent": 230
+  },
+  "errors": []
+}

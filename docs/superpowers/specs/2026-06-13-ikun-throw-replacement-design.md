@@ -1,69 +1,85 @@
-# Ikun Throw Animation Replacement Design
+# ikun 丢球动作替换设计
 
-## Goal
+## 目标
 
-Replace every existing frame of the `ikun` single-click throw animation with
-the eight poses numbered 09-16 in the user-provided reference image:
+使用用户提供的参考图中编号 09-16 的八个姿势，完整替换 `ikun`
+单击触发的丢球动作：
 
 `D:\Users\Downloads\ChatGPT Image 2026年6月13日 16_07_11.png`
 
-The new throw must begin smoothly after the current eight-frame under-leg
-dribble idle animation and must ship in a rebuilt Windows executable.
+新丢球动作需要自然衔接当前八帧胯下运球待机动作，在 09-16 八帧之后
+追加一个“人物保持指向、篮球完全消失”的独立收尾帧，并随新的 Windows
+可执行文件一起发布。
 
-## Scope
+## 范围
 
-- Copy the new reference into `public/pets/ikun/references/`.
-- Replace atlas row 6, which is exposed at runtime as `gnawFish`.
-- Remove all old row-6 sprite pixels instead of mixing old and new frames.
-- Keep the current row-4 idle changes and every other atlas row unchanged.
-- Update `actions.json`, `action-board.json`, `pose-map.json`, package notes,
-  QA images, and the row-6 animation preview.
-- Rebuild the Tauri executable and NSIS installer.
+- 将新参考图复制到 `public/pets/ikun/references/`。
+- 替换图集第 6 行，该行在运行时映射为 `gnawFish`。
+- 完全清除旧第 6 行的精灵像素，不混用任何旧丢球帧。
+- 保留当前第 4 行待机改动以及其他所有图集行。
+- 更新 `actions.json`、`action-board.json`、`pose-map.json`、包说明、
+  QA 图片和第 6 行动画预览。
+- 在 `pet.json` 中声明丢球动作独立收尾帧路径。
+- 只为 `ikun` 的 `gnawFish` 动画追加独立收尾帧，不改变共享 8 列图集。
+- 重新构建 Tauri Windows 主程序和 NSIS 安装包。
 
-## Frame Extraction
+## 帧提取
 
-The reference is a two-by-four contact sheet containing the continuation
-poses 09-16. Each source panel will be isolated in reading order. The gray
-background, frame number, floor shadow, and detached white motion marks will
-be removed. The pet and complete basketball remain opaque.
+第一张参考图是两行四列的动作图，包含连续姿势 09-16。按从左到右、
+从上到下的顺序分离每个格子，清除灰色背景、帧编号、地面阴影和脱离角色
+的白色动效线，仅保留角色和完整篮球。
 
-The extracted sprites will be normalized into eight transparent 192x208 cells.
-Normalization uses the current idle frame 08 as the transition anchor:
+提取出的精灵统一放入八个透明的 192x208 单元格。以当前待机第 08 帧
+作为衔接锚点：
 
-- match the apparent character height,
-- keep the foot baseline stable,
-- keep the torso center close to the idle torso center,
-- preserve safe padding without clipping the raised or thrown basketball.
+- 匹配角色视觉高度；
+- 保持脚底基线稳定；
+- 身体中心尽量靠近待机帧的身体中心；
+- 保留安全边距，不裁切举高或飞出的篮球。
 
-The basketball is present in frames 09-14. Frames 15-16 show the released ball
-moving away from the hand, including the complete ball while it remains inside
-the cell. No pixels from the old throw row are retained.
+篮球在 09-14 帧中由手部控制或旋转；15-16 帧表现篮球脱手飞出，只要
+篮球仍在单元格内就保留完整球体。新行不保留任何旧丢球动作像素。
 
-## Runtime Mapping
+第二张参考图：
 
-The interaction mapping remains unchanged:
+`D:\Users\Downloads\ChatGPT Image 2026年6月13日 23_49_10.png`
 
-- one click on `ikun` plays runtime animation `gnawFish`,
-- `gnawFish` reads atlas row 6,
-- row 6 uses all eight frames for the complete 09-16 sequence.
+用于制作第 17 帧。该帧保留人物向右指向的姿势，完整移除篮球、白色动作线、
+灰色背景和地面阴影，并输出为包内独立透明图片 `throw-finish.png`。
 
-Only pet-specific package assets and metadata change. Shared renderer and
-interaction code are out of scope unless verification exposes a loader defect.
+## 白色残留修复
 
-## Verification
+白色区域的根因是前景分割把角色脚下的浅色地面阴影与裤腿合并成了同一个
+连通区域。修复时不再仅依赖最大连通区域，而是在缩放前根据角色脚底基线
+删除脚底以下的低饱和浅色像素，并在缩放后清理透明边缘的浅色残留。
 
-- Compare idle frame 08 and throw frame 09 side by side and in animation.
-- Confirm all eight row-6 cells are populated, transparent, and unclipped.
-- Confirm row 6 contains no frame numbers, gray background, floor shadows,
-  detached white motion lines, or pixels from the previous throw sequence.
-- Confirm other atlas rows are byte-equivalent to the pre-edit atlas.
-- Run the focused pet asset tests and the full frontend build.
-- Build the Tauri Windows executable and NSIS installer.
-- Copy the finished artifacts into `releases/` without deleting unrelated
-  release files.
+## 运行时映射
 
-## Error Handling
+交互映射保持不变：
 
-If deterministic extraction cannot cleanly separate a panel from its
-background, stop before replacing the atlas and repair that panel locally.
-Do not substitute generated artwork or reuse an old throw frame.
+- 单击 `ikun` 播放运行时动画 `gnawFish`；
+- `gnawFish` 读取图集第 6 行；
+- 第 6 行使用全部八帧，按 09-16 顺序播放；
+- 如果当前宠物清单声明 `throwFinishPath`，则 `ikun` 的 `gnawFish`
+  在八帧图集后追加该独立图片，形成九帧动作；
+- 其他宠物和其他动画继续使用原有图集切片，不读取该独立图片。
+
+共享代码只增加可选收尾纹理的加载和追加逻辑；宠物专属图片、路径和动作说明
+仍全部保存在 `public/pets/ikun/` 内。
+
+## 验证
+
+- 并排和动画检查待机第 08 帧到丢球第 09 帧的衔接。
+- 确认第 6 行八个单元格都有效、透明且没有裁切。
+- 确认第 6 行没有帧编号、灰色背景、地面阴影、白色动效线或旧动作像素。
+- 确认第 17 帧没有篮球、白色动作线、灰色背景或地面阴影。
+- 确认运行时 `ikun` 的单击动作共九帧，最后一帧来自 `throw-finish.png`。
+- 确认替换前后的其他图集行保持一致。
+- 运行宠物资产相关测试和完整前端构建。
+- 构建 Tauri Windows 主程序和 NSIS 安装包。
+- 将完成的产物复制到 `releases/`，不删除无关发布文件。
+
+## 异常处理
+
+如果确定性提取无法干净分离某个格子的前景，就先停止替换图集并局部修复该帧。
+不使用重新生成的图片代替，也不回退复用旧丢球帧。

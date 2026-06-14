@@ -5,6 +5,7 @@
   "spritesheetPath": "spritesheet.webp",
   "previewPath": "preview.png",
   "iconHugSpritesheetPath": "icon-hug.webp",
+  "throwFinishPath": "throw-finish.png",
   "actionsPath": "actions.json",
   "rigPath": "rig.json",
   "actionBoardPath": "action-board.json"

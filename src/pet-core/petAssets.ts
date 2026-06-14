@@ -18,6 +18,7 @@ export type PetManifest = {
   spritesheetPath: string;
   previewPath?: string;
   iconHugSpritesheetPath?: string;
+  throwFinishPath?: string;
   actionsPath?: string;
   rigPath?: string;
   actionBoardPath?: string;
@@ -54,6 +55,10 @@ export function resolvePetAssetUrl(petId: string, filePath: string): string {
 
 export function getPetIconHugSpritesheetPath(manifest: PetManifest): string {
   return manifest.iconHugSpritesheetPath ?? manifest.spritesheetPath;
+}
+
+export function getPetThrowFinishPath(manifest: PetManifest): string | null {
+  return manifest.throwFinishPath ?? null;
 }
 
 export function chooseInitialPetId(

@@ -1,0 +1,170 @@
+[
+  {
+    "bbox": [
+      34,
+      36,
+      172,
+      191
+    ],
+    "usedPixels": 13432,
+    "sourceAnchor": [
+      173.0,
+      430.0
+    ],
+    "placement": [
+      34,
+      36
+    ],
+    "scale": 0.48,
+    "frame": 0,
+    "sourceFrame": "09",
+    "path": "qa/throw-v14/frames/frame-00.png"
+  },
+  {
+    "bbox": [
+      36,
+      35,
+      155,
+      191
+    ],
+    "usedPixels": 12386,
+    "sourceAnchor": [
+      171.0,
+      432.0
+    ],
+    "placement": [
+      36,
+      35
+    ],
+    "scale": 0.48,
+    "frame": 1,
+    "sourceFrame": "10",
+    "path": "qa/throw-v14/frames/frame-01.png"
+  },
+  {
+    "bbox": [
+      24,
+      31,
+      150,
+      191
+    ],
+    "usedPixels": 12629,
+    "sourceAnchor": [
+      167.0,
+      431.0
+    ],
+    "placement": [
+      24,
+      31
+    ],
+    "scale": 0.48,
+    "frame": 2,
+    "sourceFrame": "11",
+    "path": "qa/throw-v14/frames/frame-02.png"
+  },
+  {
+    "bbox": [
+      20,
+      31,
+      150,
+      192
+    ],
+    "usedPixels": 12715,
+    "sourceAnchor": [
+      166.0,
+      431.0
+    ],
+    "placement": [
+      20,
+      31
+    ],
+    "scale": 0.48,
+    "frame": 3,
+    "sourceFrame": "12",
+    "path": "qa/throw-v14/frames/frame-03.png"
+  },
+  {
+    "bbox": [
+      19,
+      31,
+      150,
+      191
+    ],
+    "usedPixels": 12621,
+    "sourceAnchor": [
+      215.0,
+      382.0
+    ],
+    "placement": [
+      19,
+      31
+    ],
+    "scale": 0.48,
+    "frame": 4,
+    "sourceFrame": "13",
+    "path": "qa/throw-v14/frames/frame-04.png"
+  },
+  {
+    "bbox": [
+      37,
+      42,
+      152,
+      192
+    ],
+    "usedPixels": 11522,
+    "sourceAnchor": [
+      166.0,
+      384.0
+    ],
+    "placement": [
+      37,
+      42
+    ],
+    "scale": 0.48,
+    "frame": 5,
+    "sourceFrame": "14",
+    "path": "qa/throw-v14/frames/frame-05.png"
+  },
+  {
+    "bbox": [
+      29,
+      43,
+      189,
+      191
+    ],
+    "usedPixels": 11525,
+    "sourceAnchor": [
+      106.0,
+      384.0
+    ],
+    "placement": [
+      29,
+      43
+    ],
+    "scale": 0.48,
+    "frame": 6,
+    "sourceFrame": "15",
+    "path": "qa/throw-v14/frames/frame-06.png"
+  },
+  {
+    "bbox": [
+      21,
+      44,
+      189,
+      192
+    ],
+    "usedPixels": 11347,
+    "sourceAnchor": [
+      100.0,
+      383.0
+    ],
+    "placement": [
+      21,
+      44
+    ],
+    "scale": 0.48,
+    "frame": 7,
+    "sourceFrame": "16",
+    "path": "qa/throw-v14/frames/frame-07.png"
+  }
+]

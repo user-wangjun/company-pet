@@ -5,7 +5,7 @@
     "durationSeconds": 59.43
   },
   "retargeting": "Video keyframes and the user-provided three-view model were translated into ikun sprite poses. Source frames are pose references only; no video pixels are copied into final sprites.",
-  "revision": "route1-v12-under-leg-reference",
+  "revision": "route1-v14-throw-finish",
   "rows": {
     "0": [
       {
@@ -385,58 +385,92 @@
       {
         "frame": 0,
         "prototypeAction": "throw-basketball",
+        "sourceImage": "references/throw-09-16-ref.png",
+        "sourceFrame": "09",
         "view": "front",
-        "basketball": "held-right",
-        "rotationDegrees": 0
+        "basketball": "low-image-left-hold",
+        "motionPhase": "低位左侧持球",
+        "storage": "spritesheet.webp row 6"
       },
       {
         "frame": 1,
         "prototypeAction": "throw-basketball",
+        "sourceImage": "references/throw-09-16-ref.png",
+        "sourceFrame": "10",
         "view": "front",
-        "basketball": "held-right",
-        "rotationDegrees": 30
+        "basketball": "chest-level-image-left-hold",
+        "motionPhase": "托球到胸前",
+        "storage": "spritesheet.webp row 6"
       },
       {
         "frame": 2,
         "prototypeAction": "throw-basketball",
+        "sourceImage": "references/throw-09-16-ref.png",
+        "sourceFrame": "11",
         "view": "front",
-        "basketball": "release-near-hand",
-        "rotationDegrees": 85
+        "basketball": "finger-spin-lift",
+        "motionPhase": "抬指起旋",
+        "storage": "spritesheet.webp row 6"
       },
       {
         "frame": 3,
         "prototypeAction": "throw-basketball",
+        "sourceImage": "references/throw-09-16-ref.png",
+        "sourceFrame": "12",
         "view": "front",
-        "basketball": "release-near-hand",
-        "rotationDegrees": 130
+        "basketball": "finger-spin-high-hold",
+        "motionPhase": "高位旋球保持",
+        "storage": "spritesheet.webp row 6"
       },
       {
         "frame": 4,
         "prototypeAction": "throw-basketball",
+        "sourceImage": "references/throw-09-16-ref.png",
+        "sourceFrame": "13",
         "view": "front",
-        "basketball": "hidden",
-        "rotationDegrees": 130
+        "basketball": "finger-spin-continuation",
+        "motionPhase": "旋球延续",
+        "storage": "spritesheet.webp row 6"
       },
       {
         "frame": 5,
         "prototypeAction": "throw-basketball",
+        "sourceImage": "references/throw-09-16-ref.png",
+        "sourceFrame": "14",
         "view": "front",
-        "basketball": "hidden",
-        "rotationDegrees": 130
+        "basketball": "return-to-hand-hold",
+        "motionPhase": "回到手中持球",
+        "storage": "spritesheet.webp row 6"
       },
       {
         "frame": 6,
         "prototypeAction": "throw-basketball",
+        "sourceImage": "references/throw-09-16-ref.png",
+        "sourceFrame": "15",
         "view": "front",
-        "basketball": "hidden",
-        "rotationDegrees": 130
+        "basketball": "released-image-right",
+        "motionPhase": "向右出手",
+        "storage": "spritesheet.webp row 6"
       },
       {
         "frame": 7,
         "prototypeAction": "throw-basketball",
+        "sourceImage": "references/throw-09-16-ref.png",
+        "sourceFrame": "16",
         "view": "front",
-        "basketball": "hidden",
-        "rotationDegrees": 130
+        "basketball": "released-far-image-right",
+        "motionPhase": "篮球继续飞离",
+        "storage": "spritesheet.webp row 6"
+      },
+      {
+        "frame": 8,
+        "prototypeAction": "throw-basketball",
+        "sourceImage": "references/throw-finish-ref.png",
+        "sourceFrame": "17",
+        "view": "front",
+        "basketball": "absent",
+        "motionPhase": "篮球消失，保持指向",
+        "storage": "throw-finish.png"
       }
     ],
     "7": [
@@ -537,6 +571,8 @@
     ]
   },
   "actionReferences": {
-    "underLegDribble": "references/under-leg-dribble-ref.png"
+    "underLegDribble": "references/under-leg-dribble-ref.png",
+    "throwBasketball": "references/throw-09-16-ref.png",
+    "throwBasketballFinish": "references/throw-finish-ref.png"
   }
 }
