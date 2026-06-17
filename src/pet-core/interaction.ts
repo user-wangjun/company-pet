@@ -77,6 +77,13 @@ export type PetSequenceAction = {
   sequence: "hover-fish";
 };
 
+export type PetIdleQuirkAction = {
+  text: string;
+  animation: RuntimeAnimationName;
+  sound: RuntimeSoundEvent;
+  duration: number;
+};
+
 type DesktopIconTargetOptions = {
   side?: "any" | "right";
 };
@@ -137,11 +144,16 @@ export function getDesktopIconHugAnimationName(): "iconHug" {
 }
 
 const IKUN_PET_ID = "ikun";
+const DS_PET_ID = "ds";
 const IKUN_IDLE_BUBBLE = "中分头，背带裤，我是ikun你记住";
 const IKUN_CARE_REMINDER_BUBBLE = "ikun们，看很久电脑了，要注意休息";
 
 function isIkunPet(petId: string): boolean {
   return petId === IKUN_PET_ID;
+}
+
+function isDsPet(petId: string): boolean {
+  return petId === DS_PET_ID;
 }
 
 export function getPetIdleAnimationName(petId: string): RuntimeAnimationName {
@@ -164,6 +176,14 @@ export function getPetDragStartAction(petId: string): PetInteractionAction {
     };
   }
 
+  if (isDsPet(petId)) {
+    return {
+      animation: "drag",
+      sound: "drag",
+      bubbleText: "跳一跳，换个地方看！",
+    };
+  }
+
   return {
     animation: "drag",
     sound: "drag",
@@ -177,6 +197,15 @@ export function getPetDragEndAction(petId: string): PetInteractionAction {
       animation: "crouchAlert",
       sound: "drag_end",
       bubbleText: IKUN_IDLE_BUBBLE,
+      durationMs: 900,
+    };
+  }
+
+  if (isDsPet(petId)) {
+    return {
+      animation: "idle",
+      sound: "drag_end",
+      bubbleText: "这儿也不错。",
       durationMs: 900,
     };
   }
@@ -215,6 +244,23 @@ export function getPetClickAction(
     return null;
   }
 
+  if (isDsPet(petId)) {
+    if (clickCount === 1) {
+      return {
+        animation: "tickle",
+        sound: "tickle",
+        bubbleText: "贴贴。",
+        durationMs: 1200,
+      };
+    }
+
+    if (clickCount === 2) {
+      return { sequence: "hover-fish" };
+    }
+
+    return null;
+  }
+
   if (clickCount === 1) {
     return {
       animation: "tickle",
@@ -240,6 +286,15 @@ export function getPetHoverEatingAction(
 export function getPetCareReminderAction(
   petId: string,
 ): PetInteractionAction | null {
+  if (isDsPet(petId)) {
+    return {
+      animation: "gnawFish",
+      sound: "care_reminder",
+      bubbleText: "小鲸鱼打了个哈欠，休息一下眼睛吧。",
+      durationMs: 3200,
+    };
+  }
+
   if (!isIkunPet(petId)) return null;
 
   return {
@@ -248,6 +303,82 @@ export function getPetCareReminderAction(
     bubbleText: IKUN_CARE_REMINDER_BUBBLE,
     durationMs: 8000,
   };
+}
+
+export function getPetIdleQuirkActions(petId: string): PetIdleQuirkAction[] {
+  if (isDsPet(petId)) {
+    return [
+      {
+        text: "开心地摆摆尾巴。",
+        animation: "fishEat",
+        sound: "fishEat",
+        duration: 2200,
+      },
+      {
+        text: "原地转了个圈圈。",
+        animation: "crouchAlert",
+        sound: "crouchAlert",
+        duration: 2600,
+      },
+      {
+        text: "打了个小哈欠。",
+        animation: "gnawFish",
+        sound: "gnawFish",
+        duration: 3000,
+      },
+      {
+        text: "从旁边探头看看。",
+        animation: "hugFish",
+        sound: "hugFish",
+        duration: 2600,
+      },
+      {
+        text: "贴过来蹭了蹭。",
+        animation: "tickle",
+        sound: "tickle",
+        duration: 1800,
+      },
+    ];
+  }
+
+  return [
+    {
+      text: "（砸嘴）……梦见超大金枪鱼了喵 🐟",
+      animation: "fishEat",
+      sound: "fishEat",
+      duration: 2500,
+    },
+    {
+      text: "（幸福地翻个身）~ 换个姿势继续睡喵…… 🐾",
+      animation: "tickle",
+      sound: "idle",
+      duration: 2000,
+    },
+    {
+      text: "（亲昵地蹭了蹭）……主人工作辛苦啦，小橘陪着你喵 💤",
+      animation: "tickle",
+      sound: "idle",
+      duration: 2000,
+    },
+    {
+      text: "（趴下警觉喵喵叫）~ 好像有大鱼的气味？🐾",
+      animation: "crouchAlert",
+      sound: "crouchAlert",
+      duration: 2500,
+    },
+    {
+      text: "（抱着小鱼撒娇）~ 嘿嘿，这只小鱼是橘橘的宝贝！🐟",
+      animation: "hugFish",
+      sound: "hugFish",
+      duration: 3000,
+    },
+    {
+      text: "（美滋滋地坐着嚼鱼）~ 金枪鱼味儿的玩具鱼，真香！🐾",
+      animation: "gnawFish",
+      sound: "gnawFish",
+      duration: 2500,
+    },
+  ];
 }
 
 export function getPetDesktopIconInteractionAction(
@@ -259,6 +390,15 @@ export function getPetDesktopIconInteractionAction(
       sound: "drag",
       bubbleText: "姬霓太美",
       durationMs: 1800,
+    };
+  }
+
+  if (isDsPet(petId)) {
+    return {
+      animation: "hugFish",
+      sound: "hugFish",
+      bubbleText: "探头看看这个图标。",
+      durationMs: 2400,
     };
   }
 

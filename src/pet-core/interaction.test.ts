@@ -21,6 +21,7 @@ import {
   getPetHoverEatingAction,
   getPetIdleAnimationName,
   getPetIdleBubbleText,
+  getPetIdleQuirkActions,
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
@@ -145,6 +146,32 @@ describe("desktop pet interaction rules", () => {
     });
   });
 
+  test("maps ds interactions to whale-specific action rows", () => {
+    expect(getPetIdleAnimationName("ds")).toBe("idle");
+    expect(getPetIdleBubbleText("ds", "fallback bubble")).toBe(
+      "fallback bubble",
+    );
+    expect(getPetDragStartAction("ds")).toMatchObject({
+      animation: "drag",
+      sound: "drag",
+      bubbleText: "跳一跳，换个地方看！",
+    });
+    expect(getPetDragEndAction("ds")).toMatchObject({
+      animation: "idle",
+      bubbleText: "这儿也不错。",
+    });
+    expect(getPetClickAction("ds", 1)).toEqual({
+      animation: "tickle",
+      sound: "tickle",
+      bubbleText: "贴贴。",
+      durationMs: 1200,
+    });
+    expect(getPetClickAction("ds", 2)).toEqual({
+      sequence: "hover-fish",
+    });
+    expect(getPetClickAction("ds", 3)).toBeNull();
+  });
+
   test("does not reuse the fish eating sequence for ikun before a dedicated eating action exists", () => {
     expect(getPetHoverEatingAction("ikun")).toBeNull();
     expect(getPetHoverEatingAction("xiaoju-cat")).toEqual({
@@ -159,6 +186,50 @@ describe("desktop pet interaction rules", () => {
       bubbleText: "ikun们，看很久电脑了，要注意休息",
       durationMs: 8000,
     });
+  });
+
+  test("uses yawning for ds care reminders", () => {
+    expect(getPetCareReminderAction("ds")).toEqual({
+      animation: "gnawFish",
+      sound: "care_reminder",
+      bubbleText: "小鲸鱼打了个哈欠，休息一下眼睛吧。",
+      durationMs: 3200,
+    });
+  });
+
+  test("offers ds idle quirks for spinning, yawning, peeking, and happy settling", () => {
+    expect(getPetIdleQuirkActions("ds")).toEqual([
+      {
+        text: "开心地摆摆尾巴。",
+        animation: "fishEat",
+        sound: "fishEat",
+        duration: 2200,
+      },
+      {
+        text: "原地转了个圈圈。",
+        animation: "crouchAlert",
+        sound: "crouchAlert",
+        duration: 2600,
+      },
+      {
+        text: "打了个小哈欠。",
+        animation: "gnawFish",
+        sound: "gnawFish",
+        duration: 3000,
+      },
+      {
+        text: "从旁边探头看看。",
+        animation: "hugFish",
+        sound: "hugFish",
+        duration: 2600,
+      },
+      {
+        text: "贴过来蹭了蹭。",
+        animation: "tickle",
+        sound: "tickle",
+        duration: 1800,
+      },
+    ]);
   });
 
   test("selects the nearest desktop icon when the pet is close enough", () => {
@@ -292,6 +363,15 @@ describe("desktop pet interaction rules", () => {
       animation: "iconHug",
       sound: "iconHug",
       bubbleText: "抱住了",
+    });
+  });
+
+  test("uses curious peeking for ds desktop icon interaction", () => {
+    expect(getPetDesktopIconInteractionAction("ds")).toEqual({
+      animation: "hugFish",
+      sound: "hugFish",
+      bubbleText: "探头看看这个图标。",
+      durationMs: 2400,
     });
   });
 

@@ -1,6 +1,20 @@
 {
-  "source": "D:\\Users\\Downloads\\微信图片_20260602085009_3582_2232.png",
+  "source": "D:\\Users\\Downloads\\ChatGPT Image 2026年6月14日 23_08_08.png",
   "reference": "reference.png",
+  "interactionMapping": {
+    "drag": "jump",
+    "singleClick": "affectionate nuzzle",
+    "doubleClickOrHover": "active jump then happy finish",
+    "desktopIconInteraction": "curious peek",
+    "careReminder": "yawn",
+    "idleQuirks": [
+      "happy settling",
+      "spin around",
+      "yawn",
+      "curious peek",
+      "affectionate nuzzle"
+    ]
+  },
   "cell": {
     "width": 192,
     "height": 208,
@@ -12,55 +26,64 @@
       "row": 0,
       "runtime": "idle",
       "frames": 6,
-      "source": "happy poses"
+      "source": "happy poses",
+      "dsAction": "happy settling"
     },
     {
       "row": 1,
       "runtime": "drag",
       "frames": 8,
-      "source": "jump poses"
+      "source": "jump poses",
+      "dsAction": "jump"
     },
     {
       "row": 2,
       "runtime": "reserved running-left",
       "frames": 8,
-      "source": "mirrored jump poses"
+      "source": "mirrored jump poses",
+      "dsAction": "reserved left-facing movement"
     },
     {
       "row": 3,
       "runtime": "tickle",
       "frames": 8,
-      "source": "affection poses"
+      "source": "affection poses",
+      "dsAction": "affectionate nuzzle"
     },
     {
       "row": 4,
       "runtime": "crouchAlert",
       "frames": 8,
-      "source": "jump poses"
+      "source": "spin poses",
+      "dsAction": "spin around"
     },
     {
       "row": 5,
       "runtime": "hugFish",
       "frames": 8,
-      "source": "affection poses"
+      "source": "curious peek poses",
+      "dsAction": "curious peek"
     },
     {
       "row": 6,
       "runtime": "gnawFish",
       "frames": 8,
-      "source": "happy poses"
+      "source": "yawn poses",
+      "dsAction": "yawn"
     },
     {
       "row": 7,
       "runtime": "fishChase",
       "frames": 8,
-      "source": "active jump poses"
+      "source": "active jump poses",
+      "dsAction": "active jump movement"
     },
     {
       "row": 8,
       "runtime": "fishEat",
       "frames": 6,
-      "source": "calm happy poses"
+      "source": "calm happy poses",
+      "dsAction": "happy finish"
     }
   ]
 }

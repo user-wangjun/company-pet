@@ -45,6 +45,7 @@ import {
   getPetHoverEatingAction,
   getPetIdleAnimationName,
   getPetIdleBubbleText,
+  getPetIdleQuirkActions,
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
@@ -871,44 +872,7 @@ function DesktopPetApp() {
         nextIdleQuirkTime.current = nowTimestamp + randomInRange(25, 45) * 1000;
       } else if (quirkRandom < 0.15) {
         recordInteraction("idle_quirk_triggered");
-        const quirks = [
-          {
-            text: "（砸嘴）……梦见超大金枪鱼了喵 🐟",
-            animation: "fishEat" as AnimationName,
-            sound: "fishEat" as PetSoundEvent,
-            duration: 2500,
-          },
-          {
-            text: "（幸福地翻个身）~ 换个姿势继续睡喵…… 🐾",
-            animation: "tickle" as AnimationName,
-            sound: "idle" as PetSoundEvent,
-            duration: 2000,
-          },
-          {
-            text: "（亲昵地蹭了蹭）……主人工作辛苦啦，小橘陪着你喵 💤",
-            animation: "tickle" as AnimationName,
-            sound: "idle" as PetSoundEvent,
-            duration: 2000,
-          },
-          {
-            text: "（趴下警觉喵喵叫）~ 好像有大鱼的气味？🐾",
-            animation: "crouchAlert" as AnimationName,
-            sound: "crouchAlert" as PetSoundEvent,
-            duration: 2500,
-          },
-          {
-            text: "（抱着小鱼撒娇）~ 嘿嘿，这只小鱼是橘橘的宝贝！🐟",
-            animation: "hugFish" as AnimationName,
-            sound: "hugFish" as PetSoundEvent,
-            duration: 3000,
-          },
-          {
-            text: "（美滋滋地坐着嚼鱼）~ 金枪鱼味儿的玩具鱼，真香！🐾",
-            animation: "gnawFish" as AnimationName,
-            sound: "gnawFish" as PetSoundEvent,
-            duration: 2500,
-          },
-        ];
+        const quirks = getPetIdleQuirkActions(activePetId);
         const chosen = quirks[Math.floor(Math.random() * quirks.length)];
         setBubbleText(chosen.text);
         playPetSound(chosen.sound);
