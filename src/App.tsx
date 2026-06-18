@@ -45,11 +45,16 @@ import {
   getPetHoverEatingAction,
   getPetIdleAnimationName,
   getPetIdleBubbleText,
+  getPetIdleBubbleSchedule,
   getPetIdleQuirkActions,
+  getPetSleepReminderAction,
+  getPetWaterReminderAction,
+  getLocalDateKey,
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
   shouldStartDrag,
+  shouldTriggerPetSleepReminder,
   shouldTriggerHoverEat,
   updateDesktopIconInteraction,
 } from "./pet-core/interaction";
@@ -85,6 +90,8 @@ import {
 
 const GITHUB_RELEASE_API = "https://api.github.com/repos/user-wangjun/company-pet/releases/latest";
 const CURRENT_PET_STORAGE_KEY = "desktop-pet.currentPetId";
+const IKUN_SLEEP_REMINDER_DATE_STORAGE_KEY =
+  "desktop-pet.ikunSleepReminderDate";
 const PET_WINDOW_SIZE = { width: 165, height: 215 };
 const PLATFORM_WINDOW_SIZE = { width: 680, height: 520 };
 
@@ -143,6 +150,22 @@ function saveSelectedPetId(petId: string): void {
     window.localStorage.setItem(CURRENT_PET_STORAGE_KEY, petId);
   } catch {
     // Persisting the choice is best effort; the active in-memory pet still changes.
+  }
+}
+
+function readIkunSleepReminderDate(): string | null {
+  try {
+    return window.localStorage.getItem(IKUN_SLEEP_REMINDER_DATE_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function saveIkunSleepReminderDate(dateKey: string): void {
+  try {
+    window.localStorage.setItem(IKUN_SLEEP_REMINDER_DATE_STORAGE_KEY, dateKey);
+  } catch {
+    // 本地存储不可用时，当前运行周期内仍会通过 ref 避免重复提醒。
   }
 }
 
@@ -240,11 +263,15 @@ function DesktopPetApp() {
   const lastPointerEventAt = useRef(0);
   const clickCount = useRef(0);
   const clickTimer = useRef<number | null>(null);
+  const idleBubbleRefreshTimer = useRef<number | null>(null);
+  const idleBubbleHideTimer = useRef<number | null>(null);
+  const bubbleTextRef = useRef(getTimedDefaultBubble());
+  const lastSleepReminderDate = useRef(readIkunSleepReminderDate());
   const nextEyeCareTime = useRef(Date.now() + randomInRange(30, 50) * 60 * 1000);
   const nextWaterCareTime = useRef(Date.now() + randomInRange(60, 90) * 60 * 1000);
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
-  const [bubbleText, setBubbleText] = useState(getTimedDefaultBubble());
+  const [bubbleText, setBubbleTextState] = useState(bubbleTextRef.current);
   const [isPlatformOpen, setIsPlatformOpen] = useState(PLATFORM_START_OPEN);
   const [availablePetIds, setAvailablePetIds] = useState<string[]>([
     DEFAULT_PET_ID,
@@ -259,6 +286,11 @@ function DesktopPetApp() {
   );
   const activePet = petCatalog.find((pet) => pet.id === activePetId);
   const activePetManifest = petManifestsById[activePetId];
+
+  const setBubbleText = (text: string) => {
+    bubbleTextRef.current = text;
+    setBubbleTextState(text);
+  };
 
   if (soundPlayerRef.current === null) {
     soundPlayerRef.current = createPetSoundPlayer({ enabled: false });
@@ -278,7 +310,7 @@ function DesktopPetApp() {
       }
       const data = await response.json();
       const latestVersion = data.tag_name;
-      const currentVersion = "v0.1.0";
+      const currentVersion = "v0.2.0";
       if (latestVersion && latestVersion !== currentVersion) {
         setBubbleText(`发现新版本 ${latestVersion} 喵！正在为你打开升级网页... 🎈`);
         setTimeout(() => {
@@ -379,8 +411,72 @@ function DesktopPetApp() {
   }, [activePetId, activePetManifest]);
 
   useEffect(() => {
-    setBubbleText(getPetIdleBubbleText(activePetId, getTimedDefaultBubble()));
-  }, [activePetId]);
+    if (idleBubbleRefreshTimer.current !== null) {
+      window.clearTimeout(idleBubbleRefreshTimer.current);
+      idleBubbleRefreshTimer.current = null;
+    }
+    if (idleBubbleHideTimer.current !== null) {
+      window.clearTimeout(idleBubbleHideTimer.current);
+      idleBubbleHideTimer.current = null;
+    }
+
+    const initialSchedule = getPetIdleBubbleSchedule(activePetId);
+    if (!initialSchedule) {
+      setBubbleText(getPetIdleBubbleText(activePetId, getTimedDefaultBubble()));
+      return;
+    }
+
+    setBubbleText("");
+    if (isPlatformOpen) return;
+
+    let disposed = false;
+
+    const scheduleNextBubble = () => {
+      const schedule = getPetIdleBubbleSchedule(activePetId);
+      if (!schedule || disposed) return;
+
+      idleBubbleRefreshTimer.current = window.setTimeout(() => {
+        idleBubbleRefreshTimer.current = null;
+        const canShow =
+          !pointerState.current &&
+          Date.now() >= iconHugLockedUntil.current &&
+          currentAnimation.current === getPetIdleAnimationName(activePetId);
+
+        if (canShow) {
+          showIdleBubble(schedule);
+        } else {
+          scheduleNextBubble();
+        }
+      }, schedule.nextDelayMs);
+    };
+
+    const showIdleBubble = (schedule = initialSchedule) => {
+      if (disposed) return;
+
+      setBubbleText(schedule.bubbleText);
+      idleBubbleHideTimer.current = window.setTimeout(() => {
+        idleBubbleHideTimer.current = null;
+        if (bubbleTextRef.current === schedule.bubbleText) {
+          setBubbleText("");
+        }
+        scheduleNextBubble();
+      }, schedule.durationMs);
+    };
+
+    showIdleBubble();
+
+    return () => {
+      disposed = true;
+      if (idleBubbleRefreshTimer.current !== null) {
+        window.clearTimeout(idleBubbleRefreshTimer.current);
+        idleBubbleRefreshTimer.current = null;
+      }
+      if (idleBubbleHideTimer.current !== null) {
+        window.clearTimeout(idleBubbleHideTimer.current);
+        idleBubbleHideTimer.current = null;
+      }
+    };
+  }, [activePetId, isPlatformOpen]);
 
   useEffect(() => {
     const targetSize = isPlatformOpen ? PLATFORM_WINDOW_SIZE : PET_WINDOW_SIZE;
@@ -427,7 +523,9 @@ function DesktopPetApp() {
   };
 
   const getDefaultBubbleText = () =>
-    getPetIdleBubbleText(activePetId, getTimedDefaultBubble());
+    getPetIdleBubbleSchedule(activePetId) === null
+      ? getPetIdleBubbleText(activePetId, getTimedDefaultBubble())
+      : "";
 
   const playInteractionAction = (action: PetInteractionAction) => {
     setBubbleText(action.bubbleText);
@@ -829,12 +927,30 @@ function DesktopPetApp() {
     if (desktopIconProbeInFlight.current || pointerState.current?.dragging) return;
     if (currentAnimation.current === "iconHug") return;
 
-    // 随机健康关怀（喝水与眼疲劳）检测
+    // 随机健康关怀（睡觉、喝水与眼疲劳）检测
     const nowTimestamp = Date.now();
+    const now = new Date(nowTimestamp);
     if (pointerState.current) {
       // 拖拽点击时，向后推迟提醒 30 秒，避免干扰
       nextEyeCareTime.current = Math.max(nextEyeCareTime.current, nowTimestamp + 30000);
       nextWaterCareTime.current = Math.max(nextWaterCareTime.current, nowTimestamp + 30000);
+    } else if (
+      currentAnimation.current === getPetIdleAnimationName(activePetId) &&
+      shouldTriggerPetSleepReminder(
+        activePetId,
+        now,
+        lastSleepReminderDate.current,
+      )
+    ) {
+      const sleepAction = getPetSleepReminderAction(activePetId);
+      if (sleepAction) {
+        const dateKey = getLocalDateKey(now);
+        lastSleepReminderDate.current = dateKey;
+        saveIkunSleepReminderDate(dateKey);
+        recordInteraction("sleep_reminder");
+        playInteractionAction(sleepAction);
+        return;
+      }
     } else if (nowTimestamp >= nextEyeCareTime.current) {
       recordInteraction("eye_care_reminder");
       const careAction = getPetCareReminderAction(activePetId);
@@ -849,9 +965,9 @@ function DesktopPetApp() {
       return; // 触发提醒，推迟本次吸附检测
     } else if (nowTimestamp >= nextWaterCareTime.current) {
       recordInteraction("water_care_reminder");
-      const careAction = getPetCareReminderAction(activePetId);
-      if (careAction) {
-        playInteractionAction(careAction);
+      const waterAction = getPetWaterReminderAction(activePetId);
+      if (waterAction) {
+        playInteractionAction(waterAction);
       } else {
         setBubbleText("（吸溜）主人，该喝杯水润润嗓子啦，不要一直盯着屏幕喵！🥛");
         playPetSound("care_reminder");
@@ -1192,7 +1308,7 @@ function DesktopPetApp() {
     >
       <div className="pet-hit-area" aria-hidden="true" />
       <div ref={pixiHost} className="pet-canvas" />
-      <div className="bubble">{bubbleText}</div>
+      {bubbleText && <div className="bubble">{bubbleText}</div>}
       {isPlatformOpen && (
         <section
           className="platform-panel"

@@ -8,6 +8,7 @@ import { resolve } from "node:path";
 // types out of browser code.
 import { inflateSync } from "node:zlib";
 import { describe, expect, test } from "vitest";
+import { WINDOWS_DOWNLOAD_URL } from "./marketingContent";
 
 const staticMarketingHtmlPath = resolve("public/marketing.html");
 const staticHeroImagePath = resolve(
@@ -220,6 +221,10 @@ describe("static marketing file", () => {
     expect(html).toContain("微信二维码");
     expect(html).toContain("亟待展示");
     expect(html).not.toContain("亟待开发中");
+    expect(html).toContain("愈心桌宠_0.2.0_x64-setup.exe");
+    expect(WINDOWS_DOWNLOAD_URL).toContain(
+      "%E6%84%88%E5%BF%83%E6%A1%8C%E5%AE%A0_0.2.0_x64-setup.exe",
+    );
   });
 
   test("keeps React marketing WeChat popover styles wired to the morning hit target", () => {
