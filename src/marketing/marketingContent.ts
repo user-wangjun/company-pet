@@ -2,7 +2,7 @@ export const MARKETING_ROUTE_PATH = "/marketing";
 export const MARKETING_FILE_NAME = "marketing.html";
 
 export const WINDOWS_DOWNLOAD_URL =
-  "https://github.com/user-wangjun/company-pet/releases/latest/download/%E6%84%88%E5%BF%83%E6%A1%8C%E5%AE%A0_0.1.0_x64-setup.exe";
+  "https://github.com/user-wangjun/company-pet/releases/latest/download/%E6%84%88%E5%BF%83%E6%A1%8C%E5%AE%A0_0.2.0_x64-setup.exe";
 
 export type SocialLink = {
   label: string;

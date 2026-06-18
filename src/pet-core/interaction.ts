@@ -3,6 +3,9 @@ export const HOVER_EAT_DELAY_MS = 800;
 export const DESKTOP_ICON_INTERACTION_DISTANCE_PX = 38;
 export const DESKTOP_ICON_INTERACTION_DELAY_MS = 5000;
 export const DESKTOP_ICON_INTERACTION_COOLDOWN_MS = 15000;
+export const IKUN_IDLE_BUBBLE_VISIBLE_MS = 5000;
+export const IKUN_IDLE_BUBBLE_MIN_INTERVAL_MS = 2 * 60 * 1000;
+export const IKUN_IDLE_BUBBLE_MAX_INTERVAL_MS = 3 * 60 * 1000;
 
 
 type DragThresholdInput = {
@@ -82,6 +85,12 @@ export type PetIdleQuirkAction = {
   animation: RuntimeAnimationName;
   sound: RuntimeSoundEvent;
   duration: number;
+};
+
+export type PetIdleBubbleSchedule = {
+  bubbleText: string;
+  durationMs: number;
+  nextDelayMs: number;
 };
 
 type DesktopIconTargetOptions = {
@@ -165,6 +174,27 @@ export function getPetIdleBubbleText(
   fallbackBubbleText: string,
 ): string {
   return isIkunPet(petId) ? IKUN_IDLE_BUBBLE : fallbackBubbleText;
+}
+
+export function getPetIdleBubbleSchedule(
+  petId: string,
+  randomValue = Math.random(),
+): PetIdleBubbleSchedule | null {
+  if (!isIkunPet(petId)) return null;
+
+  const normalizedRandom = Math.min(1, Math.max(0, randomValue));
+  const nextDelayMs = Math.round(
+    IKUN_IDLE_BUBBLE_MIN_INTERVAL_MS +
+      (IKUN_IDLE_BUBBLE_MAX_INTERVAL_MS -
+        IKUN_IDLE_BUBBLE_MIN_INTERVAL_MS) *
+        normalizedRandom,
+  );
+
+  return {
+    bubbleText: IKUN_IDLE_BUBBLE,
+    durationMs: IKUN_IDLE_BUBBLE_VISIBLE_MS,
+    nextDelayMs,
+  };
 }
 
 export function getPetDragStartAction(petId: string): PetInteractionAction {
@@ -303,6 +333,51 @@ export function getPetCareReminderAction(
     bubbleText: IKUN_CARE_REMINDER_BUBBLE,
     durationMs: 8000,
   };
+}
+
+export function getPetWaterReminderAction(
+  petId: string,
+): PetInteractionAction | null {
+  if (!isIkunPet(petId)) return null;
+
+  return {
+    animation: "crouchAlert",
+    sound: "care_reminder",
+    bubbleText: "ikun们，练习久了也要记得喝水。",
+    durationMs: 8000,
+  };
+}
+
+export function getPetSleepReminderAction(
+  petId: string,
+): PetInteractionAction | null {
+  if (!isIkunPet(petId)) return null;
+
+  return {
+    animation: "crouchAlert",
+    sound: "care_reminder",
+    bubbleText: "ikun们，夜深了，早点休息，明天再继续练习。",
+    durationMs: 8000,
+  };
+}
+
+export function getLocalDateKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+export function shouldTriggerPetSleepReminder(
+  petId: string,
+  now: Date,
+  lastReminderDateKey: string | null,
+): boolean {
+  return (
+    isIkunPet(petId) &&
+    now.getHours() >= 23 &&
+    lastReminderDateKey !== getLocalDateKey(now)
+  );
 }
 
 export function getPetIdleQuirkActions(petId: string): PetIdleQuirkAction[] {

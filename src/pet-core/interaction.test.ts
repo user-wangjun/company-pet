@@ -3,6 +3,9 @@ import {
   DESKTOP_ICON_INTERACTION_COOLDOWN_MS,
   DESKTOP_ICON_INTERACTION_DELAY_MS,
   HOVER_EAT_DELAY_MS,
+  IKUN_IDLE_BUBBLE_MAX_INTERVAL_MS,
+  IKUN_IDLE_BUBBLE_MIN_INTERVAL_MS,
+  IKUN_IDLE_BUBBLE_VISIBLE_MS,
   findDesktopIconTarget,
   getDesktopIconBumpWindowPosition,
   formatDesktopIconBubbleText,
@@ -21,11 +24,16 @@ import {
   getPetHoverEatingAction,
   getPetIdleAnimationName,
   getPetIdleBubbleText,
+  getPetIdleBubbleSchedule,
   getPetIdleQuirkActions,
+  getPetSleepReminderAction,
+  getPetWaterReminderAction,
+  getLocalDateKey,
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
   shouldStartDrag,
+  shouldTriggerPetSleepReminder,
   shouldTriggerHoverEat,
   updateDesktopIconInteraction,
 } from "./interaction";
@@ -109,6 +117,23 @@ describe("desktop pet interaction rules", () => {
     );
   });
 
+  test("shows the ikun idle bubble for five seconds every random two to three minutes", () => {
+    expect(IKUN_IDLE_BUBBLE_VISIBLE_MS).toBe(5000);
+    expect(IKUN_IDLE_BUBBLE_MIN_INTERVAL_MS).toBe(120000);
+    expect(IKUN_IDLE_BUBBLE_MAX_INTERVAL_MS).toBe(180000);
+    expect(getPetIdleBubbleSchedule("ikun", 0)).toEqual({
+      bubbleText: "中分头，背带裤，我是ikun你记住",
+      durationMs: 5000,
+      nextDelayMs: 120000,
+    });
+    expect(getPetIdleBubbleSchedule("ikun", 1)).toEqual({
+      bubbleText: "中分头，背带裤，我是ikun你记住",
+      durationMs: 5000,
+      nextDelayMs: 180000,
+    });
+    expect(getPetIdleBubbleSchedule("xiaoju-cat", 0.5)).toBeNull();
+  });
+
   test("maps ikun click and drag interactions to the requested action rows", () => {
     expect(getPetDragStartAction("ikun")).toMatchObject({
       animation: "fishChase",
@@ -184,6 +209,44 @@ describe("desktop pet interaction rules", () => {
       animation: "tickle",
       sound: "care_reminder",
       bubbleText: "ikun们，看很久电脑了，要注意休息",
+      durationMs: 8000,
+    });
+  });
+
+  test("uses an independent hydration reminder for ikun", () => {
+    expect(getPetWaterReminderAction("ikun")).toEqual({
+      animation: "crouchAlert",
+      sound: "care_reminder",
+      bubbleText: "ikun们，练习久了也要记得喝水。",
+      durationMs: 8000,
+    });
+    expect(getPetWaterReminderAction("xiaoju-cat")).toBeNull();
+  });
+
+  test("reminds ikun to sleep once per local date after 23:00", () => {
+    const beforeBedtime = new Date(2026, 5, 18, 22, 59);
+    const bedtime = new Date(2026, 5, 18, 23, 0);
+    const sameNight = new Date(2026, 5, 18, 23, 45);
+
+    expect(getLocalDateKey(bedtime)).toBe("2026-06-18");
+    expect(
+      shouldTriggerPetSleepReminder("ikun", beforeBedtime, null),
+    ).toBe(false);
+    expect(shouldTriggerPetSleepReminder("ikun", bedtime, null)).toBe(true);
+    expect(
+      shouldTriggerPetSleepReminder(
+        "ikun",
+        sameNight,
+        getLocalDateKey(bedtime),
+      ),
+    ).toBe(false);
+    expect(
+      shouldTriggerPetSleepReminder("xiaoju-cat", bedtime, null),
+    ).toBe(false);
+    expect(getPetSleepReminderAction("ikun")).toEqual({
+      animation: "crouchAlert",
+      sound: "care_reminder",
+      bubbleText: "ikun们，夜深了，早点休息，明天再继续练习。",
       durationMs: 8000,
     });
   });
