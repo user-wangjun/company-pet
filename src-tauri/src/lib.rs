@@ -16,6 +16,12 @@ const MENU_QUIT: &str = "quit-yuxin";
 const OPEN_PLATFORM_EVENT: &str = "open-platform";
 const TOGGLE_SOUND_EVENT: &str = "toggle-sound";
 
+#[derive(Clone, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+struct OpenPlatformPayload {
+    reset_pet_position: bool,
+}
+
 #[tauri::command]
 fn record_interaction(event: String) -> Result<(), String> {
     let Ok(path) = std::env::var("XIAOJU_SELF_TEST_LOG") else {
@@ -31,9 +37,15 @@ fn record_interaction(event: String) -> Result<(), String> {
     writeln!(file, "{event}").map_err(|error| error.to_string())
 }
 
+fn emit_open_platform(app: &tauri::AppHandle, reset_pet_position: bool) {
+    let _ = app.emit(
+        OPEN_PLATFORM_EVENT,
+        OpenPlatformPayload { reset_pet_position },
+    );
+}
+
 fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
-    let open_platform =
-        MenuItem::with_id(app, MENU_OPEN_PLATFORM, "打开平台", true, None::<&str>)?;
+    let open_platform = MenuItem::with_id(app, MENU_OPEN_PLATFORM, "打开平台", true, None::<&str>)?;
     let show = MenuItem::with_id(app, MENU_SHOW, "隐藏愈心桌宠", true, None::<&str>)?;
     let toggle_sound = MenuItem::with_id(
         app,
@@ -44,7 +56,10 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
     )?;
     let check_update = MenuItem::with_id(app, MENU_CHECK_UPDATE, "检查更新", true, None::<&str>)?;
     let quit = MenuItem::with_id(app, MENU_QUIT, "退出", true, None::<&str>)?;
-    let menu = Menu::with_items(app, &[&open_platform, &show, &toggle_sound, &check_update, &quit])?;
+    let menu = Menu::with_items(
+        app,
+        &[&open_platform, &show, &toggle_sound, &check_update, &quit],
+    )?;
 
     let show_item_menu = show.clone();
     let show_item_tray = show.clone();
@@ -62,7 +77,7 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
                         let _ = window.show();
                         let _ = window.unminimize();
                         let _ = window.set_focus();
-                        let _ = app.emit(OPEN_PLATFORM_EVENT, ());
+                        emit_open_platform(app, false);
                         let _ = show_item_menu.set_text("隐藏愈心桌宠");
                     }
                 }
@@ -76,7 +91,7 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
                                 let _ = window.show();
                                 let _ = window.unminimize();
                                 let _ = window.set_focus();
-                                let _ = app.emit(OPEN_PLATFORM_EVENT, ());
+                                emit_open_platform(app, true);
                                 "隐藏愈心桌宠"
                             };
                             let _ = show_item_menu.set_text(new_text);
@@ -114,10 +129,11 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
                 {
                     let app = tray.app_handle();
                     if let Some(window) = app.get_webview_window("main") {
+                        let was_visible = window.is_visible().unwrap_or(true);
                         let _ = window.show();
                         let _ = window.unminimize();
                         let _ = window.set_focus();
-                        let _ = app.emit(OPEN_PLATFORM_EVENT, ());
+                        emit_open_platform(&app, !was_visible);
                         let _ = show_item_tray.set_text("隐藏愈心桌宠");
                     }
                 }

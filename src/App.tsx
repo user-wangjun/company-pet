@@ -6,9 +6,12 @@ import type {
 } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import {
+  currentMonitor,
   getCurrentWindow,
   LogicalSize,
+  primaryMonitor,
   PhysicalPosition,
+  type Monitor,
 } from "@tauri-apps/api/window";
 import { listen } from "@tauri-apps/api/event";
 import { openUrl } from "@tauri-apps/plugin-opener";
@@ -56,6 +59,7 @@ import {
 import {
   ANIMATION_ROWS,
   appendPetAnimationFinishFrame,
+  getPetAnimationRowSpec,
 } from "./pet-core/animationRows";
 import {
   PET_BUBBLE_BOTTOM_PX,
@@ -63,7 +67,11 @@ import {
 } from "./pet-core/visual";
 import {
   APP_DISPLAY_NAME,
+  getCenteredWindowPosition,
+  getInitialPetWindowPosition,
   PLATFORM_START_OPEN,
+  type WindowPosition,
+  type WindowSize,
 } from "./pet-core/platform";
 import {
   chooseInitialPetId,
@@ -77,6 +85,13 @@ import {
   type PetManifest,
   resolvePetAssetUrl,
 } from "./pet-core/petAssets";
+import {
+  getTimedPetDialogueEvent,
+  loadPetDialoguePackage,
+  resolvePetDialogue,
+  type PetDialogueEvent,
+  type PetDialoguePackage,
+} from "./pet-core/dialogue";
 import {
   createPetSoundPlayer,
   type PetSoundEvent,
@@ -112,6 +127,10 @@ const CELL_HEIGHT = 208;
 type AnimationName = RuntimeAnimationName;
 type PressSource = "pointer" | "mouse";
 type TauriWindow = ReturnType<typeof getCurrentWindow>;
+type WindowMode = "platform" | "pet";
+type OpenPlatformPayload = {
+  resetPetPosition?: boolean;
+};
 
 function isTauriRuntime(): boolean {
   return (
@@ -156,30 +175,58 @@ function getOptionalCurrentWindow(): TauriWindow | null {
   }
 }
 
-function resizeAppWindow(width: number, height: number): void {
-  const appWindow = getOptionalCurrentWindow();
-  if (!appWindow) return;
-
-  void appWindow.setSize(new LogicalSize(width, height)).catch(() => {});
-}
-
 function recordInteraction(event: string): Promise<unknown> {
   return invoke("record_interaction", { event }).catch(() => {});
 }
 
-function listenToAppEvent(
+function listenToAppEvent<T = undefined>(
   event: string,
-  handler: () => void,
+  handler: (payload: T) => void,
 ): Promise<() => void> {
   if (!isTauriRuntime()) {
     return Promise.resolve(() => {});
   }
 
   try {
-    return listen(event, handler).catch(() => () => {});
+    return listen<T>(event, (appEvent) => handler(appEvent.payload)).catch(
+      () => () => {},
+    );
   } catch {
     return Promise.resolve(() => {});
   }
+}
+
+async function getPlacementMonitor(): Promise<Monitor | null> {
+  return (
+    (await currentMonitor().catch(() => null)) ??
+    (await primaryMonitor().catch(() => null))
+  );
+}
+
+function getPhysicalWindowSize(
+  logicalSize: WindowSize,
+  monitor: Monitor,
+): WindowSize {
+  const scaleFactor = monitor.scaleFactor > 0 ? monitor.scaleFactor : 1;
+
+  return {
+    width: Math.round(logicalSize.width * scaleFactor),
+    height: Math.round(logicalSize.height * scaleFactor),
+  };
+}
+
+async function setWindowSize(
+  appWindow: TauriWindow,
+  size: WindowSize,
+): Promise<void> {
+  await appWindow.setSize(new LogicalSize(size.width, size.height));
+}
+
+async function setWindowPosition(
+  appWindow: TauriWindow,
+  position: WindowPosition,
+): Promise<void> {
+  await appWindow.setPosition(new PhysicalPosition(position.x, position.y));
 }
 
 function sliceRowFrames(
@@ -244,7 +291,9 @@ function DesktopPetApp() {
   const nextWaterCareTime = useRef(Date.now() + randomInRange(60, 90) * 60 * 1000);
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
-  const [bubbleText, setBubbleText] = useState(getTimedDefaultBubble());
+  const [bubbleText, setBubbleText] = useState<string | null>(
+    getTimedDefaultBubble(),
+  );
   const [isPlatformOpen, setIsPlatformOpen] = useState(PLATFORM_START_OPEN);
   const [availablePetIds, setAvailablePetIds] = useState<string[]>([
     DEFAULT_PET_ID,
@@ -252,7 +301,13 @@ function DesktopPetApp() {
   const [petManifestsById, setPetManifestsById] = useState<
     Record<string, PetManifest>
   >({});
+  const [petDialoguesById, setPetDialoguesById] = useState<
+    Record<string, PetDialoguePackage>
+  >({});
   const [activePetId, setActivePetId] = useState(DEFAULT_PET_ID);
+  const windowMode = useRef<WindowMode>(isPlatformOpen ? "platform" : "pet");
+  const resetPetPositionOnNextOpen = useRef(true);
+  const lastPetWindowPosition = useRef<WindowPosition | null>(null);
   const petCatalog = useMemo(
     () => createPetCatalog(availablePetIds, petManifestsById, activePetId),
     [activePetId, availablePetIds, petManifestsById],
@@ -302,10 +357,16 @@ function DesktopPetApp() {
     const unlistenUpdatePromise = listenToAppEvent("check-update", () => {
       void checkForUpdates(true);
     });
-    const unlistenPlatformPromise = listenToAppEvent("open-platform", () => {
-      setIsPlatformOpen(true);
-      recordInteraction("platform_open_from_tray");
-    });
+    const unlistenPlatformPromise = listenToAppEvent<OpenPlatformPayload>(
+      "open-platform",
+      (payload) => {
+        if (payload?.resetPetPosition) {
+          resetPetPositionOnNextOpen.current = true;
+        }
+        setIsPlatformOpen(true);
+        recordInteraction("platform_open_from_tray");
+      },
+    );
     const unlistenSoundPromise = listenToAppEvent("toggle-sound", () => {
       soundEnabled = !soundEnabled;
       soundPlayerRef.current?.setEnabled(soundEnabled);
@@ -345,11 +406,18 @@ function DesktopPetApp() {
           petIds.map(async (petId) => [petId, await loadPetManifest(petId)] as const),
         );
         const manifests = Object.fromEntries(manifestEntries);
+        const dialogueEntries = await Promise.all(
+          manifestEntries.map(
+            async ([petId, manifest]) =>
+              [petId, await loadPetDialoguePackage(manifest)] as const,
+          ),
+        );
         const initialPetId = chooseInitialPetId(petIds, readSavedPetId());
 
         if (disposed) return;
         setAvailablePetIds(petIds);
         setPetManifestsById(manifests);
+        setPetDialoguesById(Object.fromEntries(dialogueEntries));
         setActivePetId(initialPetId);
       } catch {
         const fallbackManifest = await loadPetManifest(DEFAULT_PET_ID).catch(
@@ -357,8 +425,11 @@ function DesktopPetApp() {
         );
 
         if (disposed || !fallbackManifest) return;
+        const fallbackDialogues = await loadPetDialoguePackage(fallbackManifest);
+        if (disposed) return;
         setAvailablePetIds([DEFAULT_PET_ID]);
         setPetManifestsById({ [DEFAULT_PET_ID]: fallbackManifest });
+        setPetDialoguesById({ [DEFAULT_PET_ID]: fallbackDialogues });
         setActivePetId(DEFAULT_PET_ID);
       }
     };
@@ -379,12 +450,83 @@ function DesktopPetApp() {
   }, [activePetId, activePetManifest]);
 
   useEffect(() => {
-    setBubbleText(getPetIdleBubbleText(activePetId, getTimedDefaultBubble()));
-  }, [activePetId]);
+    setBubbleText(getDefaultBubbleTextForPet(activePetId));
+  }, [activePetId, petDialoguesById]);
+
+  const applyPlatformWindowLayout = async (
+    appWindow: TauriWindow,
+    shouldCapturePetPosition: boolean,
+  ) => {
+    if (shouldCapturePetPosition) {
+      const position = await appWindow.outerPosition().catch(() => null);
+      if (position) {
+        lastPetWindowPosition.current = { x: position.x, y: position.y };
+      }
+    }
+
+    const monitor = await getPlacementMonitor();
+    await setWindowSize(appWindow, PLATFORM_WINDOW_SIZE);
+
+    if (!monitor) return;
+
+    await setWindowPosition(
+      appWindow,
+      getCenteredWindowPosition(
+        monitor.workArea,
+        getPhysicalWindowSize(PLATFORM_WINDOW_SIZE, monitor),
+      ),
+    );
+  };
+
+  const applyPetWindowLayout = async (
+    appWindow: TauriWindow,
+    shouldUseInitialPosition: boolean,
+  ) => {
+    await setWindowSize(appWindow, PET_WINDOW_SIZE);
+
+    if (!shouldUseInitialPosition) {
+      if (lastPetWindowPosition.current) {
+        await setWindowPosition(appWindow, lastPetWindowPosition.current);
+      }
+      return;
+    }
+
+    const monitor = await getPlacementMonitor();
+    if (!monitor) return;
+
+    await setWindowPosition(
+      appWindow,
+      getInitialPetWindowPosition(
+        monitor.workArea,
+        getPhysicalWindowSize(PET_WINDOW_SIZE, monitor),
+      ),
+    );
+  };
 
   useEffect(() => {
-    const targetSize = isPlatformOpen ? PLATFORM_WINDOW_SIZE : PET_WINDOW_SIZE;
-    resizeAppWindow(targetSize.width, targetSize.height);
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) return;
+
+    const nextMode: WindowMode = isPlatformOpen ? "platform" : "pet";
+    const previousMode = windowMode.current;
+    windowMode.current = nextMode;
+
+    if (nextMode === "platform") {
+      void applyPlatformWindowLayout(
+        appWindow,
+        previousMode === "pet",
+      ).catch(() => {
+        recordInteraction("platform_layout_failed");
+      });
+      return;
+    }
+
+    const shouldUseInitialPosition = resetPetPositionOnNextOpen.current;
+    resetPetPositionOnNextOpen.current = false;
+
+    void applyPetWindowLayout(appWindow, shouldUseInitialPosition).catch(() => {
+      recordInteraction("pet_layout_failed");
+    });
   }, [isPlatformOpen]);
 
   const stopPlatformEvent = (
@@ -418,7 +560,7 @@ function DesktopPetApp() {
 
     saveSelectedPetId(pet.id);
     setActivePetId(pet.id);
-    setBubbleText(getPetIdleBubbleText(pet.id, `${pet.displayName} 来啦。`));
+    setBubbleText(getDefaultBubbleTextForPet(pet.id));
     recordInteraction("platform_pet_selected");
   };
 
@@ -426,11 +568,48 @@ function DesktopPetApp() {
     soundPlayerRef.current?.play(eventName);
   };
 
-  const getDefaultBubbleText = () =>
-    getPetIdleBubbleText(activePetId, getTimedDefaultBubble());
+  const getDialoguePackageForPet = (petId: string): PetDialoguePackage => {
+    const loaded = petDialoguesById[petId];
+    if (loaded) return loaded;
 
-  const playInteractionAction = (action: PetInteractionAction) => {
-    setBubbleText(action.bubbleText);
+    return petManifestsById[petId]?.dialoguesPath
+      ? { status: "failed", petId }
+      : { status: "not-configured", petId };
+  };
+
+  const getBubbleTextForPet = (
+    petId: string,
+    event: PetDialogueEvent,
+    fallbackText: string | null,
+  ) =>
+    resolvePetDialogue(
+      getDialoguePackageForPet(petId),
+      event,
+      fallbackText,
+    );
+
+  const getDefaultBubbleTextForPet = (petId: string) =>
+    getBubbleTextForPet(
+      petId,
+      getTimedPetDialogueEvent(new Date().getHours()),
+      getPetIdleBubbleText(petId, getTimedDefaultBubble()),
+    );
+
+  const getDefaultBubbleText = () => getDefaultBubbleTextForPet(activePetId);
+
+  const playInteractionAction = (
+    action: PetInteractionAction,
+    dialogueEvent?: PetDialogueEvent,
+  ) => {
+    setBubbleText(
+      dialogueEvent
+        ? getBubbleTextForPet(
+            activePetId,
+            dialogueEvent,
+            action.bubbleText ?? null,
+          )
+        : action.bubbleText ?? null,
+    );
     playPetSound(action.sound);
     playAnimation(action.animation, action.durationMs);
   };
@@ -451,7 +630,10 @@ function DesktopPetApp() {
       if ("sequence" in clickAction) {
         playHoverFishSequence();
       } else {
-        playInteractionAction(clickAction);
+        playInteractionAction(
+          clickAction,
+          currentCount === 1 ? "singleClick" : undefined,
+        );
       }
       return;
     }
@@ -526,7 +708,7 @@ function DesktopPetApp() {
       returnToIdleTimer.current = null;
     }
 
-    const animation = ANIMATION_ROWS[name];
+    const animation = getPetAnimationRowSpec(activePetId, name);
     sprite.textures = animations[name];
     sprite.animationSpeed = animation.speed;
     sprite.loop = animation.loop;
@@ -551,13 +733,17 @@ function DesktopPetApp() {
       returnToIdleTimer.current = null;
     }
 
-    setBubbleText("鱼！");
+    setBubbleText(
+      getBubbleTextForPet(activePetId, "doubleClick", "鱼！"),
+    );
     recordInteraction("fish_chase");
     playPetSound("fishChase");
     playAnimation(chaseAnimation);
 
     returnToIdleTimer.current = window.setTimeout(() => {
-      setBubbleText("吃到了。");
+      setBubbleText(
+        getBubbleTextForPet(activePetId, "doubleClick", "吃到了。"),
+      );
       recordInteraction("fish_eat");
       playPetSound("fishEat");
       playAnimation(eatAnimation);
@@ -791,7 +977,7 @@ function DesktopPetApp() {
     event.preventDefault();
     if (getPetContextMenuAction() === "keep-open") {
       recordInteraction("context_menu");
-      setBubbleText(getPetIdleBubbleText(activePetId, "喵？"));
+      setBubbleText(getBubbleTextForPet(activePetId, "idle", "喵？"));
       playAnimation(getPetIdleAnimationName(activePetId), 900);
     }
   };
@@ -839,7 +1025,7 @@ function DesktopPetApp() {
       recordInteraction("eye_care_reminder");
       const careAction = getPetCareReminderAction(activePetId);
       if (careAction) {
-        playInteractionAction(careAction);
+        playInteractionAction(careAction, "eyeCare");
       } else {
         setBubbleText("看屏幕太久啦，陪小橘眺望一下窗外，放松一下眼睛吧~ 👀");
         playPetSound("care_reminder");
@@ -851,7 +1037,7 @@ function DesktopPetApp() {
       recordInteraction("water_care_reminder");
       const careAction = getPetCareReminderAction(activePetId);
       if (careAction) {
-        playInteractionAction(careAction);
+        playInteractionAction(careAction, "water");
       } else {
         setBubbleText("（吸溜）主人，该喝杯水润润嗓子啦，不要一直盯着屏幕喵！🥛");
         playPetSound("care_reminder");
@@ -874,7 +1060,9 @@ function DesktopPetApp() {
         recordInteraction("idle_quirk_triggered");
         const quirks = getPetIdleQuirkActions(activePetId);
         const chosen = quirks[Math.floor(Math.random() * quirks.length)];
-        setBubbleText(chosen.text);
+        setBubbleText(
+          getBubbleTextForPet(activePetId, "idle", chosen.text ?? null),
+        );
         playPetSound(chosen.sound);
         playAnimation(chosen.animation, chosen.duration);
         nextIdleQuirkTime.current = nowTimestamp + randomInRange(25, 45) * 1000;
@@ -1060,10 +1248,11 @@ function DesktopPetApp() {
           return;
         }
 
+        const fishEatAnimation = getPetAnimationRowSpec(petId, "fishEat");
         const fishEatFrames = sliceRowFrames(
           texture,
-          ANIMATION_ROWS.fishEat.row,
-          ANIMATION_ROWS.fishEat.frames,
+          fishEatAnimation.row,
+          fishEatAnimation.frames,
         );
         const animations: Record<AnimationName, Texture[]> = {
           idle: sliceRowFrames(
@@ -1115,11 +1304,12 @@ function DesktopPetApp() {
         };
         animationsRef.current = animations;
         const idleAnimationName = getPetIdleAnimationName(petId);
+        const idleAnimation = getPetAnimationRowSpec(petId, idleAnimationName);
         const sprite = new AnimatedSprite({
           textures: animations[idleAnimationName],
-          animationSpeed: ANIMATION_ROWS[idleAnimationName].speed,
+          animationSpeed: idleAnimation.speed,
           autoPlay: true,
-          loop: ANIMATION_ROWS[idleAnimationName].loop,
+          loop: idleAnimation.loop,
         });
 
         currentAnimation.current = idleAnimationName;
@@ -1192,7 +1382,7 @@ function DesktopPetApp() {
     >
       <div className="pet-hit-area" aria-hidden="true" />
       <div ref={pixiHost} className="pet-canvas" />
-      <div className="bubble">{bubbleText}</div>
+      {bubbleText && <div className="bubble">{bubbleText}</div>}
       {isPlatformOpen && (
         <section
           className="platform-panel"
