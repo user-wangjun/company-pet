@@ -1080,3 +1080,520 @@ button {
   outline: 2px solid rgba(239, 79, 126, 0.75);
   outline-offset: 2px;
 }
+
+.platform-header-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.platform-mailbox-button {
+  position: relative;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(38, 70, 66, 0.22);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #243f3a;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.platform-mailbox-button:hover {
+  background: #e8f1ed;
+}
+
+.platform-mailbox-button.is-receiving {
+  animation: mailbox-receive-bounce 760ms cubic-bezier(0.2, 0.75, 0.18, 1);
+}
+
+.platform-mailbox-badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 17px;
+  height: 17px;
+  box-sizing: border-box;
+  padding: 0 5px;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  background: #b63b40;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 13px;
+  text-align: center;
+}
+
+@keyframes mailbox-receive-bounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  35% {
+    transform: translateY(-4px) scale(1.08);
+  }
+  70% {
+    transform: translateY(1px) scale(0.98);
+  }
+}
+
+.mailbox-panel-backdrop,
+.letter-overlay {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  background: rgba(12, 20, 18, 0.62);
+}
+
+.mailbox-panel-backdrop {
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+}
+
+.mailbox-panel {
+  width: min(620px, 100%);
+  max-height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(44, 76, 68, 0.14);
+  border-radius: 16px;
+  background: #f7faf6;
+  box-shadow: 0 22px 60px rgba(6, 18, 15, 0.26);
+  color: #233f37;
+}
+
+.mailbox-panel-header,
+.mailbox-toolbar,
+.mailbox-letter-row {
+  display: flex;
+  align-items: center;
+}
+
+.mailbox-panel-header {
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid rgba(47, 78, 70, 0.12);
+}
+
+.mailbox-panel-header p,
+.mailbox-panel-header h2 {
+  margin: 0;
+}
+
+.mailbox-panel-header p {
+  color: #758780;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mailbox-panel-header h2 {
+  margin-top: 3px;
+  color: #1d3e35;
+  font-size: 22px;
+}
+
+.mailbox-panel-header button,
+.mailbox-toolbar button {
+  min-height: 34px;
+  border: 1px solid rgba(41, 85, 73, 0.18);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #315f53;
+  cursor: pointer;
+}
+
+.mailbox-panel-header button {
+  width: 34px;
+  padding: 0;
+  font-size: 21px;
+}
+
+.mailbox-toolbar {
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+}
+
+.mailbox-toolbar span {
+  margin-right: auto;
+  color: #5c756d;
+  font-size: 13px;
+}
+
+.mailbox-toolbar button {
+  padding: 0 12px;
+}
+
+.mailbox-toolbar button:disabled,
+.letter-close:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.mailbox-list {
+  display: grid;
+  gap: 10px;
+  max-height: 360px;
+  overflow: auto;
+  padding: 0 20px 20px;
+}
+
+.mailbox-letter-row {
+  width: 100%;
+  gap: 14px;
+  padding: 15px;
+  border: 1px solid rgba(43, 75, 67, 0.13);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #28483f;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mailbox-letter-row:not(.is-read) {
+  border-color: rgba(182, 59, 64, 0.28);
+  box-shadow: 0 7px 20px rgba(69, 49, 45, 0.08);
+}
+
+.mailbox-letter-icon {
+  font-size: 24px;
+}
+
+.mailbox-letter-copy {
+  display: grid;
+  flex: 1;
+  gap: 4px;
+}
+
+.mailbox-letter-copy span,
+.mailbox-letter-meta {
+  color: #70817b;
+  font-size: 12px;
+}
+
+.mailbox-letter-meta {
+  display: grid;
+  gap: 5px;
+  justify-items: end;
+}
+
+.letter-overlay {
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  cursor: default;
+}
+
+.letter-overlay.is-sealed {
+  cursor: pointer;
+}
+
+.letter-envelope-stage {
+  --letter-flight-x: 0px;
+  --letter-flight-y: 0px;
+  position: relative;
+  width: 480px;
+  height: 292px;
+}
+
+.letter-envelope-shadow {
+  position: absolute;
+  right: -16px;
+  bottom: -15px;
+  left: 18px;
+  height: 55px;
+  border-radius: 50%;
+  background: rgba(8, 16, 14, 0.3);
+  filter: blur(15px);
+}
+
+.letter-envelope-shell {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid rgba(120, 130, 127, 0.16);
+  background: linear-gradient(165deg, #ffffff 0%, #fafbf9 60%, #eef1ee 100%);
+  box-shadow: 7px 10px 15px rgba(44, 52, 49, 0.12);
+}
+
+.letter-fold-left,
+.letter-fold-right,
+.letter-fold-bottom {
+  position: absolute;
+  inset: 0;
+}
+
+.letter-fold-left {
+  background: linear-gradient(145deg, #ffffff, #f0f3f0);
+  clip-path: polygon(0 12%, 0 100%, 50% 55%);
+}
+
+.letter-fold-right {
+  background: linear-gradient(215deg, #ffffff, #eef1ee);
+  clip-path: polygon(100% 12%, 100% 100%, 50% 55%);
+}
+
+.letter-fold-bottom {
+  background: linear-gradient(180deg, #fbfcfa, #edf0ed);
+  clip-path: polygon(0 100%, 50% 54%, 100% 100%);
+}
+
+.letter-envelope-flap {
+  position: absolute;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  width: 480px;
+  height: 177px;
+  transform-origin: top center;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(175deg, #ffffff, #f0f3f1);
+  filter: drop-shadow(0 9px 7px rgba(65, 75, 72, 0.14));
+  backface-visibility: hidden;
+}
+
+.letter-wax-seal {
+  position: absolute;
+  z-index: 13;
+  top: 132px;
+  left: 50%;
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  transform: translate(-50%, -50%) rotate(-7deg);
+  border-radius: 48% 52% 45% 55% / 51% 46% 54% 49%;
+  background: radial-gradient(circle, #c64a4b 0 48%, #9c2d34 72%, #761d25 100%);
+  box-shadow:
+    inset 0 0 0 5px rgba(103, 20, 28, 0.18),
+    0 6px 11px rgba(52, 16, 19, 0.3);
+  color: #f2bbb0;
+  font-family: "STXingkai", "华文行楷", "KaiTi", serif;
+  font-size: 25px;
+}
+
+.letter-paper {
+  position: absolute;
+  z-index: 4;
+  top: 30px;
+  left: 50%;
+  width: 420px;
+  height: 190px;
+  min-height: 0;
+  overflow: hidden;
+  transform: translateX(-50%) translateY(62px);
+  border: 1px solid rgba(107, 107, 96, 0.17);
+  border-radius: 3px;
+  background: #fffef9;
+  color: #2f2a23;
+}
+
+.letter-paper-inner {
+  padding: 34px 46px 30px;
+  opacity: 0;
+}
+
+.letter-paper h2,
+.letter-body {
+  font-family: "STXingkai", "华文行楷", "KaiTi", "楷体", serif;
+  font-weight: 400;
+  text-rendering: geometricPrecision;
+}
+
+.letter-paper h2 {
+  margin: 0 0 24px;
+  color: #29251f;
+  font-size: 34px;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.letter-body {
+  color: #2f2a23;
+  font-size: 22px;
+  line-height: 1.65;
+  letter-spacing: 0.025em;
+}
+
+.letter-body p {
+  margin: 0 0 12px;
+  text-indent: 2em;
+}
+
+.letter-body .letter-salutation {
+  text-indent: 0;
+}
+
+.letter-signature {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.letter-close {
+  position: absolute;
+  top: 12px;
+  right: 13px;
+  z-index: 2;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #776d60;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.letter-open-hint {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.letter-overlay.is-opening .letter-wax-seal,
+.letter-overlay.is-open .letter-wax-seal,
+.letter-overlay.is-folding .letter-wax-seal,
+.letter-overlay.is-inserting .letter-wax-seal {
+  opacity: 0;
+}
+
+.letter-overlay.is-opening .letter-envelope-flap,
+.letter-overlay.is-open .letter-envelope-flap,
+.letter-overlay.is-folding .letter-envelope-flap,
+.letter-overlay.is-inserting .letter-envelope-flap {
+  z-index: 2;
+  transform: rotateX(180deg);
+}
+
+.letter-overlay.is-opening .letter-paper,
+.letter-overlay.is-open .letter-paper {
+  z-index: 25;
+  width: 780px;
+  height: 550px;
+  transform: translateX(-50%) translateY(-159px);
+  box-shadow: 0 12px 28px rgba(31, 34, 30, 0.16);
+}
+
+.letter-overlay.is-opening .letter-paper {
+  transition:
+    width 520ms 260ms,
+    height 520ms 260ms,
+    transform 720ms 260ms,
+    box-shadow 320ms 520ms;
+}
+
+.letter-overlay.is-opening .letter-envelope-flap {
+  transition: transform 680ms;
+}
+
+.letter-overlay.is-opening .letter-paper-inner,
+.letter-overlay.is-open .letter-paper-inner {
+  opacity: 1;
+}
+
+.letter-overlay.is-opening .letter-paper-inner {
+  transition: opacity 340ms 760ms;
+}
+
+.letter-overlay.is-folding .letter-paper {
+  z-index: 25;
+  width: 420px;
+  height: 190px;
+  transform: translateX(-50%) translateY(-225px);
+  box-shadow: none;
+  transition:
+    width 500ms,
+    height 500ms,
+    transform 500ms,
+    box-shadow 180ms;
+}
+
+.letter-overlay.is-folding .letter-paper-inner,
+.letter-overlay.is-inserting .letter-paper-inner,
+.letter-overlay.is-sealing .letter-paper-inner,
+.letter-overlay.is-flying .letter-paper-inner {
+  opacity: 0;
+}
+
+.letter-overlay.is-inserting .letter-paper,
+.letter-overlay.is-sealing .letter-paper,
+.letter-overlay.is-flying .letter-paper {
+  z-index: 4;
+  width: 420px;
+  height: 190px;
+  transform: translateX(-50%) translateY(62px);
+  box-shadow: none;
+}
+
+.letter-overlay.is-inserting .letter-paper {
+  transition: transform 460ms cubic-bezier(0.35, 0, 0.2, 1);
+}
+
+.letter-overlay.is-sealing .letter-envelope-flap,
+.letter-overlay.is-flying .letter-envelope-flap {
+  z-index: 9;
+  transform: rotateX(0deg);
+  transition: transform 360ms cubic-bezier(0.3, 0.1, 0.2, 1);
+}
+
+.letter-overlay.is-sealing .letter-wax-seal,
+.letter-overlay.is-flying .letter-wax-seal {
+  opacity: 1;
+  transition: opacity 220ms 220ms;
+}
+
+.letter-overlay.is-flying .letter-envelope-stage {
+  animation: letter-fly-to-mailbox 760ms cubic-bezier(0.2, 0.75, 0.18, 1)
+    forwards;
+}
+
+@keyframes letter-fly-to-mailbox {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  45% {
+    opacity: 1;
+    transform:
+      translate(
+        calc(var(--letter-flight-x) * 0.48),
+        calc(var(--letter-flight-y) * 0.38)
+      )
+      scale(0.72)
+      rotate(-4deg);
+  }
+  100% {
+    opacity: 0;
+    transform:
+      translate(var(--letter-flight-x), var(--letter-flight-y))
+      scale(0.07)
+      rotate(9deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter-paper,
+  .letter-envelope-flap,
+  .letter-wax-seal,
+  .letter-envelope-stage,
+  .platform-mailbox-button {
+    animation-duration: 30ms !important;
+    transition-delay: 0ms !important;
+    transition-duration: 30ms !important;
+  }
+}
