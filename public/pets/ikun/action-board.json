@@ -1,6 +1,6 @@
 {
-  "version": 14,
-  "status": "route1-v14-throw-finish",
+  "version": 15,
+  "status": "route1-v15-double-click-jump",
   "notes": [
     "Rows marked repaired-first-pass are visible in spritesheet.webp, contact-sheet.png, and row GIF previews.",
     "Back-view row is now no-ball to avoid unrelated basketball props.",
@@ -11,7 +11,8 @@
     "Bie-ganmao v10 removes the old down-arm/hand in lift frames before drawing the raised sleeve, so the hand-to-mouth gesture is a real replacement pose instead of an overlay.",
     "Route 1 v11 uses package-local references for rows 1, 3, and 7; row 3 has no bubble, and row 7 keeps exactly one complete basketball prop per frame.",
     "Row 4 under-leg dribble now follows references/under-leg-dribble-ref.png frame 01-08 and is the ikun idle standard.",
-    "路线 1 v14 清理 09-16 帧透明背景，并在运行时追加独立无球收尾帧 throw-finish.png。"
+    "路线 1 v14 清理 09-16 帧透明背景，并在运行时追加独立无球收尾帧 throw-finish.png。",
+    "Route 1 v15 replaces row 8 with the user-provided 8-frame jump reference for ikun double-click."
   ],
   "currentAtlasRows": [
     {
@@ -103,12 +104,13 @@
     },
     {
       "row": 8,
-      "actionId": "practice-finish",
-      "seriesId": "gesture-no-ball",
+      "actionId": "jump",
+      "seriesId": "jump-no-ball",
       "view": "front",
       "basketball": "none",
-      "matchStatus": "usable",
-      "review": "No-ball closing gesture can stay as a short front-facing finish."
+      "matchStatus": "reference-standard-v15",
+      "review": "User-provided 01-08 jump reference: crouch, lift-off, airborne hold, landing squash, recover.",
+      "reference": "references/jump-ref.png"
     }
   ],
   "seriesPlayback": [
@@ -139,11 +141,10 @@
     {
       "seriesId": "gesture-no-ball",
       "rows": [
-        3,
-        8
+        3
       ],
       "basketball": "none",
-      "playbackRule": "第 3 行参考 references/bie-ganmao-ref.jpg 做红围巾别感冒动作，本轮不加气泡；第 8 行是无球收尾摆手和点头。"
+      "playbackRule": "第 3 行参考 references/bie-ganmao-ref.jpg 做红围巾别感冒动作，本轮不加气泡。"
     },
     {
       "seriesId": "basketball-under-leg",
@@ -176,6 +177,14 @@
       ],
       "basketball": "all",
       "playbackRule": "正面后撤步，每帧只有一个完整篮球道具，跟手整体旋转。"
+    },
+    {
+      "seriesId": "jump-no-ball",
+      "rows": [
+        8
+      ],
+      "basketball": "none",
+      "playbackRule": "双击触发 01-08 跳跃：下蹲蓄力、起跳、空中停顿、落地恢复。"
     }
   ],
   "plannedSimpleActions": [
@@ -469,6 +478,40 @@
       ],
       "finishSourceImage": "references/throw-finish-ref.png",
       "finishFramePath": "throw-finish.png"
+    },
+    {
+      "id": "jump",
+      "displayName": "跳跃",
+      "priority": 5,
+      "status": "reference-standard-v15",
+      "implementedRow": 8,
+      "view": "front",
+      "basketball": {
+        "mode": "none",
+        "frames": [],
+        "sourceObservation": "用户提供的 01-08 跳跃参考全程无篮球。"
+      },
+      "keyframes": [
+        "front stance",
+        "crouch preparation",
+        "arms open during lift-off",
+        "airborne hold",
+        "arms fold during descent",
+        "landing crouch",
+        "return to neutral stance"
+      ],
+      "rigRequirements": [
+        "root",
+        "spine",
+        "left-shoulder",
+        "right-shoulder",
+        "left-hip",
+        "right-hip",
+        "left-knee",
+        "right-knee"
+      ],
+      "referenceMatch": "user-reference-jump-v15",
+      "sourceImage": "references/jump-ref.png"
     }
   ]
 }

@@ -1,0 +1,117 @@
+{
+  "ok": true,
+  "file": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\ikun\\spritesheet.webp",
+  "generatedAt": "2026-06-19T14:01:55.628794+00:00",
+  "scope": "row-8-jump-v15",
+  "cell": {
+    "width": 192,
+    "height": 208,
+    "columns": 8,
+    "rows": 9
+  },
+  "errors": [],
+  "preExistingWarnings": [
+    "row 7 frame 4 touches edge"
+  ],
+  "row": {
+    "row": 8,
+    "frames": [
+      {
+        "frame": 0,
+        "usedPixels": 10963,
+        "bbox": [
+          50,
+          48,
+          143,
+          197
+        ],
+        "touchesEdge": false,
+        "padding": false
+      },
+      {
+        "frame": 1,
+        "usedPixels": 9513,
+        "bbox": [
+          48,
+          72,
+          144,
+          198
+        ],
+        "touchesEdge": false,
+        "padding": false
+      },
+      {
+        "frame": 2,
+        "usedPixels": 9876,
+        "bbox": [
+          34,
+          30,
+          157,
+          166
+        ],
+        "touchesEdge": false,
+        "padding": false
+      },
+      {
+        "frame": 3,
+        "usedPixels": 10044,
+        "bbox": [
+          42,
+          2,
+          149,
+          139
+        ],
+        "touchesEdge": false,
+        "padding": false
+      },
+      {
+        "frame": 4,
+        "usedPixels": 9596,
+        "bbox": [
+          49,
+          3,
+          143,
+          147
+        ],
+        "touchesEdge": false,
+        "padding": false
+      },
+      {
+        "frame": 5,
+        "usedPixels": 9065,
+        "bbox": [
+          51,
+          19,
+          141,
+          163
+        ],
+        "touchesEdge": false,
+        "padding": false
+      },
+      {
+        "frame": 6,
+        "usedPixels": 9025,
+        "bbox": [
+          48,
+          79,
+          145,
+          197
+        ],
+        "touchesEdge": false,
+        "padding": false
+      },
+      {
+        "frame": 7,
+        "usedPixels": 10949,
+        "bbox": [
+          50,
+          48,
+          143,
+          197
+        ],
+        "touchesEdge": false,
+        "padding": false
+      }
+    ]
+  }
+}

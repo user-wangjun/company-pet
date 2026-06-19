@@ -19,6 +19,19 @@ export const ANIMATION_ROWS = {
   gnawFish: { row: 6, frames: 8, speed: 0.14, loop: false },
 } as const satisfies Record<RuntimeAnimationName, AnimationRowSpec>;
 
+export function getPetAnimationRowSpec(
+  petId: string,
+  animationName: RuntimeAnimationName,
+): AnimationRowSpec {
+  const defaultSpec = ANIMATION_ROWS[animationName];
+
+  if (petId === "ikun" && animationName === "fishEat") {
+    return { ...defaultSpec, frames: 8 };
+  }
+
+  return defaultSpec;
+}
+
 export function appendPetAnimationFinishFrame<T>(
   petId: string,
   animationName: RuntimeAnimationName,

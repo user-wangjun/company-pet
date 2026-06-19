@@ -12,10 +12,9 @@ from PIL import Image, ImageDraw, ImageFont
 PET_DIR = Path(__file__).resolve().parents[2]
 ATLAS_PATH = PET_DIR / "spritesheet.webp"
 FINISH_FRAME_PATH = PET_DIR / "throw-finish.png"
-OUTPUT_PATH = PET_DIR / "qa" / "contact-sheet-v14.png"
+OUTPUT_PATH = PET_DIR / "qa" / "contact-sheet-v15.png"
 CELL_WIDTH = 192
 CELL_HEIGHT = 208
-COLUMNS = 9
 SCALE = 0.5
 LABEL_HEIGHT = 22
 
@@ -57,13 +56,25 @@ def row_specs() -> dict[int, dict[str, object]]:
     }
 
 
+def display_column_count(spec: dict[str, object]) -> int:
+    return max(int(spec["frames"]), int(spec["atlasFrames"]))
+
+
+def frame_label(column: int, *, independent_finish: bool = False) -> str:
+    label = str(column + 1)
+    if independent_finish:
+        return f"{label} 独立收尾"
+    return label
+
+
 def main() -> None:
     specs = row_specs()
+    columns = max(display_column_count(spec) for spec in specs.values())
     scaled_width = round(CELL_WIDTH * SCALE)
     scaled_height = round(CELL_HEIGHT * SCALE)
     sheet = Image.new(
         "RGB",
-        (scaled_width * COLUMNS, (scaled_height + LABEL_HEIGHT) * 9),
+        (scaled_width * columns, (scaled_height + LABEL_HEIGHT) * 9),
         "#111111",
     )
     draw = ImageDraw.Draw(sheet)
@@ -87,19 +98,13 @@ def main() -> None:
             font=font,
         )
 
-        for column in range(COLUMNS):
+        for column in range(display_column_count(spec)):
             if row == 6 and column == 8:
                 cell = finish_frame.copy()
-            elif column < 8:
+            else:
                 left = column * CELL_WIDTH
                 top = row * CELL_HEIGHT
                 cell = atlas.crop((left, top, left + CELL_WIDTH, top + CELL_HEIGHT))
-            else:
-                cell = Image.new(
-                    "RGBA",
-                    (CELL_WIDTH, CELL_HEIGHT),
-                    (0, 0, 0, 0),
-                )
             cell = cell.resize((scaled_width, scaled_height), Image.Resampling.LANCZOS)
             background = checkerboard(scaled_width, scaled_height).convert("RGBA")
             background.alpha_composite(cell)
@@ -118,7 +123,7 @@ def main() -> None:
             )
             draw.text(
                 (column * scaled_width + 3, target_y + 2),
-                str(column),
+                frame_label(column, independent_finish=row == 6 and column == 8),
                 fill="#111111",
                 font=font,
             )

@@ -1,5 +1,9 @@
 import { describe, expect, test } from "vitest";
-import { ANIMATION_ROWS, appendPetAnimationFinishFrame } from "./animationRows";
+import {
+  ANIMATION_ROWS,
+  appendPetAnimationFinishFrame,
+  getPetAnimationRowSpec,
+} from "./animationRows";
 
 describe("runtime animation row mapping", () => {
   test("maps ikun action rows to complete runtime frame ranges", () => {
@@ -18,6 +22,19 @@ describe("runtime animation row mapping", () => {
 
   test("makes dragging only slightly faster than the previous cadence", () => {
     expect(ANIMATION_ROWS.drag.speed).toBe(0.2);
+  });
+
+  test("plays the ikun double-click jump row with all 8 atlas frames", () => {
+    expect(getPetAnimationRowSpec("ikun", "fishEat")).toMatchObject({
+      row: 8,
+      frames: 8,
+      loop: false,
+    });
+    expect(getPetAnimationRowSpec("xiaoju-cat", "fishEat")).toMatchObject({
+      row: 8,
+      frames: 6,
+      loop: false,
+    });
   });
 
   test("appends the independent finish frame only to ikun single-click throw", () => {

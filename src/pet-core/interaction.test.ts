@@ -126,7 +126,7 @@ describe("desktop pet interaction rules", () => {
     expect(getPetClickAction("ikun", 2)).toMatchObject({
       animation: "fishEat",
       sound: "fishEat",
-      bubbleText: "练习收尾。",
+      bubbleText: "鸡你太美",
     });
     expect(getPetClickAction("ikun", 3)).toBeNull();
   });

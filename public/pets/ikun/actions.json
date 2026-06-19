@@ -1,5 +1,5 @@
 {
-  "version": 14,
+  "version": 15,
   "cell": {
     "width": 192,
     "height": 208,
@@ -13,7 +13,8 @@
     "The back-view no-ball row was rebuilt from a clean gap-filled back base so basketball removal no longer leaves missing body layers.",
     "Bie-ganmao now references BV1A7rmBrEWX with an explicit raised forearm: shoulder shrink, sleeve lifts hand to mouth, cough/remind, and recover.",
     "Route 1 v12 replaces row 4 with the user-provided 01-08 under-leg dribble reference; this row is the ikun idle animation standard.",
-    "路线 1 v14 清理第 6 行脚边白色背景，并追加独立无球收尾帧 throw-finish.png；运行时共 9 帧。"
+    "路线 1 v14 清理第 6 行脚边白色背景，并追加独立无球收尾帧 throw-finish.png；运行时共 9 帧。",
+    "Route 1 v15 replaces row 8 with the user-provided 01-08 jump reference; this row is the ikun double-click action."
   ],
   "sourceVideo": {
     "url": "https://www.bilibili.com/video/BV1ct4y1n7t9/",
@@ -63,11 +64,10 @@
         49.5
       ],
       "rows": [
-        3,
-        8
+        3
       ],
       "basketball": "none",
-      "notes": "无球手势和收尾镜头；第 3 行参考 BV1A7rmBrEWX 的红围巾别感冒动作，第 8 行是摆手和点头收尾。"
+      "notes": "无球手势镜头；第 3 行参考 BV1A7rmBrEWX 的红围巾别感冒动作。"
     },
     {
       "id": "basketball-under-leg",
@@ -114,6 +114,17 @@
       ],
       "basketball": "all",
       "notes": "正面后撤步原型，篮球保持跟手并整体旋转；暂不使用侧面带球素材。"
+    },
+    {
+      "id": "jump-no-ball",
+      "displayName": "跳跃",
+      "sourceRange": null,
+      "rows": [
+        8
+      ],
+      "basketball": "none",
+      "notes": "用户提供的 01-08 跳跃参考；下蹲、起跳、空中停顿、落地恢复，全程无篮球。",
+      "reference": "references/jump-ref.png"
     }
   ],
   "actions": [
@@ -525,37 +536,41 @@
       ]
     },
     {
-      "id": "practice-finish",
-      "displayName": "练习收尾",
-      "seriesId": "gesture-no-ball",
-      "sequenceIndex": 1,
-      "sequenceRole": "closing-wave-and-nod",
+      "id": "jump",
+      "displayName": "跳跃",
+      "seriesId": "jump-no-ball",
+      "sequenceIndex": 0,
+      "sequenceRole": "double-click-jump",
       "row": 8,
-      "frames": 6,
+      "frames": 8,
       "currentRuntimeAnimation": "fishEat",
       "view": "front",
       "basketball": {
         "mode": "none",
         "frames": [],
-        "sourceObservation": "44.6s-49.5s 收尾手势段没有篮球。"
+        "sourceObservation": "用户提供的 01-08 跳跃图全程无篮球。"
       },
-      "referenceMatch": "direct-no-ball-closing-gesture",
-      "motionStatus": "usable",
-      "cue": "参考 44.6s-49.5s 近景收尾手势，做练习结束后的摆手和点头。",
-      "sourceTimes": [
-        44.6,
-        45.6,
-        46.6,
-        47.5,
-        48.5,
-        49.5
-      ]
+      "referenceMatch": "user-reference-jump-v15",
+      "motionStatus": "reference-standard-v15",
+      "cue": "按 references/jump-ref.png：站定、下蹲蓄力、双臂张开起跳、空中收手、落地缓冲、恢复站定。",
+      "prototypeFrames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sourceImage": "references/jump-ref.png"
     }
   ],
   "revisionNotes": [
     "Route 1 v11: row 1 tieshankao uses references/tieshankao-ref.jpg, row 3 bie-ganmao uses references/bie-ganmao-ref.jpg with no bubble, and row 7 step-back uses references/step-back-ref.jpg.",
     "Basketball remains a whole equipment prop; rows 1 and 3 are no-ball rows, and row 7 contains exactly one complete basketball per frame.",
     "Route 1 v12: row 4 under-leg-dribble uses references/under-leg-dribble-ref.png as the authoritative 01-08 pose and ball-path standard.",
-    "路线 1 v14：第 6 行 09-16 帧清除脚边白色背景，运行时追加 throw-finish.png 作为无球第 17 帧。"
+    "路线 1 v14：第 6 行 09-16 帧清除脚边白色背景，运行时追加 throw-finish.png 作为无球第 17 帧。",
+    "Route 1 v15: row 8 replaces the old practice-finish double-click action with the user-provided 8-frame jump reference."
   ]
 }

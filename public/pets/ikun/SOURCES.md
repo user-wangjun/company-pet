@@ -40,9 +40,9 @@ This revision splits the action rows into prop-aware series:
 - Row 4 is the v12 under-leg dribble standard with basketball visible in every frame. Its pose order, wide crouch, eye line, hand contact, and ball path follow `references/under-leg-dribble-ref.png` frames 01-08.
 - 第 6 行是 v14 丢球参考标准：09-16 表现持球、旋球和出手，运行时追加无球第 17 帧；旧图片和白色背景残留均已移除。
 - Row 7 is a front-only step-back prototype with one explicit basketball prop in every frame.
-- Rows 0, 3, 5, and 8 are no-ball rows and the spritesheet removes the basketball from those rows.
+- Rows 0, 3, 5, and 8 are no-ball rows and the spritesheet removes the basketball from those rows. Row 8 is now the double-click jump action.
 
-Rows 0 and 8 have visual-only padding cells after their runtime frame counts. These copied settle/recover cells prevent blank atlas slots in QA previews and are not additional source-video motion claims.
+Row 0 has visual-only padding cells after its runtime frame count. These copied settle/recover cells prevent blank atlas slots in QA previews and are not additional source-video motion claims.
 
 ## Route 1 action references, 2026-06-02
 
@@ -58,6 +58,12 @@ These user-provided local references were copied into this pet package so the ac
 - `references/under-leg-dribble-ref.png`: user-provided 8-frame action board for row 4 `under-leg-dribble`.
 - Frame order is 01 through 08. The package keeps this reference locally so later redraws use the same crouch depth, hand-to-ball contact, eye tracking, and image-left-to-image-right ball path.
 - Row 4 is also the `ikun`-specific idle animation, selected by `getPetIdleAnimationName("ikun")`.
+
+## 跳跃动作参考，2026-06-19
+
+- `references/jump-ref.png`: user-provided 8-frame jump board for row 8 `jump`, used by the `ikun` double-click action.
+- Frame order is 01 through 08: stand, crouch, lift off, airborne hold, descent, landing crouch, recover, stand.
+- The extracted row removes the white background, frame numbers, and detached floor shadows before writing transparent sprites.
 
 ## 丢球动作参考，2026-06-13
 

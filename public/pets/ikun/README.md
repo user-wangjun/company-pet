@@ -13,7 +13,7 @@ Desktop pet package created from the provided three-view reference image.
 
 This revision uses the original user-provided model image as the visual source. The repaired action pass includes no-ball tie-shan-kao, no-ball back-view motion, under-leg dribble, short throw, and step-back. The basketball is drawn as a complete round prop, rotates as one object, and is removed from rows or frames that are marked no-ball. Row 1 tie-shan-kao is body-led and does not use a standalone shoulder blob.
 
-Rows 0 and 8 have fewer runtime frames than the 8-column atlas. Their unused cells are padded with settle/recover poses for visual QA only; `actions.json` still records the real runtime frame counts. Row 2 was full-cell rebuilt as a no-ball back-view row so basketball removal no longer leaves missing body layers. Row 3 now uses the BV1A7rmBrEWX `别感冒` reference as an 8-frame red-scarf cold-reminder gesture; the lift frames remove the original down right arm before drawing the connected sleeve and hand-to-mouth pose.
+Row 0 has fewer runtime frames than the 8-column atlas. Its unused cells are padded with settle/recover poses for visual QA only; `actions.json` still records the real runtime frame count. Row 2 was full-cell rebuilt as a no-ball back-view row so basketball removal no longer leaves missing body layers. Row 3 now uses the BV1A7rmBrEWX `别感冒` reference as an 8-frame red-scarf cold-reminder gesture; the lift frames remove the original down right arm before drawing the connected sleeve and hand-to-mouth pose.
 
 ### Route 1 v11 refinement
 
@@ -53,7 +53,7 @@ Rows 0 and 8 have fewer runtime frames than the 8-column atlas. Their unused cel
 
 ## Motion review
 
-当前动作行处于不同精修阶段。`action-board.json` 将第 1 行记录为身体带动的铁山靠，第 2 行记录为重建的背面无球动作，第 3 行记录为 BV1A7rmBrEWX `别感冒` 参考动作，第 4 行记录为用户确认的 v12 待机胯下运球标准，第 6 行记录为 v14 九帧丢球标准，第 7 行记录为正面后撤步修复。
+当前动作行处于不同精修阶段。`action-board.json` 将第 1 行记录为身体带动的铁山靠，第 2 行记录为重建的背面无球动作，第 3 行记录为 BV1A7rmBrEWX `别感冒` 参考动作，第 4 行记录为用户确认的 v12 待机胯下运球标准，第 6 行记录为 v14 九帧丢球标准，第 7 行记录为正面后撤步修复，第 8 行记录为用户提供的双击跳跃动作。
 
 `qa/motion-review.json` tracks `paddingCells` for the copied visual-only cells and keeps `blankCells` empty.
 It also records row 2 in `repairedRows` because that row was rebuilt to fix the missing back-body layer.

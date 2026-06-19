@@ -236,7 +236,7 @@ export function getPetClickAction(
       return {
         animation: "fishEat",
         sound: "fishEat",
-        bubbleText: "练习收尾。",
+        bubbleText: "鸡你太美",
         durationMs: 1300,
       };
     }

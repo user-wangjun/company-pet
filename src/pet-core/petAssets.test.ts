@@ -133,14 +133,14 @@ describe("pet asset paths", () => {
     });
   });
 
-  test("documents the route 1 v14 ikun action rows and independent finish frame", () => {
+  test("documents the route 1 v15 ikun action rows and double-click jump", () => {
     expect(ikunActions.cell).toEqual({
       width: 192,
       height: 208,
       columns: 8,
       rows: 9,
     });
-    expect(ikunActions.version).toBe(14);
+    expect(ikunActions.version).toBe(15);
     expect(ikunActions.revisionNotes).toContain(
       "Route 1 v11: row 1 tieshankao uses references/tieshankao-ref.jpg, row 3 bie-ganmao uses references/bie-ganmao-ref.jpg with no bubble, and row 7 step-back uses references/step-back-ref.jpg.",
     );
@@ -149,6 +149,9 @@ describe("pet asset paths", () => {
     );
     expect(ikunActions.revisionNotes).toContain(
       "路线 1 v14：第 6 行 09-16 帧清除脚边白色背景，运行时追加 throw-finish.png 作为无球第 17 帧。",
+    );
+    expect(ikunActions.revisionNotes).toContain(
+      "Route 1 v15: row 8 replaces the old practice-finish double-click action with the user-provided 8-frame jump reference.",
     );
     expect(ikunActions.sourceVideo.url).toBe(
       "https://www.bilibili.com/video/BV1ct4y1n7t9/",
@@ -162,6 +165,7 @@ describe("pet asset paths", () => {
       "chorus-dance-no-ball",
       "basketball-throw",
       "basketball-step-back",
+      "jump-no-ball",
     ]);
     expect(ikunActions.actions.map((action) => action.id)).toEqual([
       "ready-idle",
@@ -172,7 +176,7 @@ describe("pet asset paths", () => {
       "ji-ni-tai-mei-dance",
       "throw-basketball",
       "step-back",
-      "practice-finish",
+      "jump",
     ]);
 
     for (const action of ikunActions.actions) {
@@ -203,7 +207,7 @@ describe("pet asset paths", () => {
       "ji-ni-tai-mei-dance": "none",
       "throw-basketball": "throw-then-disappear",
       "step-back": "all",
-      "practice-finish": "none",
+      jump: "none",
     });
     expect(
       ikunActions.actions.find((action) => action.id === "throw-basketball")
@@ -261,7 +265,7 @@ describe("pet asset paths", () => {
       "ji-ni-tai-mei-dance": "implemented-first-pass-cleanup",
       "throw-basketball": "reference-standard-v14",
       "step-back": "planned-route1-v11",
-      "practice-finish": "usable",
+      jump: "reference-standard-v15",
     });
 
     const referenceMatches = Object.fromEntries(
@@ -274,6 +278,7 @@ describe("pet asset paths", () => {
       "under-leg-dribble": "route1-reference-under-leg-dribble-ref",
       "throw-basketball": "route1-reference-throw-09-17-finish",
       "step-back": "route1-reference-step-back-ref",
+      jump: "user-reference-jump-v15",
     });
     expect(
       ikunActions.actions.find((action) => action.id === "step-back")
@@ -344,7 +349,7 @@ describe("pet asset paths", () => {
       [5, "chorus-dance-no-ball", "none"],
       [6, "basketball-throw", "all-in-atlas-final-none"],
       [7, "basketball-step-back", "all"],
-      [8, "gesture-no-ball", "none"],
+      [8, "jump-no-ball", "none"],
     ]);
 
     expect(ikunActionBoard.plannedSimpleActions.map((action) => action.id)).toEqual([
@@ -352,6 +357,7 @@ describe("pet asset paths", () => {
       "under-leg-dribble",
       "step-back",
       "throw-basketball",
+      "jump",
     ]);
     const underLegAction = ikunActionBoard.plannedSimpleActions.find(
       (action) => action.id === "under-leg-dribble",
@@ -394,9 +400,10 @@ describe("pet asset paths", () => {
       "reference-standard-v12",
       "planned-route1-v11",
       "reference-standard-v14",
+      "reference-standard-v15",
     ]);
 
-    expect(ikunMotionReview.source).toBe("route1-v14-throw-finish");
+    expect(ikunMotionReview.source).toBe("route1-v15-double-click-jump");
     expect(ikunMotionReview.rows).toHaveLength(9);
     for (const row of ikunMotionReview.rows) {
       expect(row.frames).toHaveLength(row.row === 6 ? 9 : 8);
@@ -439,11 +446,23 @@ describe("pet asset paths", () => {
       characterViews: "references/character-views-ref.png",
       basketball: "one-complete-ball-per-frame",
     });
+    expect(ikunMotionReview.referenceUpdates).toContainEqual({
+      row: 8,
+      action: "jump",
+      reference: "references/jump-ref.png",
+      basketball: "none",
+      frameOrder: "01-08",
+      runtimeAnimation: "fishEat",
+      trigger: "double-click",
+    });
     expect(ikunMotionReview.notes).toContain(
       "Rows 1, 3, and 7 were replaced from route1-v11 decoded strips.",
     );
     expect(ikunMotionReview.notes).toContain(
       "Row 4 was replaced from the user-provided 01-08 under-leg dribble reference and is the idle dribble standard.",
+    );
+    expect(ikunMotionReview.notes).toContain(
+      "Row 8 was replaced from the user-provided 01-08 jump reference and is the ikun double-click action.",
     );
   });
 

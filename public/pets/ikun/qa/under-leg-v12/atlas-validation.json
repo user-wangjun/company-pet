@@ -1,6 +1,6 @@
 {
   "source": "route1-v12-under-leg-reference",
-  "generatedAt": "2026-06-13T06:01:44.639776+00:00",
+  "generatedAt": "2026-06-19T13:59:37.410750+00:00",
   "file": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\ikun\\spritesheet.webp",
   "format": "WEBP",
   "mode": "RGBA",
@@ -15,7 +15,7 @@
       "frames": [
         {
           "frame": 0,
-          "usedPixels": 14360,
+          "usedPixels": 14295,
           "bbox": [
             34,
             22,
@@ -27,7 +27,7 @@
         },
         {
           "frame": 1,
-          "usedPixels": 14244,
+          "usedPixels": 14180,
           "bbox": [
             35,
             23,
@@ -39,7 +39,7 @@
         },
         {
           "frame": 2,
-          "usedPixels": 14312,
+          "usedPixels": 14230,
           "bbox": [
             34,
             23,
@@ -51,10 +51,10 @@
         },
         {
           "frame": 3,
-          "usedPixels": 14363,
+          "usedPixels": 14304,
           "bbox": [
             33,
-            21,
+            22,
             153,
             182
           ],
@@ -63,7 +63,7 @@
         },
         {
           "frame": 4,
-          "usedPixels": 14443,
+          "usedPixels": 14371,
           "bbox": [
             34,
             21,
@@ -75,7 +75,7 @@
         },
         {
           "frame": 5,
-          "usedPixels": 14357,
+          "usedPixels": 14294,
           "bbox": [
             34,
             22,
@@ -87,7 +87,7 @@
         },
         {
           "frame": 6,
-          "usedPixels": 14357,
+          "usedPixels": 14294,
           "bbox": [
             34,
             22,
@@ -99,7 +99,7 @@
         },
         {
           "frame": 7,
-          "usedPixels": 14360,
+          "usedPixels": 14295,
           "bbox": [
             34,
             22,
@@ -116,57 +116,57 @@
       "frames": [
         {
           "frame": 0,
-          "usedPixels": 14039,
+          "usedPixels": 13783,
           "bbox": [
-            42,
+            43,
             21,
-            150,
-            196
-          ],
-          "touchesEdge": false,
-          "padding": false
-        },
-        {
-          "frame": 1,
-          "usedPixels": 17147,
-          "bbox": [
-            31,
-            21,
-            160,
+            149,
             195
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
-          "frame": 2,
-          "usedPixels": 14144,
+          "frame": 1,
+          "usedPixels": 16835,
           "bbox": [
-            40,
+            32,
+            22,
+            159,
+            194
+          ],
+          "touchesEdge": false,
+          "padding": false
+        },
+        {
+          "frame": 2,
+          "usedPixels": 13844,
+          "bbox": [
+            41,
             21,
-            152,
-            196
+            151,
+            195
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 3,
-          "usedPixels": 13919,
+          "usedPixels": 13660,
           "bbox": [
             39,
             21,
             157,
-            196
+            195
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 4,
-          "usedPixels": 14544,
+          "usedPixels": 14279,
           "bbox": [
-            35,
+            36,
             21,
             169,
             195
@@ -176,19 +176,19 @@
         },
         {
           "frame": 5,
-          "usedPixels": 13423,
+          "usedPixels": 13070,
           "bbox": [
-            32,
+            43,
             21,
-            156,
-            196
+            155,
+            195
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 6,
-          "usedPixels": 15691,
+          "usedPixels": 15414,
           "bbox": [
             34,
             21,
@@ -200,12 +200,12 @@
         },
         {
           "frame": 7,
-          "usedPixels": 14031,
+          "usedPixels": 13773,
           "bbox": [
-            42,
+            43,
             21,
-            150,
-            196
+            149,
+            195
           ],
           "touchesEdge": false,
           "padding": false
@@ -217,7 +217,7 @@
       "frames": [
         {
           "frame": 0,
-          "usedPixels": 16478,
+          "usedPixels": 16446,
           "bbox": [
             35,
             20,
@@ -229,7 +229,7 @@
         },
         {
           "frame": 1,
-          "usedPixels": 16580,
+          "usedPixels": 16538,
           "bbox": [
             32,
             20,
@@ -241,7 +241,7 @@
         },
         {
           "frame": 2,
-          "usedPixels": 16578,
+          "usedPixels": 16536,
           "bbox": [
             27,
             21,
@@ -253,9 +253,9 @@
         },
         {
           "frame": 3,
-          "usedPixels": 16597,
+          "usedPixels": 16543,
           "bbox": [
-            22,
+            23,
             21,
             151,
             201
@@ -265,7 +265,7 @@
         },
         {
           "frame": 4,
-          "usedPixels": 16594,
+          "usedPixels": 16552,
           "bbox": [
             29,
             21,
@@ -277,7 +277,7 @@
         },
         {
           "frame": 5,
-          "usedPixels": 16478,
+          "usedPixels": 16446,
           "bbox": [
             35,
             21,
@@ -289,7 +289,7 @@
         },
         {
           "frame": 6,
-          "usedPixels": 16599,
+          "usedPixels": 16555,
           "bbox": [
             38,
             20,
@@ -301,7 +301,7 @@
         },
         {
           "frame": 7,
-          "usedPixels": 16478,
+          "usedPixels": 16446,
           "bbox": [
             35,
             20,
@@ -318,96 +318,96 @@
       "frames": [
         {
           "frame": 0,
-          "usedPixels": 14023,
+          "usedPixels": 13842,
           "bbox": [
-            43,
-            14,
-            148,
-            192
+            44,
+            15,
+            147,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 1,
-          "usedPixels": 13713,
+          "usedPixels": 13528,
           "bbox": [
-            44,
-            14,
-            148,
-            192
+            45,
+            15,
+            147,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 2,
-          "usedPixels": 13626,
+          "usedPixels": 13428,
           "bbox": [
-            44,
-            14,
-            148,
-            192
+            45,
+            15,
+            147,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 3,
-          "usedPixels": 13368,
+          "usedPixels": 13211,
           "bbox": [
-            44,
-            16,
-            147,
-            192
+            45,
+            17,
+            146,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 4,
-          "usedPixels": 13565,
+          "usedPixels": 13377,
           "bbox": [
-            44,
-            15,
-            148,
-            192
+            45,
+            16,
+            147,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 5,
-          "usedPixels": 13738,
+          "usedPixels": 13532,
           "bbox": [
-            44,
-            15,
-            148,
-            192
+            45,
+            16,
+            147,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 6,
-          "usedPixels": 13819,
+          "usedPixels": 13653,
           "bbox": [
-            44,
-            14,
-            148,
-            192
+            45,
+            15,
+            147,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 7,
-          "usedPixels": 13645,
+          "usedPixels": 13460,
           "bbox": [
-            44,
-            16,
-            147,
-            192
+            45,
+            17,
+            146,
+            191
           ],
           "touchesEdge": false,
           "padding": false
@@ -419,7 +419,7 @@
       "frames": [
         {
           "frame": 0,
-          "usedPixels": 17419,
+          "usedPixels": 17382,
           "bbox": [
             21,
             8,
@@ -431,11 +431,11 @@
         },
         {
           "frame": 1,
-          "usedPixels": 16159,
+          "usedPixels": 16125,
           "bbox": [
             30,
             17,
-            162,
+            161,
             200
           ],
           "touchesEdge": false,
@@ -443,7 +443,7 @@
         },
         {
           "frame": 2,
-          "usedPixels": 16047,
+          "usedPixels": 16015,
           "bbox": [
             27,
             21,
@@ -455,9 +455,9 @@
         },
         {
           "frame": 3,
-          "usedPixels": 14554,
+          "usedPixels": 14531,
           "bbox": [
-            26,
+            27,
             35,
             165,
             189
@@ -467,7 +467,7 @@
         },
         {
           "frame": 4,
-          "usedPixels": 15496,
+          "usedPixels": 15468,
           "bbox": [
             27,
             23,
@@ -479,7 +479,7 @@
         },
         {
           "frame": 5,
-          "usedPixels": 17179,
+          "usedPixels": 17140,
           "bbox": [
             21,
             8,
@@ -491,7 +491,7 @@
         },
         {
           "frame": 6,
-          "usedPixels": 15143,
+          "usedPixels": 15109,
           "bbox": [
             29,
             25,
@@ -503,7 +503,7 @@
         },
         {
           "frame": 7,
-          "usedPixels": 15192,
+          "usedPixels": 15161,
           "bbox": [
             22,
             30,
@@ -520,7 +520,7 @@
       "frames": [
         {
           "frame": 0,
-          "usedPixels": 14312,
+          "usedPixels": 14230,
           "bbox": [
             33,
             23,
@@ -532,19 +532,19 @@
         },
         {
           "frame": 1,
-          "usedPixels": 14284,
+          "usedPixels": 14227,
           "bbox": [
             23,
             26,
             144,
-            187
+            186
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 2,
-          "usedPixels": 14261,
+          "usedPixels": 14204,
           "bbox": [
             16,
             32,
@@ -556,21 +556,21 @@
         },
         {
           "frame": 3,
-          "usedPixels": 14250,
+          "usedPixels": 14198,
           "bbox": [
             26,
             40,
             152,
-            192
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 4,
-          "usedPixels": 14192,
+          "usedPixels": 14130,
           "bbox": [
-            40,
+            41,
             35,
             162,
             191
@@ -580,7 +580,7 @@
         },
         {
           "frame": 5,
-          "usedPixels": 14248,
+          "usedPixels": 14192,
           "bbox": [
             48,
             29,
@@ -592,7 +592,7 @@
         },
         {
           "frame": 6,
-          "usedPixels": 14286,
+          "usedPixels": 14226,
           "bbox": [
             41,
             26,
@@ -604,7 +604,7 @@
         },
         {
           "frame": 7,
-          "usedPixels": 14312,
+          "usedPixels": 14230,
           "bbox": [
             33,
             23,
@@ -621,96 +621,96 @@
       "frames": [
         {
           "frame": 0,
-          "usedPixels": 14612,
+          "usedPixels": 13423,
           "bbox": [
-            33,
-            22,
-            153,
-            183
+            34,
+            36,
+            172,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 1,
-          "usedPixels": 15127,
+          "usedPixels": 12383,
           "bbox": [
-            34,
-            23,
-            172,
-            184
+            36,
+            35,
+            155,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 2,
-          "usedPixels": 14982,
+          "usedPixels": 12617,
           "bbox": [
-            37,
-            25,
-            169,
-            187
+            24,
+            31,
+            150,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 3,
-          "usedPixels": 14907,
+          "usedPixels": 12709,
           "bbox": [
-            38,
-            25,
-            174,
-            188
+            20,
+            31,
+            150,
+            192
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 4,
-          "usedPixels": 14393,
+          "usedPixels": 12616,
           "bbox": [
-            37,
-            23,
-            155,
-            186
+            19,
+            31,
+            150,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 5,
-          "usedPixels": 14360,
+          "usedPixels": 11518,
           "bbox": [
-            34,
-            23,
-            153,
-            184
+            37,
+            42,
+            152,
+            192
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 6,
-          "usedPixels": 14395,
+          "usedPixels": 11520,
           "bbox": [
-            32,
-            23,
-            153,
-            185
+            29,
+            43,
+            189,
+            191
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 7,
-          "usedPixels": 14360,
+          "usedPixels": 11340,
           "bbox": [
-            33,
-            22,
-            152,
-            183
+            21,
+            44,
+            189,
+            192
           ],
           "touchesEdge": false,
           "padding": false
@@ -722,23 +722,23 @@
       "frames": [
         {
           "frame": 0,
-          "usedPixels": 15948,
+          "usedPixels": 15618,
           "bbox": [
             22,
             17,
-            170,
-            179
+            169,
+            178
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 1,
-          "usedPixels": 14057,
+          "usedPixels": 13779,
           "bbox": [
             33,
             27,
-            171,
+            170,
             178
           ],
           "touchesEdge": false,
@@ -746,11 +746,11 @@
         },
         {
           "frame": 2,
-          "usedPixels": 14978,
+          "usedPixels": 14707,
           "bbox": [
             18,
             17,
-            172,
+            171,
             179
           ],
           "touchesEdge": false,
@@ -758,60 +758,60 @@
         },
         {
           "frame": 3,
-          "usedPixels": 13501,
+          "usedPixels": 13247,
           "bbox": [
             10,
             20,
-            153,
-            178
+            152,
+            177
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 4,
-          "usedPixels": 13970,
+          "usedPixels": 13646,
           "bbox": [
             0,
             31,
             167,
-            179
+            178
           ],
           "touchesEdge": true,
           "padding": false
         },
         {
           "frame": 5,
-          "usedPixels": 15712,
+          "usedPixels": 15369,
           "bbox": [
-            3,
-            27,
+            4,
+            28,
             182,
-            179
+            178
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 6,
-          "usedPixels": 15948,
+          "usedPixels": 15618,
           "bbox": [
             22,
             17,
-            170,
-            179
+            169,
+            178
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 7,
-          "usedPixels": 15950,
+          "usedPixels": 15617,
           "bbox": [
             6,
             17,
-            153,
-            179
+            152,
+            178
           ],
           "touchesEdge": false,
           "padding": false
@@ -823,96 +823,96 @@
       "frames": [
         {
           "frame": 0,
-          "usedPixels": 14377,
+          "usedPixels": 10936,
           "bbox": [
-            34,
-            24,
-            153,
-            185
+            50,
+            48,
+            143,
+            197
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 1,
-          "usedPixels": 14446,
+          "usedPixels": 9489,
           "bbox": [
-            33,
-            23,
-            153,
-            184
+            48,
+            72,
+            144,
+            198
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 2,
-          "usedPixels": 14253,
+          "usedPixels": 9861,
           "bbox": [
-            36,
-            22,
-            153,
-            185
+            34,
+            30,
+            157,
+            166
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 3,
-          "usedPixels": 13906,
+          "usedPixels": 10021,
           "bbox": [
-            40,
-            24,
-            155,
-            186
+            42,
+            2,
+            149,
+            139
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 4,
-          "usedPixels": 14600,
+          "usedPixels": 9582,
           "bbox": [
-            31,
-            26,
-            153,
-            187
+            49,
+            3,
+            143,
+            147
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 5,
-          "usedPixels": 14363,
+          "usedPixels": 9052,
           "bbox": [
-            34,
-            23,
-            153,
-            184
+            51,
+            19,
+            141,
+            163
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 6,
-          "usedPixels": 14363,
+          "usedPixels": 9005,
           "bbox": [
-            34,
-            23,
-            153,
-            184
+            48,
+            79,
+            145,
+            197
           ],
           "touchesEdge": false,
           "padding": false
         },
         {
           "frame": 7,
-          "usedPixels": 14377,
+          "usedPixels": 10923,
           "bbox": [
-            34,
-            24,
-            153,
-            185
+            50,
+            48,
+            143,
+            197
           ],
           "touchesEdge": false,
           "padding": false

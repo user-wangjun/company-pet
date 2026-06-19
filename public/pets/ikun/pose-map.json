@@ -573,6 +573,7 @@
   "actionReferences": {
     "underLegDribble": "references/under-leg-dribble-ref.png",
     "throwBasketball": "references/throw-09-16-ref.png",
-    "throwBasketballFinish": "references/throw-finish-ref.png"
+    "throwBasketballFinish": "references/throw-finish-ref.png",
+    "jump": "references/jump-ref.png"
   }
 }
