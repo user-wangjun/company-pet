@@ -3,5 +3,6 @@
   "displayName": "ds",
   "description": "一只蓝白色圆润小鲸鱼桌宠，会亲昵、跳一跳，也会开心地陪在桌面上。",
   "spritesheetPath": "spritesheet.webp",
-  "previewPath": "preview.png"
+  "previewPath": "preview.png",
+  "dialoguesPath": "dialogues.json"
 }

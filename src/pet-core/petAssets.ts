@@ -22,6 +22,7 @@ export type PetManifest = {
   actionsPath?: string;
   rigPath?: string;
   actionBoardPath?: string;
+  dialoguesPath?: string;
   sounds?: PetManifestSounds;
 };
 
