@@ -206,7 +206,7 @@ export function LetterReader({
             </div>
           </div>
         </article>
-        <div className="letter-envelope-shell" onClick={stopLetterClick}>
+        <div className="letter-envelope-shell">
           <div className="letter-fold-left" aria-hidden="true" />
           <div className="letter-fold-right" aria-hidden="true" />
           <div className="letter-fold-bottom" aria-hidden="true" />
