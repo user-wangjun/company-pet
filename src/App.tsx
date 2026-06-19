@@ -23,6 +23,22 @@ import {
   Texture,
 } from "pixi.js";
 import "./App.css";
+import { LetterReader } from "./platform-mail/LetterReader";
+import { MailboxPanel } from "./platform-mail/MailboxPanel";
+import {
+  BUILT_IN_LETTERS,
+  WELCOME_LETTER_ID,
+  deleteReadLetters,
+  getUnreadCount,
+  markAllLettersRead,
+  markLetterRead,
+  readMailboxState,
+  shouldShowFirstUseLetter,
+  writeMailboxState,
+  type MailboxState,
+  type PlatformLetter,
+} from "./platform-mail/mailbox";
+import type { LetterOpenMode } from "./platform-mail/letterExperience";
 import MarketingPage from "./marketing/MarketingPage";
 import { isMarketingRoute } from "./marketing/marketingContent";
 import type {
@@ -101,7 +117,7 @@ import {
 const GITHUB_RELEASE_API = "https://api.github.com/repos/user-wangjun/company-pet/releases/latest";
 const CURRENT_PET_STORAGE_KEY = "desktop-pet.currentPetId";
 const PET_WINDOW_SIZE = { width: 165, height: 215 };
-const PLATFORM_WINDOW_SIZE = { width: 680, height: 520 };
+const PLATFORM_WINDOW_SIZE = { width: 860, height: 590 };
 
 type PetIndex = {
   pets: string[];
@@ -308,12 +324,32 @@ function DesktopPetApp() {
   const windowMode = useRef<WindowMode>(isPlatformOpen ? "platform" : "pet");
   const resetPetPositionOnNextOpen = useRef(true);
   const lastPetWindowPosition = useRef<WindowPosition | null>(null);
+  const mailboxButtonRef = useRef<HTMLButtonElement>(null);
+  const initialMailboxStateRef = useRef<MailboxState | null>(null);
+  const initialMailboxState =
+    initialMailboxStateRef.current ?? readMailboxState();
+  initialMailboxStateRef.current = initialMailboxState;
+  const [mailboxState, setMailboxState] = useState<MailboxState>(
+    initialMailboxState,
+  );
+  const [isMailboxOpen, setIsMailboxOpen] = useState(false);
+  const [activeLetterId, setActiveLetterId] = useState<string | null>(() =>
+    shouldShowFirstUseLetter(initialMailboxState)
+      ? WELCOME_LETTER_ID
+      : null,
+  );
+  const [letterOpenMode, setLetterOpenMode] =
+    useState<LetterOpenMode>("first-use");
+  const [isMailboxReceiving, setIsMailboxReceiving] = useState(false);
   const petCatalog = useMemo(
     () => createPetCatalog(availablePetIds, petManifestsById, activePetId),
     [activePetId, availablePetIds, petManifestsById],
   );
   const activePet = petCatalog.find((pet) => pet.id === activePetId);
   const activePetManifest = petManifestsById[activePetId];
+  const visibleUnreadCount = getUnreadCount(BUILT_IN_LETTERS, mailboxState);
+  const activeLetter =
+    BUILT_IN_LETTERS.find((letter) => letter.id === activeLetterId) ?? null;
 
   if (soundPlayerRef.current === null) {
     soundPlayerRef.current = createPetSoundPlayer({ enabled: false });
@@ -553,6 +589,54 @@ function DesktopPetApp() {
     event.stopPropagation();
     setIsPlatformOpen(false);
     recordInteraction("platform_close");
+  };
+
+  const commitMailboxState = (
+    update: (state: MailboxState) => MailboxState,
+  ) => {
+    setMailboxState((current) => {
+      const next = update(current);
+      writeMailboxState(next);
+      return next;
+    });
+  };
+
+  const openMailbox = () => {
+    setIsMailboxOpen(true);
+    recordInteraction("mailbox_open");
+  };
+
+  const openMailboxLetter = (letter: PlatformLetter) => {
+    setIsMailboxOpen(false);
+    setLetterOpenMode("mailbox");
+    setActiveLetterId(letter.id);
+    recordInteraction("mailbox_letter_open");
+  };
+
+  const markMailboxLetterRead = (letterId: string) => {
+    commitMailboxState((state) => markLetterRead(state, letterId));
+    recordInteraction("mailbox_letter_read");
+  };
+
+  const markMailboxRead = () => {
+    commitMailboxState((state) =>
+      markAllLettersRead(state, BUILT_IN_LETTERS),
+    );
+    recordInteraction("mailbox_mark_all_read");
+  };
+
+  const deleteMailboxRead = () => {
+    commitMailboxState((state) =>
+      deleteReadLetters(state, BUILT_IN_LETTERS),
+    );
+    recordInteraction("mailbox_delete_read");
+  };
+
+  const finishStoringLetter = () => {
+    setActiveLetterId(null);
+    setIsMailboxReceiving(true);
+    window.setTimeout(() => setIsMailboxReceiving(false), 760);
+    recordInteraction("mailbox_letter_stored");
   };
 
   const selectPet = (pet: PetCatalogItem) => {
@@ -1395,15 +1479,34 @@ function DesktopPetApp() {
               <p className="platform-kicker">Desktop Pet Platform</p>
               <h1>{APP_DISPLAY_NAME}</h1>
             </div>
-            <button
-              className="platform-close"
-              type="button"
-              aria-label="关闭桌宠平台"
-              onClick={closePlatform}
-              onPointerDown={stopPlatformEvent}
-            >
-              ×
-            </button>
+            <div className="platform-header-actions">
+              <button
+                className={`platform-mailbox-button${
+                  isMailboxReceiving ? " is-receiving" : ""
+                }`}
+                ref={mailboxButtonRef}
+                type="button"
+                aria-label="打开信箱"
+                onClick={openMailbox}
+                onPointerDown={stopPlatformEvent}
+              >
+                <span aria-hidden="true">✉</span>
+                {visibleUnreadCount > 0 && (
+                  <span className="platform-mailbox-badge">
+                    {visibleUnreadCount}
+                  </span>
+                )}
+              </button>
+              <button
+                className="platform-close"
+                type="button"
+                aria-label="关闭桌宠平台"
+                onClick={closePlatform}
+                onPointerDown={stopPlatformEvent}
+              >
+                ×
+              </button>
+            </div>
           </header>
 
           <div className="platform-status">
@@ -1441,6 +1544,28 @@ function DesktopPetApp() {
               </article>
             ))}
           </div>
+
+          {isMailboxOpen && (
+            <MailboxPanel
+              letters={BUILT_IN_LETTERS}
+              state={mailboxState}
+              onClose={() => setIsMailboxOpen(false)}
+              onDeleteRead={deleteMailboxRead}
+              onMarkAllRead={markMailboxRead}
+              onOpenLetter={openMailboxLetter}
+            />
+          )}
+
+          {activeLetter && (
+            <LetterReader
+              key={`${activeLetter.id}-${letterOpenMode}`}
+              letter={activeLetter}
+              mailboxTargetRef={mailboxButtonRef}
+              mode={letterOpenMode}
+              onRead={markMailboxLetterRead}
+              onStored={finishStoringLetter}
+            />
+          )}
         </section>
       )}
     </main>
