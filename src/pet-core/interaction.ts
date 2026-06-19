@@ -69,7 +69,7 @@ export type RuntimeSoundEvent =
 export type PetInteractionAction = {
   animation: RuntimeAnimationName;
   sound: RuntimeSoundEvent;
-  bubbleText: string;
+  bubbleText?: string;
   durationMs?: number;
 };
 
@@ -78,7 +78,7 @@ export type PetSequenceAction = {
 };
 
 export type PetIdleQuirkAction = {
-  text: string;
+  text?: string;
   animation: RuntimeAnimationName;
   sound: RuntimeSoundEvent;
   duration: number;
@@ -249,7 +249,6 @@ export function getPetClickAction(
       return {
         animation: "tickle",
         sound: "tickle",
-        bubbleText: "贴贴。",
         durationMs: 1200,
       };
     }
@@ -290,7 +289,6 @@ export function getPetCareReminderAction(
     return {
       animation: "gnawFish",
       sound: "care_reminder",
-      bubbleText: "小鲸鱼打了个哈欠，休息一下眼睛吧。",
       durationMs: 3200,
     };
   }
@@ -309,31 +307,26 @@ export function getPetIdleQuirkActions(petId: string): PetIdleQuirkAction[] {
   if (isDsPet(petId)) {
     return [
       {
-        text: "开心地摆摆尾巴。",
         animation: "fishEat",
         sound: "fishEat",
         duration: 2200,
       },
       {
-        text: "原地转了个圈圈。",
         animation: "crouchAlert",
         sound: "crouchAlert",
         duration: 2600,
       },
       {
-        text: "打了个小哈欠。",
         animation: "gnawFish",
         sound: "gnawFish",
         duration: 3000,
       },
       {
-        text: "从旁边探头看看。",
         animation: "hugFish",
         sound: "hugFish",
         duration: 2600,
       },
       {
-        text: "贴过来蹭了蹭。",
         animation: "tickle",
         sound: "tickle",
         duration: 1800,
