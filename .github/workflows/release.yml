@@ -61,17 +61,29 @@ jobs:
           function readCargoVersion(file) {
             try {
               const cargoText = fs.readFileSync(file, "utf8");
-              const packageSection = cargoText.match(/^\[package\]\s*$([\s\S]*?)(?=^\[|\s*$)/m)?.[1];
-              if (!packageSection) {
+              const cargoLines = cargoText.split(/\r?\n/);
+              const packageHeaderIndex = cargoLines.findIndex((line) => line.trim() === "[package]");
+              if (packageHeaderIndex < 0) {
                 errors.push(`Could not find a [package] section in ${file}.`);
                 return null;
               }
-              const match = packageSection.match(/^version\s*=\s*"([^"]+)"\s*$/m);
-              if (!match) {
+              let cargoVersion;
+              for (const line of cargoLines.slice(packageHeaderIndex + 1)) {
+                const trimmed = line.trim();
+                if (/^\[[^\]]+\]$/.test(trimmed)) {
+                  break;
+                }
+                const match = trimmed.match(/^version\s*=\s*"([^"]+)"\s*$/);
+                if (match) {
+                  cargoVersion = match[1];
+                  break;
+                }
+              }
+              if (!cargoVersion) {
                 errors.push(`Could not find [package].version in ${file}.`);
                 return null;
               }
-              return match[1];
+              return cargoVersion;
             } catch (error) {
               errors.push(`Failed to read Cargo version from ${file}: ${error.message}`);
               return null;
@@ -93,14 +105,14 @@ jobs:
           }
 
           if (errors.length > 0) {
-            console.error("Version validation failed:");
+            console.error("Release version validation failed:");
             for (const error of errors) {
               console.error(`- ${error}`);
             }
             process.exit(1);
           }
 
-          console.log(`Version validation passed: ${tag} -> ${expected}.`);
+          console.log(`Release version verified: ${expected}.`);
           '@ | node
 
       - run: npm run tauri -- build --bundles nsis
@@ -162,17 +174,29 @@ jobs:
           function readCargoVersion(file) {
             try {
               const cargoText = fs.readFileSync(file, "utf8");
-              const packageSection = cargoText.match(/^\[package\]\s*$([\s\S]*?)(?=^\[|\s*$)/m)?.[1];
-              if (!packageSection) {
+              const cargoLines = cargoText.split(/\r?\n/);
+              const packageHeaderIndex = cargoLines.findIndex((line) => line.trim() === "[package]");
+              if (packageHeaderIndex < 0) {
                 errors.push(`Could not find a [package] section in ${file}.`);
                 return null;
               }
-              const match = packageSection.match(/^version\s*=\s*"([^"]+)"\s*$/m);
-              if (!match) {
+              let cargoVersion;
+              for (const line of cargoLines.slice(packageHeaderIndex + 1)) {
+                const trimmed = line.trim();
+                if (/^\[[^\]]+\]$/.test(trimmed)) {
+                  break;
+                }
+                const match = trimmed.match(/^version\s*=\s*"([^"]+)"\s*$/);
+                if (match) {
+                  cargoVersion = match[1];
+                  break;
+                }
+              }
+              if (!cargoVersion) {
                 errors.push(`Could not find [package].version in ${file}.`);
                 return null;
               }
-              return match[1];
+              return cargoVersion;
             } catch (error) {
               errors.push(`Failed to read Cargo version from ${file}: ${error.message}`);
               return null;
@@ -194,14 +218,14 @@ jobs:
           }
 
           if (errors.length > 0) {
-            console.error("Version validation failed:");
+            console.error("Release version validation failed:");
             for (const error of errors) {
               console.error(`- ${error}`);
             }
             process.exit(1);
           }
 
-          console.log(`Version validation passed: ${tag} -> ${expected}.`);
+          console.log(`Release version verified: ${expected}.`);
           NODE
 
       - run: npm run tauri -- build --target aarch64-apple-darwin --bundles dmg
