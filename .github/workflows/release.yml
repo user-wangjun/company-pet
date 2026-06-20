@@ -60,10 +60,15 @@ jobs:
 
           function readCargoVersion(file) {
             try {
-              const raw = fs.readFileSync(file, "utf8");
-              const match = raw.match(/^\s*version\s*=\s*"([^"]+)"\s*$/m);
+              const cargoText = fs.readFileSync(file, "utf8");
+              const packageSection = cargoText.match(/^\[package\]\s*$([\s\S]*?)(?=^\[|\s*$)/m)?.[1];
+              if (!packageSection) {
+                errors.push(`Could not find a [package] section in ${file}.`);
+                return null;
+              }
+              const match = packageSection.match(/^version\s*=\s*"([^"]+)"\s*$/m);
               if (!match) {
-                errors.push(`Could not find a version = "..." line in ${file}.`);
+                errors.push(`Could not find [package].version in ${file}.`);
                 return null;
               }
               return match[1];
@@ -156,10 +161,15 @@ jobs:
 
           function readCargoVersion(file) {
             try {
-              const raw = fs.readFileSync(file, "utf8");
-              const match = raw.match(/^\s*version\s*=\s*"([^"]+)"\s*$/m);
+              const cargoText = fs.readFileSync(file, "utf8");
+              const packageSection = cargoText.match(/^\[package\]\s*$([\s\S]*?)(?=^\[|\s*$)/m)?.[1];
+              if (!packageSection) {
+                errors.push(`Could not find a [package] section in ${file}.`);
+                return null;
+              }
+              const match = packageSection.match(/^version\s*=\s*"([^"]+)"\s*$/m);
               if (!match) {
-                errors.push(`Could not find a version = "..." line in ${file}.`);
+                errors.push(`Could not find [package].version in ${file}.`);
                 return null;
               }
               return match[1];
@@ -215,9 +225,50 @@ jobs:
           path: release-assets
           merge-multiple: true
 
-      - name: Publish release
+      - name: Create draft release if needed
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG_NAME: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mapfile -d '' exes < <(find release-assets -type f -name '*.exe' -print0)
+          mapfile -d '' dmgs < <(find release-assets -type f -name '*.dmg' -print0)
+
+          if [ "${#exes[@]}" -ne 1 ]; then
+            echo "Expected exactly one EXE installer, found ${#exes[@]}." >&2
+            find release-assets -type f -name '*.exe' -print >&2
+            exit 1
+          fi
+
+          if [ "${#dmgs[@]}" -ne 1 ]; then
+            echo "Expected exactly one DMG installer, found ${#dmgs[@]}." >&2
+            find release-assets -type f -name '*.dmg' -print >&2
+            exit 1
+          fi
+
+          exe_file="${exes[0]}"
+          dmg_file="${dmgs[0]}"
+
+          if gh release view "$TAG_NAME" --json isDraft --jq .isDraft >/dev/null 2>&1; then
+            if [ "$(gh release view "$TAG_NAME" --json isDraft --jq .isDraft)" != "true" ]; then
+              echo "Release $TAG_NAME already exists and is published; refusing to overwrite it." >&2
+              exit 1
+            fi
+          else
+            gh release create "$TAG_NAME" \
+              --verify-tag \
+              --draft \
+              --title "愈心桌宠 $GITHUB_REF_NAME" \
+              --notes "Temporary notes while CI uploads the desktop installers."
+          fi
+
+      - name: Upload installers and publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
           TAG_NAME: ${{ github.ref_name }}
         shell: bash
         run: |
