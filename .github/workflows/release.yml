@@ -70,7 +70,7 @@ jobs:
               let cargoVersion;
               for (const line of cargoLines.slice(packageHeaderIndex + 1)) {
                 const trimmed = line.trim();
-                if (/^\[[^\]]+\]$/.test(trimmed)) {
+                if (trimmed && trimmed.startsWith("[") && trimmed.endsWith("]")) {
                   break;
                 }
                 const match = trimmed.match(/^version\s*=\s*"([^"]+)"\s*$/);
@@ -183,7 +183,7 @@ jobs:
               let cargoVersion;
               for (const line of cargoLines.slice(packageHeaderIndex + 1)) {
                 const trimmed = line.trim();
-                if (/^\[[^\]]+\]$/.test(trimmed)) {
+                if (trimmed && trimmed.startsWith("[") && trimmed.endsWith("]")) {
                   break;
                 }
                 const match = trimmed.match(/^version\s*=\s*"([^"]+)"\s*$/);
