@@ -336,15 +336,17 @@ jobs:
 
           gh release upload "$TAG_NAME" "$exe_file" "$dmg_file" --clobber
 
-          expected_assets=( "$(basename "$exe_file")" "$(basename "$dmg_file")" )
-          mapfile -t expected_sorted < <(printf '%s\n' "${expected_assets[@]}" | sort)
-          mapfile -t remote_sorted < <(gh release view "$TAG_NAME" --json assets --jq '.assets[].name' | sort)
+          remote_assets=()
+          mapfile -t remote_assets < <(gh release view "$TAG_NAME" --json assets --jq '.assets[].name')
+          remote_exes=()
+          remote_dmgs=()
+          mapfile -t remote_exes < <(printf '%s\n' "${remote_assets[@]}" | grep -E '\.exe$' || true)
+          mapfile -t remote_dmgs < <(printf '%s\n' "${remote_assets[@]}" | grep -E '\.dmg$' || true)
 
-          if [ "${#expected_sorted[@]}" -ne "${#remote_sorted[@]}" ] || ! diff -u <(printf '%s\n' "${expected_sorted[@]}") <(printf '%s\n' "${remote_sorted[@]}"); then
-            echo "Expected release assets:" >&2
-            printf '%s\n' "${expected_sorted[@]}" >&2
+          if [ "${#remote_assets[@]}" -ne 2 ] || [ "${#remote_exes[@]}" -ne 1 ] || [ "${#remote_dmgs[@]}" -ne 1 ]; then
+            echo "Expected exactly one remote EXE asset and one remote DMG asset." >&2
             echo "Actual release assets:" >&2
-            printf '%s\n' "${remote_sorted[@]}" >&2
+            printf '%s\n' "${remote_assets[@]}" >&2
             exit 1
           fi
 
