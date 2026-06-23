@@ -1,3 +1,5 @@
+import type { RuntimeAnimationName } from "./interaction";
+
 export const DEFAULT_PET_ID = "xiaoju-cat";
 
 const PETS_BASE_PATH = "/pets";
@@ -23,6 +25,7 @@ export type PetManifest = {
   rigPath?: string;
   actionBoardPath?: string;
   dialoguesPath?: string;
+  animationScales?: Partial<Record<RuntimeAnimationName, number>>;
   sounds?: PetManifestSounds;
 };
 

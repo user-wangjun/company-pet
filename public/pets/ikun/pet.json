@@ -8,5 +8,16 @@
   "throwFinishPath": "throw-finish.png",
   "actionsPath": "actions.json",
   "rigPath": "rig.json",
-  "actionBoardPath": "action-board.json"
+  "actionBoardPath": "action-board.json",
+  "animationScales": {
+    "idle": 1.05,
+    "drag": 1,
+    "tickle": 1,
+    "fishChase": 1.1,
+    "fishEat": 1.2,
+    "iconHug": 1.04,
+    "crouchAlert": 1,
+    "hugFish": 1.08,
+    "gnawFish": 1.1
+  }
 }

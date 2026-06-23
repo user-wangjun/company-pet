@@ -65,21 +65,25 @@ import {
   getPetIdleAnimationName,
   getPetIdleBubbleText,
   getPetIdleQuirkActions,
+  getTimedPetCareReminder,
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
   shouldStartDrag,
+  shouldResumeHoverAfterInteraction,
   shouldTriggerHoverEat,
   updateDesktopIconInteraction,
 } from "./pet-core/interaction";
 import {
   ANIMATION_ROWS,
   appendPetAnimationFinishFrame,
+  buildPetDragLandingFrames,
   getPetAnimationRowSpec,
+  getPetDragFramePlan,
 } from "./pet-core/animationRows";
 import {
+  getPetAnimationVisualScale,
   PET_BUBBLE_BOTTOM_PX,
-  PET_VISUAL_SCALE,
 } from "./pet-core/visual";
 import {
   APP_DISPLAY_NAME,
@@ -305,6 +309,7 @@ function DesktopPetApp() {
   const clickTimer = useRef<number | null>(null);
   const nextEyeCareTime = useRef(Date.now() + randomInRange(30, 50) * 60 * 1000);
   const nextWaterCareTime = useRef(Date.now() + randomInRange(60, 90) * 60 * 1000);
+  const lastTimedCareReminderKey = useRef<string | null>(null);
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
   const [bubbleText, setBubbleText] = useState<string | null>(
@@ -684,6 +689,7 @@ function DesktopPetApp() {
   const playInteractionAction = (
     action: PetInteractionAction,
     dialogueEvent?: PetDialogueEvent,
+    resumeHoverAfterReturn = true,
   ) => {
     setBubbleText(
       dialogueEvent
@@ -695,7 +701,7 @@ function DesktopPetApp() {
         : action.bubbleText ?? null,
     );
     playPetSound(action.sound);
-    playAnimation(action.animation, action.durationMs);
+    playAnimation(action.animation, action.durationMs, resumeHoverAfterReturn);
   };
 
   const handleClicks = () => {
@@ -716,7 +722,12 @@ function DesktopPetApp() {
       } else {
         playInteractionAction(
           clickAction,
-          currentCount === 1 ? "singleClick" : undefined,
+          currentCount === 1
+            ? "singleClick"
+            : currentCount === 2
+              ? "doubleClick"
+              : undefined,
+          shouldResumeHoverAfterInteraction("click"),
         );
       }
       return;
@@ -780,7 +791,11 @@ function DesktopPetApp() {
       });
   };
 
-  const playAnimation = (name: AnimationName, returnAfterMs?: number) => {
+  const playAnimation = (
+    name: AnimationName,
+    returnAfterMs?: number,
+    resumeHoverAfterReturn = true,
+  ) => {
     const sprite = spriteRef.current;
     const animations = animationsRef.current;
     if (!sprite || !animations) return false;
@@ -793,22 +808,147 @@ function DesktopPetApp() {
     }
 
     const animation = getPetAnimationRowSpec(activePetId, name);
+    sprite.onComplete = undefined;
     sprite.textures = animations[name];
     sprite.animationSpeed = animation.speed;
     sprite.loop = animation.loop;
+    sprite.scale.set(getPetAnimationVisualScale(activePetManifest, name));
     sprite.gotoAndPlay(0);
 
     if (returnAfterMs) {
       returnToIdleTimer.current = window.setTimeout(() => {
         setBubbleText(getDefaultBubbleText());
         playAnimation(getPetIdleAnimationName(activePetId));
-        scheduleHoverEat();
+        if (resumeHoverAfterReturn) {
+          scheduleHoverEat();
+        }
       }, returnAfterMs);
     }
 
     return true;
   };
 
+  const getDragFramesForPlan = () => {
+    const animations = animationsRef.current;
+    const plan = getPetDragFramePlan(activePetId);
+    if (!animations || !plan) return null;
+
+    const dragFrames = animations.drag;
+    const takeoffFrame = dragFrames[plan.takeoffFrame];
+    const loopFrames = dragFrames.slice(
+      plan.loopStartFrame,
+      plan.loopStartFrame + plan.loopFrameCount,
+    );
+    const landingFrames = takeoffFrame
+      ? buildPetDragLandingFrames(takeoffFrame, dragFrames, plan)
+      : null;
+
+    if (
+      !takeoffFrame ||
+      !landingFrames ||
+      loopFrames.length !== plan.loopFrameCount
+    ) {
+      return null;
+    }
+
+    return { takeoffFrame, loopFrames, dragFrames, plan };
+  };
+
+  const playDragStartInteraction = (action: PetInteractionAction) => {
+    const sprite = spriteRef.current;
+    const dragFrames = getDragFramesForPlan();
+    if (!sprite || action.animation !== "drag" || !dragFrames) {
+      playInteractionAction(action);
+      return;
+    }
+
+    if (returnToIdleTimer.current !== null) {
+      window.clearTimeout(returnToIdleTimer.current);
+      returnToIdleTimer.current = null;
+    }
+
+    setBubbleText(action.bubbleText ?? null);
+    playPetSound(action.sound);
+    currentAnimation.current = "drag";
+
+    const animation = getPetAnimationRowSpec(activePetId, "drag");
+    sprite.onComplete = undefined;
+    sprite.textures = [dragFrames.takeoffFrame, ...dragFrames.loopFrames];
+    sprite.animationSpeed = animation.speed;
+    sprite.loop = false;
+    sprite.scale.set(getPetAnimationVisualScale(activePetManifest, "drag"));
+    sprite.onComplete = () => {
+      if (spriteRef.current !== sprite || !pointerState.current?.dragging) return;
+
+      sprite.onComplete = undefined;
+      sprite.textures = dragFrames.loopFrames;
+      sprite.animationSpeed = animation.speed;
+      sprite.loop = true;
+      sprite.gotoAndPlay(0);
+    };
+    sprite.gotoAndPlay(0);
+  };
+
+  const playDragEndInteraction = (action: PetInteractionAction) => {
+    const sprite = spriteRef.current;
+    const dragFrames = getDragFramesForPlan();
+    const landingFrames =
+      sprite && dragFrames
+        ? buildPetDragLandingFrames(
+            sprite.texture,
+            dragFrames.dragFrames,
+            dragFrames.plan,
+          )
+        : null;
+    if (
+      !sprite ||
+      action.animation !== "drag" ||
+      !dragFrames ||
+      !landingFrames
+    ) {
+      playInteractionAction(action);
+      return;
+    }
+
+    if (returnToIdleTimer.current !== null) {
+      window.clearTimeout(returnToIdleTimer.current);
+      returnToIdleTimer.current = null;
+    }
+
+    setBubbleText(action.bubbleText ?? null);
+    playPetSound(action.sound);
+    currentAnimation.current = "drag";
+
+    sprite.onComplete = undefined;
+    sprite.textures = landingFrames;
+    sprite.animationSpeed = dragFrames.plan.landingTransitionSpeed;
+    sprite.loop = false;
+    sprite.scale.set(getPetAnimationVisualScale(activePetManifest, "drag"));
+    sprite.onComplete = () => {
+      if (spriteRef.current !== sprite || currentAnimation.current !== "drag") {
+        return;
+      }
+
+      sprite.onComplete = undefined;
+      const returnToIdle = () => {
+        setBubbleText(getDefaultBubbleText());
+        playAnimation(getPetIdleAnimationName(activePetId));
+        if (shouldResumeHoverAfterInteraction("drag")) {
+          scheduleHoverEat();
+        }
+      };
+
+      if (action.durationMs) {
+        returnToIdleTimer.current = window.setTimeout(
+          returnToIdle,
+          action.durationMs,
+        );
+      } else {
+        returnToIdle();
+      }
+    };
+    sprite.gotoAndPlay(0);
+  };
   const playHoverFishSequence = () => {
     const [chaseAnimation, eatAnimation] = getHoverFishAnimationSequence();
 
@@ -930,7 +1070,7 @@ function DesktopPetApp() {
       pointer.dragging = true;
       clearHoverEatTimer();
       recordInteraction("drag_start");
-      playInteractionAction(getPetDragStartAction(activePetId));
+      playDragStartInteraction(getPetDragStartAction(activePetId));
     }
 
     if (
@@ -981,7 +1121,7 @@ function DesktopPetApp() {
     }
 
     recordInteraction("drag_end");
-    playInteractionAction(getPetDragEndAction(activePetId));
+    playDragEndInteraction(getPetDragEndAction(activePetId));
     window.setTimeout(probeDesktopIconInteraction, 250);
   };
 
@@ -1107,7 +1247,7 @@ function DesktopPetApp() {
       nextWaterCareTime.current = Math.max(nextWaterCareTime.current, nowTimestamp + 30000);
     } else if (nowTimestamp >= nextEyeCareTime.current) {
       recordInteraction("eye_care_reminder");
-      const careAction = getPetCareReminderAction(activePetId);
+      const careAction = getPetCareReminderAction(activePetId, "eyeCare");
       if (careAction) {
         playInteractionAction(careAction, "eyeCare");
       } else {
@@ -1119,7 +1259,7 @@ function DesktopPetApp() {
       return; // 触发提醒，推迟本次吸附检测
     } else if (nowTimestamp >= nextWaterCareTime.current) {
       recordInteraction("water_care_reminder");
-      const careAction = getPetCareReminderAction(activePetId);
+      const careAction = getPetCareReminderAction(activePetId, "water");
       if (careAction) {
         playInteractionAction(careAction, "water");
       } else {
@@ -1129,6 +1269,23 @@ function DesktopPetApp() {
       }
       nextWaterCareTime.current = nowTimestamp + randomInRange(60, 90) * 60 * 1000;
       return; // 触发提醒，推迟本次吸附检测
+    }
+
+    if (!pointerState.current) {
+      const timedReminder = getTimedPetCareReminder(
+        new Date(nowTimestamp),
+        lastTimedCareReminderKey.current,
+      );
+
+      if (timedReminder) {
+        const careAction = getPetCareReminderAction(activePetId, timedReminder.kind);
+        if (careAction) {
+          recordInteraction(`${timedReminder.kind}_care_reminder`);
+          lastTimedCareReminderKey.current = timedReminder.key;
+          playInteractionAction(careAction, timedReminder.kind);
+          return;
+        }
+      }
     }
 
     // 随机待机小动作检测
@@ -1399,7 +1556,7 @@ function DesktopPetApp() {
         currentAnimation.current = idleAnimationName;
         spriteRef.current = sprite;
         sprite.anchor.set(0.5, 1);
-        sprite.scale.set(PET_VISUAL_SCALE);
+        sprite.scale.set(getPetAnimationVisualScale(manifest, idleAnimationName));
         sprite.x = app.screen.width / 2;
         sprite.y = app.screen.height - 6;
         app.stage.addChild(sprite);

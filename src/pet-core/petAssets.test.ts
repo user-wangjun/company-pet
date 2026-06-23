@@ -6,6 +6,7 @@ import ikunMotionReview from "../../public/pets/ikun/qa/motion-review.json";
 import ikunRig from "../../public/pets/ikun/rig.json";
 import dsDialogues from "../../public/pets/ds/dialogues.json";
 import dsManifest from "../../public/pets/ds/pet.json";
+import suanBirdManifest from "../../public/pets/suan-bird/pet.json";
 import builtInPetManifest from "../../public/pets/xiaoju-cat/pet.json";
 import petIndex from "../../public/pets/index.json";
 import {
@@ -131,6 +132,28 @@ describe("pet asset paths", () => {
       meal: "到吃饭时间啦，先补充能量，回来后我们继续努力。",
       sleep: "今天已经很努力啦，早点休息吧，明天我们再一起出发。",
     });
+  });
+
+  test("declares suan-bird as an isolated pet package", () => {
+    expect(petIndex.pets).toContain("suan-bird");
+    expect(suanBirdManifest.id).toBe("suan-bird");
+    expect(suanBirdManifest.displayName).toBe("蒜鸟");
+    expect(suanBirdManifest.spritesheetPath).toBe("spritesheet.webp");
+    expect(suanBirdManifest.previewPath).toBe("preview.png");
+    expect(suanBirdManifest.dialoguesPath).toBe("dialogues.json");
+    expect(resolvePetAssetUrl("suan-bird", suanBirdManifest.spritesheetPath)).toBe(
+      "/pets/suan-bird/spritesheet.webp",
+    );
+    expect(resolvePetAssetUrl("suan-bird", suanBirdManifest.previewPath)).toBe(
+      "/pets/suan-bird/preview.png",
+    );
+    expect(resolvePetAssetUrl("suan-bird", suanBirdManifest.dialoguesPath)).toBe(
+      "/pets/suan-bird/dialogues.json",
+    );
+    expect(getPetIconHugSpritesheetPath(suanBirdManifest)).toBe(
+      "spritesheet.webp",
+    );
+    expect(getPetThrowFinishPath(suanBirdManifest)).toBeNull();
   });
 
   test("documents the route 1 v15 ikun action rows and double-click jump", () => {

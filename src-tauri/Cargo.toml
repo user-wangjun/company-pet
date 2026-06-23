@@ -1,6 +1,6 @@
 [package]
 name = "yuxin-desktop-pet"
-version = "0.2.1"
+version = "0.2.2"
 description = "Yuxin desktop pet platform"
 authors = ["you"]
 edition = "2021"

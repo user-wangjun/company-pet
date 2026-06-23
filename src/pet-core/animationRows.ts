@@ -7,6 +7,15 @@ export type AnimationRowSpec = {
   loop: boolean;
 };
 
+export type DragFramePlan = {
+  takeoffFrame: number;
+  loopStartFrame: number;
+  loopFrameCount: number;
+  landingApproachFrame: number;
+  landingFrame: number;
+  landingTransitionSpeed: number;
+};
+
 export const ANIMATION_ROWS = {
   idle: { row: 0, frames: 6, speed: 0.05, loop: true },
   drag: { row: 1, frames: 8, speed: 0.2, loop: true },
@@ -19,6 +28,33 @@ export const ANIMATION_ROWS = {
   gnawFish: { row: 6, frames: 8, speed: 0.14, loop: false },
 } as const satisfies Record<RuntimeAnimationName, AnimationRowSpec>;
 
+export function getPetDragFramePlan(petId: string): DragFramePlan | null {
+  if (petId !== "suan-bird") return null;
+
+  return {
+    takeoffFrame: 0,
+    loopStartFrame: 1,
+    loopFrameCount: 6,
+    landingApproachFrame: 6,
+    landingFrame: 7,
+    landingTransitionSpeed: 0.25,
+  };
+}
+
+export function buildPetDragLandingFrames<T>(
+  currentFrame: T,
+  dragFrames: T[],
+  plan: DragFramePlan | null,
+): T[] | null {
+  if (!plan) return null;
+
+  const approachFrame = dragFrames[plan.landingApproachFrame];
+  const landingFrame = dragFrames[plan.landingFrame];
+  if (approachFrame === undefined || landingFrame === undefined) return null;
+
+  return [currentFrame, approachFrame, landingFrame];
+}
+
 export function getPetAnimationRowSpec(
   petId: string,
   animationName: RuntimeAnimationName,
@@ -27,6 +63,10 @@ export function getPetAnimationRowSpec(
 
   if (petId === "ikun" && animationName === "fishEat") {
     return { ...defaultSpec, frames: 8 };
+  }
+
+  if (petId === "suan-bird" && animationName === "fishChase") {
+    return { ...defaultSpec, loop: false };
   }
 
   return defaultSpec;

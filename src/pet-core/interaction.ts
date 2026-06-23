@@ -66,6 +66,8 @@ export type RuntimeSoundEvent =
   | "drag_end"
   | "care_reminder";
 
+export type PetCareReminderKind = "water" | "eyeCare" | "meal" | "sleep";
+
 export type PetInteractionAction = {
   animation: RuntimeAnimationName;
   sound: RuntimeSoundEvent;
@@ -75,6 +77,11 @@ export type PetInteractionAction = {
 
 export type PetSequenceAction = {
   sequence: "hover-fish";
+};
+
+export type TimedPetCareReminder = {
+  kind: Extract<PetCareReminderKind, "meal" | "sleep">;
+  key: string;
 };
 
 export type PetIdleQuirkAction = {
@@ -127,6 +134,12 @@ export function shouldTriggerHoverEat(input: HoverEatInput): boolean {
   );
 }
 
+export function shouldResumeHoverAfterInteraction(
+  interaction: "click" | "drag",
+): boolean {
+  return interaction !== "click";
+}
+
 export function isPointerCancellation(eventType: string): boolean {
   return eventType === "pointercancel";
 }
@@ -145,6 +158,7 @@ export function getDesktopIconHugAnimationName(): "iconHug" {
 
 const IKUN_PET_ID = "ikun";
 const DS_PET_ID = "ds";
+const SUAN_BIRD_PET_ID = "suan-bird";
 const IKUN_IDLE_BUBBLE = "中分头，背带裤，我是ikun你记住";
 const IKUN_CARE_REMINDER_BUBBLE = "ikun们，看很久电脑了，要注意休息";
 
@@ -154,6 +168,10 @@ function isIkunPet(petId: string): boolean {
 
 function isDsPet(petId: string): boolean {
   return petId === DS_PET_ID;
+}
+
+function isSuanBirdPet(petId: string): boolean {
+  return petId === SUAN_BIRD_PET_ID;
 }
 
 export function getPetIdleAnimationName(petId: string): RuntimeAnimationName {
@@ -184,6 +202,13 @@ export function getPetDragStartAction(petId: string): PetInteractionAction {
     };
   }
 
+  if (isSuanBirdPet(petId)) {
+    return {
+      animation: "drag",
+      sound: "drag",
+      bubbleText: "啾，起飞！",
+    };
+  }
   return {
     animation: "drag",
     sound: "drag",
@@ -210,6 +235,14 @@ export function getPetDragEndAction(petId: string): PetInteractionAction {
     };
   }
 
+  if (isSuanBirdPet(petId)) {
+    return {
+      animation: "drag",
+      sound: "drag_end",
+      bubbleText: "平稳落地。",
+      durationMs: 350,
+    };
+  }
   return {
     animation: "idle",
     sound: "drag_end",
@@ -260,6 +293,28 @@ export function getPetClickAction(
     return null;
   }
 
+  if (isSuanBirdPet(petId)) {
+    if (clickCount === 1) {
+      return {
+        animation: "tickle",
+        sound: "tickle",
+        bubbleText: "啾！蒜鸟收到啦。",
+        durationMs: 1400,
+      };
+    }
+
+    if (clickCount === 2) {
+      return {
+        animation: "fishChase",
+        sound: "fishChase",
+        bubbleText: "蒜鸟蒜鸟，都不yong易；",
+        durationMs: 2000,
+      };
+    }
+
+    return null;
+  }
+
   if (clickCount === 1) {
     return {
       animation: "tickle",
@@ -279,12 +334,98 @@ export function getPetClickAction(
 export function getPetHoverEatingAction(
   petId: string,
 ): PetSequenceAction | null {
-  return isIkunPet(petId) ? null : { sequence: "hover-fish" };
+  return isIkunPet(petId) || isSuanBirdPet(petId)
+    ? null
+    : { sequence: "hover-fish" };
+}
+
+function formatLocalDateKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function getSleepWindowDate(date: Date): Date {
+  if (date.getHours() >= 6) return date;
+
+  const previousDate = new Date(date);
+  previousDate.setDate(previousDate.getDate() - 1);
+  return previousDate;
+}
+
+export function getTimedPetCareReminder(
+  date: Date,
+  lastReminderKey: string | null,
+): TimedPetCareReminder | null {
+  const hour = date.getHours();
+  let reminder: TimedPetCareReminder | null = null;
+
+  if (hour >= 7 && hour < 9) {
+    reminder = {
+      kind: "meal",
+      key: `${formatLocalDateKey(date)}:meal-breakfast`,
+    };
+  } else if (hour >= 11 && hour < 13) {
+    reminder = {
+      kind: "meal",
+      key: `${formatLocalDateKey(date)}:meal-lunch`,
+    };
+  } else if (hour >= 18 && hour < 20) {
+    reminder = {
+      kind: "meal",
+      key: `${formatLocalDateKey(date)}:meal-dinner`,
+    };
+  } else if (hour >= 23 || hour < 6) {
+    reminder = {
+      kind: "sleep",
+      key: `${formatLocalDateKey(getSleepWindowDate(date))}:sleep`,
+    };
+  }
+
+  if (!reminder || reminder.key === lastReminderKey) return null;
+
+  return reminder;
 }
 
 export function getPetCareReminderAction(
   petId: string,
+  kind: PetCareReminderKind = "eyeCare",
 ): PetInteractionAction | null {
+  if (isSuanBirdPet(petId)) {
+    const actions: Record<PetCareReminderKind, PetInteractionAction> = {
+      water: {
+        animation: "crouchAlert",
+        sound: "care_reminder",
+        bubbleText: "喝口水吧，蒜鸟陪你一起补充水分。",
+        durationMs: 3200,
+      },
+      eyeCare: {
+        animation: "hugFish",
+        sound: "care_reminder",
+        bubbleText: "看看远处，让眼睛休息一下。",
+        durationMs: 3200,
+      },
+      meal: {
+        animation: "gnawFish",
+        sound: "care_reminder",
+        bubbleText: "到饭点啦，先好好吃饭。",
+        durationMs: 3600,
+      },
+      sleep: {
+        animation: "fishEat",
+        sound: "care_reminder",
+        bubbleText: "该休息啦，蒜鸟先钻进被窝了。",
+        durationMs: 8000,
+      },
+    };
+
+    return actions[kind];
+  }
+
+  if (kind === "meal" || kind === "sleep") return null;
+
   if (isDsPet(petId)) {
     return {
       animation: "gnawFish",

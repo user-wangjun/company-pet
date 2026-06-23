@@ -4,5 +4,16 @@
   "description": "一只蓝白色圆润小鲸鱼桌宠，会亲昵、跳一跳，也会开心地陪在桌面上。",
   "spritesheetPath": "spritesheet.webp",
   "previewPath": "preview.png",
-  "dialoguesPath": "dialogues.json"
+  "dialoguesPath": "dialogues.json",
+  "animationScales": {
+    "idle": 1,
+    "drag": 1.1,
+    "tickle": 0.95,
+    "fishChase": 1.1,
+    "fishEat": 1,
+    "iconHug": 1,
+    "crouchAlert": 1,
+    "hugFish": 1,
+    "gnawFish": 1.12
+  }
 }

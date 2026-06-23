@@ -22,10 +22,12 @@ import {
   getPetIdleAnimationName,
   getPetIdleBubbleText,
   getPetIdleQuirkActions,
+  getTimedPetCareReminder,
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
   shouldStartDrag,
+  shouldResumeHoverAfterInteraction,
   shouldTriggerHoverEat,
   updateDesktopIconInteraction,
 } from "./interaction";
@@ -83,6 +85,11 @@ describe("desktop pet interaction rules", () => {
         isDragging: true,
       }),
     ).toBe(false);
+  });
+
+  test("does not immediately rearm hover actions after a click", () => {
+    expect(shouldResumeHoverAfterInteraction("click")).toBe(false);
+    expect(shouldResumeHoverAfterInteraction("drag")).toBe(true);
   });
 
   test("does not treat normal pointer capture loss as a canceled interaction", () => {
@@ -146,6 +153,36 @@ describe("desktop pet interaction rules", () => {
     });
   });
 
+  test("maps suan-bird drag start and end to the flight row", () => {
+    expect(getPetDragStartAction("suan-bird")).toEqual({
+      animation: "drag",
+      sound: "drag",
+      bubbleText: "啾，起飞！",
+    });
+    expect(getPetDragEndAction("suan-bird")).toEqual({
+      animation: "drag",
+      sound: "drag_end",
+      bubbleText: "平稳落地。",
+      durationMs: 350,
+    });
+  });
+
+  test("maps suan-bird clicks to dedicated action rows", () => {
+    expect(getPetClickAction("suan-bird", 1)).toEqual({
+      animation: "tickle",
+      sound: "tickle",
+      bubbleText: "啾！蒜鸟收到啦。",
+      durationMs: 1400,
+    });
+    expect(getPetClickAction("suan-bird", 2)).toEqual({
+      animation: "fishChase",
+      sound: "fishChase",
+      bubbleText: "蒜鸟蒜鸟，都不yong易；",
+      durationMs: 2000,
+    });
+    expect(getPetClickAction("suan-bird", 3)).toBeNull();
+  });
+
   test("maps ds interactions to whale-specific action rows", () => {
     expect(getPetIdleAnimationName("ds")).toBe("idle");
     expect(getPetIdleBubbleText("ds", "fallback bubble")).toBe(
@@ -171,15 +208,16 @@ describe("desktop pet interaction rules", () => {
     expect(getPetClickAction("ds", 3)).toBeNull();
   });
 
-  test("does not reuse the fish eating sequence for ikun before a dedicated eating action exists", () => {
+  test("does not reuse click actions for pets without a dedicated hover action", () => {
     expect(getPetHoverEatingAction("ikun")).toBeNull();
+    expect(getPetHoverEatingAction("suan-bird")).toBeNull();
     expect(getPetHoverEatingAction("xiaoju-cat")).toEqual({
       sequence: "hover-fish",
     });
   });
 
   test("uses bie-ganmao for ikun care reminders", () => {
-    expect(getPetCareReminderAction("ikun")).toEqual({
+    expect(getPetCareReminderAction("ikun", "eyeCare")).toEqual({
       animation: "tickle",
       sound: "care_reminder",
       bubbleText: "ikun们，看很久电脑了，要注意休息",
@@ -188,11 +226,85 @@ describe("desktop pet interaction rules", () => {
   });
 
   test("uses yawning for ds care reminders", () => {
-    expect(getPetCareReminderAction("ds")).toEqual({
+    expect(getPetCareReminderAction("ds", "water")).toEqual({
       animation: "gnawFish",
       sound: "care_reminder",
       durationMs: 3200,
     });
+  });
+
+  test("does not add meal or sleep reminder actions to existing pets", () => {
+    expect(getPetCareReminderAction("ikun", "meal")).toBeNull();
+    expect(getPetCareReminderAction("ikun", "sleep")).toBeNull();
+    expect(getPetCareReminderAction("ds", "meal")).toBeNull();
+    expect(getPetCareReminderAction("ds", "sleep")).toBeNull();
+    expect(getPetCareReminderAction("xiaoju-cat", "meal")).toBeNull();
+  });
+
+  test("maps suan-bird reminders to the approved action rows", () => {
+    expect(getPetCareReminderAction("suan-bird", "water")).toEqual({
+      animation: "crouchAlert",
+      sound: "care_reminder",
+      bubbleText: "喝口水吧，蒜鸟陪你一起补充水分。",
+      durationMs: 3200,
+    });
+    expect(getPetCareReminderAction("suan-bird", "eyeCare")).toEqual({
+      animation: "hugFish",
+      sound: "care_reminder",
+      bubbleText: "看看远处，让眼睛休息一下。",
+      durationMs: 3200,
+    });
+    expect(getPetCareReminderAction("suan-bird", "meal")).toEqual({
+      animation: "gnawFish",
+      sound: "care_reminder",
+      bubbleText: "到饭点啦，先好好吃饭。",
+      durationMs: 3600,
+    });
+    expect(getPetCareReminderAction("suan-bird", "sleep")).toEqual({
+      animation: "fishEat",
+      sound: "care_reminder",
+      bubbleText: "该休息啦，蒜鸟先钻进被窝了。",
+      durationMs: 8000,
+    });
+  });
+
+  test("selects meal and overnight reminders once per time slot", () => {
+    expect(
+      getTimedPetCareReminder(new Date(2026, 5, 21, 7, 30), null),
+    ).toEqual({ kind: "meal", key: "2026-06-21:meal-breakfast" });
+    expect(
+      getTimedPetCareReminder(new Date(2026, 5, 21, 11, 30), null),
+    ).toEqual({ kind: "meal", key: "2026-06-21:meal-lunch" });
+    expect(
+      getTimedPetCareReminder(new Date(2026, 5, 21, 18, 30), null),
+    ).toEqual({ kind: "meal", key: "2026-06-21:meal-dinner" });
+
+    const bedtime = getTimedPetCareReminder(
+      new Date(2026, 5, 21, 23, 30),
+      null,
+    );
+    expect(bedtime).toEqual({
+      kind: "sleep",
+      key: "2026-06-21:sleep",
+    });
+    expect(
+      getTimedPetCareReminder(
+        new Date(2026, 5, 22, 1, 0),
+        bedtime?.key ?? null,
+      ),
+    ).toBeNull();
+  });
+
+  test("skips timed reminders outside a window or after the slot played", () => {
+    expect(
+      getTimedPetCareReminder(new Date(2026, 5, 21, 14, 0), null),
+    ).toBeNull();
+    expect(
+      getTimedPetCareReminder(
+        new Date(2026, 5, 21, 7, 45),
+        "2026-06-21:meal-breakfast",
+      ),
+    ).toBeNull();
   });
 
   test("offers ds idle quirks for spinning, yawning, peeking, and happy settling", () => {

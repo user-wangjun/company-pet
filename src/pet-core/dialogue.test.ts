@@ -1,6 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import dsDialogues from "../../public/pets/ds/dialogues.json";
 import dsManifest from "../../public/pets/ds/pet.json";
+import suanBirdDialogues from "../../public/pets/suan-bird/dialogues.json";
 import {
   getTimedPetDialogueEvent,
   loadPetDialoguePackage,
@@ -112,5 +113,8 @@ describe("pet dialogue packages", () => {
         "water",
       ].sort(),
     );
+  });
+  test("keeps the approved suan-bird double-click line in its pet package", () => {
+    expect(suanBirdDialogues.doubleClick).toBe("蒜鸟蒜鸟，都不yong易；");
   });
 });

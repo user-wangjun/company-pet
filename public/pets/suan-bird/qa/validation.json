@@ -1,0 +1,560 @@
+{
+  "ok": true,
+  "atlas": {
+    "width": 1536,
+    "height": 1872,
+    "cellWidth": 192,
+    "cellHeight": 208,
+    "columns": 8,
+    "rows": 9
+  },
+  "transparentRgbOk": true,
+  "source": "generated high-resolution row strips grounded in reference.png",
+  "sourceQuality": {
+    "generated-row-00-idle-alpha.png": {
+      "width": 2172,
+      "height": 724,
+      "frameCount": 6,
+      "minimumSlotWidth": 362
+    },
+    "generated-row-01-drag-alpha.png": {
+      "width": 1912,
+      "height": 823,
+      "frameCount": 8,
+      "minimumSlotWidth": 239
+    },
+    "generated-row-03-tickle-alpha.png": {
+      "width": 1774,
+      "height": 887,
+      "frameCount": 8,
+      "minimumSlotWidth": 221
+    },
+    "generated-row-04-crouchAlert-alpha.png": {
+      "width": 1774,
+      "height": 887,
+      "frameCount": 8,
+      "minimumSlotWidth": 221
+    },
+    "generated-row-05-hugFish-alpha.png": {
+      "width": 2172,
+      "height": 724,
+      "frameCount": 8,
+      "minimumSlotWidth": 271
+    },
+    "generated-row-06-gnawFish-alpha.png": {
+      "width": 2172,
+      "height": 724,
+      "frameCount": 8,
+      "minimumSlotWidth": 271
+    },
+    "generated-row-07-fishChase-alpha.png": {
+      "width": 2172,
+      "height": 724,
+      "frameCount": 8,
+      "minimumSlotWidth": 271
+    },
+    "generated-row-08-fishEat-alpha.png": {
+      "width": 2172,
+      "height": 724,
+      "frameCount": 6,
+      "minimumSlotWidth": 362
+    }
+  },
+  "rows": [
+    {
+      "row": 0,
+      "name": "idle",
+      "usedFrames": 6,
+      "cells": [
+        {
+          "col": 0,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19565,
+          "ok": true
+        },
+        {
+          "col": 1,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19585,
+          "ok": true
+        },
+        {
+          "col": 2,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19568,
+          "ok": true
+        },
+        {
+          "col": 3,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19121,
+          "ok": true
+        },
+        {
+          "col": 4,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19671,
+          "ok": true
+        },
+        {
+          "col": 5,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19564,
+          "ok": true
+        },
+        {
+          "col": 6,
+          "expectedUsed": false,
+          "nonTransparentPixels": 0,
+          "ok": true
+        },
+        {
+          "col": 7,
+          "expectedUsed": false,
+          "nonTransparentPixels": 0,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "row": 1,
+      "name": "drag",
+      "usedFrames": 8,
+      "cells": [
+        {
+          "col": 0,
+          "expectedUsed": true,
+          "nonTransparentPixels": 9303,
+          "ok": true
+        },
+        {
+          "col": 1,
+          "expectedUsed": true,
+          "nonTransparentPixels": 11218,
+          "ok": true
+        },
+        {
+          "col": 2,
+          "expectedUsed": true,
+          "nonTransparentPixels": 11611,
+          "ok": true
+        },
+        {
+          "col": 3,
+          "expectedUsed": true,
+          "nonTransparentPixels": 11385,
+          "ok": true
+        },
+        {
+          "col": 4,
+          "expectedUsed": true,
+          "nonTransparentPixels": 10871,
+          "ok": true
+        },
+        {
+          "col": 5,
+          "expectedUsed": true,
+          "nonTransparentPixels": 11149,
+          "ok": true
+        },
+        {
+          "col": 6,
+          "expectedUsed": true,
+          "nonTransparentPixels": 9510,
+          "ok": true
+        },
+        {
+          "col": 7,
+          "expectedUsed": true,
+          "nonTransparentPixels": 10152,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "row": 2,
+      "name": "reserved-running-left",
+      "usedFrames": 8,
+      "cells": [
+        {
+          "col": 0,
+          "expectedUsed": true,
+          "nonTransparentPixels": 9303,
+          "ok": true
+        },
+        {
+          "col": 1,
+          "expectedUsed": true,
+          "nonTransparentPixels": 11218,
+          "ok": true
+        },
+        {
+          "col": 2,
+          "expectedUsed": true,
+          "nonTransparentPixels": 11611,
+          "ok": true
+        },
+        {
+          "col": 3,
+          "expectedUsed": true,
+          "nonTransparentPixels": 11385,
+          "ok": true
+        },
+        {
+          "col": 4,
+          "expectedUsed": true,
+          "nonTransparentPixels": 10871,
+          "ok": true
+        },
+        {
+          "col": 5,
+          "expectedUsed": true,
+          "nonTransparentPixels": 11149,
+          "ok": true
+        },
+        {
+          "col": 6,
+          "expectedUsed": true,
+          "nonTransparentPixels": 9510,
+          "ok": true
+        },
+        {
+          "col": 7,
+          "expectedUsed": true,
+          "nonTransparentPixels": 10152,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "row": 3,
+      "name": "tickle",
+      "usedFrames": 8,
+      "cells": [
+        {
+          "col": 0,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18996,
+          "ok": true
+        },
+        {
+          "col": 1,
+          "expectedUsed": true,
+          "nonTransparentPixels": 16589,
+          "ok": true
+        },
+        {
+          "col": 2,
+          "expectedUsed": true,
+          "nonTransparentPixels": 13053,
+          "ok": true
+        },
+        {
+          "col": 3,
+          "expectedUsed": true,
+          "nonTransparentPixels": 17965,
+          "ok": true
+        },
+        {
+          "col": 4,
+          "expectedUsed": true,
+          "nonTransparentPixels": 17901,
+          "ok": true
+        },
+        {
+          "col": 5,
+          "expectedUsed": true,
+          "nonTransparentPixels": 16612,
+          "ok": true
+        },
+        {
+          "col": 6,
+          "expectedUsed": true,
+          "nonTransparentPixels": 15649,
+          "ok": true
+        },
+        {
+          "col": 7,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18276,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "row": 4,
+      "name": "crouchAlert",
+      "usedFrames": 8,
+      "cells": [
+        {
+          "col": 0,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18193,
+          "ok": true
+        },
+        {
+          "col": 1,
+          "expectedUsed": true,
+          "nonTransparentPixels": 16714,
+          "ok": true
+        },
+        {
+          "col": 2,
+          "expectedUsed": true,
+          "nonTransparentPixels": 15857,
+          "ok": true
+        },
+        {
+          "col": 3,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18739,
+          "ok": true
+        },
+        {
+          "col": 4,
+          "expectedUsed": true,
+          "nonTransparentPixels": 16040,
+          "ok": true
+        },
+        {
+          "col": 5,
+          "expectedUsed": true,
+          "nonTransparentPixels": 14943,
+          "ok": true
+        },
+        {
+          "col": 6,
+          "expectedUsed": true,
+          "nonTransparentPixels": 15378,
+          "ok": true
+        },
+        {
+          "col": 7,
+          "expectedUsed": true,
+          "nonTransparentPixels": 17424,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "row": 5,
+      "name": "hugFish",
+      "usedFrames": 8,
+      "cells": [
+        {
+          "col": 0,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19114,
+          "ok": true
+        },
+        {
+          "col": 1,
+          "expectedUsed": true,
+          "nonTransparentPixels": 17920,
+          "ok": true
+        },
+        {
+          "col": 2,
+          "expectedUsed": true,
+          "nonTransparentPixels": 17790,
+          "ok": true
+        },
+        {
+          "col": 3,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18845,
+          "ok": true
+        },
+        {
+          "col": 4,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18429,
+          "ok": true
+        },
+        {
+          "col": 5,
+          "expectedUsed": true,
+          "nonTransparentPixels": 17839,
+          "ok": true
+        },
+        {
+          "col": 6,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18075,
+          "ok": true
+        },
+        {
+          "col": 7,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18575,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "row": 6,
+      "name": "gnawFish",
+      "usedFrames": 8,
+      "cells": [
+        {
+          "col": 0,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19629,
+          "ok": true
+        },
+        {
+          "col": 1,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18172,
+          "ok": true
+        },
+        {
+          "col": 2,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19644,
+          "ok": true
+        },
+        {
+          "col": 3,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18508,
+          "ok": true
+        },
+        {
+          "col": 4,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18387,
+          "ok": true
+        },
+        {
+          "col": 5,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18453,
+          "ok": true
+        },
+        {
+          "col": 6,
+          "expectedUsed": true,
+          "nonTransparentPixels": 17858,
+          "ok": true
+        },
+        {
+          "col": 7,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19652,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "row": 7,
+      "name": "fishChase",
+      "usedFrames": 8,
+      "cells": [
+        {
+          "col": 0,
+          "expectedUsed": true,
+          "nonTransparentPixels": 17367,
+          "ok": true
+        },
+        {
+          "col": 1,
+          "expectedUsed": true,
+          "nonTransparentPixels": 16067,
+          "ok": true
+        },
+        {
+          "col": 2,
+          "expectedUsed": true,
+          "nonTransparentPixels": 15712,
+          "ok": true
+        },
+        {
+          "col": 3,
+          "expectedUsed": true,
+          "nonTransparentPixels": 18440,
+          "ok": true
+        },
+        {
+          "col": 4,
+          "expectedUsed": true,
+          "nonTransparentPixels": 19205,
+          "ok": true
+        },
+        {
+          "col": 5,
+          "expectedUsed": true,
+          "nonTransparentPixels": 16409,
+          "ok": true
+        },
+        {
+          "col": 6,
+          "expectedUsed": true,
+          "nonTransparentPixels": 15806,
+          "ok": true
+        },
+        {
+          "col": 7,
+          "expectedUsed": true,
+          "nonTransparentPixels": 13484,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "row": 8,
+      "name": "fishEat",
+      "usedFrames": 6,
+      "cells": [
+        {
+          "col": 0,
+          "expectedUsed": true,
+          "nonTransparentPixels": 20747,
+          "ok": true
+        },
+        {
+          "col": 1,
+          "expectedUsed": true,
+          "nonTransparentPixels": 21681,
+          "ok": true
+        },
+        {
+          "col": 2,
+          "expectedUsed": true,
+          "nonTransparentPixels": 20732,
+          "ok": true
+        },
+        {
+          "col": 3,
+          "expectedUsed": true,
+          "nonTransparentPixels": 20223,
+          "ok": true
+        },
+        {
+          "col": 4,
+          "expectedUsed": true,
+          "nonTransparentPixels": 20027,
+          "ok": true
+        },
+        {
+          "col": 5,
+          "expectedUsed": true,
+          "nonTransparentPixels": 17203,
+          "ok": true
+        },
+        {
+          "col": 6,
+          "expectedUsed": false,
+          "nonTransparentPixels": 0,
+          "ok": true
+        },
+        {
+          "col": 7,
+          "expectedUsed": false,
+          "nonTransparentPixels": 0,
+          "ok": true
+        }
+      ]
+    }
+  ]
+}

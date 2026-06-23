@@ -1,0 +1,38 @@
+{
+  "ok": true,
+  "spritesheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\spritesheet.webp",
+  "contactSheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\contact-sheet.png",
+  "generatedRows": [
+    "generated-row-00-idle-alpha.png",
+    "generated-row-01-drag-alpha.png",
+    "generated-row-03-tickle-alpha.png",
+    "generated-row-04-crouchAlert-alpha.png",
+    "generated-row-05-hugFish-alpha.png",
+    "generated-row-06-gnawFish-alpha.png",
+    "generated-row-07-fishChase-alpha.png",
+    "generated-row-08-fishEat-alpha.png"
+  ],
+  "mirroredRows": [
+    "row-02-reserved-running-left"
+  ],
+  "dragFramePlan": {
+    "takeoffFrame": 0,
+    "loopStartFrame": 1,
+    "loopFrameCount": 6,
+    "landingApproachFrame": 6,
+    "landingFrame": 7,
+    "landingTransitionSpeed": 0.25,
+    "landingHoldMs": 350
+  },
+  "previews": [
+    "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\previews\\row-00-idle.gif",
+    "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\previews\\row-01-drag.gif",
+    "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\previews\\row-02-reserved-running-left.gif",
+    "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\previews\\row-03-tickle.gif",
+    "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\previews\\row-04-crouchAlert.gif",
+    "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\previews\\row-05-hugFish.gif",
+    "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\previews\\row-06-gnawFish.gif",
+    "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\previews\\row-07-fishChase.gif",
+    "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\suan-bird\\qa\\previews\\row-08-fishEat.gif"
+  ]
+}

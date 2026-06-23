@@ -2,6 +2,8 @@ import { describe, expect, test } from "vitest";
 import {
   ANIMATION_ROWS,
   appendPetAnimationFinishFrame,
+  buildPetDragLandingFrames,
+  getPetDragFramePlan,
   getPetAnimationRowSpec,
 } from "./animationRows";
 
@@ -22,6 +24,46 @@ describe("runtime animation row mapping", () => {
 
   test("makes dragging only slightly faster than the previous cadence", () => {
     expect(ANIMATION_ROWS.drag.speed).toBe(0.2);
+  });
+  test("uses suan-bird drag frames as takeoff, flight loop, and landing", () => {
+    expect(getPetDragFramePlan("suan-bird")).toEqual({
+      takeoffFrame: 0,
+      loopStartFrame: 1,
+      loopFrameCount: 6,
+      landingApproachFrame: 6,
+      landingFrame: 7,
+      landingTransitionSpeed: 0.25,
+    });
+    expect(getPetDragFramePlan("xiaoju-cat")).toBeNull();
+  });
+
+  test("builds a smooth suan-bird landing sequence from the current flight pose", () => {
+    const plan = getPetDragFramePlan("suan-bird");
+
+    expect(
+      buildPetDragLandingFrames(
+        "current-flight",
+        [
+          "takeoff",
+          "flight-2",
+          "flight-3",
+          "flight-4",
+          "flight-5",
+          "flight-6",
+          "flight-7",
+          "landing",
+        ],
+        plan,
+      ),
+    ).toEqual(["current-flight", "flight-7", "landing"]);
+  });
+
+  test("plays the suan-bird double-click row once", () => {
+    expect(getPetAnimationRowSpec("suan-bird", "fishChase")).toMatchObject({
+      row: 7,
+      frames: 8,
+      loop: false,
+    });
   });
 
   test("plays the ikun double-click jump row with all 8 atlas frames", () => {
