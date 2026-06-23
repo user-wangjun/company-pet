@@ -78,10 +78,10 @@ type PetHoverSource = {
 };
 
 export type PetDesktopIconSource = {
-  enabled?: boolean;
-  action?: PetActionSpec;
-  positioning?: string;
-  allowedSide?: string;
+  enabled?: unknown;
+  action?: unknown;
+  positioning?: unknown;
+  allowedSide?: unknown;
 };
 
 type PetInteractionSource = {
@@ -119,65 +119,294 @@ const REQUIRED_REMINDERS: PetReminderKind[] = [
   "meal",
   "sleep",
 ];
+const PET_DIALOGUE_EVENTS: PetDialogueEvent[] = [
+  "idle",
+  "singleClick",
+  "doubleClick",
+  "water",
+  "eyeCare",
+  "meal",
+  "sleep",
+];
 
-function requireAction(
-  value: PetActionSpec | PetSequenceSpec | undefined,
-  field: string,
-): PetActionSpec | PetSequenceSpec {
-  if (!value) throw new Error(`Missing interactions.${field}`);
+type UnknownRecord = Record<string, unknown>;
+
+function isRecord(value: unknown): value is UnknownRecord {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function requireRecord(value: unknown, field: string): UnknownRecord {
+  if (!isRecord(value)) {
+    throw new Error(`Invalid object at ${field}`);
+  }
   return value;
 }
 
-function isSequenceSpec(
-  value: PetActionSpec | PetSequenceSpec,
-): value is PetSequenceSpec {
-  return "sequence" in value;
+function requireNonEmptyString(value: unknown, field: string): string {
+  if (typeof value !== "string" || value.trim().length === 0) {
+    throw new Error(`Expected non-empty string at ${field}`);
+  }
+  return value;
 }
 
-function validateAction(
-  action: PetActionSpec,
+function requireBoolean(value: unknown, field: string): boolean {
+  if (typeof value !== "boolean") {
+    throw new Error(`Expected boolean at ${field}`);
+  }
+  return value;
+}
+
+function requireNonNegativeInteger(value: unknown, field: string): number {
+  if (!Number.isInteger(value) || (value as number) < 0) {
+    throw new Error(`Expected non-negative integer at ${field}`);
+  }
+  return value as number;
+}
+
+function requirePositiveInteger(value: unknown, field: string): number {
+  if (!Number.isInteger(value) || (value as number) <= 0) {
+    throw new Error(`Expected positive integer at ${field}`);
+  }
+  return value as number;
+}
+
+function requireFiniteNumber(value: unknown, field: string): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    throw new Error(`Expected finite number at ${field}`);
+  }
+  return value;
+}
+
+function requireFinitePositiveNumber(value: unknown, field: string): number {
+  if (
+    typeof value !== "number" ||
+    !Number.isFinite(value) ||
+    value <= 0
+  ) {
+    throw new Error(`Expected finite positive number at ${field}`);
+  }
+  return value;
+}
+
+function requireFiniteNonNegativeNumber(
+  value: unknown,
+  field: string,
+): number {
+  if (
+    typeof value !== "number" ||
+    !Number.isFinite(value) ||
+    value < 0
+  ) {
+    throw new Error(`Expected finite non-negative number at ${field}`);
+  }
+  return value;
+}
+
+function requireRelativePath(value: unknown, field: string): string {
+  if (typeof value !== "string" || value.trim().length === 0) {
+    throw new Error(`Expected non-empty relative path at ${field}`);
+  }
+  const path = value;
+  const segments = path.replace(/\\/g, "/").split("/");
+  if (
+    path.startsWith("/") ||
+    path.startsWith("\\") ||
+    path.includes("\\") ||
+    path.includes(":") ||
+    segments.includes("..")
+  ) {
+    throw new Error(`Expected non-empty relative path at ${field}`);
+  }
+  return path;
+}
+
+function parseOptionalString(
+  value: unknown,
+  field: string,
+): string | undefined {
+  return value === undefined ? undefined : requireNonEmptyString(value, field);
+}
+
+function parseOptionalDialogueEvent(
+  value: unknown,
+  field: string,
+): PetDialogueEvent | undefined {
+  if (value === undefined) return undefined;
+  if (
+    typeof value !== "string" ||
+    !PET_DIALOGUE_EVENTS.includes(value as PetDialogueEvent)
+  ) {
+    throw new Error(`Invalid value at ${field}`);
+  }
+  return value as PetDialogueEvent;
+}
+
+function parseOptionalNumber(
+  value: unknown,
+  field: string,
+  parser: (input: unknown, inputField: string) => number,
+): number | undefined {
+  return value === undefined ? undefined : parser(value, field);
+}
+
+function parseOptionalPath(
+  value: unknown,
+  field: string,
+): string | undefined {
+  return value === undefined ? undefined : requireRelativePath(value, field);
+}
+
+function parseAnimationSpec(value: unknown, field: string): PetAnimationSpec {
+  const source = requireRecord(value, field);
+  const visualClass = source.visualClass;
+  if (visualClass !== "ordinary" && visualClass !== "pose-change") {
+    throw new Error(`Invalid value at ${field}.visualClass`);
+  }
+
+  return {
+    row: requireNonNegativeInteger(source.row, `${field}.row`),
+    frames: requirePositiveInteger(source.frames, `${field}.frames`),
+    speed: requireFinitePositiveNumber(source.speed, `${field}.speed`),
+    loop: requireBoolean(source.loop, `${field}.loop`),
+    visualClass,
+    scale: parseOptionalNumber(
+      source.scale,
+      `${field}.scale`,
+      requireFinitePositiveNumber,
+    ),
+    offsetX: parseOptionalNumber(
+      source.offsetX,
+      `${field}.offsetX`,
+      requireFiniteNumber,
+    ),
+    offsetY: parseOptionalNumber(
+      source.offsetY,
+      `${field}.offsetY`,
+      requireFiniteNumber,
+    ),
+    spritesheetPath: parseOptionalPath(
+      source.spritesheetPath,
+      `${field}.spritesheetPath`,
+    ),
+    finishFramePath: parseOptionalPath(
+      source.finishFramePath,
+      `${field}.finishFramePath`,
+    ),
+  };
+}
+
+function parseAnimations(value: unknown): Record<string, PetAnimationSpec> {
+  if (value === undefined) throw new Error("Missing animations");
+  const source = requireRecord(value, "animations");
+  const entries = Object.entries(source);
+  if (entries.length === 0) throw new Error("Missing animations");
+
+  return Object.fromEntries(
+    entries.map(([name, spec]) => [
+      requireNonEmptyString(name, "animations key"),
+      parseAnimationSpec(spec, `animations.${name}`),
+    ]),
+  );
+}
+
+function getAnimation(
+  animations: Record<string, PetAnimationSpec>,
+  name: string,
+): PetAnimationSpec | undefined {
+  return Object.prototype.hasOwnProperty.call(animations, name)
+    ? animations[name]
+    : undefined;
+}
+
+function parseAction(
+  value: unknown,
   field: string,
   animations: Record<string, PetAnimationSpec>,
   finite: boolean,
 ): PetActionSpec {
-  const animation = animations[action.animation];
+  const source = requireRecord(value, `interactions.${field}`);
+  const animationName = requireNonEmptyString(
+    source.animation,
+    `interactions.${field}.animation`,
+  );
+
+  const animation = getAnimation(animations, animationName);
   if (!animation) {
     throw new Error(
-      `Unknown animation "${action.animation}" at interactions.${field}.animation`,
+      `Unknown animation "${animationName}" at interactions.${field}.animation`,
     );
   }
 
   if (
     finite &&
     animation.loop &&
-    (!Number.isFinite(action.durationMs) || (action.durationMs ?? 0) <= 0)
+    (source.durationMs === undefined ||
+      typeof source.durationMs !== "number" ||
+      !Number.isFinite(source.durationMs) ||
+      source.durationMs <= 0)
   ) {
     throw new Error(
       `Missing positive durationMs for loop animation at interactions.${field}`,
     );
   }
+  const durationMs =
+    source.durationMs === undefined
+      ? undefined
+      : requireFinitePositiveNumber(
+          source.durationMs,
+          `interactions.${field}.durationMs`,
+        );
 
-  return action;
+  return {
+    animation: animationName,
+    durationMs,
+    sound: parseOptionalString(
+      source.sound,
+      `interactions.${field}.sound`,
+    ),
+    dialogueEvent: parseOptionalDialogueEvent(
+      source.dialogueEvent,
+      `interactions.${field}.dialogueEvent`,
+    ),
+    bubbleText: parseOptionalString(
+      source.bubbleText,
+      `interactions.${field}.bubbleText`,
+    ),
+  };
 }
 
-function validateActionOrSequence(
-  action: PetActionSpec | PetSequenceSpec,
+function parseActionOrSequence(
+  value: unknown,
   field: string,
   animations: Record<string, PetAnimationSpec>,
 ): PetActionSpec | PetSequenceSpec {
-  if (!isSequenceSpec(action)) {
-    return validateAction(action, field, animations, true);
+  const source = requireRecord(value, `interactions.${field}`);
+  if (!Object.prototype.hasOwnProperty.call(source, "sequence")) {
+    return parseAction(source, field, animations, true);
   }
 
-  if (action.sequence.length === 0) {
+  if (!Array.isArray(source.sequence)) {
+    throw new Error(
+      `Expected non-empty array at interactions.${field}.sequence`,
+    );
+  }
+  if (source.sequence.length === 0) {
     throw new Error(`Empty sequence at interactions.${field}.sequence`);
   }
 
-  action.sequence.forEach((step, index) => {
-    validateAction(step, `${field}.sequence[${index}]`, animations, true);
-  });
-
-  return action;
+  return {
+    sequence: source.sequence.map((step, index) => {
+      const stepField = `${field}.sequence[${index}]`;
+      const stepSource = requireRecord(step, `interactions.${stepField}`);
+      return {
+        ...parseAction(stepSource, stepField, animations, true),
+        startAfterMs: requireFiniteNonNegativeNumber(
+          stepSource.startAfterMs,
+          `interactions.${stepField}.startAfterMs`,
+        ),
+      };
+    }),
+  };
 }
 
 function disableDesktopIcon(
@@ -190,30 +419,44 @@ function disableDesktopIcon(
 }
 
 function isDesktopIconPositioning(
-  value: string | undefined,
+  value: unknown,
 ): value is PetDesktopIconPositioning {
   return value === "wrap" || value === "peek";
 }
 
 function isDesktopIconAllowedSide(
-  value: string | undefined,
+  value: unknown,
 ): value is PetDesktopIconAllowedSide {
   return value === "any" || value === "left" || value === "right";
 }
 
 function resolveDesktopIcon(
   petId: string,
-  source: PetDesktopIconSource | undefined,
+  value: unknown,
   animations: Record<string, PetAnimationSpec>,
   warn: (message: string) => void,
 ): PetDesktopIconSpec {
-  if (!source?.enabled) return { enabled: false };
+  if (value === undefined) return { enabled: false };
+  if (!isRecord(value)) {
+    return disableDesktopIcon(petId, "", warn);
+  }
+  const source = value;
+  if (source.enabled === undefined || source.enabled === false) {
+    return { enabled: false };
+  }
+  if (source.enabled !== true) {
+    return disableDesktopIcon(petId, "enabled", warn);
+  }
 
-  if (!source.action) {
+  if (!isRecord(source.action)) {
     return disableDesktopIcon(petId, "action", warn);
   }
 
-  const animation = animations[source.action.animation];
+  const animationName = source.action.animation;
+  if (typeof animationName !== "string" || animationName.trim().length === 0) {
+    return disableDesktopIcon(petId, "action.animation", warn);
+  }
+  const animation = getAnimation(animations, animationName);
   if (!animation) {
     return disableDesktopIcon(petId, "action.animation", warn);
   }
@@ -227,80 +470,263 @@ function resolveDesktopIcon(
   }
 
   if (
-    animation.loop &&
-    (!Number.isFinite(source.action.durationMs) ||
-      (source.action.durationMs ?? 0) <= 0)
+    source.action.durationMs !== undefined &&
+    (typeof source.action.durationMs !== "number" ||
+      !Number.isFinite(source.action.durationMs) ||
+      source.action.durationMs <= 0)
   ) {
     return disableDesktopIcon(petId, "action.durationMs", warn);
+  }
+  if (
+    animation.loop &&
+    source.action.durationMs === undefined
+  ) {
+    return disableDesktopIcon(petId, "action.durationMs", warn);
+  }
+  if (
+    source.action.sound !== undefined &&
+    (typeof source.action.sound !== "string" ||
+      source.action.sound.trim().length === 0)
+  ) {
+    return disableDesktopIcon(petId, "action.sound", warn);
+  }
+  if (
+    source.action.dialogueEvent !== undefined &&
+    (typeof source.action.dialogueEvent !== "string" ||
+      !PET_DIALOGUE_EVENTS.includes(
+        source.action.dialogueEvent as PetDialogueEvent,
+      ))
+  ) {
+    return disableDesktopIcon(petId, "action.dialogueEvent", warn);
+  }
+  if (
+    source.action.bubbleText !== undefined &&
+    (typeof source.action.bubbleText !== "string" ||
+      source.action.bubbleText.trim().length === 0)
+  ) {
+    return disableDesktopIcon(petId, "action.bubbleText", warn);
   }
 
   return {
     enabled: true,
-    action: source.action,
+    action: {
+      animation: animationName,
+      durationMs: source.action.durationMs as number | undefined,
+      sound: source.action.sound,
+      dialogueEvent: source.action.dialogueEvent as
+        | PetDialogueEvent
+        | undefined,
+      bubbleText: source.action.bubbleText,
+    },
     positioning: source.positioning,
     allowedSide: source.allowedSide,
   };
 }
 
-export function resolvePetInteractionManifest(
-  source: PetInteractionManifestSource,
-  warn: (message: string) => void = console.warn,
-): ResolvedPetInteractionManifest {
-  const animations = source.animations ?? {};
-  if (Object.keys(animations).length === 0) {
-    throw new Error("Missing animations");
+function parseRequiredAction(
+  source: UnknownRecord,
+  key: string,
+  animations: Record<string, PetAnimationSpec>,
+  finite: boolean,
+): PetActionSpec {
+  if (source[key] === undefined) {
+    throw new Error(`Missing interactions.${key}`);
+  }
+  return parseAction(source[key], key, animations, finite);
+}
+
+function parseRequiredActionOrSequence(
+  source: UnknownRecord,
+  key: string,
+  animations: Record<string, PetAnimationSpec>,
+): PetActionSpec | PetSequenceSpec {
+  if (source[key] === undefined) {
+    throw new Error(`Missing interactions.${key}`);
+  }
+  return parseActionOrSequence(source[key], key, animations);
+}
+
+function parseDrag(
+  value: unknown,
+  animations: Record<string, PetAnimationSpec>,
+): PetDragSpec {
+  if (value === undefined) throw new Error("Missing interactions.drag");
+  const source = requireRecord(value, "interactions.drag");
+  const directionMode = source.directionMode;
+  if (directionMode !== "rows" && directionMode !== "mirror-left") {
+    throw new Error("Invalid value at interactions.drag.directionMode");
   }
 
-  const interactions = source.interactions ?? {};
-  const idle = requireAction(interactions.idle, "idle") as PetActionSpec;
-  validateAction(idle, "idle", animations, false);
+  const right = requireNonEmptyString(
+    source.right,
+    "interactions.drag.right",
+  );
+  const left = requireNonEmptyString(source.left, "interactions.drag.left");
+  const rightAnimation = getAnimation(animations, right);
+  const leftAnimation = getAnimation(animations, left);
+  if (!rightAnimation) {
+    throw new Error(
+      `Unknown animation "${right}" at interactions.drag.right.animation`,
+    );
+  }
+  if (!leftAnimation) {
+    throw new Error(
+      `Unknown animation "${left}" at interactions.drag.left.animation`,
+    );
+  }
 
-  const singleClick = validateActionOrSequence(
-    requireAction(interactions.singleClick, "singleClick"),
+  const frameCount = Math.min(rightAnimation.frames, leftAnimation.frames);
+  const frameFields = [
+    "takeoffFrame",
+    "loopStartFrame",
+    "landingApproachFrame",
+    "landingFrame",
+  ] as const;
+  const frames = Object.fromEntries(
+    frameFields.map((key) => {
+      const raw = source[key];
+      if (raw === undefined) return [key, undefined];
+      const frame = requireNonNegativeInteger(
+        raw,
+        `interactions.drag.${key}`,
+      );
+      if (frame >= frameCount) {
+        throw new Error(
+          `Frame index out of range at interactions.drag.${key}`,
+        );
+      }
+      return [key, frame];
+    }),
+  ) as Pick<
+    PetDragSpec,
+    | "takeoffFrame"
+    | "loopStartFrame"
+    | "landingApproachFrame"
+    | "landingFrame"
+  >;
+
+  const loopFrameCount =
+    source.loopFrameCount === undefined
+      ? undefined
+      : requirePositiveInteger(
+          source.loopFrameCount,
+          "interactions.drag.loopFrameCount",
+        );
+  if (
+    loopFrameCount !== undefined &&
+    (frames.loopStartFrame ?? 0) + loopFrameCount > frameCount
+  ) {
+    throw new Error(
+      "Drag loop exceeds animation frames at interactions.drag.loopFrameCount",
+    );
+  }
+
+  return {
+    directionMode,
+    right,
+    left,
+    ...frames,
+    loopFrameCount,
+    landingTransitionSpeed: parseOptionalNumber(
+      source.landingTransitionSpeed,
+      "interactions.drag.landingTransitionSpeed",
+      requireFinitePositiveNumber,
+    ),
+    landingHoldMs: parseOptionalNumber(
+      source.landingHoldMs,
+      "interactions.drag.landingHoldMs",
+      requireFiniteNonNegativeNumber,
+    ),
+  };
+}
+
+function parseReminders(
+  value: unknown,
+  animations: Record<string, PetAnimationSpec>,
+): Record<PetReminderKind, PetActionSpec> {
+  if (value === undefined) {
+    throw new Error("Missing interactions.reminders.eyeCare");
+  }
+  const source = requireRecord(value, "interactions.reminders");
+  return Object.fromEntries(
+    REQUIRED_REMINDERS.map((kind) => {
+      if (source[kind] === undefined) {
+        throw new Error(`Missing interactions.reminders.${kind}`);
+      }
+      return [
+        kind,
+        parseAction(source[kind], `reminders.${kind}`, animations, true),
+      ];
+    }),
+  ) as Record<PetReminderKind, PetActionSpec>;
+}
+
+function parseHover(
+  value: unknown,
+  animations: Record<string, PetAnimationSpec>,
+): PetHoverSpec {
+  if (value === undefined) return { enabled: false };
+  const source = requireRecord(value, "interactions.hover");
+  const enabled = requireBoolean(
+    source.enabled,
+    "interactions.hover.enabled",
+  );
+  if (!enabled) return { enabled: false };
+  if (source.action === undefined) {
+    throw new Error("Missing interactions.hover.action");
+  }
+  return {
+    enabled: true,
+    action: parseActionOrSequence(source.action, "hover.action", animations),
+  };
+}
+
+function parseIdleQuirks(
+  value: unknown,
+  animations: Record<string, PetAnimationSpec>,
+): PetActionSpec[] {
+  if (value === undefined) return [];
+  if (!Array.isArray(value)) {
+    throw new Error("Expected array at interactions.idleQuirks");
+  }
+  return value.map((action, index) =>
+    parseAction(action, `idleQuirks[${index}]`, animations, true),
+  );
+}
+
+export function resolvePetInteractionManifest(
+  value: unknown,
+  warn: (message: string) => void = console.warn,
+): ResolvedPetInteractionManifest {
+  const source = requireRecord(value, "manifest");
+  const id = requireNonEmptyString(source.id, "id");
+  const animations = parseAnimations(source.animations);
+  const interactions =
+    source.interactions === undefined
+      ? {}
+      : requireRecord(source.interactions, "interactions");
+  const idle = parseRequiredAction(interactions, "idle", animations, false);
+  const singleClick = parseRequiredActionOrSequence(
+    interactions,
     "singleClick",
     animations,
   );
-  const doubleClick = validateActionOrSequence(
-    requireAction(interactions.doubleClick, "doubleClick"),
+  const doubleClick = parseRequiredActionOrSequence(
+    interactions,
     "doubleClick",
     animations,
   );
-
-  const drag = interactions.drag;
-  if (!drag) throw new Error("Missing interactions.drag");
-  validateAction({ animation: drag.right }, "drag.right", animations, false);
-  validateAction({ animation: drag.left }, "drag.left", animations, false);
-
-  const reminders = Object.fromEntries(
-    REQUIRED_REMINDERS.map((kind) => {
-      const action = interactions.reminders?.[kind];
-      if (!action) throw new Error(`Missing interactions.reminders.${kind}`);
-      validateAction(action, `reminders.${kind}`, animations, true);
-      return [kind, action];
-    }),
-  ) as Record<PetReminderKind, PetActionSpec>;
-
-  const hover: PetHoverSpec = interactions.hover?.enabled
-    ? {
-        enabled: true,
-        action: validateActionOrSequence(
-          requireAction(interactions.hover.action, "hover.action"),
-          "hover.action",
-          animations,
-        ),
-      }
-    : { enabled: false };
+  const drag = parseDrag(interactions.drag, animations);
+  const reminders = parseReminders(interactions.reminders, animations);
+  const hover = parseHover(interactions.hover, animations);
 
   const desktopIcon = resolveDesktopIcon(
-    source.id,
+    id,
     interactions.desktopIcon,
     animations,
     warn,
   );
-
-  const idleQuirks = (interactions.idleQuirks ?? []).map((action, index) =>
-    validateAction(action, `idleQuirks[${index}]`, animations, true),
-  );
+  const idleQuirks = parseIdleQuirks(interactions.idleQuirks, animations);
 
   return {
     animations,

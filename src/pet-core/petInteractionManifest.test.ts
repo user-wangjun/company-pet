@@ -24,6 +24,31 @@ const resolve = (source: unknown) =>
 const makeValidSource = (): PetInteractionManifestSource =>
   structuredClone(xiaoju) as PetInteractionManifestSource;
 
+const makeRawSource = (): Record<string, unknown> =>
+  structuredClone(xiaoju) as Record<string, unknown>;
+
+function getRawObject(
+  value: unknown,
+  field: string,
+): Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error(`Test fixture ${field} is not an object`);
+  }
+  return value as Record<string, unknown>;
+}
+
+function getRawInteractions(
+  source: Record<string, unknown>,
+): Record<string, unknown> {
+  return getRawObject(source.interactions, "interactions");
+}
+
+function getRawAnimations(
+  source: Record<string, unknown>,
+): Record<string, unknown> {
+  return getRawObject(source.animations, "animations");
+}
+
 function isSequence(
   action: PetActionSpec | PetSequenceSpec,
 ): action is PetSequenceSpec {
@@ -81,6 +106,288 @@ describe("pet interaction manifests", () => {
   });
 
   test.each([
+    [
+      "singleClick=42",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).singleClick = 42;
+      },
+      "Invalid object at interactions.singleClick",
+    ],
+    [
+      "sequence=null",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).doubleClick = { sequence: null };
+      },
+      "Expected non-empty array at interactions.doubleClick.sequence",
+    ],
+    [
+      "sequence is not an array",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).doubleClick = { sequence: "steps" };
+      },
+      "Expected non-empty array at interactions.doubleClick.sequence",
+    ],
+    [
+      "sequence contains a null step",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).doubleClick = { sequence: [null] };
+      },
+      "Invalid object at interactions.doubleClick.sequence[0]",
+    ],
+    [
+      "sequence step omits startAfterMs",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).doubleClick = {
+          sequence: [{ animation: "fishEat", durationMs: 1000 }],
+        };
+      },
+      "Expected finite non-negative number at interactions.doubleClick.sequence[0].startAfterMs",
+    ],
+    [
+      "sequence step has negative startAfterMs",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).doubleClick = {
+          sequence: [
+            {
+              animation: "fishEat",
+              durationMs: 1000,
+              startAfterMs: -1,
+            },
+          ],
+        };
+      },
+      "Expected finite non-negative number at interactions.doubleClick.sequence[0].startAfterMs",
+    ],
+    [
+      "idleQuirks is not an array",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).idleQuirks = {};
+      },
+      "Expected array at interactions.idleQuirks",
+    ],
+    [
+      "reminders is not an object",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).reminders = [];
+      },
+      "Invalid object at interactions.reminders",
+    ],
+    [
+      "drag is not an object",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).drag = "dragRight";
+      },
+      "Invalid object at interactions.drag",
+    ],
+    [
+      "animations is not an object",
+      (source: Record<string, unknown>) => {
+        source.animations = [];
+      },
+      "Invalid object at animations",
+    ],
+    [
+      "animation spec is not an object",
+      (source: Record<string, unknown>) => {
+        getRawAnimations(source).idle = 42;
+      },
+      "Invalid object at animations.idle",
+    ],
+    [
+      "action animation is numeric",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).singleClick = { animation: 42 };
+      },
+      "Expected non-empty string at interactions.singleClick.animation",
+    ],
+    [
+      "action animation is blank",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).singleClick = { animation: "  " };
+      },
+      "Expected non-empty string at interactions.singleClick.animation",
+    ],
+    [
+      "action sound is numeric",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).singleClick = {
+          animation: "tickle",
+          durationMs: 1000,
+          sound: 42,
+        };
+      },
+      "Expected non-empty string at interactions.singleClick.sound",
+    ],
+    [
+      "action dialogueEvent is unknown",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).singleClick = {
+          animation: "tickle",
+          durationMs: 1000,
+          dialogueEvent: "wave",
+        };
+      },
+      "Invalid value at interactions.singleClick.dialogueEvent",
+    ],
+    [
+      "hover is not an object",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).hover = [];
+      },
+      "Invalid object at interactions.hover",
+    ],
+    [
+      "hover enabled is not boolean",
+      (source: Record<string, unknown>) => {
+        getRawInteractions(source).hover = { enabled: "true" };
+      },
+      "Expected boolean at interactions.hover.enabled",
+    ],
+  ] as const)(
+    "rejects malformed raw shape: %s",
+    (_name, mutate, message) => {
+      const source = makeRawSource();
+      mutate(source);
+
+      expect(() => resolve(source)).toThrow(message);
+    },
+  );
+
+  test.each([
+    ["row", -1, "Expected non-negative integer at animations.idle.row"],
+    ["row", 0.5, "Expected non-negative integer at animations.idle.row"],
+    ["frames", 0, "Expected positive integer at animations.idle.frames"],
+    ["frames", 1.5, "Expected positive integer at animations.idle.frames"],
+    ["speed", 0, "Expected finite positive number at animations.idle.speed"],
+    [
+      "speed",
+      Number.POSITIVE_INFINITY,
+      "Expected finite positive number at animations.idle.speed",
+    ],
+    ["loop", "true", "Expected boolean at animations.idle.loop"],
+    [
+      "visualClass",
+      "special",
+      "Invalid value at animations.idle.visualClass",
+    ],
+    ["scale", 0, "Expected finite positive number at animations.idle.scale"],
+    [
+      "offsetX",
+      Number.NaN,
+      "Expected finite number at animations.idle.offsetX",
+    ],
+    [
+      "offsetY",
+      Number.POSITIVE_INFINITY,
+      "Expected finite number at animations.idle.offsetY",
+    ],
+    [
+      "spritesheetPath",
+      "",
+      "Expected non-empty relative path at animations.idle.spritesheetPath",
+    ],
+    [
+      "spritesheetPath",
+      "/absolute.webp",
+      "Expected non-empty relative path at animations.idle.spritesheetPath",
+    ],
+    [
+      "finishFramePath",
+      "C:\\finish.png",
+      "Expected non-empty relative path at animations.idle.finishFramePath",
+    ],
+  ] as const)(
+    "validates animation %s=%s",
+    (field, value, message) => {
+      const source = makeRawSource();
+      getRawObject(getRawAnimations(source).idle, "animations.idle")[field] =
+        value;
+
+      expect(() => resolve(source)).toThrow(message);
+    },
+  );
+
+  test.each([
+    [
+      "directionMode sideways",
+      (drag: Record<string, unknown>) => {
+        drag.directionMode = "sideways";
+      },
+      "Invalid value at interactions.drag.directionMode",
+    ],
+    [
+      "blank right",
+      (drag: Record<string, unknown>) => {
+        drag.right = "";
+      },
+      "Expected non-empty string at interactions.drag.right",
+    ],
+    [
+      "takeoffFrame out of range",
+      (drag: Record<string, unknown>) => {
+        drag.takeoffFrame = 8;
+      },
+      "Frame index out of range at interactions.drag.takeoffFrame",
+    ],
+    [
+      "negative landingFrame",
+      (drag: Record<string, unknown>) => {
+        drag.landingFrame = -1;
+      },
+      "Expected non-negative integer at interactions.drag.landingFrame",
+    ],
+    [
+      "loopFrameCount zero",
+      (drag: Record<string, unknown>) => {
+        drag.loopFrameCount = 0;
+      },
+      "Expected positive integer at interactions.drag.loopFrameCount",
+    ],
+    [
+      "loop lifecycle exceeds frames",
+      (drag: Record<string, unknown>) => {
+        drag.loopStartFrame = 4;
+        drag.loopFrameCount = 5;
+      },
+      "Drag loop exceeds animation frames at interactions.drag.loopFrameCount",
+    ],
+    [
+      "loop count alone exceeds frames",
+      (drag: Record<string, unknown>) => {
+        delete drag.loopStartFrame;
+        drag.loopFrameCount = 9;
+      },
+      "Drag loop exceeds animation frames at interactions.drag.loopFrameCount",
+    ],
+    [
+      "landingTransitionSpeed zero",
+      (drag: Record<string, unknown>) => {
+        drag.landingTransitionSpeed = 0;
+      },
+      "Expected finite positive number at interactions.drag.landingTransitionSpeed",
+    ],
+    [
+      "landingHoldMs negative",
+      (drag: Record<string, unknown>) => {
+        drag.landingHoldMs = -1;
+      },
+      "Expected finite non-negative number at interactions.drag.landingHoldMs",
+    ],
+  ] as const)(
+    "validates malformed drag: %s",
+    (_name, mutate, message) => {
+      const source = makeRawSource();
+      const drag = getRawObject(
+        getRawInteractions(source).drag,
+        "interactions.drag",
+      );
+      mutate(drag);
+
+      expect(() => resolve(source)).toThrow(message);
+    },
+  );
+
+  test.each([
     ["idle", (source: PetInteractionManifestSource) => {
       source.interactions!.idle = { animation: "missing" };
     }],
@@ -116,6 +423,15 @@ describe("pet interaction manifests", () => {
 
     expect(() => resolve(source)).toThrow(
       `Unknown animation "missing" at interactions.${field}.animation`,
+    );
+  });
+
+  test("rejects inherited object keys as animation references", () => {
+    const source = makeRawSource();
+    getRawInteractions(source).singleClick = { animation: "toString" };
+
+    expect(() => resolve(source)).toThrow(
+      'Unknown animation "toString" at interactions.singleClick.animation',
     );
   });
 
@@ -163,6 +479,22 @@ describe("pet interaction manifests", () => {
       );
     },
   );
+
+  test("warns and disables desktopIcon when enabled is malformed", () => {
+    const source = makeRawSource();
+    const warnings: string[] = [];
+    getRawInteractions(source).desktopIcon = { enabled: "false" };
+
+    expect(
+      resolvePetInteractionManifest(
+        source as PetInteractionManifestSource,
+        (message) => warnings.push(message),
+      ).desktopIcon,
+    ).toEqual({ enabled: false });
+    expect(warnings).toEqual([
+      "[pet-interactions] xiaoju-cat disabled invalid desktopIcon.enabled",
+    ]);
+  });
 
   test("enables only the approved optional capabilities", () => {
     expect(resolve(xiaoju).hover.enabled).toBe(true);
@@ -329,6 +661,34 @@ describe("pet interaction manifests", () => {
         allowedSide: "any",
       },
       "[pet-interactions] broken disabled invalid desktopIcon.action.durationMs",
+    ],
+    [
+      "action.sound",
+      {
+        enabled: true,
+        action: {
+          animation: "iconHug",
+          durationMs: 1000,
+          sound: 42,
+        },
+        positioning: "wrap",
+        allowedSide: "any",
+      },
+      "[pet-interactions] broken disabled invalid desktopIcon.action.sound",
+    ],
+    [
+      "action.dialogueEvent",
+      {
+        enabled: true,
+        action: {
+          animation: "iconHug",
+          durationMs: 1000,
+          dialogueEvent: "wave",
+        },
+        positioning: "wrap",
+        allowedSide: "any",
+      },
+      "[pet-interactions] broken disabled invalid desktopIcon.action.dialogueEvent",
     ],
   ] satisfies ReadonlyArray<
     readonly [string, PetDesktopIconSource, string]
