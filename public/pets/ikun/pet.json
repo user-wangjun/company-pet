@@ -9,6 +9,40 @@
   "actionsPath": "actions.json",
   "rigPath": "rig.json",
   "actionBoardPath": "action-board.json",
+  "animations": {
+    "readyIdle": { "row": 0, "frames": 6, "speed": 0.05, "loop": true, "visualClass": "ordinary", "scale": 1.05 },
+    "tieShanKao": { "row": 1, "frames": 8, "speed": 0.2, "loop": false, "visualClass": "ordinary", "scale": 1 },
+    "backTurn": { "row": 2, "frames": 8, "speed": 0.16, "loop": false, "visualClass": "ordinary", "scale": 1 },
+    "care": { "row": 3, "frames": 8, "speed": 0.16, "loop": false, "visualClass": "ordinary", "scale": 1 },
+    "idle": { "row": 4, "frames": 8, "speed": 0.12, "loop": true, "visualClass": "ordinary", "scale": 1 },
+    "dance": { "row": 5, "frames": 8, "speed": 0.12, "loop": true, "visualClass": "ordinary", "scale": 1.08 },
+    "singleClick": {
+      "row": 6,
+      "frames": 8,
+      "speed": 0.14,
+      "loop": false,
+      "visualClass": "ordinary",
+      "scale": 1.1,
+      "finishFramePath": "throw-finish.png"
+    },
+    "drag": { "row": 7, "frames": 8, "speed": 0.18, "loop": true, "visualClass": "ordinary", "scale": 1.1 },
+    "doubleClick": { "row": 8, "frames": 8, "speed": 0.14, "loop": false, "visualClass": "pose-change", "scale": 1.2 }
+  },
+  "interactions": {
+    "idle": { "animation": "idle", "dialogueEvent": "idle" },
+    "singleClick": { "animation": "singleClick", "durationMs": 1300, "dialogueEvent": "singleClick" },
+    "doubleClick": { "animation": "doubleClick", "durationMs": 1300, "dialogueEvent": "doubleClick" },
+    "drag": { "directionMode": "mirror-left", "right": "drag", "left": "drag", "landingHoldMs": 900 },
+    "hover": { "enabled": false },
+    "desktopIcon": { "enabled": false },
+    "reminders": {
+      "eyeCare": { "animation": "care", "durationMs": 8000, "dialogueEvent": "eyeCare" },
+      "water": { "animation": "care", "durationMs": 5000, "dialogueEvent": "water" },
+      "meal": { "animation": "idle", "durationMs": 5000, "dialogueEvent": "meal" },
+      "sleep": { "animation": "idle", "durationMs": 8000, "dialogueEvent": "sleep" }
+    },
+    "idleQuirks": []
+  },
   "animationScales": {
     "idle": 1.05,
     "drag": 1,

@@ -4,6 +4,66 @@
   "description": "一只橘黄色毛绒小猫咪，会睡觉、抓鱼、吃鱼、跳来跳去，也会陪你等结果。",
   "spritesheetPath": "spritesheet-scruff.webp",
   "iconHugSpritesheetPath": "icon-hug.webp",
+  "animations": {
+    "idle": { "row": 0, "frames": 6, "speed": 0.05, "loop": true, "visualClass": "pose-change", "scale": 1 },
+    "dragRight": { "row": 1, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "ordinary", "scale": 0.83 },
+    "dragLeft": { "row": 2, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "ordinary", "scale": 0.83 },
+    "tickle": { "row": 3, "frames": 4, "speed": 0.16, "loop": false, "visualClass": "ordinary", "scale": 0.84 },
+    "crouchAlert": { "row": 4, "frames": 5, "speed": 0.12, "loop": false, "visualClass": "pose-change", "scale": 1.08 },
+    "hugFish": { "row": 5, "frames": 8, "speed": 0.12, "loop": true, "visualClass": "ordinary", "scale": 0.86 },
+    "gnawFish": { "row": 6, "frames": 6, "speed": 0.14, "loop": false, "visualClass": "ordinary", "scale": 0.86 },
+    "fishChase": { "row": 7, "frames": 6, "speed": 0.18, "loop": true, "visualClass": "pose-change", "scale": 1 },
+    "fishEat": { "row": 8, "frames": 6, "speed": 0.14, "loop": false, "visualClass": "ordinary", "scale": 0.84 },
+    "iconHug": {
+      "row": 0,
+      "frames": 6,
+      "speed": 0.08,
+      "loop": false,
+      "visualClass": "ordinary",
+      "scale": 0.83,
+      "spritesheetPath": "icon-hug.webp"
+    }
+  },
+  "interactions": {
+    "idle": { "animation": "idle", "sound": "idle", "dialogueEvent": "idle" },
+    "singleClick": { "animation": "tickle", "durationMs": 1000, "sound": "tickle", "dialogueEvent": "singleClick" },
+    "doubleClick": {
+      "sequence": [
+        { "animation": "fishChase", "startAfterMs": 0, "durationMs": 950, "sound": "fishChase", "dialogueEvent": "doubleClick" },
+        { "animation": "fishEat", "startAfterMs": 950, "durationMs": 1300, "sound": "fishEat", "dialogueEvent": "doubleClick" }
+      ]
+    },
+    "drag": { "directionMode": "rows", "right": "dragRight", "left": "dragLeft", "landingHoldMs": 900 },
+    "hover": {
+      "enabled": true,
+      "action": {
+        "sequence": [
+          { "animation": "fishChase", "startAfterMs": 0, "durationMs": 950, "sound": "fishChase" },
+          { "animation": "fishEat", "startAfterMs": 950, "durationMs": 1300, "sound": "fishEat" }
+        ]
+      }
+    },
+    "desktopIcon": {
+      "enabled": true,
+      "action": { "animation": "iconHug", "durationMs": 5600, "sound": "iconHug" },
+      "positioning": "wrap",
+      "allowedSide": "any"
+    },
+    "reminders": {
+      "eyeCare": { "animation": "idle", "durationMs": 8000, "sound": "care_reminder", "dialogueEvent": "eyeCare" },
+      "water": { "animation": "idle", "durationMs": 8000, "sound": "care_reminder", "dialogueEvent": "water" },
+      "meal": { "animation": "idle", "durationMs": 5000, "sound": "care_reminder", "dialogueEvent": "meal" },
+      "sleep": { "animation": "idle", "durationMs": 8000, "sound": "care_reminder", "dialogueEvent": "sleep" }
+    },
+    "idleQuirks": [
+      { "animation": "fishEat", "durationMs": 2500, "sound": "fishEat", "bubbleText": "（砸嘴）……梦见超大金枪鱼了喵 🐟" },
+      { "animation": "tickle", "durationMs": 2000, "sound": "idle", "bubbleText": "（幸福地翻个身）~ 换个姿势继续睡喵…… 🐾" },
+      { "animation": "tickle", "durationMs": 2000, "sound": "idle", "bubbleText": "（亲昵地蹭了蹭）……主人工作辛苦啦，小橘陪着你喵 💤" },
+      { "animation": "crouchAlert", "durationMs": 2500, "sound": "crouchAlert", "bubbleText": "（趴下警觉喵喵叫）~ 好像有大鱼的气味？🐾" },
+      { "animation": "hugFish", "durationMs": 3000, "sound": "hugFish", "bubbleText": "（抱着小鱼撒娇）~ 嘿嘿，这只小鱼是橘橘的宝贝！🐟" },
+      { "animation": "gnawFish", "durationMs": 2500, "sound": "gnawFish", "bubbleText": "（美滋滋地坐着嚼鱼）~ 金枪鱼味儿的玩具鱼，真香！🐾" }
+    ]
+  },
   "animationScales": {
     "idle": 1,
     "drag": 0.83,

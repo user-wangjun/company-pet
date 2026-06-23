@@ -22,6 +22,16 @@ import {
 } from "./petAssets";
 import type { PetManifest } from "./petAssets";
 
+const builtInManifests = [
+  builtInPetManifest,
+  ikunManifest,
+  dsManifest,
+  suanBirdManifest,
+];
+
+const asPetManifest = (manifest: unknown): PetManifest =>
+  manifest as PetManifest;
+
 describe("pet asset paths", () => {
   test("uses xiaoju-cat as the built-in pet package", () => {
     expect(DEFAULT_PET_ID).toBe("xiaoju-cat");
@@ -56,6 +66,31 @@ describe("pet asset paths", () => {
       displayName: "小橘",
       description: "一只橘黄色毛绒小猫咪。",
       spritesheetPath: "spritesheet-scruff.webp",
+      animations: {
+        idle: {
+          row: 0,
+          frames: 6,
+          speed: 0.05,
+          loop: true,
+          visualClass: "pose-change",
+        },
+      },
+      interactions: {
+        idle: { animation: "idle" },
+        singleClick: { animation: "idle", durationMs: 1000 },
+        doubleClick: { animation: "idle", durationMs: 1000 },
+        drag: {
+          directionMode: "rows",
+          right: "idle",
+          left: "idle",
+        },
+        reminders: {
+          eyeCare: { animation: "idle", durationMs: 1000 },
+          water: { animation: "idle", durationMs: 1000 },
+          meal: { animation: "idle", durationMs: 1000 },
+          sleep: { animation: "idle", durationMs: 1000 },
+        },
+      },
       sounds: {
         tickle: [
           { path: "sounds/tickle-hm-1.wav", volume: 0.45 },
@@ -74,6 +109,50 @@ describe("pet asset paths", () => {
     expect(petIndex.pets).toContain(DEFAULT_PET_ID);
     expect(builtInPetManifest.id).toBe(DEFAULT_PET_ID);
     expect(builtInPetManifest.spritesheetPath).toBe("spritesheet-scruff.webp");
+    expect(builtInPetManifest.animations).toBeDefined();
+    expect(builtInPetManifest.interactions).toBeDefined();
+  });
+
+  test("declares animation and interaction contracts for every built-in pet", () => {
+    for (const manifest of builtInManifests) {
+      expect(Object.keys(manifest.animations).length).toBeGreaterThan(0);
+      expect(manifest.interactions.idle).toBeDefined();
+      expect(manifest.interactions.singleClick).toBeDefined();
+      expect(manifest.interactions.doubleClick).toBeDefined();
+      expect(manifest.interactions.drag).toBeDefined();
+      expect(manifest.interactions.reminders).toBeDefined();
+    }
+  });
+
+  test("keeps every manifest asset path relative to its pet package", () => {
+    const visit = (
+      manifest: (typeof builtInManifests)[number],
+      value: unknown,
+      key = "",
+    ): void => {
+      if (Array.isArray(value)) {
+        for (const item of value) visit(manifest, item, key);
+        return;
+      }
+
+      if (typeof value !== "object" || value === null) {
+        if (key.endsWith("Path") && typeof value === "string") {
+          expect(value.startsWith("/"), `${manifest.id}:${key}`).toBe(false);
+          expect(value.includes("\\"), `${manifest.id}:${key}`).toBe(false);
+          expect(value.includes(":"), `${manifest.id}:${key}`).toBe(false);
+          expect(resolvePetAssetUrl(manifest.id, value)).toBe(
+            `/pets/${manifest.id}/${value}`,
+          );
+        }
+        return;
+      }
+
+      for (const [childKey, childValue] of Object.entries(value)) {
+        visit(manifest, childValue, childKey);
+      }
+    };
+
+    for (const manifest of builtInManifests) visit(manifest, manifest);
   });
 
   test("declares ikun as a second isolated pet package", () => {
@@ -92,7 +171,9 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ikun", "icon-hug.webp")).toBe(
       "/pets/ikun/icon-hug.webp",
     );
-    expect(getPetIconHugSpritesheetPath(ikunManifest)).toBe("icon-hug.webp");
+    expect(getPetIconHugSpritesheetPath(asPetManifest(ikunManifest))).toBe(
+      "icon-hug.webp",
+    );
     expect(resolvePetAssetUrl("ikun", ikunManifest.actionsPath)).toBe(
       "/pets/ikun/actions.json",
     );
@@ -102,8 +183,12 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ikun", ikunManifest.actionBoardPath)).toBe(
       "/pets/ikun/action-board.json",
     );
-    expect(getPetThrowFinishPath(ikunManifest)).toBe("throw-finish.png");
-    expect(getPetThrowFinishPath(builtInPetManifest)).toBeNull();
+    expect(getPetThrowFinishPath(asPetManifest(ikunManifest))).toBe(
+      "throw-finish.png",
+    );
+    expect(
+      getPetThrowFinishPath(asPetManifest(builtInPetManifest)),
+    ).toBeNull();
   });
 
   test("declares ds as a third isolated pet package", () => {
@@ -122,7 +207,9 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ds", dsManifest.dialoguesPath)).toBe(
       "/pets/ds/dialogues.json",
     );
-    expect(getPetIconHugSpritesheetPath(dsManifest)).toBe("spritesheet.webp");
+    expect(getPetIconHugSpritesheetPath(asPetManifest(dsManifest))).toBe(
+      "spritesheet.webp",
+    );
     expect(dsDialogues).toEqual({
       idle: "慢慢来，我们一起向前游一点。",
       singleClick: "贴贴一下，我们一起加油吧。",
@@ -150,10 +237,12 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("suan-bird", suanBirdManifest.dialoguesPath)).toBe(
       "/pets/suan-bird/dialogues.json",
     );
-    expect(getPetIconHugSpritesheetPath(suanBirdManifest)).toBe(
+    expect(getPetIconHugSpritesheetPath(asPetManifest(suanBirdManifest))).toBe(
       "spritesheet.webp",
     );
-    expect(getPetThrowFinishPath(suanBirdManifest)).toBeNull();
+    expect(
+      getPetThrowFinishPath(asPetManifest(suanBirdManifest)),
+    ).toBeNull();
   });
 
   test("documents the route 1 v15 ikun action rows and double-click jump", () => {
@@ -520,7 +609,7 @@ describe("pet asset paths", () => {
     expect(
       createPetCatalog(
         [DEFAULT_PET_ID],
-        { [DEFAULT_PET_ID]: builtInPetManifest },
+        { [DEFAULT_PET_ID]: asPetManifest(builtInPetManifest) },
         DEFAULT_PET_ID,
       ),
     ).toMatchObject([
@@ -540,7 +629,10 @@ describe("pet asset paths", () => {
     expect(
       createPetCatalog(
         ["ikun", "ds"],
-        { ikun: ikunManifest, ds: dsManifest },
+        {
+          ikun: asPetManifest(ikunManifest),
+          ds: asPetManifest(dsManifest),
+        },
         "ds",
       ),
     ).toMatchObject([
