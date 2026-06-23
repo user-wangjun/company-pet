@@ -6,6 +6,7 @@ import xiaoju from "../../public/pets/xiaoju-cat/pet.json";
 import {
   resolvePetInteractionManifest,
   type PetActionSpec,
+  type PetDesktopIconSource,
   type PetInteractionManifestSource,
   type PetSequenceSpec,
 } from "./petInteractionManifest";
@@ -19,6 +20,9 @@ const builtInManifests = [
 
 const resolve = (source: unknown) =>
   resolvePetInteractionManifest(source as PetInteractionManifestSource);
+
+const makeValidSource = (): PetInteractionManifestSource =>
+  structuredClone(xiaoju) as PetInteractionManifestSource;
 
 function isSequence(
   action: PetActionSpec | PetSequenceSpec,
@@ -65,6 +69,97 @@ describe("pet interaction manifests", () => {
 
       expect(() => resolve(source)).toThrow(
         `Missing interactions.reminders.${kind}`,
+      );
+    },
+  );
+
+  test("rejects a manifest without animations", () => {
+    const source = makeValidSource();
+    source.animations = {};
+
+    expect(() => resolve(source)).toThrow("Missing animations");
+  });
+
+  test.each([
+    ["idle", (source: PetInteractionManifestSource) => {
+      source.interactions!.idle = { animation: "missing" };
+    }],
+    ["singleClick", (source: PetInteractionManifestSource) => {
+      source.interactions!.singleClick = { animation: "missing" };
+    }],
+    ["doubleClick.sequence[0]", (source: PetInteractionManifestSource) => {
+      source.interactions!.doubleClick = {
+        sequence: [{ animation: "missing", startAfterMs: 0 }],
+      };
+    }],
+    ["drag.right", (source: PetInteractionManifestSource) => {
+      source.interactions!.drag!.right = "missing";
+    }],
+    ["drag.left", (source: PetInteractionManifestSource) => {
+      source.interactions!.drag!.left = "missing";
+    }],
+    ["reminders.eyeCare", (source: PetInteractionManifestSource) => {
+      source.interactions!.reminders!.eyeCare = { animation: "missing" };
+    }],
+    ["hover.action", (source: PetInteractionManifestSource) => {
+      source.interactions!.hover = {
+        enabled: true,
+        action: { animation: "missing" },
+      };
+    }],
+    ["idleQuirks[0]", (source: PetInteractionManifestSource) => {
+      source.interactions!.idleQuirks = [{ animation: "missing" }];
+    }],
+  ] as const)("rejects an unknown animation in interactions.%s", (field, mutate) => {
+    const source = makeValidSource();
+    mutate(source);
+
+    expect(() => resolve(source)).toThrow(
+      `Unknown animation "missing" at interactions.${field}.animation`,
+    );
+  });
+
+  test("rejects an empty sequence", () => {
+    const source = makeValidSource();
+    source.interactions!.doubleClick = { sequence: [] };
+
+    expect(() => resolve(source)).toThrow(
+      "Empty sequence at interactions.doubleClick.sequence",
+    );
+  });
+
+  test.each([
+    ["singleClick", (source: PetInteractionManifestSource) => {
+      source.interactions!.singleClick = { animation: "idle" };
+    }],
+    ["doubleClick.sequence[0]", (source: PetInteractionManifestSource) => {
+      source.interactions!.doubleClick = {
+        sequence: [{ animation: "fishChase", startAfterMs: 0 }],
+      };
+    }],
+    ["reminders.eyeCare", (source: PetInteractionManifestSource) => {
+      source.interactions!.reminders!.eyeCare = {
+        animation: "idle",
+        durationMs: 0,
+      };
+    }],
+    ["hover.action", (source: PetInteractionManifestSource) => {
+      source.interactions!.hover = {
+        enabled: true,
+        action: { animation: "fishChase" },
+      };
+    }],
+    ["idleQuirks[0]", (source: PetInteractionManifestSource) => {
+      source.interactions!.idleQuirks = [{ animation: "hugFish" }];
+    }],
+  ] as const)(
+    "rejects a finite looped action without positive duration at interactions.%s",
+    (field, mutate) => {
+      const source = makeValidSource();
+      mutate(source);
+
+      expect(() => resolve(source)).toThrow(
+        `Missing positive durationMs for loop animation at interactions.${field}`,
       );
     },
   );
@@ -171,38 +266,87 @@ describe("pet interaction manifests", () => {
     },
   );
 
-  test("disables invalid optional desktop icon behavior", () => {
-    const warnings: string[] = [];
-    const malformed = {
-      id: "broken",
-      animations: {},
-      interactions: {
-        idle: { animation: "idle" },
-        singleClick: { animation: "idle" },
-        doubleClick: { animation: "idle" },
-        drag: {
-          directionMode: "rows",
-          right: "idle",
-          left: "idle",
-        },
-        reminders: {
-          eyeCare: { animation: "idle" },
-          water: { animation: "idle" },
-          meal: { animation: "idle" },
-          sleep: { animation: "idle" },
-        },
-        desktopIcon: { enabled: true },
-      },
-    } as unknown as PetInteractionManifestSource;
-
-    expect(
-      resolvePetInteractionManifest(
-        malformed,
-        (message) => warnings.push(message),
-      ).desktopIcon,
-    ).toEqual({ enabled: false });
-    expect(warnings).toEqual([
+  test.each([
+    [
+      "action",
+      { enabled: true },
       "[pet-interactions] broken disabled invalid desktopIcon.action",
-    ]);
-  });
+    ],
+    [
+      "action.animation",
+      {
+        enabled: true,
+        action: { animation: "missing", durationMs: 1000 },
+        positioning: "wrap",
+        allowedSide: "any",
+      },
+      "[pet-interactions] broken disabled invalid desktopIcon.action.animation",
+    ],
+    [
+      "positioning",
+      {
+        enabled: true,
+        action: { animation: "iconHug", durationMs: 1000 },
+        allowedSide: "any",
+      },
+      "[pet-interactions] broken disabled invalid desktopIcon.positioning",
+    ],
+    [
+      "allowedSide",
+      {
+        enabled: true,
+        action: { animation: "iconHug", durationMs: 1000 },
+        positioning: "wrap",
+      },
+      "[pet-interactions] broken disabled invalid desktopIcon.allowedSide",
+    ],
+    [
+      "positioning value",
+      {
+        enabled: true,
+        action: { animation: "iconHug", durationMs: 1000 },
+        positioning: "slide",
+        allowedSide: "any",
+      },
+      "[pet-interactions] broken disabled invalid desktopIcon.positioning",
+    ],
+    [
+      "allowedSide value",
+      {
+        enabled: true,
+        action: { animation: "iconHug", durationMs: 1000 },
+        positioning: "wrap",
+        allowedSide: "center",
+      },
+      "[pet-interactions] broken disabled invalid desktopIcon.allowedSide",
+    ],
+    [
+      "action.durationMs",
+      {
+        enabled: true,
+        action: { animation: "hugFish" },
+        positioning: "wrap",
+        allowedSide: "any",
+      },
+      "[pet-interactions] broken disabled invalid desktopIcon.action.durationMs",
+    ],
+  ] satisfies ReadonlyArray<
+    readonly [string, PetDesktopIconSource, string]
+  >)(
+    "warns and disables desktopIcon with invalid %s",
+    (_field, desktopIcon, warning) => {
+      const warnings: string[] = [];
+      const malformed = makeValidSource();
+      malformed.id = "broken";
+      malformed.interactions!.desktopIcon = desktopIcon;
+
+      expect(
+        resolvePetInteractionManifest(
+          malformed,
+          (message) => warnings.push(message),
+        ).desktopIcon,
+      ).toEqual({ enabled: false });
+      expect(warnings).toEqual([warning]);
+    },
+  );
 });

@@ -10,11 +10,38 @@ import {
 } from "./dialogue";
 import type { PetManifest } from "./petAssets";
 
+const dsPetManifest: PetManifest = dsManifest as PetManifest;
+
 const xiaojuManifest: PetManifest = {
   id: "xiaoju-cat",
   displayName: "小橘",
   description: "test",
   spritesheetPath: "spritesheet.webp",
+  animations: {
+    idle: {
+      row: 0,
+      frames: 6,
+      speed: 0.05,
+      loop: true,
+      visualClass: "pose-change",
+    },
+  },
+  interactions: {
+    idle: { animation: "idle" },
+    singleClick: { animation: "idle", durationMs: 1000 },
+    doubleClick: { animation: "idle", durationMs: 1000 },
+    drag: {
+      directionMode: "rows",
+      right: "idle",
+      left: "idle",
+    },
+    reminders: {
+      eyeCare: { animation: "idle", durationMs: 1000 },
+      water: { animation: "idle", durationMs: 1000 },
+      meal: { animation: "idle", durationMs: 1000 },
+      sleep: { animation: "idle", durationMs: 1000 },
+    },
+  },
 };
 
 describe("pet dialogue packages", () => {
@@ -25,7 +52,7 @@ describe("pet dialogue packages", () => {
       json: async () => dsDialogues,
     }));
 
-    const result = await loadPetDialoguePackage(dsManifest, fetchDialogue);
+    const result = await loadPetDialoguePackage(dsPetManifest, fetchDialogue);
 
     expect(fetchDialogue).toHaveBeenCalledWith("/pets/ds/dialogues.json");
     expect(result).toEqual({
@@ -48,7 +75,7 @@ describe("pet dialogue packages", () => {
   test("does not cross-pet fallback when a configured package fails", async () => {
     const warn = vi.fn();
     const result = await loadPetDialoguePackage(
-      dsManifest,
+      dsPetManifest,
       async () => ({ ok: false, status: 404, json: async () => ({}) }),
       warn,
     );
@@ -61,7 +88,7 @@ describe("pet dialogue packages", () => {
   test("treats invalid json shapes as a failed configured package", async () => {
     const warn = vi.fn();
     const result = await loadPetDialoguePackage(
-      dsManifest,
+      dsPetManifest,
       async () => ({ ok: true, status: 200, json: async () => [] }),
       warn,
     );

@@ -1,7 +1,7 @@
 import type { RuntimeAnimationName } from "./interaction";
 import type {
   PetAnimationSpec,
-  PetInteractionManifestSource,
+  PetManifestInteractions,
 } from "./petInteractionManifest";
 
 export const DEFAULT_PET_ID = "xiaoju-cat";
@@ -30,7 +30,7 @@ export type PetManifest = {
   actionBoardPath?: string;
   dialoguesPath?: string;
   animations: Record<string, PetAnimationSpec>;
-  interactions: NonNullable<PetInteractionManifestSource["interactions"]>;
+  interactions: PetManifestInteractions;
   animationScales?: Partial<Record<RuntimeAnimationName, number>>;
   sounds?: PetManifestSounds;
 };

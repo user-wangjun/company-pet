@@ -21,16 +21,36 @@ import {
   resolvePetAssetUrl,
 } from "./petAssets";
 import type { PetManifest } from "./petAssets";
+import type { PetManifestInteractions } from "./petInteractionManifest";
 
-const builtInManifests = [
-  builtInPetManifest,
-  ikunManifest,
-  dsManifest,
-  suanBirdManifest,
+const xiaojuPetManifest: PetManifest = builtInPetManifest as PetManifest;
+const ikunPetManifest: PetManifest = ikunManifest as PetManifest;
+const dsPetManifest: PetManifest = dsManifest as PetManifest;
+const suanBirdPetManifest: PetManifest = suanBirdManifest as PetManifest;
+
+const builtInManifests: PetManifest[] = [
+  xiaojuPetManifest,
+  ikunPetManifest,
+  dsPetManifest,
+  suanBirdPetManifest,
 ];
 
-const asPetManifest = (manifest: unknown): PetManifest =>
-  manifest as PetManifest;
+const requiredInteractions: PetManifestInteractions = {
+  idle: { animation: "idle" },
+  singleClick: { animation: "idle", durationMs: 1000 },
+  doubleClick: { animation: "idle", durationMs: 1000 },
+  drag: {
+    directionMode: "rows",
+    right: "idle",
+    left: "idle",
+  },
+  reminders: {
+    eyeCare: { animation: "idle", durationMs: 1000 },
+    water: { animation: "idle", durationMs: 1000 },
+    meal: { animation: "idle", durationMs: 1000 },
+    sleep: { animation: "idle", durationMs: 1000 },
+  },
+};
 
 describe("pet asset paths", () => {
   test("uses xiaoju-cat as the built-in pet package", () => {
@@ -75,22 +95,7 @@ describe("pet asset paths", () => {
           visualClass: "pose-change",
         },
       },
-      interactions: {
-        idle: { animation: "idle" },
-        singleClick: { animation: "idle", durationMs: 1000 },
-        doubleClick: { animation: "idle", durationMs: 1000 },
-        drag: {
-          directionMode: "rows",
-          right: "idle",
-          left: "idle",
-        },
-        reminders: {
-          eyeCare: { animation: "idle", durationMs: 1000 },
-          water: { animation: "idle", durationMs: 1000 },
-          meal: { animation: "idle", durationMs: 1000 },
-          sleep: { animation: "idle", durationMs: 1000 },
-        },
-      },
+      interactions: requiredInteractions,
       sounds: {
         tickle: [
           { path: "sounds/tickle-hm-1.wav", volume: 0.45 },
@@ -171,9 +176,7 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ikun", "icon-hug.webp")).toBe(
       "/pets/ikun/icon-hug.webp",
     );
-    expect(getPetIconHugSpritesheetPath(asPetManifest(ikunManifest))).toBe(
-      "icon-hug.webp",
-    );
+    expect(getPetIconHugSpritesheetPath(ikunPetManifest)).toBe("icon-hug.webp");
     expect(resolvePetAssetUrl("ikun", ikunManifest.actionsPath)).toBe(
       "/pets/ikun/actions.json",
     );
@@ -183,12 +186,8 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ikun", ikunManifest.actionBoardPath)).toBe(
       "/pets/ikun/action-board.json",
     );
-    expect(getPetThrowFinishPath(asPetManifest(ikunManifest))).toBe(
-      "throw-finish.png",
-    );
-    expect(
-      getPetThrowFinishPath(asPetManifest(builtInPetManifest)),
-    ).toBeNull();
+    expect(getPetThrowFinishPath(ikunPetManifest)).toBe("throw-finish.png");
+    expect(getPetThrowFinishPath(xiaojuPetManifest)).toBeNull();
   });
 
   test("declares ds as a third isolated pet package", () => {
@@ -207,9 +206,7 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ds", dsManifest.dialoguesPath)).toBe(
       "/pets/ds/dialogues.json",
     );
-    expect(getPetIconHugSpritesheetPath(asPetManifest(dsManifest))).toBe(
-      "spritesheet.webp",
-    );
+    expect(getPetIconHugSpritesheetPath(dsPetManifest)).toBe("spritesheet.webp");
     expect(dsDialogues).toEqual({
       idle: "慢慢来，我们一起向前游一点。",
       singleClick: "贴贴一下，我们一起加油吧。",
@@ -237,12 +234,10 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("suan-bird", suanBirdManifest.dialoguesPath)).toBe(
       "/pets/suan-bird/dialogues.json",
     );
-    expect(getPetIconHugSpritesheetPath(asPetManifest(suanBirdManifest))).toBe(
+    expect(getPetIconHugSpritesheetPath(suanBirdPetManifest)).toBe(
       "spritesheet.webp",
     );
-    expect(
-      getPetThrowFinishPath(asPetManifest(suanBirdManifest)),
-    ).toBeNull();
+    expect(getPetThrowFinishPath(suanBirdPetManifest)).toBeNull();
   });
 
   test("documents the route 1 v15 ikun action rows and double-click jump", () => {
@@ -609,7 +604,7 @@ describe("pet asset paths", () => {
     expect(
       createPetCatalog(
         [DEFAULT_PET_ID],
-        { [DEFAULT_PET_ID]: asPetManifest(builtInPetManifest) },
+        { [DEFAULT_PET_ID]: xiaojuPetManifest },
         DEFAULT_PET_ID,
       ),
     ).toMatchObject([
@@ -630,8 +625,8 @@ describe("pet asset paths", () => {
       createPetCatalog(
         ["ikun", "ds"],
         {
-          ikun: asPetManifest(ikunManifest),
-          ds: asPetManifest(dsManifest),
+          ikun: ikunPetManifest,
+          ds: dsPetManifest,
         },
         "ds",
       ),
