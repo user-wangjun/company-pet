@@ -1,4 +1,5 @@
-import type { PetDialogueEvent } from "./dialogue";
+import { PET_DIALOGUE_EVENTS, type PetDialogueEvent } from "./dialogue";
+import { isSafePetRelativePath } from "./petAssets";
 
 export type PetFacing = "left" | "right";
 export type PetReminderKind = "eyeCare" | "water" | "meal" | "sleep";
@@ -119,15 +120,6 @@ const REQUIRED_REMINDERS: PetReminderKind[] = [
   "meal",
   "sleep",
 ];
-const PET_DIALOGUE_EVENTS: PetDialogueEvent[] = [
-  "idle",
-  "singleClick",
-  "doubleClick",
-  "water",
-  "eyeCare",
-  "meal",
-  "sleep",
-];
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -203,21 +195,10 @@ function requireFiniteNonNegativeNumber(
 }
 
 function requireRelativePath(value: unknown, field: string): string {
-  if (typeof value !== "string" || value.trim().length === 0) {
+  if (typeof value !== "string" || !isSafePetRelativePath(value)) {
     throw new Error(`Expected non-empty relative path at ${field}`);
   }
-  const path = value;
-  const segments = path.replace(/\\/g, "/").split("/");
-  if (
-    path.startsWith("/") ||
-    path.startsWith("\\") ||
-    path.includes("\\") ||
-    path.includes(":") ||
-    segments.includes("..")
-  ) {
-    throw new Error(`Expected non-empty relative path at ${field}`);
-  }
-  return path;
+  return value;
 }
 
 function parseOptionalString(
@@ -234,7 +215,7 @@ function parseOptionalDialogueEvent(
   if (value === undefined) return undefined;
   if (
     typeof value !== "string" ||
-    !PET_DIALOGUE_EVENTS.includes(value as PetDialogueEvent)
+    !PET_DIALOGUE_EVENTS.some((event) => event === value)
   ) {
     throw new Error(`Invalid value at ${field}`);
   }
@@ -394,16 +375,25 @@ function parseActionOrSequence(
     throw new Error(`Empty sequence at interactions.${field}.sequence`);
   }
 
+  let previousStartAfterMs = -1;
   return {
     sequence: source.sequence.map((step, index) => {
       const stepField = `${field}.sequence[${index}]`;
       const stepSource = requireRecord(step, `interactions.${stepField}`);
+      const startAfterMs = requireFiniteNonNegativeNumber(
+        stepSource.startAfterMs,
+        `interactions.${stepField}.startAfterMs`,
+      );
+      if (startAfterMs < previousStartAfterMs) {
+        throw new Error(
+          `Expected non-decreasing startAfterMs at interactions.${stepField}.startAfterMs`,
+        );
+      }
+      previousStartAfterMs = startAfterMs;
+
       return {
         ...parseAction(stepSource, stepField, animations, true),
-        startAfterMs: requireFiniteNonNegativeNumber(
-          stepSource.startAfterMs,
-          `interactions.${stepField}.startAfterMs`,
-        ),
+        startAfterMs,
       };
     }),
   };
@@ -414,7 +404,8 @@ function disableDesktopIcon(
   field: string,
   warn: (message: string) => void,
 ): PetDesktopIconSpec {
-  warn(`[pet-interactions] ${petId} disabled invalid desktopIcon.${field}`);
+  const path = field ? `desktopIcon.${field}` : "desktopIcon";
+  warn(`[pet-interactions] ${petId} disabled invalid ${path}`);
   return { enabled: false };
 }
 
@@ -451,8 +442,9 @@ function resolveDesktopIcon(
   if (!isRecord(source.action)) {
     return disableDesktopIcon(petId, "action", warn);
   }
+  const action = source.action;
 
-  const animationName = source.action.animation;
+  const animationName = action.animation;
   if (typeof animationName !== "string" || animationName.trim().length === 0) {
     return disableDesktopIcon(petId, "action.animation", warn);
   }
@@ -470,39 +462,33 @@ function resolveDesktopIcon(
   }
 
   if (
-    source.action.durationMs !== undefined &&
-    (typeof source.action.durationMs !== "number" ||
-      !Number.isFinite(source.action.durationMs) ||
-      source.action.durationMs <= 0)
+    action.durationMs !== undefined &&
+    (typeof action.durationMs !== "number" ||
+      !Number.isFinite(action.durationMs) ||
+      action.durationMs <= 0)
   ) {
     return disableDesktopIcon(petId, "action.durationMs", warn);
   }
-  if (
-    animation.loop &&
-    source.action.durationMs === undefined
-  ) {
+  if (animation.loop && action.durationMs === undefined) {
     return disableDesktopIcon(petId, "action.durationMs", warn);
   }
   if (
-    source.action.sound !== undefined &&
-    (typeof source.action.sound !== "string" ||
-      source.action.sound.trim().length === 0)
+    action.sound !== undefined &&
+    (typeof action.sound !== "string" || action.sound.trim().length === 0)
   ) {
     return disableDesktopIcon(petId, "action.sound", warn);
   }
   if (
-    source.action.dialogueEvent !== undefined &&
-    (typeof source.action.dialogueEvent !== "string" ||
-      !PET_DIALOGUE_EVENTS.includes(
-        source.action.dialogueEvent as PetDialogueEvent,
-      ))
+    action.dialogueEvent !== undefined &&
+    (typeof action.dialogueEvent !== "string" ||
+      !PET_DIALOGUE_EVENTS.some((event) => event === action.dialogueEvent))
   ) {
     return disableDesktopIcon(petId, "action.dialogueEvent", warn);
   }
   if (
-    source.action.bubbleText !== undefined &&
-    (typeof source.action.bubbleText !== "string" ||
-      source.action.bubbleText.trim().length === 0)
+    action.bubbleText !== undefined &&
+    (typeof action.bubbleText !== "string" ||
+      action.bubbleText.trim().length === 0)
   ) {
     return disableDesktopIcon(petId, "action.bubbleText", warn);
   }
@@ -511,12 +497,10 @@ function resolveDesktopIcon(
     enabled: true,
     action: {
       animation: animationName,
-      durationMs: source.action.durationMs as number | undefined,
-      sound: source.action.sound,
-      dialogueEvent: source.action.dialogueEvent as
-        | PetDialogueEvent
-        | undefined,
-      bubbleText: source.action.bubbleText,
+      durationMs: action.durationMs as number | undefined,
+      sound: action.sound,
+      dialogueEvent: action.dialogueEvent as PetDialogueEvent | undefined,
+      bubbleText: action.bubbleText,
     },
     positioning: source.positioning,
     allowedSide: source.allowedSide,
@@ -566,12 +550,12 @@ function parseDrag(
   const leftAnimation = getAnimation(animations, left);
   if (!rightAnimation) {
     throw new Error(
-      `Unknown animation "${right}" at interactions.drag.right.animation`,
+      `Unknown animation "${right}" at interactions.drag.right`,
     );
   }
   if (!leftAnimation) {
     throw new Error(
-      `Unknown animation "${left}" at interactions.drag.left.animation`,
+      `Unknown animation "${left}" at interactions.drag.left`,
     );
   }
 
@@ -612,6 +596,18 @@ function parseDrag(
           source.loopFrameCount,
           "interactions.drag.loopFrameCount",
         );
+  const hasLoopStartFrame = frames.loopStartFrame !== undefined;
+  const hasLoopFrameCount = loopFrameCount !== undefined;
+  if (hasLoopStartFrame && !hasLoopFrameCount) {
+    throw new Error(
+      "Missing interactions.drag.loopFrameCount when interactions.drag.loopStartFrame is set",
+    );
+  }
+  if (!hasLoopStartFrame && hasLoopFrameCount) {
+    throw new Error(
+      "Missing interactions.drag.loopStartFrame when interactions.drag.loopFrameCount is set",
+    );
+  }
   if (
     loopFrameCount !== undefined &&
     (frames.loopStartFrame ?? 0) + loopFrameCount > frameCount

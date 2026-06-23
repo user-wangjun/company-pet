@@ -6,7 +6,6 @@ import xiaoju from "../../public/pets/xiaoju-cat/pet.json";
 import {
   resolvePetInteractionManifest,
   type PetActionSpec,
-  type PetDesktopIconSource,
   type PetInteractionManifestSource,
   type PetSequenceSpec,
 } from "./petInteractionManifest";
@@ -296,6 +295,21 @@ describe("pet interaction manifests", () => {
       "C:\\finish.png",
       "Expected non-empty relative path at animations.idle.finishFramePath",
     ],
+    [
+      "spritesheetPath",
+      "%2e%2e/ikun/spritesheet.webp",
+      "Expected non-empty relative path at animations.idle.spritesheetPath",
+    ],
+    [
+      "spritesheetPath",
+      "%252e%252e/ikun/spritesheet.webp",
+      "Expected non-empty relative path at animations.idle.spritesheetPath",
+    ],
+    [
+      "finishFramePath",
+      "foo%5c..%5cbar",
+      "Expected non-empty relative path at animations.idle.finishFramePath",
+    ],
   ] as const)(
     "validates animation %s=%s",
     (field, value, message) => {
@@ -344,18 +358,26 @@ describe("pet interaction manifests", () => {
       "Expected positive integer at interactions.drag.loopFrameCount",
     ],
     [
+      "loopStartFrame without loopFrameCount",
+      (drag: Record<string, unknown>) => {
+        drag.loopStartFrame = 1;
+        delete drag.loopFrameCount;
+      },
+      "Missing interactions.drag.loopFrameCount when interactions.drag.loopStartFrame is set",
+    ],
+    [
+      "loopFrameCount without loopStartFrame",
+      (drag: Record<string, unknown>) => {
+        delete drag.loopStartFrame;
+        drag.loopFrameCount = 2;
+      },
+      "Missing interactions.drag.loopStartFrame when interactions.drag.loopFrameCount is set",
+    ],
+    [
       "loop lifecycle exceeds frames",
       (drag: Record<string, unknown>) => {
         drag.loopStartFrame = 4;
         drag.loopFrameCount = 5;
-      },
-      "Drag loop exceeds animation frames at interactions.drag.loopFrameCount",
-    ],
-    [
-      "loop count alone exceeds frames",
-      (drag: Record<string, unknown>) => {
-        delete drag.loopStartFrame;
-        drag.loopFrameCount = 9;
       },
       "Drag loop exceeds animation frames at interactions.drag.loopFrameCount",
     ],
@@ -422,7 +444,9 @@ describe("pet interaction manifests", () => {
     mutate(source);
 
     expect(() => resolve(source)).toThrow(
-      `Unknown animation "missing" at interactions.${field}.animation`,
+      field === "drag.right" || field === "drag.left"
+        ? `Unknown animation "missing" at interactions.${field}`
+        : `Unknown animation "missing" at interactions.${field}.animation`,
     );
   });
 
@@ -441,6 +465,28 @@ describe("pet interaction manifests", () => {
 
     expect(() => resolve(source)).toThrow(
       "Empty sequence at interactions.doubleClick.sequence",
+    );
+  });
+
+  test("rejects sequence steps with decreasing startAfterMs", () => {
+    const source = makeRawSource();
+    getRawInteractions(source).doubleClick = {
+      sequence: [
+        {
+          animation: "fishChase",
+          durationMs: 1000,
+          startAfterMs: 1000,
+        },
+        {
+          animation: "fishEat",
+          durationMs: 1000,
+          startAfterMs: 500,
+        },
+      ],
+    };
+
+    expect(() => resolve(source)).toThrow(
+      "Expected non-decreasing startAfterMs at interactions.doubleClick.sequence[1].startAfterMs",
     );
   });
 
@@ -600,6 +646,11 @@ describe("pet interaction manifests", () => {
 
   test.each([
     [
+      "object",
+      42,
+      "[pet-interactions] broken disabled invalid desktopIcon",
+    ],
+    [
       "action",
       { enabled: true },
       "[pet-interactions] broken disabled invalid desktopIcon.action",
@@ -690,15 +741,13 @@ describe("pet interaction manifests", () => {
       },
       "[pet-interactions] broken disabled invalid desktopIcon.action.dialogueEvent",
     ],
-  ] satisfies ReadonlyArray<
-    readonly [string, PetDesktopIconSource, string]
-  >)(
+  ] satisfies ReadonlyArray<readonly [string, unknown, string]>)(
     "warns and disables desktopIcon with invalid %s",
     (_field, desktopIcon, warning) => {
       const warnings: string[] = [];
-      const malformed = makeValidSource();
+      const malformed = makeRawSource();
       malformed.id = "broken";
-      malformed.interactions!.desktopIcon = desktopIcon;
+      getRawInteractions(malformed).desktopIcon = desktopIcon;
 
       expect(
         resolvePetInteractionManifest(

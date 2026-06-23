@@ -18,6 +18,7 @@ import {
   getPetBasePath,
   getPetIndexUrl,
   getPetManifestUrl,
+  isSafePetRelativePath,
   resolvePetAssetUrl,
 } from "./petAssets";
 import type { PetManifest } from "./petAssets";
@@ -69,6 +70,30 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("xiaoju-cat", "nested/preview.png")).toBe(
       "/pets/xiaoju-cat/nested/preview.png",
     );
+  });
+
+  test.each([
+    "spritesheet.webp",
+    "nested/preview.png",
+    "sounds/cat%20meow.ogg",
+  ])("accepts safe pet-relative path %s", (path) => {
+    expect(isSafePetRelativePath(path)).toBe(true);
+  });
+
+  test.each([
+    "%2e%2e/ikun/spritesheet.webp",
+    "%252e%252e/ikun/spritesheet.webp",
+    "foo%5c..%5cbar",
+    "nested/./preview.png",
+    "nested/%2e/preview.png",
+    "nested/preview.png?cache=1",
+    "nested/preview.png#frame",
+    "https://example.com/pet.webp",
+    "C:/pet.webp",
+    "%20",
+    "%E0%A4%A",
+  ])("rejects unsafe pet-relative path %s", (path) => {
+    expect(isSafePetRelativePath(path)).toBe(false);
   });
 
   test("keeps sound cue paths relative to the active pet package", () => {
@@ -142,9 +167,11 @@ describe("pet asset paths", () => {
 
       if (typeof value !== "object" || value === null) {
         if (key.endsWith("Path") && typeof value === "string") {
-          expect(value.startsWith("/"), `${manifest.id}:${key}`).toBe(false);
+          expect(
+            isSafePetRelativePath(value),
+            `${manifest.id}:${key}`,
+          ).toBe(true);
           expect(value.includes("\\"), `${manifest.id}:${key}`).toBe(false);
-          expect(value.includes(":"), `${manifest.id}:${key}`).toBe(false);
           expect(resolvePetAssetUrl(manifest.id, value)).toBe(
             `/pets/${manifest.id}/${value}`,
           );
