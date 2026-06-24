@@ -1597,3 +1597,47 @@ button {
     transition-duration: 30ms !important;
   }
 }
+
+.update-dialog-overlay {
+  position: absolute;
+  z-index: 30;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(17, 24, 34, 0.56);
+}
+
+.update-dialog {
+  width: min(420px, 100%);
+  max-height: 250px;
+  overflow: auto;
+  padding: 24px;
+  border: 1px solid rgba(106, 53, 25, 0.2);
+  border-radius: 18px;
+  background: #fffaf2;
+  color: #3a251b;
+  box-shadow: 0 22px 56px rgba(22, 13, 8, 0.24);
+}
+
+.update-dialog h2,
+.update-dialog p {
+  margin: 0;
+}
+
+.update-dialog-versions {
+  margin-top: 10px !important;
+  font-weight: 700;
+}
+
+.update-dialog-notes {
+  margin-top: 12px !important;
+  white-space: pre-wrap;
+}
+
+.update-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
