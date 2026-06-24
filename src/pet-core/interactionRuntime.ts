@@ -1,7 +1,4 @@
-import type {
-  PetFacing,
-  PetReminderKind,
-} from "./petInteractionManifest";
+import type { PetFacing, PetReminderKind } from "./petInteractionManifest";
 
 export type PetInteractionKind =
   | "idle"
@@ -16,7 +13,7 @@ export type PetInteractionKind =
 
 export type PetInteractionPhase = "enter" | "loop" | "exit";
 
-export type InteractionRequest = {
+export type PetInteractionRequest = {
   kind: Exclude<PetInteractionKind, "idle">;
   interruptible: boolean;
   payloadKey?: string;
@@ -34,13 +31,18 @@ export type ActivePetInteraction = {
   reminderKind?: PetReminderKind;
 };
 
-export type InteractionRuntimeState = {
+export type PetInteractionRuntimeState = {
   nextToken: number;
   active: ActivePetInteraction;
-  queued: InteractionRequest | null;
+  queued: PetInteractionRequest | null;
 };
 
-const PRIORITY: Record<PetInteractionKind, number> = {
+export type InteractionRequest = PetInteractionRequest;
+export type InteractionRuntimeState = PetInteractionRuntimeState;
+export type PetInteractionRequestDecision = "start" | "queue" | "ignore";
+export type PetInteractionCompletionDecision = "idle" | "start-queued" | "stale";
+
+const INTERACTION_PRIORITY: Record<PetInteractionKind, number> = {
   idle: 0,
   idleQuirk: 100,
   hover: 100,
@@ -52,111 +54,133 @@ const PRIORITY: Record<PetInteractionKind, number> = {
   updatePrompt: 500,
 };
 
-function activate(
-  state: InteractionRuntimeState,
-  request: InteractionRequest,
-): InteractionRuntimeState {
-  const token = state.nextToken;
+function toActiveInteraction(
+  state: PetInteractionRuntimeState,
+  request: PetInteractionRequest,
+): ActivePetInteraction {
   return {
-    nextToken: token + 1,
-    queued: state.queued,
-    active: {
-      token,
-      kind: request.kind,
-      priority: PRIORITY[request.kind],
-      phase: "enter",
-      facing: state.active.facing,
-      interruptible: request.interruptible,
-      payloadKey: request.payloadKey,
-      reminderKind: request.reminderKind,
-    },
+    token: state.nextToken,
+    kind: request.kind,
+    priority: INTERACTION_PRIORITY[request.kind],
+    phase: "enter",
+    facing: state.active.facing,
+    interruptible: request.interruptible,
+    payloadKey: request.payloadKey,
+    reminderKind: request.reminderKind,
   };
 }
 
-function activateIdle(state: InteractionRuntimeState): InteractionRuntimeState {
-  const token = state.nextToken;
+function startInteraction(
+  state: PetInteractionRuntimeState,
+  request: PetInteractionRequest,
+): PetInteractionRuntimeState {
   return {
-    nextToken: token + 1,
-    queued: null,
+    nextToken: state.nextToken + 1,
+    active: toActiveInteraction(state, request),
+    queued: state.queued,
+  };
+}
+
+function startIdle(state: PetInteractionRuntimeState): PetInteractionRuntimeState {
+  return {
+    nextToken: state.nextToken + 1,
     active: {
-      token,
+      token: state.nextToken,
       kind: "idle",
-      priority: PRIORITY.idle,
+      priority: INTERACTION_PRIORITY.idle,
       phase: "loop",
       facing: state.active.facing,
       interruptible: true,
     },
+    queued: null,
   };
 }
 
 export function createInteractionRuntime(
   facing: PetFacing,
-): InteractionRuntimeState {
+): PetInteractionRuntimeState {
   return {
     nextToken: 1,
-    queued: null,
     active: {
       token: 0,
       kind: "idle",
-      priority: PRIORITY.idle,
+      priority: INTERACTION_PRIORITY.idle,
       phase: "loop",
       facing,
       interruptible: true,
     },
+    queued: null,
   };
 }
 
 export function requestInteraction(
-  state: InteractionRuntimeState,
-  request: InteractionRequest,
+  state: PetInteractionRuntimeState,
+  request: PetInteractionRequest,
 ): {
-  decision: "start" | "queue" | "ignore";
-  state: InteractionRuntimeState;
+  decision: PetInteractionRequestDecision;
+  state: PetInteractionRuntimeState;
 } {
-  const requestPriority = PRIORITY[request.kind];
-  if (
-    requestPriority >= state.active.priority &&
-    state.active.interruptible
-  ) {
-    return { decision: "start", state: activate(state, request) };
+  const requestPriority = INTERACTION_PRIORITY[request.kind];
+
+  if (requestPriority >= state.active.priority && state.active.interruptible) {
+    return {
+      decision: "start",
+      state: startInteraction(state, request),
+    };
   }
 
   if (request.kind === "careReminder") {
     return {
       decision: "queue",
-      state: { ...state, queued: request },
+      state: {
+        ...state,
+        queued: request,
+      },
     };
   }
 
-  return { decision: "ignore", state };
+  return {
+    decision: "ignore",
+    state,
+  };
 }
 
 export function completeInteraction(
-  state: InteractionRuntimeState,
+  state: PetInteractionRuntimeState,
   token: number,
 ): {
-  decision: "idle" | "start-queued" | "stale";
-  state: InteractionRuntimeState;
+  decision: PetInteractionCompletionDecision;
+  state: PetInteractionRuntimeState;
 } {
-  if (state.active.token !== token) {
-    return { decision: "stale", state };
+  if (token !== state.active.token) {
+    return {
+      decision: "stale",
+      state,
+    };
   }
 
   if (state.queued) {
-    const queued = state.queued;
-    const started = activate({ ...state, queued: null }, queued);
-    return { decision: "start-queued", state: started };
+    return {
+      decision: "start-queued",
+      state: startInteraction({ ...state, queued: null }, state.queued),
+    };
   }
 
-  return { decision: "idle", state: activateIdle(state) };
+  return {
+    decision: "idle",
+    state: startIdle(state),
+  };
 }
 
 export function setInteractionFacing(
-  state: InteractionRuntimeState,
+  state: PetInteractionRuntimeState,
   facing: PetFacing,
-): InteractionRuntimeState {
+): PetInteractionRuntimeState {
   return {
     ...state,
-    active: { ...state.active, facing },
+    active: {
+      ...state.active,
+      facing,
+    },
   };
 }
