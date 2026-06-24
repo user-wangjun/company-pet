@@ -185,6 +185,7 @@ export function getPetIdleBubbleText(
   return isIkunPet(petId) ? IKUN_IDLE_BUBBLE : fallbackBubbleText;
 }
 
+/** @deprecated Task 8 replaces this with resolved manifest interactions.drag. */
 export function getPetDragStartAction(petId: string): PetInteractionAction {
   if (isIkunPet(petId)) {
     return {
@@ -216,6 +217,7 @@ export function getPetDragStartAction(petId: string): PetInteractionAction {
   };
 }
 
+/** @deprecated Task 8 replaces this with resolved manifest interactions.drag. */
 export function getPetDragEndAction(petId: string): PetInteractionAction {
   if (isIkunPet(petId)) {
     return {
