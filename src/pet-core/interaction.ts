@@ -1,9 +1,29 @@
+import type { PetDragSpec, PetFacing } from "./petInteractionManifest";
 export const DRAG_THRESHOLD_PX = 6;
 export const HOVER_EAT_DELAY_MS = 800;
 export const DESKTOP_ICON_INTERACTION_DISTANCE_PX = 38;
 export const DESKTOP_ICON_INTERACTION_DELAY_MS = 5000;
 export const DESKTOP_ICON_INTERACTION_COOLDOWN_MS = 15000;
 
+export const SECONDARY_DOUBLE_CLICK_MS = 350;
+
+export function registerSecondaryClick(
+  lastClickAt: number | null,
+  now: number,
+): { triggered: boolean; lastClickAt: number | null } {
+  if (lastClickAt !== null && now - lastClickAt <= SECONDARY_DOUBLE_CLICK_MS) {
+    return { triggered: true, lastClickAt: null };
+  }
+
+  return { triggered: false, lastClickAt: now };
+}
+
+export function resolveDragAnimationName(
+  drag: PetDragSpec,
+  facing: PetFacing,
+): string {
+  return facing === "left" ? drag.left : drag.right;
+}
 
 type DragThresholdInput = {
   startX: number;
