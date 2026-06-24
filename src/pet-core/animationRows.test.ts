@@ -1,13 +1,42 @@
 import { describe, expect, test } from "vitest";
+import type { PetAnimationSpec } from "./petInteractionManifest";
 import {
   ANIMATION_ROWS,
   appendPetAnimationFinishFrame,
+  buildAnimationFrameRects,
+  buildDragLandingFrameIndexes,
   buildPetDragLandingFrames,
   getPetDragFramePlan,
   getPetAnimationRowSpec,
 } from "./animationRows";
 
 describe("runtime animation row mapping", () => {
+  test("builds only declared effective frame rectangles", () => {
+    const spec: PetAnimationSpec = {
+      row: 3,
+      frames: 4,
+      speed: 0.16,
+      loop: false,
+      visualClass: "ordinary",
+    };
+
+    expect(buildAnimationFrameRects(spec, 192, 208)).toEqual([
+      { x: 0, y: 624, width: 192, height: 208 },
+      { x: 192, y: 624, width: 192, height: 208 },
+      { x: 384, y: 624, width: 192, height: 208 },
+      { x: 576, y: 624, width: 192, height: 208 },
+    ]);
+  });
+
+  test("builds drag landing indexes without pet-id branches", () => {
+    expect(
+      buildDragLandingFrameIndexes({
+        currentFrame: 4,
+        approachFrame: 6,
+        landingFrame: 7,
+      }),
+    ).toEqual([4, 6, 7]);
+  });
   test("maps ikun action rows to complete runtime frame ranges", () => {
     expect(ANIMATION_ROWS).toMatchObject({
       idle: { row: 0, frames: 6, loop: true },
