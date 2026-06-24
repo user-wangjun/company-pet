@@ -4,6 +4,7 @@
   "description": "一只橘黄色毛绒小猫咪，会睡觉、抓鱼、吃鱼、跳来跳去，也会陪你等结果。",
   "spritesheetPath": "spritesheet-scruff.webp",
   "iconHugSpritesheetPath": "icon-hug.webp",
+  "dialoguesPath": "dialogues.json",
   "animations": {
     "idle": { "row": 0, "frames": 6, "speed": 0.05, "loop": true, "visualClass": "pose-change", "scale": 1 },
     "dragRight": { "row": 1, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "ordinary", "scale": 0.83 },

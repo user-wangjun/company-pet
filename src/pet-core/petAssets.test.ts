@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest";
 import ikunActionBoard from "../../public/pets/ikun/action-board.json";
+import ikunDialogues from "../../public/pets/ikun/dialogues.json";
 import ikunActions from "../../public/pets/ikun/actions.json";
 import ikunManifest from "../../public/pets/ikun/pet.json";
 import ikunMotionReview from "../../public/pets/ikun/qa/motion-review.json";
@@ -7,6 +8,7 @@ import ikunRig from "../../public/pets/ikun/rig.json";
 import dsDialogues from "../../public/pets/ds/dialogues.json";
 import dsManifest from "../../public/pets/ds/pet.json";
 import suanBirdManifest from "../../public/pets/suan-bird/pet.json";
+import xiaojuDialogues from "../../public/pets/xiaoju-cat/dialogues.json";
 import builtInPetManifest from "../../public/pets/xiaoju-cat/pet.json";
 import petIndex from "../../public/pets/index.json";
 import {
@@ -139,6 +141,11 @@ describe("pet asset paths", () => {
     expect(petIndex.pets).toContain(DEFAULT_PET_ID);
     expect(builtInPetManifest.id).toBe(DEFAULT_PET_ID);
     expect(builtInPetManifest.spritesheetPath).toBe("spritesheet-scruff.webp");
+    expect(builtInPetManifest.dialoguesPath).toBe("dialogues.json");
+    expect(resolvePetAssetUrl("xiaoju-cat", builtInPetManifest.dialoguesPath)).toBe(
+      "/pets/xiaoju-cat/dialogues.json",
+    );
+    expect(xiaojuDialogues.sleep).toContain("早点休息");
     expect(builtInPetManifest.animations).toBeDefined();
     expect(builtInPetManifest.interactions).toBeDefined();
   });
@@ -196,6 +203,7 @@ describe("pet asset paths", () => {
     expect(ikunManifest.actionsPath).toBe("actions.json");
     expect(ikunManifest.rigPath).toBe("rig.json");
     expect(ikunManifest.actionBoardPath).toBe("action-board.json");
+    expect(ikunManifest.dialoguesPath).toBe("dialogues.json");
     expect(ikunManifest.throwFinishPath).toBe("throw-finish.png");
     expect(resolvePetAssetUrl("ikun", ikunManifest.spritesheetPath)).toBe(
       "/pets/ikun/spritesheet.webp",
@@ -213,6 +221,10 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ikun", ikunManifest.actionBoardPath)).toBe(
       "/pets/ikun/action-board.json",
     );
+    expect(resolvePetAssetUrl("ikun", ikunManifest.dialoguesPath)).toBe(
+      "/pets/ikun/dialogues.json",
+    );
+    expect(ikunDialogues.water).toContain("喝口水");
     expect(getPetThrowFinishPath(ikunPetManifest)).toBe("throw-finish.png");
     expect(getPetThrowFinishPath(xiaojuPetManifest)).toBeNull();
   });

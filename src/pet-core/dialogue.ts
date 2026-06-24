@@ -13,6 +13,16 @@ export const PET_DIALOGUE_EVENTS = [
 export type PetDialogueEvent = (typeof PET_DIALOGUE_EVENTS)[number];
 export type PetDialogues = Partial<Record<PetDialogueEvent, string>>;
 
+export const NEUTRAL_PET_DIALOGUES: Required<PetDialogues> = {
+  idle: "我会在这里陪着你。",
+  singleClick: "收到。",
+  doubleClick: "一起活动一下。",
+  water: "该喝杯水了，休息一下再继续。",
+  eyeCare: "看看远处，让眼睛休息一下。",
+  meal: "到饭点了，先好好吃饭。",
+  sleep: "时间不早了，今天先休息。",
+};
+
 export type PetDialoguePackage =
   | { status: "not-configured"; petId: string }
   | { status: "loaded"; petId: string; dialogues: PetDialogues }
@@ -79,11 +89,11 @@ export function resolvePetDialogue(
   warn: DialogueWarning = console.warn,
 ): string | null {
   if (dialoguePackage.status === "not-configured") {
-    return fallbackText;
+    return fallbackText ?? NEUTRAL_PET_DIALOGUES[event];
   }
 
   if (dialoguePackage.status === "failed") {
-    return null;
+    return NEUTRAL_PET_DIALOGUES[event];
   }
 
   const text = dialoguePackage.dialogues[event]?.trim();
@@ -91,7 +101,7 @@ export function resolvePetDialogue(
     warn(
       `[pet-dialogue] Missing "${event}" dialogue for ${dialoguePackage.petId}`,
     );
-    return null;
+    return fallbackText ?? NEUTRAL_PET_DIALOGUES[event];
   }
 
   return text;

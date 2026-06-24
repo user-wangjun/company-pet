@@ -9,6 +9,7 @@
   "actionsPath": "actions.json",
   "rigPath": "rig.json",
   "actionBoardPath": "action-board.json",
+  "dialoguesPath": "dialogues.json",
   "animations": {
     "readyIdle": { "row": 0, "frames": 6, "speed": 0.05, "loop": true, "visualClass": "ordinary", "scale": 1.05 },
     "tieShanKao": { "row": 1, "frames": 8, "speed": 0.2, "loop": false, "visualClass": "ordinary", "scale": 1 },
