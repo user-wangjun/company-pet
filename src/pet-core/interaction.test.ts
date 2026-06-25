@@ -495,13 +495,12 @@ describe("desktop pet interaction rules", () => {
     expect(getDesktopIconHugAnimationName()).toBe("iconHug");
   });
 
-  test("uses tie-shan-kao instead of icon hugging for ikun desktop icon interaction", () => {
-    expect(getPetDesktopIconInteractionAction("ikun")).toEqual({
-      animation: "drag",
-      sound: "drag",
-      bubbleText: "姬霓太美",
-      durationMs: 1800,
-    });
+  test("leaves desktop icon interaction disabled for pets without icon actions", () => {
+    expect(getPetDesktopIconInteractionAction("ikun")).toBeNull();
+    expect(getPetDesktopIconInteractionAction("suan-bird")).toBeNull();
+  });
+
+  test("uses a holding pose for xiaoju desktop icon interaction", () => {
     expect(getPetDesktopIconInteractionAction("xiaoju-cat")).toEqual({
       animation: "iconHug",
       sound: "iconHug",

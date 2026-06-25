@@ -539,14 +539,9 @@ export function getPetIdleQuirkActions(petId: string): PetIdleQuirkAction[] {
 
 export function getPetDesktopIconInteractionAction(
   petId: string,
-): PetInteractionAction {
-  if (isIkunPet(petId)) {
-    return {
-      animation: "drag",
-      sound: "drag",
-      bubbleText: "姬霓太美",
-      durationMs: 1800,
-    };
+): PetInteractionAction | null {
+  if (isIkunPet(petId) || isSuanBirdPet(petId)) {
+    return null;
   }
 
   if (isDsPet(petId)) {

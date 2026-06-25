@@ -44,8 +44,6 @@ import { isMarketingRoute } from "./marketing/marketingContent";
 import type {
   DesktopIconBounds,
   DesktopIconInteractionState,
-  PetInteractionAction,
-  RuntimeAnimationName,
 } from "./pet-core/interaction";
 import {
   HOVER_EAT_DELAY_MS,
@@ -54,35 +52,26 @@ import {
   formatDesktopIconBubbleText,
   formatDesktopIconWrapBubbleText,
   getDesktopIconWrapWindowPosition,
-  getHoverFishAnimationSequence,
-  getPetCareReminderAction,
-  getPetClickAction,
-  getPetContextMenuAction,
-  getPetDesktopIconInteractionAction,
-  getPetDragEndAction,
-  getPetDragStartAction,
-  getPetHoverEatingAction,
-  getPetIdleAnimationName,
-  getPetIdleBubbleText,
-  getPetIdleQuirkActions,
-  getTimedPetCareReminder,
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
+  registerSecondaryClick,
+  resolveDragAnimationName,
   shouldStartDrag,
-  shouldResumeHoverAfterInteraction,
   shouldTriggerHoverEat,
   updateDesktopIconInteraction,
 } from "./pet-core/interaction";
 import {
-  ANIMATION_ROWS,
-  appendPetAnimationFinishFrame,
-  buildPetDragLandingFrames,
-  getPetAnimationRowSpec,
-  getPetDragFramePlan,
+  buildAnimationFrameRects,
+  buildDragLandingFrameIndexes,
 } from "./pet-core/animationRows";
 import {
-  getPetAnimationVisualScale,
+  createDragDirectionState,
+  updateDragDirection,
+  type DragDirectionState,
+} from "./pet-core/dragDirection";
+import {
+  getPetAnimationTransform,
   PET_BUBBLE_BOTTOM_PX,
 } from "./pet-core/visual";
 import {
@@ -97,8 +86,6 @@ import {
   chooseInitialPetId,
   createPetCatalog,
   DEFAULT_PET_ID,
-  getPetIconHugSpritesheetPath,
-  getPetThrowFinishPath,
   getPetIndexUrl,
   getPetManifestUrl,
   type PetCatalogItem,
@@ -114,11 +101,35 @@ import {
 } from "./pet-core/dialogue";
 import {
   createPetSoundPlayer,
-  type PetSoundEvent,
   type PetSoundPlayer,
 } from "./pet-core/sound";
-
-const GITHUB_RELEASE_API = "https://api.github.com/repos/user-wangjun/company-pet/releases/latest";
+import {
+  markCareReminderDelivered,
+  readCareReminderState,
+  selectTimedCareReminder,
+  writeCareReminderState,
+  type CareReminderState,
+} from "./pet-core/careReminders";
+import {
+  getInteractionAnimationSpec,
+  resolveActionPlaybackSteps,
+} from "./pet-core/interactionPlayback";
+import {
+  resolvePetInteractionManifest,
+  type PetActionSpec,
+  type PetAnimationSpec,
+  type PetDirectionMode,
+  type PetFacing,
+  type PetReminderKind,
+  type PetSequenceSpec,
+  type ResolvedPetInteractionManifest,
+} from "./pet-core/petInteractionManifest";
+import {
+  checkForLatestRelease,
+  getCurrentAppVersion,
+  type UpdateCheckResult,
+} from "./pet-update/updateCheck";
+import { UpdateDialog } from "./pet-update/UpdateDialog";
 const CURRENT_PET_STORAGE_KEY = "desktop-pet.currentPetId";
 const PET_WINDOW_SIZE = { width: 165, height: 215 };
 const PLATFORM_WINDOW_SIZE = { width: 860, height: 590 };
@@ -144,7 +155,8 @@ function randomInRange(min: number, max: number): number {
 const CELL_WIDTH = 192;
 const CELL_HEIGHT = 208;
 
-type AnimationName = RuntimeAnimationName;
+type AnimationName = string;
+type AvailableUpdate = Extract<UpdateCheckResult, { status: "available" }>;
 type PressSource = "pointer" | "mouse";
 type TauriWindow = ReturnType<typeof getCurrentWindow>;
 type WindowMode = "platform" | "pet";
@@ -249,30 +261,12 @@ async function setWindowPosition(
   await appWindow.setPosition(new PhysicalPosition(position.x, position.y));
 }
 
-function sliceRowFrames(
-  texture: Texture,
-  row: number,
-  frames: number,
-): Texture[] {
-  return Array.from(
-    { length: frames },
-    (_, frameIndex) =>
-      new Texture({
-        source: texture.source,
-        frame: new Rectangle(
-          frameIndex * CELL_WIDTH,
-          row * CELL_HEIGHT,
-          CELL_WIDTH,
-          CELL_HEIGHT,
-        ),
-      }),
-  );
-}
-
 function DesktopPetApp() {
   const pixiHost = useRef<HTMLDivElement>(null);
   const spriteRef = useRef<AnimatedSprite | null>(null);
   const animationsRef = useRef<Record<AnimationName, Texture[]> | null>(null);
+  const animationSpecsRef = useRef<Record<AnimationName, PetAnimationSpec> | null>(null);
+  const interactionManifestRef = useRef<ResolvedPetInteractionManifest | null>(null);
   const soundPlayerRef = useRef<PetSoundPlayer | null>(null);
   const returnToIdleTimer = useRef<number | null>(null);
   const hoverEatTimer = useRef<number | null>(null);
@@ -303,15 +297,19 @@ function DesktopPetApp() {
     windowX?: number;
     windowY?: number;
     scaleFactor?: number;
+    dragDirection?: DragDirectionState;
   } | null>(null);
   const lastPointerEventAt = useRef(0);
+  const lastSecondaryClickAt = useRef<number | null>(null);
   const clickCount = useRef(0);
   const clickTimer = useRef<number | null>(null);
   const nextEyeCareTime = useRef(Date.now() + randomInRange(30, 50) * 60 * 1000);
   const nextWaterCareTime = useRef(Date.now() + randomInRange(60, 90) * 60 * 1000);
-  const lastTimedCareReminderKey = useRef<string | null>(null);
+  const careReminderState = useRef<CareReminderState>(readCareReminderState());
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
+  const currentFacing = useRef<PetFacing>("right");
+  const playbackToken = useRef(0);
   const [bubbleText, setBubbleText] = useState<string | null>(
     getTimedDefaultBubble(),
   );
@@ -346,6 +344,9 @@ function DesktopPetApp() {
   const [letterOpenMode, setLetterOpenMode] =
     useState<LetterOpenMode>("first-use");
   const [isMailboxReceiving, setIsMailboxReceiving] = useState(false);
+  const [pendingUpdate, setPendingUpdate] = useState<AvailableUpdate | null>(null);
+  const [, setIsCheckingUpdate] = useState(false);
+  const updateCheckInFlight = useRef(false);
   const petCatalog = useMemo(
     () => createPetCatalog(availablePetIds, petManifestsById, activePetId),
     [activePetId, availablePetIds, petManifestsById],
@@ -360,38 +361,56 @@ function DesktopPetApp() {
     soundPlayerRef.current = createPetSoundPlayer({ enabled: false });
   }
 
-  const checkForUpdates = async (manual = false) => {
+  const checkForUpdates = async (manual = true) => {
+    if (updateCheckInFlight.current) return;
+
+    updateCheckInFlight.current = true;
+    setIsCheckingUpdate(true);
+    setPendingUpdate(null);
+
+    if (manual) {
+      setBubbleText("正在检查更新中……");
+    }
+
     try {
-      if (manual) {
-        setBubbleText("正在检查更新中，喵... 🔍");
-      }
-      const response = await fetch(GITHUB_RELEASE_API);
-      if (!response.ok) {
-        if (manual) {
-          setBubbleText("检查更新失败喵，网络似乎有些问题 😿");
-        }
+      const currentVersion = await getCurrentAppVersion();
+      const result = await checkForLatestRelease(currentVersion);
+
+      if (result.status === "available") {
+        recordInteraction("update_available");
+        setPendingUpdate(result);
+        setBubbleText(`发现新版本 ${result.latestVersion}，确认后打开下载页。`);
         return;
       }
-      const data = await response.json();
-      const latestVersion = data.tag_name;
-      const currentVersion = "v0.1.0";
-      if (latestVersion && latestVersion !== currentVersion) {
-        setBubbleText(`发现新版本 ${latestVersion} 喵！正在为你打开升级网页... 🎈`);
-        setTimeout(() => {
-          void openUrl("https://github.com/user-wangjun/company-pet/releases/latest").catch(() => {});
-        }, 1500);
-      } else {
-        if (manual) {
-          setBubbleText("当前已经是最新版本啦喵！橘橘很满足~ 🐾");
-        }
-      }
-    } catch {
+
       if (manual) {
-        setBubbleText("检查更新失败喵，请稍后再试！😿");
+        setBubbleText(
+          result.status === "current"
+            ? "当前已经是最新版本。"
+            : result.message,
+        );
       }
+    } finally {
+      updateCheckInFlight.current = false;
+      setIsCheckingUpdate(false);
     }
   };
 
+  const confirmPendingUpdate = () => {
+    const update = pendingUpdate;
+    setPendingUpdate(null);
+    if (!update) return;
+
+    recordInteraction("update_release_open");
+    void openUrl(update.releaseUrl).catch(() => {
+      setBubbleText("打开下载页失败，请稍后再试。");
+    });
+  };
+
+  const cancelPendingUpdate = () => {
+    setPendingUpdate(null);
+    setBubbleText(getDefaultBubbleText());
+  };
   useEffect(() => {
     let soundEnabled = false;
 
@@ -414,13 +433,7 @@ function DesktopPetApp() {
       recordInteraction(soundEnabled ? "sound_enabled" : "sound_disabled");
     });
 
-    // 启动 3 秒后进行一次静默的自动更新检测
-    const startupTimer = window.setTimeout(() => {
-      void checkForUpdates(false);
-    }, 3000);
-
     return () => {
-      window.clearTimeout(startupTimer);
       void unlistenUpdatePromise.then((unlisten) => unlisten());
       void unlistenPlatformPromise.then((unlisten) => unlisten());
       void unlistenSoundPromise.then((unlisten) => unlisten());
@@ -653,7 +666,8 @@ function DesktopPetApp() {
     recordInteraction("platform_pet_selected");
   };
 
-  const playPetSound = (eventName: PetSoundEvent) => {
+  const playPetSound = (eventName: string | undefined) => {
+    if (!eventName) return;
     soundPlayerRef.current?.play(eventName);
   };
 
@@ -677,68 +691,26 @@ function DesktopPetApp() {
       fallbackText,
     );
 
-  const getDefaultBubbleTextForPet = (petId: string) =>
-    getBubbleTextForPet(
+  const getResolvedInteractionsForPet = (
+    petId: string,
+  ): ResolvedPetInteractionManifest | null => {
+    const manifest = petManifestsById[petId];
+    return manifest ? resolvePetInteractionManifest(manifest) : null;
+  };
+
+  const getDefaultBubbleTextForPet = (petId: string) => {
+    const resolved = getResolvedInteractionsForPet(petId);
+    const idle = resolved?.idle;
+    const dialogueEvent = idle?.dialogueEvent ?? getTimedPetDialogueEvent(new Date().getHours());
+
+    return getBubbleTextForPet(
       petId,
-      getTimedPetDialogueEvent(new Date().getHours()),
-      getPetIdleBubbleText(petId, getTimedDefaultBubble()),
+      dialogueEvent,
+      idle?.bubbleText ?? getTimedDefaultBubble(),
     );
+  };
 
   const getDefaultBubbleText = () => getDefaultBubbleTextForPet(activePetId);
-
-  const playInteractionAction = (
-    action: PetInteractionAction,
-    dialogueEvent?: PetDialogueEvent,
-    resumeHoverAfterReturn = true,
-  ) => {
-    setBubbleText(
-      dialogueEvent
-        ? getBubbleTextForPet(
-            activePetId,
-            dialogueEvent,
-            action.bubbleText ?? null,
-          )
-        : action.bubbleText ?? null,
-    );
-    playPetSound(action.sound);
-    playAnimation(action.animation, action.durationMs, resumeHoverAfterReturn);
-  };
-
-  const handleClicks = () => {
-    const currentCount = clickCount.current;
-    clickCount.current = 0;
-    clickTimer.current = null;
-
-    const clickAction = getPetClickAction(activePetId, currentCount);
-    if (clickAction) {
-      if (currentCount === 1) {
-        recordInteraction("click");
-      } else if (currentCount === 2) {
-        recordInteraction("double_click");
-      }
-
-      if ("sequence" in clickAction) {
-        playHoverFishSequence();
-      } else {
-        playInteractionAction(
-          clickAction,
-          currentCount === 1
-            ? "singleClick"
-            : currentCount === 2
-              ? "doubleClick"
-              : undefined,
-          shouldResumeHoverAfterInteraction("click"),
-        );
-      }
-      return;
-    }
-
-    if (currentCount >= 3) {
-      // 三击：检查更新
-      recordInteraction("triple_click");
-      void checkForUpdates(true);
-    }
-  };
 
   const clearHoverEatTimer = () => {
     if (hoverEatTimer.current !== null) {
@@ -746,30 +718,6 @@ function DesktopPetApp() {
       hoverEatTimer.current = null;
     }
     hoverStartedAt.current = null;
-  };
-
-  const scheduleHoverEat = () => {
-    if (pointerState.current || hoverEatTimer.current !== null) return;
-
-    const startedAt = Date.now();
-    hoverStartedAt.current = startedAt;
-    hoverEatTimer.current = window.setTimeout(() => {
-      hoverEatTimer.current = null;
-
-      if (
-        shouldTriggerHoverEat({
-          hoverStartedAt: startedAt,
-          now: Date.now(),
-          isDragging: Boolean(pointerState.current?.dragging),
-        })
-      ) {
-        const hoverEatingAction = getPetHoverEatingAction(activePetId);
-        if (hoverEatingAction?.sequence === "hover-fish") {
-          recordInteraction("hover_eat");
-          playHoverFishSequence();
-        }
-      }
-    }, HOVER_EAT_DELAY_MS);
   };
 
   const restoreCursorEvents = () => {
@@ -791,122 +739,312 @@ function DesktopPetApp() {
       });
   };
 
-  const playAnimation = (
+  const getActiveInteractionManifest = () =>
+    interactionManifestRef.current ?? getResolvedInteractionsForPet(activePetId);
+
+  const getAnimationSpec = (name: AnimationName): PetAnimationSpec | null => {
+    const specs = animationSpecsRef.current;
+    return specs?.[name] ?? null;
+  };
+
+  const getAnimationDirectionMode = (
     name: AnimationName,
-    returnAfterMs?: number,
-    resumeHoverAfterReturn = true,
-  ) => {
+  ): PetDirectionMode | "none" => {
+    const resolved = getActiveInteractionManifest();
+    if (!resolved) return "none";
+    return name === resolved.drag.left || name === resolved.drag.right
+      ? resolved.drag.directionMode
+      : "none";
+  };
+
+  const markAnimationState = (name: AnimationName) => {
+    const host = pixiHost.current;
+    if (!host) return;
+    host.dataset.currentAnimation = name;
+    host.dataset.currentFacing = currentFacing.current;
+  };
+
+  const applySpriteVisual = (sprite: AnimatedSprite, name: AnimationName) => {
+    const spec = getAnimationSpec(name);
+    if (!spec) return;
+
+    const transform = getPetAnimationTransform(
+      spec,
+      currentFacing.current,
+      getAnimationDirectionMode(name),
+    );
+    sprite.scale.set(transform.scaleX, transform.scaleY);
+  };
+
+  const playAnimation = (name: AnimationName) => {
     const sprite = spriteRef.current;
     const animations = animationsRef.current;
-    if (!sprite || !animations) return false;
+    const spec = getAnimationSpec(name);
+    if (!sprite || !animations || !spec || !animations[name]) return false;
 
     currentAnimation.current = name;
+    markAnimationState(name);
+    sprite.onComplete = undefined;
+    sprite.textures = animations[name];
+    sprite.animationSpeed = spec.speed;
+    sprite.loop = spec.loop;
+    applySpriteVisual(sprite, name);
+    sprite.gotoAndPlay(0);
+    return true;
+  };
 
+  const playIdleAnimation = () => {
+    const resolved = getActiveInteractionManifest();
+    const idleAnimation = resolved?.idle.animation ?? "idle";
+    playAnimation(idleAnimation);
+  };
+
+  const scheduleReturnToIdle = (
+    returnAfterMs: number | undefined,
+    resumeHoverAfterReturn = true,
+    expectedToken = playbackToken.current,
+  ) => {
     if (returnToIdleTimer.current !== null) {
       window.clearTimeout(returnToIdleTimer.current);
       returnToIdleTimer.current = null;
     }
 
-    const animation = getPetAnimationRowSpec(activePetId, name);
-    sprite.onComplete = undefined;
-    sprite.textures = animations[name];
-    sprite.animationSpeed = animation.speed;
-    sprite.loop = animation.loop;
-    sprite.scale.set(getPetAnimationVisualScale(activePetManifest, name));
-    sprite.gotoAndPlay(0);
+    if (!returnAfterMs || returnAfterMs <= 0) return;
 
-    if (returnAfterMs) {
-      returnToIdleTimer.current = window.setTimeout(() => {
-        setBubbleText(getDefaultBubbleText());
-        playAnimation(getPetIdleAnimationName(activePetId));
-        if (resumeHoverAfterReturn) {
-          scheduleHoverEat();
-        }
-      }, returnAfterMs);
-    }
-
-    return true;
+    returnToIdleTimer.current = window.setTimeout(() => {
+      if (expectedToken !== playbackToken.current) return;
+      setBubbleText(getDefaultBubbleText());
+      playIdleAnimation();
+      if (resumeHoverAfterReturn) {
+        scheduleHoverEat();
+      }
+    }, returnAfterMs);
   };
 
-  const getDragFramesForPlan = () => {
-    const animations = animationsRef.current;
-    const plan = getPetDragFramePlan(activePetId);
-    if (!animations || !plan) return null;
-
-    const dragFrames = animations.drag;
-    const takeoffFrame = dragFrames[plan.takeoffFrame];
-    const loopFrames = dragFrames.slice(
-      plan.loopStartFrame,
-      plan.loopStartFrame + plan.loopFrameCount,
+  const setBubbleFromAction = (action: PetActionSpec) => {
+    setBubbleText(
+      action.dialogueEvent
+        ? getBubbleTextForPet(
+            activePetId,
+            action.dialogueEvent,
+            action.bubbleText ?? null,
+          )
+        : action.bubbleText ?? null,
     );
-    const landingFrames = takeoffFrame
-      ? buildPetDragLandingFrames(takeoffFrame, dragFrames, plan)
-      : null;
+  };
+
+  const playManifestAction = (
+    action: PetActionSpec | PetSequenceSpec,
+    resumeHoverAfterReturn = true,
+  ) => {
+    if (returnToIdleTimer.current !== null) {
+      window.clearTimeout(returnToIdleTimer.current);
+      returnToIdleTimer.current = null;
+    }
+
+    const token = playbackToken.current + 1;
+    playbackToken.current = token;
+    const steps = resolveActionPlaybackSteps(action);
+    let totalDurationMs = 0;
+
+    for (const step of steps) {
+      totalDurationMs = Math.max(
+        totalDurationMs,
+        step.startAfterMs + (step.durationMs ?? 0),
+      );
+
+      const playStep = () => {
+        if (token !== playbackToken.current) return;
+        setBubbleFromAction(step);
+        playPetSound(step.sound);
+        playAnimation(step.animation);
+      };
+
+      if (step.startAfterMs <= 0) {
+        playStep();
+      } else {
+        window.setTimeout(playStep, step.startAfterMs);
+      }
+    }
+
+    scheduleReturnToIdle(totalDurationMs, resumeHoverAfterReturn, token);
+  };
+
+  const handleClicks = () => {
+    const currentCount = clickCount.current;
+    clickCount.current = 0;
+    clickTimer.current = null;
+
+    const resolved = getActiveInteractionManifest();
+    if (!resolved) return;
+
+    if (currentCount === 1) {
+      recordInteraction("click");
+      playManifestAction(resolved.singleClick, false);
+      return;
+    }
+
+    if (currentCount === 2) {
+      recordInteraction("double_click");
+      playManifestAction(resolved.doubleClick, false);
+    }
+  };
+
+  const scheduleHoverEat = () => {
+    const resolved = getActiveInteractionManifest();
+    if (
+      pointerState.current ||
+      hoverEatTimer.current !== null ||
+      resolved?.hover.enabled !== true
+    ) {
+      return;
+    }
+
+    const startedAt = Date.now();
+    hoverStartedAt.current = startedAt;
+    hoverEatTimer.current = window.setTimeout(() => {
+      hoverEatTimer.current = null;
+
+      if (
+        shouldTriggerHoverEat({
+          hoverStartedAt: startedAt,
+          now: Date.now(),
+          isDragging: Boolean(pointerState.current?.dragging),
+        })
+      ) {
+        const latestResolved = getActiveInteractionManifest();
+        if (latestResolved?.hover.enabled === true) {
+          recordInteraction("hover_eat");
+          playManifestAction(latestResolved.hover.action);
+        }
+      }
+    }, HOVER_EAT_DELAY_MS);
+  };
+
+  const getDragFramePlan = (animationName: AnimationName) => {
+    const resolved = getActiveInteractionManifest();
+    const animations = animationsRef.current;
+    if (!resolved || !animations) return null;
+
+    const drag = resolved.drag;
+    const frames = animations[animationName];
+    if (!frames) return null;
+
+    const hasPlan =
+      drag.takeoffFrame !== undefined &&
+      drag.loopStartFrame !== undefined &&
+      drag.loopFrameCount !== undefined &&
+      drag.landingApproachFrame !== undefined &&
+      drag.landingFrame !== undefined;
+    if (!hasPlan) return null;
+
+    const takeoffFrame = frames[drag.takeoffFrame!];
+    const loopFrames = frames.slice(
+      drag.loopStartFrame!,
+      drag.loopStartFrame! + drag.loopFrameCount!,
+    );
+    const landingFrameIndexes = buildDragLandingFrameIndexes({
+      currentFrame: 0,
+      approachFrame: drag.landingApproachFrame!,
+      landingFrame: drag.landingFrame!,
+    });
+    const landingFrames = landingFrameIndexes
+      .slice(1)
+      .map((frameIndex) => frames[frameIndex]);
 
     if (
       !takeoffFrame ||
-      !landingFrames ||
-      loopFrames.length !== plan.loopFrameCount
+      loopFrames.length !== drag.loopFrameCount ||
+      landingFrames.some((frame) => frame === undefined)
     ) {
       return null;
     }
 
-    return { takeoffFrame, loopFrames, dragFrames, plan };
+    return {
+      takeoffFrame,
+      loopFrames,
+      frames,
+      landingFrames: landingFrames as Texture[],
+      landingTransitionSpeed: drag.landingTransitionSpeed ?? 0.25,
+      landingHoldMs: drag.landingHoldMs ?? 900,
+    };
   };
 
-  const playDragStartInteraction = (action: PetInteractionAction) => {
+  const playDragLoopAnimation = (
+    animationName: AnimationName,
+    includeTakeoff: boolean,
+  ) => {
     const sprite = spriteRef.current;
-    const dragFrames = getDragFramesForPlan();
-    if (!sprite || action.animation !== "drag" || !dragFrames) {
-      playInteractionAction(action);
+    const plan = getDragFramePlan(animationName);
+    const spec = getAnimationSpec(animationName);
+    if (!sprite || !plan || !spec) {
+      playAnimation(animationName);
       return;
     }
 
-    if (returnToIdleTimer.current !== null) {
-      window.clearTimeout(returnToIdleTimer.current);
-      returnToIdleTimer.current = null;
-    }
-
-    setBubbleText(action.bubbleText ?? null);
-    playPetSound(action.sound);
-    currentAnimation.current = "drag";
-
-    const animation = getPetAnimationRowSpec(activePetId, "drag");
+    currentAnimation.current = animationName;
+    markAnimationState(animationName);
     sprite.onComplete = undefined;
-    sprite.textures = [dragFrames.takeoffFrame, ...dragFrames.loopFrames];
-    sprite.animationSpeed = animation.speed;
-    sprite.loop = false;
-    sprite.scale.set(getPetAnimationVisualScale(activePetManifest, "drag"));
-    sprite.onComplete = () => {
-      if (spriteRef.current !== sprite || !pointerState.current?.dragging) return;
-
-      sprite.onComplete = undefined;
-      sprite.textures = dragFrames.loopFrames;
-      sprite.animationSpeed = animation.speed;
-      sprite.loop = true;
-      sprite.gotoAndPlay(0);
-    };
+    sprite.textures = includeTakeoff
+      ? [plan.takeoffFrame, ...plan.loopFrames]
+      : plan.loopFrames;
+    sprite.animationSpeed = spec.speed;
+    sprite.loop = !includeTakeoff;
+    applySpriteVisual(sprite, animationName);
+    sprite.onComplete = includeTakeoff
+      ? () => {
+          if (spriteRef.current !== sprite || !pointerState.current?.dragging) return;
+          sprite.onComplete = undefined;
+          sprite.textures = plan.loopFrames;
+          sprite.animationSpeed = spec.speed;
+          sprite.loop = true;
+          sprite.gotoAndPlay(0);
+        }
+      : undefined;
     sprite.gotoAndPlay(0);
   };
 
-  const playDragEndInteraction = (action: PetInteractionAction) => {
+  const playDragStartInteraction = () => {
+    const resolved = getActiveInteractionManifest();
+    if (!resolved) return;
+
+    playbackToken.current += 1;
+
+    if (returnToIdleTimer.current !== null) {
+      window.clearTimeout(returnToIdleTimer.current);
+      returnToIdleTimer.current = null;
+    }
+
+    setBubbleText(null);
+    playPetSound("drag");
+    const animationName = resolveDragAnimationName(
+      resolved.drag,
+      currentFacing.current,
+    );
+    playDragLoopAnimation(animationName, true);
+  };
+
+  const playDragEndInteraction = () => {
+    const resolved = getActiveInteractionManifest();
     const sprite = spriteRef.current;
-    const dragFrames = getDragFramesForPlan();
-    const landingFrames =
-      sprite && dragFrames
-        ? buildPetDragLandingFrames(
-            sprite.texture,
-            dragFrames.dragFrames,
-            dragFrames.plan,
-          )
-        : null;
-    if (
-      !sprite ||
-      action.animation !== "drag" ||
-      !dragFrames ||
-      !landingFrames
-    ) {
-      playInteractionAction(action);
+    if (!resolved || !sprite) {
+      playbackToken.current += 1;
+      playIdleAnimation();
+      return;
+    }
+
+    const token = playbackToken.current + 1;
+    playbackToken.current = token;
+    const animationName = resolveDragAnimationName(
+      resolved.drag,
+      currentFacing.current,
+    );
+    const plan = getDragFramePlan(animationName);
+    playPetSound("drag_end");
+
+    if (!plan) {
+      playAnimation(animationName);
+      scheduleReturnToIdle(resolved.drag.landingHoldMs ?? 900, true, token);
       return;
     }
 
@@ -915,68 +1053,25 @@ function DesktopPetApp() {
       returnToIdleTimer.current = null;
     }
 
-    setBubbleText(action.bubbleText ?? null);
-    playPetSound(action.sound);
-    currentAnimation.current = "drag";
-
+    currentAnimation.current = animationName;
+    markAnimationState(animationName);
     sprite.onComplete = undefined;
-    sprite.textures = landingFrames;
-    sprite.animationSpeed = dragFrames.plan.landingTransitionSpeed;
+    sprite.textures = [sprite.texture, ...plan.landingFrames];
+    sprite.animationSpeed = plan.landingTransitionSpeed;
     sprite.loop = false;
-    sprite.scale.set(getPetAnimationVisualScale(activePetManifest, "drag"));
+    applySpriteVisual(sprite, animationName);
     sprite.onComplete = () => {
-      if (spriteRef.current !== sprite || currentAnimation.current !== "drag") {
+      if (
+        spriteRef.current !== sprite ||
+        currentAnimation.current !== animationName ||
+        token !== playbackToken.current
+      ) {
         return;
       }
-
       sprite.onComplete = undefined;
-      const returnToIdle = () => {
-        setBubbleText(getDefaultBubbleText());
-        playAnimation(getPetIdleAnimationName(activePetId));
-        if (shouldResumeHoverAfterInteraction("drag")) {
-          scheduleHoverEat();
-        }
-      };
-
-      if (action.durationMs) {
-        returnToIdleTimer.current = window.setTimeout(
-          returnToIdle,
-          action.durationMs,
-        );
-      } else {
-        returnToIdle();
-      }
+      scheduleReturnToIdle(plan.landingHoldMs, true, token);
     };
     sprite.gotoAndPlay(0);
-  };
-  const playHoverFishSequence = () => {
-    const [chaseAnimation, eatAnimation] = getHoverFishAnimationSequence();
-
-    if (returnToIdleTimer.current !== null) {
-      window.clearTimeout(returnToIdleTimer.current);
-      returnToIdleTimer.current = null;
-    }
-
-    setBubbleText(
-      getBubbleTextForPet(activePetId, "doubleClick", "鱼！"),
-    );
-    recordInteraction("fish_chase");
-    playPetSound("fishChase");
-    playAnimation(chaseAnimation);
-
-    returnToIdleTimer.current = window.setTimeout(() => {
-      setBubbleText(
-        getBubbleTextForPet(activePetId, "doubleClick", "吃到了。"),
-      );
-      recordInteraction("fish_eat");
-      playPetSound("fishEat");
-      playAnimation(eatAnimation);
-
-      returnToIdleTimer.current = window.setTimeout(() => {
-        setBubbleText(getDefaultBubbleText());
-        playAnimation(getPetIdleAnimationName(activePetId));
-      }, 1300);
-    }, 950);
   };
 
   const markPointerEvent = () => {
@@ -986,7 +1081,18 @@ function DesktopPetApp() {
   const shouldUseMouseFallback = () => {
     return Date.now() - lastPointerEventAt.current > 700;
   };
+  const handleSecondaryPress = () => {
+    const click = registerSecondaryClick(lastSecondaryClickAt.current, Date.now());
+    lastSecondaryClickAt.current = click.lastClickAt;
 
+    if (!click.triggered) {
+      recordInteraction("secondary_click_armed");
+      return;
+    }
+
+    recordInteraction("secondary_double_click_update");
+    void checkForUpdates(true);
+  };
   const startPress = (
     source: PressSource,
     button: number,
@@ -1069,8 +1175,37 @@ function DesktopPetApp() {
     ) {
       pointer.dragging = true;
       clearHoverEatTimer();
+      const dragDirection = updateDragDirection(
+        createDragDirectionState(currentFacing.current, pointer.screenX),
+        screenX,
+        pointer.scaleFactor ?? 1,
+      );
+      pointer.dragDirection = dragDirection;
+      currentFacing.current = dragDirection.facing;
       recordInteraction("drag_start");
-      playDragStartInteraction(getPetDragStartAction(activePetId));
+      playDragStartInteraction();
+    }
+
+    if (pointer.dragging) {
+      const nextDirection = updateDragDirection(
+        pointer.dragDirection ??
+          createDragDirectionState(currentFacing.current, pointer.screenX),
+        screenX,
+        pointer.scaleFactor ?? 1,
+      );
+      const facingChanged = nextDirection.facing !== currentFacing.current;
+      pointer.dragDirection = nextDirection;
+      currentFacing.current = nextDirection.facing;
+
+      if (facingChanged) {
+        const resolved = getActiveInteractionManifest();
+        if (resolved) {
+          playDragLoopAnimation(
+            resolveDragAnimationName(resolved.drag, nextDirection.facing),
+            false,
+          );
+        }
+      }
     }
 
     if (
@@ -1121,12 +1256,17 @@ function DesktopPetApp() {
     }
 
     recordInteraction("drag_end");
-    playDragEndInteraction(getPetDragEndAction(activePetId));
+    playDragEndInteraction();
     window.setTimeout(probeDesktopIconInteraction, 250);
   };
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLElement>) => {
     markPointerEvent();
+    if (event.button === 2) {
+      event.preventDefault();
+      handleSecondaryPress();
+      return;
+    }
     if (
       startPress(
         "pointer",
@@ -1164,6 +1304,12 @@ function DesktopPetApp() {
   };
 
   const handleMouseDown = (event: ReactMouseEvent<HTMLElement>) => {
+    if (event.button === 2) {
+      event.preventDefault();
+      handleSecondaryPress();
+      return;
+    }
+
     if (!shouldUseMouseFallback()) return;
 
     if (
@@ -1199,11 +1345,6 @@ function DesktopPetApp() {
 
   const handleContextMenu = (event: ReactMouseEvent<HTMLElement>) => {
     event.preventDefault();
-    if (getPetContextMenuAction() === "keep-open") {
-      recordInteraction("context_menu");
-      setBubbleText(getBubbleTextForPet(activePetId, "idle", "喵？"));
-      playAnimation(getPetIdleAnimationName(activePetId), 900);
-    }
   };
 
   const handlePointerEnter = () => {
@@ -1232,89 +1373,97 @@ function DesktopPetApp() {
     recordInteraction("pointer_cancel");
     clearHoverEatTimer();
     setBubbleText(getDefaultBubbleText());
-    playAnimation(getPetIdleAnimationName(activePetId));
+    playIdleAnimation();
+  };
+
+  const playCareReminder = (kind: PetReminderKind, deliveredKey?: string) => {
+    const resolved = getActiveInteractionManifest();
+    if (!resolved) return false;
+
+    recordInteraction(`${kind}_care_reminder`);
+    playManifestAction(resolved.reminders[kind], false);
+
+    if (deliveredKey) {
+      const nextDeliveredKeys = markCareReminderDelivered(
+        careReminderState.current.deliveredKeys,
+        deliveredKey,
+      );
+      careReminderState.current = { deliveredKeys: nextDeliveredKeys };
+      writeCareReminderState(careReminderState.current);
+    }
+
+    return true;
+  };
+
+  const playDesktopIconAction = (
+    action: PetActionSpec,
+    bubbleText: string,
+    resumeHoverAfterReturn = false,
+  ) => {
+    const token = playbackToken.current + 1;
+    playbackToken.current = token;
+    setBubbleText(bubbleText);
+    playPetSound(action.sound);
+    playAnimation(action.animation);
+    scheduleReturnToIdle(action.durationMs, resumeHoverAfterReturn, token);
   };
 
   const probeDesktopIconInteraction = () => {
+    const resolved = getActiveInteractionManifest();
+    if (!resolved) return;
     if (desktopIconProbeInFlight.current || pointerState.current?.dragging) return;
-    if (currentAnimation.current === "iconHug") return;
+    if (
+      resolved.desktopIcon.enabled &&
+      currentAnimation.current === resolved.desktopIcon.action.animation
+    ) {
+      return;
+    }
 
-    // 随机健康关怀（喝水与眼疲劳）检测
     const nowTimestamp = Date.now();
     if (pointerState.current) {
-      // 拖拽点击时，向后推迟提醒 30 秒，避免干扰
       nextEyeCareTime.current = Math.max(nextEyeCareTime.current, nowTimestamp + 30000);
       nextWaterCareTime.current = Math.max(nextWaterCareTime.current, nowTimestamp + 30000);
     } else if (nowTimestamp >= nextEyeCareTime.current) {
-      recordInteraction("eye_care_reminder");
-      const careAction = getPetCareReminderAction(activePetId, "eyeCare");
-      if (careAction) {
-        playInteractionAction(careAction, "eyeCare");
-      } else {
-        setBubbleText("看屏幕太久啦，陪小橘眺望一下窗外，放松一下眼睛吧~ 👀");
-        playPetSound("care_reminder");
-        playAnimation("idle", 8000); // 维持 8 秒
-      }
       nextEyeCareTime.current = nowTimestamp + randomInRange(30, 50) * 60 * 1000;
-      return; // 触发提醒，推迟本次吸附检测
+      if (playCareReminder("eyeCare")) return;
     } else if (nowTimestamp >= nextWaterCareTime.current) {
-      recordInteraction("water_care_reminder");
-      const careAction = getPetCareReminderAction(activePetId, "water");
-      if (careAction) {
-        playInteractionAction(careAction, "water");
-      } else {
-        setBubbleText("（吸溜）主人，该喝杯水润润嗓子啦，不要一直盯着屏幕喵！🥛");
-        playPetSound("care_reminder");
-        playAnimation("fishChase", 8000); // 追着鱼玩去喝水，维持 8 秒
-      }
       nextWaterCareTime.current = nowTimestamp + randomInRange(60, 90) * 60 * 1000;
-      return; // 触发提醒，推迟本次吸附检测
+      if (playCareReminder("water")) return;
     }
 
     if (!pointerState.current) {
-      const timedReminder = getTimedPetCareReminder(
+      const timedReminder = selectTimedCareReminder(
         new Date(nowTimestamp),
-        lastTimedCareReminderKey.current,
+        careReminderState.current.deliveredKeys,
       );
 
-      if (timedReminder) {
-        const careAction = getPetCareReminderAction(activePetId, timedReminder.kind);
-        if (careAction) {
-          recordInteraction(`${timedReminder.kind}_care_reminder`);
-          lastTimedCareReminderKey.current = timedReminder.key;
-          playInteractionAction(careAction, timedReminder.kind);
+      if (timedReminder && playCareReminder(timedReminder.kind, timedReminder.key)) {
+        return;
+      }
+    }
+
+    if (pointerState.current || Date.now() < iconHugLockedUntil.current) {
+      nextIdleQuirkTime.current = Math.max(nextIdleQuirkTime.current, nowTimestamp + 20000);
+    } else if (nowTimestamp >= nextIdleQuirkTime.current) {
+      const quirks = resolved.idleQuirks;
+      if (quirks.length > 0 && Math.random() < 0.15) {
+        const chosen = quirks[Math.floor(Math.random() * quirks.length)];
+        if (chosen) {
+          recordInteraction("idle_quirk_triggered");
+          playManifestAction(chosen, false);
+          nextIdleQuirkTime.current = nowTimestamp + randomInRange(25, 45) * 1000;
           return;
         }
       }
-    }
-
-    // 随机待机小动作检测
-    if (pointerState.current || Date.now() < iconHugLockedUntil.current) {
-      // 拖拽、点击、或者抱着图标时，推迟小动作检测
-      nextIdleQuirkTime.current = Math.max(nextIdleQuirkTime.current, nowTimestamp + 20000);
-    } else if (nowTimestamp >= nextIdleQuirkTime.current) {
-      const quirkRandom = Math.random();
-      // 15% 概率触发，若未触发，仅推迟 5 秒再次检测
-      if (getPetIdleAnimationName(activePetId) !== "idle") {
-        nextIdleQuirkTime.current = nowTimestamp + randomInRange(25, 45) * 1000;
-      } else if (quirkRandom < 0.15) {
-        recordInteraction("idle_quirk_triggered");
-        const quirks = getPetIdleQuirkActions(activePetId);
-        const chosen = quirks[Math.floor(Math.random() * quirks.length)];
-        setBubbleText(
-          getBubbleTextForPet(activePetId, "idle", chosen.text ?? null),
-        );
-        playPetSound(chosen.sound);
-        playAnimation(chosen.animation, chosen.duration);
-        nextIdleQuirkTime.current = nowTimestamp + randomInRange(25, 45) * 1000;
-        return; // 触发微动作，推迟本次桌面图标探测
-      } else {
-        nextIdleQuirkTime.current = nowTimestamp + 5000; // 未触发，5秒后再次判断
-      }
+      nextIdleQuirkTime.current = quirks.length > 0
+        ? nowTimestamp + 5000
+        : nowTimestamp + randomInRange(25, 45) * 1000;
     }
 
     if (Date.now() < iconHugLockedUntil.current) return;
+    if (resolved.desktopIcon.enabled !== true) return;
 
+    const desktopIcon = resolved.desktopIcon;
     desktopIconProbeInFlight.current = true;
     const appWindow = getOptionalCurrentWindow();
     if (!appWindow) {
@@ -1330,11 +1479,8 @@ function DesktopPetApp() {
       appWindow.scaleFactor(),
     ])
       .then(([isOnDesktop, icons, position, size, scaleFactor]) => {
-        if (!isOnDesktop) {
-          return;
-        }
+        if (!isOnDesktop) return;
 
-        const desktopIconAction = getPetDesktopIconInteractionAction(activePetId);
         const target = findDesktopIconTarget(
           {
             x: position.x,
@@ -1344,7 +1490,7 @@ function DesktopPetApp() {
           },
           icons,
           undefined,
-          desktopIconAction.animation === "drag" ? { side: "right" } : {},
+          desktopIcon.allowedSide === "right" ? { side: "right" } : {},
         );
         const result = updateDesktopIconInteraction({
           now: Date.now(),
@@ -1370,9 +1516,9 @@ function DesktopPetApp() {
         clearHoverEatTimer();
         recordInteraction("desktop_icon_interact");
 
-        if (desktopIconAction.animation !== "iconHug") {
-          iconHugLockedUntil.current =
-            Date.now() + (desktopIconAction.durationMs ?? 1800) + 1000;
+        if (desktopIcon.positioning === "peek") {
+          const durationMs = desktopIcon.action.durationMs ?? 1800;
+          iconHugLockedUntil.current = Date.now() + durationMs + 1000;
           const bumpPosition = getDesktopIconBumpWindowPosition(
             iconTarget,
             size,
@@ -1382,16 +1528,20 @@ function DesktopPetApp() {
           void appWindow
             .setPosition(new PhysicalPosition(bumpPosition.x, bumpPosition.y))
             .then(() => {
-              recordInteraction("desktop_icon_shoulder_hit");
-              playInteractionAction(desktopIconAction);
+              recordInteraction("desktop_icon_peek");
+              playDesktopIconAction(
+                desktopIcon.action,
+                formatDesktopIconBubbleText(iconTarget.title),
+              );
             })
             .catch(() => {
-              recordInteraction("desktop_icon_shoulder_hit_failed");
+              recordInteraction("desktop_icon_peek_failed");
             });
           return;
         }
 
-        iconHugLockedUntil.current = Date.now() + 6500;
+        const durationMs = desktopIcon.action.durationMs ?? 5600;
+        iconHugLockedUntil.current = Date.now() + durationMs + 1000;
         setBubbleText(formatDesktopIconBubbleText(iconTarget.title));
         const wrapPosition = getDesktopIconWrapWindowPosition(iconTarget, size, scaleFactor);
         void appWindow
@@ -1400,20 +1550,16 @@ function DesktopPetApp() {
           .then(() => {
             recordInteraction("desktop_icon_wrap");
             recordInteraction("desktop_icon_click_through_on");
-            setBubbleText(formatDesktopIconWrapBubbleText(iconTarget.title));
-            recordInteraction("desktop_icon_hug_pose");
-            playPetSound(desktopIconAction.sound);
-            if (playAnimation(desktopIconAction.animation)) {
-              recordInteraction("desktop_icon_custom_hug_sprite");
-            } else {
-              recordInteraction("desktop_icon_custom_hug_sprite_missing");
-            }
+            playDesktopIconAction(
+              desktopIcon.action,
+              formatDesktopIconWrapBubbleText(iconTarget.title),
+            );
             if (iconHugClickThroughTimer.current !== null) {
               window.clearTimeout(iconHugClickThroughTimer.current);
             }
             iconHugClickThroughTimer.current = window.setTimeout(() => {
               restoreCursorEvents();
-            }, 5600);
+            }, durationMs);
           })
           .catch(() => {
             recordInteraction("desktop_icon_wrap_failed");
@@ -1464,88 +1610,65 @@ function DesktopPetApp() {
 
         const petId = activePetId;
         const manifest = await loadPetManifest(petId);
-        const spritesheetUrl = resolvePetAssetUrl(
-          petId,
-          manifest.spritesheetPath,
+        const resolvedInteractions = resolvePetInteractionManifest(manifest);
+        const textureCache = new Map<string, Texture>();
+        const loadTexture = async (path: string) => {
+          const cached = textureCache.get(path);
+          if (cached) return cached;
+
+          const texture = await Assets.load<Texture>(
+            resolvePetAssetUrl(petId, path),
+          );
+          textureCache.set(path, texture);
+          return texture;
+        };
+
+        const animationEntries = await Promise.all(
+          Object.entries(resolvedInteractions.animations).map(
+            async ([animationName, spec]) => {
+              const texture = await loadTexture(
+                spec.spritesheetPath ?? manifest.spritesheetPath,
+              );
+              const frames = buildAnimationFrameRects(
+                spec,
+                CELL_WIDTH,
+                CELL_HEIGHT,
+              ).map(
+                (frame) =>
+                  new Texture({
+                    source: texture.source,
+                    frame: new Rectangle(
+                      frame.x,
+                      frame.y,
+                      frame.width,
+                      frame.height,
+                    ),
+                  }),
+              );
+
+              if (spec.finishFramePath) {
+                frames.push(await loadTexture(spec.finishFramePath));
+              }
+
+              return [animationName, frames] as const;
+            },
+          ),
         );
-        const iconHugSpritesheetUrl = resolvePetAssetUrl(
-          petId,
-          getPetIconHugSpritesheetPath(manifest),
-        );
-        const throwFinishPath = getPetThrowFinishPath(manifest);
-        const throwFinishUrl = throwFinishPath
-          ? resolvePetAssetUrl(petId, throwFinishPath)
-          : null;
-        const [texture, iconHugTexture, throwFinishTexture] = await Promise.all([
-          Assets.load<Texture>(spritesheetUrl),
-          Assets.load<Texture>(iconHugSpritesheetUrl),
-          throwFinishUrl
-            ? Assets.load<Texture>(throwFinishUrl)
-            : Promise.resolve<Texture | null>(null),
-        ]);
 
         if (disposed) {
           destroyApp();
           return;
         }
 
-        const fishEatAnimation = getPetAnimationRowSpec(petId, "fishEat");
-        const fishEatFrames = sliceRowFrames(
-          texture,
-          fishEatAnimation.row,
-          fishEatAnimation.frames,
+        const animations = Object.fromEntries(animationEntries) as Record<
+          AnimationName,
+          Texture[]
+        >;
+        const idleAnimationName = resolvedInteractions.idle.animation;
+        const idleAnimation = getInteractionAnimationSpec(
+          resolvedInteractions,
+          idleAnimationName,
         );
-        const animations: Record<AnimationName, Texture[]> = {
-          idle: sliceRowFrames(
-            texture,
-            ANIMATION_ROWS.idle.row,
-            ANIMATION_ROWS.idle.frames,
-          ),
-          drag: sliceRowFrames(
-            texture,
-            ANIMATION_ROWS.drag.row,
-            ANIMATION_ROWS.drag.frames,
-          ),
-          tickle: sliceRowFrames(
-            texture,
-            ANIMATION_ROWS.tickle.row,
-            ANIMATION_ROWS.tickle.frames,
-          ),
-          fishChase: sliceRowFrames(
-            texture,
-            ANIMATION_ROWS.fishChase.row,
-            ANIMATION_ROWS.fishChase.frames,
-          ),
-          fishEat: fishEatFrames,
-          iconHug: sliceRowFrames(
-            iconHugTexture,
-            ANIMATION_ROWS.iconHug.row,
-            ANIMATION_ROWS.iconHug.frames,
-          ),
-          crouchAlert: sliceRowFrames(
-            texture,
-            ANIMATION_ROWS.crouchAlert.row,
-            ANIMATION_ROWS.crouchAlert.frames,
-          ),
-          hugFish: sliceRowFrames(
-            texture,
-            ANIMATION_ROWS.hugFish.row,
-            ANIMATION_ROWS.hugFish.frames,
-          ),
-          gnawFish: appendPetAnimationFinishFrame(
-            petId,
-            "gnawFish",
-            sliceRowFrames(
-              texture,
-              ANIMATION_ROWS.gnawFish.row,
-              ANIMATION_ROWS.gnawFish.frames,
-            ),
-            throwFinishTexture,
-          ),
-        };
-        animationsRef.current = animations;
-        const idleAnimationName = getPetIdleAnimationName(petId);
-        const idleAnimation = getPetAnimationRowSpec(petId, idleAnimationName);
         const sprite = new AnimatedSprite({
           textures: animations[idleAnimationName],
           animationSpeed: idleAnimation.speed,
@@ -1553,10 +1676,20 @@ function DesktopPetApp() {
           loop: idleAnimation.loop,
         });
 
+        animationsRef.current = animations;
+        animationSpecsRef.current = resolvedInteractions.animations;
+        interactionManifestRef.current = resolvedInteractions;
         currentAnimation.current = idleAnimationName;
+        currentFacing.current = "right";
+        markAnimationState(idleAnimationName);
+        desktopIconState.current = {
+          activeIconKey: null,
+          firstSeenAt: null,
+          lastTriggeredAt: null,
+        };
         spriteRef.current = sprite;
         sprite.anchor.set(0.5, 1);
-        sprite.scale.set(getPetAnimationVisualScale(manifest, idleAnimationName));
+        applySpriteVisual(sprite, idleAnimationName);
         sprite.x = app.screen.width / 2;
         sprite.y = app.screen.height - 6;
         app.stage.addChild(sprite);
@@ -1564,8 +1697,8 @@ function DesktopPetApp() {
         host.dataset.petLoaded = "true";
         host.dataset.petId = manifest.id;
         host.dataset.spriteSource = manifest.spritesheetPath;
-        host.dataset.iconHugSource = getPetIconHugSpritesheetPath(manifest);
-        host.dataset.throwFinishSource = throwFinishPath ?? "";
+        host.dataset.animationCount = String(animationEntries.length);
+        host.dataset.desktopIconEnabled = String(resolvedInteractions.desktopIcon.enabled);
         recordInteraction("app_ready");
         desktopIconProbeTimer.current = window.setInterval(
           probeDesktopIconInteraction,
@@ -1573,8 +1706,16 @@ function DesktopPetApp() {
         );
 
         app.ticker.add(() => {
-          sprite.x = app.screen.width / 2;
-          sprite.y = app.screen.height - 6;
+          const spec = getAnimationSpec(currentAnimation.current);
+          const transform = spec
+            ? getPetAnimationTransform(
+                spec,
+                currentFacing.current,
+                getAnimationDirectionMode(currentAnimation.current),
+              )
+            : { offsetX: 0, offsetY: 0 };
+          sprite.x = app.screen.width / 2 + transform.offsetX;
+          sprite.y = app.screen.height - 6 + transform.offsetY;
         });
       })
       .catch(() => {
@@ -1595,6 +1736,8 @@ function DesktopPetApp() {
       }
       spriteRef.current = null;
       animationsRef.current = null;
+      animationSpecsRef.current = null;
+      interactionManifestRef.current = null;
       destroyApp();
     };
   }, [activePetId, isPlatformOpen]);
@@ -1724,6 +1867,15 @@ function DesktopPetApp() {
             />
           )}
         </section>
+      )}
+      {pendingUpdate && (
+        <UpdateDialog
+          currentVersion={pendingUpdate.currentVersion}
+          latestVersion={pendingUpdate.latestVersion}
+          notes={pendingUpdate.notes}
+          onCancel={cancelPendingUpdate}
+          onConfirm={confirmPendingUpdate}
+        />
       )}
     </main>
   );
