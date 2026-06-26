@@ -273,6 +273,9 @@ function MarketingPage() {
               下载 Windows 安装包
             </h2>
             <p id="download-dialog-desc" className="download-dialog-desc">
+              愈心桌宠是一款轻量的桌面陪伴应用，让小橘、ds、ikun、蒜鸟在桌面上待机陪伴，支持点击、双击、拖拽和桌面图标互动，也会在合适的时候提醒你护眼、喝水、吃饭、睡觉。
+              <br />
+              <br />
               此安装包仅适用于 <strong>Windows 系统（64位）</strong>。
               <br />
               请确认你的电脑是 Windows 操作系统后再下载。

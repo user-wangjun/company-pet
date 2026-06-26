@@ -5,6 +5,48 @@
   "spritesheetPath": "spritesheet.webp",
   "previewPath": "preview.png",
   "dialoguesPath": "dialogues.json",
+  "animations": {
+    "idle": { "row": 0, "frames": 6, "speed": 0.05, "loop": true, "visualClass": "ordinary", "scale": 1 },
+    "dragRight": { "row": 1, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1.1 },
+    "dragLeft": { "row": 2, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1.1 },
+    "singleClick": { "row": 3, "frames": 8, "speed": 0.16, "loop": false, "visualClass": "ordinary", "scale": 0.95 },
+    "spin": { "row": 4, "frames": 8, "speed": 0.12, "loop": true, "visualClass": "ordinary", "scale": 1 },
+    "peek": { "row": 5, "frames": 8, "speed": 0.12, "loop": true, "visualClass": "ordinary", "scale": 1 },
+    "yawn": { "row": 6, "frames": 8, "speed": 0.14, "loop": false, "visualClass": "ordinary", "scale": 1.12 },
+    "activeJump": { "row": 7, "frames": 8, "speed": 0.18, "loop": true, "visualClass": "pose-change", "scale": 1.1 },
+    "happyFinish": { "row": 8, "frames": 6, "speed": 0.14, "loop": false, "visualClass": "ordinary", "scale": 1 }
+  },
+  "interactions": {
+    "idle": { "animation": "idle", "dialogueEvent": "idle" },
+    "singleClick": { "animation": "singleClick", "durationMs": 1200, "dialogueEvent": "singleClick" },
+    "doubleClick": {
+      "sequence": [
+        { "animation": "activeJump", "startAfterMs": 0, "durationMs": 950, "dialogueEvent": "doubleClick" },
+        { "animation": "happyFinish", "startAfterMs": 950, "durationMs": 1300, "dialogueEvent": "doubleClick" }
+      ]
+    },
+    "drag": { "directionMode": "rows", "right": "dragRight", "left": "dragLeft", "landingHoldMs": 900 },
+    "hover": { "enabled": false },
+    "desktopIcon": {
+      "enabled": true,
+      "action": { "animation": "peek", "durationMs": 2400 },
+      "positioning": "peek",
+      "allowedSide": "any"
+    },
+    "reminders": {
+      "eyeCare": { "animation": "yawn", "durationMs": 3200, "dialogueEvent": "eyeCare" },
+      "water": { "animation": "idle", "durationMs": 5000, "dialogueEvent": "water" },
+      "meal": { "animation": "idle", "durationMs": 5000, "dialogueEvent": "meal" },
+      "sleep": { "animation": "yawn", "durationMs": 8000, "dialogueEvent": "sleep" }
+    },
+    "idleQuirks": [
+      { "animation": "happyFinish", "durationMs": 2200 },
+      { "animation": "spin", "durationMs": 2600 },
+      { "animation": "yawn", "durationMs": 3000 },
+      { "animation": "peek", "durationMs": 2400 },
+      { "animation": "singleClick", "durationMs": 1800 }
+    ]
+  },
   "animationScales": {
     "idle": 1,
     "drag": 1.1,

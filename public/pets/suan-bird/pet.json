@@ -4,5 +4,42 @@
   "description": "一只戴着绿色领巾、头顶蒜瓣的小圆鸟，会扑扑翅膀、晃晃蒜叶，也会开心地陪在桌面上。",
   "spritesheetPath": "spritesheet.webp",
   "previewPath": "preview.png",
-  "dialoguesPath": "dialogues.json"
+  "dialoguesPath": "dialogues.json",
+  "animations": {
+    "idle": { "row": 0, "frames": 6, "speed": 0.05, "loop": true, "visualClass": "ordinary", "scale": 1 },
+    "dragRight": { "row": 1, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1 },
+    "dragLeft": { "row": 2, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1 },
+    "singleClick": { "row": 3, "frames": 8, "speed": 0.16, "loop": false, "visualClass": "pose-change", "scale": 1 },
+    "water": { "row": 4, "frames": 8, "speed": 0.12, "loop": false, "visualClass": "ordinary", "scale": 1 },
+    "eyeCare": { "row": 5, "frames": 8, "speed": 0.12, "loop": false, "visualClass": "ordinary", "scale": 1 },
+    "meal": { "row": 6, "frames": 8, "speed": 0.14, "loop": false, "visualClass": "ordinary", "scale": 1 },
+    "doubleClick": { "row": 7, "frames": 8, "speed": 0.18, "loop": false, "visualClass": "pose-change", "scale": 1 },
+    "sleep": { "row": 8, "frames": 6, "speed": 0.14, "loop": false, "visualClass": "pose-change", "scale": 1 }
+  },
+  "interactions": {
+    "idle": { "animation": "idle", "dialogueEvent": "idle" },
+    "singleClick": { "animation": "singleClick", "durationMs": 1400, "dialogueEvent": "singleClick" },
+    "doubleClick": { "animation": "doubleClick", "durationMs": 2000, "dialogueEvent": "doubleClick" },
+    "drag": {
+      "directionMode": "rows",
+      "right": "dragRight",
+      "left": "dragLeft",
+      "takeoffFrame": 0,
+      "loopStartFrame": 1,
+      "loopFrameCount": 6,
+      "landingApproachFrame": 6,
+      "landingFrame": 7,
+      "landingTransitionSpeed": 0.25,
+      "landingHoldMs": 350
+    },
+    "hover": { "enabled": false },
+    "desktopIcon": { "enabled": false },
+    "reminders": {
+      "eyeCare": { "animation": "eyeCare", "durationMs": 3200, "dialogueEvent": "eyeCare" },
+      "water": { "animation": "water", "durationMs": 3200, "dialogueEvent": "water" },
+      "meal": { "animation": "meal", "durationMs": 3600, "dialogueEvent": "meal" },
+      "sleep": { "animation": "sleep", "durationMs": 8000, "dialogueEvent": "sleep" }
+    },
+    "idleQuirks": []
+  }
 }

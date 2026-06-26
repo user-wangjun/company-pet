@@ -1,9 +1,29 @@
+import type { PetDragSpec, PetFacing } from "./petInteractionManifest";
 export const DRAG_THRESHOLD_PX = 6;
 export const HOVER_EAT_DELAY_MS = 800;
 export const DESKTOP_ICON_INTERACTION_DISTANCE_PX = 38;
 export const DESKTOP_ICON_INTERACTION_DELAY_MS = 5000;
 export const DESKTOP_ICON_INTERACTION_COOLDOWN_MS = 15000;
 
+export const SECONDARY_DOUBLE_CLICK_MS = 350;
+
+export function registerSecondaryClick(
+  lastClickAt: number | null,
+  now: number,
+): { triggered: boolean; lastClickAt: number | null } {
+  if (lastClickAt !== null && now - lastClickAt <= SECONDARY_DOUBLE_CLICK_MS) {
+    return { triggered: true, lastClickAt: null };
+  }
+
+  return { triggered: false, lastClickAt: now };
+}
+
+export function resolveDragAnimationName(
+  drag: PetDragSpec,
+  facing: PetFacing,
+): string {
+  return facing === "left" ? drag.left : drag.right;
+}
 
 type DragThresholdInput = {
   startX: number;
@@ -185,6 +205,7 @@ export function getPetIdleBubbleText(
   return isIkunPet(petId) ? IKUN_IDLE_BUBBLE : fallbackBubbleText;
 }
 
+/** @deprecated Task 8 replaces this with resolved manifest interactions.drag. */
 export function getPetDragStartAction(petId: string): PetInteractionAction {
   if (isIkunPet(petId)) {
     return {
@@ -216,6 +237,7 @@ export function getPetDragStartAction(petId: string): PetInteractionAction {
   };
 }
 
+/** @deprecated Task 8 replaces this with resolved manifest interactions.drag. */
 export function getPetDragEndAction(petId: string): PetInteractionAction {
   if (isIkunPet(petId)) {
     return {
@@ -517,14 +539,9 @@ export function getPetIdleQuirkActions(petId: string): PetIdleQuirkAction[] {
 
 export function getPetDesktopIconInteractionAction(
   petId: string,
-): PetInteractionAction {
-  if (isIkunPet(petId)) {
-    return {
-      animation: "drag",
-      sound: "drag",
-      bubbleText: "姬霓太美",
-      durationMs: 1800,
-    };
+): PetInteractionAction | null {
+  if (isIkunPet(petId) || isSuanBirdPet(petId)) {
+    return null;
   }
 
   if (isDsPet(petId)) {

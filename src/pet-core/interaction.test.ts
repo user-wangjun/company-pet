@@ -26,6 +26,8 @@ import {
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
+  registerSecondaryClick,
+  resolveDragAnimationName,
   shouldStartDrag,
   shouldResumeHoverAfterInteraction,
   shouldTriggerHoverEat,
@@ -33,6 +35,37 @@ import {
 } from "./interaction";
 
 describe("desktop pet interaction rules", () => {
+  test("triggers update only on the second right click", () => {
+    const first = registerSecondaryClick(null, 1000);
+    expect(first).toEqual({ triggered: false, lastClickAt: 1000 });
+
+    expect(registerSecondaryClick(first.lastClickAt, 1250)).toEqual({
+      triggered: true,
+      lastClickAt: null,
+    });
+  });
+
+  test("does not treat a delayed right click as a double click", () => {
+    expect(registerSecondaryClick(1000, 1400)).toEqual({
+      triggered: false,
+      lastClickAt: 1400,
+    });
+  });
+
+  test("resolves directional drag animation names", () => {
+    expect(
+      resolveDragAnimationName(
+        { directionMode: "rows", right: "dragRight", left: "dragLeft" },
+        "left",
+      ),
+    ).toBe("dragLeft");
+    expect(
+      resolveDragAnimationName(
+        { directionMode: "mirror-left", right: "stepBack", left: "stepBack" },
+        "left",
+      ),
+    ).toBe("stepBack");
+  });
   test("starts dragging only after the pointer moves past the threshold", () => {
     expect(shouldStartDrag({ startX: 100, startY: 100, x: 103, y: 103 })).toBe(
       false,
@@ -462,13 +495,12 @@ describe("desktop pet interaction rules", () => {
     expect(getDesktopIconHugAnimationName()).toBe("iconHug");
   });
 
-  test("uses tie-shan-kao instead of icon hugging for ikun desktop icon interaction", () => {
-    expect(getPetDesktopIconInteractionAction("ikun")).toEqual({
-      animation: "drag",
-      sound: "drag",
-      bubbleText: "姬霓太美",
-      durationMs: 1800,
-    });
+  test("leaves desktop icon interaction disabled for pets without icon actions", () => {
+    expect(getPetDesktopIconInteractionAction("ikun")).toBeNull();
+    expect(getPetDesktopIconInteractionAction("suan-bird")).toBeNull();
+  });
+
+  test("uses a holding pose for xiaoju desktop icon interaction", () => {
     expect(getPetDesktopIconInteractionAction("xiaoju-cat")).toEqual({
       animation: "iconHug",
       sound: "iconHug",

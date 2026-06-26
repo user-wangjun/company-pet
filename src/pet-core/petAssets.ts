@@ -1,4 +1,8 @@
 import type { RuntimeAnimationName } from "./interaction";
+import type {
+  PetAnimationSpec,
+  PetManifestInteractions,
+} from "./petInteractionManifest";
 
 export const DEFAULT_PET_ID = "xiaoju-cat";
 
@@ -25,6 +29,8 @@ export type PetManifest = {
   rigPath?: string;
   actionBoardPath?: string;
   dialoguesPath?: string;
+  animations: Record<string, PetAnimationSpec>;
+  interactions: PetManifestInteractions;
   animationScales?: Partial<Record<RuntimeAnimationName, number>>;
   sounds?: PetManifestSounds;
 };
@@ -38,6 +44,44 @@ export type PetCatalogItem = PetManifest & {
 
 function trimSlashes(value: string): string {
   return value.replace(/^\/+|\/+$/g, "");
+}
+
+function isSafeDecodedPetRelativePath(value: string): boolean {
+  const normalized = value.replace(/\\/g, "/");
+  if (
+    normalized.trim().length === 0 ||
+    normalized.startsWith("/") ||
+    normalized.includes("?") ||
+    normalized.includes("#") ||
+    normalized.includes(":")
+  ) {
+    return false;
+  }
+
+  return normalized
+    .split("/")
+    .every((segment) => segment !== "." && segment !== "..");
+}
+
+export function isSafePetRelativePath(value: string): boolean {
+  if (typeof value !== "string" || value.trim().length === 0) return false;
+
+  let decoded = value;
+  for (let pass = 0; pass < 10; pass += 1) {
+    if (!isSafeDecodedPetRelativePath(decoded)) return false;
+
+    let next: string;
+    try {
+      next = decodeURIComponent(decoded);
+    } catch {
+      return false;
+    }
+
+    if (next === decoded) return true;
+    decoded = next;
+  }
+
+  return false;
 }
 
 export function getPetBasePath(petId: string): string {

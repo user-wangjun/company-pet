@@ -1,4 +1,5 @@
 import type { RuntimeAnimationName } from "./interaction";
+import type { PetAnimationSpec } from "./petInteractionManifest";
 
 export type AnimationRowSpec = {
   row: number;
@@ -7,6 +8,33 @@ export type AnimationRowSpec = {
   loop: boolean;
 };
 
+export type AnimationFrameRect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export function buildAnimationFrameRects(
+  spec: PetAnimationSpec,
+  cellWidth: number,
+  cellHeight: number,
+): AnimationFrameRect[] {
+  return Array.from({ length: spec.frames }, (_, index) => ({
+    x: index * cellWidth,
+    y: spec.row * cellHeight,
+    width: cellWidth,
+    height: cellHeight,
+  }));
+}
+
+export function buildDragLandingFrameIndexes(input: {
+  currentFrame: number;
+  approachFrame: number;
+  landingFrame: number;
+}): number[] {
+  return [input.currentFrame, input.approachFrame, input.landingFrame];
+}
 export type DragFramePlan = {
   takeoffFrame: number;
   loopStartFrame: number;
