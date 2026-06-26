@@ -1,4 +1,5 @@
 import { describe, expect, test, vi } from "vitest";
+import packageMetadata from "../../package.json";
 import {
   checkForLatestRelease,
   compareSemanticVersions,
@@ -98,6 +99,6 @@ describe("update checking", () => {
   });
 
   test("falls back to package metadata outside Tauri", async () => {
-    await expect(getCurrentAppVersion()).resolves.toBe("0.2.2");
+    await expect(getCurrentAppVersion()).resolves.toBe(packageMetadata.version);
   });
 });

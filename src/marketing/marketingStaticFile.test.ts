@@ -222,6 +222,23 @@ describe("static marketing file", () => {
     expect(html).not.toContain("亟待开发中");
   });
 
+  test("introduces the product on download and GitHub release surfaces", () => {
+    const html = readFileSync(staticMarketingHtmlPath, "utf8");
+    const releaseWorkflow = readFileSync(
+      resolve(".github/workflows/release.yml"),
+      "utf8",
+    );
+
+    expect(html).toContain("愈心桌宠是一款轻量的桌面陪伴应用");
+    expect(html).toContain("点击、双击、拖拽");
+    expect(html).toContain("护眼、喝水、吃饭、睡觉");
+
+    expect(releaseWorkflow).toContain("## 产品介绍");
+    expect(releaseWorkflow).toContain("愈心桌宠是一款轻量的桌面陪伴应用");
+    expect(releaseWorkflow).toContain("点击、双击、拖拽");
+    expect(releaseWorkflow).toContain("护眼、喝水、吃饭、睡觉");
+  });
+
   test("keeps React marketing WeChat popover styles wired to the morning hit target", () => {
     const css = readFileSync(appStylesPath, "utf8");
 
