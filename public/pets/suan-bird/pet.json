@@ -2,7 +2,7 @@
   "id": "suan-bird",
   "displayName": "蒜鸟",
   "description": "一只戴着绿色领巾、头顶蒜瓣的小圆鸟，会扑扑翅膀、晃晃蒜叶，也会开心地陪在桌面上。",
-  "spritesheetPath": "spritesheet.webp",
+  "spritesheetPath": "spritesheet.png",
   "previewPath": "preview.png",
   "dialoguesPath": "dialogues.json",
   "animations": {

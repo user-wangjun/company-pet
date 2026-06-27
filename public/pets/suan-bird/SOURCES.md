@@ -13,11 +13,11 @@
   versions of the generated strips.
 - `action-sources/row-*.png`: normalized transparent action rows selected from
   the generated strips and fitted to 192x208 runtime cells.
-- `spritesheet.webp`: package atlas assembled from the action row strips with
+- `spritesheet.png`: package atlas assembled from the action row strips with
   transparent 192x208 runtime cells.
 - `qa/build_atlas.py`: deterministic component extraction and atlas build script.
 - `qa/validate_render_quality.py`: regression checks for atlas dimensions,
-  transparency, WebP fidelity, and minimum facial-detail quality.
+  transparency, image fidelity, and minimum facial-detail quality.
 - `qa/contact-sheet.png`: visual QA sheet for all 9 runtime rows.
 - `qa/previews/*.gif`: per-row motion previews.
 - `qa/validation.json`: atlas geometry and transparency validation.

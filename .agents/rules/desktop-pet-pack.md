@@ -13,6 +13,7 @@ This repository is a desktop-pet platform. Keep pet content isolated from platfo
 - Use lowercase stable ids with hyphens.
 - The package folder name and `pet.json` `id` must match.
 - `pet.json` asset paths must be relative to the package folder.
+- Runtime spritesheets loaded by Pixi must be PNG for macOS WebView compatibility.
 - The default built-in pet id is `DEFAULT_PET_ID` in `src/pet-core/petAssets.ts`.
 - Do not hardcode `/pets/<pet-id>` in UI code; use `getPetManifestUrl()` and `resolvePetAssetUrl()`.
 - When adding a new pet, use the v1 pet creation workflow:

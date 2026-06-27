@@ -110,7 +110,7 @@ describe("pet asset paths", () => {
       id: "xiaoju-cat",
       displayName: "小橘",
       description: "一只橘黄色毛绒小猫咪。",
-      spritesheetPath: "spritesheet-scruff.webp",
+      spritesheetPath: "spritesheet-scruff.png",
       animations: {
         idle: {
           row: 0,
@@ -138,7 +138,7 @@ describe("pet asset paths", () => {
   test("keeps the built-in pet package in the public assets tree", () => {
     expect(petIndex.pets).toContain(DEFAULT_PET_ID);
     expect(builtInPetManifest.id).toBe(DEFAULT_PET_ID);
-    expect(builtInPetManifest.spritesheetPath).toBe("spritesheet-scruff.webp");
+    expect(builtInPetManifest.spritesheetPath).toBe("spritesheet-scruff.png");
     expect(builtInPetManifest.dialoguesPath).toBe("dialogues.json");
     expect(resolvePetAssetUrl("xiaoju-cat", builtInPetManifest.dialoguesPath)).toBe(
       "/pets/xiaoju-cat/dialogues.json",
@@ -192,17 +192,32 @@ describe("pet asset paths", () => {
     for (const manifest of builtInManifests) visit(manifest, manifest);
   });
 
+  test("uses png runtime texture assets for mac webview compatibility", () => {
+    const runtimeTexturePaths = builtInManifests.flatMap((manifest) => [
+      manifest.spritesheetPath,
+      ...Object.values(manifest.animations).flatMap((spec) => [
+        spec.spritesheetPath,
+        spec.finishFramePath,
+      ]),
+    ]);
+
+    for (const path of runtimeTexturePaths) {
+      if (!path) continue;
+      expect(path.toLowerCase().endsWith(".png"), path).toBe(true);
+    }
+  });
+
   test("declares ikun as a second isolated pet package", () => {
     expect(petIndex.pets).toContain("ikun");
     expect(ikunManifest.id).toBe("ikun");
-    expect(ikunManifest.spritesheetPath).toBe("spritesheet.webp");
+    expect(ikunManifest.spritesheetPath).toBe("spritesheet.png");
     expect(ikunManifest.previewPath).toBe("preview.png");
     expect(ikunManifest.dialoguesPath).toBe("dialogues.json");
     expect(resolvePetAssetUrl("ikun", ikunManifest.spritesheetPath)).toBe(
-      "/pets/ikun/spritesheet.webp",
+      "/pets/ikun/spritesheet.png",
     );
-    expect(resolvePetAssetUrl("ikun", "icon-hug.webp")).toBe(
-      "/pets/ikun/icon-hug.webp",
+    expect(resolvePetAssetUrl("ikun", "icon-hug.png")).toBe(
+      "/pets/ikun/icon-hug.png",
     );
     expect(resolvePetAssetUrl("ikun", ikunManifest.dialoguesPath)).toBe(
       "/pets/ikun/dialogues.json",
@@ -213,11 +228,11 @@ describe("pet asset paths", () => {
   test("declares ds as a third isolated pet package", () => {
     expect(petIndex.pets).toContain("ds");
     expect(dsManifest.id).toBe("ds");
-    expect(dsManifest.spritesheetPath).toBe("spritesheet.webp");
+    expect(dsManifest.spritesheetPath).toBe("spritesheet.png");
     expect(dsManifest.previewPath).toBe("preview.png");
     expect(dsManifest.dialoguesPath).toBe("dialogues.json");
     expect(resolvePetAssetUrl("ds", dsManifest.spritesheetPath)).toBe(
-      "/pets/ds/spritesheet.webp",
+      "/pets/ds/spritesheet.png",
     );
     expect(resolvePetAssetUrl("ds", dsManifest.previewPath)).toBe(
       "/pets/ds/preview.png",
@@ -250,11 +265,11 @@ describe("pet asset paths", () => {
     expect(petIndex.pets).toContain("suan-bird");
     expect(suanBirdManifest.id).toBe("suan-bird");
     expect(suanBirdManifest.displayName).toBe("蒜鸟");
-    expect(suanBirdManifest.spritesheetPath).toBe("spritesheet.webp");
+    expect(suanBirdManifest.spritesheetPath).toBe("spritesheet.png");
     expect(suanBirdManifest.previewPath).toBe("preview.png");
     expect(suanBirdManifest.dialoguesPath).toBe("dialogues.json");
     expect(resolvePetAssetUrl("suan-bird", suanBirdManifest.spritesheetPath)).toBe(
-      "/pets/suan-bird/spritesheet.webp",
+      "/pets/suan-bird/spritesheet.png",
     );
     expect(resolvePetAssetUrl("suan-bird", suanBirdManifest.previewPath)).toBe(
       "/pets/suan-bird/preview.png",
@@ -637,9 +652,9 @@ describe("pet asset paths", () => {
         displayName: "小橘",
         description:
           "一只橘黄色毛绒小猫咪，会睡觉、抓鱼、吃鱼、跳来跳去，也会陪你等结果。",
-        spritesheetPath: "spritesheet-scruff.webp",
+        spritesheetPath: "spritesheet-scruff.png",
         manifestUrl: "/pets/xiaoju-cat/pet.json",
-        previewUrl: "/pets/xiaoju-cat/spritesheet-scruff.webp",
+        previewUrl: "/pets/xiaoju-cat/spritesheet-scruff.png",
         previewKind: "spritesheet",
         isActive: true,
       },

@@ -2,12 +2,12 @@
 
 Desktop pet package created from the provided three-view reference image.
 
-- `spritesheet.webp` contains the source-image-rigged action set across the existing 192x208 cell grid.
+- `spritesheet.png` contains the source-image-rigged action set across the existing 192x208 cell grid.
 - `actions.json` records the action series, row numbers, frame counts, basketball-prop timing, and current temporary runtime row mapping.
 - `rig.json` records the movable body joints, basketball whole-prop rule, front/back view rule, and strap constraints.
 - `action-board.json` separates current atlas rows from future precision redraws and marks the first simple actions now implemented in the atlas.
 - `pose-map.json` records the Bilibili source URL, video-linked rows, and prototype frame semantics.
-- `icon-hug.webp` is a short warming/shiver placeholder sheet required by the current platform loader.
+- `icon-hug.png` is a short warming/shiver placeholder sheet required by the current platform loader.
 - `reference.png` keeps the original source image in the pet package for future animation work.
 - `qa/contact-sheet.png` and `qa/previews/` are visual QA artifacts for reviewing the animations.
 

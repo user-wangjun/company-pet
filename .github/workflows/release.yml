@@ -328,13 +328,18 @@ jobs:
 
           exe_file="${exes[0]}"
           dmg_file="${dmgs[0]}"
+          release_version="${TAG_NAME#v}"
+          upload_exe="release-assets/yuxin-desktop-pet-${release_version}-windows-x64-setup.exe"
+          upload_dmg="release-assets/yuxin-desktop-pet-${release_version}-macos-arm64.dmg"
+          mv "$exe_file" "$upload_exe"
+          mv "$dmg_file" "$upload_dmg"
           existing_assets=()
           mapfile -t existing_assets < <(gh release view "$TAG_NAME" --json assets --jq '.assets[].name')
           for asset in "${existing_assets[@]}"; do
             gh release delete-asset "$TAG_NAME" "$asset" --yes
           done
 
-          gh release upload "$TAG_NAME" "$exe_file" "$dmg_file" --clobber
+          gh release upload "$TAG_NAME" "$upload_exe" "$upload_dmg" --clobber
 
           remote_assets=()
           mapfile -t remote_assets < <(gh release view "$TAG_NAME" --json assets --jq '.assets[].name')

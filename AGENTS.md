@@ -16,7 +16,7 @@ Minimum package shape:
 public/pets/index.json
 public/pets/<pet-id>/
   pet.json
-  spritesheet.webp
+  spritesheet.png
   preview.png          # optional, for future platform picker UI
   README.md            # optional notes for this pet
 ```
@@ -28,7 +28,7 @@ Minimum `pet.json` fields:
   "id": "xiaoju-cat",
   "displayName": "小橘",
   "description": "一只橘黄色毛绒小猫咪。",
-  "spritesheetPath": "spritesheet.webp"
+  "spritesheetPath": "spritesheet.png"
 }
 ```
 
@@ -37,6 +37,7 @@ Minimum `pet.json` fields:
 - `public/pets/index.json` is the platform registry. Add every built-in pet id to its `pets` array.
 - The built-in default pet id lives in `src/pet-core/petAssets.ts` as `DEFAULT_PET_ID`.
 - Do not hardcode `/pets/<pet-id>` in components. Use `getPetManifestUrl()` and `resolvePetAssetUrl()`.
+- Runtime spritesheets loaded by Pixi must be PNG for macOS WebView compatibility.
 - When changing the default pet or adding pet asset path behavior, update `src/pet-core/petAssets.test.ts`.
 
 ## Adding A New Pet
