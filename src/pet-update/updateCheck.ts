@@ -10,7 +10,15 @@ type ReleaseResponse = {
   tag_name: string;
   body?: string | null;
   html_url?: string | null;
+  assets?: ReleaseAsset[] | null;
 };
+
+type ReleaseAsset = {
+  name?: string | null;
+  browser_download_url?: string | null;
+};
+
+type InstallerPlatform = "windows" | "macos";
 
 export type UpdateCheckResult =
   | { status: "current"; currentVersion: string }
@@ -20,6 +28,7 @@ export type UpdateCheckResult =
       latestVersion: string;
       notes: string;
       releaseUrl: string;
+      downloadUrl: string;
     }
   | { status: "failed"; message: string };
 
@@ -59,9 +68,27 @@ export async function fetchLatestRelease(): Promise<ReleaseResponse> {
   return response.json() as Promise<ReleaseResponse>;
 }
 
+function getCurrentInstallerPlatform(): InstallerPlatform {
+  const userAgent =
+    typeof navigator === "undefined" ? "" : navigator.userAgent.toLowerCase();
+  return userAgent.includes("mac") ? "macos" : "windows";
+}
+
+function selectInstallerDownloadUrl(
+  release: ReleaseResponse,
+  platform: InstallerPlatform,
+): string | null {
+  const extension = platform === "macos" ? ".dmg" : ".exe";
+  const asset = release.assets?.find((item) =>
+    item.name?.toLowerCase().endsWith(extension),
+  );
+  return asset?.browser_download_url?.trim() || null;
+}
+
 export async function checkForLatestRelease(
   currentVersion: string,
   fetcher: () => Promise<ReleaseResponse> = fetchLatestRelease,
+  platform: InstallerPlatform = getCurrentInstallerPlatform(),
 ): Promise<UpdateCheckResult> {
   try {
     const release = await fetcher();
@@ -75,12 +102,18 @@ export async function checkForLatestRelease(
       return { status: "current", currentVersion };
     }
 
+    const downloadUrl = selectInstallerDownloadUrl(release, platform);
+    if (!downloadUrl) {
+      return { status: "failed", message: "未找到适合当前系统的安装包。" };
+    }
+
     return {
       status: "available",
       currentVersion,
       latestVersion,
       notes: release.body?.trim() || "新版本已发布。",
       releaseUrl: release.html_url?.trim() || GITHUB_RELEASE_PAGE,
+      downloadUrl,
     };
   } catch {
     return { status: "failed", message: "检查更新失败，请稍后再试。" };

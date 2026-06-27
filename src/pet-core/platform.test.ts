@@ -1,3 +1,9 @@
+// @ts-expect-error Vitest runs this in Node, while the app tsconfig keeps Node
+// types out of browser code.
+import { readFileSync } from "node:fs";
+// @ts-expect-error Vitest runs this in Node, while the app tsconfig keeps Node
+// types out of browser code.
+import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
 import {
   APP_DISPLAY_NAME,
@@ -7,6 +13,9 @@ import {
   PLATFORM_START_OPEN,
 } from "./platform";
 import defaultCapability from "../../src-tauri/capabilities/default.json";
+import tauriConfig from "../../src-tauri/tauri.conf.json";
+
+const tauriCargoToml = readFileSync(resolve("src-tauri/Cargo.toml"), "utf8");
 
 describe("platform branding", () => {
   test("uses Yuxin Desktop Pet as the platform name", () => {
@@ -26,6 +35,14 @@ describe("platform branding", () => {
 
   test("allows the platform and pet modes to resize the native window", () => {
     expect(defaultCapability.permissions).toContain("core:window:allow-set-size");
+  });
+
+  test("enables macOS transparent window rendering support", () => {
+    expect(tauriConfig.app.windows.some((window) => window.transparent)).toBe(
+      true,
+    );
+    expect(tauriConfig.app.macOSPrivateApi).toBe(true);
+    expect(tauriCargoToml).toContain('"macos-private-api"');
   });
 
   test("places the initial pet window at the lower right of the work area", () => {

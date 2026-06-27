@@ -13,6 +13,24 @@ export type TimedCareReminder = {
   key: string;
 };
 
+export type DueCareReminder =
+  | {
+      kind: Extract<PetReminderKind, "meal" | "sleep">;
+      deliveredKey: string;
+      source: "timed";
+    }
+  | {
+      kind: Extract<PetReminderKind, "eyeCare" | "water">;
+      source: "random";
+    };
+
+export type CareReminderSchedule = {
+  now: number;
+  deliveredKeys: string[];
+  nextEyeCareTime: number;
+  nextWaterCareTime: number;
+};
+
 function dateKey(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -45,6 +63,39 @@ export function selectTimedCareReminder(
   }
 
   return reminder && !deliveredKeys.includes(reminder.key) ? reminder : null;
+}
+
+export function selectDueCareReminder({
+  now,
+  deliveredKeys,
+  nextEyeCareTime,
+  nextWaterCareTime,
+}: CareReminderSchedule): DueCareReminder | null {
+  const timedReminder = selectTimedCareReminder(new Date(now), deliveredKeys);
+
+  if (timedReminder) {
+    return {
+      kind: timedReminder.kind,
+      deliveredKey: timedReminder.key,
+      source: "timed",
+    };
+  }
+
+  if (now >= nextEyeCareTime) {
+    return {
+      kind: "eyeCare",
+      source: "random",
+    };
+  }
+
+  if (now >= nextWaterCareTime) {
+    return {
+      kind: "water",
+      source: "random",
+    };
+  }
+
+  return null;
 }
 
 export function markCareReminderDelivered(

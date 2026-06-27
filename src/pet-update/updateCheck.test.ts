@@ -29,10 +29,20 @@ describe("update checking", () => {
       body: "Fixes and animation improvements.",
       html_url:
         "https://github.com/user-wangjun/company-pet/releases/tag/v0.2.3",
+      assets: [
+        {
+          name: "愈心桌宠_0.2.3_aarch64.dmg",
+          browser_download_url: "https://example.test/yuxin-0.2.3.dmg",
+        },
+        {
+          name: "愈心桌宠_0.2.3_x64-setup.exe",
+          browser_download_url: "https://example.test/yuxin-0.2.3.exe",
+        },
+      ],
     }));
 
     await expect(
-      checkForLatestRelease("0.2.2", fetchLatest),
+      checkForLatestRelease("0.2.2", fetchLatest, "windows"),
     ).resolves.toEqual({
       status: "available",
       currentVersion: "0.2.2",
@@ -40,22 +50,57 @@ describe("update checking", () => {
       notes: "Fixes and animation improvements.",
       releaseUrl:
         "https://github.com/user-wangjun/company-pet/releases/tag/v0.2.3",
+      downloadUrl: "https://example.test/yuxin-0.2.3.exe",
     });
   });
 
   test("uses default release notes and page when optional fields are blank", async () => {
     await expect(
-      checkForLatestRelease("0.2.2", async () => ({
-        tag_name: "v0.2.3",
-        body: "  ",
-        html_url: " ",
-      })),
+      checkForLatestRelease(
+        "0.2.2",
+        async () => ({
+          tag_name: "v0.2.3",
+          body: "  ",
+          html_url: " ",
+          assets: [
+            {
+              name: "愈心桌宠_0.2.3_x64-setup.exe",
+              browser_download_url: "https://example.test/yuxin-0.2.3.exe",
+            },
+          ],
+        }),
+        "windows",
+      ),
     ).resolves.toEqual({
       status: "available",
       currentVersion: "0.2.2",
       latestVersion: "0.2.3",
       notes: "新版本已发布。",
       releaseUrl: GITHUB_RELEASE_PAGE,
+      downloadUrl: "https://example.test/yuxin-0.2.3.exe",
+    });
+  });
+
+  test("returns failed when a newer release has no matching installer", async () => {
+    await expect(
+      checkForLatestRelease(
+        "0.2.2",
+        async () => ({
+          tag_name: "v0.2.3",
+          body: "",
+          html_url: "https://example.test/release",
+          assets: [
+            {
+              name: "愈心桌宠_0.2.3_aarch64.dmg",
+              browser_download_url: "https://example.test/yuxin-0.2.3.dmg",
+            },
+          ],
+        }),
+        "windows",
+      ),
+    ).resolves.toEqual({
+      status: "failed",
+      message: "未找到适合当前系统的安装包。",
     });
   });
 

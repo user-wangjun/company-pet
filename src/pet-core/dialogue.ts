@@ -122,3 +122,12 @@ export function getTimedPetDialogueEvent(hour: number): PetDialogueEvent {
 
   return "idle";
 }
+
+export function getAmbientPetDialogueEvent(
+  configuredIdleEvent: PetDialogueEvent | undefined,
+  hour: number,
+): PetDialogueEvent {
+  const timedEvent = getTimedPetDialogueEvent(hour);
+
+  return timedEvent === "idle" ? configuredIdleEvent ?? "idle" : timedEvent;
+}

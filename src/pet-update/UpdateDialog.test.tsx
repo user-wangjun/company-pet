@@ -22,7 +22,7 @@ describe("UpdateDialog", () => {
     expect(html).toContain("最新版本 0.2.3");
     expect(html).toContain("Improved pet interactions.");
     expect(html).toContain("稍后再说");
-    expect(html).toContain("前往下载");
+    expect(html).toContain("下载更新");
   });
 
   test("keeps notes whitespace readable", () => {

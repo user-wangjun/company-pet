@@ -3,6 +3,7 @@ import {
   CARE_REMINDER_STORAGE_KEY,
   markCareReminderDelivered,
   readCareReminderState,
+  selectDueCareReminder,
   selectTimedCareReminder,
   writeCareReminderState,
   type CareReminderStorage,
@@ -56,6 +57,35 @@ describe("care reminder persistence", () => {
         selectTimedCareReminder(new Date(2026, 5, 23, hour, 0), []),
       ).toBeNull();
     }
+  });
+
+  test("prioritizes sleep over overdue random care reminders", () => {
+    expect(
+      selectDueCareReminder({
+        now: new Date(2026, 5, 23, 23, 0).getTime(),
+        deliveredKeys: [],
+        nextEyeCareTime: 0,
+        nextWaterCareTime: 0,
+      }),
+    ).toEqual({
+      kind: "sleep",
+      deliveredKey: "2026-06-23:sleep",
+      source: "timed",
+    });
+  });
+
+  test("selects overdue random reminders only when no timed reminder is due", () => {
+    expect(
+      selectDueCareReminder({
+        now: new Date(2026, 5, 23, 21, 0).getTime(),
+        deliveredKeys: [],
+        nextEyeCareTime: 0,
+        nextWaterCareTime: 0,
+      }),
+    ).toEqual({
+      kind: "eyeCare",
+      source: "random",
+    });
   });
 
   test("deduplicates delivered keys without reordering existing entries", () => {

@@ -93,7 +93,7 @@ import {
   resolvePetAssetUrl,
 } from "./pet-core/petAssets";
 import {
-  getTimedPetDialogueEvent,
+  getAmbientPetDialogueEvent,
   loadPetDialoguePackage,
   resolvePetDialogue,
   type PetDialogueEvent,
@@ -106,7 +106,7 @@ import {
 import {
   markCareReminderDelivered,
   readCareReminderState,
-  selectTimedCareReminder,
+  selectDueCareReminder,
   writeCareReminderState,
   type CareReminderState,
 } from "./pet-core/careReminders";
@@ -379,7 +379,7 @@ function DesktopPetApp() {
       if (result.status === "available") {
         recordInteraction("update_available");
         setPendingUpdate(result);
-        setBubbleText(`发现新版本 ${result.latestVersion}，确认后打开下载页。`);
+        setBubbleText(`发现新版本 ${result.latestVersion}，确认后开始下载安装包。`);
         return;
       }
 
@@ -401,9 +401,9 @@ function DesktopPetApp() {
     setPendingUpdate(null);
     if (!update) return;
 
-    recordInteraction("update_release_open");
-    void openUrl(update.releaseUrl).catch(() => {
-      setBubbleText("打开下载页失败，请稍后再试。");
+    recordInteraction("update_installer_download");
+    void openUrl(update.downloadUrl).catch(() => {
+      setBubbleText("开始下载失败，请稍后再试。");
     });
   };
 
@@ -701,7 +701,10 @@ function DesktopPetApp() {
   const getDefaultBubbleTextForPet = (petId: string) => {
     const resolved = getResolvedInteractionsForPet(petId);
     const idle = resolved?.idle;
-    const dialogueEvent = idle?.dialogueEvent ?? getTimedPetDialogueEvent(new Date().getHours());
+    const dialogueEvent = getAmbientPetDialogueEvent(
+      idle?.dialogueEvent,
+      new Date().getHours(),
+    );
 
     return getBubbleTextForPet(
       petId,
@@ -813,6 +816,7 @@ function DesktopPetApp() {
 
     returnToIdleTimer.current = window.setTimeout(() => {
       if (expectedToken !== playbackToken.current) return;
+      returnToIdleTimer.current = null;
       setBubbleText(getDefaultBubbleText());
       playIdleAnimation();
       if (resumeHoverAfterReturn) {
@@ -1376,6 +1380,28 @@ function DesktopPetApp() {
     playIdleAnimation();
   };
 
+  const scheduleNextRandomCareReminder = (
+    kind: Extract<PetReminderKind, "eyeCare" | "water">,
+    nowTimestamp: number,
+  ) => {
+    if (kind === "eyeCare") {
+      nextEyeCareTime.current = nowTimestamp + randomInRange(30, 50) * 60 * 1000;
+      return;
+    }
+
+    nextWaterCareTime.current = nowTimestamp + randomInRange(60, 90) * 60 * 1000;
+  };
+
+  const postponeOverdueRandomCareReminders = (nowTimestamp: number) => {
+    if (nowTimestamp >= nextEyeCareTime.current) {
+      scheduleNextRandomCareReminder("eyeCare", nowTimestamp);
+    }
+
+    if (nowTimestamp >= nextWaterCareTime.current) {
+      scheduleNextRandomCareReminder("water", nowTimestamp);
+    }
+  };
+
   const playCareReminder = (kind: PetReminderKind, deliveredKey?: string) => {
     const resolved = getActiveInteractionManifest();
     if (!resolved) return false;
@@ -1411,35 +1437,49 @@ function DesktopPetApp() {
   const probeDesktopIconInteraction = () => {
     const resolved = getActiveInteractionManifest();
     if (!resolved) return;
-    if (desktopIconProbeInFlight.current || pointerState.current?.dragging) return;
-    if (
-      resolved.desktopIcon.enabled &&
-      currentAnimation.current === resolved.desktopIcon.action.animation
-    ) {
-      return;
-    }
 
     const nowTimestamp = Date.now();
     if (pointerState.current) {
       nextEyeCareTime.current = Math.max(nextEyeCareTime.current, nowTimestamp + 30000);
       nextWaterCareTime.current = Math.max(nextWaterCareTime.current, nowTimestamp + 30000);
-    } else if (nowTimestamp >= nextEyeCareTime.current) {
-      nextEyeCareTime.current = nowTimestamp + randomInRange(30, 50) * 60 * 1000;
-      if (playCareReminder("eyeCare")) return;
-    } else if (nowTimestamp >= nextWaterCareTime.current) {
-      nextWaterCareTime.current = nowTimestamp + randomInRange(60, 90) * 60 * 1000;
-      if (playCareReminder("water")) return;
-    }
+    } else if (returnToIdleTimer.current === null) {
+      const dueReminder = selectDueCareReminder({
+        now: nowTimestamp,
+        deliveredKeys: careReminderState.current.deliveredKeys,
+        nextEyeCareTime: nextEyeCareTime.current,
+        nextWaterCareTime: nextWaterCareTime.current,
+      });
 
-    if (!pointerState.current) {
-      const timedReminder = selectTimedCareReminder(
-        new Date(nowTimestamp),
-        careReminderState.current.deliveredKeys,
-      );
+      if (dueReminder?.source === "random") {
+        scheduleNextRandomCareReminder(dueReminder.kind, nowTimestamp);
+      }
 
-      if (timedReminder && playCareReminder(timedReminder.kind, timedReminder.key)) {
+      if (
+        dueReminder &&
+        playCareReminder(
+          dueReminder.kind,
+          dueReminder.source === "timed" ? dueReminder.deliveredKey : undefined,
+        )
+      ) {
+        if (dueReminder.source === "timed") {
+          postponeOverdueRandomCareReminders(nowTimestamp);
+        }
         return;
       }
+    }
+
+    if (
+      desktopIconProbeInFlight.current ||
+      pointerState.current?.dragging ||
+      returnToIdleTimer.current !== null
+    ) {
+      return;
+    }
+    if (
+      resolved.desktopIcon.enabled &&
+      currentAnimation.current === resolved.desktopIcon.action.animation
+    ) {
+      return;
     }
 
     if (pointerState.current || Date.now() < iconHugLockedUntil.current) {
@@ -1511,6 +1551,7 @@ function DesktopPetApp() {
         }
 
         if (!result.shouldInteract || !result.target) return;
+        if (returnToIdleTimer.current !== null) return;
 
         const iconTarget = result.target;
         clearHoverEatTimer();

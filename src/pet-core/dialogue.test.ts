@@ -8,6 +8,7 @@ import suanBirdManifest from "../../public/pets/suan-bird/pet.json";
 import xiaojuDialogues from "../../public/pets/xiaoju-cat/dialogues.json";
 import xiaojuManifest from "../../public/pets/xiaoju-cat/pet.json";
 import {
+  getAmbientPetDialogueEvent,
   getTimedPetDialogueEvent,
   loadPetDialoguePackage,
   NEUTRAL_PET_DIALOGUES,
@@ -186,6 +187,12 @@ describe("pet dialogue packages", () => {
     for (const hour of [6, 9, 13, 14, 20, 22]) {
       expect(getTimedPetDialogueEvent(hour)).toBe("idle");
     }
+  });
+
+  test("uses timed meal and sleep copy before configured idle copy", () => {
+    expect(getAmbientPetDialogueEvent("idle", 23)).toBe("sleep");
+    expect(getAmbientPetDialogueEvent("idle", 12)).toBe("meal");
+    expect(getAmbientPetDialogueEvent("idle", 15)).toBe("idle");
   });
 
   test("keeps all approved ds lines free of xiaoju copy", () => {

@@ -36,7 +36,7 @@ export function UpdateDialog({
             稍后再说
           </button>
           <button type="button" onClick={onConfirm} autoFocus>
-            前往下载
+            下载更新
           </button>
         </div>
       </section>
