@@ -29,6 +29,7 @@ export type CareReminderSchedule = {
   deliveredKeys: string[];
   nextEyeCareTime: number;
   nextWaterCareTime: number;
+  timedSnoozedUntil?: number;
 };
 
 function dateKey(date: Date): string {
@@ -52,11 +53,11 @@ export function selectTimedCareReminder(
   const hour = date.getHours();
   let reminder: TimedCareReminder | null = null;
 
-  if (hour >= 7 && hour < 9) {
+  if (hour >= 8 && hour < 9) {
     reminder = { kind: "meal", key: `${dateKey(date)}:meal-breakfast` };
-  } else if (hour >= 11 && hour < 13) {
+  } else if (hour >= 11 && hour < 12) {
     reminder = { kind: "meal", key: `${dateKey(date)}:meal-lunch` };
-  } else if (hour >= 18 && hour < 20) {
+  } else if (hour >= 18 && hour < 19) {
     reminder = { kind: "meal", key: `${dateKey(date)}:meal-dinner` };
   } else if (hour >= 23 || hour < 6) {
     reminder = { kind: "sleep", key: `${dateKey(sleepDate(date))}:sleep` };
@@ -70,10 +71,11 @@ export function selectDueCareReminder({
   deliveredKeys,
   nextEyeCareTime,
   nextWaterCareTime,
+  timedSnoozedUntil = 0,
 }: CareReminderSchedule): DueCareReminder | null {
   const timedReminder = selectTimedCareReminder(new Date(now), deliveredKeys);
 
-  if (timedReminder) {
+  if (timedReminder && now >= timedSnoozedUntil) {
     return {
       kind: timedReminder.kind,
       deliveredKey: timedReminder.key,

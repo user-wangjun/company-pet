@@ -46,7 +46,7 @@ describe("pet interaction playback plans", () => {
     const manifest = resolvePetInteractionManifest(ds);
 
     expect(getInteractionAnimationSpec(manifest, "dragLeft")).toMatchObject({
-      row: 2,
+      row: 1,
       frames: 8,
       scale: 1.1,
       visualClass: "pose-change",

@@ -7,8 +7,8 @@
   "dialoguesPath": "dialogues.json",
   "animations": {
     "idle": { "row": 0, "frames": 6, "speed": 0.05, "loop": true, "visualClass": "ordinary", "scale": 1 },
-    "dragRight": { "row": 1, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1.1 },
-    "dragLeft": { "row": 2, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1.1 },
+    "dragRight": { "row": 2, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1.1 },
+    "dragLeft": { "row": 1, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1.1 },
     "singleClick": { "row": 3, "frames": 8, "speed": 0.16, "loop": false, "visualClass": "ordinary", "scale": 0.95 },
     "spin": { "row": 4, "frames": 8, "speed": 0.12, "loop": true, "visualClass": "ordinary", "scale": 1 },
     "peek": { "row": 5, "frames": 8, "speed": 0.12, "loop": true, "visualClass": "ordinary", "scale": 1 },

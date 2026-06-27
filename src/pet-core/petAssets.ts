@@ -1,4 +1,3 @@
-import type { RuntimeAnimationName } from "./interaction";
 import type {
   PetAnimationSpec,
   PetManifestInteractions,
@@ -23,15 +22,9 @@ export type PetManifest = {
   description: string;
   spritesheetPath: string;
   previewPath?: string;
-  iconHugSpritesheetPath?: string;
-  throwFinishPath?: string;
-  actionsPath?: string;
-  rigPath?: string;
-  actionBoardPath?: string;
   dialoguesPath?: string;
   animations: Record<string, PetAnimationSpec>;
   interactions: PetManifestInteractions;
-  animationScales?: Partial<Record<RuntimeAnimationName, number>>;
   sounds?: PetManifestSounds;
 };
 
@@ -99,14 +92,6 @@ export function getPetManifestUrl(petId: string): string {
 export function resolvePetAssetUrl(petId: string, filePath: string): string {
   const normalizedFilePath = trimSlashes(filePath.replace(/\\/g, "/"));
   return `${getPetBasePath(petId)}/${normalizedFilePath}`;
-}
-
-export function getPetIconHugSpritesheetPath(manifest: PetManifest): string {
-  return manifest.iconHugSpritesheetPath ?? manifest.spritesheetPath;
-}
-
-export function getPetThrowFinishPath(manifest: PetManifest): string | null {
-  return manifest.throwFinishPath ?? null;
 }
 
 export function chooseInitialPetId(

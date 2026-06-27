@@ -96,6 +96,39 @@ button {
   pointer-events: none;
 }
 
+.bubble.has-actions {
+  max-width: 150px;
+  pointer-events: auto;
+}
+
+.bubble-text {
+  display: block;
+}
+
+.bubble-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.bubble-action {
+  border: 1px solid rgba(106, 53, 25, 0.26);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #4a2917;
+  font: inherit;
+  font-size: 10px;
+  line-height: 1.2;
+  padding: 3px 6px;
+  cursor: pointer;
+}
+
+.bubble-action:hover {
+  background: #fff8ed;
+}
+
 .bubble::after {
   position: absolute;
   left: 50%;

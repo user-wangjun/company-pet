@@ -63,7 +63,6 @@ import {
 } from "./pet-core/interaction";
 import {
   buildAnimationFrameRects,
-  buildDragLandingFrameIndexes,
 } from "./pet-core/animationRows";
 import {
   createDragDirectionState,
@@ -93,7 +92,7 @@ import {
   resolvePetAssetUrl,
 } from "./pet-core/petAssets";
 import {
-  getAmbientPetDialogueEvent,
+  getAmbientPetDialogueRefresh,
   loadPetDialoguePackage,
   resolvePetDialogue,
   type PetDialogueEvent,
@@ -107,6 +106,7 @@ import {
   markCareReminderDelivered,
   readCareReminderState,
   selectDueCareReminder,
+  selectTimedCareReminder,
   writeCareReminderState,
   type CareReminderState,
 } from "./pet-core/careReminders";
@@ -140,10 +140,10 @@ type PetIndex = {
 
 function getTimedDefaultBubble(): string {
   const hour = new Date().getHours();
-  if (hour >= 7 && hour < 9) return "早上好！吃过早饭了吗？来个热腾腾的包子吧~ 🐾";
-  if (hour >= 11 && hour < 13) return "咕噜噜……到饭点啦，中午吃什么好呢？多加个鸡腿喵！🍗";
+  if (hour >= 8 && hour < 9) return "早上好！吃过早饭了吗？来个热腾腾的包子吧~ 🐾";
+  if (hour >= 11 && hour < 12) return "咕噜噜……到饭点啦，中午吃什么好呢？多加个鸡腿喵！🍗";
   if (hour >= 13 && hour < 14) return "哈啊……好困，我们一起眯一会儿午觉吧。💤";
-  if (hour >= 18 && hour < 20) return "天黑啦，该去吃晚饭啦！今天也要好好犒劳自己喵~ 🌟";
+  if (hour >= 18 && hour < 19) return "天黑啦，该去吃晚饭啦！今天也要好好犒劳自己喵~ 🌟";
   if (hour >= 23 || hour < 6) return "唔……夜深了，快去睡觉吧，熬夜太伤身体了，小橘会心疼的喵💤";
   return "我先睡一会儿。";
 }
@@ -163,6 +163,20 @@ type WindowMode = "platform" | "pet";
 type OpenPlatformPayload = {
   resetPetPosition?: boolean;
 };
+type ActiveCareReminderPrompt =
+  | {
+      source: "timed";
+      kind: Extract<PetReminderKind, "meal">;
+      deliveredKey: string;
+    }
+  | {
+      source: "random";
+      kind: Extract<PetReminderKind, "eyeCare" | "water">;
+      expiresAt: number;
+    };
+
+const MEAL_REMINDER_SNOOZE_MS = 10 * 60 * 1000;
+const RANDOM_REMINDER_PROMPT_MS = 60 * 1000;
 
 function isTauriRuntime(): boolean {
   return (
@@ -306,6 +320,7 @@ function DesktopPetApp() {
   const nextEyeCareTime = useRef(Date.now() + randomInRange(30, 50) * 60 * 1000);
   const nextWaterCareTime = useRef(Date.now() + randomInRange(60, 90) * 60 * 1000);
   const careReminderState = useRef<CareReminderState>(readCareReminderState());
+  const timedCareSnoozedUntil = useRef(0);
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
   const currentFacing = useRef<PetFacing>("right");
@@ -313,6 +328,11 @@ function DesktopPetApp() {
   const [bubbleText, setBubbleText] = useState<string | null>(
     getTimedDefaultBubble(),
   );
+  const latestBubbleText = useRef<string | null>(bubbleText);
+  const ambientBubbleText = useRef<string | null>(null);
+  const careReminderPromptRef = useRef<ActiveCareReminderPrompt | null>(null);
+  const [careReminderPrompt, setCareReminderPrompt] =
+    useState<ActiveCareReminderPrompt | null>(null);
   const [isPlatformOpen, setIsPlatformOpen] = useState(PLATFORM_START_OPEN);
   const [availablePetIds, setAvailablePetIds] = useState<string[]>([
     DEFAULT_PET_ID,
@@ -409,8 +429,12 @@ function DesktopPetApp() {
 
   const cancelPendingUpdate = () => {
     setPendingUpdate(null);
-    setBubbleText(getDefaultBubbleText());
+    setDefaultBubbleText();
   };
+
+  useEffect(() => {
+    latestBubbleText.current = bubbleText;
+  }, [bubbleText]);
   useEffect(() => {
     let soundEnabled = false;
 
@@ -504,7 +528,7 @@ function DesktopPetApp() {
   }, [activePetId, activePetManifest]);
 
   useEffect(() => {
-    setBubbleText(getDefaultBubbleTextForPet(activePetId));
+    setDefaultBubbleTextForPet(activePetId);
   }, [activePetId, petDialoguesById]);
 
   const applyPlatformWindowLayout = async (
@@ -662,7 +686,7 @@ function DesktopPetApp() {
 
     saveSelectedPetId(pet.id);
     setActivePetId(pet.id);
-    setBubbleText(getDefaultBubbleTextForPet(pet.id));
+    setDefaultBubbleTextForPet(pet.id);
     recordInteraction("platform_pet_selected");
   };
 
@@ -701,10 +725,15 @@ function DesktopPetApp() {
   const getDefaultBubbleTextForPet = (petId: string) => {
     const resolved = getResolvedInteractionsForPet(petId);
     const idle = resolved?.idle;
-    const dialogueEvent = getAmbientPetDialogueEvent(
-      idle?.dialogueEvent,
-      new Date().getHours(),
+    const nowTimestamp = Date.now();
+    const timedReminder = selectTimedCareReminder(
+      new Date(nowTimestamp),
+      careReminderState.current.deliveredKeys,
     );
+    const dialogueEvent =
+      timedReminder && nowTimestamp >= timedCareSnoozedUntil.current
+        ? timedReminder.kind
+        : idle?.dialogueEvent ?? "idle";
 
     return getBubbleTextForPet(
       petId,
@@ -714,6 +743,74 @@ function DesktopPetApp() {
   };
 
   const getDefaultBubbleText = () => getDefaultBubbleTextForPet(activePetId);
+
+  const setDefaultBubbleTextForPet = (petId: string) => {
+    const nextText = getDefaultBubbleTextForPet(petId);
+    ambientBubbleText.current = nextText;
+    setBubbleText(nextText);
+  };
+
+  const setDefaultBubbleText = () => {
+    setDefaultBubbleTextForPet(activePetId);
+  };
+
+  const refreshAmbientBubbleText = () => {
+    const nextAmbientText = getDefaultBubbleText();
+    const refreshedText = getAmbientPetDialogueRefresh(
+      latestBubbleText.current,
+      ambientBubbleText.current,
+      nextAmbientText,
+    );
+
+    if (refreshedText === null) return;
+
+    ambientBubbleText.current = refreshedText;
+    setBubbleText(refreshedText);
+  };
+
+  const setActiveCareReminderPrompt = (
+    prompt: ActiveCareReminderPrompt | null,
+  ) => {
+    careReminderPromptRef.current = prompt;
+    setCareReminderPrompt(prompt);
+  };
+
+  const completeTimedCareReminder = (deliveredKey: string) => {
+    const nextDeliveredKeys = markCareReminderDelivered(
+      careReminderState.current.deliveredKeys,
+      deliveredKey,
+    );
+    careReminderState.current = { deliveredKeys: nextDeliveredKeys };
+    writeCareReminderState(careReminderState.current);
+  };
+
+  const clearCareReminderPrompt = () => {
+    setActiveCareReminderPrompt(null);
+    setDefaultBubbleText();
+    playIdleAnimation();
+  };
+
+  const confirmCareReminderPrompt = () => {
+    const prompt = careReminderPromptRef.current;
+    if (!prompt) return;
+
+    recordInteraction(`${prompt.kind}_care_confirmed`);
+    if (prompt.source === "timed") {
+      completeTimedCareReminder(prompt.deliveredKey);
+      timedCareSnoozedUntil.current = 0;
+    }
+
+    clearCareReminderPrompt();
+  };
+
+  const snoozeCareReminderPrompt = () => {
+    const prompt = careReminderPromptRef.current;
+    if (prompt?.source !== "timed") return;
+
+    timedCareSnoozedUntil.current = Date.now() + MEAL_REMINDER_SNOOZE_MS;
+    recordInteraction("meal_care_snoozed");
+    clearCareReminderPrompt();
+  };
 
   const clearHoverEatTimer = () => {
     if (hoverEatTimer.current !== null) {
@@ -817,7 +914,9 @@ function DesktopPetApp() {
     returnToIdleTimer.current = window.setTimeout(() => {
       if (expectedToken !== playbackToken.current) return;
       returnToIdleTimer.current = null;
-      setBubbleText(getDefaultBubbleText());
+      if (!careReminderPromptRef.current) {
+        setDefaultBubbleText();
+      }
       playIdleAnimation();
       if (resumeHoverAfterReturn) {
         scheduleHoverEat();
@@ -840,7 +939,12 @@ function DesktopPetApp() {
   const playManifestAction = (
     action: PetActionSpec | PetSequenceSpec,
     resumeHoverAfterReturn = true,
+    keepCareReminderPrompt = false,
   ) => {
+    if (!keepCareReminderPrompt) {
+      setActiveCareReminderPrompt(null);
+    }
+
     if (returnToIdleTimer.current !== null) {
       window.clearTimeout(returnToIdleTimer.current);
       returnToIdleTimer.current = null;
@@ -947,14 +1051,10 @@ function DesktopPetApp() {
       drag.loopStartFrame!,
       drag.loopStartFrame! + drag.loopFrameCount!,
     );
-    const landingFrameIndexes = buildDragLandingFrameIndexes({
-      currentFrame: 0,
-      approachFrame: drag.landingApproachFrame!,
-      landingFrame: drag.landingFrame!,
-    });
-    const landingFrames = landingFrameIndexes
-      .slice(1)
-      .map((frameIndex) => frames[frameIndex]);
+    const landingFrames = [
+      frames[drag.landingApproachFrame!],
+      frames[drag.landingFrame!],
+    ];
 
     if (
       !takeoffFrame ||
@@ -1376,7 +1476,7 @@ function DesktopPetApp() {
     pointerState.current = null;
     recordInteraction("pointer_cancel");
     clearHoverEatTimer();
-    setBubbleText(getDefaultBubbleText());
+    setDefaultBubbleText();
     playIdleAnimation();
   };
 
@@ -1402,20 +1502,19 @@ function DesktopPetApp() {
     }
   };
 
-  const playCareReminder = (kind: PetReminderKind, deliveredKey?: string) => {
+  const playCareReminder = (
+    kind: PetReminderKind,
+    deliveredKey?: string,
+    markDelivered = true,
+  ) => {
     const resolved = getActiveInteractionManifest();
     if (!resolved) return false;
 
     recordInteraction(`${kind}_care_reminder`);
-    playManifestAction(resolved.reminders[kind], false);
+    playManifestAction(resolved.reminders[kind], false, true);
 
-    if (deliveredKey) {
-      const nextDeliveredKeys = markCareReminderDelivered(
-        careReminderState.current.deliveredKeys,
-        deliveredKey,
-      );
-      careReminderState.current = { deliveredKeys: nextDeliveredKeys };
-      writeCareReminderState(careReminderState.current);
+    if (deliveredKey && markDelivered) {
+      completeTimedCareReminder(deliveredKey);
     }
 
     return true;
@@ -1439,6 +1538,24 @@ function DesktopPetApp() {
     if (!resolved) return;
 
     const nowTimestamp = Date.now();
+    const activePrompt = careReminderPromptRef.current;
+    if (activePrompt) {
+      if (
+        activePrompt.source === "random" &&
+        nowTimestamp >= activePrompt.expiresAt
+      ) {
+        clearCareReminderPrompt();
+      } else if (
+        activePrompt.source === "timed" &&
+        selectTimedCareReminder(new Date(nowTimestamp), [])?.key !==
+          activePrompt.deliveredKey
+      ) {
+        timedCareSnoozedUntil.current = 0;
+        clearCareReminderPrompt();
+      }
+      return;
+    }
+
     if (pointerState.current) {
       nextEyeCareTime.current = Math.max(nextEyeCareTime.current, nowTimestamp + 30000);
       nextWaterCareTime.current = Math.max(nextWaterCareTime.current, nowTimestamp + 30000);
@@ -1448,6 +1565,7 @@ function DesktopPetApp() {
         deliveredKeys: careReminderState.current.deliveredKeys,
         nextEyeCareTime: nextEyeCareTime.current,
         nextWaterCareTime: nextWaterCareTime.current,
+        timedSnoozedUntil: timedCareSnoozedUntil.current,
       });
 
       if (dueReminder?.source === "random") {
@@ -1459,13 +1577,30 @@ function DesktopPetApp() {
         playCareReminder(
           dueReminder.kind,
           dueReminder.source === "timed" ? dueReminder.deliveredKey : undefined,
+          dueReminder.source !== "timed" || dueReminder.kind !== "meal",
         )
       ) {
+        if (dueReminder.source === "timed" && dueReminder.kind === "meal") {
+          setActiveCareReminderPrompt({
+            source: "timed",
+            kind: "meal",
+            deliveredKey: dueReminder.deliveredKey,
+          });
+        } else if (dueReminder.source === "random") {
+          setActiveCareReminderPrompt({
+            source: "random",
+            kind: dueReminder.kind,
+            expiresAt: nowTimestamp + RANDOM_REMINDER_PROMPT_MS,
+          });
+        }
+
         if (dueReminder.source === "timed") {
           postponeOverdueRandomCareReminders(nowTimestamp);
         }
         return;
       }
+
+      refreshAmbientBubbleText();
     }
 
     if (
@@ -1807,7 +1942,38 @@ function DesktopPetApp() {
     >
       <div className="pet-hit-area" aria-hidden="true" />
       <div ref={pixiHost} className="pet-canvas" />
-      {bubbleText && <div className="bubble">{bubbleText}</div>}
+      {bubbleText && (
+        <div
+          className={`bubble${careReminderPrompt ? " has-actions" : ""}`}
+          onClick={careReminderPrompt ? stopPlatformEvent : undefined}
+          onMouseDown={careReminderPrompt ? stopPlatformEvent : undefined}
+          onMouseUp={careReminderPrompt ? stopPlatformEvent : undefined}
+          onPointerDown={careReminderPrompt ? stopPlatformEvent : undefined}
+          onPointerUp={careReminderPrompt ? stopPlatformEvent : undefined}
+        >
+          <span className="bubble-text">{bubbleText}</span>
+          {careReminderPrompt && (
+            <div className="bubble-actions">
+              <button
+                className="bubble-action"
+                type="button"
+                onClick={confirmCareReminderPrompt}
+              >
+                {careReminderPrompt.source === "timed" ? "收到啦" : "确定"}
+              </button>
+              {careReminderPrompt.source === "timed" && (
+                <button
+                  className="bubble-action"
+                  type="button"
+                  onClick={snoozeCareReminderPrompt}
+                >
+                  10分钟后提醒
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
       {isPlatformOpen && (
         <section
           className="platform-panel"

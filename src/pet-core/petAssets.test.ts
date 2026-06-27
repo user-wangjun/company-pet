@@ -15,8 +15,6 @@ import {
   DEFAULT_PET_ID,
   chooseInitialPetId,
   createPetCatalog,
-  getPetIconHugSpritesheetPath,
-  getPetThrowFinishPath,
   getPetBasePath,
   getPetIndexUrl,
   getPetManifestUrl,
@@ -199,34 +197,17 @@ describe("pet asset paths", () => {
     expect(ikunManifest.id).toBe("ikun");
     expect(ikunManifest.spritesheetPath).toBe("spritesheet.webp");
     expect(ikunManifest.previewPath).toBe("preview.png");
-    expect(ikunManifest.iconHugSpritesheetPath).toBe("icon-hug.webp");
-    expect(ikunManifest.actionsPath).toBe("actions.json");
-    expect(ikunManifest.rigPath).toBe("rig.json");
-    expect(ikunManifest.actionBoardPath).toBe("action-board.json");
     expect(ikunManifest.dialoguesPath).toBe("dialogues.json");
-    expect(ikunManifest.throwFinishPath).toBe("throw-finish.png");
     expect(resolvePetAssetUrl("ikun", ikunManifest.spritesheetPath)).toBe(
       "/pets/ikun/spritesheet.webp",
     );
     expect(resolvePetAssetUrl("ikun", "icon-hug.webp")).toBe(
       "/pets/ikun/icon-hug.webp",
     );
-    expect(getPetIconHugSpritesheetPath(ikunPetManifest)).toBe("icon-hug.webp");
-    expect(resolvePetAssetUrl("ikun", ikunManifest.actionsPath)).toBe(
-      "/pets/ikun/actions.json",
-    );
-    expect(resolvePetAssetUrl("ikun", ikunManifest.rigPath)).toBe(
-      "/pets/ikun/rig.json",
-    );
-    expect(resolvePetAssetUrl("ikun", ikunManifest.actionBoardPath)).toBe(
-      "/pets/ikun/action-board.json",
-    );
     expect(resolvePetAssetUrl("ikun", ikunManifest.dialoguesPath)).toBe(
       "/pets/ikun/dialogues.json",
     );
     expect(ikunDialogues.water).toContain("喝口水");
-    expect(getPetThrowFinishPath(ikunPetManifest)).toBe("throw-finish.png");
-    expect(getPetThrowFinishPath(xiaojuPetManifest)).toBeNull();
   });
 
   test("declares ds as a third isolated pet package", () => {
@@ -235,7 +216,6 @@ describe("pet asset paths", () => {
     expect(dsManifest.spritesheetPath).toBe("spritesheet.webp");
     expect(dsManifest.previewPath).toBe("preview.png");
     expect(dsManifest.dialoguesPath).toBe("dialogues.json");
-    expect("iconHugSpritesheetPath" in dsManifest).toBe(false);
     expect(resolvePetAssetUrl("ds", dsManifest.spritesheetPath)).toBe(
       "/pets/ds/spritesheet.webp",
     );
@@ -245,7 +225,6 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("ds", dsManifest.dialoguesPath)).toBe(
       "/pets/ds/dialogues.json",
     );
-    expect(getPetIconHugSpritesheetPath(dsPetManifest)).toBe("spritesheet.webp");
     expect(dsDialogues).toEqual({
       idle: "慢慢来，我们一起向前游一点。",
       singleClick: "贴贴一下，我们一起加油吧。",
@@ -254,6 +233,16 @@ describe("pet asset paths", () => {
       eyeCare: "看看远处，放松一下眼睛吧，休息好再一起继续。",
       meal: "到吃饭时间啦，先补充能量，回来后我们继续努力。",
       sleep: "今天已经很努力啦，早点休息吧，明天我们再一起出发。",
+    });
+  });
+
+  test("maps ds drag rows to the matching visual direction", () => {
+    expect(dsManifest.animations.dragLeft.row).toBe(1);
+    expect(dsManifest.animations.dragRight.row).toBe(2);
+    expect(dsManifest.interactions.drag).toMatchObject({
+      directionMode: "rows",
+      left: "dragLeft",
+      right: "dragRight",
     });
   });
 
@@ -273,10 +262,6 @@ describe("pet asset paths", () => {
     expect(resolvePetAssetUrl("suan-bird", suanBirdManifest.dialoguesPath)).toBe(
       "/pets/suan-bird/dialogues.json",
     );
-    expect(getPetIconHugSpritesheetPath(suanBirdPetManifest)).toBe(
-      "spritesheet.webp",
-    );
-    expect(getPetThrowFinishPath(suanBirdPetManifest)).toBeNull();
   });
 
   test("documents the route 1 v15 ikun action rows and double-click jump", () => {

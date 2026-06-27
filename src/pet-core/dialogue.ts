@@ -109,9 +109,9 @@ export function resolvePetDialogue(
 
 export function getTimedPetDialogueEvent(hour: number): PetDialogueEvent {
   if (
-    (hour >= 7 && hour < 9) ||
-    (hour >= 11 && hour < 13) ||
-    (hour >= 18 && hour < 20)
+    (hour >= 8 && hour < 9) ||
+    (hour >= 11 && hour < 12) ||
+    (hour >= 18 && hour < 19)
   ) {
     return "meal";
   }
@@ -130,4 +130,16 @@ export function getAmbientPetDialogueEvent(
   const timedEvent = getTimedPetDialogueEvent(hour);
 
   return timedEvent === "idle" ? configuredIdleEvent ?? "idle" : timedEvent;
+}
+
+export function getAmbientPetDialogueRefresh(
+  currentText: string | null,
+  previousAmbientText: string | null,
+  nextAmbientText: string | null,
+): string | null {
+  if (previousAmbientText === null) return null;
+  if (currentText !== previousAmbientText) return null;
+  if (nextAmbientText === previousAmbientText) return null;
+
+  return nextAmbientText;
 }

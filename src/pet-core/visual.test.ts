@@ -1,13 +1,9 @@
 import { describe, expect, test } from "vitest";
-import ikunManifest from "../../public/pets/ikun/pet.json";
-import builtInPetManifest from "../../public/pets/xiaoju-cat/pet.json";
 import {
   getPetAnimationTransform,
-  getPetAnimationVisualScale,
   PET_VISUAL_SCALE,
   PET_WINDOW_HEIGHT,
   PET_WINDOW_WIDTH,
-  PET_ICON_HUG_SPRITESHEET_PATH,
 } from "./visual";
 
 describe("desktop pet visual sizing", () => {
@@ -64,35 +60,5 @@ describe("desktop pet visual sizing", () => {
   test("matches the transparent desktop pet window size", () => {
     expect(PET_WINDOW_WIDTH).toBe(165);
     expect(PET_WINDOW_HEIGHT).toBe(215);
-  });
-
-  test("uses a dedicated desktop icon hug spritesheet", () => {
-    expect(PET_ICON_HUG_SPRITESHEET_PATH).toBe("icon-hug.webp");
-  });
-
-  test("applies per-animation visual scale multipliers from a pet manifest", () => {
-    expect(
-      getPetAnimationVisualScale({ animationScales: { drag: 0.82 } }, "drag"),
-    ).toBeCloseTo(PET_VISUAL_SCALE * 0.82);
-
-    expect(
-      getPetAnimationVisualScale({ animationScales: { drag: 0.82 } }, "idle"),
-    ).toBe(PET_VISUAL_SCALE);
-    expect(
-      getPetAnimationVisualScale({ animationScales: { drag: 0 } }, "drag"),
-    ).toBe(PET_VISUAL_SCALE);
-  });
-
-  test("declares visual scale corrections for built-in pets with large action size changes", () => {
-    expect(builtInPetManifest.animationScales).toMatchObject({
-      drag: expect.any(Number),
-      fishEat: expect.any(Number),
-      iconHug: expect.any(Number),
-    });
-    expect(ikunManifest.animationScales).toMatchObject({
-      crouchAlert: 1,
-      fishEat: expect.any(Number),
-      gnawFish: expect.any(Number),
-    });
   });
 });

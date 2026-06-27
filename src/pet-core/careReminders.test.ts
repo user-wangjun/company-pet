@@ -21,15 +21,15 @@ function storage(initial: string | null = null): CareReminderStorage {
 
 describe("care reminder persistence", () => {
   test("selects each meal slot and one overnight sleep slot", () => {
-    expect(selectTimedCareReminder(new Date(2026, 5, 23, 7, 30), [])).toEqual({
+    expect(selectTimedCareReminder(new Date(2026, 5, 23, 8, 30), [])).toEqual({
       kind: "meal",
       key: "2026-06-23:meal-breakfast",
     });
-    expect(selectTimedCareReminder(new Date(2026, 5, 23, 12, 0), [])).toEqual({
+    expect(selectTimedCareReminder(new Date(2026, 5, 23, 11, 30), [])).toEqual({
       kind: "meal",
       key: "2026-06-23:meal-lunch",
     });
-    expect(selectTimedCareReminder(new Date(2026, 5, 23, 19, 0), [])).toEqual({
+    expect(selectTimedCareReminder(new Date(2026, 5, 23, 18, 30), [])).toEqual({
       kind: "meal",
       key: "2026-06-23:meal-dinner",
     });
@@ -41,22 +41,61 @@ describe("care reminder persistence", () => {
 
   test("does not redeliver a persisted slot after restart", () => {
     const first = selectTimedCareReminder(
-      new Date(2026, 5, 23, 12, 0),
+      new Date(2026, 5, 23, 11, 30),
       [],
     );
     const delivered = markCareReminderDelivered([], first!.key);
 
     expect(
-      selectTimedCareReminder(new Date(2026, 5, 23, 12, 30), delivered),
+      selectTimedCareReminder(new Date(2026, 5, 23, 11, 45), delivered),
     ).toBeNull();
   });
 
   test("does not create reminders outside approved time windows", () => {
-    for (const hour of [6, 9, 10, 13, 17, 20, 22]) {
+    for (const hour of [6, 7, 9, 10, 12, 13, 17, 19, 20, 22]) {
       expect(
         selectTimedCareReminder(new Date(2026, 5, 23, hour, 0), []),
       ).toBeNull();
     }
+  });
+
+  test("holds meal reminders until the 10-minute snooze ends inside the meal window", () => {
+    const lunchTime = new Date(2026, 5, 23, 11, 30).getTime();
+
+    expect(
+      selectDueCareReminder({
+        now: lunchTime,
+        deliveredKeys: [],
+        nextEyeCareTime: 0,
+        nextWaterCareTime: 0,
+        timedSnoozedUntil: lunchTime + 10 * 60 * 1000,
+      }),
+    ).toEqual({
+      kind: "eyeCare",
+      source: "random",
+    });
+    expect(
+      selectDueCareReminder({
+        now: lunchTime + 10 * 60 * 1000,
+        deliveredKeys: [],
+        nextEyeCareTime: 0,
+        nextWaterCareTime: 0,
+        timedSnoozedUntil: lunchTime + 10 * 60 * 1000,
+      }),
+    ).toEqual({
+      kind: "meal",
+      deliveredKey: "2026-06-23:meal-lunch",
+      source: "timed",
+    });
+    expect(
+      selectDueCareReminder({
+        now: new Date(2026, 5, 23, 12, 0).getTime(),
+        deliveredKeys: [],
+        nextEyeCareTime: Number.POSITIVE_INFINITY,
+        nextWaterCareTime: Number.POSITIVE_INFINITY,
+        timedSnoozedUntil: new Date(2026, 5, 23, 12, 0).getTime(),
+      }),
+    ).toBeNull();
   });
 
   test("prioritizes sleep over overdue random care reminders", () => {

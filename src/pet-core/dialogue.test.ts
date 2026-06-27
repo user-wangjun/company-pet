@@ -8,6 +8,7 @@ import suanBirdManifest from "../../public/pets/suan-bird/pet.json";
 import xiaojuDialogues from "../../public/pets/xiaoju-cat/dialogues.json";
 import xiaojuManifest from "../../public/pets/xiaoju-cat/pet.json";
 import {
+  getAmbientPetDialogueRefresh,
   getAmbientPetDialogueEvent,
   getTimedPetDialogueEvent,
   loadPetDialoguePackage,
@@ -178,21 +179,45 @@ describe("pet dialogue packages", () => {
   });
 
   test("maps existing meal and sleep hours without adding timers", () => {
-    for (const hour of [7, 8, 11, 12, 18, 19]) {
+    for (const hour of [8, 11, 18]) {
       expect(getTimedPetDialogueEvent(hour)).toBe("meal");
     }
     for (const hour of [23, 0, 1, 5]) {
       expect(getTimedPetDialogueEvent(hour)).toBe("sleep");
     }
-    for (const hour of [6, 9, 13, 14, 20, 22]) {
+    for (const hour of [6, 7, 9, 10, 12, 13, 14, 19, 20, 22]) {
       expect(getTimedPetDialogueEvent(hour)).toBe("idle");
     }
   });
 
   test("uses timed meal and sleep copy before configured idle copy", () => {
     expect(getAmbientPetDialogueEvent("idle", 23)).toBe("sleep");
-    expect(getAmbientPetDialogueEvent("idle", 12)).toBe("meal");
+    expect(getAmbientPetDialogueEvent("idle", 11)).toBe("meal");
     expect(getAmbientPetDialogueEvent("idle", 15)).toBe("idle");
+  });
+
+  test("refreshes only stale ambient copy when the timed window changes", () => {
+    expect(
+      getAmbientPetDialogueRefresh(
+        "慢慢来，我们一起向前游一点。",
+        "慢慢来，我们一起向前游一点。",
+        "到吃饭时间啦",
+      ),
+    ).toBe("到吃饭时间啦");
+    expect(
+      getAmbientPetDialogueRefresh(
+        "正在检查更新中……",
+        "慢慢来，我们一起向前游一点。",
+        "到吃饭时间啦",
+      ),
+    ).toBeNull();
+    expect(
+      getAmbientPetDialogueRefresh(
+        "到吃饭时间啦",
+        "到吃饭时间啦",
+        "到吃饭时间啦",
+      ),
+    ).toBeNull();
   });
 
   test("keeps all approved ds lines free of xiaoju copy", () => {
