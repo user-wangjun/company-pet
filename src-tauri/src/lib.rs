@@ -1,6 +1,7 @@
 use std::{fs::OpenOptions, io::Write};
 
 mod desktop_icons;
+mod installer_update;
 
 use tauri::{
     menu::{Menu, MenuItem},
@@ -150,6 +151,7 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
             record_interaction,
+            installer_update::download_and_open_installer,
             desktop_icons::get_desktop_icons,
             desktop_icons::is_point_on_desktop
         ])

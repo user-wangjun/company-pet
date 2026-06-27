@@ -14,7 +14,6 @@ import {
   type Monitor,
 } from "@tauri-apps/api/window";
 import { listen } from "@tauri-apps/api/event";
-import { openUrl } from "@tauri-apps/plugin-opener";
 import {
   AnimatedSprite,
   Application,
@@ -130,6 +129,7 @@ import {
   type UpdateCheckResult,
 } from "./pet-update/updateCheck";
 import { UpdateDialog } from "./pet-update/UpdateDialog";
+import { startInstallerUpdate } from "./pet-update/installUpdate";
 const CURRENT_PET_STORAGE_KEY = "desktop-pet.currentPetId";
 const PET_WINDOW_SIZE = { width: 165, height: 215 };
 const PLATFORM_WINDOW_SIZE = { width: 860, height: 590 };
@@ -399,7 +399,7 @@ function DesktopPetApp() {
       if (result.status === "available") {
         recordInteraction("update_available");
         setPendingUpdate(result);
-        setBubbleText(`发现新版本 ${result.latestVersion}，确认后开始下载安装包。`);
+        setBubbleText(`发现新版本 ${result.latestVersion}，点“下载并安装”会自动安装。`);
         return;
       }
 
@@ -422,9 +422,14 @@ function DesktopPetApp() {
     if (!update) return;
 
     recordInteraction("update_installer_download");
-    void openUrl(update.downloadUrl).catch(() => {
-      setBubbleText("开始下载失败，请稍后再试。");
-    });
+    setBubbleText("正在下载安装包，下载完成后会自动打开安装程序。");
+    void startInstallerUpdate(update.downloadUrl)
+      .then(() => {
+        setBubbleText("安装包已打开，请按提示完成安装。");
+      })
+      .catch(() => {
+        setBubbleText("下载安装包失败，请稍后再试。");
+      });
   };
 
   const cancelPendingUpdate = () => {
@@ -2079,7 +2084,6 @@ function DesktopPetApp() {
         <UpdateDialog
           currentVersion={pendingUpdate.currentVersion}
           latestVersion={pendingUpdate.latestVersion}
-          notes={pendingUpdate.notes}
           onCancel={cancelPendingUpdate}
           onConfirm={confirmPendingUpdate}
         />

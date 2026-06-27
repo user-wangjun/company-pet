@@ -1635,22 +1635,22 @@ button {
   position: absolute;
   z-index: 30;
   inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 18px;
-  background: rgba(17, 24, 34, 0.56);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 10px;
+  pointer-events: none;
 }
 
 .update-dialog {
-  width: min(420px, 100%);
-  max-height: 250px;
-  overflow: auto;
-  padding: 24px;
+  width: min(280px, 100%);
+  padding: 14px;
   border: 1px solid rgba(106, 53, 25, 0.2);
-  border-radius: 18px;
+  border-radius: 12px;
   background: #fffaf2;
   color: #3a251b;
-  box-shadow: 0 22px 56px rgba(22, 13, 8, 0.24);
+  box-shadow: 0 12px 32px rgba(22, 13, 8, 0.22);
+  pointer-events: auto;
 }
 
 .update-dialog h2,
@@ -1663,9 +1663,9 @@ button {
   font-weight: 700;
 }
 
-.update-dialog-notes {
+.update-dialog-description {
   margin-top: 12px !important;
-  white-space: pre-wrap;
+  line-height: 1.55;
 }
 
 .update-dialog-actions {
