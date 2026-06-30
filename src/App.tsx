@@ -1557,7 +1557,6 @@ function DesktopPetApp() {
     markPointerEvent();
     if (event.button === 2) {
       event.preventDefault();
-      handleSecondaryPress();
       return;
     }
     if (
@@ -1599,8 +1598,6 @@ function DesktopPetApp() {
   const handleMouseDown = (event: ReactMouseEvent<HTMLElement>) => {
     if (event.button === 2) {
       event.preventDefault();
-      if (!shouldUseMouseFallback()) return;
-      handleSecondaryPress();
       return;
     }
 
@@ -1639,6 +1636,7 @@ function DesktopPetApp() {
 
   const handleContextMenu = (event: ReactMouseEvent<HTMLElement>) => {
     event.preventDefault();
+    handleSecondaryPress();
   };
 
   const handlePointerEnter = () => {
