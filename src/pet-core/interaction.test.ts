@@ -31,10 +31,19 @@ describe("desktop pet interaction rules", () => {
     });
   });
 
+  test("allows a slightly slower manual right double click", () => {
+    const first = registerSecondaryClick(null, 1000);
+
+    expect(registerSecondaryClick(first.lastClickAt, 1600)).toEqual({
+      triggered: true,
+      lastClickAt: null,
+    });
+  });
+
   test("does not treat a delayed right click as a double click", () => {
-    expect(registerSecondaryClick(1000, 1400)).toEqual({
+    expect(registerSecondaryClick(1000, 1700)).toEqual({
       triggered: false,
-      lastClickAt: 1400,
+      lastClickAt: 1700,
     });
   });
 

@@ -5,7 +5,7 @@ export const DESKTOP_ICON_INTERACTION_DISTANCE_PX = 38;
 export const DESKTOP_ICON_INTERACTION_DELAY_MS = 5000;
 export const DESKTOP_ICON_INTERACTION_COOLDOWN_MS = 15000;
 
-export const SECONDARY_DOUBLE_CLICK_MS = 350;
+export const SECONDARY_DOUBLE_CLICK_MS = 650;
 
 export function registerSecondaryClick(
   lastClickAt: number | null,
