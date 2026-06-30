@@ -21,7 +21,7 @@ import {
 } from "./interaction";
 
 describe("desktop pet interaction rules", () => {
-  test("triggers update only on the second right click", () => {
+  test("detects the second right click inside the double-click window", () => {
     const first = registerSecondaryClick(null, 1000);
     expect(first).toEqual({ triggered: false, lastClickAt: 1000 });
 

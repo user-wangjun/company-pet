@@ -5,6 +5,7 @@
   "spritesheetPath": "spritesheet.png",
   "previewPath": "preview.png",
   "dialoguesPath": "dialogues.json",
+  "companionChatPath": "companion-chat.json",
   "animations": {
     "idle": { "row": 0, "frames": 6, "speed": 0.05, "loop": true, "visualClass": "ordinary", "scale": 1 },
     "dragRight": { "row": 1, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1 },

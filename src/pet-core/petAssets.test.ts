@@ -159,6 +159,17 @@ describe("pet asset paths", () => {
     }
   });
 
+  test("declares companion chat packages for every built-in pet", () => {
+    for (const manifest of builtInManifests) {
+      const path = manifest.companionChatPath;
+      expect(path).toBe("companion-chat.json");
+      if (!path) throw new Error(`Missing companion chat path for ${manifest.id}`);
+      expect(resolvePetAssetUrl(manifest.id, path)).toBe(
+        `/pets/${manifest.id}/companion-chat.json`,
+      );
+    }
+  });
+
   test("keeps every manifest asset path relative to its pet package", () => {
     const visit = (
       manifest: (typeof builtInManifests)[number],

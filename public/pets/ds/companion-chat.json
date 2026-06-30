@@ -1,0 +1,8 @@
+{
+  "openers": [
+    { "text": "咕噜？", "weight": 2 },
+    { "text": "呜~", "weight": 1 }
+  ],
+  "localReplies": ["慢慢说，我们一起听一会儿。", "嗯，我们一点点来。", "我在旁边陪着你。"],
+  "style": { "tone": "quiet-companion", "maxReplyLength": 36 }
+}
