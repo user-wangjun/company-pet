@@ -59,7 +59,8 @@ button {
 
 .platform-open .pet-hit-area,
 .platform-open .pet-canvas,
-.platform-open .bubble {
+.platform-open .bubble,
+.platform-open .companion-chat {
   display: none;
 }
 
@@ -140,6 +141,86 @@ button {
   border-bottom: 1px solid rgba(106, 53, 25, 0.22);
   background: rgba(255, 250, 240, 0.92);
   content: "";
+}
+
+.companion-chat {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  bottom: var(--pet-bubble-bottom, 174px);
+  display: grid;
+  width: 154px;
+  max-height: 188px;
+  transform: translateX(-50%);
+  grid-template-rows: minmax(74px, 1fr) auto;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.companion-chat-messages {
+  display: flex;
+  min-height: 74px;
+  max-height: 140px;
+  flex-direction: column;
+  gap: 5px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.companion-message {
+  max-width: 126px;
+  box-sizing: border-box;
+  padding: 6px 9px;
+  border: 1px solid rgba(106, 53, 25, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 250, 240, 0.94);
+  color: #4a2917;
+  font-size: 12px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  box-shadow: 0 6px 18px rgba(45, 27, 18, 0.12);
+}
+
+.companion-message.is-user {
+  align-self: flex-end;
+  background: rgba(235, 246, 241, 0.96);
+  color: #1e463d;
+}
+
+.companion-message.is-pet {
+  align-self: flex-start;
+}
+
+.companion-chat-input-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  gap: 4px;
+}
+
+.companion-chat-input-row input,
+.companion-chat-input-row button {
+  min-height: 28px;
+  box-sizing: border-box;
+  border: 1px solid rgba(106, 53, 25, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #3a251b;
+  font-size: 12px;
+}
+
+.companion-chat-input-row input {
+  min-width: 0;
+  padding: 0 7px;
+}
+
+.companion-chat-input-row button {
+  padding: 0;
+  cursor: pointer;
+}
+
+.companion-chat-input-row button:disabled {
+  opacity: 0.45;
+  cursor: default;
 }
 
 .platform-panel {

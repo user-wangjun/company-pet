@@ -23,6 +23,7 @@ export type PetManifest = {
   spritesheetPath: string;
   previewPath?: string;
   dialoguesPath?: string;
+  companionChatPath?: string;
   animations: Record<string, PetAnimationSpec>;
   interactions: PetManifestInteractions;
   sounds?: PetManifestSounds;

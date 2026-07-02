@@ -101,6 +101,33 @@ import {
   createPetSoundPlayer,
   type PetSoundPlayer,
 } from "./pet-core/sound";
+import { CompanionChatBubble } from "./pet-core/CompanionChatBubble";
+import {
+  loadPetCompanionChatPackage,
+  resolveCompanionChatPackage,
+  type CompanionChatPackage,
+} from "./pet-core/companionChat";
+import {
+  INACTIVE_COMPANION_CHAT,
+  createLocalCompanionChatProvider,
+  enterCompanionChat,
+  exitCompanionChat,
+  receiveCompanionReply,
+  sendCompanionMessage,
+  shouldAutoExitCompanionChat,
+  stopCompanionReply,
+  updateCompanionDraft,
+  type CompanionChatState,
+} from "./pet-core/companionChatRuntime";
+import {
+  deleteRecentPreference,
+  extractCompanionPreference,
+  isForgetRecentPreferenceRequest,
+  readCompanionPreferences,
+  upsertCompanionPreference,
+  writeCompanionPreferences,
+  type CompanionPreferencesState,
+} from "./pet-core/companionPreferences";
 import {
   markCareReminderDelivered,
   readCareReminderState,
@@ -343,6 +370,15 @@ function DesktopPetApp() {
   const [petDialoguesById, setPetDialoguesById] = useState<
     Record<string, PetDialoguePackage>
   >({});
+  const [petCompanionChatsById, setPetCompanionChatsById] = useState<
+    Record<string, CompanionChatPackage>
+  >({});
+  const [companionChatState, setCompanionChatState] =
+    useState<CompanionChatState>(INACTIVE_COMPANION_CHAT);
+  const companionChatStateRef = useRef<CompanionChatState>(INACTIVE_COMPANION_CHAT);
+  const companionPreferencesRef = useRef<CompanionPreferencesState>(
+    readCompanionPreferences(),
+  );
   const [activePetId, setActivePetId] = useState(DEFAULT_PET_ID);
   const windowMode = useRef<WindowMode>(isPlatformOpen ? "platform" : "pet");
   const resetPetPositionOnNextOpen = useRef(true);
@@ -440,6 +476,10 @@ function DesktopPetApp() {
   useEffect(() => {
     latestBubbleText.current = bubbleText;
   }, [bubbleText]);
+
+  useEffect(() => {
+    companionChatStateRef.current = companionChatState;
+  }, [companionChatState]);
   useEffect(() => {
     let soundEnabled = false;
 
@@ -495,12 +535,19 @@ function DesktopPetApp() {
               [petId, await loadPetDialoguePackage(manifest)] as const,
           ),
         );
+        const companionChatEntries = await Promise.all(
+          manifestEntries.map(
+            async ([petId, manifest]) =>
+              [petId, await loadPetCompanionChatPackage(manifest)] as const,
+          ),
+        );
         const initialPetId = chooseInitialPetId(petIds, readSavedPetId());
 
         if (disposed) return;
         setAvailablePetIds(petIds);
         setPetManifestsById(manifests);
         setPetDialoguesById(Object.fromEntries(dialogueEntries));
+        setPetCompanionChatsById(Object.fromEntries(companionChatEntries));
         setActivePetId(initialPetId);
       } catch {
         const fallbackManifest = await loadPetManifest(DEFAULT_PET_ID).catch(
@@ -509,10 +556,13 @@ function DesktopPetApp() {
 
         if (disposed || !fallbackManifest) return;
         const fallbackDialogues = await loadPetDialoguePackage(fallbackManifest);
+        const fallbackCompanionChat =
+          await loadPetCompanionChatPackage(fallbackManifest);
         if (disposed) return;
         setAvailablePetIds([DEFAULT_PET_ID]);
         setPetManifestsById({ [DEFAULT_PET_ID]: fallbackManifest });
         setPetDialoguesById({ [DEFAULT_PET_ID]: fallbackDialogues });
+        setPetCompanionChatsById({ [DEFAULT_PET_ID]: fallbackCompanionChat });
         setActivePetId(DEFAULT_PET_ID);
       }
     };
@@ -689,6 +739,7 @@ function DesktopPetApp() {
   const selectPet = (pet: PetCatalogItem) => {
     if (pet.id === activePetId) return;
 
+    setCompanionChatState((current) => exitCompanionChat(current));
     saveSelectedPetId(pet.id);
     setActivePetId(pet.id);
     setDefaultBubbleTextForPet(pet.id);
@@ -707,6 +758,99 @@ function DesktopPetApp() {
     return petManifestsById[petId]?.dialoguesPath
       ? { status: "failed", petId }
       : { status: "not-configured", petId };
+  };
+
+  const getCompanionChatPackageForPet = (petId: string): CompanionChatPackage => {
+    const loaded = petCompanionChatsById[petId];
+    if (loaded) return loaded;
+
+    return petManifestsById[petId]?.companionChatPath
+      ? { status: "failed", petId }
+      : { status: "not-configured", petId };
+  };
+
+  const startCompanionChat = () => {
+    const config = resolveCompanionChatPackage(
+      getCompanionChatPackageForPet(activePetId),
+    );
+    const next = enterCompanionChat(config);
+    setActiveCareReminderPrompt(null);
+    setBubbleText(null);
+    setCompanionChatState(next);
+    playPetSound(next.mode === "active" ? next.messages[0]?.sound : undefined);
+    recordInteraction("companion_chat_open");
+  };
+
+  const stopCompanionChatReply = () => {
+    setCompanionChatState((current) => stopCompanionReply(current));
+    recordInteraction("companion_chat_stop");
+  };
+
+  const updateCompanionDraftText = (draft: string) => {
+    setCompanionChatState((current) => updateCompanionDraft(current, draft));
+  };
+
+  const sendCompanionChatMessage = () => {
+    const config = resolveCompanionChatPackage(
+      getCompanionChatPackageForPet(activePetId),
+    );
+    const sent = sendCompanionMessage(companionChatStateRef.current);
+    setCompanionChatState(sent);
+    if (sent.mode !== "active" || !sent.pendingUserMessage) return;
+
+    const { id, text } = sent.pendingUserMessage;
+    window.setTimeout(() => {
+      if (
+        companionChatStateRef.current.mode !== "active" ||
+        companionChatStateRef.current.pendingRequestId !== id
+      ) {
+        return;
+      }
+
+      if (isForgetRecentPreferenceRequest(text)) {
+        const nextPreferences = deleteRecentPreference(
+          companionPreferencesRef.current,
+        );
+        companionPreferencesRef.current = nextPreferences;
+        writeCompanionPreferences(nextPreferences);
+        setCompanionChatState((current) =>
+          receiveCompanionReply(current, "好，我忘掉刚才那条。"),
+        );
+        return;
+      }
+
+      const extraction = extractCompanionPreference(text);
+      if (extraction) {
+        const nextPreferences = upsertCompanionPreference(
+          companionPreferencesRef.current,
+          extraction.preference,
+        );
+        companionPreferencesRef.current = nextPreferences;
+        writeCompanionPreferences(nextPreferences);
+        setCompanionChatState((current) =>
+          receiveCompanionReply(current, extraction.feedback),
+        );
+        return;
+      }
+
+      void createLocalCompanionChatProvider(config)
+        .send({
+          text,
+          preferences: companionPreferencesRef.current.preferences,
+        })
+        .then((reply) => {
+          setCompanionChatState((current) =>
+            current.mode === "active" && current.pendingRequestId === id
+              ? receiveCompanionReply(current, reply.text)
+              : current,
+          );
+        });
+    }, 240);
+  };
+
+  const exitActiveCompanionChat = () => {
+    setCompanionChatState((current) => exitCompanionChat(current));
+    setDefaultBubbleText();
   };
 
   const getBubbleTextForPet = (
@@ -772,6 +916,42 @@ function DesktopPetApp() {
     ambientBubbleText.current = refreshedText;
     setBubbleText(refreshedText);
   };
+
+  useEffect(() => {
+    if (companionChatState.mode !== "active") return undefined;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") exitActiveCompanionChat();
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [companionChatState.mode]);
+
+  useEffect(() => {
+    if (companionChatState.mode !== "active") return undefined;
+
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (target?.closest(".companion-chat,.pet-hit-area,.pet-canvas")) return;
+      exitActiveCompanionChat();
+    };
+
+    window.addEventListener("pointerdown", onPointerDown);
+    return () => window.removeEventListener("pointerdown", onPointerDown);
+  }, [companionChatState.mode]);
+
+  useEffect(() => {
+    if (companionChatState.mode !== "active") return undefined;
+
+    const timer = window.setInterval(() => {
+      setCompanionChatState((current) =>
+        shouldAutoExitCompanionChat(current) ? exitCompanionChat(current) : current,
+      );
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [companionChatState.mode]);
 
   const setActiveCareReminderPrompt = (
     prompt: ActiveCareReminderPrompt | null,
@@ -1199,8 +1379,8 @@ function DesktopPetApp() {
       return;
     }
 
-    recordInteraction("secondary_double_click_update");
-    void checkForUpdates(true);
+    recordInteraction("secondary_double_click_companion_chat");
+    startCompanionChat();
   };
   const startPress = (
     source: PressSource,
@@ -1212,6 +1392,10 @@ function DesktopPetApp() {
     screenY: number,
   ) => {
     if (button !== 0 || pointerState.current) return false;
+    if (companionChatStateRef.current.mode === "active") {
+      stopCompanionChatReply();
+      return false;
+    }
 
     recordInteraction(source === "pointer" ? "pointer_down" : "mouse_down");
     clearHoverEatTimer();
@@ -1373,7 +1557,6 @@ function DesktopPetApp() {
     markPointerEvent();
     if (event.button === 2) {
       event.preventDefault();
-      handleSecondaryPress();
       return;
     }
     if (
@@ -1415,7 +1598,6 @@ function DesktopPetApp() {
   const handleMouseDown = (event: ReactMouseEvent<HTMLElement>) => {
     if (event.button === 2) {
       event.preventDefault();
-      handleSecondaryPress();
       return;
     }
 
@@ -1454,6 +1636,7 @@ function DesktopPetApp() {
 
   const handleContextMenu = (event: ReactMouseEvent<HTMLElement>) => {
     event.preventDefault();
+    handleSecondaryPress();
   };
 
   const handlePointerEnter = () => {
@@ -1947,7 +2130,17 @@ function DesktopPetApp() {
     >
       <div className="pet-hit-area" aria-hidden="true" />
       <div ref={pixiHost} className="pet-canvas" />
-      {bubbleText && (
+      {companionChatState.mode === "active" && (
+        <CompanionChatBubble
+          draft={companionChatState.draft}
+          isWaiting={companionChatState.pendingRequestId !== null}
+          messages={companionChatState.messages}
+          onDraftChange={updateCompanionDraftText}
+          onSend={sendCompanionChatMessage}
+          onStop={stopCompanionChatReply}
+        />
+      )}
+      {companionChatState.mode !== "active" && bubbleText && (
         <div
           className={`bubble${careReminderPrompt ? " has-actions" : ""}`}
           onClick={careReminderPrompt ? stopPlatformEvent : undefined}

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light only">
+  <title>9-slice 动态宠物气泡</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { color-scheme: light only; }
+    body {
+      margin: 0;
+      background: #f7f8fb;
+      color: #111827;
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    }
+    main { display: grid; gap: 18px; max-width: 1480px; margin: 0 auto; padding: 28px; }
+    h1 { margin: 0; font-size: 28px; }
+    p { max-width: 960px; margin: 0; color: #4b5563; line-height: 1.7; }
+    input {
+      width: min(720px, 100%);
+      border: 1px solid rgba(15, 23, 42, .16);
+      border-radius: 12px;
+      background: #fff;
+      color: #111827;
+      font: inherit;
+      font-size: 18px;
+      padding: 12px 14px;
+    }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .card {
+      min-height: 320px;
+      border: 1px solid rgba(15, 23, 42, .1);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, .11);
+      padding: 16px;
+      overflow: hidden;
+    }
+    .card h2 { margin: 0 0 20px; font-size: 18px; }
+    .bubble {
+      --size: .65;
+      --grow: 1;
+      --rows: 1;
+      position: relative;
+      width: calc(var(--base-w) * var(--size) * var(--grow));
+      height: calc((var(--base-h) * var(--size)) + ((var(--rows) - 1) * 34px));
+      max-width: 100%;
+      color: var(--ink);
+      font-size: 23px;
+      font-weight: 750;
+      line-height: 1.22;
+      text-align: center;
+      transition: width 160ms ease, height 160ms ease;
+      font-family: "Microsoft YaHei UI", "Microsoft YaHei", system-ui, sans-serif;
+    }
+    .bubble::before {
+      position: absolute;
+      inset: 0;
+      background: var(--skin) center / 100% 100% no-repeat;
+      content: "";
+      filter: drop-shadow(0 16px 22px rgba(15, 23, 42, .14));
+    }
+    .text {
+      position: absolute;
+      left: calc(50% + var(--text-offset-x, 0px) * var(--size) * var(--grow));
+      top: calc((var(--text-y) * var(--size)) + ((var(--rows) - 1) * 17px));
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: calc(var(--text-w) * var(--size) * var(--grow));
+      min-height: calc(var(--rows) * 28px);
+      max-width: 100%;
+      margin-left: calc(var(--text-w) * var(--size) * var(--grow) / -2);
+      margin-top: calc(var(--rows) * -14px);
+      white-space: pre-line;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+    .pager {
+      position: absolute;
+      right: calc(70px * var(--size));
+      bottom: calc(48px * var(--size));
+      z-index: 2;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 3px 5px;
+      border: 1px solid color-mix(in srgb, var(--ink), white 62%);
+      border-radius: 999px;
+      background: color-mix(in srgb, white 78%, transparent);
+      box-shadow: 0 6px 12px rgba(15, 23, 42, .12);
+      backdrop-filter: blur(4px);
+    }
+    .pager[hidden] { display: none; }
+    .pager button {
+      display: grid;
+      place-items: center;
+      width: 19px;
+      height: 18px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      font: 800 13px/1 ui-sans-serif, system-ui, sans-serif;
+    }
+    .pager button:hover { background: color-mix(in srgb, var(--ink), transparent 86%); }
+    .pager button:disabled {
+      cursor: default;
+      opacity: .35;
+    }
+    .pager button:disabled:hover { background: transparent; }
+    .ds {
+      --skin: url("nine-slice/ds-bubble.png?v=ref-20260702");
+      --base-w: 625px;
+      --base-h: 317px;
+      --text-w: 390px;
+      --text-offset-x: -18px;
+      --text-y: 139px;
+      --ink: #0e4a70;
+    }
+    .ikun {
+      --skin: url("nine-slice/ikun-bubble.png?v=ref-20260702");
+      --base-w: 655px;
+      --base-h: 270px;
+      --text-w: 360px;
+      --text-offset-x: -8px;
+      --text-y: 119px;
+      --ink: #fff1c7;
+    }
+    .xiaoju {
+      --skin: url("nine-slice/xiaoju-bubble.png?v=ref-20260702");
+      --base-w: 647px;
+      --base-h: 308px;
+      --text-w: 380px;
+      --text-offset-x: -58px;
+      --text-y: 130px;
+      --ink: #7b3f14;
+    }
+    .suan {
+      --skin: url("nine-slice/suan-bubble.png?v=ref-20260702");
+      --base-w: 665px;
+      --base-h: 310px;
+      --text-w: 370px;
+      --text-offset-x: -68px;
+      --text-y: 137px;
+      --ink: #5a2ca0;
+    }
+    @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } main { padding: 18px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>图片质感动态宠物气泡</h1>
+    <p>这版使用从参考图裁出的去字底图，气泡边缘和装饰保留图片质感，气泡整体随文字宽度变化，文字是真实 HTML 文本。下一步要把源图改成无字底图，再做更干净的 9-slice。</p>
+    <input id="bubbleText" value="摇摇尾巴，我们一起向前冲一小步！今天也要元气满满哦，记得喝水休息，等会儿再继续努力。" aria-label="气泡文字">
+
+    <section class="grid">
+      <article class="card"><h2>DS 水泡</h2><div class="bubble ds"><span class="text"></span><div class="pager" hidden><button type="button" class="prev" aria-label="上一页">&lt;</button><button type="button" class="next" aria-label="下一页">&gt;</button></div></div></article>
+      <article class="card"><h2>IKUN 背带裤</h2><div class="bubble ikun"><span class="text"></span><div class="pager" hidden><button type="button" class="prev" aria-label="上一页">&lt;</button><button type="button" class="next" aria-label="下一页">&gt;</button></div></div></article>
+      <article class="card"><h2>Xiaoju 猫爪</h2><div class="bubble xiaoju"><span class="text"></span><div class="pager" hidden><button type="button" class="prev" aria-label="上一页">&lt;</button><button type="button" class="next" aria-label="下一页">&gt;</button></div></div></article>
+      <article class="card"><h2>蒜鸟 大蒜</h2><div class="bubble suan"><span class="text"></span><div class="pager" hidden><button type="button" class="prev" aria-label="上一页">&lt;</button><button type="button" class="next" aria-label="下一页">&gt;</button></div></div></article>
+    </section>
+  </main>
+
+  <script>
+    const input = document.querySelector("#bubbleText");
+    const bubbles = document.querySelectorAll(".bubble");
+    const texts = document.querySelectorAll(".text");
+    const pagers = document.querySelectorAll(".pager");
+    const prevButtons = document.querySelectorAll(".prev");
+    const nextButtons = document.querySelectorAll(".next");
+    const MAX_PER_LINE = 10;
+    const MAX_LINES_PER_PAGE = 6;
+    let pageIndex = 0;
+    let currentPages = [" "];
+    const linesFor = (value) => {
+      const chars = [...(value || " ")];
+      const lines = [];
+      for (let i = 0; i < chars.length; i += MAX_PER_LINE) {
+        lines.push(chars.slice(i, i + MAX_PER_LINE).join(""));
+      }
+      return lines;
+    };
+    const pagesFor = (value) => {
+      const lines = linesFor(value);
+      const pages = [];
+      for (let i = 0; i < lines.length; i += MAX_LINES_PER_PAGE) {
+        pages.push(lines.slice(i, i + MAX_LINES_PER_PAGE).join("\n"));
+      }
+      return pages.length ? pages : [" "];
+    };
+    const rowCountFor = (value) => Math.max(1, value.split("\n").length);
+    const growFor = (value) => {
+      const len = Math.max(...value.split("\n").map((line) => [...line].length));
+      if (len <= 4) return .72;
+      if (len <= 8) return .88;
+      if (len <= MAX_PER_LINE) return 1;
+      return 1;
+    };
+    const render = () => {
+      const raw = input.value || " ";
+      currentPages = pagesFor(raw);
+      pageIndex = Math.min(pageIndex, currentPages.length - 1);
+      const value = currentPages[pageIndex];
+      bubbles.forEach((bubble) => {
+        bubble.style.setProperty("--grow", growFor(value));
+        bubble.style.setProperty("--rows", rowCountFor(value));
+      });
+      texts.forEach((text) => { text.textContent = value; });
+      pagers.forEach((pager) => { pager.hidden = currentPages.length <= 1; });
+      prevButtons.forEach((button) => { button.disabled = pageIndex === 0; });
+      nextButtons.forEach((button) => { button.disabled = pageIndex >= currentPages.length - 1; });
+    };
+    input.addEventListener("input", () => {
+      pageIndex = 0;
+      render();
+    });
+    prevButtons.forEach((button) => button.addEventListener("click", () => {
+      pageIndex = Math.max(0, pageIndex - 1);
+      render();
+    }));
+    nextButtons.forEach((button) => button.addEventListener("click", () => {
+      pageIndex = Math.min(currentPages.length - 1, pageIndex + 1);
+      render();
+    }));
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "openers": [
+    { "text": "嗯？", "weight": 2 },
+    { "text": "哼？", "weight": 1 }
+  ],
+  "localReplies": ["说吧，我听着。", "先别急，慢慢来。", "可以，继续。"],
+  "style": { "tone": "quiet-companion", "maxReplyLength": 36 }
+}

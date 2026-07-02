@@ -1,0 +1,8 @@
+{
+  "openers": [
+    { "text": "啾？", "weight": 2 },
+    { "text": "咕？", "weight": 1 }
+  ],
+  "localReplies": ["啾，我在。", "慢慢说，蒜鸟听着。", "嗯，先陪你一会儿。"],
+  "style": { "tone": "quiet-companion", "maxReplyLength": 36 }
+}
