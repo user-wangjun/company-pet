@@ -29,6 +29,10 @@ describe("care reminder persistence", () => {
       kind: "meal",
       key: "2026-06-23:meal-lunch",
     });
+    expect(selectTimedCareReminder(new Date(2026, 5, 23, 12, 44), [])).toEqual({
+      kind: "meal",
+      key: "2026-06-23:meal-lunch",
+    });
     expect(selectTimedCareReminder(new Date(2026, 5, 23, 18, 30), [])).toEqual({
       kind: "meal",
       key: "2026-06-23:meal-dinner",
@@ -52,7 +56,7 @@ describe("care reminder persistence", () => {
   });
 
   test("does not create reminders outside approved time windows", () => {
-    for (const hour of [6, 7, 9, 10, 12, 13, 17, 19, 20, 22]) {
+    for (const hour of [6, 7, 10, 14, 15, 17, 21, 22]) {
       expect(
         selectTimedCareReminder(new Date(2026, 5, 23, hour, 0), []),
       ).toBeNull();
@@ -89,11 +93,11 @@ describe("care reminder persistence", () => {
     });
     expect(
       selectDueCareReminder({
-        now: new Date(2026, 5, 23, 12, 0).getTime(),
+        now: new Date(2026, 5, 23, 14, 0).getTime(),
         deliveredKeys: [],
         nextEyeCareTime: Number.POSITIVE_INFINITY,
         nextWaterCareTime: Number.POSITIVE_INFINITY,
-        timedSnoozedUntil: new Date(2026, 5, 23, 12, 0).getTime(),
+        timedSnoozedUntil: new Date(2026, 5, 23, 14, 0).getTime(),
       }),
     ).toBeNull();
   });

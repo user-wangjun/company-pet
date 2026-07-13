@@ -53,11 +53,11 @@ export function selectTimedCareReminder(
   const hour = date.getHours();
   let reminder: TimedCareReminder | null = null;
 
-  if (hour >= 8 && hour < 9) {
+  if (hour >= 8 && hour < 10) {
     reminder = { kind: "meal", key: `${dateKey(date)}:meal-breakfast` };
-  } else if (hour >= 11 && hour < 12) {
+  } else if (hour >= 11 && hour < 14) {
     reminder = { kind: "meal", key: `${dateKey(date)}:meal-lunch` };
-  } else if (hour >= 18 && hour < 19) {
+  } else if (hour >= 18 && hour < 21) {
     reminder = { kind: "meal", key: `${dateKey(date)}:meal-dinner` };
   } else if (hour >= 23 || hour < 6) {
     reminder = { kind: "sleep", key: `${dateKey(sleepDate(date))}:sleep` };

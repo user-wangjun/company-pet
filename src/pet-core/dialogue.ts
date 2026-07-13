@@ -109,9 +109,9 @@ export function resolvePetDialogue(
 
 export function getTimedPetDialogueEvent(hour: number): PetDialogueEvent {
   if (
-    (hour >= 8 && hour < 9) ||
-    (hour >= 11 && hour < 12) ||
-    (hour >= 18 && hour < 19)
+    (hour >= 8 && hour < 10) ||
+    (hour >= 11 && hour < 14) ||
+    (hour >= 18 && hour < 21)
   ) {
     return "meal";
   }
