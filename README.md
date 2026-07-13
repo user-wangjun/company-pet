@@ -74,7 +74,7 @@ cargo check
 public/pets/index.json
 public/pets/<pet-id>/
   pet.json
-  spritesheet.webp
+  spritesheet.png
   preview.png
   README.md
 ```
