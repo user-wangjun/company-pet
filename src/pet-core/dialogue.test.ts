@@ -179,13 +179,13 @@ describe("pet dialogue packages", () => {
   });
 
   test("maps existing meal and sleep hours without adding timers", () => {
-    for (const hour of [8, 11, 18]) {
+    for (const hour of [8, 9, 11, 12, 13, 18, 19, 20]) {
       expect(getTimedPetDialogueEvent(hour)).toBe("meal");
     }
     for (const hour of [23, 0, 1, 5]) {
       expect(getTimedPetDialogueEvent(hour)).toBe("sleep");
     }
-    for (const hour of [6, 7, 9, 10, 12, 13, 14, 19, 20, 22]) {
+    for (const hour of [6, 7, 10, 14, 15, 16, 17, 21, 22]) {
       expect(getTimedPetDialogueEvent(hour)).toBe("idle");
     }
   });

@@ -91,7 +91,6 @@ import {
   resolvePetAssetUrl,
 } from "./pet-core/petAssets";
 import {
-  getAmbientPetDialogueRefresh,
   loadPetDialoguePackage,
   resolvePetDialogue,
   type PetDialogueEvent,
@@ -164,16 +163,6 @@ const PLATFORM_WINDOW_SIZE = { width: 860, height: 590 };
 type PetIndex = {
   pets: string[];
 };
-
-function getTimedDefaultBubble(): string {
-  const hour = new Date().getHours();
-  if (hour >= 8 && hour < 9) return "早上好！吃过早饭了吗？来个热腾腾的包子吧~ 🐾";
-  if (hour >= 11 && hour < 12) return "咕噜噜……到饭点啦，中午吃什么好呢？多加个鸡腿喵！🍗";
-  if (hour >= 13 && hour < 14) return "哈啊……好困，我们一起眯一会儿午觉吧。💤";
-  if (hour >= 18 && hour < 19) return "天黑啦，该去吃晚饭啦！今天也要好好犒劳自己喵~ 🌟";
-  if (hour >= 23 || hour < 6) return "唔……夜深了，快去睡觉吧，熬夜太伤身体了，小橘会心疼的喵💤";
-  return "我先睡一会儿。";
-}
 
 function randomInRange(min: number, max: number): number {
   return Math.random() * (max - min) + min;
@@ -352,11 +341,7 @@ function DesktopPetApp() {
   const currentAnimation = useRef<AnimationName>("idle");
   const currentFacing = useRef<PetFacing>("right");
   const playbackToken = useRef(0);
-  const [bubbleText, setBubbleText] = useState<string | null>(
-    getTimedDefaultBubble(),
-  );
-  const latestBubbleText = useRef<string | null>(bubbleText);
-  const ambientBubbleText = useRef<string | null>(null);
+  const [bubbleText, setBubbleText] = useState<string | null>(null);
   const careReminderPromptRef = useRef<ActiveCareReminderPrompt | null>(null);
   const [careReminderPrompt, setCareReminderPrompt] =
     useState<ActiveCareReminderPrompt | null>(null);
@@ -470,12 +455,8 @@ function DesktopPetApp() {
 
   const cancelPendingUpdate = () => {
     setPendingUpdate(null);
-    setDefaultBubbleText();
+    clearDefaultBubbleText();
   };
-
-  useEffect(() => {
-    latestBubbleText.current = bubbleText;
-  }, [bubbleText]);
 
   useEffect(() => {
     companionChatStateRef.current = companionChatState;
@@ -583,7 +564,7 @@ function DesktopPetApp() {
   }, [activePetId, activePetManifest]);
 
   useEffect(() => {
-    setDefaultBubbleTextForPet(activePetId);
+    clearDefaultBubbleText();
   }, [activePetId, petDialoguesById]);
 
   const applyPlatformWindowLayout = async (
@@ -742,7 +723,7 @@ function DesktopPetApp() {
     setCompanionChatState((current) => exitCompanionChat(current));
     saveSelectedPetId(pet.id);
     setActivePetId(pet.id);
-    setDefaultBubbleTextForPet(pet.id);
+    clearDefaultBubbleText();
     recordInteraction("platform_pet_selected");
   };
 
@@ -850,7 +831,7 @@ function DesktopPetApp() {
 
   const exitActiveCompanionChat = () => {
     setCompanionChatState((current) => exitCompanionChat(current));
-    setDefaultBubbleText();
+    clearDefaultBubbleText();
   };
 
   const getBubbleTextForPet = (
@@ -871,51 +852,7 @@ function DesktopPetApp() {
     return manifest ? resolvePetInteractionManifest(manifest) : null;
   };
 
-  const getDefaultBubbleTextForPet = (petId: string) => {
-    const resolved = getResolvedInteractionsForPet(petId);
-    const idle = resolved?.idle;
-    const nowTimestamp = Date.now();
-    const timedReminder = selectTimedCareReminder(
-      new Date(nowTimestamp),
-      careReminderState.current.deliveredKeys,
-    );
-    const dialogueEvent =
-      timedReminder && nowTimestamp >= timedCareSnoozedUntil.current
-        ? timedReminder.kind
-        : idle?.dialogueEvent ?? "idle";
-
-    return getBubbleTextForPet(
-      petId,
-      dialogueEvent,
-      idle?.bubbleText ?? getTimedDefaultBubble(),
-    );
-  };
-
-  const getDefaultBubbleText = () => getDefaultBubbleTextForPet(activePetId);
-
-  const setDefaultBubbleTextForPet = (petId: string) => {
-    const nextText = getDefaultBubbleTextForPet(petId);
-    ambientBubbleText.current = nextText;
-    setBubbleText(nextText);
-  };
-
-  const setDefaultBubbleText = () => {
-    setDefaultBubbleTextForPet(activePetId);
-  };
-
-  const refreshAmbientBubbleText = () => {
-    const nextAmbientText = getDefaultBubbleText();
-    const refreshedText = getAmbientPetDialogueRefresh(
-      latestBubbleText.current,
-      ambientBubbleText.current,
-      nextAmbientText,
-    );
-
-    if (refreshedText === null) return;
-
-    ambientBubbleText.current = refreshedText;
-    setBubbleText(refreshedText);
-  };
+  const clearDefaultBubbleText = () => setBubbleText(null);
 
   useEffect(() => {
     if (companionChatState.mode !== "active") return undefined;
@@ -971,7 +908,7 @@ function DesktopPetApp() {
 
   const clearCareReminderPrompt = () => {
     setActiveCareReminderPrompt(null);
-    setDefaultBubbleText();
+    clearDefaultBubbleText();
     playIdleAnimation();
   };
 
@@ -1100,7 +1037,7 @@ function DesktopPetApp() {
       if (expectedToken !== playbackToken.current) return;
       returnToIdleTimer.current = null;
       if (!careReminderPromptRef.current) {
-        setDefaultBubbleText();
+        clearDefaultBubbleText();
       }
       playIdleAnimation();
       if (resumeHoverAfterReturn) {
@@ -1664,7 +1601,7 @@ function DesktopPetApp() {
     pointerState.current = null;
     recordInteraction("pointer_cancel");
     clearHoverEatTimer();
-    setDefaultBubbleText();
+    clearDefaultBubbleText();
     playIdleAnimation();
   };
 
@@ -1788,7 +1725,6 @@ function DesktopPetApp() {
         return;
       }
 
-      refreshAmbientBubbleText();
     }
 
     if (

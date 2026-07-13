@@ -47,9 +47,9 @@
       height: calc((var(--base-h) * var(--size)) + ((var(--rows) - 1) * 34px));
       max-width: 100%;
       color: var(--ink);
-      font-size: 23px;
+      font-size: 21px;
       font-weight: 750;
-      line-height: 1.22;
+      line-height: 1.24;
       text-align: center;
       transition: width 160ms ease, height 160ms ease;
       font-family: "Microsoft YaHei UI", "Microsoft YaHei", system-ui, sans-serif;
@@ -73,7 +73,8 @@
       max-width: 100%;
       margin-left: calc(var(--text-w) * var(--size) * var(--grow) / -2);
       margin-top: calc(var(--rows) * -14px);
-      white-space: pre-line;
+      white-space: pre;
+      text-shadow: 0 1px 1px var(--shadow);
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
     }
@@ -120,15 +121,17 @@
       --text-offset-x: -18px;
       --text-y: 139px;
       --ink: #0e4a70;
+      --shadow: rgba(255, 255, 255, .42);
     }
     .ikun {
       --skin: url("nine-slice/ikun-bubble.png?v=ref-20260702");
       --base-w: 655px;
       --base-h: 270px;
-      --text-w: 360px;
-      --text-offset-x: -8px;
-      --text-y: 119px;
-      --ink: #fff1c7;
+      --text-w: 350px;
+      --text-offset-x: 0px;
+      --text-y: 111px;
+      --ink: #fff3c8;
+      --shadow: rgba(0, 0, 0, .72);
     }
     .xiaoju {
       --skin: url("nine-slice/xiaoju-bubble.png?v=ref-20260702");
@@ -138,15 +141,17 @@
       --text-offset-x: -58px;
       --text-y: 130px;
       --ink: #7b3f14;
+      --shadow: rgba(255, 255, 255, .46);
     }
     .suan {
       --skin: url("nine-slice/suan-bubble.png?v=ref-20260702");
       --base-w: 665px;
       --base-h: 310px;
       --text-w: 370px;
-      --text-offset-x: -68px;
+      --text-offset-x: -24px;
       --text-y: 137px;
       --ink: #5a2ca0;
+      --shadow: rgba(255, 255, 255, .48);
     }
     @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } main { padding: 18px; } }
   </style>
