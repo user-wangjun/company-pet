@@ -164,6 +164,8 @@ type PetIndex = {
   pets: string[];
 };
 
+const COMPANION_CHAT_TRIGGER_ENABLED = false;
+
 function randomInRange(min: number, max: number): number {
   return Math.random() * (max - min) + min;
 }
@@ -1308,6 +1310,8 @@ function DesktopPetApp() {
     return Date.now() - lastPointerEventAt.current > 700;
   };
   const handleSecondaryPress = () => {
+    if (!COMPANION_CHAT_TRIGGER_ENABLED) return;
+
     const click = registerSecondaryClick(lastSecondaryClickAt.current, Date.now());
     lastSecondaryClickAt.current = click.lastClickAt;
 
