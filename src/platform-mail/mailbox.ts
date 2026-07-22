@@ -3,7 +3,7 @@ export type PlatformLetter = {
   title: string;
   sender: string;
   publishedAt: string;
-  type: "welcome" | "update";
+  type: "welcome" | "update" | "care";
   paragraphs: string[];
   permanent: boolean;
 };
@@ -11,6 +11,7 @@ export type PlatformLetter = {
 export type MailboxState = {
   readLetterIds: string[];
   deletedLetterIds: string[];
+  receivedLetterIds: string[];
 };
 
 export type MailboxStorage = Pick<Storage, "getItem" | "setItem">;
@@ -18,9 +19,11 @@ export type MailboxWarning = (message: string, error?: unknown) => void;
 
 export const MAILBOX_STORAGE_KEY = "yuxin-mailbox-state-v1";
 export const WELCOME_LETTER_ID = "welcome-first-meeting";
+export const CARE_REMINDER_LETTER_ID = "care-system-popup-disabled";
 export const EMPTY_MAILBOX_STATE: MailboxState = {
   readLetterIds: [],
   deletedLetterIds: [],
+  receivedLetterIds: [],
 };
 
 export const BUILT_IN_LETTERS: PlatformLetter[] = [
@@ -38,7 +41,22 @@ export const BUILT_IN_LETTERS: PlatformLetter[] = [
       "生活很累，但也很甜，希望您身体健康，万事如意，平安喜乐。",
     ],
   },
+  {
+    id: CARE_REMINDER_LETTER_ID,
+    title: "愿你时常爱惜自己的身体",
+    sender: "望星科技 × 知了",
+    publishedAt: "2026-07-15",
+    type: "care",
+    permanent: true,
+    paragraphs: [
+      "亲爱的用户：",
+      "可能是因为弹窗经常提醒导致影响您的体验了，很抱歉。",
+      "但此次关闭只能影响弹窗关闭，我们还是希望您能时常爱惜自己的身体，毕竟人生还长，风景很美！",
+    ],
+  },
 ];
+
+const RECEIPT_GATED_LETTER_IDS = new Set([CARE_REMINDER_LETTER_ID]);
 
 function uniqueStrings(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
@@ -69,6 +87,7 @@ function normalizeMailboxState(value: unknown): MailboxState {
     deletedLetterIds: uniqueStrings(record.deletedLetterIds).filter(
       (id) => !permanentIds.has(id),
     ),
+    receivedLetterIds: uniqueStrings(record.receivedLetterIds),
   };
 }
 
@@ -142,12 +161,33 @@ export function markLetterRead(
   };
 }
 
+export function receiveLetter(
+  state: MailboxState,
+  letterId: string,
+): MailboxState {
+  return {
+    ...state,
+    receivedLetterIds: state.receivedLetterIds.includes(letterId)
+      ? state.receivedLetterIds
+      : [...state.receivedLetterIds, letterId],
+    readLetterIds: state.readLetterIds.filter((id) => id !== letterId),
+    deletedLetterIds: state.deletedLetterIds.filter((id) => id !== letterId),
+  };
+}
+
 export function getVisibleLetters(
   letters: PlatformLetter[],
   state: MailboxState,
 ): PlatformLetter[] {
   const deletedIds = new Set(state.deletedLetterIds);
-  return letters.filter((letter) => letter.permanent || !deletedIds.has(letter.id));
+  const receivedIds = new Set(state.receivedLetterIds);
+  return letters.filter((letter) => {
+    if (RECEIPT_GATED_LETTER_IDS.has(letter.id) && !receivedIds.has(letter.id)) {
+      return false;
+    }
+
+    return letter.permanent || !deletedIds.has(letter.id);
+  });
 }
 
 export function getUnreadCount(

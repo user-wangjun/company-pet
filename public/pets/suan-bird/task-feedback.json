@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "scenes": {
+    "taskCreated": { "texts": ["蒜鸟记下啦，包在我身上。", "收到，到时候我来喊你。"], "action": "singleClick", "fallbackAction": "idle", "durationMs": 1800 },
+    "taskDue": { "texts": ["到时间啦，扑扑翅膀准备开始。", "这件事该看一眼啦。"], "action": "singleClick", "fallbackAction": "idle", "durationMs": 2100 },
+    "taskCompleted": { "texts": ["完成！轻轻跳一下庆祝。", "做完啦，今天也很靠谱。"], "action": "doubleClick", "fallbackAction": "singleClick", "durationMs": 2200 },
+    "taskCompletionBurst": { "texts": ["一连完成好几件，蒜鸟给你多拍两下翅膀。"], "action": "doubleClick", "fallbackAction": "singleClick", "durationMs": 2500 },
+    "reminderSnoozed": { "texts": ["好，先歇10分钟，我还会回来。"], "action": "sleep", "fallbackAction": "idle", "durationMs": 1800 },
+    "repeatedSnooze": { "texts": ["已经歇了好几轮，要不要重新挑个时间？"], "action": "eyeCare", "fallbackAction": "idle", "durationMs": 2200 },
+    "taskRescheduled": { "texts": ["挪到新时间啦，蒜鸟记住了。"], "action": "dragRight", "fallbackAction": "idle", "durationMs": 1800 },
+    "taskBurst": { "texts": ["事情有点多，左右看看再一件件来。"], "action": "singleClick", "fallbackAction": "idle", "durationMs": 2000 },
+    "taskOverdue": { "texts": ["这件事还没落地，有空时回来看看。"], "action": "idle", "fallbackAction": "idle", "durationMs": 1800 },
+    "dailyReview": { "texts": ["蒜鸟蒜鸟，看到你这么努力我就放心了。"], "action": "eyeCare", "fallbackAction": "idle", "durationMs": 2300 }
+  }
+}

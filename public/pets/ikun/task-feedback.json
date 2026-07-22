@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "scenes": {
+    "taskCreated": { "texts": ["收到，这件事已经记下。", "安排好了，到点提醒你。"], "action": "readyIdle", "fallbackAction": "idle", "durationMs": 1700 },
+    "taskDue": { "texts": ["到时间了，准备开始。", "提醒到位，接下来交给你。"], "action": "care", "fallbackAction": "readyIdle", "durationMs": 2200 },
+    "taskCompleted": { "texts": ["漂亮，稳稳拿下。", "完成得不错，收球。"], "action": "doubleClick", "fallbackAction": "dance", "durationMs": 2200 },
+    "taskCompletionBurst": { "texts": ["连续得分，今天的节奏很好。"], "action": "dance", "fallbackAction": "doubleClick", "durationMs": 2500 },
+    "reminderSnoozed": { "texts": ["好，10分钟后再提醒。"], "action": "backTurn", "fallbackAction": "readyIdle", "durationMs": 1700 },
+    "repeatedSnooze": { "texts": ["已经延后几次了，要不要重新排个时间？"], "action": "backTurn", "fallbackAction": "readyIdle", "durationMs": 2100 },
+    "taskRescheduled": { "texts": ["时间重新排好，节奏不乱。"], "action": "drag", "fallbackAction": "readyIdle", "durationMs": 1800 },
+    "taskBurst": { "texts": ["任务不少，控好节奏逐个处理。"], "action": "dance", "fallbackAction": "readyIdle", "durationMs": 2200 },
+    "taskOverdue": { "texts": ["这件事还在场上，方便时处理一下。"], "action": "care", "fallbackAction": "readyIdle", "durationMs": 1900 },
+    "dailyReview": { "texts": ["叽！IKUN不错呀，继续努力，鸽鸽看好你！"], "action": "readyIdle", "fallbackAction": "idle", "durationMs": 2100 }
+  }
+}

@@ -24,6 +24,8 @@ export type PetManifest = {
   previewPath?: string;
   dialoguesPath?: string;
   companionChatPath?: string;
+  taskFeedbackPath?: string;
+  threeViewPreviewPath?: string;
   animations: Record<string, PetAnimationSpec>;
   interactions: PetManifestInteractions;
   sounds?: PetManifestSounds;

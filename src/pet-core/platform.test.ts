@@ -11,6 +11,7 @@ import {
   getCenteredWindowPosition,
   getInitialPetWindowPosition,
   PLATFORM_START_OPEN,
+  PLATFORM_START_SECTION,
 } from "./platform";
 import defaultCapability from "../../src-tauri/capabilities/default.json";
 import tauriConfig from "../../src-tauri/tauri.conf.json";
@@ -25,6 +26,7 @@ describe("platform branding", () => {
 
   test("starts on the platform panel before showing a pet", () => {
     expect(PLATFORM_START_OPEN).toBe(true);
+    expect(PLATFORM_START_SECTION).toBe("pets");
   });
 
   test("allows the platform panel to start native window dragging", () => {

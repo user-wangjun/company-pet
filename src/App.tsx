@@ -15,6 +15,12 @@ import {
 } from "@tauri-apps/api/window";
 import { listen } from "@tauri-apps/api/event";
 import {
+  isPermissionGranted as isNativeNotificationPermissionGranted,
+  removeActive as removeActiveNotifications,
+  requestPermission as requestNativeNotificationPermission,
+  sendNotification as sendNativeNotification,
+} from "@tauri-apps/plugin-notification";
+import {
   AnimatedSprite,
   Application,
   Assets,
@@ -26,12 +32,14 @@ import { LetterReader } from "./platform-mail/LetterReader";
 import { MailboxPanel } from "./platform-mail/MailboxPanel";
 import {
   BUILT_IN_LETTERS,
+  CARE_REMINDER_LETTER_ID,
   WELCOME_LETTER_ID,
   deleteReadLetters,
   getUnreadCount,
   markAllLettersRead,
   markLetterRead,
   readMailboxState,
+  receiveLetter,
   shouldShowFirstUseLetter,
   writeMailboxState,
   type MailboxState,
@@ -54,7 +62,6 @@ import {
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
-  registerSecondaryClick,
   resolveDragAnimationName,
   shouldStartDrag,
   shouldTriggerHoverEat,
@@ -77,6 +84,7 @@ import {
   getCenteredWindowPosition,
   getInitialPetWindowPosition,
   PLATFORM_START_OPEN,
+  PLATFORM_START_SECTION,
   type WindowPosition,
   type WindowSize,
 } from "./pet-core/platform";
@@ -109,7 +117,6 @@ import {
 import {
   INACTIVE_COMPANION_CHAT,
   createLocalCompanionChatProvider,
-  enterCompanionChat,
   exitCompanionChat,
   receiveCompanionReply,
   sendCompanionMessage,
@@ -132,9 +139,12 @@ import {
   readCareReminderState,
   selectDueCareReminder,
   selectTimedCareReminder,
+  unmarkCareReminderDelivered,
   writeCareReminderState,
   type CareReminderState,
+  type CareReminderSettings as CareReminderSettingsValue,
 } from "./pet-core/careReminders";
+import { revealHiddenPetForCareReminder } from "./pet-core/careReminderWindow";
 import {
   getInteractionAnimationSpec,
   resolveActionPlaybackSteps,
@@ -156,15 +166,49 @@ import {
 } from "./pet-update/updateCheck";
 import { UpdateDialog } from "./pet-update/UpdateDialog";
 import { startInstallerUpdate } from "./pet-update/installUpdate";
+import {
+  loadTaskFeedbackPackage,
+  resolveTaskFeedback,
+  type TaskFeedbackPackage,
+  type TaskFeedbackScene,
+} from "./pet-core/taskFeedback";
+import { QuickCreateTask } from "./task-core/QuickCreateTask";
+import { TaskContextMenu } from "./task-core/TaskContextMenu";
+import { TaskReminderStack } from "./task-core/TaskReminderStack";
+import { TaskWorkspace } from "./task-core/TaskWorkspace";
+import {
+  completeReminderInstance,
+  closeMissedReminderSummary,
+  createTask,
+  dismissReminderInstance,
+  getActiveTriggeredReminders,
+  markUnattendedReminders,
+  purgeExpiredTrash,
+  readTaskDatabase,
+  reconcileTaskTimezone,
+  recordTaskMetric,
+  snoozeReminderInstance,
+  triggerDueReminders,
+  writeTaskDatabase,
+  updateTaskSettings,
+} from "./task-core/taskStore";
+import { selectTasks, type TaskListView } from "./task-core/taskQueries";
+import type { TaskDatabase, TaskDraft, TriggeredReminder } from "./task-core/types";
+import "./task-core/task-ui.css";
 const CURRENT_PET_STORAGE_KEY = "desktop-pet.currentPetId";
 const PET_WINDOW_SIZE = { width: 165, height: 215 };
-const PLATFORM_WINDOW_SIZE = { width: 860, height: 590 };
+const PET_REMINDER_WINDOW_SIZE = { width: 240, height: 450 };
+const PLATFORM_PANEL_WIDTH = 860;
+const PLATFORM_PET_RAIL_WIDTH = PET_WINDOW_SIZE.width + 12;
+const PLATFORM_WINDOW_SIZE = {
+  width: PLATFORM_PANEL_WIDTH + PLATFORM_PET_RAIL_WIDTH,
+  height: 590,
+};
+const QUICK_CREATE_WINDOW_SIZE = { width: 390, height: 290 };
 
 type PetIndex = {
   pets: string[];
 };
-
-const COMPANION_CHAT_TRIGGER_ENABLED = false;
 
 function randomInRange(min: number, max: number): number {
   return Math.random() * (max - min) + min;
@@ -177,7 +221,7 @@ type AnimationName = string;
 type AvailableUpdate = Extract<UpdateCheckResult, { status: "available" }>;
 type PressSource = "pointer" | "mouse";
 type TauriWindow = ReturnType<typeof getCurrentWindow>;
-type WindowMode = "platform" | "pet";
+type WindowMode = "platform" | "pet" | "quick-create";
 type OpenPlatformPayload = {
   resetPetPosition?: boolean;
 };
@@ -194,7 +238,7 @@ type ActiveCareReminderPrompt =
     };
 
 const MEAL_REMINDER_SNOOZE_MS = 10 * 60 * 1000;
-const RANDOM_REMINDER_PROMPT_MS = 60 * 1000;
+const RANDOM_REMINDER_PROMPT_MS = 2 * 60 * 1000;
 
 function isTauriRuntime(): boolean {
   return (
@@ -241,6 +285,19 @@ function getOptionalCurrentWindow(): TauriWindow | null {
 
 function recordInteraction(event: string): Promise<unknown> {
   return invoke("record_interaction", { event }).catch(() => {});
+}
+
+function localDateKey(date = new Date()): string {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+function notificationIdForInstance(instanceId: string): number {
+  let hash = 0;
+  for (let index = 0; index < instanceId.length; index += 1) {
+    hash = (Math.imul(31, hash) + instanceId.charCodeAt(index)) | 0;
+  }
+  return Math.abs(hash || 1);
 }
 
 function listenToAppEvent<T = undefined>(
@@ -300,6 +357,11 @@ function DesktopPetApp() {
   const animationSpecsRef = useRef<Record<AnimationName, PetAnimationSpec> | null>(null);
   const interactionManifestRef = useRef<ResolvedPetInteractionManifest | null>(null);
   const soundPlayerRef = useRef<PetSoundPlayer | null>(null);
+  const systemTaskNotifications = useRef<Map<string, Notification>>(new Map());
+  const nativeTaskNotifications = useRef<Map<string, number>>(new Map());
+  const customTaskNotifications = useRef<Set<string>>(new Set());
+  const missedSummaryNotificationId = useRef<string | null>(null);
+  const recentTaskCompletion = useRef({ count: 0, lastAt: 0 });
   const returnToIdleTimer = useRef<number | null>(null);
   const hoverEatTimer = useRef<number | null>(null);
   const iconHugClickThroughTimer = useRef<number | null>(null);
@@ -332,12 +394,12 @@ function DesktopPetApp() {
     dragDirection?: DragDirectionState;
   } | null>(null);
   const lastPointerEventAt = useRef(0);
-  const lastSecondaryClickAt = useRef<number | null>(null);
   const clickCount = useRef(0);
   const clickTimer = useRef<number | null>(null);
-  const nextEyeCareTime = useRef(Date.now() + randomInRange(30, 50) * 60 * 1000);
-  const nextWaterCareTime = useRef(Date.now() + randomInRange(60, 90) * 60 * 1000);
   const careReminderState = useRef<CareReminderState>(readCareReminderState());
+  const [careReminderSettings, setCareReminderSettings] = useState(careReminderState.current.settings);
+  const [careReminderNoticeDismissed, setCareReminderNoticeDismissed] = useState(careReminderState.current.systemPopupNoticeDismissed);
+  const nextEyeCareTime = useRef(Date.now() + careReminderState.current.settings.eyeCare.intervalMinutes * 60 * 1000);
   const timedCareSnoozedUntil = useRef(0);
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
@@ -348,6 +410,19 @@ function DesktopPetApp() {
   const [careReminderPrompt, setCareReminderPrompt] =
     useState<ActiveCareReminderPrompt | null>(null);
   const [isPlatformOpen, setIsPlatformOpen] = useState(PLATFORM_START_OPEN);
+  const [isTaskMenuOpen, setIsTaskMenuOpen] = useState(false);
+  const [isQuickCreateOpen, setIsQuickCreateOpen] = useState(false);
+  const [platformSection, setPlatformSection] = useState<"tasks" | "pets">(PLATFORM_START_SECTION);
+  const [taskListView, setTaskListView] = useState<TaskListView>("today");
+  const [taskDetailId, setTaskDetailId] = useState<string | null>(null);
+  const [hiddenTaskReminderIds, setHiddenTaskReminderIds] = useState<Set<string>>(() => new Set());
+  const [taskDatabase, setTaskDatabase] = useState<TaskDatabase>(() => {
+    const stored = readTaskDatabase();
+    const timezoneAdjusted = reconcileTaskTimezone(stored);
+    const purged = purgeExpiredTrash(timezoneAdjusted);
+    if (purged !== stored) writeTaskDatabase(purged);
+    return purged;
+  });
   const [availablePetIds, setAvailablePetIds] = useState<string[]>([
     DEFAULT_PET_ID,
   ]);
@@ -360,6 +435,9 @@ function DesktopPetApp() {
   const [petCompanionChatsById, setPetCompanionChatsById] = useState<
     Record<string, CompanionChatPackage>
   >({});
+  const [petTaskFeedbackById, setPetTaskFeedbackById] = useState<
+    Record<string, TaskFeedbackPackage>
+  >({});
   const [companionChatState, setCompanionChatState] =
     useState<CompanionChatState>(INACTIVE_COMPANION_CHAT);
   const companionChatStateRef = useRef<CompanionChatState>(INACTIVE_COMPANION_CHAT);
@@ -368,6 +446,7 @@ function DesktopPetApp() {
   );
   const [activePetId, setActivePetId] = useState(DEFAULT_PET_ID);
   const windowMode = useRef<WindowMode>(isPlatformOpen ? "platform" : "pet");
+  const petWindowLogicalSize = useRef<WindowSize>(PET_WINDOW_SIZE);
   const resetPetPositionOnNextOpen = useRef(true);
   const lastPetWindowPosition = useRef<WindowPosition | null>(null);
   const mailboxButtonRef = useRef<HTMLButtonElement>(null);
@@ -396,9 +475,91 @@ function DesktopPetApp() {
   );
   const activePet = petCatalog.find((pet) => pet.id === activePetId);
   const activePetManifest = petManifestsById[activePetId];
+  const dailyReviewSpeakerTexts = useMemo(
+    () => ({
+      at_least_half: resolveTaskFeedback(petTaskFeedbackById[activePetId], "dailyReviewAtLeastHalf", "今天完成了不少，辛苦了。", () => 0).text,
+      below_half: resolveTaskFeedback(petTaskFeedbackById[activePetId], "dailyReviewBelowHalf", "今天已经迈出了一步，剩下的我们慢慢来。", () => 0).text,
+      zero: resolveTaskFeedback(petTaskFeedbackById[activePetId], "dailyReviewZero", "今天还没有留下完成记录，明天我们从一件小事开始吧。", () => 0).text,
+    }),
+    [activePetId, petTaskFeedbackById],
+  );
   const visibleUnreadCount = getUnreadCount(BUILT_IN_LETTERS, mailboxState);
   const activeLetter =
     BUILT_IN_LETTERS.find((letter) => letter.id === activeLetterId) ?? null;
+  const activeTaskReminders = useMemo(
+    () => getActiveTriggeredReminders(taskDatabase),
+    [taskDatabase],
+  );
+  const visibleTaskReminders = useMemo(
+    () => activeTaskReminders.filter(({ instance }) => {
+      if (hiddenTaskReminderIds.has(instance.id)) return false;
+      if (!instance.triggeredAt) return true;
+      return Date.now() - new Date(instance.triggeredAt).getTime() < taskDatabase.settings.bubbleDurationMinutes * 60 * 1000;
+    }),
+    [activeTaskReminders, hiddenTaskReminderIds, taskDatabase.settings.bubbleDurationMinutes],
+  );
+
+  useEffect(() => {
+    const activeIds = new Set(taskDatabase.reminderInstances
+      .filter((instance) => ["triggered", "missed"].includes(instance.status))
+      .map((instance) => instance.id));
+    for (const [instanceId, notification] of systemTaskNotifications.current) {
+      if (activeIds.has(instanceId)) continue;
+      notification.close();
+      systemTaskNotifications.current.delete(instanceId);
+    }
+    for (const [instanceId, notificationId] of nativeTaskNotifications.current) {
+      if (activeIds.has(instanceId)) continue;
+      void removeActiveNotifications([{ id: notificationId }]).catch(() => {});
+      nativeTaskNotifications.current.delete(instanceId);
+    }
+    for (const instanceId of customTaskNotifications.current) {
+      if (activeIds.has(instanceId)) continue;
+      void invoke("clear_task_notification", { instanceId }).catch(() => {});
+      customTaskNotifications.current.delete(instanceId);
+    }
+  }, [taskDatabase]);
+
+  const commitTaskDatabase = (next: TaskDatabase, feedback?: string) => {
+    const completedDelta = next.history.filter((entry) => entry.type === "completed").length
+      - taskDatabase.history.filter((entry) => entry.type === "completed").length;
+    const postponedDelta = next.history.filter((entry) => entry.type === "postponed").length
+      - taskDatabase.history.filter((entry) => entry.type === "postponed").length;
+    const createdDelta = next.tasks.length - taskDatabase.tasks.length;
+    const nextActiveInstanceIds = new Set(next.reminderInstances
+      .filter((instance) => ["triggered", "missed"].includes(instance.status))
+      .map((instance) => instance.id));
+    for (const instance of taskDatabase.reminderInstances) {
+      if (!["triggered", "missed"].includes(instance.status) || nextActiveInstanceIds.has(instance.id)) continue;
+      systemTaskNotifications.current.get(instance.id)?.close();
+      if (isTauriRuntime()) void invoke("clear_task_notification", { instanceId: instance.id }).catch(() => {});
+      customTaskNotifications.current.delete(instance.id);
+    }
+    writeTaskDatabase(next);
+    setTaskDatabase(next);
+    if (feedback) setBubbleText(feedback);
+    const resolved = getActiveInteractionManifest();
+    if (!resolved) return;
+    if (completedDelta > 0) {
+      const now = Date.now();
+      recentTaskCompletion.current = {
+        count: now - recentTaskCompletion.current.lastAt <= 5000
+          ? recentTaskCompletion.current.count + completedDelta
+          : completedDelta,
+        lastAt: now,
+      };
+      const multiple = recentTaskCompletion.current.count > 1;
+      playTaskFeedback(
+        multiple ? "taskCompletionBurst" : "taskCompleted",
+        multiple ? `连续完成了 ${recentTaskCompletion.current.count} 件，真不错。` : "做完啦，已经替你收好了。",
+        resolved.doubleClick,
+      );
+    } else if (createdDelta > 0) {
+      playTaskFeedback("taskCreated", feedback ?? "已经替你记好啦。", resolved.singleClick);
+    } else if (postponedDelta > 0) {
+      playTaskFeedback("taskRescheduled", feedback ?? "时间已经重新安排好。", resolved.idle);
+    }
+  };
 
   if (soundPlayerRef.current === null) {
     soundPlayerRef.current = createPetSoundPlayer({ enabled: false });
@@ -484,13 +645,86 @@ function DesktopPetApp() {
       soundPlayerRef.current?.setEnabled(soundEnabled);
       recordInteraction(soundEnabled ? "sound_enabled" : "sound_disabled");
     });
+    const unlistenQuickTaskPromise = listenToAppEvent("open-task-quick-create", () => {
+      openQuickTaskCreate();
+    });
+    const unlistenTodayTasksPromise = listenToAppEvent("open-task-today", () => {
+      openTaskPlatform("today");
+    });
+    const unlistenTaskRemindersPromise = listenToAppEvent("open-task-reminders", () => {
+      openTaskPlatform("upcoming");
+    });
+    const unlistenTaskWakeupPromise = listenToAppEvent("task-scheduler-wakeup", () => {
+      window.dispatchEvent(new Event("task-scheduler-wakeup"));
+    });
+    const handleTaskNotificationAction = ({ instanceId, action }: { instanceId: string; action: string }) => {
+        if (action === "summary-detail") {
+          openTaskPlatform("today");
+          return;
+        }
+        if (action === "summary-close") {
+          void invoke("clear_task_notification", { instanceId }).catch(() => {});
+          const next = closeMissedReminderSummary(readTaskDatabase());
+          writeTaskDatabase(next);
+          setTaskDatabase(next);
+          return;
+        }
+        if (action === "detail") {
+          const instance = readTaskDatabase().reminderInstances.find((item) => item.id === instanceId);
+          openTaskPlatform("today", instance?.taskId ?? null);
+          return;
+        }
+        const current = readTaskDatabase();
+        let next = current;
+        if (action === "complete") next = completeReminderInstance(current, instanceId);
+        if (action === "snooze-10") next = snoozeReminderInstance(current, instanceId, 10);
+        if (action === "snooze-30") next = snoozeReminderInstance(current, instanceId, 30);
+        if (action === "snooze-60") next = snoozeReminderInstance(current, instanceId, 60);
+        if (action === "dismiss") next = dismissReminderInstance(current, instanceId);
+        if (next === current) return;
+        next = recordTaskMetric(next, "system_notification_action");
+        writeTaskDatabase(next);
+        setTaskDatabase(next);
+        customTaskNotifications.current.delete(instanceId);
+      };
+    const unlistenTaskNotificationActionPromise = listenToAppEvent<{ instanceId: string; action: string }>(
+      "task-notification-action",
+      handleTaskNotificationAction,
+    );
+
+    if (isTauriRuntime()) {
+      void invoke<Array<{ instanceId: string; action: string }>>("get_initial_task_notification_actions")
+        .then((actions) => actions.forEach(handleTaskNotificationAction))
+        .catch(() => {});
+      void invoke<boolean>("is_task_scheduler_wakeup").then((isWakeup) => {
+        if (!isWakeup) return;
+        setIsPlatformOpen(false);
+        setIsQuickCreateOpen(false);
+        window.dispatchEvent(new Event("task-scheduler-wakeup"));
+      }).catch(() => {});
+    }
 
     return () => {
       void unlistenUpdatePromise.then((unlisten) => unlisten());
       void unlistenPlatformPromise.then((unlisten) => unlisten());
       void unlistenSoundPromise.then((unlisten) => unlisten());
+      void unlistenQuickTaskPromise.then((unlisten) => unlisten());
+      void unlistenTodayTasksPromise.then((unlisten) => unlisten());
+      void unlistenTaskRemindersPromise.then((unlisten) => unlisten());
+      void unlistenTaskWakeupPromise.then((unlisten) => unlisten());
+      void unlistenTaskNotificationActionPromise.then((unlisten) => unlisten());
     };
   }, []);
+
+  useEffect(() => {
+    if (!isTauriRuntime()) return;
+    const schedules = (taskDatabase.settings.backgroundReminders ? taskDatabase.reminderInstances : [])
+      .filter((instance) => instance.status === "scheduled")
+      .map((instance) => ({ instanceId: instance.id, scheduledAt: instance.scheduledAt }));
+    void invoke("sync_task_schedules", { schedules }).catch(() => {
+      recordInteraction("task_schedule_sync_failed");
+    });
+  }, [taskDatabase.reminderInstances, taskDatabase.settings.backgroundReminders]);
 
   useEffect(() => {
     let disposed = false;
@@ -524,6 +758,12 @@ function DesktopPetApp() {
               [petId, await loadPetCompanionChatPackage(manifest)] as const,
           ),
         );
+        const taskFeedbackEntries = await Promise.all(
+          manifestEntries.map(
+            async ([petId, manifest]) =>
+              [petId, await loadTaskFeedbackPackage(manifest)] as const,
+          ),
+        );
         const initialPetId = chooseInitialPetId(petIds, readSavedPetId());
 
         if (disposed) return;
@@ -531,6 +771,7 @@ function DesktopPetApp() {
         setPetManifestsById(manifests);
         setPetDialoguesById(Object.fromEntries(dialogueEntries));
         setPetCompanionChatsById(Object.fromEntries(companionChatEntries));
+        setPetTaskFeedbackById(Object.fromEntries(taskFeedbackEntries));
         setActivePetId(initialPetId);
       } catch {
         const fallbackManifest = await loadPetManifest(DEFAULT_PET_ID).catch(
@@ -541,11 +782,13 @@ function DesktopPetApp() {
         const fallbackDialogues = await loadPetDialoguePackage(fallbackManifest);
         const fallbackCompanionChat =
           await loadPetCompanionChatPackage(fallbackManifest);
+        const fallbackTaskFeedback = await loadTaskFeedbackPackage(fallbackManifest);
         if (disposed) return;
         setAvailablePetIds([DEFAULT_PET_ID]);
         setPetManifestsById({ [DEFAULT_PET_ID]: fallbackManifest });
         setPetDialoguesById({ [DEFAULT_PET_ID]: fallbackDialogues });
         setPetCompanionChatsById({ [DEFAULT_PET_ID]: fallbackCompanionChat });
+        setPetTaskFeedbackById({ [DEFAULT_PET_ID]: fallbackTaskFeedback });
         setActivePetId(DEFAULT_PET_ID);
       }
     };
@@ -566,6 +809,23 @@ function DesktopPetApp() {
   }, [activePetId, activePetManifest]);
 
   useEffect(() => {
+    if (isPlatformOpen || isQuickCreateOpen) return;
+    const today = localDateKey();
+    if (taskDatabase.settings.lastOverduePromptDate === today) return;
+    const overdue = selectTasks(taskDatabase, "overdue");
+    if (overdue.length === 0) return;
+    const next = updateTaskSettings(taskDatabase, { lastOverduePromptDate: today });
+    writeTaskDatabase(next);
+    setTaskDatabase(next);
+    const resolved = getActiveInteractionManifest();
+    if (resolved) playTaskFeedback(
+      "taskOverdue",
+      overdue.length === 1 ? `还有「${overdue[0].title}」在等你，有空时看看就好。` : `今天有 ${overdue.length} 件过期事项，有空时慢慢看看。`,
+      resolved.reminders.eyeCare,
+    );
+  }, [activePetId, isPlatformOpen, isQuickCreateOpen, taskDatabase]);
+
+  useEffect(() => {
     clearDefaultBubbleText();
   }, [activePetId, petDialoguesById]);
 
@@ -576,7 +836,10 @@ function DesktopPetApp() {
     if (shouldCapturePetPosition) {
       const position = await appWindow.outerPosition().catch(() => null);
       if (position) {
-        lastPetWindowPosition.current = { x: position.x, y: position.y };
+        lastPetWindowPosition.current = {
+          x: Math.round(position.x + (petWindowLogicalSize.current.width - PET_WINDOW_SIZE.width) / 2),
+          y: position.y + petWindowLogicalSize.current.height - PET_WINDOW_SIZE.height,
+        };
       }
     }
 
@@ -597,12 +860,19 @@ function DesktopPetApp() {
   const applyPetWindowLayout = async (
     appWindow: TauriWindow,
     shouldUseInitialPosition: boolean,
+    desiredSize: WindowSize,
   ) => {
-    await setWindowSize(appWindow, PET_WINDOW_SIZE);
+    await setWindowSize(appWindow, desiredSize);
+    petWindowLogicalSize.current = desiredSize;
+
+    const toDesiredPosition = (normalPosition: WindowPosition): WindowPosition => ({
+      x: Math.round(normalPosition.x - (desiredSize.width - PET_WINDOW_SIZE.width) / 2),
+      y: normalPosition.y - (desiredSize.height - PET_WINDOW_SIZE.height),
+    });
 
     if (!shouldUseInitialPosition) {
       if (lastPetWindowPosition.current) {
-        await setWindowPosition(appWindow, lastPetWindowPosition.current);
+        await setWindowPosition(appWindow, toDesiredPosition(lastPetWindowPosition.current));
       }
       return;
     }
@@ -610,11 +880,33 @@ function DesktopPetApp() {
     const monitor = await getPlacementMonitor();
     if (!monitor) return;
 
-    await setWindowPosition(
-      appWindow,
+    await setWindowPosition(appWindow, toDesiredPosition(
       getInitialPetWindowPosition(
         monitor.workArea,
         getPhysicalWindowSize(PET_WINDOW_SIZE, monitor),
+      ),
+    ));
+  };
+
+  const applyQuickCreateWindowLayout = async (
+    appWindow: TauriWindow,
+    shouldCapturePetPosition: boolean,
+  ) => {
+    const currentPosition = await appWindow.outerPosition().catch(() => null);
+    if (shouldCapturePetPosition && currentPosition) {
+      lastPetWindowPosition.current = {
+        x: Math.round(currentPosition.x + (petWindowLogicalSize.current.width - PET_WINDOW_SIZE.width) / 2),
+        y: currentPosition.y + petWindowLogicalSize.current.height - PET_WINDOW_SIZE.height,
+      };
+    }
+    const monitor = await getPlacementMonitor();
+    await setWindowSize(appWindow, QUICK_CREATE_WINDOW_SIZE);
+    if (!monitor) return;
+    await setWindowPosition(
+      appWindow,
+      getCenteredWindowPosition(
+        monitor.workArea,
+        getPhysicalWindowSize(QUICK_CREATE_WINDOW_SIZE, monitor),
       ),
     );
   };
@@ -623,7 +915,11 @@ function DesktopPetApp() {
     const appWindow = getOptionalCurrentWindow();
     if (!appWindow) return;
 
-    const nextMode: WindowMode = isPlatformOpen ? "platform" : "pet";
+    const nextMode: WindowMode = isPlatformOpen
+      ? "platform"
+      : isQuickCreateOpen
+        ? "quick-create"
+        : "pet";
     const previousMode = windowMode.current;
     windowMode.current = nextMode;
 
@@ -637,13 +933,45 @@ function DesktopPetApp() {
       return;
     }
 
+    if (nextMode === "quick-create") {
+      void applyQuickCreateWindowLayout(appWindow, previousMode === "pet").catch(() => {
+        recordInteraction("quick_create_layout_failed");
+      });
+      return;
+    }
+
     const shouldUseInitialPosition = resetPetPositionOnNextOpen.current;
     resetPetPositionOnNextOpen.current = false;
 
-    void applyPetWindowLayout(appWindow, shouldUseInitialPosition).catch(() => {
+    const desiredPetSize = visibleTaskReminders.length > 0
+      ? PET_REMINDER_WINDOW_SIZE
+      : PET_WINDOW_SIZE;
+    void applyPetWindowLayout(appWindow, shouldUseInitialPosition, desiredPetSize).catch(() => {
       recordInteraction("pet_layout_failed");
     });
-  }, [isPlatformOpen]);
+  }, [isPlatformOpen, isQuickCreateOpen]);
+
+  useEffect(() => {
+    if (isPlatformOpen || isQuickCreateOpen) return;
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) return;
+    const desired = visibleTaskReminders.length > 0
+      ? PET_REMINDER_WINDOW_SIZE
+      : PET_WINDOW_SIZE;
+    const current = petWindowLogicalSize.current;
+    if (current.width === desired.width && current.height === desired.height) return;
+
+    void appWindow.outerPosition().then(async (position) => {
+      if (windowMode.current !== "pet") return;
+      await setWindowSize(appWindow, desired);
+      if (windowMode.current !== "pet") return;
+      await setWindowPosition(appWindow, {
+        x: Math.round(position.x - (desired.width - current.width) / 2),
+        y: position.y - (desired.height - current.height),
+      });
+      petWindowLogicalSize.current = desired;
+    }).catch(() => recordInteraction("task_reminder_layout_failed"));
+  }, [visibleTaskReminders.length]);
 
   const stopPlatformEvent = (
     event: ReactMouseEvent<HTMLElement> | ReactPointerEvent<HTMLElement>,
@@ -669,6 +997,161 @@ function DesktopPetApp() {
     event.stopPropagation();
     setIsPlatformOpen(false);
     recordInteraction("platform_close");
+  };
+
+  const openTaskPlatform = (view: TaskListView = "today", taskId: string | null = null) => {
+    setTaskListView(view);
+    setTaskDetailId(taskId);
+    setPlatformSection("tasks");
+    setIsQuickCreateOpen(false);
+    setIsPlatformOpen(true);
+    recordInteraction(`task_platform_open_${view}`);
+  };
+
+  const openPetPlatform = () => {
+    setPlatformSection("pets");
+    setIsQuickCreateOpen(false);
+    setIsPlatformOpen(true);
+  };
+
+  const openQuickTaskCreate = () => {
+    setIsTaskMenuOpen(false);
+    setIsPlatformOpen(false);
+    setIsQuickCreateOpen(true);
+    recordInteraction("task_quick_create_open");
+  };
+
+  const createQuickTask = (draft: TaskDraft) => {
+    const created = createTask(taskDatabase, draft);
+    commitTaskDatabase(recordTaskMetric(created.database, "quick_create_used"));
+    setIsQuickCreateOpen(false);
+    recordInteraction("task_quick_created");
+  };
+
+  const showSystemTaskNotification = async ({ task, instance }: TriggeredReminder) => {
+    if (isTauriRuntime()) {
+      const body = `计划时间 ${new Intl.DateTimeFormat("zh-CN", { hour: "2-digit", minute: "2-digit" }).format(new Date(instance.scheduledAt))}`;
+      const shownByCustomBridge = await invoke("show_task_notification", {
+        instanceId: instance.id,
+        title: `待办提醒 · ${task.title}`,
+        body,
+        soundMode: taskDatabase.settings.notificationSound,
+      }).then(() => true).catch(() => false);
+      if (shownByCustomBridge) {
+        customTaskNotifications.current.add(instance.id);
+        return;
+      }
+      let permissionGranted = await isNativeNotificationPermissionGranted().catch(() => false);
+      if (!permissionGranted) {
+        permissionGranted = (await requestNativeNotificationPermission().catch(() => "denied")) === "granted";
+      }
+      if (!permissionGranted) return;
+      const stillActive = readTaskDatabase().reminderInstances.some(
+        (item) => item.id === instance.id && ["triggered", "missed"].includes(item.status),
+      );
+      if (!stillActive) return;
+      const id = notificationIdForInstance(instance.id);
+      sendNativeNotification({
+        id,
+        title: `待办提醒 · ${task.title}`,
+        body: `计划时间 ${new Intl.DateTimeFormat("zh-CN", { hour: "2-digit", minute: "2-digit" }).format(new Date(instance.scheduledAt))}\n打开愈心桌宠可完成或延后提醒`,
+        autoCancel: true,
+      });
+      nativeTaskNotifications.current.set(instance.id, id);
+      return;
+    }
+    if (!("Notification" in window)) return;
+    let permission = Notification.permission;
+    if (permission === "default") {
+      permission = await Notification.requestPermission().catch(() => "denied" as NotificationPermission);
+    }
+    if (permission !== "granted") return;
+    const stillActive = readTaskDatabase().reminderInstances.some(
+      (item) => item.id === instance.id && ["triggered", "missed"].includes(item.status),
+    );
+    if (!stillActive) return;
+    const notification = new Notification(`待办提醒 · ${task.title}`, {
+      body: `计划时间 ${new Intl.DateTimeFormat("zh-CN", { hour: "2-digit", minute: "2-digit" }).format(new Date(instance.scheduledAt))}\n点击查看详情`,
+      tag: instance.id,
+      requireInteraction: true,
+    });
+    notification.onclick = () => {
+      openTaskPlatform("today", task.id);
+      notification.close();
+    };
+    notification.onclose = () => systemTaskNotifications.current.delete(instance.id);
+    systemTaskNotifications.current.set(instance.id, notification);
+  };
+
+  const showSystemTaskSummaryNotification = async (count: number) => {
+    if (!isTauriRuntime()) return;
+    const summaryId = `missed-${Date.now()}`;
+    const shown = await invoke("show_task_summary_notification", {
+      summaryId,
+      count,
+      soundMode: taskDatabase.settings.notificationSound,
+    }).then(() => true).catch(() => false);
+    if (shown) {
+      customTaskNotifications.current.add(summaryId);
+      missedSummaryNotificationId.current = summaryId;
+    }
+  };
+
+  const showSystemCareNotification = async (kind: PetReminderKind) => {
+    const setting = careReminderState.current.settings[kind];
+    if (!setting.enabled) return;
+    const copy: Record<PetReminderKind, { title: string; body: string }> = {
+      eyeCare: { title: "休息与喝水", body: "看看远处放松眼睛，也记得喝口水。" },
+      water: { title: "喝水提醒", body: "记得补充一点水分。" },
+      meal: { title: "用餐提醒", body: "到你设置的用餐时间啦。" },
+      sleep: { title: "睡眠提醒", body: "到你计划的入睡时间啦。" },
+    };
+    if (isTauriRuntime()) {
+      let granted = await isNativeNotificationPermissionGranted().catch(() => false);
+      if (!granted) granted = (await requestNativeNotificationPermission().catch(() => "denied")) === "granted";
+      if (granted) sendNativeNotification({ ...copy[kind], autoCancel: true });
+      return;
+    }
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification(copy[kind].title, { body: copy[kind].body, tag: `care-${kind}` });
+    }
+  };
+
+  const completeTaskReminder = (_taskId: string, instanceId: string) => {
+    const next = completeReminderInstance(taskDatabase, instanceId);
+    if (next === taskDatabase) return;
+    commitTaskDatabase(next);
+    systemTaskNotifications.current.get(instanceId)?.close();
+    const nativeId = nativeTaskNotifications.current.get(instanceId);
+    if (nativeId !== undefined) {
+      void removeActiveNotifications([{ id: nativeId }]).catch(() => {});
+      nativeTaskNotifications.current.delete(instanceId);
+    }
+    recordInteraction("task_reminder_completed");
+  };
+
+  const snoozeTaskReminder = (instanceId: string) => {
+    const next = snoozeReminderInstance(taskDatabase, instanceId, 10);
+    if (next === taskDatabase) return;
+    commitTaskDatabase(next);
+    systemTaskNotifications.current.get(instanceId)?.close();
+    const nativeId = nativeTaskNotifications.current.get(instanceId);
+    if (nativeId !== undefined) {
+      void removeActiveNotifications([{ id: nativeId }]).catch(() => {});
+      nativeTaskNotifications.current.delete(instanceId);
+    }
+    const snoozeCount = next.reminderInstances.find((instance) => instance.id === instanceId)?.snoozeCount ?? 0;
+    const nextInstance = next.reminderInstances.find((instance) => instance.snoozedFrom === instanceId);
+    const effectiveSnoozeCount = nextInstance?.snoozeCount ?? snoozeCount;
+    const resolved = getActiveInteractionManifest();
+    if (resolved) playTaskFeedback(
+      effectiveSnoozeCount >= 5 ? "repeatedSnooze" : "reminderSnoozed",
+      effectiveSnoozeCount >= 5
+        ? "已经延后好几次啦，要不要打开详情重新安排一下？"
+        : "好，10分钟后再轻轻提醒你。",
+      resolved.idle,
+    );
+    recordInteraction("task_reminder_snoozed");
   };
 
   const commitMailboxState = (
@@ -734,6 +1217,23 @@ function DesktopPetApp() {
     soundPlayerRef.current?.play(eventName);
   };
 
+  const playTaskNotificationSound = () => {
+    const { notificationSound, customNotificationSoundDataUrl } = taskDatabase.settings;
+    if (notificationSound === "off" || notificationSound === "system") return;
+    if (notificationSound === "pet") {
+      playPetSound("taskDue");
+      return;
+    }
+    if (notificationSound === "custom" && customNotificationSoundDataUrl) {
+      void new Audio(customNotificationSoundDataUrl).play().catch(() => {});
+      return;
+    }
+    if (notificationSound === "gentle") {
+      const audio = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=");
+      void audio.play().catch(() => {});
+    }
+  };
+
   const getDialoguePackageForPet = (petId: string): PetDialoguePackage => {
     const loaded = petDialoguesById[petId];
     if (loaded) return loaded;
@@ -750,18 +1250,6 @@ function DesktopPetApp() {
     return petManifestsById[petId]?.companionChatPath
       ? { status: "failed", petId }
       : { status: "not-configured", petId };
-  };
-
-  const startCompanionChat = () => {
-    const config = resolveCompanionChatPackage(
-      getCompanionChatPackageForPet(activePetId),
-    );
-    const next = enterCompanionChat(config);
-    setActiveCareReminderPrompt(null);
-    setBubbleText(null);
-    setCompanionChatState(next);
-    playPetSound(next.mode === "active" ? next.messages[0]?.sound : undefined);
-    recordInteraction("companion_chat_open");
   };
 
   const stopCompanionChatReply = () => {
@@ -868,6 +1356,16 @@ function DesktopPetApp() {
   }, [companionChatState.mode]);
 
   useEffect(() => {
+    if (!isTaskMenuOpen) return undefined;
+    const close = (event: PointerEvent) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (!target?.closest(".pet-task-menu")) setIsTaskMenuOpen(false);
+    };
+    window.addEventListener("pointerdown", close);
+    return () => window.removeEventListener("pointerdown", close);
+  }, [isTaskMenuOpen]);
+
+  useEffect(() => {
     if (companionChatState.mode !== "active") return undefined;
 
     const onPointerDown = (event: PointerEvent) => {
@@ -904,8 +1402,34 @@ function DesktopPetApp() {
       careReminderState.current.deliveredKeys,
       deliveredKey,
     );
-    careReminderState.current = { deliveredKeys: nextDeliveredKeys };
+    careReminderState.current = { ...careReminderState.current, deliveredKeys: nextDeliveredKeys };
     writeCareReminderState(careReminderState.current);
+  };
+
+  const reopenTimedCareReminder = (deliveredKey: string) => {
+    const nextDeliveredKeys = unmarkCareReminderDelivered(
+      careReminderState.current.deliveredKeys,
+      deliveredKey,
+    );
+    careReminderState.current = { ...careReminderState.current, deliveredKeys: nextDeliveredKeys };
+    writeCareReminderState(careReminderState.current);
+  };
+
+  const saveCareReminderSettings = (settings: CareReminderSettingsValue) => {
+    careReminderState.current = { ...careReminderState.current, settings };
+    writeCareReminderState(careReminderState.current);
+    setCareReminderSettings(settings);
+    const now = Date.now();
+    nextEyeCareTime.current = now + settings.eyeCare.intervalMinutes * 60 * 1000;
+    recordInteraction("care_reminder_settings_updated");
+  };
+
+  const dismissCareReminderDisableNotice = () => {
+    careReminderState.current = { ...careReminderState.current, systemPopupNoticeDismissed: true };
+    writeCareReminderState(careReminderState.current);
+    setCareReminderNoticeDismissed(true);
+    commitMailboxState((state) => receiveLetter(state, CARE_REMINDER_LETTER_ID));
+    recordInteraction("care_reminder_disable_notice_dismissed");
   };
 
   const clearCareReminderPrompt = () => {
@@ -931,6 +1455,7 @@ function DesktopPetApp() {
     const prompt = careReminderPromptRef.current;
     if (prompt?.source !== "timed") return;
 
+    reopenTimedCareReminder(prompt.deliveredKey);
     timedCareSnoozedUntil.current = Date.now() + MEAL_REMINDER_SNOOZE_MS;
     recordInteraction("meal_care_snoozed");
     clearCareReminderPrompt();
@@ -1100,6 +1625,33 @@ function DesktopPetApp() {
     }
 
     scheduleReturnToIdle(totalDurationMs, resumeHoverAfterReturn, token);
+  };
+
+  const playTaskFeedback = (
+    scene: TaskFeedbackScene,
+    fallbackText: string,
+    fallbackAction: PetActionSpec | PetSequenceSpec,
+  ) => {
+    const feedback = resolveTaskFeedback(
+      petTaskFeedbackById[activePetId],
+      scene,
+      fallbackText,
+    );
+    const configuredAnimation = feedback.action && animationsRef.current?.[feedback.action]
+      ? feedback.action
+      : feedback.fallbackAction && animationsRef.current?.[feedback.fallbackAction]
+        ? feedback.fallbackAction
+        : null;
+    const action: PetActionSpec | PetSequenceSpec = configuredAnimation
+      ? { animation: configuredAnimation, durationMs: feedback.durationMs, bubbleText: feedback.text }
+      : "sequence" in fallbackAction
+        ? {
+            sequence: fallbackAction.sequence.map((step, index) => index === 0
+              ? { ...step, dialogueEvent: undefined, bubbleText: feedback.text }
+              : step),
+          }
+        : { ...fallbackAction, dialogueEvent: undefined, bubbleText: feedback.text };
+    playManifestAction(action, false);
   };
 
   const handleClicks = () => {
@@ -1308,20 +1860,6 @@ function DesktopPetApp() {
 
   const shouldUseMouseFallback = () => {
     return Date.now() - lastPointerEventAt.current > 700;
-  };
-  const handleSecondaryPress = () => {
-    if (!COMPANION_CHAT_TRIGGER_ENABLED) return;
-
-    const click = registerSecondaryClick(lastSecondaryClickAt.current, Date.now());
-    lastSecondaryClickAt.current = click.lastClickAt;
-
-    if (!click.triggered) {
-      recordInteraction("secondary_click_armed");
-      return;
-    }
-
-    recordInteraction("secondary_double_click_companion_chat");
-    startCompanionChat();
   };
   const startPress = (
     source: PressSource,
@@ -1577,7 +2115,9 @@ function DesktopPetApp() {
 
   const handleContextMenu = (event: ReactMouseEvent<HTMLElement>) => {
     event.preventDefault();
-    handleSecondaryPress();
+    event.stopPropagation();
+    setIsTaskMenuOpen(true);
+    recordInteraction("task_context_menu_open");
   };
 
   const handlePointerEnter = () => {
@@ -1609,45 +2149,105 @@ function DesktopPetApp() {
     playIdleAnimation();
   };
 
-  const scheduleNextRandomCareReminder = (
-    kind: Extract<PetReminderKind, "eyeCare" | "water">,
-    nowTimestamp: number,
-  ) => {
-    if (kind === "eyeCare") {
-      nextEyeCareTime.current = nowTimestamp + randomInRange(30, 50) * 60 * 1000;
-      return;
-    }
-
-    nextWaterCareTime.current = nowTimestamp + randomInRange(60, 90) * 60 * 1000;
+  const scheduleNextRandomCareReminder = (nowTimestamp: number) => {
+    const setting = careReminderState.current.settings.eyeCare;
+    nextEyeCareTime.current = nowTimestamp + setting.intervalMinutes * 60 * 1000;
   };
 
   const postponeOverdueRandomCareReminders = (nowTimestamp: number) => {
     if (nowTimestamp >= nextEyeCareTime.current) {
-      scheduleNextRandomCareReminder("eyeCare", nowTimestamp);
-    }
-
-    if (nowTimestamp >= nextWaterCareTime.current) {
-      scheduleNextRandomCareReminder("water", nowTimestamp);
+      scheduleNextRandomCareReminder(nowTimestamp);
     }
   };
 
   const playCareReminder = (
     kind: PetReminderKind,
     deliveredKey?: string,
-    markDelivered = true,
   ) => {
+    void revealHiddenPetForCareReminder(getOptionalCurrentWindow()).catch(() => {
+      recordInteraction("care_reminder_window_show_failed");
+    });
+    void showSystemCareNotification(kind);
     const resolved = getActiveInteractionManifest();
-    if (!resolved) return false;
+    if (!resolved) {
+      if (deliveredKey) completeTimedCareReminder(deliveredKey);
+      return false;
+    }
 
     recordInteraction(`${kind}_care_reminder`);
-    playManifestAction(resolved.reminders[kind], false, true);
+    const reminderAction = resolved.reminders[kind];
+    playManifestAction(
+      kind === "eyeCare" && !("sequence" in reminderAction)
+        ? {
+            ...reminderAction,
+            dialogueEvent: undefined,
+            bubbleText: "看看远处放松一下眼睛，也喝口水休息一下吧。",
+          }
+        : reminderAction,
+      false,
+      true,
+    );
 
-    if (deliveredKey && markDelivered) {
+    if (deliveredKey) {
       completeTimedCareReminder(deliveredKey);
     }
 
     return true;
   };
+
+  useEffect(() => {
+    const scan = () => {
+      const stored = readTaskDatabase();
+      const timezoneAdjusted = reconcileTaskTimezone(stored);
+      const aged = markUnattendedReminders(timezoneAdjusted, new Date(), timezoneAdjusted.settings.bubbleDurationMinutes * 60 * 1000);
+      const result = triggerDueReminders(aged);
+      if (result.triggered.length === 0) {
+        if (aged !== stored) {
+          writeTaskDatabase(aged);
+          setTaskDatabase(aged);
+        }
+        return;
+      }
+      writeTaskDatabase(result.database);
+      setTaskDatabase(result.database);
+
+      const shouldSummarize = result.triggered.length > 1
+        && result.triggered.every(({ instance }) => instance.status === "missed");
+      if (shouldSummarize) {
+        void showSystemTaskSummaryNotification(result.triggered.length);
+      } else {
+        for (const due of result.triggered) void showSystemTaskNotification(due);
+      }
+      playTaskNotificationSound();
+      if (!isPlatformOpen && !isQuickCreateOpen) {
+        const resolved = getActiveInteractionManifest();
+        if (resolved) {
+          const multiple = result.triggered.length > 1;
+          playTaskFeedback(
+            multiple ? "taskBurst" : "taskDue",
+            multiple
+              ? `你有 ${result.triggered.length} 条提醒，我们一件一件来。`
+              : `该做「${result.triggered[0]?.task.title ?? "这件事"}」啦。`,
+            resolved.reminders.eyeCare,
+          );
+        }
+      }
+      recordInteraction("task_reminder_triggered");
+    };
+
+    scan();
+    const timer = window.setInterval(scan, 15_000);
+    const rescan = () => scan();
+    window.addEventListener("focus", rescan);
+    window.addEventListener("task-scheduler-wakeup", rescan);
+    document.addEventListener("visibilitychange", rescan);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener("focus", rescan);
+      window.removeEventListener("task-scheduler-wakeup", rescan);
+      document.removeEventListener("visibilitychange", rescan);
+    };
+  }, [activePetId, isPlatformOpen, isQuickCreateOpen, petTaskFeedbackById, taskDatabase.settings.notificationSound, taskDatabase.settings.customNotificationSoundDataUrl]);
 
   const playDesktopIconAction = (
     action: PetActionSpec,
@@ -1663,6 +2263,7 @@ function DesktopPetApp() {
   };
 
   const probeDesktopIconInteraction = () => {
+    if (windowMode.current !== "pet") return;
     const resolved = getActiveInteractionManifest();
     if (!resolved) return;
 
@@ -1676,7 +2277,7 @@ function DesktopPetApp() {
         clearCareReminderPrompt();
       } else if (
         activePrompt.source === "timed" &&
-        selectTimedCareReminder(new Date(nowTimestamp), [])?.key !==
+        selectTimedCareReminder(new Date(nowTimestamp), [], careReminderState.current.settings)?.key !==
           activePrompt.deliveredKey
       ) {
         timedCareSnoozedUntil.current = 0;
@@ -1687,18 +2288,17 @@ function DesktopPetApp() {
 
     if (pointerState.current) {
       nextEyeCareTime.current = Math.max(nextEyeCareTime.current, nowTimestamp + 30000);
-      nextWaterCareTime.current = Math.max(nextWaterCareTime.current, nowTimestamp + 30000);
     } else if (returnToIdleTimer.current === null) {
       const dueReminder = selectDueCareReminder({
         now: nowTimestamp,
         deliveredKeys: careReminderState.current.deliveredKeys,
         nextEyeCareTime: nextEyeCareTime.current,
-        nextWaterCareTime: nextWaterCareTime.current,
         timedSnoozedUntil: timedCareSnoozedUntil.current,
+        settings: careReminderState.current.settings,
       });
 
       if (dueReminder?.source === "random") {
-        scheduleNextRandomCareReminder(dueReminder.kind, nowTimestamp);
+        scheduleNextRandomCareReminder(nowTimestamp);
       }
 
       if (
@@ -1706,7 +2306,6 @@ function DesktopPetApp() {
         playCareReminder(
           dueReminder.kind,
           dueReminder.source === "timed" ? dueReminder.deliveredKey : undefined,
-          dueReminder.source !== "timed" || dueReminder.kind !== "meal",
         )
       ) {
         if (dueReminder.source === "timed" && dueReminder.kind === "meal") {
@@ -1881,7 +2480,7 @@ function DesktopPetApp() {
 
   useEffect(() => {
     const host = pixiHost.current;
-    if (!host || isPlatformOpen) return;
+    if (!host) return;
 
     let disposed = false;
     let initialized = false;
@@ -2044,29 +2643,29 @@ function DesktopPetApp() {
       interactionManifestRef.current = null;
       destroyApp();
     };
-  }, [activePetId, isPlatformOpen]);
+  }, [activePetId]);
 
   return (
     <main
-      className={`pet-shell${isPlatformOpen ? " platform-open" : ""}`}
+      className={`pet-shell${isPlatformOpen ? " platform-open" : ""}${isQuickCreateOpen ? " quick-create-open" : ""}`}
       style={
         { "--pet-bubble-bottom": `${PET_BUBBLE_BOTTOM_PX}px` } as CSSProperties
       }
-      onContextMenu={isPlatformOpen ? undefined : handleContextMenu}
-      onMouseDown={isPlatformOpen ? undefined : handleMouseDown}
-      onMouseEnter={isPlatformOpen ? undefined : handleMouseEnter}
-      onMouseLeave={isPlatformOpen ? undefined : handleMouseLeave}
-      onMouseMove={isPlatformOpen ? undefined : handleMouseMove}
-      onMouseUp={isPlatformOpen ? undefined : handleMouseUp}
-      onPointerDown={isPlatformOpen ? undefined : handlePointerDown}
-      onPointerEnter={isPlatformOpen ? undefined : handlePointerEnter}
-      onPointerLeave={isPlatformOpen ? undefined : handlePointerLeave}
-      onPointerMove={isPlatformOpen ? undefined : handlePointerMove}
-      onPointerCancel={isPlatformOpen ? undefined : handlePointerInterruption}
+      onContextMenu={isPlatformOpen || isQuickCreateOpen ? undefined : handleContextMenu}
+      onMouseDown={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseDown}
+      onMouseEnter={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseEnter}
+      onMouseLeave={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseLeave}
+      onMouseMove={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseMove}
+      onMouseUp={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseUp}
+      onPointerDown={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerDown}
+      onPointerEnter={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerEnter}
+      onPointerLeave={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerLeave}
+      onPointerMove={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerMove}
+      onPointerCancel={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerInterruption}
       onLostPointerCapture={
-        isPlatformOpen ? undefined : handlePointerInterruption
+        isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerInterruption
       }
-      onPointerUp={isPlatformOpen ? undefined : handlePointerUp}
+      onPointerUp={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerUp}
     >
       <div className="pet-hit-area" aria-hidden="true" />
       <div ref={pixiHost} className="pet-canvas" />
@@ -2097,7 +2696,7 @@ function DesktopPetApp() {
                 type="button"
                 onClick={confirmCareReminderPrompt}
               >
-                {careReminderPrompt.source === "timed" ? "收到啦" : "确定"}
+                收到啦
               </button>
               {careReminderPrompt.source === "timed" && (
                 <button
@@ -2112,6 +2711,46 @@ function DesktopPetApp() {
           )}
         </div>
       )}
+      {!isPlatformOpen && !isQuickCreateOpen && companionChatState.mode !== "active" && (
+        <TaskReminderStack
+          reminders={visibleTaskReminders}
+          onComplete={completeTaskReminder}
+          onOpen={(taskId) => openTaskPlatform("today", taskId)}
+          onOpenAll={() => {
+            openTaskPlatform("today");
+            const summaryId = missedSummaryNotificationId.current;
+            if (summaryId) void invoke("clear_task_notification", { instanceId: summaryId }).catch(() => {});
+            missedSummaryNotificationId.current = null;
+          }}
+          onCloseSummary={(instanceIds) => {
+            setHiddenTaskReminderIds((current) => new Set([...current, ...instanceIds]));
+            commitTaskDatabase(closeMissedReminderSummary(readTaskDatabase()));
+            const summaryId = missedSummaryNotificationId.current;
+            if (summaryId) void invoke("clear_task_notification", { instanceId: summaryId }).catch(() => {});
+            missedSummaryNotificationId.current = null;
+            recordInteraction("task_missed_summary_closed");
+          }}
+          onSnooze={snoozeTaskReminder}
+        />
+      )}
+      {!isPlatformOpen && !isQuickCreateOpen && isTaskMenuOpen && (
+        <TaskContextMenu
+          onClose={() => setIsTaskMenuOpen(false)}
+          onOpenPlatform={() => openTaskPlatform("all")}
+          onOpenReminders={() => openTaskPlatform("upcoming")}
+          onOpenToday={() => openTaskPlatform("today")}
+          onOpenSettings={openPetPlatform}
+          onQuickCreate={openQuickTaskCreate}
+        />
+      )}
+      {isQuickCreateOpen && (
+        <section className="quick-task-overlay" onPointerDown={stopPlatformEvent}>
+          <div className="quick-task-panel">
+            <header><div><small>快速记录</small><h2>新建待办</h2></div><button type="button" aria-label="关闭" onClick={() => setIsQuickCreateOpen(false)}>×</button></header>
+            <QuickCreateTask compact onCancel={() => setIsQuickCreateOpen(false)} onCreate={createQuickTask} />
+          </div>
+        </section>
+      )}
       {isPlatformOpen && (
         <section
           className="platform-panel"
@@ -2125,6 +2764,10 @@ function DesktopPetApp() {
               <h1>{APP_DISPLAY_NAME}</h1>
             </div>
             <div className="platform-header-actions">
+              <div className="platform-section-switch" onPointerDown={stopPlatformEvent}>
+                <button className={platformSection === "tasks" ? "is-active" : ""} type="button" onClick={() => setPlatformSection("tasks")}>待办</button>
+                <button className={platformSection === "pets" ? "is-active" : ""} type="button" onClick={() => setPlatformSection("pets")}>桌宠</button>
+              </div>
               <button
                 className={`platform-mailbox-button${
                   isMailboxReceiving ? " is-receiving" : ""
@@ -2154,41 +2797,59 @@ function DesktopPetApp() {
             </div>
           </header>
 
-          <div className="platform-status">
-            <span>当前显示</span>
-            <strong>{activePet?.displayName ?? activePetId}</strong>
-            <span>{petCatalog.length} 个桌宠包</span>
-          </div>
+          {platformSection === "tasks" ? (
+            <TaskWorkspace
+              database={taskDatabase}
+              initialView={taskListView}
+              initialSelectedTaskId={taskDetailId}
+              onChange={commitTaskDatabase}
+              careReminderSettings={careReminderSettings}
+              onCareReminderSettingsChange={saveCareReminderSettings}
+              careReminderNoticeDismissed={careReminderNoticeDismissed}
+              onDismissCareReminderNotice={dismissCareReminderDisableNotice}
+              reviewSpeakerName={activePet?.displayName ?? activePetId}
+              reviewSpeakerTexts={dailyReviewSpeakerTexts}
+              onPreviewPetNotificationSound={() => playPetSound("taskDue")}
+            />
+          ) : (
+            <>
+              <div className="platform-status">
+                <span>当前显示</span>
+                <strong>{activePet?.displayName ?? activePetId}</strong>
+                <span>{petCatalog.length} 个桌宠包</span>
+              </div>
 
-          <div className="pet-grid">
-            {petCatalog.map((pet) => (
-              <article
-                className={`pet-card${pet.isActive ? " is-active" : ""}`}
-                key={pet.id}
-              >
-                <div
-                  className={`pet-card-preview is-${pet.previewKind}`}
-                  aria-hidden="true"
-                  style={{ backgroundImage: `url(${pet.previewUrl})` }}
-                />
-                <div className="pet-card-body">
-                  <div className="pet-card-title-row">
-                    <h2>{pet.displayName}</h2>
-                    <span>{pet.id}</span>
-                  </div>
-                  <p>{pet.description}</p>
-                  <button
-                    className="pet-card-action"
-                    type="button"
-                    disabled={pet.isActive}
-                    onClick={() => selectPet(pet)}
+              <div className="pet-grid">
+                {petCatalog.map((pet) => (
+                  <article
+                    className={`pet-card${pet.isActive ? " is-active" : ""}`}
+                    key={pet.id}
                   >
-                    {pet.isActive ? "使用中" : "启用"}
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+                    <div
+                      className={`pet-card-preview is-${pet.previewKind}`}
+                      aria-hidden="true"
+                      style={{ backgroundImage: `url(${pet.previewUrl})` }}
+                    />
+                    <div className="pet-card-body">
+                      <div className="pet-card-title-row">
+                        <h2>{pet.displayName}</h2>
+                        <span>{pet.id}</span>
+                      </div>
+                      <p>{pet.description}</p>
+                      <button
+                        className="pet-card-action"
+                        type="button"
+                        disabled={pet.isActive}
+                        onClick={() => selectPet(pet)}
+                      >
+                        {pet.isActive ? "使用中" : "启用"}
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </>
+          )}
 
           {isMailboxOpen && (
             <MailboxPanel

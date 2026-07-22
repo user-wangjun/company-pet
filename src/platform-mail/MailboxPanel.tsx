@@ -17,7 +17,9 @@ type MailboxPanelProps = {
 };
 
 function getLetterTypeLabel(type: PlatformLetter["type"]): string {
-  return type === "welcome" ? "官方来信" : "更新公告";
+  if (type === "welcome") return "官方来信";
+  if (type === "care") return "关怀来信";
+  return "更新公告";
 }
 
 export function MailboxPanel({

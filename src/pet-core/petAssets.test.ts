@@ -8,7 +8,11 @@ import ikunRig from "../../public/pets/ikun/rig.json";
 import dsDialogues from "../../public/pets/ds/dialogues.json";
 import dsManifest from "../../public/pets/ds/pet.json";
 import suanBirdManifest from "../../public/pets/suan-bird/pet.json";
+import suanBirdTaskFeedback from "../../public/pets/suan-bird/task-feedback.json";
 import xiaojuDialogues from "../../public/pets/xiaoju-cat/dialogues.json";
+import xiaojuTaskFeedback from "../../public/pets/xiaoju-cat/task-feedback.json";
+import dsTaskFeedback from "../../public/pets/ds/task-feedback.json";
+import ikunTaskFeedback from "../../public/pets/ikun/task-feedback.json";
 import builtInPetManifest from "../../public/pets/xiaoju-cat/pet.json";
 import petIndex from "../../public/pets/index.json";
 import {
@@ -166,6 +170,30 @@ describe("pet asset paths", () => {
       if (!path) throw new Error(`Missing companion chat path for ${manifest.id}`);
       expect(resolvePetAssetUrl(manifest.id, path)).toBe(
         `/pets/${manifest.id}/companion-chat.json`,
+      );
+    }
+  });
+
+  test("declares package-local task feedback for every built-in pet", () => {
+    const configs = [xiaojuTaskFeedback, ikunTaskFeedback, dsTaskFeedback, suanBirdTaskFeedback];
+    const requiredScenes = [
+      "taskCreated", "taskDue", "taskCompleted", "taskCompletionBurst", "reminderSnoozed", "repeatedSnooze",
+      "taskRescheduled", "taskBurst", "taskOverdue", "dailyReview",
+    ];
+    for (const [index, manifest] of builtInManifests.entries()) {
+      expect(manifest.taskFeedbackPath).toBe("task-feedback.json");
+      expect(resolvePetAssetUrl(manifest.id, manifest.taskFeedbackPath!)).toBe(
+        `/pets/${manifest.id}/task-feedback.json`,
+      );
+      expect(Object.keys(configs[index].scenes)).toEqual(requiredScenes);
+    }
+  });
+
+  test("declares package-local three-view previews for every built-in pet", () => {
+    for (const manifest of builtInManifests) {
+      expect(manifest.threeViewPreviewPath).toBe("three-view-preview.png");
+      expect(resolvePetAssetUrl(manifest.id, manifest.threeViewPreviewPath!)).toBe(
+        `/pets/${manifest.id}/three-view-preview.png`,
       );
     }
   });

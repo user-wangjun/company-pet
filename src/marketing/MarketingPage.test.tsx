@@ -26,33 +26,27 @@ describe("marketing homepage route", () => {
 });
 
 describe("MarketingPage", () => {
-  test("renders the morning homepage as one complete visual", () => {
+  test("renders the independent interactive universe instead of the reference image", () => {
     const html = renderToStaticMarkup(<MarketingPage />);
 
     expect(html).toContain("愈心桌宠");
-    expect(html).toContain("彩色星空主视觉");
-    expect(html).toContain("宇宙星球主视觉");
     expect(html).toContain("marketing-stage-shell");
-    expect(html).toContain("marketing-morning-art");
-    expect(html).toContain("marketing-morning-blink-art");
-    expect(html).toContain("marketing-xiaoju-tail-clear-art");
-    expect(html).toContain("marketing-xiaoju-tail-art");
-    expect(html).toContain("marketing-morning-hit");
-    expect(html).toContain("marketing-cloud-surge");
-    expect(html).toContain("marketing-cloud-surge-layer");
-    expect(html).toContain("data-cloud-surge");
-    expect(html).toContain("marketing-morning.png");
-    expect(html).toContain("marketing-morning-blink.png");
-    expect(html).toContain("marketing-xiaoju-tail-clear.png");
-    expect(html).toContain("marketing-xiaoju-tail.png");
-    expect(html).toContain("marketing-xiaoju-tail-art");
-    expect(html).not.toContain("marketing-motion-floaters");
-    expect(html).not.toContain("marketing-motion-clouds");
-    expect(html).not.toContain("marketing-cloud-flow");
-    expect(html).not.toContain("marketing-cloud-flow.png");
-    expect(html).not.toContain("yuxin-floating-motion.png");
-    expect(html).not.toContain("yuxin-clouds-clean.png");
-    expect(html).not.toContain("marketing-cloud-surge-roll");
+    expect(html).toContain("marketing-universe-viewport");
+    expect(html).toContain("marketing-universe-camera");
+    expect(html).toContain("marketing-star-particles");
+    expect(html).toContain("marketing-companion-constellation");
+    expect(html).toContain("marketing-generated-world");
+    expect(html).toContain("universe-backdrop-v2.png");
+    expect(html).toContain("healing-world-v2.png");
+    expect(html).toContain("planet-honey-v2.png");
+    expect(html).toContain("planet-moon-v2.png");
+    expect(html).toContain("planet-earth-v2.png");
+    expect(html).toContain("foreground-clouds-v2.png");
+    expect(html).toContain("marketing-generated-planet");
+    expect(html).toContain("marketing-pet-sprite");
+    expect(html).toContain("可交互星球、独立桌宠角色、三维景深与镜头探索体验");
+    expect(html).not.toContain("marketing-morning.png");
+    expect(html).not.toContain("marketing-morning-blink.png");
     expect(html).toContain("下载");
   });
 
@@ -63,13 +57,31 @@ describe("MarketingPage", () => {
       expect(html).toContain(link.label);
     }
 
-    expect(html).toContain("marketing-morning-discord");
-    expect(html).toContain("marketing-morning-x");
-    expect(html).toContain("marketing-morning-wechat");
-    expect(html).toContain("marketing-morning-qq");
-    expect(html).toContain("marketing-morning-user");
-    expect(html).toContain("marketing-morning-download");
+    expect(html).toContain("marketing-nav-discord");
+    expect(html).toContain("marketing-nav-x");
+    expect(html).toContain("marketing-nav-wechat");
+    expect(html).toContain("marketing-nav-qq");
+    expect(html).toContain("marketing-nav-user");
+    expect(html).toContain("marketing-nav-download");
     expect(html).toContain('data-toast-message="亟待展示"');
+  });
+
+  test("renders an explorable camera target for every scene entity", async () => {
+    const html = renderToStaticMarkup(<MarketingPage />);
+    const { MARKETING_SCENE_ENTITIES } = await import("./marketingScene");
+
+    expect(html).toContain("marketing-universe-viewport");
+    expect(html).toContain("marketing-universe-camera");
+    expect(html).toContain('data-camera-target="overview"');
+    expect(html).toContain("marketing-universe-card");
+    expect(html).toContain("marketing-universe-controls");
+    expect(html).toContain("移动鼠标感受空间，点击任意星球或桌宠靠近");
+    expect(html).toContain("桌宠与伴生星球之间的星光航线");
+
+    for (const entity of MARKETING_SCENE_ENTITIES) {
+      expect(html).toContain(`data-entity-id="${entity.id}"`);
+      expect(html).toContain(`探索${entity.name}`);
+    }
   });
 
   test("wires social clicks to the requested destinations and placeholders", () => {

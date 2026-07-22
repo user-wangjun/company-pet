@@ -2,6 +2,8 @@ use std::{fs::OpenOptions, io::Write};
 
 mod desktop_icons;
 mod installer_update;
+mod task_notifications;
+mod task_scheduler;
 
 use tauri::{
     menu::{Menu, MenuItem},
@@ -11,6 +13,9 @@ use tauri::{
 
 const MENU_SHOW: &str = "show-yuxin";
 const MENU_OPEN_PLATFORM: &str = "open-platform-yuxin";
+const MENU_NEW_TASK: &str = "new-task-yuxin";
+const MENU_TODAY_TASKS: &str = "today-tasks-yuxin";
+const MENU_REMINDERS: &str = "reminders-yuxin";
 const MENU_TOGGLE_SOUND: &str = "toggle-sound-yuxin";
 const MENU_CHECK_UPDATE: &str = "check-update-yuxin";
 const MENU_QUIT: &str = "quit-yuxin";
@@ -46,6 +51,9 @@ fn emit_open_platform(app: &tauri::AppHandle, reset_pet_position: bool) {
 }
 
 fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
+    let new_task = MenuItem::with_id(app, MENU_NEW_TASK, "新建待办", true, None::<&str>)?;
+    let today_tasks = MenuItem::with_id(app, MENU_TODAY_TASKS, "查看今日待办", true, None::<&str>)?;
+    let reminders = MenuItem::with_id(app, MENU_REMINDERS, "查看全部提醒", true, None::<&str>)?;
     let open_platform = MenuItem::with_id(app, MENU_OPEN_PLATFORM, "打开平台", true, None::<&str>)?;
     let show = MenuItem::with_id(app, MENU_SHOW, "隐藏愈心桌宠", true, None::<&str>)?;
     let toggle_sound = MenuItem::with_id(
@@ -59,7 +67,16 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
     let quit = MenuItem::with_id(app, MENU_QUIT, "退出", true, None::<&str>)?;
     let menu = Menu::with_items(
         app,
-        &[&open_platform, &show, &toggle_sound, &check_update, &quit],
+        &[
+            &new_task,
+            &today_tasks,
+            &reminders,
+            &open_platform,
+            &show,
+            &toggle_sound,
+            &check_update,
+            &quit,
+        ],
     )?;
 
     let show_item_menu = show.clone();
@@ -73,6 +90,29 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
             .menu(&menu)
             .show_menu_on_left_click(false)
             .on_menu_event(move |app, event| match event.id().as_ref() {
+                MENU_NEW_TASK => {
+                    if let Some(window) = app.get_webview_window("main") {
+                        let _ = window.show();
+                        let _ = window.unminimize();
+                        let _ = window.set_focus();
+                        let _ = app.emit("open-task-quick-create", ());
+                        let _ = show_item_menu.set_text("隐藏愈心桌宠");
+                    }
+                }
+                MENU_TODAY_TASKS | MENU_REMINDERS => {
+                    if let Some(window) = app.get_webview_window("main") {
+                        let _ = window.show();
+                        let _ = window.unminimize();
+                        let _ = window.set_focus();
+                        let event_name = if event.id().as_ref() == MENU_TODAY_TASKS {
+                            "open-task-today"
+                        } else {
+                            "open-task-reminders"
+                        };
+                        let _ = app.emit(event_name, ());
+                        let _ = show_item_menu.set_text("隐藏愈心桌宠");
+                    }
+                }
                 MENU_OPEN_PLATFORM => {
                     if let Some(window) = app.get_webview_window("main") {
                         let _ = window.show();
@@ -148,12 +188,38 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
+            if let Some(action) = args
+                .iter()
+                .find_map(|argument| task_notifications::parse_activation(argument))
+            {
+                let _ = app.emit("task-notification-action", action);
+            } else if args
+                .iter()
+                .any(|argument| argument == "--task-reminder-wakeup")
+            {
+                let _ = app.emit("task-scheduler-wakeup", ());
+            } else if let Some(window) = app.get_webview_window("main") {
+                let _ = window.show();
+                let _ = window.unminimize();
+                let _ = window.set_focus();
+                emit_open_platform(app, false);
+            }
+        }))
+        .plugin(tauri_plugin_deep_link::init())
+        .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
             record_interaction,
             installer_update::download_and_open_installer,
             desktop_icons::get_desktop_icons,
-            desktop_icons::is_point_on_desktop
+            desktop_icons::is_point_on_desktop,
+            task_scheduler::sync_task_schedules,
+            task_scheduler::is_task_scheduler_wakeup,
+            task_notifications::show_task_notification,
+            task_notifications::show_task_summary_notification,
+            task_notifications::get_initial_task_notification_actions,
+            task_notifications::clear_task_notification
         ])
         .setup(|app| {
             setup_tray(app)?;

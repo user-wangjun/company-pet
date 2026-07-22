@@ -5,18 +5,11 @@ import {
   socialLinks,
   type SocialLink,
 } from "./marketingContent";
-import { startCloudSurgeMotion } from "./cloudSurgeMotion";
+import MarketingUniverse from "./MarketingUniverse";
 
-const MARKETING_MORNING_ART = "./marketing-assets/marketing-morning.png";
-const MARKETING_MORNING_BLINK_ART =
-  "./marketing-assets/marketing-morning-blink.png";
-const MARKETING_XIAOJU_TAIL_CLEAR_ART =
-  "./marketing-assets/marketing-xiaoju-tail-clear.png";
-const MARKETING_XIAOJU_TAIL_ART =
-  "./marketing-assets/marketing-xiaoju-tail.png";
 const WECHAT_QRCODE_ART = "./marketing-assets/wechat-qrcode.jpg";
 
-function MarketingMorningHit({
+function MarketingNavItem({
   link,
   isWeChatActive,
   onWeChatToggle,
@@ -29,7 +22,7 @@ function MarketingMorningHit({
   onToast: (message: string) => void;
   onDownload: () => void;
 }) {
-  const className = `marketing-morning-hit marketing-morning-${link.icon}`;
+  const className = `marketing-nav-item marketing-nav-${link.icon}`;
 
   if (link.behavior === "link" && link.href) {
     return (
@@ -40,7 +33,10 @@ function MarketingMorningHit({
         rel="noopener noreferrer"
         aria-label={link.label}
         title={link.label}
-      />
+      >
+        <span aria-hidden="true">◉</span>
+        <small>{link.label}</small>
+      </a>
     );
   }
 
@@ -56,6 +52,8 @@ function MarketingMorningHit({
           onWeChatToggle();
         }}
       >
+        <span aria-hidden="true">✦</span>
+        <small>{link.label}</small>
         <span className="marketing-wechat-popover">
           <img src={WECHAT_QRCODE_ART} alt="微信二维码" />
           <span className="marketing-wechat-popover-text">扫码加入微信群</span>
@@ -67,7 +65,7 @@ function MarketingMorningHit({
   if (link.behavior === "download") {
     return (
       <button
-        className={className}
+        className={`${className} marketing-nav-download`}
         type="button"
         aria-label={link.label}
         title="下载 Windows 安装包"
@@ -76,12 +74,11 @@ function MarketingMorningHit({
           onDownload();
         }}
       >
-        <span className="marketing-morning-download-label">下载</span>
+        <span aria-hidden="true">↓</span>
+        <small>下载客户端</small>
       </button>
     );
   }
-
-  const toastMessage = link.toastMessage ?? "亟待展示";
 
   return (
     <button
@@ -89,12 +86,15 @@ function MarketingMorningHit({
       type="button"
       aria-label={link.label}
       title={link.label}
-      data-toast-message={toastMessage}
+      data-toast-message={link.toastMessage ?? "亟待展示"}
       onClick={(event) => {
         event.stopPropagation();
-        onToast(toastMessage);
+        onToast(link.toastMessage ?? "亟待展示");
       }}
-    />
+    >
+      <span aria-hidden="true">{link.icon === "user" ? "○" : "✧"}</span>
+      <small>{link.label}</small>
+    </button>
   );
 }
 
@@ -104,7 +104,6 @@ function MarketingPage() {
   const [toastMessage, setToastMessage] = useState("亟待展示");
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false);
   const toastTimerRef = useRef<number | null>(null);
-  const cloudSurgeRef = useRef<HTMLDivElement | null>(null);
   const homeHref =
     typeof window !== "undefined" &&
     window.location.pathname.toLowerCase().endsWith(MARKETING_FILE_NAME)
@@ -123,19 +122,6 @@ function MarketingPage() {
     };
   }, []);
 
-  useEffect(() => {
-    const cloudSurge = cloudSurgeRef.current;
-    const prefersReducedMotion = window.matchMedia?.(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    if (!cloudSurge || prefersReducedMotion) {
-      return undefined;
-    }
-
-    return startCloudSurgeMotion(cloudSurge);
-  }, []);
-
   const showToast = (message: string) => {
     setToastMessage(message);
     setIsToastVisible(true);
@@ -147,97 +133,36 @@ function MarketingPage() {
     }, 2200);
   };
 
-  const handleDownloadClick = () => {
-    setIsDownloadDialogOpen(true);
-  };
-
-  const handleDownloadConfirm = () => {
-    setIsDownloadDialogOpen(false);
-    window.open(WINDOWS_DOWNLOAD_URL, "_blank", "noopener,noreferrer");
-  };
-
-  const handleDownloadCancel = () => {
-    setIsDownloadDialogOpen(false);
-  };
-
   return (
     <>
-      <link rel="preload" as="image" href={MARKETING_MORNING_ART} />
-      <link rel="preload" as="image" href={MARKETING_MORNING_BLINK_ART} />
-      <link rel="preload" as="image" href={MARKETING_XIAOJU_TAIL_CLEAR_ART} />
-      <link rel="preload" as="image" href={MARKETING_XIAOJU_TAIL_ART} />
       <link rel="preload" as="image" href={WECHAT_QRCODE_ART} />
-      <main className="marketing-page">
+      <main className="marketing-page marketing-universe-page">
         <section
-          className="marketing-stage-shell marketing-morning-shell"
-          aria-label="愈心桌宠宣传首页"
+          className="marketing-stage-shell marketing-universe-shell"
+          aria-label="愈心桌宠互动宇宙官网"
         >
-          <img
-            className="marketing-morning-art"
-            src={MARKETING_MORNING_ART}
-            width="1672"
-            height="941"
-            alt=""
-            aria-hidden="true"
-            draggable={false}
-          />
-          <img
-            className="marketing-morning-art marketing-morning-blink-art"
-            src={MARKETING_MORNING_BLINK_ART}
-            width="1672"
-            height="941"
-            alt=""
-            aria-hidden="true"
-            draggable={false}
-          />
-          <img
-            className="marketing-morning-art marketing-xiaoju-tail-clear-art"
-            src={MARKETING_XIAOJU_TAIL_CLEAR_ART}
-            width="1672"
-            height="941"
-            alt=""
-            aria-hidden="true"
-            draggable={false}
-          />
-          <img
-            className="marketing-morning-art marketing-xiaoju-tail-art"
-            src={MARKETING_XIAOJU_TAIL_ART}
-            width="1672"
-            height="941"
-            alt=""
-            aria-hidden="true"
-            draggable={false}
-          />
+          <header className="marketing-universe-header">
+            <a className="marketing-universe-brand" href={homeHref}>
+              <span aria-hidden="true">✦</span>
+              <strong>愈心桌宠</strong>
+              <small>YOUR DESKTOP COMPANION</small>
+            </a>
 
-          <div
-            ref={cloudSurgeRef}
-            className="marketing-cloud-surge"
-            data-cloud-surge="active"
-            aria-hidden="true"
-          >
-            <span className="marketing-cloud-surge-layer marketing-cloud-surge-layer-a" />
-            <span className="marketing-cloud-surge-layer marketing-cloud-surge-layer-b" />
-            <span className="marketing-cloud-surge-layer marketing-cloud-surge-layer-c" />
-          </div>
+            <nav className="marketing-universe-nav" aria-label="社交与下载入口">
+              {socialLinks.map((link) => (
+                <MarketingNavItem
+                  key={link.label}
+                  link={link}
+                  isWeChatActive={isWeChatActive}
+                  onWeChatToggle={() => setIsWeChatActive((active) => !active)}
+                  onToast={showToast}
+                  onDownload={() => setIsDownloadDialogOpen(true)}
+                />
+              ))}
+            </nav>
+          </header>
 
-          <a
-            className="marketing-morning-hit marketing-morning-brand-hit"
-            href={homeHref}
-            aria-label="愈心桌宠首页"
-          />
-
-          <nav className="marketing-morning-socials" aria-label="社交入口">
-            {socialLinks.map((link) => (
-              <MarketingMorningHit
-                key={link.label}
-                link={link}
-                isWeChatActive={isWeChatActive}
-                onWeChatToggle={() => setIsWeChatActive((active) => !active)}
-                onToast={showToast}
-                onDownload={handleDownloadClick}
-              />
-            ))}
-          </nav>
+          <MarketingUniverse />
 
           <div
             className={`marketing-toast${isToastVisible ? " is-visible" : ""}`}
@@ -247,15 +172,16 @@ function MarketingPage() {
             {toastMessage}
           </div>
           <h1 className="marketing-screen-reader-text">愈心桌宠</h1>
-          <p className="marketing-screen-reader-text">彩色星空主视觉</p>
-          <p className="marketing-screen-reader-text">宇宙星球主视觉</p>
+          <p className="marketing-screen-reader-text">
+            可交互星球、独立桌宠角色、三维景深与镜头探索体验
+          </p>
         </section>
       </main>
 
       {isDownloadDialogOpen && (
         <div
           className="download-dialog-overlay"
-          onClick={handleDownloadCancel}
+          onClick={() => setIsDownloadDialogOpen(false)}
           role="presentation"
         >
           <div
@@ -264,34 +190,32 @@ function MarketingPage() {
             aria-modal="true"
             aria-labelledby="download-dialog-title"
             aria-describedby="download-dialog-desc"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
-            <div className="download-dialog-icon" aria-hidden="true">
-              🖥️
-            </div>
+            <div className="download-dialog-icon" aria-hidden="true">🖥️</div>
             <h2 id="download-dialog-title" className="download-dialog-title">
               下载 Windows 安装包
             </h2>
             <p id="download-dialog-desc" className="download-dialog-desc">
               愈心桌宠是一款轻量的桌面陪伴应用，让小橘、ds、ikun、蒜鸟在桌面上待机陪伴，支持点击、双击、拖拽和桌面图标互动，也会在合适的时候提醒你护眼、喝水、吃饭、睡觉。
-              <br />
-              <br />
+              <br /><br />
               此安装包仅适用于 <strong>Windows 系统（64位）</strong>。
-              <br />
-              请确认你的电脑是 Windows 操作系统后再下载。
             </p>
             <div className="download-dialog-actions">
               <button
                 className="download-dialog-btn download-dialog-btn-cancel"
                 type="button"
-                onClick={handleDownloadCancel}
+                onClick={() => setIsDownloadDialogOpen(false)}
               >
                 取消
               </button>
               <button
                 className="download-dialog-btn download-dialog-btn-confirm"
                 type="button"
-                onClick={handleDownloadConfirm}
+                onClick={() => {
+                  setIsDownloadDialogOpen(false);
+                  window.open(WINDOWS_DOWNLOAD_URL, "_blank", "noopener,noreferrer");
+                }}
                 autoFocus
               >
                 确认，开始下载

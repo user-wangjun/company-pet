@@ -1,6 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import {
   BUILT_IN_LETTERS,
+  CARE_REMINDER_LETTER_ID,
   EMPTY_MAILBOX_STATE,
   MAILBOX_STORAGE_KEY,
   WELCOME_LETTER_ID,
@@ -13,6 +14,7 @@ import {
   markLetterRead,
   parseMailboxState,
   readMailboxState,
+  receiveLetter,
   shouldShowFirstUseLetter,
   writeMailboxState,
   type MailboxState,
@@ -45,8 +47,7 @@ describe("platform mailbox", () => {
   test("ships the approved permanent welcome letter", () => {
     expect(MAILBOX_STORAGE_KEY).toBe("yuxin-mailbox-state-v1");
     expect(WELCOME_LETTER_ID).toBe("welcome-first-meeting");
-    expect(BUILT_IN_LETTERS).toEqual([
-      {
+    expect(BUILT_IN_LETTERS[0]).toEqual({
         id: WELCOME_LETTER_ID,
         title: "致初次相遇的您",
         sender: "望星科技 × 知了",
@@ -59,8 +60,27 @@ describe("platform mailbox", () => {
           "城市的霓虹伴随着繁华，但是繁复的灯光总是晃眼的，如果您累了，不妨与我们的桌宠嬉戏一下。或许他/她/它不能给您缓解身体的疲劳，但是我们希望，您在某一个瞬间看到我们桌宠的时候，也会噗嗤一笑。所以，来领养一只桌宠吧！希望我们的桌宠能够治愈您的心灵。",
           "生活很累，但也很甜，希望您身体健康，万事如意，平安喜乐。",
         ],
-      },
+      });
+    expect(BUILT_IN_LETTERS[1]).toMatchObject({
+      id: CARE_REMINDER_LETTER_ID,
+      title: "愿你时常爱惜自己的身体",
+      type: "care",
+      permanent: true,
+    });
+    expect(getVisibleLetters(BUILT_IN_LETTERS, EMPTY_MAILBOX_STATE)).toEqual([
+      BUILT_IN_LETTERS[0],
     ]);
+  });
+
+  test("receives the caring letter as unread only after permanent dismissal", () => {
+    const receivedState = receiveLetter(
+      markLetterRead(EMPTY_MAILBOX_STATE, WELCOME_LETTER_ID),
+      CARE_REMINDER_LETTER_ID,
+    );
+
+    expect(getVisibleLetters(BUILT_IN_LETTERS, receivedState)).toEqual(BUILT_IN_LETTERS);
+    expect(isLetterRead(receivedState, CARE_REMINDER_LETTER_ID)).toBe(false);
+    expect(getUnreadCount(BUILT_IN_LETTERS, receivedState)).toBe(1);
   });
 
   test("keeps first use active until the welcome letter is opened", () => {
@@ -75,7 +95,7 @@ describe("platform mailbox", () => {
   test("marks all visible letters read without duplicating ids", () => {
     const letters = [...BUILT_IN_LETTERS, updateLetter];
     const result = markAllLettersRead(
-      { readLetterIds: [WELCOME_LETTER_ID], deletedLetterIds: [] },
+      { readLetterIds: [WELCOME_LETTER_ID], deletedLetterIds: [], receivedLetterIds: [] },
       letters,
     );
 
@@ -88,11 +108,12 @@ describe("platform mailbox", () => {
     const state: MailboxState = {
       readLetterIds: [WELCOME_LETTER_ID, updateLetter.id],
       deletedLetterIds: [],
+      receivedLetterIds: [],
     };
     const result = deleteReadLetters(state, letters);
 
     expect(result.deletedLetterIds).toEqual([updateLetter.id]);
-    expect(getVisibleLetters(letters, result)).toEqual(BUILT_IN_LETTERS);
+    expect(getVisibleLetters(letters, result)).toEqual([BUILT_IN_LETTERS[0]]);
     expect(canDeleteReadLetters(result, letters)).toBe(false);
   });
 
@@ -108,6 +129,7 @@ describe("platform mailbox", () => {
     ).toEqual({
       readLetterIds: [WELCOME_LETTER_ID],
       deletedLetterIds: [updateLetter.id],
+      receivedLetterIds: [],
     });
   });
 
@@ -116,6 +138,7 @@ describe("platform mailbox", () => {
       JSON.stringify({
         readLetterIds: [WELCOME_LETTER_ID],
         deletedLetterIds: [],
+        receivedLetterIds: [],
       }),
     );
     const warn = vi.fn();

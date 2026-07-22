@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "scenes": {
+    "taskCreated": { "texts": ["记好啦，我们一起向前游一点。", "已经收好，放心吧。"], "action": "singleClick", "fallbackAction": "idle", "durationMs": 1800 },
+    "taskDue": { "texts": ["到时间啦，我来探头提醒你。", "这件事准备好开始了吗？"], "action": "peek", "fallbackAction": "idle", "durationMs": 2200 },
+    "taskCompleted": { "texts": ["完成啦，开心地跃一下！", "做得很好，我们又前进了一点。"], "action": "happyFinish", "fallbackAction": "singleClick", "durationMs": 2200 },
+    "taskCompletionBurst": { "texts": ["连续完成了好几件，浮起来庆祝一下。"], "action": "activeJump", "fallbackAction": "happyFinish", "durationMs": 2500 },
+    "reminderSnoozed": { "texts": ["好，我先安静等一会儿。"], "action": "yawn", "fallbackAction": "idle", "durationMs": 1800 },
+    "repeatedSnooze": { "texts": ["我们已经等了几次，要不要换个合适的时间？"], "action": "peek", "fallbackAction": "idle", "durationMs": 2200 },
+    "taskRescheduled": { "texts": ["时间换好啦，我们转向新的安排。"], "action": "spin", "fallbackAction": "idle", "durationMs": 2000 },
+    "taskBurst": { "texts": ["事情多了一些，我们稳稳地逐个来。"], "action": "activeJump", "fallbackAction": "idle", "durationMs": 2100 },
+    "taskOverdue": { "texts": ["还有一件事在等你，不着急，记得回来看看。"], "action": "yawn", "fallbackAction": "idle", "durationMs": 1900 },
+    "dailyReview": { "texts": ["真厉害，我和梁圣都看好你哇！"], "action": "spin", "fallbackAction": "happyFinish", "durationMs": 2300 }
+  }
+}
