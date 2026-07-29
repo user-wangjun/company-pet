@@ -6,6 +6,7 @@ import {
   TaskDraftFields,
   buildScheduledValue,
   scheduledDateValue,
+  scheduledPrecisionValue,
   scheduledTimeValue,
 } from "./QuickCreateTask";
 
@@ -41,6 +42,23 @@ describe("QuickCreateTask", () => {
     expect(scheduled.schedulePrecision).toBe("datetime");
     expect(scheduledDateValue(scheduled.dueAt)).toBe("2026-07-22");
     expect(scheduledTimeValue(scheduled.dueAt, scheduled.schedulePrecision)).toBe("14:35");
+    expect(scheduledPrecisionValue("2026-07-22")).toBe("date");
+    expect(scheduledPrecisionValue(scheduled.dueAt)).toBe("datetime");
+  });
+
+  test("clears and restores long-term dates and times without stale precision", () => {
+    expect(buildScheduledValue("", "14:35")).toEqual({
+      dueAt: null,
+      schedulePrecision: "date",
+    });
+    expect(buildScheduledValue("2026-07-22", "")).toEqual({
+      dueAt: "2026-07-22",
+      schedulePrecision: "date",
+    });
+    const restored = buildScheduledValue("2026-07-22", "14:35");
+    expect(restored.schedulePrecision).toBe("datetime");
+    expect(scheduledDateValue(restored.dueAt)).toBe("2026-07-22");
+    expect(scheduledTimeValue(restored.dueAt, restored.schedulePrecision)).toBe("14:35");
   });
 
   test("renders all weekday choices for a custom repeat rule", () => {
@@ -73,11 +91,14 @@ describe("QuickCreateTask", () => {
       milestones: [{ title: "完成初稿", dueAt: "2026-07-12T06:00:00.000Z", schedulePrecision: "datetime" }],
     }} onChange={vi.fn()} />);
     expect(html).toContain("开始日期");
+    expect(html).toContain("开始时间（可选）");
     expect(html).toContain("截止日期（可选）");
+    expect(html).toContain("截止时间（可选）");
     expect(html).toContain("日期节点");
     expect(html).toContain("完成初稿");
     expect(html).toContain("节点 1 具体时间（可选）");
     expect(html).toContain("提前10分钟");
+    expect(html.match(/type="time"/g)).toHaveLength(3);
     expect(html).not.toContain("自定义星期");
   });
 });

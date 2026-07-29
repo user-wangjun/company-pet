@@ -61,6 +61,10 @@ function toIso(now: Date | string): string {
 
 const DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
+function precisionForValue(value: string | null | undefined): Task["schedulePrecision"] {
+  return value && !DATE_ONLY_PATTERN.test(value) ? "datetime" : "date";
+}
+
 export function toLocalDateKey(date: Date | string = new Date()): string {
   const value = typeof date === "string" ? new Date(date) : date;
   const year = value.getFullYear();
@@ -144,13 +148,15 @@ export function readTaskDatabase(storage: Pick<Storage, "getItem"> | null = getD
     const normalizedTasks: Task[] = rawTasks.map((rawTask) => {
       const task = rawTask as Partial<Task> & Pick<Task, "id" | "title">;
       const kind = task.kind === "long_term" || task.kind === "milestone" ? task.kind : "single";
-      const precision = task.schedulePrecision === "date" ? "date" : "datetime";
+      const precision = task.schedulePrecision === "date" || task.schedulePrecision === "datetime"
+        ? task.schedulePrecision
+        : precisionForValue(task.dueAt);
       const normalizedDueAt = normalizeScheduledValue(task.dueAt, precision);
       return {
         ...task,
         kind,
         parentTaskId: typeof task.parentTaskId === "string" ? task.parentTaskId : null,
-        startAt: normalizeScheduledValue(task.startAt, "date"),
+        startAt: normalizeScheduledValue(task.startAt, precisionForValue(task.startAt)),
         dueAt: normalizedDueAt ?? (kind === "single" ? scheduledLocalDate(task.createdAt ?? null) : null),
         schedulePrecision: normalizedDueAt ? precision : kind === "single" ? "date" : precision,
         attachmentRefs: Array.isArray(task.attachmentRefs) ? task.attachmentRefs : [],
@@ -287,7 +293,10 @@ export function createTask(
     kind,
     parentTaskId: kind === "milestone" ? draft.parentTaskId ?? null : null,
     startAt: kind === "long_term"
-      ? normalizeScheduledValue(draft.startAt ?? toLocalDateKey(nowIso), "date")
+      ? normalizeScheduledValue(
+        draft.startAt ?? toLocalDateKey(nowIso),
+        precisionForValue(draft.startAt),
+      )
       : null,
     schedulePrecision,
     includeToday: draft.includeToday ?? false,
@@ -375,8 +384,11 @@ export function updateTask(
 
   const nowIso = toIso(now);
   const nextKind = patch.kind ?? current.kind;
+  const nextSchedulePrecision = hasOwn(patch, "dueAt")
+    ? patch.schedulePrecision ?? precisionForValue(patch.dueAt)
+    : patch.schedulePrecision ?? current.schedulePrecision;
   const patchedDueAt = hasOwn(patch, "dueAt")
-    ? normalizeScheduledValue(patch.dueAt, patch.schedulePrecision ?? current.schedulePrecision)
+    ? normalizeScheduledValue(patch.dueAt, nextSchedulePrecision)
     : current.dueAt;
   const updatedTask: Task = {
     ...current,
@@ -387,9 +399,9 @@ export function updateTask(
     kind: nextKind,
     parentTaskId: current.kind === "milestone" && hasOwn(patch, "parentTaskId") ? patch.parentTaskId ?? null : current.parentTaskId,
     startAt: current.kind === "long_term" && hasOwn(patch, "startAt")
-      ? normalizeScheduledValue(patch.startAt, "date")
+      ? normalizeScheduledValue(patch.startAt, precisionForValue(patch.startAt))
       : current.startAt,
-    schedulePrecision: patch.schedulePrecision ?? current.schedulePrecision,
+    schedulePrecision: nextSchedulePrecision,
     dueAt: patchedDueAt ?? (nextKind === "single" ? scheduledLocalDate(current.createdAt) : null),
     includeToday: patch.includeToday ?? current.includeToday,
     attachmentRefs: hasOwn(patch, "attachmentRefs") ? sanitizeAttachmentRefs(patch.attachmentRefs) : current.attachmentRefs,

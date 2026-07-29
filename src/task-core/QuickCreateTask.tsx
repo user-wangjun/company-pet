@@ -54,6 +54,12 @@ export function scheduledTimeValue(
   return precision === "datetime" ? toDateTimeLocal(value).slice(11, 16) : "";
 }
 
+export function scheduledPrecisionValue(
+  value: string | null | undefined,
+): SchedulePrecision {
+  return value && !/^\d{4}-\d{2}-\d{2}$/.test(value) ? "datetime" : "date";
+}
+
 export function buildScheduledValue(
   dateValue: string,
   timeValue: string,
@@ -111,6 +117,15 @@ export function TaskDraftFields({ draft, onChange, titleInputRef, showTitle = tr
     scheduledDateValue(draft.dueAt) || toLocalDateKey(),
     value,
   );
+  const startPrecision = scheduledPrecisionValue(draft.startAt);
+  const setLongTermStartSchedule = (dateValue: string, timeValue: string) => {
+    const schedule = buildScheduledValue(dateValue, timeValue);
+    set("startAt", schedule.dueAt);
+  };
+  const setLongTermDueSchedule = (dateValue: string, timeValue: string) => {
+    const schedule = buildScheduledValue(dateValue, timeValue);
+    onChange({ ...draft, ...schedule });
+  };
   const updateMilestone = (index: number, patch: Partial<MilestoneDraft>) => set("milestones", (draft.milestones ?? []).map((item, itemIndex) => itemIndex === index ? { ...item, ...patch } : item));
   const addMilestone = () => set("milestones", [...(draft.milestones ?? []), { title: "", dueAt: draft.startAt ?? toLocalDateKey(), schedulePrecision: "date", remindAt: null }]);
 
@@ -125,8 +140,10 @@ export function TaskDraftFields({ draft, onChange, titleInputRef, showTitle = tr
       <label className="task-field is-wide" htmlFor={`${id}-attachments`}>附件引用<textarea id={`${id}-attachments`} aria-label="附件引用" placeholder="每行一个文件路径或链接（最多10个）" value={(draft.attachmentRefs ?? []).join("\n")} onInput={(event) => set("attachmentRefs", event.currentTarget.value.split(/\r?\n/).slice(0, 10))} /></label>
 
       {kind === "long_term" ? <>
-        <label className="task-field" htmlFor={`${id}-start`}>开始日期<NativeScheduleInput id={`${id}-start`} type="date" value={(draft.startAt ?? "").slice(0, 10)} onCommit={(value) => set("startAt", value || null)} /></label>
-        <label className="task-field" htmlFor={`${id}-long-due`}>截止日期（可选）<NativeScheduleInput id={`${id}-long-due`} type="date" value={(draft.dueAt ?? "").slice(0, 10)} onCommit={(value) => set("dueAt", value || null)} /></label>
+        <label className="task-field" htmlFor={`${id}-start`}>开始日期<NativeScheduleInput id={`${id}-start`} type="date" value={scheduledDateValue(draft.startAt)} onCommit={(value) => setLongTermStartSchedule(value, scheduledTimeValue(draft.startAt, startPrecision))} /></label>
+        <label className="task-field" htmlFor={`${id}-start-time`}>开始时间（可选）<NativeScheduleInput id={`${id}-start-time`} type="time" value={scheduledTimeValue(draft.startAt, startPrecision)} onCommit={(value) => setLongTermStartSchedule(scheduledDateValue(draft.startAt) || toLocalDateKey(), value)} /><small>不填写则从当天开始</small></label>
+        <label className="task-field" htmlFor={`${id}-long-due`}>截止日期（可选）<NativeScheduleInput id={`${id}-long-due`} type="date" value={scheduledDateValue(draft.dueAt)} onCommit={(value) => setLongTermDueSchedule(value, scheduledTimeValue(draft.dueAt, precision))} /></label>
+        <label className="task-field" htmlFor={`${id}-long-due-time`}>截止时间（可选）<NativeScheduleInput id={`${id}-long-due-time`} type="time" value={scheduledTimeValue(draft.dueAt, precision)} onCommit={(value) => setLongTermDueSchedule(scheduledDateValue(draft.dueAt) || scheduledDateValue(draft.startAt) || toLocalDateKey(), value)} /><small>不填写则按截止日全天保存</small></label>
         <fieldset className="task-milestone-editor is-wide"><legend>日期节点</legend>
           <div className="task-milestone-list">{(draft.milestones ?? []).map((milestone, index) => {
             const milestonePrecision = milestone.schedulePrecision ?? "date";

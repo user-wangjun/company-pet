@@ -385,6 +385,118 @@ describe("task store", () => {
     expect(synced.tasks.find((task) => task.id === milestone.id)?.title).toBe("完成终稿");
   });
 
+  it("preserves exact start and cutoff times for long-term tasks", () => {
+    const created = createTask(EMPTY_TASK_DATABASE, {
+      title: "精确周期",
+      kind: "long_term",
+      startAt: "2026-07-21T01:15:00.000Z",
+      dueAt: "2026-07-28T10:45:00.000Z",
+      schedulePrecision: "datetime",
+    }, "2026-07-20T01:00:00.000Z");
+    expect(created.task.startAt).toBe("2026-07-21T01:15:00.000Z");
+    expect(created.task.dueAt).toBe("2026-07-28T10:45:00.000Z");
+
+    const updated = updateTask(created.database, created.task.id, {
+      startAt: "2026-07-21T02:30:00.000Z",
+    }, "2026-07-20T02:00:00.000Z");
+    expect(updated.tasks[0].startAt).toBe("2026-07-21T02:30:00.000Z");
+
+    const reloaded = readTaskDatabase({ getItem: () => JSON.stringify(updated) });
+    expect(reloaded.tasks[0].startAt).toBe("2026-07-21T02:30:00.000Z");
+  });
+
+  it("keeps date-only long-term bounds date-only through create, edit and reload", () => {
+    const created = createTask(EMPTY_TASK_DATABASE, {
+      title: "按日期推进",
+      kind: "long_term",
+      startAt: "2026-07-21",
+      dueAt: "2026-07-28",
+      schedulePrecision: "date",
+    }, "2026-07-20T01:00:00.000Z");
+    expect(created.task).toMatchObject({
+      startAt: "2026-07-21",
+      dueAt: "2026-07-28",
+      schedulePrecision: "date",
+    });
+
+    const edited = updateTask(created.database, created.task.id, {
+      dueAt: "2026-07-29T10:45:00.000Z",
+    }, "2026-07-20T02:00:00.000Z");
+    expect(edited.tasks[0]).toMatchObject({
+      dueAt: "2026-07-29T10:45:00.000Z",
+      schedulePrecision: "datetime",
+    });
+
+    const restoredToDate = updateTask(edited, created.task.id, {
+      dueAt: "2026-07-30",
+    }, "2026-07-20T03:00:00.000Z");
+    const reloaded = readTaskDatabase({ getItem: () => JSON.stringify(restoredToDate) });
+    expect(reloaded.tasks[0]).toMatchObject({
+      startAt: "2026-07-21",
+      dueAt: "2026-07-30",
+      schedulePrecision: "date",
+    });
+  });
+
+  it("preserves independent start and cutoff precision for mixed long-term bounds", () => {
+    const timedStart = createTask(EMPTY_TASK_DATABASE, {
+      title: "精确开始",
+      kind: "long_term",
+      startAt: "2026-07-21T01:15:00.000Z",
+      dueAt: "2026-07-28",
+      schedulePrecision: "date",
+    }, "2026-07-20T01:00:00.000Z").task;
+    expect(timedStart).toMatchObject({
+      startAt: "2026-07-21T01:15:00.000Z",
+      dueAt: "2026-07-28",
+      schedulePrecision: "date",
+    });
+
+    const timedCutoff = createTask(EMPTY_TASK_DATABASE, {
+      title: "精确截止",
+      kind: "long_term",
+      startAt: "2026-07-21",
+      dueAt: "2026-07-28T10:45:00.000Z",
+      schedulePrecision: "datetime",
+    }, "2026-07-20T01:00:00.000Z").task;
+    expect(timedCutoff).toMatchObject({
+      startAt: "2026-07-21",
+      dueAt: "2026-07-28T10:45:00.000Z",
+      schedulePrecision: "datetime",
+    });
+  });
+
+  it("infers missing legacy schedule precision without changing date-only or datetime values", () => {
+    const dateTask = createTask(EMPTY_TASK_DATABASE, {
+      title: "旧日期",
+      dueAt: "2026-07-21",
+      schedulePrecision: "date",
+    }, "2026-07-20T01:00:00.000Z").task;
+    const datetimeTask = createTask(EMPTY_TASK_DATABASE, {
+      title: "旧时间",
+      dueAt: "2026-07-21T09:15:00.000Z",
+      schedulePrecision: "datetime",
+    }, "2026-07-20T01:00:00.000Z").task;
+    const { schedulePrecision: _datePrecision, ...legacyDateTask } = dateTask;
+    const { schedulePrecision: _datetimePrecision, ...legacyDatetimeTask } = datetimeTask;
+    const migrated = readTaskDatabase({
+      getItem: () => JSON.stringify({
+        ...EMPTY_TASK_DATABASE,
+        schemaVersion: 1,
+        tasks: [legacyDateTask, legacyDatetimeTask],
+      }),
+    });
+
+    expect(migrated.tasks[0]).toMatchObject({
+      dueAt: "2026-07-21",
+      schedulePrecision: "date",
+    });
+    expect(migrated.tasks[1]).toMatchObject({
+      dueAt: "2026-07-21T09:15:00.000Z",
+      schedulePrecision: "datetime",
+    });
+  });
+
   it("cascades long-term trash, restore and permanent deletion", () => {
     const created = createTask(EMPTY_TASK_DATABASE, { title: "长期", kind: "long_term", startAt: "2026-07-01", milestones: [{ title: "节点", dueAt: "2026-07-18" }] }, "2026-07-01T01:00:00.000Z");
     const completedChild = completeTask(created.database, created.database.tasks.find((task) => task.kind === "milestone")!.id, "2026-07-17T02:00:00.000Z");

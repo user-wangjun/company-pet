@@ -1,18 +1,16 @@
-import type { PetReminderKind } from "./petInteractionManifest";
-
 export const CARE_REMINDER_STORAGE_KEY = "yuxin-care-reminders-v1";
-const CARE_REMINDER_DEFAULTS_VERSION = 3;
+const CARE_REMINDER_DEFAULTS_VERSION = 4;
+
+export type CareReminderKind = "wellness" | "meal" | "sleep";
 
 export type CareReminderSettings = {
-  eyeCare: { enabled: boolean; intervalMinutes: number };
-  water: { enabled: boolean; intervalMinutes: number };
+  wellness: { enabled: boolean; intervalMinutes: number };
   meal: { enabled: boolean; breakfastTime: string; lunchTime: string; dinnerTime: string };
   sleep: { enabled: boolean; bedtime: string };
 };
 
 export const DEFAULT_CARE_REMINDER_SETTINGS: CareReminderSettings = {
-  eyeCare: { enabled: false, intervalMinutes: 40 },
-  water: { enabled: false, intervalMinutes: 40 },
+  wellness: { enabled: false, intervalMinutes: 40 },
   meal: { enabled: true, breakfastTime: "08:00", lunchTime: "12:00", dinnerTime: "18:00" },
   sleep: { enabled: true, bedtime: "23:00" },
 };
@@ -27,27 +25,40 @@ export type CareReminderState = {
 export type CareReminderStorage = Pick<Storage, "getItem" | "setItem">;
 
 export type TimedCareReminder = {
-  kind: Extract<PetReminderKind, "meal" | "sleep">;
+  kind: Extract<CareReminderKind, "meal" | "sleep">;
   key: string;
 };
 
 export type DueCareReminder =
   | {
-      kind: Extract<PetReminderKind, "meal" | "sleep">;
+      kind: Extract<CareReminderKind, "meal" | "sleep">;
       deliveredKey: string;
       source: "timed";
     }
   | {
-      kind: Extract<PetReminderKind, "eyeCare" | "water">;
+      kind: Extract<CareReminderKind, "wellness">;
       source: "random";
     };
 
 export type CareReminderSchedule = {
   now: number;
   deliveredKeys: string[];
-  nextEyeCareTime: number;
+  nextWellnessTime: number;
   timedSnoozedUntil?: number;
   settings?: CareReminderSettings;
+};
+
+type LegacyWellnessSetting = {
+  enabled?: unknown;
+  intervalMinutes?: unknown;
+};
+
+type CareReminderSettingsSource = {
+  wellness?: LegacyWellnessSetting;
+  eyeCare?: LegacyWellnessSetting;
+  water?: LegacyWellnessSetting;
+  meal?: Partial<CareReminderSettings["meal"]>;
+  sleep?: Partial<CareReminderSettings["sleep"]>;
 };
 
 function validTime(value: unknown, fallback: string): string {
@@ -60,28 +71,52 @@ function validInterval(value: unknown, fallback: number): number {
     : fallback;
 }
 
-export function normalizeCareReminderSettings(value: Partial<CareReminderSettings> | undefined): CareReminderSettings {
+function legacyWellnessInterval(
+  eyeCare: LegacyWellnessSetting | undefined,
+  water: LegacyWellnessSetting | undefined,
+  fallback: number,
+): number {
+  const eyeCareInterval = validInterval(eyeCare?.intervalMinutes, Number.NaN);
+  const waterInterval = validInterval(water?.intervalMinutes, Number.NaN);
+  const enabledIntervals = [
+    eyeCare?.enabled === true ? eyeCareInterval : Number.NaN,
+    water?.enabled === true ? waterInterval : Number.NaN,
+  ].filter(Number.isFinite);
+
+  // When both legacy switches were enabled with different values, retain the
+  // quieter (longer) valid interval rather than increasing reminder frequency.
+  if (enabledIntervals.length > 0) return Math.max(...enabledIntervals);
+  if (Number.isFinite(eyeCareInterval)) return eyeCareInterval;
+  if (Number.isFinite(waterInterval)) return waterInterval;
+  return fallback;
+}
+
+export function normalizeCareReminderSettings(value: unknown): CareReminderSettings {
   const defaults = DEFAULT_CARE_REMINDER_SETTINGS;
-  const wellnessEnabled = value?.eyeCare?.enabled === true || value?.water?.enabled === true;
-  const wellnessInterval = validInterval(value?.eyeCare?.intervalMinutes, defaults.eyeCare.intervalMinutes);
+  const source = value && typeof value === "object"
+    ? value as CareReminderSettingsSource
+    : undefined;
+  const hasWellnessSetting = source?.wellness && typeof source.wellness === "object";
+  const wellnessEnabled = hasWellnessSetting
+    ? source.wellness?.enabled === true
+    : source?.eyeCare?.enabled === true || source?.water?.enabled === true;
+  const wellnessInterval = hasWellnessSetting
+    ? validInterval(source.wellness?.intervalMinutes, defaults.wellness.intervalMinutes)
+    : legacyWellnessInterval(source?.eyeCare, source?.water, defaults.wellness.intervalMinutes);
   return {
-    eyeCare: {
-      enabled: wellnessEnabled,
-      intervalMinutes: wellnessInterval,
-    },
-    water: {
+    wellness: {
       enabled: wellnessEnabled,
       intervalMinutes: wellnessInterval,
     },
     meal: {
-      enabled: typeof value?.meal?.enabled === "boolean" ? value.meal.enabled : defaults.meal.enabled,
-      breakfastTime: validTime(value?.meal?.breakfastTime, defaults.meal.breakfastTime),
-      lunchTime: validTime(value?.meal?.lunchTime, defaults.meal.lunchTime),
-      dinnerTime: validTime(value?.meal?.dinnerTime, defaults.meal.dinnerTime),
+      enabled: typeof source?.meal?.enabled === "boolean" ? source.meal.enabled : defaults.meal.enabled,
+      breakfastTime: validTime(source?.meal?.breakfastTime, defaults.meal.breakfastTime),
+      lunchTime: validTime(source?.meal?.lunchTime, defaults.meal.lunchTime),
+      dinnerTime: validTime(source?.meal?.dinnerTime, defaults.meal.dinnerTime),
     },
     sleep: {
-      enabled: typeof value?.sleep?.enabled === "boolean" ? value.sleep.enabled : defaults.sleep.enabled,
-      bedtime: validTime(value?.sleep?.bedtime, defaults.sleep.bedtime),
+      enabled: typeof source?.sleep?.enabled === "boolean" ? source.sleep.enabled : defaults.sleep.enabled,
+      bedtime: validTime(source?.sleep?.bedtime, defaults.sleep.bedtime),
     },
   };
 }
@@ -130,7 +165,7 @@ export function selectTimedCareReminder(
 export function selectDueCareReminder({
   now,
   deliveredKeys,
-  nextEyeCareTime,
+  nextWellnessTime,
   timedSnoozedUntil = 0,
   settings = DEFAULT_CARE_REMINDER_SETTINGS,
 }: CareReminderSchedule): DueCareReminder | null {
@@ -144,9 +179,9 @@ export function selectDueCareReminder({
     };
   }
 
-  if (now >= nextEyeCareTime) {
+  if (now >= nextWellnessTime) {
     return {
-      kind: "eyeCare",
+      kind: "wellness",
       source: "random",
     };
   }

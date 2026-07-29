@@ -19,6 +19,64 @@ export type WorkArea = {
   size: WindowSize;
 };
 
+export type PhysicalPetAnchor = {
+  x: number;
+  y: number;
+};
+
+export type PetViewport = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+function safeScaleFactor(scaleFactor: number): number {
+  return scaleFactor > 0 ? scaleFactor : 1;
+}
+
+export function getPhysicalPetAnchor(
+  windowPosition: WindowPosition,
+  petViewport: PetViewport,
+  scaleFactor: number,
+): PhysicalPetAnchor {
+  const scale = safeScaleFactor(scaleFactor);
+
+  return {
+    x: windowPosition.x + (petViewport.x + petViewport.width / 2) * scale,
+    y: windowPosition.y + (petViewport.y + petViewport.height) * scale,
+  };
+}
+
+export function getWindowPositionForPhysicalPetAnchor(
+  anchor: PhysicalPetAnchor,
+  petViewport: PetViewport,
+  scaleFactor: number,
+): WindowPosition {
+  const scale = safeScaleFactor(scaleFactor);
+
+  return {
+    x: Math.round(anchor.x - (petViewport.x + petViewport.width / 2) * scale),
+    y: Math.round(anchor.y - (petViewport.y + petViewport.height) * scale),
+  };
+}
+
+export function clampWindowPositionToWorkArea(
+  position: WindowPosition,
+  windowSize: WindowSize,
+  workArea: WorkArea,
+): WindowPosition {
+  const minX = workArea.position.x;
+  const minY = workArea.position.y;
+  const maxX = minX + Math.max(0, workArea.size.width - windowSize.width);
+  const maxY = minY + Math.max(0, workArea.size.height - windowSize.height);
+
+  return {
+    x: Math.min(Math.max(position.x, minX), maxX),
+    y: Math.min(Math.max(position.y, minY), maxY),
+  };
+}
+
 export function getInitialPetWindowPosition(
   workArea: WorkArea,
   windowSize: WindowSize,
@@ -32,20 +90,6 @@ export function getInitialPetWindowPosition(
     y: Math.max(
       workArea.position.y,
       workArea.position.y + workArea.size.height - windowSize.height - margin,
-    ),
-  };
-}
-
-export function getCenteredWindowPosition(
-  workArea: WorkArea,
-  windowSize: WindowSize,
-): WindowPosition {
-  return {
-    x: Math.round(
-      workArea.position.x + (workArea.size.width - windowSize.width) / 2,
-    ),
-    y: Math.round(
-      workArea.position.y + (workArea.size.height - windowSize.height) / 2,
     ),
   };
 }

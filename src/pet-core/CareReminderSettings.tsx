@@ -32,12 +32,10 @@ export function CareReminderSettings({ settings, onChange, embedded = false, dis
     patch(key, { enabled } as Partial<Settings[K]>);
     if (!enabled && !disableNoticeDismissed) setNoticeOpen(true);
   };
-  const patchWellness = (value: Partial<Settings["eyeCare"]>) => {
-    const eyeCare = { ...settings.eyeCare, ...value };
-    onChange({ ...settings, eyeCare, water: { ...settings.water, ...eyeCare } });
+  const patchWellness = (value: Partial<Settings["wellness"]>) => {
+    patch("wellness", value);
   };
-  const wellnessEnabled = settings.eyeCare.enabled || settings.water.enabled;
-  const systemPopupCount = Number(wellnessEnabled) + Number(settings.meal.enabled) + Number(settings.sleep.enabled);
+  const systemPopupCount = Number(settings.wellness.enabled) + Number(settings.meal.enabled) + Number(settings.sleep.enabled);
 
   return (
     <section className={`care-settings-page${embedded ? " is-embedded" : ""}`} aria-label="关怀提醒设置">
@@ -47,9 +45,9 @@ export function CareReminderSettings({ settings, onChange, embedded = false, dis
       </header>
 
       <div className="care-settings-grid">
-        <article className={`care-setting-card is-eye${wellnessEnabled ? " is-enabled" : ""}`}>
-          <header><span className="care-setting-icon">◉</span><div><h3>护眼与喝水</h3><p>定时看看远处、活动一下，再补充一点水分</p></div><Toggle label="护眼与喝水系统弹窗" checked={wellnessEnabled} onChange={(enabled) => { patchWellness({ enabled }); if (!enabled && !disableNoticeDismissed) setNoticeOpen(true); }} /></header>
-          <label>桌宠提醒频率<select value={settings.eyeCare.intervalMinutes} onChange={(event) => patchWellness({ intervalMinutes: Number(event.target.value) })}>{eyeIntervals.map((minutes) => <option key={minutes} value={minutes}>每 {minutes} 分钟</option>)}</select></label>
+        <article className={`care-setting-card is-eye${settings.wellness.enabled ? " is-enabled" : ""}`}>
+          <header><span className="care-setting-icon">◉</span><div><h3>护眼与喝水</h3><p>定时看看远处、活动一下，再补充一点水分</p></div><Toggle label="护眼与喝水系统弹窗" checked={settings.wellness.enabled} onChange={(enabled) => { patchWellness({ enabled }); if (!enabled && !disableNoticeDismissed) setNoticeOpen(true); }} /></header>
+          <label>桌宠提醒频率<select value={settings.wellness.intervalMinutes} onChange={(event) => patchWellness({ intervalMinutes: Number(event.target.value) })}>{eyeIntervals.map((minutes) => <option key={minutes} value={minutes}>每 {minutes} 分钟</option>)}</select></label>
         </article>
 
         <article className={`care-setting-card is-meal${settings.meal.enabled ? " is-enabled" : ""}`}>

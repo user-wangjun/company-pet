@@ -14,5 +14,7 @@ describe("CareReminderSettings", () => {
     expect(html).toContain("每 40 分钟");
     expect(html).toContain("关闭卡片右侧开关只会关闭系统通知弹窗");
     expect(html).toContain("护眼与喝水系统弹窗");
+    expect(html).not.toContain("喝水提醒系统弹窗");
+    expect(html.match(/type="checkbox"/g)).toHaveLength(3);
   });
 });

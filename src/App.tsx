@@ -81,10 +81,15 @@ import {
 } from "./pet-core/visual";
 import {
   APP_DISPLAY_NAME,
-  getCenteredWindowPosition,
+  clampWindowPositionToWorkArea,
+  getPhysicalPetAnchor,
   getInitialPetWindowPosition,
+  getWindowPositionForPhysicalPetAnchor,
   PLATFORM_START_OPEN,
   PLATFORM_START_SECTION,
+  type PetViewport,
+  type PhysicalPetAnchor,
+  type WorkArea,
   type WindowPosition,
   type WindowSize,
 } from "./pet-core/platform";
@@ -141,10 +146,20 @@ import {
   selectTimedCareReminder,
   unmarkCareReminderDelivered,
   writeCareReminderState,
+  type CareReminderKind,
   type CareReminderState,
   type CareReminderSettings as CareReminderSettingsValue,
 } from "./pet-core/careReminders";
-import { revealHiddenPetForCareReminder } from "./pet-core/careReminderWindow";
+import {
+  createLatestWindowLayoutScheduler,
+  revealHiddenPetForCareReminder,
+  shouldResizeReminderWindow,
+  shouldUseExpandedReminderWindow,
+} from "./pet-core/careReminderWindow";
+import {
+  PLATFORM_FEEDBACK_BUBBLE_MS,
+  expireBubbleText,
+} from "./pet-core/bubbleLifecycle";
 import {
   getInteractionAnimationSpec,
   resolveActionPlaybackSteps,
@@ -155,7 +170,6 @@ import {
   type PetAnimationSpec,
   type PetDirectionMode,
   type PetFacing,
-  type PetReminderKind,
   type PetSequenceSpec,
   type ResolvedPetInteractionManifest,
 } from "./pet-core/petInteractionManifest";
@@ -200,6 +214,7 @@ const PET_WINDOW_SIZE = { width: 165, height: 215 };
 const PET_REMINDER_WINDOW_SIZE = { width: 240, height: 450 };
 const PLATFORM_PANEL_WIDTH = 860;
 const PLATFORM_PET_RAIL_WIDTH = PET_WINDOW_SIZE.width + 12;
+const PLATFORM_PET_INSET_PX = 6;
 const PLATFORM_WINDOW_SIZE = {
   width: PLATFORM_PANEL_WIDTH + PLATFORM_PET_RAIL_WIDTH,
   height: 590,
@@ -222,23 +237,76 @@ type AvailableUpdate = Extract<UpdateCheckResult, { status: "available" }>;
 type PressSource = "pointer" | "mouse";
 type TauriWindow = ReturnType<typeof getCurrentWindow>;
 type WindowMode = "platform" | "pet" | "quick-create";
+type AppliedWindowLayout = {
+  mode: WindowMode;
+  logicalSize: WindowSize;
+  position: WindowPosition;
+};
+type PhysicalPetPlacement = {
+  anchor: PhysicalPetAnchor;
+  scaleFactor: number;
+  workArea: WorkArea;
+};
 type OpenPlatformPayload = {
   resetPetPosition?: boolean;
 };
 type ActiveCareReminderPrompt =
   | {
       source: "timed";
-      kind: Extract<PetReminderKind, "meal">;
+      kind: Extract<CareReminderKind, "meal" | "sleep">;
       deliveredKey: string;
     }
   | {
       source: "random";
-      kind: Extract<PetReminderKind, "eyeCare" | "water">;
+      kind: Extract<CareReminderKind, "wellness">;
       expiresAt: number;
     };
 
-const MEAL_REMINDER_SNOOZE_MS = 10 * 60 * 1000;
+const CARE_REMINDER_SNOOZE_MS = 10 * 60 * 1000;
 const RANDOM_REMINDER_PROMPT_MS = 2 * 60 * 1000;
+
+function getPetViewportForLayout(
+  mode: WindowMode,
+  logicalSize: WindowSize,
+): PetViewport {
+  if (mode === "platform") {
+    return {
+      x: logicalSize.width - PLATFORM_PET_INSET_PX - PET_WINDOW_SIZE.width,
+      y: logicalSize.height - PET_WINDOW_SIZE.height,
+      width: PET_WINDOW_SIZE.width,
+      height: PET_WINDOW_SIZE.height,
+    };
+  }
+
+  if (mode === "quick-create") {
+    return {
+      x: logicalSize.width - PET_WINDOW_SIZE.width,
+      y: logicalSize.height - PET_WINDOW_SIZE.height,
+      width: PET_WINDOW_SIZE.width,
+      height: PET_WINDOW_SIZE.height,
+    };
+  }
+
+  if (!isSameWindowSize(logicalSize, PET_WINDOW_SIZE)) {
+    return {
+      x: logicalSize.width - PET_WINDOW_SIZE.width,
+      y: logicalSize.height - PET_WINDOW_SIZE.height,
+      width: PET_WINDOW_SIZE.width,
+      height: PET_WINDOW_SIZE.height,
+    };
+  }
+
+  return {
+    x: 0,
+    y: 0,
+    width: logicalSize.width,
+    height: logicalSize.height,
+  };
+}
+
+function isSameWindowSize(left: WindowSize, right: WindowSize): boolean {
+  return left.width === right.width && left.height === right.height;
+}
 
 function isTauriRuntime(): boolean {
   return (
@@ -363,6 +431,7 @@ function DesktopPetApp() {
   const missedSummaryNotificationId = useRef<string | null>(null);
   const recentTaskCompletion = useRef({ count: 0, lastAt: 0 });
   const returnToIdleTimer = useRef<number | null>(null);
+  const transientBubbleTimer = useRef<number | null>(null);
   const hoverEatTimer = useRef<number | null>(null);
   const iconHugClickThroughTimer = useRef<number | null>(null);
   const iconHugLockedUntil = useRef(0);
@@ -399,7 +468,7 @@ function DesktopPetApp() {
   const careReminderState = useRef<CareReminderState>(readCareReminderState());
   const [careReminderSettings, setCareReminderSettings] = useState(careReminderState.current.settings);
   const [careReminderNoticeDismissed, setCareReminderNoticeDismissed] = useState(careReminderState.current.systemPopupNoticeDismissed);
-  const nextEyeCareTime = useRef(Date.now() + careReminderState.current.settings.eyeCare.intervalMinutes * 60 * 1000);
+  const nextWellnessTime = useRef(Date.now() + careReminderState.current.settings.wellness.intervalMinutes * 60 * 1000);
   const timedCareSnoozedUntil = useRef(0);
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
@@ -446,9 +515,10 @@ function DesktopPetApp() {
   );
   const [activePetId, setActivePetId] = useState(DEFAULT_PET_ID);
   const windowMode = useRef<WindowMode>(isPlatformOpen ? "platform" : "pet");
-  const petWindowLogicalSize = useRef<WindowSize>(PET_WINDOW_SIZE);
+  const appliedWindowLayout = useRef<AppliedWindowLayout | null>(null);
+  const physicalPetPlacement = useRef<PhysicalPetPlacement | null>(null);
+  const windowLayoutScheduler = useRef(createLatestWindowLayoutScheduler());
   const resetPetPositionOnNextOpen = useRef(true);
-  const lastPetWindowPosition = useRef<WindowPosition | null>(null);
   const mailboxButtonRef = useRef<HTMLButtonElement>(null);
   const initialMailboxStateRef = useRef<MailboxState | null>(null);
   const initialMailboxState =
@@ -498,6 +568,10 @@ function DesktopPetApp() {
     }),
     [activeTaskReminders, hiddenTaskReminderIds, taskDatabase.settings.bubbleDurationMinutes],
   );
+  const isReminderWindowExpanded = shouldUseExpandedReminderWindow(
+    visibleTaskReminders.length,
+    careReminderPrompt !== null,
+  );
 
   useEffect(() => {
     const activeIds = new Set(taskDatabase.reminderInstances
@@ -537,7 +611,7 @@ function DesktopPetApp() {
     }
     writeTaskDatabase(next);
     setTaskDatabase(next);
-    if (feedback) setBubbleText(feedback);
+    if (feedback) showTransientBubbleText(feedback);
     const resolved = getActiveInteractionManifest();
     if (!resolved) return;
     if (completedDelta > 0) {
@@ -829,86 +903,105 @@ function DesktopPetApp() {
     clearDefaultBubbleText();
   }, [activePetId, petDialoguesById]);
 
-  const applyPlatformWindowLayout = async (
-    appWindow: TauriWindow,
-    shouldCapturePetPosition: boolean,
-  ) => {
-    if (shouldCapturePetPosition) {
-      const position = await appWindow.outerPosition().catch(() => null);
-      if (position) {
-        lastPetWindowPosition.current = {
-          x: Math.round(position.x + (petWindowLogicalSize.current.width - PET_WINDOW_SIZE.width) / 2),
-          y: position.y + petWindowLogicalSize.current.height - PET_WINDOW_SIZE.height,
-        };
-      }
-    }
-
-    const monitor = await getPlacementMonitor();
-    await setWindowSize(appWindow, PLATFORM_WINDOW_SIZE);
-
-    if (!monitor) return;
-
-    await setWindowPosition(
-      appWindow,
-      getCenteredWindowPosition(
-        monitor.workArea,
-        getPhysicalWindowSize(PLATFORM_WINDOW_SIZE, monitor),
-      ),
+  const getInitialPhysicalPetPlacement = (
+    monitor: Monitor,
+  ): PhysicalPetPlacement => {
+    const initialPosition = getInitialPetWindowPosition(
+      monitor.workArea,
+      getPhysicalWindowSize(PET_WINDOW_SIZE, monitor),
     );
+
+    return {
+      anchor: getPhysicalPetAnchor(
+        initialPosition,
+        getPetViewportForLayout("pet", PET_WINDOW_SIZE),
+        monitor.scaleFactor,
+      ),
+      scaleFactor: monitor.scaleFactor,
+      workArea: monitor.workArea,
+    };
   };
 
-  const applyPetWindowLayout = async (
+  const applyAnchoredWindowLayout = async (
     appWindow: TauriWindow,
-    shouldUseInitialPosition: boolean,
-    desiredSize: WindowSize,
+    mode: WindowMode,
+    logicalSize: WindowSize,
+    shouldResetPetAnchor: boolean,
   ) => {
-    await setWindowSize(appWindow, desiredSize);
-    petWindowLogicalSize.current = desiredSize;
-
-    const toDesiredPosition = (normalPosition: WindowPosition): WindowPosition => ({
-      x: Math.round(normalPosition.x - (desiredSize.width - PET_WINDOW_SIZE.width) / 2),
-      y: normalPosition.y - (desiredSize.height - PET_WINDOW_SIZE.height),
-    });
-
-    if (!shouldUseInitialPosition) {
-      if (lastPetWindowPosition.current) {
-        await setWindowPosition(appWindow, toDesiredPosition(lastPetWindowPosition.current));
-      }
+    const previousLayout = appliedWindowLayout.current;
+    if (
+      previousLayout?.mode === mode &&
+      isSameWindowSize(previousLayout.logicalSize, logicalSize) &&
+      !shouldResetPetAnchor
+    ) {
       return;
     }
 
     const monitor = await getPlacementMonitor();
-    if (!monitor) return;
-
-    await setWindowPosition(appWindow, toDesiredPosition(
-      getInitialPetWindowPosition(
-        monitor.workArea,
-        getPhysicalWindowSize(PET_WINDOW_SIZE, monitor),
-      ),
-    ));
-  };
-
-  const applyQuickCreateWindowLayout = async (
-    appWindow: TauriWindow,
-    shouldCapturePetPosition: boolean,
-  ) => {
     const currentPosition = await appWindow.outerPosition().catch(() => null);
-    if (shouldCapturePetPosition && currentPosition) {
-      lastPetWindowPosition.current = {
-        x: Math.round(currentPosition.x + (petWindowLogicalSize.current.width - PET_WINDOW_SIZE.width) / 2),
-        y: currentPosition.y + petWindowLogicalSize.current.height - PET_WINDOW_SIZE.height,
-      };
+
+    if (previousLayout?.mode === "pet" && currentPosition && monitor) {
+      const petWasMoved =
+        currentPosition.x !== previousLayout.position.x ||
+        currentPosition.y !== previousLayout.position.y;
+      if (petWasMoved || physicalPetPlacement.current === null) {
+        physicalPetPlacement.current = {
+          anchor: getPhysicalPetAnchor(
+            currentPosition,
+            getPetViewportForLayout("pet", previousLayout.logicalSize),
+            monitor.scaleFactor,
+          ),
+          scaleFactor: monitor.scaleFactor,
+          workArea: monitor.workArea,
+        };
+      }
     }
-    const monitor = await getPlacementMonitor();
-    await setWindowSize(appWindow, QUICK_CREATE_WINDOW_SIZE);
-    if (!monitor) return;
-    await setWindowPosition(
-      appWindow,
-      getCenteredWindowPosition(
-        monitor.workArea,
-        getPhysicalWindowSize(QUICK_CREATE_WINDOW_SIZE, monitor),
-      ),
+
+    if (monitor && (shouldResetPetAnchor || physicalPetPlacement.current === null)) {
+      physicalPetPlacement.current = getInitialPhysicalPetPlacement(monitor);
+    }
+
+    await setWindowSize(appWindow, logicalSize);
+
+    const placement = physicalPetPlacement.current;
+    if (!placement) {
+      if (currentPosition) {
+        appliedWindowLayout.current = {
+          mode,
+          logicalSize,
+          position: currentPosition,
+        };
+      }
+      return;
+    }
+
+    const anchoredPosition = getWindowPositionForPhysicalPetAnchor(
+      placement.anchor,
+      getPetViewportForLayout(mode, logicalSize),
+      placement.scaleFactor,
     );
+    const shouldKeepEntireWindowInWorkArea =
+      mode !== "pet" || shouldResizeReminderWindow(PET_WINDOW_SIZE, logicalSize);
+    const desiredPosition = shouldKeepEntireWindowInWorkArea
+      ? clampWindowPositionToWorkArea(
+          anchoredPosition,
+          {
+            width: Math.round(logicalSize.width * placement.scaleFactor),
+            height: Math.round(logicalSize.height * placement.scaleFactor),
+          },
+          placement.workArea,
+        )
+      : anchoredPosition;
+
+    await setWindowPosition(appWindow, desiredPosition);
+    const appliedPosition = await appWindow.outerPosition().catch(
+      () => desiredPosition,
+    );
+    appliedWindowLayout.current = {
+      mode,
+      logicalSize,
+      position: appliedPosition,
+    };
   };
 
   useEffect(() => {
@@ -920,58 +1013,41 @@ function DesktopPetApp() {
       : isQuickCreateOpen
         ? "quick-create"
         : "pet";
-    const previousMode = windowMode.current;
     windowMode.current = nextMode;
 
-    if (nextMode === "platform") {
-      void applyPlatformWindowLayout(
+    const shouldResetPetAnchor = resetPetPositionOnNextOpen.current;
+    const desiredSize = nextMode === "platform"
+      ? PLATFORM_WINDOW_SIZE
+      : nextMode === "quick-create"
+        ? QUICK_CREATE_WINDOW_SIZE
+        : isReminderWindowExpanded
+          ? PET_REMINDER_WINDOW_SIZE
+          : PET_WINDOW_SIZE;
+    const failureEvent = nextMode === "platform"
+      ? "platform_layout_failed"
+      : nextMode === "quick-create"
+        ? "quick_create_layout_failed"
+        : "pet_layout_failed";
+
+    void windowLayoutScheduler.current.schedule(async () => {
+      await applyAnchoredWindowLayout(
         appWindow,
-        previousMode === "pet",
-      ).catch(() => {
-        recordInteraction("platform_layout_failed");
-      });
-      return;
-    }
-
-    if (nextMode === "quick-create") {
-      void applyQuickCreateWindowLayout(appWindow, previousMode === "pet").catch(() => {
-        recordInteraction("quick_create_layout_failed");
-      });
-      return;
-    }
-
-    const shouldUseInitialPosition = resetPetPositionOnNextOpen.current;
-    resetPetPositionOnNextOpen.current = false;
-
-    const desiredPetSize = visibleTaskReminders.length > 0
-      ? PET_REMINDER_WINDOW_SIZE
-      : PET_WINDOW_SIZE;
-    void applyPetWindowLayout(appWindow, shouldUseInitialPosition, desiredPetSize).catch(() => {
-      recordInteraction("pet_layout_failed");
+        nextMode,
+        desiredSize,
+        shouldResetPetAnchor,
+      );
+      if (shouldResetPetAnchor) {
+        resetPetPositionOnNextOpen.current = false;
+      }
+    }).catch(() => {
+      recordInteraction(failureEvent);
     });
-  }, [isPlatformOpen, isQuickCreateOpen]);
-
-  useEffect(() => {
-    if (isPlatformOpen || isQuickCreateOpen) return;
-    const appWindow = getOptionalCurrentWindow();
-    if (!appWindow) return;
-    const desired = visibleTaskReminders.length > 0
-      ? PET_REMINDER_WINDOW_SIZE
-      : PET_WINDOW_SIZE;
-    const current = petWindowLogicalSize.current;
-    if (current.width === desired.width && current.height === desired.height) return;
-
-    void appWindow.outerPosition().then(async (position) => {
-      if (windowMode.current !== "pet") return;
-      await setWindowSize(appWindow, desired);
-      if (windowMode.current !== "pet") return;
-      await setWindowPosition(appWindow, {
-        x: Math.round(position.x - (desired.width - current.width) / 2),
-        y: position.y - (desired.height - current.height),
-      });
-      petWindowLogicalSize.current = desired;
-    }).catch(() => recordInteraction("task_reminder_layout_failed"));
-  }, [visibleTaskReminders.length]);
+  }, [
+    careReminderPrompt,
+    isPlatformOpen,
+    isQuickCreateOpen,
+    visibleTaskReminders.length,
+  ]);
 
   const stopPlatformEvent = (
     event: ReactMouseEvent<HTMLElement> | ReactPointerEvent<HTMLElement>,
@@ -995,6 +1071,7 @@ function DesktopPetApp() {
     event: ReactMouseEvent<HTMLButtonElement> | ReactPointerEvent<HTMLButtonElement>,
   ) => {
     event.stopPropagation();
+    clearDefaultBubbleText();
     setIsPlatformOpen(false);
     recordInteraction("platform_close");
   };
@@ -1097,12 +1174,11 @@ function DesktopPetApp() {
     }
   };
 
-  const showSystemCareNotification = async (kind: PetReminderKind) => {
+  const showSystemCareNotification = async (kind: CareReminderKind) => {
     const setting = careReminderState.current.settings[kind];
     if (!setting.enabled) return;
-    const copy: Record<PetReminderKind, { title: string; body: string }> = {
-      eyeCare: { title: "休息与喝水", body: "看看远处放松眼睛，也记得喝口水。" },
-      water: { title: "喝水提醒", body: "记得补充一点水分。" },
+    const copy: Record<CareReminderKind, { title: string; body: string }> = {
+      wellness: { title: "休息与喝水", body: "看看远处放松眼睛，也记得喝口水。" },
       meal: { title: "用餐提醒", body: "到你设置的用餐时间啦。" },
       sleep: { title: "睡眠提醒", body: "到你计划的入睡时间啦。" },
     };
@@ -1342,7 +1418,28 @@ function DesktopPetApp() {
     return manifest ? resolvePetInteractionManifest(manifest) : null;
   };
 
-  const clearDefaultBubbleText = () => setBubbleText(null);
+  const clearTransientBubbleTimer = () => {
+    if (transientBubbleTimer.current === null) return;
+    window.clearTimeout(transientBubbleTimer.current);
+    transientBubbleTimer.current = null;
+  };
+
+  const clearDefaultBubbleText = () => {
+    clearTransientBubbleTimer();
+    setBubbleText(null);
+  };
+
+  const showTransientBubbleText = (
+    text: string,
+    durationMs = PLATFORM_FEEDBACK_BUBBLE_MS,
+  ) => {
+    clearTransientBubbleTimer();
+    setBubbleText(text);
+    transientBubbleTimer.current = window.setTimeout(() => {
+      transientBubbleTimer.current = null;
+      setBubbleText((current) => expireBubbleText(current, text));
+    }, durationMs);
+  };
 
   useEffect(() => {
     if (companionChatState.mode !== "active") return undefined;
@@ -1420,7 +1517,7 @@ function DesktopPetApp() {
     writeCareReminderState(careReminderState.current);
     setCareReminderSettings(settings);
     const now = Date.now();
-    nextEyeCareTime.current = now + settings.eyeCare.intervalMinutes * 60 * 1000;
+    nextWellnessTime.current = now + settings.wellness.intervalMinutes * 60 * 1000;
     recordInteraction("care_reminder_settings_updated");
   };
 
@@ -1456,8 +1553,8 @@ function DesktopPetApp() {
     if (prompt?.source !== "timed") return;
 
     reopenTimedCareReminder(prompt.deliveredKey);
-    timedCareSnoozedUntil.current = Date.now() + MEAL_REMINDER_SNOOZE_MS;
-    recordInteraction("meal_care_snoozed");
+    timedCareSnoozedUntil.current = Date.now() + CARE_REMINDER_SNOOZE_MS;
+    recordInteraction(`${prompt.kind}_care_snoozed`);
     clearCareReminderPrompt();
   };
 
@@ -2150,18 +2247,18 @@ function DesktopPetApp() {
   };
 
   const scheduleNextRandomCareReminder = (nowTimestamp: number) => {
-    const setting = careReminderState.current.settings.eyeCare;
-    nextEyeCareTime.current = nowTimestamp + setting.intervalMinutes * 60 * 1000;
+    const setting = careReminderState.current.settings.wellness;
+    nextWellnessTime.current = nowTimestamp + setting.intervalMinutes * 60 * 1000;
   };
 
   const postponeOverdueRandomCareReminders = (nowTimestamp: number) => {
-    if (nowTimestamp >= nextEyeCareTime.current) {
+    if (nowTimestamp >= nextWellnessTime.current) {
       scheduleNextRandomCareReminder(nowTimestamp);
     }
   };
 
   const playCareReminder = (
-    kind: PetReminderKind,
+    kind: CareReminderKind,
     deliveredKey?: string,
   ) => {
     void revealHiddenPetForCareReminder(getOptionalCurrentWindow()).catch(() => {
@@ -2175,18 +2272,8 @@ function DesktopPetApp() {
     }
 
     recordInteraction(`${kind}_care_reminder`);
-    const reminderAction = resolved.reminders[kind];
-    playManifestAction(
-      kind === "eyeCare" && !("sequence" in reminderAction)
-        ? {
-            ...reminderAction,
-            dialogueEvent: undefined,
-            bubbleText: "看看远处放松一下眼睛，也喝口水休息一下吧。",
-          }
-        : reminderAction,
-      false,
-      true,
-    );
+    const reminderAction = resolved.reminders[kind === "wellness" ? "eyeCare" : kind];
+    playManifestAction(reminderAction, false, true);
 
     if (deliveredKey) {
       completeTimedCareReminder(deliveredKey);
@@ -2287,12 +2374,12 @@ function DesktopPetApp() {
     }
 
     if (pointerState.current) {
-      nextEyeCareTime.current = Math.max(nextEyeCareTime.current, nowTimestamp + 30000);
+      nextWellnessTime.current = Math.max(nextWellnessTime.current, nowTimestamp + 30000);
     } else if (returnToIdleTimer.current === null) {
       const dueReminder = selectDueCareReminder({
         now: nowTimestamp,
         deliveredKeys: careReminderState.current.deliveredKeys,
-        nextEyeCareTime: nextEyeCareTime.current,
+        nextWellnessTime: nextWellnessTime.current,
         timedSnoozedUntil: timedCareSnoozedUntil.current,
         settings: careReminderState.current.settings,
       });
@@ -2308,10 +2395,10 @@ function DesktopPetApp() {
           dueReminder.source === "timed" ? dueReminder.deliveredKey : undefined,
         )
       ) {
-        if (dueReminder.source === "timed" && dueReminder.kind === "meal") {
+        if (dueReminder.source === "timed") {
           setActiveCareReminderPrompt({
             source: "timed",
-            kind: "meal",
+            kind: dueReminder.kind,
             deliveredKey: dueReminder.deliveredKey,
           });
         } else if (dueReminder.source === "random") {
@@ -2631,6 +2718,7 @@ function DesktopPetApp() {
         window.clearTimeout(returnToIdleTimer.current);
         returnToIdleTimer.current = null;
       }
+      clearTransientBubbleTimer();
       clearHoverEatTimer();
       restoreCursorEvents();
       if (desktopIconProbeTimer.current !== null) {
@@ -2647,9 +2735,12 @@ function DesktopPetApp() {
 
   return (
     <main
-      className={`pet-shell${isPlatformOpen ? " platform-open" : ""}${isQuickCreateOpen ? " quick-create-open" : ""}`}
+      className={`pet-shell${isPlatformOpen ? " platform-open" : ""}${isQuickCreateOpen ? " quick-create-open" : ""}${!isPlatformOpen && !isQuickCreateOpen && isReminderWindowExpanded ? " reminder-open" : ""}`}
       style={
-        { "--pet-bubble-bottom": `${PET_BUBBLE_BOTTOM_PX}px` } as CSSProperties
+        {
+          "--pet-bubble-bottom": `${PET_BUBBLE_BOTTOM_PX}px`,
+          "--platform-pet-inset": `${PLATFORM_PET_INSET_PX}px`,
+        } as CSSProperties
       }
       onContextMenu={isPlatformOpen || isQuickCreateOpen ? undefined : handleContextMenu}
       onMouseDown={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseDown}

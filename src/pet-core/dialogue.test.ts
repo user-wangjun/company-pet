@@ -63,6 +63,13 @@ const builtInDialoguePackages = [
   ["suan-bird", suanBirdDialogues],
 ] as const;
 
+const builtInHealthDialoguePackages = [
+  [xiaojuPetManifest, xiaojuDialogues],
+  [ikunPetManifest, ikunDialogues],
+  [dsPetManifest, dsDialogues],
+  [suanBirdPetManifest, suanBirdDialogues],
+] as const;
+
 describe("pet dialogue packages", () => {
   test("loads configured dialogue files from the active pet package", async () => {
     const fetchDialogue = vi.fn(async () => ({
@@ -115,6 +122,18 @@ describe("pet dialogue packages", () => {
       expect(Object.keys(dialogues).sort()).toEqual(
         [...PET_DIALOGUE_EVENTS].sort(),
       );
+    },
+  );
+
+  test.each(builtInHealthDialoguePackages)(
+    "%s resolves combined health reminder copy from its own package",
+    async (manifest, dialogues) => {
+      const loaded = await loadPetDialoguePackage(manifest, async () => ({
+        ok: true,
+        status: 200,
+        json: async () => dialogues,
+      }));
+      expect(resolvePetDialogue(loaded, "eyeCare", null)).toMatch(/水/);
     },
   );
 
@@ -229,7 +248,7 @@ describe("pet dialogue packages", () => {
       singleClick: "贴贴一下，我们一起加油吧。",
       doubleClick: "摆摆尾巴，我们一起向前冲一小步！",
       water: "去喝杯水吧，回来后我们再一起继续努力。",
-      eyeCare: "看看远处，放松一下眼睛吧，休息好再一起继续。",
+      eyeCare: "看看远处放松一下眼睛，也喝口水吧，休息好再一起继续。",
       meal: "到吃饭时间啦，先补充能量，回来后我们继续努力。",
       sleep: "今天已经很努力啦，早点休息吧，明天我们再一起出发。",
     });
@@ -238,7 +257,7 @@ describe("pet dialogue packages", () => {
   test("keeps approved pet-specific reminder copy", () => {
     expect(suanBirdDialogues.doubleClick).toBe("蒜鸟蒜鸟，都不yong易；");
     expect(xiaojuDialogues.water).toContain("喝杯水");
-    expect(ikunDialogues.eyeCare).toContain("注意休息");
+    expect(ikunDialogues.eyeCare).toContain("喝口水");
     expect(suanBirdPetManifest.dialoguesPath).toBe("dialogues.json");
   });
 });
