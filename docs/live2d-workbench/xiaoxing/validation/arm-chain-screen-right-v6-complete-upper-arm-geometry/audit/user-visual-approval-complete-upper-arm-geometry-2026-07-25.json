@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "decisionDate": "2026-07-25",
+  "decisionOwner": "user",
+  "decision": "approved",
+  "approvalStatement": "通过",
+  "scope": "screen-right complete upper-arm flat geometry V6 revised candidate",
+  "approvedCoverage": [
+    "complete upper-arm flat geometry silhouette",
+    "alignment to the frozen shoulder-to-elbow body axis",
+    "shoulder-side hidden geometry",
+    "locked visible upper-arm anchor",
+    "elbow-side hidden geometry",
+    "default recomposition",
+    "sleeve-displaced and forearm-displaced integrity",
+    "six combination extremes and slow elbow scan"
+  ],
+  "approvedArtifactHashes": {
+    "masks/upper-arm-complete-geometry.png": "3d41ac58c782fb569c2714af122eba3c470d38595d0223aa38ce0ae143f48b6c",
+    "materials/geometry/upper-arm-complete-flat-reference.png": "ef86502cd64f255f6b7476756ab69903c18d909d46fa7ecc68a54cba705ef67b",
+    "qa/gate-0-body-alignment-review.png": "071ab34167061447a69341e0b109965c36c0069af5c327c635a00cc0d04f47c8",
+    "qa/gate-1-complete-upper-arm-isolated.png": "146b3434928875c396687e21c7a98d09aeead3124317dd5d25e0661d2c2c197e",
+    "qa/gate-2-default-recomposition.png": "e55b1e093584baff208c0928c8f246cf69cfb48d4584b83ec7d422a4b8c62ca1",
+    "qa/gate-3-sleeve-moved-away.png": "bdc21cb0a1a906be54af4def5a9d1b9354a8a0812eb0bc86ba7d81827a864a16",
+    "qa/gate-4-forearm-moved-away.png": "d13e2e47252e1a590e87d3f29c6ee1f89eb2e02b7e66b7d0b0ca8db88369b7ab",
+    "qa/gate-5-shoulder-zoom.png": "a517853b536f48119d5118d7f4da195df31fdf851ecb1bf488b8bccb48b67f33",
+    "qa/gate-6-elbow-zoom.png": "63403e0e61f7106dc7ee4ac764166a72bb1aed1429769f280d280e84a0086bc4",
+    "qa/gate-7-six-combination-extremes.png": "3b85047d8d4ff118480f838ffa15857ca402069da9b668fcb7ed85d16233e13d",
+    "qa/gate-8-elbow-single-parameter-scan.gif": "10db1e46c5e5ec53db62339b570c61d3890a9c76c3b06c1d72fe28d4a3bdf566",
+    "qa/gate-9-displaced-parts-integrity.png": "cbfe28973d552c523d4e50cbba320ba73cb15a696c857604e8204e44da4c95cd"
+  },
+  "engineeringEvidenceAtDecision": {
+    "allCriteriaPassed": true,
+    "lockedVisiblePixelCount": 544,
+    "visibleCoordinateDifferences": 0,
+    "visibleRgbDifferencePixels": 0,
+    "connectedComponents": 1,
+    "holes": 0,
+    "maximumMissingSeamPixelsAt4x": 0,
+    "brokenAdjacencySamples": 0,
+    "deterministicReturn0To1To0": true
+  },
+  "doesNotApprove": [
+    "upper-arm texture",
+    "production forearm material",
+    "PSD",
+    "Cubism",
+    "Physics",
+    "Runtime"
+  ],
+  "invalidationRule": "Any byte change to an approved artifact invalidates this approval and requires a new engineering audit and explicit user visual decision."
+}

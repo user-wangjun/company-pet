@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "layerId": "whisker_L",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/23_front_whisker_L.png",
+  "primaryController": "Muzzle",
+  "parent": "Muzzle",
+  "actionSubject": "Muzzle",
+  "deformationRole": "micro-feature-local",
+  "densityProfile": "micro-coarse",
+  "pivotName": "whisker_root_L",
+  "pivotPoint": [
+    69.0,
+    65.0
+  ],
+  "points": [
+    [
+      38.0,
+      3.5
+    ],
+    [
+      28.5,
+      0.0
+    ],
+    [
+      60.5,
+      0.0
+    ],
+    [
+      44.5,
+      0.0
+    ],
+    [
+      52.595,
+      1.23
+    ],
+    [
+      45.298,
+      2.365
+    ],
+    [
+      52.5,
+      0.0
+    ],
+    [
+      41.649,
+      2.932
+    ],
+    [
+      48.5,
+      0.0
+    ],
+    [
+      36.5,
+      0.0
+    ],
+    [
+      73.0,
+      93.5
+    ],
+    [
+      69.5,
+      91.0
+    ],
+    [
+      66.5,
+      79.0
+    ],
+    [
+      71.0,
+      67.5
+    ],
+    [
+      77.5,
+      72.0
+    ],
+    [
+      79.5,
+      77.0
+    ],
+    [
+      78.5,
+      87.0
+    ]
+  ],
+  "triangles": [
+    [
+      7,
+      0,
+      9
+    ],
+    [
+      4,
+      8,
+      6
+    ],
+    [
+      6,
+      2,
+      4
+    ],
+    [
+      9,
+      3,
+      7
+    ],
+    [
+      8,
+      4,
+      5
+    ],
+    [
+      5,
+      3,
+      8
+    ],
+    [
+      3,
+      5,
+      7
+    ],
+    [
+      0,
+      1,
+      9
+    ],
+    [
+      11,
+      12,
+      16
+    ],
+    [
+      14,
+      12,
+      13
+    ],
+    [
+      16,
+      12,
+      15
+    ],
+    [
+      10,
+      11,
+      16
+    ],
+    [
+      15,
+      12,
+      14
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.7135,
+    0.78,
+    0.6849,
+    0.7186,
+    0.6875,
+    0.6971,
+    0.6979,
+    0.7045,
+    0.7074,
+    0.7463,
+    0.368,
+    0.3441,
+    0.2426,
+    0.0,
+    0.2149,
+    0.2574,
+    0.3265
+  ],
+  "vertexResistanceDecay": [
+    0.4155,
+    0.35,
+    0.4436,
+    0.4104,
+    0.4411,
+    0.4316,
+    0.4308,
+    0.4243,
+    0.4215,
+    0.3832,
+    0.7557,
+    0.7793,
+    0.8793,
+    1.0,
+    0.9065,
+    0.8647,
+    0.7966
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.592,
+      0.87
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.502
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      0.35
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 17,
+    "triangleCount": 13,
+    "minimumTriangleAngleDegrees": 8.842,
+    "medianTriangleAngleDegrees": 29.663
+  },
+  "candidateOnly": true
+}

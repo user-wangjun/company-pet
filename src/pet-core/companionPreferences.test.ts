@@ -34,6 +34,9 @@ describe("companion preferences", () => {
       },
       feedback: "好呀，我以后叫你阿星。",
     });
+    expect(extractCompanionPreference("以后叫我阿星。")?.preference).toEqual(
+      extractCompanionPreference("以后叫我阿星")?.preference,
+    );
   });
 
   test("extracts quiet and short reply style preferences", () => {
@@ -67,7 +70,44 @@ describe("companion preferences", () => {
   test("can forget the recent preference", () => {
     expect(isForgetRecentPreferenceRequest("忘掉这个")).toBe(true);
     expect(isForgetRecentPreferenceRequest("别记这个")).toBe(true);
+    expect(isForgetRecentPreferenceRequest("忘掉刚才那条。")).toBe(true);
     expect(isForgetRecentPreferenceRequest("你好呀")).toBe(false);
+  });
+
+  test("rejects sensitive values at the preference write boundary", () => {
+    const store = storage();
+    const warn = vi.fn();
+    const state = upsertCompanionPreference(EMPTY_COMPANION_PREFERENCES, {
+      id: "global.nickname",
+      scope: "global",
+      category: "userProfile",
+      key: "nickname",
+      value: "my password is never-save",
+      source: "explicit",
+    });
+
+    expect(state).toEqual(EMPTY_COMPANION_PREFERENCES);
+    expect(writeCompanionPreferences({
+      preferences: [{
+        id: "global.nickname",
+        scope: "global",
+        category: "userProfile",
+        key: "nickname",
+        value: "sk-proj-12345678901234567890",
+        source: "explicit",
+      }],
+      recentPreferenceId: "global.nickname",
+    }, store, warn)).toBe(false);
+    expect(store.setItem).not.toHaveBeenCalled();
+    expect(warn).toHaveBeenCalledWith(
+      "[companion-preferences] Rejected sensitive preference state",
+    );
+
+    expect(writeCompanionPreferences({
+      preferences: [],
+      recentPreferenceId: "sk-proj-12345678901234567890",
+    }, store, warn)).toBe(false);
+    expect(store.setItem).toHaveBeenCalledTimes(0);
   });
 
   test("reads, writes, upserts, repairs, and deletes preferences", () => {

@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "stage": "X3-spread-pose-master",
+  "status": "x3-approved-as-engineering-base-with-likeness-waiver",
+  "currentGate": "x3-spread-pose-master",
+  "gateBoundary": {
+    "purpose": "User visual review of the complete connected Xiaoju spread-pose / large-character three-view master candidate.",
+    "doesNotAuthorize": [
+      "X4 detailed semantic layer images",
+      "material separation",
+      "formal Delaunay triangulation",
+      "ArtMesh topology",
+      "PSD or Photoshop import",
+      "Cubism Deformer, Physics, or runtime edits"
+    ]
+  },
+  "requiredReviewArtifacts": [
+    {
+      "id": "x3-review-composite",
+      "path": "live2d/x3/qa/x3-user-review-composite.png",
+      "role": "single-page X3 visual review overview",
+      "reviewFocus": [
+        "candidate image and X3 pass criteria visible together",
+        "X3 not approved yet",
+        "X4 layer separation remains unauthorized"
+      ]
+    },
+    {
+      "id": "spread-pose-master-blockout",
+      "path": "live2d/x3/qa/x3-spread-pose-master-blockout.png",
+      "role": "X3 complete connected spread-pose / large-character three-view master candidate",
+      "reviewFocus": [
+        "same Xiaoju identity as three-view-preview.png",
+        "front, side, and back views read as one body",
+        "complete hidden forelimbs, shoulder/chest connection, ears, tail root, belly, and hindlimbs",
+        "safe overlap areas for future X4 layer separation",
+        "no formal layer boundaries or ArtMesh triangles"
+      ]
+    },
+    {
+      "id": "spread-pose-master-contract",
+      "path": "live2d/x3/x3-spread-pose-master-contract.json",
+      "role": "machine-readable X3 requirements and prohibitions",
+      "reviewFocus": [
+        "mustInclude list satisfied",
+        "mustNotInclude list not violated",
+        "X4 remains unauthorized until user approves X3"
+      ]
+    },
+    {
+      "id": "spread-pose-master-boundary",
+      "path": "live2d/x3/x3-spread-pose-master-blockout.json",
+      "role": "machine-readable candidate boundary",
+      "reviewFocus": [
+        "candidate is construction blockout, not final layer art",
+        "x3ApprovedByUser remains false",
+        "x4Authorized remains false"
+      ]
+    }
+  ],
+  "userReviewQuestions": [
+    "Does the spread-pose master still read as Xiaoju from the approved three-view identity?",
+    "Do front, side, and back views describe the same body rather than three separate cats?",
+    "Are hidden forelimbs, shoulder/chest connection, hip, tail-root, ear-root, belly, and hindlimb areas continuous enough for later layer separation?",
+    "Are round kitten volumes preserved without ribcage, abdomen, pelvis, or head collapse?",
+    "Are there enough visible overlap areas to later cut layers safely without holes?",
+    "Does the master avoid pre-solving formal layer boundaries or ArtMesh triangles?"
+  ],
+  "allowedUserDecisions": [
+    {
+      "phrase": "X3 通过",
+      "effect": "Authorize X4 detailed semantic layer image generation from the approved X3 master only."
+    },
+    {
+      "phrase": "X3 不通过",
+      "effect": "Remain in X3 and revise the spread-pose master candidate only."
+    },
+    {
+      "phrase": "specific visual or continuity correction",
+      "effect": "Remain in X3 and revise only the cited X3 master evidence."
+    }
+  ],
+  "currentAuthorization": {
+    "x2ApprovedByUser": true,
+    "x3Authorized": true,
+    "x3ApprovedByUser": true,
+    "x3ApprovalEvidence": "User said the candidate is certainly unlike Xiaoju but explicitly instructed to enter layer separation anyway.",
+    "x4Authorized": true
+  }
+}

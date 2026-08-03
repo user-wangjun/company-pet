@@ -1,0 +1,12 @@
+{
+  "status": "self_review_passed_coarse_candidate",
+  "groupCount": 6,
+  "errors": [],
+  "rules": {
+    "native_canvas": true,
+    "review_only": true,
+    "eyes_independent": true,
+    "ears_pending": true,
+    "no_formal_rgba": true
+  }
+}

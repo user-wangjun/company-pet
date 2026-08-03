@@ -1,0 +1,317 @@
+{
+  "version": "v11-discrete",
+  "frame_count": 24,
+  "duration_ms": 125,
+  "frame_size": [
+    192,
+    208
+  ],
+  "method": "body-fixed appendage swapping from original drag references; no elastic warp",
+  "motion_policy": {
+    "body": "fixed",
+    "tail": "discrete pose swap",
+    "hind_legs": "discrete pose swap",
+    "front_legs": "minimal flutter only"
+  },
+  "outputs": {
+    "dragRight_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v11-discrete-strip.png",
+    "dragLeft_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v11-discrete-strip.png",
+    "dragRight_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v11-discrete-sample-sheet.png",
+    "dragLeft_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v11-discrete-sample-sheet.png",
+    "dragRight_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragRight-24-glide-v11-discrete.gif",
+    "dragLeft_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragLeft-24-glide-v11-discrete.gif",
+    "combined_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\drag-v11-discrete-combined-preview.gif"
+  },
+  "dragRight_meta": [
+    {
+      "frame": 1,
+      "appendage_step": 1,
+      "tail_src": 1,
+      "hind_src": 1
+    },
+    {
+      "frame": 2,
+      "appendage_step": 1,
+      "tail_src": 1,
+      "hind_src": 1
+    },
+    {
+      "frame": 3,
+      "appendage_step": 1,
+      "tail_src": 1,
+      "hind_src": 1
+    },
+    {
+      "frame": 4,
+      "appendage_step": 2,
+      "tail_src": 2,
+      "hind_src": 3
+    },
+    {
+      "frame": 5,
+      "appendage_step": 2,
+      "tail_src": 2,
+      "hind_src": 3
+    },
+    {
+      "frame": 6,
+      "appendage_step": 2,
+      "tail_src": 2,
+      "hind_src": 3
+    },
+    {
+      "frame": 7,
+      "appendage_step": 3,
+      "tail_src": 3,
+      "hind_src": 5
+    },
+    {
+      "frame": 8,
+      "appendage_step": 3,
+      "tail_src": 3,
+      "hind_src": 5
+    },
+    {
+      "frame": 9,
+      "appendage_step": 3,
+      "tail_src": 3,
+      "hind_src": 5
+    },
+    {
+      "frame": 10,
+      "appendage_step": 4,
+      "tail_src": 4,
+      "hind_src": 7
+    },
+    {
+      "frame": 11,
+      "appendage_step": 4,
+      "tail_src": 4,
+      "hind_src": 7
+    },
+    {
+      "frame": 12,
+      "appendage_step": 4,
+      "tail_src": 4,
+      "hind_src": 7
+    },
+    {
+      "frame": 13,
+      "appendage_step": 5,
+      "tail_src": 5,
+      "hind_src": 8
+    },
+    {
+      "frame": 14,
+      "appendage_step": 5,
+      "tail_src": 5,
+      "hind_src": 8
+    },
+    {
+      "frame": 15,
+      "appendage_step": 5,
+      "tail_src": 5,
+      "hind_src": 8
+    },
+    {
+      "frame": 16,
+      "appendage_step": 6,
+      "tail_src": 6,
+      "hind_src": 6
+    },
+    {
+      "frame": 17,
+      "appendage_step": 6,
+      "tail_src": 6,
+      "hind_src": 6
+    },
+    {
+      "frame": 18,
+      "appendage_step": 6,
+      "tail_src": 6,
+      "hind_src": 6
+    },
+    {
+      "frame": 19,
+      "appendage_step": 7,
+      "tail_src": 7,
+      "hind_src": 4
+    },
+    {
+      "frame": 20,
+      "appendage_step": 7,
+      "tail_src": 7,
+      "hind_src": 4
+    },
+    {
+      "frame": 21,
+      "appendage_step": 7,
+      "tail_src": 7,
+      "hind_src": 4
+    },
+    {
+      "frame": 22,
+      "appendage_step": 8,
+      "tail_src": 8,
+      "hind_src": 2
+    },
+    {
+      "frame": 23,
+      "appendage_step": 8,
+      "tail_src": 8,
+      "hind_src": 2
+    },
+    {
+      "frame": 24,
+      "appendage_step": 8,
+      "tail_src": 8,
+      "hind_src": 2
+    }
+  ],
+  "dragLeft_meta": [
+    {
+      "frame": 1,
+      "appendage_step": 1,
+      "tail_src": 1,
+      "hind_src": 1
+    },
+    {
+      "frame": 2,
+      "appendage_step": 1,
+      "tail_src": 1,
+      "hind_src": 1
+    },
+    {
+      "frame": 3,
+      "appendage_step": 1,
+      "tail_src": 1,
+      "hind_src": 1
+    },
+    {
+      "frame": 4,
+      "appendage_step": 2,
+      "tail_src": 2,
+      "hind_src": 3
+    },
+    {
+      "frame": 5,
+      "appendage_step": 2,
+      "tail_src": 2,
+      "hind_src": 3
+    },
+    {
+      "frame": 6,
+      "appendage_step": 2,
+      "tail_src": 2,
+      "hind_src": 3
+    },
+    {
+      "frame": 7,
+      "appendage_step": 3,
+      "tail_src": 3,
+      "hind_src": 5
+    },
+    {
+      "frame": 8,
+      "appendage_step": 3,
+      "tail_src": 3,
+      "hind_src": 5
+    },
+    {
+      "frame": 9,
+      "appendage_step": 3,
+      "tail_src": 3,
+      "hind_src": 5
+    },
+    {
+      "frame": 10,
+      "appendage_step": 4,
+      "tail_src": 4,
+      "hind_src": 7
+    },
+    {
+      "frame": 11,
+      "appendage_step": 4,
+      "tail_src": 4,
+      "hind_src": 7
+    },
+    {
+      "frame": 12,
+      "appendage_step": 4,
+      "tail_src": 4,
+      "hind_src": 7
+    },
+    {
+      "frame": 13,
+      "appendage_step": 5,
+      "tail_src": 5,
+      "hind_src": 8
+    },
+    {
+      "frame": 14,
+      "appendage_step": 5,
+      "tail_src": 5,
+      "hind_src": 8
+    },
+    {
+      "frame": 15,
+      "appendage_step": 5,
+      "tail_src": 5,
+      "hind_src": 8
+    },
+    {
+      "frame": 16,
+      "appendage_step": 6,
+      "tail_src": 6,
+      "hind_src": 6
+    },
+    {
+      "frame": 17,
+      "appendage_step": 6,
+      "tail_src": 6,
+      "hind_src": 6
+    },
+    {
+      "frame": 18,
+      "appendage_step": 6,
+      "tail_src": 6,
+      "hind_src": 6
+    },
+    {
+      "frame": 19,
+      "appendage_step": 7,
+      "tail_src": 7,
+      "hind_src": 4
+    },
+    {
+      "frame": 20,
+      "appendage_step": 7,
+      "tail_src": 7,
+      "hind_src": 4
+    },
+    {
+      "frame": 21,
+      "appendage_step": 7,
+      "tail_src": 7,
+      "hind_src": 4
+    },
+    {
+      "frame": 22,
+      "appendage_step": 8,
+      "tail_src": 8,
+      "hind_src": 2
+    },
+    {
+      "frame": 23,
+      "appendage_step": 8,
+      "tail_src": 8,
+      "hind_src": 2
+    },
+    {
+      "frame": 24,
+      "appendage_step": 8,
+      "tail_src": 8,
+      "hind_src": 2
+    }
+  ]
+}

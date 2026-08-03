@@ -168,12 +168,10 @@ mod tests {
             Ok(InstallerKind::Macos),
         );
         assert!(installer_kind_from_url("https://example.test/yuxin.exe").is_err());
-        assert!(
-            installer_kind_from_url(
-                "https://github.com/user-wangjun/company-pet/releases/download/v0.2.4/yuxin.zip",
-            )
-            .is_err()
-        );
+        assert!(installer_kind_from_url(
+            "https://github.com/user-wangjun/company-pet/releases/download/v0.2.4/yuxin.zip",
+        )
+        .is_err());
     }
 
     #[test]

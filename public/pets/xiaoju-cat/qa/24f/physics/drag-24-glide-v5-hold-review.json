@@ -1,0 +1,380 @@
+{
+  "version": "v5-hold",
+  "fix_from_v4": "v4 used RGBA blending between neighboring poses and introduced ghosted outlines; v5 keeps the original pose pixels intact and slows the cadence by holding each source pose for 3 frames.",
+  "frame_count": 24,
+  "duration_ms": 140,
+  "frame_size": [
+    192,
+    208
+  ],
+  "body_policy": "translation-only anchoring before duplication, no scale changes, no pixel blending",
+  "dragRight_hold_meta": [
+    {
+      "frame": 1,
+      "src": 1
+    },
+    {
+      "frame": 2,
+      "src": 1
+    },
+    {
+      "frame": 3,
+      "src": 1
+    },
+    {
+      "frame": 4,
+      "src": 2
+    },
+    {
+      "frame": 5,
+      "src": 2
+    },
+    {
+      "frame": 6,
+      "src": 2
+    },
+    {
+      "frame": 7,
+      "src": 3
+    },
+    {
+      "frame": 8,
+      "src": 3
+    },
+    {
+      "frame": 9,
+      "src": 3
+    },
+    {
+      "frame": 10,
+      "src": 4
+    },
+    {
+      "frame": 11,
+      "src": 4
+    },
+    {
+      "frame": 12,
+      "src": 4
+    },
+    {
+      "frame": 13,
+      "src": 5
+    },
+    {
+      "frame": 14,
+      "src": 5
+    },
+    {
+      "frame": 15,
+      "src": 5
+    },
+    {
+      "frame": 16,
+      "src": 6
+    },
+    {
+      "frame": 17,
+      "src": 6
+    },
+    {
+      "frame": 18,
+      "src": 6
+    },
+    {
+      "frame": 19,
+      "src": 7
+    },
+    {
+      "frame": 20,
+      "src": 7
+    },
+    {
+      "frame": 21,
+      "src": 7
+    },
+    {
+      "frame": 22,
+      "src": 8
+    },
+    {
+      "frame": 23,
+      "src": 8
+    },
+    {
+      "frame": 24,
+      "src": 8
+    }
+  ],
+  "dragLeft_hold_meta": [
+    {
+      "frame": 1,
+      "src": 1
+    },
+    {
+      "frame": 2,
+      "src": 1
+    },
+    {
+      "frame": 3,
+      "src": 1
+    },
+    {
+      "frame": 4,
+      "src": 2
+    },
+    {
+      "frame": 5,
+      "src": 2
+    },
+    {
+      "frame": 6,
+      "src": 2
+    },
+    {
+      "frame": 7,
+      "src": 3
+    },
+    {
+      "frame": 8,
+      "src": 3
+    },
+    {
+      "frame": 9,
+      "src": 3
+    },
+    {
+      "frame": 10,
+      "src": 4
+    },
+    {
+      "frame": 11,
+      "src": 4
+    },
+    {
+      "frame": 12,
+      "src": 4
+    },
+    {
+      "frame": 13,
+      "src": 5
+    },
+    {
+      "frame": 14,
+      "src": 5
+    },
+    {
+      "frame": 15,
+      "src": 5
+    },
+    {
+      "frame": 16,
+      "src": 6
+    },
+    {
+      "frame": 17,
+      "src": 6
+    },
+    {
+      "frame": 18,
+      "src": 6
+    },
+    {
+      "frame": 19,
+      "src": 7
+    },
+    {
+      "frame": 20,
+      "src": 7
+    },
+    {
+      "frame": 21,
+      "src": 7
+    },
+    {
+      "frame": 22,
+      "src": 8
+    },
+    {
+      "frame": 23,
+      "src": 8
+    },
+    {
+      "frame": 24,
+      "src": 8
+    }
+  ],
+  "dragRight_anchor_meta": [
+    {
+      "bbox": [
+        11,
+        5,
+        180,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        17,
+        5,
+        174,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        20,
+        5,
+        172,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        15,
+        5,
+        176,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        17,
+        5,
+        174,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        18,
+        5,
+        174,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        20,
+        5,
+        171,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        23,
+        5,
+        168,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    }
+  ],
+  "dragLeft_anchor_meta": [
+    {
+      "bbox": [
+        24,
+        5,
+        168,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        26,
+        5,
+        165,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        25,
+        5,
+        167,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        26,
+        5,
+        166,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        27,
+        5,
+        164,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        27,
+        5,
+        164,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        28,
+        5,
+        164,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    },
+    {
+      "bbox": [
+        31,
+        5,
+        160,
+        203
+      ],
+      "dx": 0,
+      "dy": 0
+    }
+  ],
+  "outputs": {
+    "dragRight_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v5-hold-strip.png",
+    "dragLeft_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v5-hold-strip.png",
+    "dragRight_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v5-hold-sample-sheet.png",
+    "dragLeft_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v5-hold-sample-sheet.png",
+    "dragRight_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragRight-24-glide-v5-hold.gif",
+    "dragLeft_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragLeft-24-glide-v5-hold.gif",
+    "combined_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\drag-v5-hold-combined-preview.gif"
+  }
+}

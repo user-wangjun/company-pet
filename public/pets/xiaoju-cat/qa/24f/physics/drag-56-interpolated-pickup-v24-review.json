@@ -1,0 +1,46 @@
+{
+  "version": "v24-scale-locked-interpolated-pickup",
+  "frameCount": 56,
+  "pickup": {
+    "frames": 12,
+    "phaseFrames": 2,
+    "fpsMs": 90,
+    "poses": [
+      "complete-grounded-right",
+      "intermediate-A",
+      "intermediate-B",
+      "intermediate-C",
+      "intermediate-D",
+      "actual-drag-row-frame-0"
+    ]
+  },
+  "slide": {
+    "frames": 32,
+    "fpsMs": 95,
+    "source": "existing v23 glide frames 13-44; endpoint uses actual row frame 0"
+  },
+  "landing": {
+    "frames": 12,
+    "phaseFrames": 2,
+    "fpsMs": 120,
+    "poses": [
+      "actual-drag-row-frame-0",
+      "intermediate-D",
+      "intermediate-C",
+      "intermediate-B",
+      "intermediate-A",
+      "complete-grounded-right"
+    ]
+  },
+  "direction": "right-facing pickup endpoints and in-betweens; left row is a horizontal mirror",
+  "scalePolicy": "all generated pickup alpha boxes normalized to 168px width on 192x208 cells; x-center fixed at 96px; top anchors [50,50,40,20,4] for ground/A/B/C/D; actual slide row endpoint retained at 169px width; complete grounded panel used to avoid cropped nose",
+  "qaFiles": {
+    "intermediateSource": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\pickup-v24-intermediate-source.png",
+    "intermediateAlpha": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\pickup-v24-intermediate-alpha.png",
+    "intermediateSheet": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\pickup-v24-intermediate-sample-sheet.png",
+    "previewGif": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\drag-v24-interpolated-pickup-preview.gif",
+    "rightStrip": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-56-interpolated-pickup-v24-strip.png",
+    "leftStrip": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-56-interpolated-pickup-v24-strip.png"
+  },
+  "runtimeChanged": false
+}

@@ -1,0 +1,10 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "xiaoju-planet-login.moc3",
+		"Textures": [
+			"xiaoju-planet-login.2048/texture_00.png"
+		],
+		"DisplayInfo": "xiaoju-planet-login.cdi3.json"
+	}
+}

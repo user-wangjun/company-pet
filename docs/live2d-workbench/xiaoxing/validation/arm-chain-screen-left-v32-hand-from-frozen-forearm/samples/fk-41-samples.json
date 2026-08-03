@@ -1,0 +1,740 @@
+[
+  {
+    "index": 0,
+    "progress": 0.0,
+    "elbowPx": [
+      146.99999999999994,
+      405.0
+    ],
+    "wristPx": [
+      114.99999999999991,
+      529.0
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 565,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 1,
+    "progress": 0.006155829702431115,
+    "elbowPx": [
+      146.90073069101354,
+      404.9851413526348
+    ],
+    "wristPx": [
+      114.72756949189771,
+      528.9403255865171
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 536,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 2,
+    "progress": 0.024471741852423234,
+    "elbowPx": [
+      146.60542403452308,
+      404.9405528617964
+    ],
+    "wristPx": [
+      113.91741554830173,
+      528.760963542769
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 539,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 3,
+    "progress": 0.05449673790581605,
+    "elbowPx": [
+      146.12151901024217,
+      404.86623458583034
+    ],
+    "wristPx": [
+      112.59075452485601,
+      528.4610881721571
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 533,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 4,
+    "progress": 0.09549150281252627,
+    "elbowPx": [
+      145.46119921479544,
+      404.76230765705895
+    ],
+    "wristPx": [
+      110.78229448974311,
+      528.039935664215
+    ],
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 532,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 5,
+    "progress": 0.1464466094067262,
+    "elbowPx": [
+      144.6410758137132,
+      404.62918005416213
+    ],
+    "wristPx": [
+      108.53926505857811,
+      527.497643299213
+    ],
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 532,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 6,
+    "progress": 0.20610737385376343,
+    "elbowPx": [
+      143.68175399518364,
+      404.46774881788673
+    ],
+    "wristPx": [
+      105.92008062112882,
+      526.8362742808962
+    ],
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 533,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 7,
+    "progress": 0.2730047501302266,
+    "elbowPx": [
+      142.60729382940193,
+      404.2796126321152
+    ],
+    "wristPx": [
+      102.99266687974747,
+      526.0608974489527
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 533,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 8,
+    "progress": 0.3454915028125263,
+    "elbowPx": [
+      141.4445800697162,
+      404.0672662348327
+    ],
+    "wristPx": [
+      99.8324980722453,
+      525.1805794247366
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 531,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 9,
+    "progress": 0.4217827674798845,
+    "elbowPx": [
+      140.22261898795225,
+      403.83424871429617
+    ],
+    "wristPx": [
+      96.52041167828096,
+      524.2091509001858
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 538,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 10,
+    "progress": 0.49999999999999994,
+    "elbowPx": [
+      138.97178343923144,
+      403.58522135861665
+    ],
+    "wristPx": [
+      93.1402855503602,
+      523.1656286219404
+    ],
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.0624847486569,
+    "forearmHandCompleteOverlapPx": 532,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 11,
+    "progress": 0.5782172325201153,
+    "elbowPx": [
+      137.72302958270217,
+      403.3259570154768
+    ],
+    "wristPx": [
+      89.77667552286724,
+      522.0742080862566
+    ],
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.06248474865703,
+    "forearmHandCompleteOverlapPx": 535,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 12,
+    "progress": 0.6545084971874737,
+    "elbowPx": [
+      136.50710967517907,
+      403.06323124835114
+    ],
+    "wristPx": [
+      86.51251629730521,
+      520.963785246121
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 541,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 13,
+    "progress": 0.7269952498697734,
+    "elbowPx": [
+      135.35380487451286,
+      402.80461509231753
+    ],
+    "wristPx": [
+      83.42698270546333,
+      519.8670135788678
+    ],
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 535,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 14,
+    "progress": 0.7938926261462365,
+    "elbowPx": [
+      134.29120001158458,
+      402.55817893926854
+    ],
+    "wristPx": [
+      80.59359210680941,
+      518.8189500759896
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 536,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 15,
+    "progress": 0.8535533905932737,
+    "elbowPx": [
+      133.34501901509572,
+      402.3321260307814
+    ],
+    "wristPx": [
+      78.07860352974332,
+      517.8553848118615
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 534,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 16,
+    "progress": 0.9045084971874737,
+    "elbowPx": [
+      132.53803550827354,
+      402.1343813181522
+    ],
+    "wristPx": [
+      75.93973884550262,
+      517.0109795219333
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 534,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 17,
+    "progress": 0.9455032620941839,
+    "elbowPx": [
+      131.88956858671935,
+      401.97216636682947
+    ],
+    "wristPx": [
+      74.22522049702374,
+      516.3173584799674
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 541,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 18,
+    "progress": 0.9755282581475768,
+    "elbowPx": [
+      131.415069519097,
+      401.85159309660565
+    ],
+    "wristPx": [
+      72.97309400396813,
+      515.8012990983724
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 538,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 19,
+    "progress": 0.9938441702975689,
+    "elbowPx": [
+      131.12580160788644,
+      401.77730830390425
+    ],
+    "wristPx": [
+      72.21078577267888,
+      515.4831608759563
+    ],
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 539,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 20,
+    "progress": 1.0,
+    "elbowPx": [
+      131.02861306331104,
+      401.75221723155806
+    ],
+    "wristPx": [
+      71.95484025154421,
+      515.3756715259235
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 538,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 21,
+    "progress": 0.9938441702975689,
+    "elbowPx": [
+      131.12580160788644,
+      401.77730830390425
+    ],
+    "wristPx": [
+      72.21078577267888,
+      515.4831608759563
+    ],
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 539,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 22,
+    "progress": 0.9755282581475768,
+    "elbowPx": [
+      131.415069519097,
+      401.85159309660565
+    ],
+    "wristPx": [
+      72.97309400396813,
+      515.8012990983724
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 538,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 23,
+    "progress": 0.9455032620941839,
+    "elbowPx": [
+      131.88956858671935,
+      401.97216636682947
+    ],
+    "wristPx": [
+      74.22522049702374,
+      516.3173584799674
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 541,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 24,
+    "progress": 0.9045084971874737,
+    "elbowPx": [
+      132.53803550827354,
+      402.1343813181522
+    ],
+    "wristPx": [
+      75.93973884550262,
+      517.0109795219333
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 534,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 25,
+    "progress": 0.8535533905932737,
+    "elbowPx": [
+      133.34501901509572,
+      402.3321260307814
+    ],
+    "wristPx": [
+      78.07860352974332,
+      517.8553848118615
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 534,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 26,
+    "progress": 0.7938926261462365,
+    "elbowPx": [
+      134.29120001158458,
+      402.55817893926854
+    ],
+    "wristPx": [
+      80.59359210680941,
+      518.8189500759896
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 536,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 27,
+    "progress": 0.7269952498697734,
+    "elbowPx": [
+      135.35380487451286,
+      402.80461509231753
+    ],
+    "wristPx": [
+      83.42698270546333,
+      519.8670135788678
+    ],
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 535,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 28,
+    "progress": 0.6545084971874737,
+    "elbowPx": [
+      136.50710967517907,
+      403.06323124835114
+    ],
+    "wristPx": [
+      86.51251629730521,
+      520.963785246121
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 541,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 29,
+    "progress": 0.5782172325201153,
+    "elbowPx": [
+      137.72302958270217,
+      403.3259570154768
+    ],
+    "wristPx": [
+      89.77667552286724,
+      522.0742080862566
+    ],
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.06248474865703,
+    "forearmHandCompleteOverlapPx": 535,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 30,
+    "progress": 0.49999999999999994,
+    "elbowPx": [
+      138.97178343923144,
+      403.58522135861665
+    ],
+    "wristPx": [
+      93.1402855503602,
+      523.1656286219404
+    ],
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.0624847486569,
+    "forearmHandCompleteOverlapPx": 532,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 31,
+    "progress": 0.4217827674798845,
+    "elbowPx": [
+      140.22261898795225,
+      403.83424871429617
+    ],
+    "wristPx": [
+      96.52041167828096,
+      524.2091509001858
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 538,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 32,
+    "progress": 0.3454915028125263,
+    "elbowPx": [
+      141.4445800697162,
+      404.0672662348327
+    ],
+    "wristPx": [
+      99.8324980722453,
+      525.1805794247366
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 531,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 33,
+    "progress": 0.2730047501302266,
+    "elbowPx": [
+      142.60729382940193,
+      404.2796126321152
+    ],
+    "wristPx": [
+      102.99266687974747,
+      526.0608974489527
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 533,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 34,
+    "progress": 0.20610737385376343,
+    "elbowPx": [
+      143.68175399518364,
+      404.46774881788673
+    ],
+    "wristPx": [
+      105.92008062112882,
+      526.8362742808962
+    ],
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 533,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 35,
+    "progress": 0.1464466094067262,
+    "elbowPx": [
+      144.6410758137132,
+      404.62918005416213
+    ],
+    "wristPx": [
+      108.53926505857811,
+      527.497643299213
+    ],
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 532,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 36,
+    "progress": 0.09549150281252627,
+    "elbowPx": [
+      145.46119921479544,
+      404.76230765705895
+    ],
+    "wristPx": [
+      110.78229448974311,
+      528.039935664215
+    ],
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 532,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 37,
+    "progress": 0.05449673790581605,
+    "elbowPx": [
+      146.12151901024217,
+      404.86623458583034
+    ],
+    "wristPx": [
+      112.59075452485601,
+      528.4610881721571
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 533,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 38,
+    "progress": 0.024471741852423234,
+    "elbowPx": [
+      146.60542403452308,
+      404.9405528617964
+    ],
+    "wristPx": [
+      113.91741554830173,
+      528.760963542769
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "forearmHandCompleteOverlapPx": 539,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 39,
+    "progress": 0.006155829702431115,
+    "elbowPx": [
+      146.90073069101354,
+      404.9851413526348
+    ],
+    "wristPx": [
+      114.72756949189771,
+      528.9403255865171
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "forearmHandCompleteOverlapPx": 536,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  },
+  {
+    "index": 40,
+    "progress": 0.0,
+    "elbowPx": [
+      146.99999999999994,
+      405.0
+    ],
+    "wristPx": [
+      114.99999999999991,
+      529.0
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "forearmHandCompleteOverlapPx": 565,
+    "forearmUCapExposedPx": 0,
+    "disconnected": false,
+    "pass": true
+  }
+]

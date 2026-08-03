@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "v6_complete_upper_arm_flat_geometry_visual_approval_v2",
+  "decisionDate": "2026-07-25",
+  "decisionOwner": "user",
+  "decision": "approved",
+  "approvalStatement": "批准",
+  "status": "current_user_visual_approval",
+  "supersedesForCurrentCandidate": {
+    "path": "user-visual-approval-complete-upper-arm-geometry-2026-07-25.json",
+    "status": "superseded_and_invalidated_for_elbow_protrusion_refinement",
+    "preserved": true
+  },
+  "approvedScope": [
+    "screen-right character-left complete upper-arm flat-color geometry",
+    "natural shoulder-side hidden closure",
+    "natural elbow-side hidden end",
+    "current tapered asymmetric elbow overlap geometry",
+    "current temporary forearm root only as QA coverage evidence",
+    "current eleven final QA items",
+    "shoulder-side 18-pixel conditional-exception diagnostic"
+  ],
+  "approvedArtifacts": {
+    "masks/upper-arm-complete-geometry.png": "b0045ffecbcfd9dfdb776a84049a70c1589314cc2df8df8091eb30ababadb94d",
+    "materials/geometry/upper-arm-complete-flat-reference.png": "fceb40907e7c47859bfb7de151a7fc1da35f3051ca4faebd055a5df437b83baf"
+  },
+  "approvedQa": {
+    "qa/gate-0-body-alignment-review.png": "d174e20b6b7228fa906d6223a6af695eadbaf3b9c3f36074d372ec7684f9e4f0",
+    "qa/gate-1-complete-upper-arm-isolated.png": "1687266e190dca805d8452bd3504dcc9113d0252d6ddaff3e5f04482b7c85c2a",
+    "qa/gate-2-default-recomposition.png": "1b65ea2168f88d82e94b390ea724d897378403ee88661c598a4253c16af261d2",
+    "qa/gate-3-sleeve-moved-away.png": "4279eeb76d74846742d9f52a73fb4c3bf33591b164ef785b5dbb06198d97ece6",
+    "qa/gate-4-forearm-moved-away.png": "c09c9350413a596cba8e49329bf49038ee993c2f6635f8fdbf7b8f01e63d93bd",
+    "qa/gate-5-shoulder-zoom.png": "a517853b536f48119d5118d7f4da195df31fdf851ecb1bf488b8bccb48b67f33",
+    "qa/gate-6-elbow-zoom.png": "66d8ab03f940463ddd922f1d68de307ee4561cc87a4d3ebe6bca377cd6c7d036",
+    "qa/gate-7-six-combination-extremes.png": "224690de9302a614f4f0960190540658cf3c06c96ba726791b4caeab17b60074",
+    "qa/gate-8-elbow-single-parameter-scan.gif": "218b9a740371965d7cbee725d54ebdf6c7863f779017718bb4f2b80784d91dc4",
+    "qa/gate-9-displaced-parts-integrity.png": "268cbaab74e2771ab4c4d78c748a007a9499a89562a5cd412b89b2014e15feb7",
+    "qa/gate-10-elbow-protrusion-refinement.png": "29fb7f16a86ef2f8af927f97741bf04f05ea9c89cb0cc19727fb7ea8017ec51b"
+  },
+  "supportingDiagnostic": {
+    "path": "qa/gate-11-shoulder-18-conditional-pixels-zoom.png",
+    "sha256": "6225d3302826c2b750e60e96408b6ed33c039f61977bbbcb2dcb41a82505db27"
+  },
+  "explicitlyNotApproved": [
+    "upper-arm texture",
+    "production forearm geometry or texture",
+    "PSD",
+    "Cubism",
+    "Physics",
+    "Runtime"
+  ],
+  "decisionBoundary": "Engineering evidence and this user visual approval close only the V6 complete upper-arm flat-geometry gate."
+}

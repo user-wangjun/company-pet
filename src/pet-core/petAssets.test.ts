@@ -144,6 +144,10 @@ describe("pet asset paths", () => {
     expect(builtInPetManifest.id).toBe(DEFAULT_PET_ID);
     expect(builtInPetManifest.spritesheetPath).toBe("spritesheet-scruff.png");
     expect(builtInPetManifest.dialoguesPath).toBe("dialogues.json");
+    expect(builtInPetManifest.soulPath).toBe("SOUL.md");
+    expect(resolvePetAssetUrl("xiaoju-cat", builtInPetManifest.soulPath!)).toBe(
+      "/pets/xiaoju-cat/SOUL.md",
+    );
     expect(resolvePetAssetUrl("xiaoju-cat", builtInPetManifest.dialoguesPath)).toBe(
       "/pets/xiaoju-cat/dialogues.json",
     );

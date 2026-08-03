@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "status": "referenced_frozen_skeleton_for_v34_hand_stage_a",
+  "scope": "screen-left hand Stage A flat geometry only",
+  "frozenSkeleton": {
+    "path": "../arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/skeleton-lock.json",
+    "sha256": "b670a6a944c7ff49e2eef7fd8e9f9f6d5b6e25e1effbbf8eb88be51bb1aa1fe9"
+  },
+  "landmarksPx": {
+    "shoulder": [
+      170.0,
+      251.0
+    ],
+    "elbow": [
+      147.0,
+      405.0
+    ],
+    "wrist": [
+      115.0,
+      529.0
+    ]
+  },
+  "boneLengthsPx": {
+    "L1ShoulderToElbow": 155.7080601638849,
+    "L2ElbowToWrist": 128.06248474865697,
+    "tolerancePx": 0.01
+  },
+  "geometryMutation": "none",
+  "parentChildRelations": [
+    {
+      "id": "forearm",
+      "parent": "elbow_rotation"
+    },
+    {
+      "id": "hand",
+      "parent": "wrist_rotation"
+    }
+  ],
+  "stageAQaMotion": {
+    "sampleCount": 41,
+    "path": "0_to_1_to_0",
+    "wristStressDeg": [
+      -12,
+      -8,
+      -4,
+      0,
+      4,
+      8,
+      12
+    ],
+    "stressRangeApproval": "not_approved_motion_range"
+  }
+}

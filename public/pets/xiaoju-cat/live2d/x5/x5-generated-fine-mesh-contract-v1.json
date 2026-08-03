@@ -1,0 +1,1108 @@
+{
+  "schemaVersion": 1,
+  "stage": "X5-generated-fine-layer-triangulation-node-elastic",
+  "status": "candidate-for-user-review",
+  "revision": "generated-fine-mesh-v7-action-subject-driven",
+  "sourceLayerContract": "live2d/x5/x5-generated-fine-layer-candidates-contract-v1.json",
+  "method": "quality-constrained triangulation of padded closed alpha contours; triangle material membership is checked at the centroid so valid thin boundary triangles are retained",
+  "counts": {
+    "layers": 63,
+    "points": 1417,
+    "triangles": 1798
+  },
+  "rules": [
+    "one primary controller and one red anatomical/material pivot per semantic layer",
+    "helper points remain mesh vertices and do not become extra bone segments",
+    "triangle density is concentrated at deformation zones; broad rigid areas use fewer larger triangles for smoother runtime evaluation",
+    "broad rigid layers use a separate sparse density budget because their actions are inherited from parent transforms instead of requiring dense local control",
+    "small ears, eyelids, eyes, and rigid face pieces follow the article-style coarse contour-plus-center topology instead of photo-tracing every texture detail",
+    "density is selected from each layer's action subject and deformation role, not from texture or silhouette complexity alone",
+    "anatomical pivot elastic weight is zero",
+    "elastic weights increase away from the pivot only for approved soft materials",
+    "layers marked none keep every elastic coefficient at zero",
+    "resistance decay weakens monotonically away from the layer node for approved soft materials",
+    "active joint motion remains separate from secondary spring-damper response"
+  ],
+  "gateBoundary": {
+    "currentGate": "x5-layer-mesh-node-torque",
+    "gate5Approved": false,
+    "x6Authorized": false
+  },
+  "qa": {
+    "triangulationAtlas": "live2d/x5/qa/x5-generated-fine-layer-triangulation-atlas-v1.png",
+    "alphaCoverageAudit": "live2d/x5/x5-mesh-alpha-coverage-audit-v1.json"
+  },
+  "layers": [
+    {
+      "layerId": "head_base_front",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/01_front_head_base_front.mesh.json",
+      "primaryController": "Neck",
+      "actionSubject": "Neck",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "skull",
+      "pointCount": 28,
+      "triangleCount": 39,
+      "minimumTriangleAngleDegrees": 25.604,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "cheek_fur_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/02_front_cheek_fur_L.mesh.json",
+      "primaryController": "Head",
+      "actionSubject": "Head",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "jaw_L",
+      "pointCount": 49,
+      "triangleCount": 60,
+      "minimumTriangleAngleDegrees": 21.03,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "muzzle_base",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/03_front_muzzle_base.mesh.json",
+      "primaryController": "Head",
+      "actionSubject": "Head",
+      "deformationRole": "face-feature-local",
+      "densityProfile": "feature-coarse",
+      "pivot": "muzzle",
+      "pointCount": 16,
+      "triangleCount": 18,
+      "minimumTriangleAngleDegrees": 33.136,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "cheek_fur_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/04_front_cheek_fur_R.mesh.json",
+      "primaryController": "Head",
+      "actionSubject": "Head",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "jaw_R",
+      "pointCount": 51,
+      "triangleCount": 62,
+      "minimumTriangleAngleDegrees": 20.387,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "head_base_side",
+      "view": "side",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/05_side_head_base_side.mesh.json",
+      "primaryController": "Neck",
+      "actionSubject": "Neck",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "skull",
+      "pointCount": 16,
+      "triangleCount": 18,
+      "minimumTriangleAngleDegrees": 30.725,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "ear_face_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/06_front_ear_face_L.mesh.json",
+      "primaryController": "EarRoot_L",
+      "actionSubject": "EarRoot_L",
+      "deformationRole": "ear-hinge-local",
+      "densityProfile": "hinge-coarse",
+      "pivot": "ear_base_L",
+      "pointCount": 10,
+      "triangleCount": 9,
+      "minimumTriangleAngleDegrees": 25.92,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "ear_tip_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/07_front_ear_tip_L.mesh.json",
+      "primaryController": "EarRoot_L",
+      "actionSubject": "EarRoot_L",
+      "deformationRole": "ear-hinge-local",
+      "densityProfile": "hinge-coarse",
+      "pivot": "ear_tip_L",
+      "pointCount": 7,
+      "triangleCount": 5,
+      "minimumTriangleAngleDegrees": 20.659,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "ear_face_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/08_front_ear_face_R.mesh.json",
+      "primaryController": "EarRoot_R",
+      "actionSubject": "EarRoot_R",
+      "deformationRole": "ear-hinge-local",
+      "densityProfile": "hinge-coarse",
+      "pivot": "ear_base_R",
+      "pointCount": 11,
+      "triangleCount": 11,
+      "minimumTriangleAngleDegrees": 24.71,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "head_ear_back",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/09_back_head_ear_back.mesh.json",
+      "primaryController": "Neck",
+      "actionSubject": "Neck",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "skull",
+      "pointCount": 15,
+      "triangleCount": 18,
+      "minimumTriangleAngleDegrees": 22.56,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "ear_tip_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/10_front_ear_tip_R.mesh.json",
+      "primaryController": "EarRoot_R",
+      "actionSubject": "EarRoot_R",
+      "deformationRole": "ear-hinge-local",
+      "densityProfile": "hinge-coarse",
+      "pivot": "ear_tip_R",
+      "pointCount": 7,
+      "triangleCount": 5,
+      "minimumTriangleAngleDegrees": 24.906,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "eye_socket_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/11_front_eye_socket_L.mesh.json",
+      "primaryController": "Head",
+      "actionSubject": "Head",
+      "deformationRole": "face-feature-local",
+      "densityProfile": "feature-coarse",
+      "pivot": "eye_L",
+      "pointCount": 8,
+      "triangleCount": 6,
+      "minimumTriangleAngleDegrees": 24.083,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "eye_socket_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/12_front_eye_socket_R.mesh.json",
+      "primaryController": "Head",
+      "actionSubject": "Head",
+      "deformationRole": "face-feature-local",
+      "densityProfile": "feature-coarse",
+      "pivot": "eye_R",
+      "pointCount": 8,
+      "triangleCount": 7,
+      "minimumTriangleAngleDegrees": 31.801,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "iris_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/13_front_iris_L.mesh.json",
+      "primaryController": "EyeSocket_L",
+      "actionSubject": "EyeSocket_L",
+      "deformationRole": "face-feature-local",
+      "densityProfile": "feature-coarse",
+      "pivot": "eye_L",
+      "pointCount": 9,
+      "triangleCount": 8,
+      "minimumTriangleAngleDegrees": 32.881,
+      "elasticRange": [
+        0.02,
+        0.18
+      ]
+    },
+    {
+      "layerId": "iris_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/14_front_iris_R.mesh.json",
+      "primaryController": "EyeSocket_R",
+      "actionSubject": "EyeSocket_R",
+      "deformationRole": "face-feature-local",
+      "densityProfile": "feature-coarse",
+      "pivot": "eye_R",
+      "pointCount": 9,
+      "triangleCount": 8,
+      "minimumTriangleAngleDegrees": 36.575,
+      "elasticRange": [
+        0.02,
+        0.18
+      ]
+    },
+    {
+      "layerId": "pupil_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/15_front_pupil_L.mesh.json",
+      "primaryController": "Iris_L",
+      "actionSubject": "Iris_L",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "eye_L",
+      "pointCount": 10,
+      "triangleCount": 9,
+      "minimumTriangleAngleDegrees": 20.653,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "pupil_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/16_front_pupil_R.mesh.json",
+      "primaryController": "Iris_R",
+      "actionSubject": "Iris_R",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "eye_R",
+      "pointCount": 12,
+      "triangleCount": 12,
+      "minimumTriangleAngleDegrees": 28.971,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "highlight_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/17_front_highlight_L.mesh.json",
+      "primaryController": "Iris_L",
+      "actionSubject": "Iris_L",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "eye_L",
+      "pointCount": 7,
+      "triangleCount": 5,
+      "minimumTriangleAngleDegrees": 22.751,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "highlight_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/18_front_highlight_R.mesh.json",
+      "primaryController": "Iris_R",
+      "actionSubject": "Iris_R",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "eye_R",
+      "pointCount": 9,
+      "triangleCount": 8,
+      "minimumTriangleAngleDegrees": 28.861,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "upper_lid_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/19_front_upper_lid_L.mesh.json",
+      "primaryController": "EyeSocket_L",
+      "actionSubject": "EyeSocket_L",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "eye_L",
+      "pointCount": 7,
+      "triangleCount": 5,
+      "minimumTriangleAngleDegrees": 21.801,
+      "elasticRange": [
+        0.02,
+        0.18
+      ]
+    },
+    {
+      "layerId": "upper_lid_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/20_front_upper_lid_R.mesh.json",
+      "primaryController": "EyeSocket_R",
+      "actionSubject": "EyeSocket_R",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "eye_R",
+      "pointCount": 14,
+      "triangleCount": 12,
+      "minimumTriangleAngleDegrees": 21.479,
+      "elasticRange": [
+        0.02,
+        0.18
+      ]
+    },
+    {
+      "layerId": "lower_lid_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/21_front_lower_lid_L.mesh.json",
+      "primaryController": "EyeSocket_L",
+      "actionSubject": "EyeSocket_L",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "eye_L",
+      "pointCount": 10,
+      "triangleCount": 8,
+      "minimumTriangleAngleDegrees": 20.071,
+      "elasticRange": [
+        0.02,
+        0.18
+      ]
+    },
+    {
+      "layerId": "lower_lid_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/22_front_lower_lid_R.mesh.json",
+      "primaryController": "EyeSocket_R",
+      "actionSubject": "EyeSocket_R",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "eye_R",
+      "pointCount": 6,
+      "triangleCount": 4,
+      "minimumTriangleAngleDegrees": 21.636,
+      "elasticRange": [
+        0.02,
+        0.18
+      ]
+    },
+    {
+      "layerId": "whisker_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/23_front_whisker_L.mesh.json",
+      "primaryController": "Muzzle",
+      "actionSubject": "Muzzle",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "whisker_root_L",
+      "pointCount": 17,
+      "triangleCount": 13,
+      "minimumTriangleAngleDegrees": 8.842,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "whisker_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/24_front_whisker_R.mesh.json",
+      "primaryController": "Muzzle",
+      "actionSubject": "Muzzle",
+      "deformationRole": "micro-feature-local",
+      "densityProfile": "micro-coarse",
+      "pivot": "whisker_root_R",
+      "pointCount": 21,
+      "triangleCount": 18,
+      "minimumTriangleAngleDegrees": 8.842,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "neck_fill",
+      "view": "shared",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/25_shared_neck_fill.mesh.json",
+      "primaryController": "Neck",
+      "actionSubject": "Neck",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "neck",
+      "pointCount": 14,
+      "triangleCount": 17,
+      "minimumTriangleAngleDegrees": 31.986,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "chest_fur",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/26_front_chest_fur.mesh.json",
+      "primaryController": "Ribcage",
+      "actionSubject": "Ribcage",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "neck",
+      "pointCount": 167,
+      "triangleCount": 229,
+      "minimumTriangleAngleDegrees": 21.03,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "ribcage_front",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/27_front_ribcage_front.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "rib",
+      "pointCount": 18,
+      "triangleCount": 24,
+      "minimumTriangleAngleDegrees": 21.03,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "abdomen_front",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/28_front_abdomen_front.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "abdomen",
+      "pointCount": 78,
+      "triangleCount": 129,
+      "minimumTriangleAngleDegrees": 21.013,
+      "elasticRange": [
+        0.08,
+        0.52
+      ]
+    },
+    {
+      "layerId": "pelvis_front",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/29_front_pelvis_front.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "pelvis",
+      "pointCount": 16,
+      "triangleCount": 19,
+      "minimumTriangleAngleDegrees": 34.851,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "torso_side",
+      "view": "side",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/30_side_torso_side.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "rib",
+      "pointCount": 12,
+      "triangleCount": 12,
+      "minimumTriangleAngleDegrees": 34.103,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "upper_arm_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/31_front_upper_arm_L.mesh.json",
+      "primaryController": "Shoulder_L",
+      "actionSubject": "Shoulder_L",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "shoulder_L",
+      "pointCount": 10,
+      "triangleCount": 10,
+      "minimumTriangleAngleDegrees": 23.354,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "fore_paw_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/32_front_fore_paw_L.mesh.json",
+      "primaryController": "Wrist_L",
+      "actionSubject": "Wrist_L",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "forepaw_L",
+      "pointCount": 20,
+      "triangleCount": 25,
+      "minimumTriangleAngleDegrees": 21.03,
+      "elasticRange": [
+        0.08,
+        0.52
+      ]
+    },
+    {
+      "layerId": "forearm_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/33_front_forearm_L.mesh.json",
+      "primaryController": "Elbow_L",
+      "actionSubject": "Elbow_L",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "elbow_L",
+      "pointCount": 48,
+      "triangleCount": 73,
+      "minimumTriangleAngleDegrees": 21.03,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "upper_arm_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/34_front_upper_arm_R.mesh.json",
+      "primaryController": "Shoulder_R",
+      "actionSubject": "Shoulder_R",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "shoulder_R",
+      "pointCount": 14,
+      "triangleCount": 15,
+      "minimumTriangleAngleDegrees": 21.677,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "forearm_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/35_front_forearm_R.mesh.json",
+      "primaryController": "Elbow_R",
+      "actionSubject": "Elbow_R",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "elbow_R",
+      "pointCount": 26,
+      "triangleCount": 35,
+      "minimumTriangleAngleDegrees": 23.065,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "fore_paw_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/36_front_fore_paw_R.mesh.json",
+      "primaryController": "Wrist_R",
+      "actionSubject": "Wrist_R",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "forepaw_R",
+      "pointCount": 22,
+      "triangleCount": 28,
+      "minimumTriangleAngleDegrees": 22.249,
+      "elasticRange": [
+        0.08,
+        0.52
+      ]
+    },
+    {
+      "layerId": "paw_contact_alt",
+      "view": "side",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/37_side_paw_contact_alt.mesh.json",
+      "primaryController": "Wrist_L",
+      "actionSubject": "Wrist_L",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "forepaw_L",
+      "pointCount": 29,
+      "triangleCount": 39,
+      "minimumTriangleAngleDegrees": 26.017,
+      "elasticRange": [
+        0.08,
+        0.52
+      ]
+    },
+    {
+      "layerId": "hind_thigh_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/38_front_hind_thigh_L.mesh.json",
+      "primaryController": "Hip_L",
+      "actionSubject": "Hip_L",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "hip_L",
+      "pointCount": 50,
+      "triangleCount": 76,
+      "minimumTriangleAngleDegrees": 21.03,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "hind_shin_L",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/39_front_hind_shin_L.mesh.json",
+      "primaryController": "Knee_L",
+      "actionSubject": "Knee_L",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "knee_L",
+      "pointCount": 14,
+      "triangleCount": 15,
+      "minimumTriangleAngleDegrees": 26.834,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "hind_thigh_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/40_front_hind_thigh_R.mesh.json",
+      "primaryController": "Hip_R",
+      "actionSubject": "Hip_R",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "hip_R",
+      "pointCount": 55,
+      "triangleCount": 86,
+      "minimumTriangleAngleDegrees": 24.024,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "hind_shin_R",
+      "view": "front",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/41_front_hind_shin_R.mesh.json",
+      "primaryController": "Knee_R",
+      "actionSubject": "Knee_R",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "knee_R",
+      "pointCount": 14,
+      "triangleCount": 15,
+      "minimumTriangleAngleDegrees": 30.317,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "hind_leg_side_L",
+      "view": "side",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/42_side_hind_leg_side_L.mesh.json",
+      "primaryController": "Hip_L",
+      "actionSubject": "Hip_L",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "hip_L",
+      "pointCount": 15,
+      "triangleCount": 16,
+      "minimumTriangleAngleDegrees": 31.917,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "hind_leg_side_R",
+      "view": "side",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/43_side_hind_leg_side_R.mesh.json",
+      "primaryController": "Hip_R",
+      "actionSubject": "Hip_R",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "hip_R",
+      "pointCount": 15,
+      "triangleCount": 16,
+      "minimumTriangleAngleDegrees": 27.487,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "tail_root_socket",
+      "view": "shared",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/44_shared_tail_root_socket.mesh.json",
+      "primaryController": "Pelvis",
+      "actionSubject": "Pelvis",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "tail_root",
+      "pointCount": 13,
+      "triangleCount": 14,
+      "minimumTriangleAngleDegrees": 23.249,
+      "elasticRange": [
+        0.08,
+        0.52
+      ]
+    },
+    {
+      "layerId": "tail_base",
+      "view": "shared",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/45_shared_tail_base.mesh.json",
+      "primaryController": "TailRoot",
+      "actionSubject": "TailRoot",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "tail_root",
+      "pointCount": 32,
+      "triangleCount": 46,
+      "minimumTriangleAngleDegrees": 22.627,
+      "elasticRange": [
+        0.02,
+        0.18
+      ]
+    },
+    {
+      "layerId": "tail_mid_short",
+      "view": "shared",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/46_shared_tail_mid_short.mesh.json",
+      "primaryController": "TailMid",
+      "actionSubject": "TailMid",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "tail_mid",
+      "pointCount": 32,
+      "triangleCount": 46,
+      "minimumTriangleAngleDegrees": 21.03,
+      "elasticRange": [
+        0.08,
+        0.52
+      ]
+    },
+    {
+      "layerId": "tail_curve",
+      "view": "side",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/47_side_tail_curve.mesh.json",
+      "primaryController": "TailMid",
+      "actionSubject": "TailMid",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "tail_mid",
+      "pointCount": 38,
+      "triangleCount": 55,
+      "minimumTriangleAngleDegrees": 25.085,
+      "elasticRange": [
+        0.08,
+        0.52
+      ]
+    },
+    {
+      "layerId": "tail_mid_long",
+      "view": "shared",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/48_shared_tail_mid_long.mesh.json",
+      "primaryController": "TailMid",
+      "actionSubject": "TailMid",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "tail_mid",
+      "pointCount": 40,
+      "triangleCount": 55,
+      "minimumTriangleAngleDegrees": 20.079,
+      "elasticRange": [
+        0.08,
+        0.52
+      ]
+    },
+    {
+      "layerId": "tail_tip_long",
+      "view": "shared",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/49_shared_tail_tip_long.mesh.json",
+      "primaryController": "TailTip",
+      "actionSubject": "TailTip",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "tail_tip",
+      "pointCount": 34,
+      "triangleCount": 45,
+      "minimumTriangleAngleDegrees": 26.232,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "tail_tip",
+      "view": "shared",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/50_shared_tail_tip.mesh.json",
+      "primaryController": "TailTip",
+      "actionSubject": "TailTip",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "tail_tip",
+      "pointCount": 20,
+      "triangleCount": 25,
+      "minimumTriangleAngleDegrees": 22.019,
+      "elasticRange": [
+        0.12,
+        0.78
+      ]
+    },
+    {
+      "layerId": "head_back_base",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/51_back_head_back_base.mesh.json",
+      "primaryController": "Neck",
+      "actionSubject": "Neck",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "skull",
+      "pointCount": 15,
+      "triangleCount": 17,
+      "minimumTriangleAngleDegrees": 23.027,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "head_profile_L",
+      "view": "side",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/52_side_head_profile_L.mesh.json",
+      "primaryController": "Neck",
+      "actionSubject": "Neck",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "skull",
+      "pointCount": 11,
+      "triangleCount": 13,
+      "minimumTriangleAngleDegrees": 22.666,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "head_profile_R",
+      "view": "side",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/53_side_head_profile_R.mesh.json",
+      "primaryController": "Neck",
+      "actionSubject": "Neck",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "skull",
+      "pointCount": 11,
+      "triangleCount": 13,
+      "minimumTriangleAngleDegrees": 21.149,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "back_neck_L",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/54_back_back_neck_L.mesh.json",
+      "primaryController": "Neck",
+      "actionSubject": "Neck",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "neck",
+      "pointCount": 11,
+      "triangleCount": 11,
+      "minimumTriangleAngleDegrees": 28.575,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "back_ribcage_L",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/55_back_back_ribcage_L.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "rib",
+      "pointCount": 17,
+      "triangleCount": 19,
+      "minimumTriangleAngleDegrees": 26.383,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "back_pelvis_L",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/56_back_back_pelvis_L.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "pelvis",
+      "pointCount": 16,
+      "triangleCount": 18,
+      "minimumTriangleAngleDegrees": 27.718,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "back_limb_fill_1",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/57_back_back_limb_fill_1.mesh.json",
+      "primaryController": "Shoulder_L",
+      "actionSubject": "Shoulder_L",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "shoulder_L",
+      "pointCount": 11,
+      "triangleCount": 11,
+      "minimumTriangleAngleDegrees": 27.202,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "back_limb_fill_2",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/58_back_back_limb_fill_2.mesh.json",
+      "primaryController": "Shoulder_R",
+      "actionSubject": "Shoulder_R",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "shoulder_R",
+      "pointCount": 12,
+      "triangleCount": 12,
+      "minimumTriangleAngleDegrees": 25.564,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "back_limb_fill_3",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/59_back_back_limb_fill_3.mesh.json",
+      "primaryController": "Hip_L",
+      "actionSubject": "Hip_L",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "hip_L",
+      "pointCount": 11,
+      "triangleCount": 11,
+      "minimumTriangleAngleDegrees": 27.51,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "back_torso_1",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/60_back_back_torso_1.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "rib",
+      "pointCount": 16,
+      "triangleCount": 20,
+      "minimumTriangleAngleDegrees": 25.711,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "back_torso_2",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/61_back_back_torso_2.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "secondary-soft-local",
+      "densityProfile": "soft-medium",
+      "pivot": "abdomen",
+      "pointCount": 59,
+      "triangleCount": 94,
+      "minimumTriangleAngleDegrees": 21.03,
+      "elasticRange": [
+        0.08,
+        0.52
+      ]
+    },
+    {
+      "layerId": "back_torso_3",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/62_back_back_torso_3.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "pelvis",
+      "pointCount": 12,
+      "triangleCount": 13,
+      "minimumTriangleAngleDegrees": 30.656,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "layerId": "back_torso_4",
+      "view": "back",
+      "meshFile": "live2d/x5/generated-fine-mesh-candidates-v1/63_back_back_torso_4.mesh.json",
+      "primaryController": "BodyRoot",
+      "actionSubject": "BodyRoot",
+      "deformationRole": "parent-transform-rigid-surface",
+      "densityProfile": "inherited-rigid-sparse",
+      "pivot": "pelvis",
+      "pointCount": 12,
+      "triangleCount": 13,
+      "minimumTriangleAngleDegrees": 26.181,
+      "elasticRange": [
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "layerId": "iris_R",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/14_front_iris_R.png",
+  "primaryController": "EyeSocket_R",
+  "parent": "EyeSocket_R",
+  "actionSubject": "EyeSocket_R",
+  "deformationRole": "face-feature-local",
+  "densityProfile": "feature-coarse",
+  "pivotName": "eye_R",
+  "pivotPoint": [
+    24.0,
+    22.0
+  ],
+  "points": [
+    [
+      26.0,
+      44.5
+    ],
+    [
+      10.0,
+      41.5
+    ],
+    [
+      0.5,
+      30.0
+    ],
+    [
+      0.5,
+      14.0
+    ],
+    [
+      19.0,
+      -0.5
+    ],
+    [
+      34.0,
+      0.5
+    ],
+    [
+      47.5,
+      16.0
+    ],
+    [
+      42.5,
+      35.0
+    ],
+    [
+      21.813,
+      22.067
+    ]
+  ],
+  "triangles": [
+    [
+      4,
+      8,
+      3
+    ],
+    [
+      0,
+      1,
+      8
+    ],
+    [
+      3,
+      8,
+      2
+    ],
+    [
+      8,
+      1,
+      2
+    ],
+    [
+      8,
+      4,
+      5
+    ],
+    [
+      6,
+      7,
+      8
+    ],
+    [
+      8,
+      7,
+      0
+    ],
+    [
+      5,
+      6,
+      8
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.1656,
+    0.1747,
+    0.18,
+    0.18,
+    0.1686,
+    0.1728,
+    0.1763,
+    0.1657,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    0.4085,
+    0.3714,
+    0.35,
+    0.35,
+    0.3965,
+    0.3791,
+    0.3649,
+    0.408,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.844,
+      0.912
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.67
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      0.35
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 9,
+    "triangleCount": 8,
+    "minimumTriangleAngleDegrees": 36.575,
+    "medianTriangleAngleDegrees": 43.585
+  },
+  "candidateOnly": true
+}

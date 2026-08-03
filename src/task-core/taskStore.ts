@@ -8,9 +8,21 @@ import type {
   TaskDraft,
   TaskUpdate,
   TaskSettings,
+  InterfaceFontSize,
   TaskHistoryEntry,
   TriggeredReminder,
 } from "./types";
+import {
+  createLocalRepository,
+  readRepositoryDeletionGuards,
+  sanitizeOutboxPayload,
+  type LocalRepositoryStorage,
+  type LocalRepositoryEventInput,
+} from "../storage/localRepository";
+import {
+  containsSensitiveCompanionText,
+  SENSITIVE_COMPANION_PERSISTENCE_ERROR,
+} from "../pet-core/companionPrivacy";
 
 export const TASK_DATABASE_STORAGE_KEY = "yuxin.tasks.v1";
 
@@ -23,6 +35,7 @@ export const EMPTY_TASK_DATABASE: TaskDatabase = {
   metrics: {},
   settings: {
     notificationSound: "system",
+    interfaceFontSize: "standard",
     customNotificationSoundName: null,
     customNotificationSoundDataUrl: null,
     customNotificationSoundDurationMs: null,
@@ -106,7 +119,7 @@ function cloneEmptyDatabase(): TaskDatabase {
   return { ...EMPTY_TASK_DATABASE, tasks: [], reminders: [], reminderInstances: [], history: [], metrics: {}, settings: { ...EMPTY_TASK_DATABASE.settings } };
 }
 
-function getDefaultStorage(): Storage | null {
+function getDefaultStorage(): LocalRepositoryStorage | null {
   try {
     return typeof globalThis !== "undefined" ? globalThis.localStorage ?? null : null;
   } catch {
@@ -114,14 +127,35 @@ function getDefaultStorage(): Storage | null {
   }
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function unwrapStoredTaskDatabase(value: unknown): unknown {
+  if (
+    isRecord(value)
+    && typeof value.id === "string"
+    && typeof value.deviceId === "string"
+    && "data" in value
+    && isRecord(value.data)
+  ) {
+    return value.data;
+  }
+  return value;
+}
+
 function normalizeTaskSettings(value: Partial<TaskSettings> | undefined): TaskSettings {
   const defaults = EMPTY_TASK_DATABASE.settings;
   const sounds: TaskSettings["notificationSound"][] = ["system", "gentle", "pet", "custom", "off"];
+  const interfaceFontSizes: InterfaceFontSize[] = ["standard", "large", "extraLarge"];
   const durations: TaskSettings["bubbleDurationMinutes"][] = [1, 3, 5, 10];
   return {
     notificationSound: sounds.includes(value?.notificationSound as TaskSettings["notificationSound"])
       ? value!.notificationSound as TaskSettings["notificationSound"]
       : defaults.notificationSound,
+    interfaceFontSize: interfaceFontSizes.includes(value?.interfaceFontSize as InterfaceFontSize)
+      ? value!.interfaceFontSize as InterfaceFontSize
+      : defaults.interfaceFontSize,
     customNotificationSoundName: typeof value?.customNotificationSoundName === "string" ? value.customNotificationSoundName : null,
     customNotificationSoundDataUrl: typeof value?.customNotificationSoundDataUrl === "string" && value.customNotificationSoundDataUrl.startsWith("data:audio/") ? value.customNotificationSoundDataUrl : null,
     customNotificationSoundDurationMs: Number.isFinite(value?.customNotificationSoundDurationMs) ? value!.customNotificationSoundDurationMs! : null,
@@ -142,11 +176,22 @@ export function readTaskDatabase(storage: Pick<Storage, "getItem"> | null = getD
   try {
     const raw = storage.getItem(TASK_DATABASE_STORAGE_KEY);
     if (!raw) return cloneEmptyDatabase();
-    const parsed = JSON.parse(raw) as { schemaVersion?: number } & Partial<Omit<TaskDatabase, "schemaVersion">>;
+    const parsed = unwrapStoredTaskDatabase(JSON.parse(raw)) as { schemaVersion?: number } & Partial<Omit<TaskDatabase, "schemaVersion">>;
     if (parsed.schemaVersion !== 1 && parsed.schemaVersion !== 2) return cloneEmptyDatabase();
     const rawTasks = Array.isArray(parsed.tasks) ? parsed.tasks : [];
+    const deleteGuards = readRepositoryDeletionGuards(storage).filter(
+      (guard) => guard.storageKey === TASK_DATABASE_STORAGE_KEY && guard.entityType === "task",
+    );
+    const deleteGuardsByTaskId = new Map(deleteGuards.map((guard) => [guard.entityId, guard]));
     const normalizedTasks: Task[] = rawTasks.map((rawTask) => {
       const task = rawTask as Partial<Task> & Pick<Task, "id" | "title">;
+      const deleteGuard = deleteGuardsByTaskId.get(task.id);
+      const taskUpdatedAt = Date.parse(task.updatedAt ?? task.createdAt ?? "");
+      const guardedAsDeleted = Boolean(
+        deleteGuard
+        && !task.deletedAt
+        && (!Number.isFinite(taskUpdatedAt) || taskUpdatedAt <= Date.parse(deleteGuard.deletedAt)),
+      );
       const kind = task.kind === "long_term" || task.kind === "milestone" ? task.kind : "single";
       const precision = task.schedulePrecision === "date" || task.schedulePrecision === "datetime"
         ? task.schedulePrecision
@@ -154,6 +199,9 @@ export function readTaskDatabase(storage: Pick<Storage, "getItem"> | null = getD
       const normalizedDueAt = normalizeScheduledValue(task.dueAt, precision);
       return {
         ...task,
+        ...(guardedAsDeleted
+          ? { status: "cancelled" as const, deletedAt: deleteGuard!.deletedAt, updatedAt: deleteGuard!.deletedAt }
+          : {}),
         kind,
         parentTaskId: typeof task.parentTaskId === "string" ? task.parentTaskId : null,
         startAt: normalizeScheduledValue(task.startAt, precisionForValue(task.startAt)),
@@ -162,20 +210,45 @@ export function readTaskDatabase(storage: Pick<Storage, "getItem"> | null = getD
         attachmentRefs: Array.isArray(task.attachmentRefs) ? task.attachmentRefs : [],
         archivedAt: typeof task.archivedAt === "string" ? task.archivedAt : null,
         archiveReason: task.archiveReason === "parent_completed" ? "parent_completed" : null,
+        sourceMessageId: normalizeOptionalTaskText(task.sourceMessageId),
+        evidence: normalizeOptionalTaskText(task.evidence),
+        createdByPetId: normalizeOptionalTaskText(task.createdByPetId),
       } as Task;
     });
-    const timelineParentIds = new Set(normalizedTasks.filter((task) => task.kind !== "milestone").map((task) => task.id));
-    const tasks = normalizedTasks.map((task) => {
+    const safeTasks = normalizedTasks.filter((task) => !containsSensitiveTaskRecord(task));
+    const timelineParentIds = new Set(safeTasks.filter((task) => task.kind !== "milestone").map((task) => task.id));
+    const tasks = safeTasks.map((task) => {
       if (task.kind !== "milestone" || (task.parentTaskId && timelineParentIds.has(task.parentTaskId))) return task;
       console.warn(`[task-store] orphan milestone ${task.id} was migrated to a single task`);
       return { ...task, kind: "single" as const, parentTaskId: null };
     });
+    const taskIds = new Set(tasks.map((task) => task.id));
+    const guardedDeletedTaskIds = new Set(
+      tasks
+        .filter((task) => task.deletedAt && deleteGuardsByTaskId.has(task.id))
+        .map((task) => task.id),
+    );
+    const reminders = (Array.isArray(parsed.reminders) ? parsed.reminders : [])
+      .filter((reminder) => taskIds.has(reminder.taskId))
+      .map((reminder) => guardedDeletedTaskIds.has(reminder.taskId)
+        ? { ...reminder, status: "cancelled" as const, updatedAt: deleteGuardsByTaskId.get(reminder.taskId)!.deletedAt }
+        : reminder);
+    const reminderInstances = (Array.isArray(parsed.reminderInstances) ? parsed.reminderInstances : [])
+      .filter((instance) => taskIds.has(instance.taskId))
+      .map((instance) =>
+        guardedDeletedTaskIds.has(instance.taskId)
+          ? { ...instance, status: "cancelled" as const, handledAt: deleteGuardsByTaskId.get(instance.taskId)!.deletedAt, updatedAt: deleteGuardsByTaskId.get(instance.taskId)!.deletedAt }
+          : instance.taskOverrides && containsSensitiveTaskFields(instance.taskOverrides)
+          ? { ...instance, taskOverrides: undefined }
+          : instance,
+      );
     return {
       schemaVersion: 2,
       tasks,
-      reminders: Array.isArray(parsed.reminders) ? parsed.reminders : [],
-      reminderInstances: Array.isArray(parsed.reminderInstances) ? parsed.reminderInstances : [],
-      history: Array.isArray(parsed.history) ? parsed.history : [],
+      reminders,
+      reminderInstances,
+      history: (Array.isArray(parsed.history) ? parsed.history : [])
+        .filter((entry) => taskIds.has(entry.taskId)),
       metrics: parsed.metrics && typeof parsed.metrics === "object" ? parsed.metrics : {},
       settings: normalizeTaskSettings(parsed.settings && typeof parsed.settings === "object" ? parsed.settings : undefined),
     };
@@ -186,10 +259,78 @@ export function readTaskDatabase(storage: Pick<Storage, "getItem"> | null = getD
 
 export function writeTaskDatabase(
   database: TaskDatabase,
-  storage: Pick<Storage, "setItem"> | null = getDefaultStorage(),
-): void {
-  if (!storage) return;
-  storage.setItem(TASK_DATABASE_STORAGE_KEY, JSON.stringify(database));
+  storage: LocalRepositoryStorage | null = getDefaultStorage(),
+): boolean {
+  if (!storage) return false;
+  if (containsSensitiveTaskDatabase(database)) {
+    console.warn("[task-store] Rejected sensitive task database write");
+    return false;
+  }
+  const previous = readTaskDatabase(storage);
+  if (JSON.stringify(previous) === JSON.stringify(database)) return true;
+
+  const nowIso = new Date().toISOString();
+  const previousTasks = new Map(previous.tasks.map((task) => [task.id, task]));
+  const nextTasks = new Map(database.tasks.map((task) => [task.id, task]));
+  const taskEvents: LocalRepositoryEventInput[] = [];
+  for (const taskId of new Set([...previousTasks.keys(), ...nextTasks.keys()])) {
+    const before = previousTasks.get(taskId);
+    const after = nextTasks.get(taskId);
+    if (JSON.stringify(before) === JSON.stringify(after)) continue;
+    const isDeleted = !after || Boolean(after.deletedAt);
+    const deletedAt = after?.deletedAt ?? before?.deletedAt ?? nowIso;
+    taskEvents.push({
+      entityType: "task",
+      entityId: taskId,
+      operation: isDeleted ? "delete" : "upsert",
+      schemaVersion: database.schemaVersion,
+      updatedAt: after?.updatedAt ?? deletedAt,
+      deletedAt: isDeleted ? deletedAt : null,
+      payload: sanitizeOutboxPayload(after ?? { id: taskId }),
+    });
+  }
+
+  const previousSupportingFacts = {
+    reminders: previous.reminders,
+    reminderInstances: previous.reminderInstances,
+    history: previous.history,
+    metrics: previous.metrics,
+    settings: previous.settings,
+  };
+  const nextSupportingFacts = {
+    reminders: database.reminders,
+    reminderInstances: database.reminderInstances,
+    history: database.history,
+    metrics: database.metrics,
+    settings: database.settings,
+  };
+  if (JSON.stringify(previousSupportingFacts) !== JSON.stringify(nextSupportingFacts)) {
+    taskEvents.push({
+      entityType: "task-support",
+      entityId: "task-database",
+      operation: "upsert",
+      schemaVersion: database.schemaVersion,
+      updatedAt: nowIso,
+      deletedAt: null,
+      payload: sanitizeOutboxPayload(nextSupportingFacts),
+    });
+  }
+
+  const repository = createLocalRepository({ storage });
+  const result = repository.writeEntity({
+    storageKey: TASK_DATABASE_STORAGE_KEY,
+    entityType: "task-database",
+    entityId: "task-database",
+    schemaVersion: database.schemaVersion,
+    data: database,
+    updatedAt: nowIso,
+    deletedAt: null,
+    events: taskEvents,
+  });
+  if (!result.ok) {
+    console.warn("[task-store] Failed to persist task database and outbox");
+  }
+  return result.ok;
 }
 
 export function updateTaskSettings(database: TaskDatabase, patch: Partial<TaskSettings>): TaskDatabase {
@@ -250,11 +391,65 @@ function sanitizeAttachmentRefs(values: string[] | undefined): string[] {
   return [...new Set(refs)];
 }
 
+function normalizeOptionalTaskText(value: unknown): string | null {
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function containsSensitiveTaskFields(input: Partial<TaskDraft>): boolean {
+  const textValues = [
+    input.title,
+    input.note,
+    input.projectId,
+    input.sourceMessageId,
+    input.evidence,
+    ...(input.attachmentRefs ?? []),
+  ];
+  if (textValues.some((value) =>
+    typeof value === "string" && containsSensitiveCompanionText(value),
+  )) return true;
+
+  return (input.milestones ?? []).some((milestone) =>
+    containsSensitiveCompanionText(milestone.title)
+    || containsSensitiveCompanionText(milestone.dueAt)
+    || Boolean(milestone.remindAt && containsSensitiveCompanionText(milestone.remindAt)),
+  );
+}
+
+export function containsSensitiveTaskDraft(draft: TaskDraft): boolean {
+  return containsSensitiveTaskFields(draft);
+}
+
+function containsSensitiveTaskRecord(task: Task): boolean {
+  return [
+    task.id,
+    task.title,
+    task.note,
+    task.projectId,
+    task.sourceDeviceId,
+    task.sourceMessageId,
+    task.evidence,
+    task.createdByPetId,
+    ...task.attachmentRefs,
+  ].some((value) =>
+    typeof value === "string" && containsSensitiveCompanionText(value),
+  );
+}
+
+export function containsSensitiveTaskDatabase(database: TaskDatabase): boolean {
+  return database.tasks.some(containsSensitiveTaskRecord)
+    || database.reminderInstances.some((instance) =>
+      instance.taskOverrides ? containsSensitiveTaskFields(instance.taskOverrides) : false,
+    );
+}
+
 export function createTask(
   database: TaskDatabase,
   draft: TaskDraft,
   now: Date | string = new Date(),
 ): { database: TaskDatabase; task: Task } {
+  if (containsSensitiveTaskDraft(draft)) {
+    throw new Error(SENSITIVE_COMPANION_PERSISTENCE_ERROR);
+  }
   const title = draft.title.trim();
   if (!title) throw new Error("待办标题不能为空");
   if (title.length > 100) throw new Error("待办标题不能超过100个字符");
@@ -311,6 +506,9 @@ export function createTask(
     archiveReason: null,
     version: 1,
     sourceDeviceId: "local",
+    sourceMessageId: normalizeOptionalTaskText(draft.sourceMessageId),
+    evidence: normalizeOptionalTaskText(draft.evidence),
+    createdByPetId: normalizeOptionalTaskText(draft.createdByPetId),
   };
 
   const next: TaskDatabase = recordTaskMetric({
@@ -373,6 +571,9 @@ export function updateTask(
   patch: TaskUpdate,
   now: Date | string = new Date(),
 ): TaskDatabase {
+  if (containsSensitiveTaskFields(patch)) {
+    throw new Error(SENSITIVE_COMPANION_PERSISTENCE_ERROR);
+  }
   const current = database.tasks.find((task) => task.id === taskId);
   if (!current || current.deletedAt) return database;
 
@@ -969,6 +1170,9 @@ export function rescheduleReminderInstance(
   now: Date | string = new Date(),
   taskOverrides?: TaskUpdate,
 ): TaskDatabase {
+  if (taskOverrides && containsSensitiveTaskFields(taskOverrides)) {
+    throw new Error(SENSITIVE_COMPANION_PERSISTENCE_ERROR);
+  }
   const nowIso = toIso(now);
   const instance = database.reminderInstances.find((item) => item.id === instanceId);
   if (!instance || !["scheduled", "triggered", "missed"].includes(instance.status)) return database;

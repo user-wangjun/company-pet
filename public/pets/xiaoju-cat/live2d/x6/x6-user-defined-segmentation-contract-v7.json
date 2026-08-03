@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-user-defined-front-segmentation-candidate",
+  "status": "candidate-for-user-visual-review",
+  "userReference": "codex-clipboard-4d07c4c4-7799-42b7-a595-9a866e8a78e1.png",
+  "scope": "front-view-boundary-and-occlusion-order-only",
+  "groupCount": 10,
+  "groups": [
+    {
+      "id": "head",
+      "bundles": [
+        "head"
+      ],
+      "alphaPixels": 47112,
+      "colorRole": "head_body",
+      "displayMaskRule": "bundle-alpha-boundary"
+    },
+    {
+      "id": "ears",
+      "bundles": [
+        "ear_L",
+        "ear_R"
+      ],
+      "alphaPixels": 10820,
+      "colorRole": "detail",
+      "displayMaskRule": "bundle-alpha-boundary"
+    },
+    {
+      "id": "eyes",
+      "bundles": [
+        "eye_L",
+        "eye_R"
+      ],
+      "alphaPixels": 9386,
+      "colorRole": "detail",
+      "displayMaskRule": "bundle-alpha-boundary"
+    },
+    {
+      "id": "mouth",
+      "bundles": [
+        "mouth"
+      ],
+      "alphaPixels": 673,
+      "colorRole": "detail",
+      "displayMaskRule": "central-mouth-control-only; whiskers remain internal children"
+    },
+    {
+      "id": "body",
+      "bundles": [
+        "body"
+      ],
+      "alphaPixels": 82817,
+      "colorRole": "head_body",
+      "displayMaskRule": "bundle-alpha-boundary"
+    },
+    {
+      "id": "upper_arms",
+      "bundles": [
+        "arm_L_upper",
+        "arm_R_upper"
+      ],
+      "alphaPixels": 5818,
+      "colorRole": "upper_arm",
+      "displayMaskRule": "bundle-alpha-boundary"
+    },
+    {
+      "id": "lower_arms",
+      "bundles": [
+        "arm_L_lower_paw",
+        "arm_R_lower_paw"
+      ],
+      "alphaPixels": 15772,
+      "colorRole": "lower_arm",
+      "displayMaskRule": "bundle-alpha-boundary"
+    },
+    {
+      "id": "upper_legs",
+      "bundles": [
+        "leg_L_upper",
+        "leg_R_upper"
+      ],
+      "alphaPixels": 3863,
+      "colorRole": "detail",
+      "displayMaskRule": "bundle-alpha-boundary"
+    },
+    {
+      "id": "lower_legs",
+      "bundles": [
+        "leg_L_lower_paw",
+        "leg_R_lower_paw"
+      ],
+      "alphaPixels": 10054,
+      "colorRole": "lower_leg",
+      "displayMaskRule": "bundle-alpha-boundary"
+    },
+    {
+      "id": "tail",
+      "bundles": [
+        "tail"
+      ],
+      "alphaPixels": 7157,
+      "colorRole": "detail",
+      "displayMaskRule": "bundle-alpha-boundary"
+    }
+  ],
+  "occlusionRules": [
+    {
+      "child": "upper_arms",
+      "under": [
+        "body",
+        "head"
+      ]
+    },
+    {
+      "child": "lower_arms",
+      "under": [
+        "upper_arms"
+      ]
+    },
+    {
+      "child": "upper_legs",
+      "under": [
+        "body"
+      ]
+    },
+    {
+      "child": "lower_legs",
+      "under": [
+        "upper_legs"
+      ]
+    },
+    {
+      "child": "tail",
+      "under": [
+        "body"
+      ]
+    }
+  ],
+  "qa": {
+    "preview": "live2d/x6/qa/x6-user-defined-segmentation-preview-v7.png"
+  },
+  "gateBoundary": {
+    "frontApprovedByUser": true,
+    "sideBackPropagationAuthorized": false,
+    "gate6Approved": false,
+    "x7Authorized": false
+  },
+  "frontApprovalEvidence": "User said: 可以，你试试分层先"
+}

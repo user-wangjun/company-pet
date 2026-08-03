@@ -6,6 +6,7 @@
   "iconHugSpritesheetPath": "icon-hug.png",
   "dialoguesPath": "dialogues.json",
   "companionChatPath": "companion-chat.json",
+  "soulPath": "SOUL.md",
   "taskFeedbackPath": "task-feedback.json",
   "threeViewPreviewPath": "three-view-preview.png",
   "animations": {

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-A neutral footprint compatibility",
+  "status": "fail_contract_conflict",
+  "frozenElbow": [
+    355.0,
+    415.0
+  ],
+  "frozenWrist": [
+    393.0,
+    533.0
+  ],
+  "localSInclusiveUpperBoundPx": 22.0,
+  "frozenMinimumEnvelopePixelCount": 1177,
+  "sourceArmNeutralOutlinePixelCount": 4357,
+  "envelopePixelsOutsideOriginalArmOutline": 132,
+  "envelopePixelsCollidingWithFrozenVisibleUpperArmOwnership": 416,
+  "envelopePixelsNotInVForearmCandidate": 555,
+  "tests": {
+    "neutralFootprintSubsetOfOriginalArmOutline": false,
+    "uniqueStaticPixelOwnershipCompatibleWithFrozenUpperArm": false,
+    "productionForearmAboveUpperArmCanContainEnvelopeWithoutOverwrite": false
+  },
+  "decision": "stop_before_complete_forearm_geometry",
+  "automaticReopenCondition": "Only an explicit user-approved contract revision that preserves the frozen skeleton and does not silently modify V6 may reopen V7.",
+  "independentContradictionProof": "audit/v7a-contract-contradiction-proof.json"
+}

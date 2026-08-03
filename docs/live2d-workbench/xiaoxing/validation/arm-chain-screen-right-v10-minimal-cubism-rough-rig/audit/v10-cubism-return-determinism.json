@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 2,
+  "status": "pass_current_cmo3_minimal_gui_replay",
+  "evidenceSource": "real Live2D Cubism Editor 5.3.03 GUI",
+  "physicsEnabled": false,
+  "currentCmo3": {
+    "path": "cubism/xiaoxing-arm-chain-v10-rough-rig.cmo3",
+    "sha256": "6b3c6d5682eec1a019dc7f14c6ebe185bb1cdeca24f3fcd3d93b502e8aa60bf0",
+    "bytes": 80794
+  },
+  "invalidatedFreezeObservation": {
+    "previousFrozenSha256": "7d94374ea02981ec2c706a453a88c30bc09c104ffcb5eb034384502f052fb429",
+    "currentSha256": "6b3c6d5682eec1a019dc7f14c6ebe185bb1cdeca24f3fcd3d93b502e8aa60bf0",
+    "bytesUnchanged": true,
+    "causeInferred": false,
+    "resolution": "The previous freeze was treated as invalid. The current CMO3 was reopened in the real Cubism GUI and minimally replayed before rebuilding audits and freeze metadata."
+  },
+  "currentMinimalGuiReplay": [
+    {
+      "parameter": "ParamArmShoulder",
+      "sequence": "default -> maximum -> default",
+      "maximumEvidence": "qa/cubism-41-shoulder-max.png",
+      "result": "pass_no_gap_detachment_or_contour_jump"
+    },
+    {
+      "parameter": "ParamArmElbow",
+      "sequence": "default -> maximum -> default",
+      "maximumEvidence": "qa/cubism-43-elbow-max.png",
+      "result": "pass_no_gap_detachment_or_contour_jump"
+    },
+    {
+      "parameter": "ParamArmWrist",
+      "sequence": "0 -> maximum -> 0",
+      "maximumEvidence": "qa/cubism-45-wrist-max.png",
+      "result": "pass_no_gap_detachment_or_contour_jump"
+    },
+    {
+      "parameter": "ParamV7ForearmRootTaper",
+      "sequence": "0 -> 1 -> 0",
+      "maximumEvidence": "qa/cubism-32-taper-100-clean.png",
+      "returnEvidence": "qa/cubism-38-taper-reset-clean.png",
+      "result": "pass_visible_local_taper_and_deterministic_return"
+    }
+  ],
+  "currentEvidence": [
+    {
+      "role": "pre-sequence current default",
+      "path": "qa/cubism-39-final-default-clean.png",
+      "sha256": "96263fce45471dc4e9a534341d6a4ca9886f2d2812f3ee4c3dd68a40df8cc5fc"
+    },
+    {
+      "role": "current taper maximum",
+      "path": "qa/cubism-32-taper-100-clean.png",
+      "sha256": "884db8d3fc58fbb975bc5d09d7c0208155d2662b35ef9ca5804ff12ee347e3eb"
+    },
+    {
+      "role": "current shoulder maximum",
+      "path": "qa/cubism-41-shoulder-max.png",
+      "sha256": "6d95c7ca64dea0f34e1ec2a04e00b105393f37a26bf84b3d038c692cc6a6bfe5"
+    },
+    {
+      "role": "current elbow maximum",
+      "path": "qa/cubism-43-elbow-max.png",
+      "sha256": "2eb124401e5ae4ba5b458a8719f8cbc1c98ca49679e704d4bfa3d4e129300fcb"
+    },
+    {
+      "role": "current wrist maximum",
+      "path": "qa/cubism-45-wrist-max.png",
+      "sha256": "38517d48af709e7b9a9eeffc3b0afb68c30025eb27a1600ec6cc9b7dcd9d5966"
+    },
+    {
+      "role": "current taper return",
+      "path": "qa/cubism-38-taper-reset-clean.png",
+      "sha256": "afbdf4be8156c229e313005d8c3cbd1d84699aec3f4dd6e6f8afd049f1affd45"
+    }
+  ],
+  "canvasCropScreenshotPx": [
+    1160,
+    280,
+    1390,
+    760
+  ],
+  "defaultReturnPixelComparison": {
+    "baseline": "qa/cubism-39-final-default-clean.png",
+    "returned": "qa/cubism-38-taper-reset-clean.png",
+    "changedPixels": 0,
+    "maximumChannelDifference": 0,
+    "meanChannelDifference": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "exactMatch": true
+  },
+  "priorContinuousRecording": {
+    "path": "qa/V10-FINAL-CONTINUOUS-MOTION.mp4",
+    "sha256": "e65849dd03975f5516a03257719bd6379cb4138437fa59ca94e079e76409d02d",
+    "genuineContinuousCapture": true,
+    "capturedBeforeCurrentCmo3HashDrift": true,
+    "currentCmo3Proof": false,
+    "interpretation": "Retained as prior continuous motion evidence. The current CMO3 is proven by the post-drift real-GUI replay and current screenshots, not by relabeling this older recording."
+  },
+  "historicalFiveStateTaperEvidence": [
+    "qa/cubism-36-taper-0-clean.png",
+    "qa/cubism-35-taper-25-clean.png",
+    "qa/cubism-34-taper-50-clean.png",
+    "qa/cubism-33-taper-75-clean.png",
+    "qa/cubism-32-taper-100-clean.png"
+  ],
+  "currentCmo3SavedDuringReplay": false,
+  "currentCmo3Sha256AfterReplay": "6b3c6d5682eec1a019dc7f14c6ebe185bb1cdeca24f3fcd3d93b502e8aa60bf0"
+}

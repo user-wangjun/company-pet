@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "status": "user_authorized_foreground_ownership_gate_correction",
+  "decisionOwner": "user",
+  "decisionDate": "2026-07-29",
+  "userDecision": [
+    "前臂凸包和手链不都是在前臂？而且你前臂再前一点不行吗？",
+    "可以，你修正之后再给我看看吧"
+  ],
+  "ownershipContract": {
+    "forearmUCapOwner": "forearm",
+    "braceletOwner": "forearm",
+    "drawOrderBackToFront": [
+      "hand",
+      "forearm",
+      "bracelet"
+    ],
+    "ucapNotCoveredByHandIsGapFailure": false,
+    "actualGapGates": [
+      "minimum complete forearm-hand overlap is at least 510px",
+      "forearm-hand union remains connected",
+      "0-to-1-to-0 return is identical",
+      "visible hand owns zero bracelet pixels",
+      "frozen upstream hashes remain unchanged"
+    ]
+  },
+  "approvedVisibleGeometryUnchanged": {
+    "visibleHandSha256": "f088d0a67877b9ab61df6fc2dd9e03b0690238f3b7d1ae19ede60e11159ec3fb",
+    "hiddenHandSha256": "95c85c4b9fd23c2ff3eaec6afd4a7d7607e8e6e7550b31e304ff666eb57338ee",
+    "completeHandSha256": "0c20112aa4d7dbb960b49d3c24a5830db71e623e915a06806f904c98429a24ca"
+  },
+  "correctedEvidence": {
+    "machineReport": {
+      "path": "machine-report.json",
+      "sha256": "5b8dca77a51e6d9ba449460ff12fb00b47c05f308b9f7130fafee7ff72d88195"
+    },
+    "fkKeySamples": {
+      "path": "../qa/fk-key-wrist-samples.png",
+      "sha256": "dfc69112f41643ae0df3f931dd20d26af457166b23348e87aede53e67ac352cb"
+    },
+    "wristStressReview": {
+      "path": "../qa/wrist-stress-review.png",
+      "sha256": "1c10876e84a8912b10b2a3bb74792df836ec5b69a86ac65dcafb3beace320612"
+    }
+  },
+  "engineeringResult": {
+    "minimumOverlapPx": 661,
+    "requiredMinimumOverlapPx": 510,
+    "fkDisconnectCount": 0,
+    "stressDisconnectCount": 0,
+    "returnConsistency": true,
+    "visibleBraceletPixelDuplicationPx": 0,
+    "frozenUpstreamPreserved": true
+  },
+  "handFrozen": false,
+  "nextGate": "user recheck of corrected foreground-ownership evidence"
+}

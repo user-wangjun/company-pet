@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "status": "stage_a_candidate_not_frozen",
+  "artifacts": [
+    {
+      "path": "skeleton-lock.json",
+      "sha256": "74e82e96f74074e43084224ae5ec2f133b1063523c774da44be175b0d6300871"
+    },
+    {
+      "path": "hand-layering-contract.json",
+      "sha256": "20f8ddaf8aae7413477ff7799e3677f2c9003687872b88efbe19fe4cd1517e24"
+    },
+    {
+      "path": "masks/visible/hand.png",
+      "sha256": "17f31228d989d4337e8c8381d17b4733c103dff889272e4a918866a976e674ca"
+    },
+    {
+      "path": "masks/hidden/hand.png",
+      "sha256": "86f3f25c7fa9314082a43aad64c84af66f8cf18a48ade679fd811e244453098e"
+    },
+    {
+      "path": "masks/complete/hand.png",
+      "sha256": "dd2ebef28b4598d33cb934f61d49cd22b1da62d5ddc3597c37e965b137c18347"
+    },
+    {
+      "path": "materials/hand.png",
+      "sha256": "45c588ac512c748eb5de063c2cbebae4321099062721a76efc129bcfb59de910"
+    },
+    {
+      "path": "qa/default-solid-recomposition.png",
+      "sha256": "a41544349867d0ac7c911d73c049fae264c18dfde0f8ecaab8878cc6a5713cd4"
+    },
+    {
+      "path": "qa/default-overlay-reset.png",
+      "sha256": "782b3c38df36863c3153c0b1ec9147a21812fbe050c5261ac17f625acb93b8ef"
+    },
+    {
+      "path": "qa/hand-displaced-review.png",
+      "sha256": "7ce7fea3d1d6c224cf85d1128c70c0e63a148dd3fa6cab2788db159f0049bf63"
+    },
+    {
+      "path": "qa/frozen-forearm-displaced-wrist-root.png",
+      "sha256": "d23e225258aa2ebdd4754d57c083975aea6090a3fb867f67626b4447bb3ef797"
+    },
+    {
+      "path": "qa/reset-vs-candidate-hand-contour.png",
+      "sha256": "d59cd03f4d8a90fc7f063b535c82a578a980c91c4aab10ccb1b6326e0e83b4ca"
+    },
+    {
+      "path": "qa/hand-local-zooms.png",
+      "sha256": "af8d6b50441c854b8d4df20f9904de56270e85bcfee32a918c908f19a5e2788a"
+    },
+    {
+      "path": "qa/bracelet-exclusion-ownership.png",
+      "sha256": "18d9a927711046df056391e1c4c52b3b757920b84565d9de16d7a78de6fcf517"
+    },
+    {
+      "path": "qa/forearm-ucap-hand-coverage.png",
+      "sha256": "d5a2a8cfd5a9ec53b2d88cf9dd4812317b13c1fe375ea7e5d433a053de4ae909"
+    },
+    {
+      "path": "qa/fk-41-slow-preview.gif",
+      "sha256": "3e57a98307560895db22471f2e31458809586441b6a90bc5c0bb5b6aed8f675e"
+    },
+    {
+      "path": "qa/fk-key-samples.png",
+      "sha256": "224c9b066c97013d4210f5576d7e7e8098a574bccd0c46d819ec0635d2b5175b"
+    },
+    {
+      "path": "qa/wrist-relative-stress-review.png",
+      "sha256": "885894e003ac3a6df96f5781aaa1e88e390e3f34cfe1dee2d8b1e5646d11054e"
+    },
+    {
+      "path": "qa/V32-阶段A-screen-left手部-中文视觉审查板.png",
+      "sha256": "59901699ba8965049fde773a73dcb9eed557ea297d8c5e17d607d384e0e46115"
+    },
+    {
+      "path": "samples/fk-41-samples.json",
+      "sha256": "3b42a433bf3fccd483347ed54b189c83d27e2dcb5ecf56d6a4c706badfcfd0a2"
+    },
+    {
+      "path": "audit/machine-report.json",
+      "sha256": "3d02cf6b1aedd785fd451b1247837a7b34d4de0a2c43307adcc101f0b00aaa54"
+    },
+    {
+      "path": "tools/build_v32_hand_stage_a.py",
+      "sha256": "1cd59971634b9ccc8f8412e14176c8f4e8c3fadba82dbe93f37ce246c0d5dcc7"
+    },
+    {
+      "path": "samples/fk-000.png",
+      "sha256": "2aef467ace03f0a6a3bcd5637f8336f867c30fa36cd3d0e8510af2a3cfaddf97"
+    },
+    {
+      "path": "samples/fk-001.png",
+      "sha256": "43a1b0a39439103e9888bc0e2ffa1ab98cc726e9785255f1ed4444d529cdf095"
+    },
+    {
+      "path": "samples/fk-002.png",
+      "sha256": "b06fbc0703df1af17b6daa03a7fe8411c1b67809406c2b73f20806917583c195"
+    },
+    {
+      "path": "samples/fk-003.png",
+      "sha256": "d220899f576eeaf21d2c5d7ff5a3dd93ebcfa86e4e93061b08e57efae7d689d6"
+    },
+    {
+      "path": "samples/fk-004.png",
+      "sha256": "ea7559472ebffbad4b83ce5745d28733fff3cb3793053a65583d350e2cd0adc4"
+    },
+    {
+      "path": "samples/fk-005.png",
+      "sha256": "e75f8deec6c6fdf7fb182c247dc20e2358a948a747e718cecb0ad57895849910"
+    },
+    {
+      "path": "samples/fk-006.png",
+      "sha256": "da48fb925551002d75e01e452c172cab3a438ebe77d8c3ded7c6ab3a01df93f1"
+    },
+    {
+      "path": "samples/fk-007.png",
+      "sha256": "eb7b590b91ddc5177080f100453d2565e631cb5c5039746728ff59aec05cbbab"
+    },
+    {
+      "path": "samples/fk-008.png",
+      "sha256": "fe10d8ca306a32676a098dfe91647197742fe41b9ee5cc96090f7f65a1c3ecac"
+    },
+    {
+      "path": "samples/fk-009.png",
+      "sha256": "a087eb984cea1a9eaa3501b49835b2c87c48387ac1417eae1bb2a9de46d20550"
+    },
+    {
+      "path": "samples/fk-010.png",
+      "sha256": "b40f7ae5abcf4d252612289ee34298f92e0a8e0430131070e065aae196750d2e"
+    },
+    {
+      "path": "samples/fk-011.png",
+      "sha256": "a85f6afa469113cb22765f84f162c92c1f30c156379c5f624f83b4637d76d512"
+    },
+    {
+      "path": "samples/fk-012.png",
+      "sha256": "0f68286aa3830ee35e800a1d0aa4eea5adb8dfef92f0abdaeca479b728d127a7"
+    },
+    {
+      "path": "samples/fk-013.png",
+      "sha256": "86d2e3f2e8cea49f9e01b51c31f606e9859cfa71d3976e6bfe215c185250107f"
+    },
+    {
+      "path": "samples/fk-014.png",
+      "sha256": "e2c9af00383e5b5099e705b1d2c09ca806cb4e567dcaeafa67a93b3e6b06b708"
+    },
+    {
+      "path": "samples/fk-015.png",
+      "sha256": "ae2723fef5e2f8bac9f1f987b2fb3253770b590f83103d1ba5c28bb8eac205ca"
+    },
+    {
+      "path": "samples/fk-016.png",
+      "sha256": "19b08bfdf371e66d1a79d02569ff8e4d2eccefb9ff1212d92730361b13ee4b2e"
+    },
+    {
+      "path": "samples/fk-017.png",
+      "sha256": "43ce6a36a071175fa57deec4f14f9a9df0ccd28b72c45adec7ed0d54e217e502"
+    },
+    {
+      "path": "samples/fk-018.png",
+      "sha256": "8f4bb26a9c9afae4b2524e247afc6a7c7c7bcd29e59c8bbf886c40b5778631f6"
+    },
+    {
+      "path": "samples/fk-019.png",
+      "sha256": "3eedac25967fc9dd7ffee56aa73f27cfe73f74d1e4e56a276b5553dde26a6cbe"
+    },
+    {
+      "path": "samples/fk-020.png",
+      "sha256": "08d7121deab976a59171a13f18cbd6d9ab9fdfc30a565de501e9df1d547b8aac"
+    },
+    {
+      "path": "samples/fk-021.png",
+      "sha256": "32621bf42d495e305bf3f13c2cde9cb56154b0e65f85c07bd9c5d277d121e7e1"
+    },
+    {
+      "path": "samples/fk-022.png",
+      "sha256": "78a02149d7ad9dd1d0d51fc25959600f45d3566a737722f2bcf689be2d5dd10f"
+    },
+    {
+      "path": "samples/fk-023.png",
+      "sha256": "5c2d6215f945372e601303424fb78bc005c50c1af866f7b25d46052e1e205fb1"
+    },
+    {
+      "path": "samples/fk-024.png",
+      "sha256": "10452e282cf7c1eb987e652a9b29a2a13bbeedf17c358080c32819e969adcd30"
+    },
+    {
+      "path": "samples/fk-025.png",
+      "sha256": "9993221023f025760627a68818415d0792f4d3acd5f9394dcb519497ac6e1aae"
+    },
+    {
+      "path": "samples/fk-026.png",
+      "sha256": "785d0a2237da3d39fa172706665b2727cc5b895782538a0ee288d5c958f32f58"
+    },
+    {
+      "path": "samples/fk-027.png",
+      "sha256": "6359f6183187522df94aecbc24bdc401c74a86dcfc44164335b99e52247f2944"
+    },
+    {
+      "path": "samples/fk-028.png",
+      "sha256": "5169f4871a5bcf7e5fce653881627ffac418ee2b8d9fa6ef6e9769d63aec14c5"
+    },
+    {
+      "path": "samples/fk-029.png",
+      "sha256": "d750438f668b6bd67574a6c0850dc07e4311c7f8421d88a7dc0f61126c40b893"
+    },
+    {
+      "path": "samples/fk-030.png",
+      "sha256": "631559feb01b6e40050592cafe51831feb0b86c51b91f691ac8dcb42b54c7a66"
+    },
+    {
+      "path": "samples/fk-031.png",
+      "sha256": "98aabdd3a1407e756d2b3c6f40d1cb4689ddb16e7a9905da63a43edf51f4b4b2"
+    },
+    {
+      "path": "samples/fk-032.png",
+      "sha256": "2e1c8225f828d9f5d16062808e0d5e9cc4639228f58a24f3d3c1e71647e2a9d6"
+    },
+    {
+      "path": "samples/fk-033.png",
+      "sha256": "d3eef1cac5ef0ccabb23c67628886b3d11b3e53c956c56fc6cd24faeefca48c7"
+    },
+    {
+      "path": "samples/fk-034.png",
+      "sha256": "bbc696c4d89f764e0c1164a2fc4979fab129356ff409f9585ebc5beac4db8bc2"
+    },
+    {
+      "path": "samples/fk-035.png",
+      "sha256": "83551282e0682c7260fc676d7880b633d6cd94d4fa34917a3519c93d6a21d93a"
+    },
+    {
+      "path": "samples/fk-036.png",
+      "sha256": "e18fa62ad86e29c7f45fd2ceb6c6ca090edc53c00e0e407ca836da6d5cfd7091"
+    },
+    {
+      "path": "samples/fk-037.png",
+      "sha256": "2f9c474c6e3d3bcb8608439e9f5e58425283163110ff5e46c5cedf2a54ccb476"
+    },
+    {
+      "path": "samples/fk-038.png",
+      "sha256": "921755ee8e715cf8a25c5384d2bb39c8edf5a8203c328da964c63d66bf29604e"
+    },
+    {
+      "path": "samples/fk-039.png",
+      "sha256": "adf0ef570a5ef3298d8ab5536c887cb7fce8de2ca663c076aaf421ca65612dd8"
+    },
+    {
+      "path": "samples/fk-040.png",
+      "sha256": "14a01d53753926322a01b7d7147ea1e86422a166f521425d34117c26b0e79dde"
+    }
+  ],
+  "handFrozen": false,
+  "visualApproval": "pending"
+}

@@ -1,0 +1,13 @@
+{
+  "stage": "v6-face-base-and-original-eye-preservation",
+  "source": "source\\masters\\gate3-color-target-v1.png",
+  "lineGeometryReference": "source\\masters\\gate3-line-master-candidate-v1.png",
+  "frontHairEvidence": "model/working-v5/head-sample/前发_原像素.png",
+  "defaultCompositeMae": 0.0,
+  "defaultCompositeMaxError": 0,
+  "visibleEyePixelsRepainted": false,
+  "hiddenFaceFillOnlyUnderFrontHair": true,
+  "psdImport": false,
+  "cubismImport": false,
+  "next": "semantic-eye-parts-with-default-composite-preserved"
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "idle",
+    "old_frames": 6,
+    "new_frames": 16,
+    "old_speed": 0.05,
+    "new_speed": 0.1333,
+    "area_min": 21112,
+    "area_max": 22568,
+    "area_ratio": 1.069,
+    "delta_min": 12.61,
+    "delta_max": 44.06
+  },
+  {
+    "name": "dragRight",
+    "old_frames": 8,
+    "new_frames": 16,
+    "old_speed": 0.2,
+    "new_speed": 0.4,
+    "area_min": 28710,
+    "area_max": 33462,
+    "area_ratio": 1.166,
+    "delta_min": 15.67,
+    "delta_max": 80.87
+  },
+  {
+    "name": "dragLeft",
+    "old_frames": 8,
+    "new_frames": 16,
+    "old_speed": 0.2,
+    "new_speed": 0.4,
+    "area_min": 25542,
+    "area_max": 28512,
+    "area_ratio": 1.116,
+    "delta_min": 15.41,
+    "delta_max": 52.69
+  },
+  {
+    "name": "tickle",
+    "old_frames": 4,
+    "new_frames": 16,
+    "old_speed": 0.16,
+    "new_speed": 0.64,
+    "area_min": 23760,
+    "area_max": 28116,
+    "area_ratio": 1.183,
+    "delta_min": 20.35,
+    "delta_max": 125.95
+  },
+  {
+    "name": "crouchAlert",
+    "old_frames": 5,
+    "new_frames": 16,
+    "old_speed": 0.12,
+    "new_speed": 0.384,
+    "area_min": 11856,
+    "area_max": 13832,
+    "area_ratio": 1.167,
+    "delta_min": 37.62,
+    "delta_max": 111.13
+  },
+  {
+    "name": "hugFish",
+    "old_frames": 8,
+    "new_frames": 16,
+    "old_speed": 0.12,
+    "new_speed": 0.24,
+    "area_min": 29106,
+    "area_max": 35308,
+    "area_ratio": 1.213,
+    "delta_min": 18.53,
+    "delta_max": 135.21
+  },
+  {
+    "name": "gnawFish",
+    "old_frames": 6,
+    "new_frames": 16,
+    "old_speed": 0.14,
+    "new_speed": 0.3733,
+    "area_min": 26136,
+    "area_max": 33858,
+    "area_ratio": 1.295,
+    "delta_min": 28.38,
+    "delta_max": 156.27
+  },
+  {
+    "name": "fishChase",
+    "old_frames": 6,
+    "new_frames": 16,
+    "old_speed": 0.18,
+    "new_speed": 0.48,
+    "area_min": 21172,
+    "area_max": 24344,
+    "area_ratio": 1.15,
+    "delta_min": 25.42,
+    "delta_max": 121.34
+  },
+  {
+    "name": "fishEat",
+    "old_frames": 6,
+    "new_frames": 16,
+    "old_speed": 0.14,
+    "new_speed": 0.3733,
+    "area_min": 23562,
+    "area_max": 28314,
+    "area_ratio": 1.202,
+    "delta_min": 17.99,
+    "delta_max": 137.89
+  },
+  {
+    "name": "iconHug",
+    "old_frames": 6,
+    "new_frames": 16,
+    "old_speed": 0.08,
+    "new_speed": 0.2133,
+    "area_min": 32472,
+    "area_max": 34650,
+    "area_ratio": 1.067,
+    "delta_min": 16.29,
+    "delta_max": 67.29
+  }
+]

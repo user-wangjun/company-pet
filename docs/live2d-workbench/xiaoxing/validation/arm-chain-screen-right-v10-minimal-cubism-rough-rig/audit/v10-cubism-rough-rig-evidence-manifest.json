@@ -1,0 +1,559 @@
+{
+  "schemaVersion": 1,
+  "status": "frozen_v10_engineering_rough_rig_user_visual_approved",
+  "scope": "single screen-right arm minimal Cubism rough rig",
+  "currentInterpretation": "Material-color correction remains a completed engineering fact. The user approved the whole V10 engineering rough rig. A later same-length CMO3 save changed its SHA-256 from 7d94374e... to 6b3c6d56..., invalidating the earlier freeze. The current CMO3 was therefore minimally replayed in the real Cubism GUI for shoulder, elbow, wrist, taper, seam continuity, and deterministic return before regenerating the audits, approval record, and freeze manifest.",
+  "userVisualRejection": {
+    "upperArm": "349 px H_upper blue QA placeholder exposed through sleeve antialiasing and at the elbow",
+    "wrist": "F4 forearm engineering color #F4BEAD is discontinuous with frozen H3 hand-root color #F4DED8",
+    "materialColorContinuity": "corrected_engineering_evidence_present_in_user_approved_current_appearance",
+    "userVisualApproval": true
+  },
+  "elbowSeamUserVisualRejection": {
+    "status": "current_whole_v10_engineering_rough_rig_user_visual_approved",
+    "materialColorCorrectionRetained": true,
+    "contourAndVolumeContinuityApproved": true,
+    "observationsToVerifyInGui": [
+      "forearm root narrows too abruptly",
+      "bilateral contour steps, pinches, or V-shaped notches",
+      "upper arm and forearm read as two cut materials rather than one bending limb"
+    ],
+    "currentState": "frozen_v10_engineering_rough_rig_user_visual_approved",
+    "olderEvidenceMayBeInterpretedAsCurrentVisualPass": false
+  },
+  "materialCorrection": {
+    "upperArmPixelsChanged": 349,
+    "upperArmReplacementRgba": [
+      219,
+      185,
+      174,
+      255
+    ],
+    "forearmEngineeringPixelsChanged": 134,
+    "forearmReplacementRgba": [
+      244,
+      222,
+      216,
+      255
+    ],
+    "forearmFrozenVisiblePixelsRetained": 52,
+    "alphaChangedPixels": 0,
+    "geometryChanged": false,
+    "audit": "audit/v10-material-color-correction-audit.json"
+  },
+  "editor": {
+    "application": "Live2D Cubism Editor",
+    "version": "5.3.03",
+    "licenseModeObserved": "FREE",
+    "actualGuiImportAndEditing": true,
+    "cloudServiceUsed": false
+  },
+  "artMeshes": [
+    {
+      "name": "01_sleeve",
+      "drawOrder": 400
+    },
+    {
+      "name": "02_upper_arm_engineering",
+      "drawOrder": 100
+    },
+    {
+      "name": "03_forearm_including_bracelet",
+      "drawOrder": 300
+    },
+    {
+      "name": "04_whole_hand",
+      "drawOrder": 200
+    }
+  ],
+  "deformerHierarchy": {
+    "D_Shoulder": [
+      "01_sleeve",
+      "02_upper_arm_engineering",
+      "D_Elbow"
+    ],
+    "D_Elbow": [
+      "D_ForearmRootTaper",
+      "D_Wrist"
+    ],
+    "D_ForearmRootTaper": [
+      "03_forearm_including_bracelet"
+    ],
+    "D_Wrist": [
+      "04_whole_hand"
+    ]
+  },
+  "deformers": [
+    {
+      "name": "D_Shoulder",
+      "type": "Rotation",
+      "frozenTargetCanvasPx": [
+        332.0,
+        261.0
+      ],
+      "guiObservedCanvasPx": [
+        332.0,
+        260.55
+      ],
+      "guiReadoutOffsetPx": 0.45
+    },
+    {
+      "name": "D_Elbow",
+      "type": "Rotation",
+      "frozenTargetCanvasPx": [
+        355.0,
+        415.0
+      ],
+      "guiObservedCanvasPx": [
+        356.0,
+        414.55
+      ],
+      "guiReadoutOffsetPx": 1.1
+    },
+    {
+      "name": "D_Wrist",
+      "type": "Rotation",
+      "frozenTargetCanvasPx": [
+        393.0,
+        533.0
+      ],
+      "guiObservedCanvasPx": [
+        394.0,
+        532.55
+      ],
+      "guiReadoutOffsetPx": 1.1
+    },
+    {
+      "name": "D_ForearmRootTaper",
+      "type": "Warp",
+      "transformDivisions": [
+        5,
+        5
+      ],
+      "bezierDivisions": [
+        2,
+        6
+      ]
+    }
+  ],
+  "pivotPlacementInterpretation": "The GUI status readout is within 1.1 px of each frozen joint. This is accepted only for the authorized engineering rough rig and is not a production-coordinate certificate.",
+  "parameters": [
+    {
+      "id": "ParamArmShoulder",
+      "minimum": 73.505624,
+      "default": 81.505624,
+      "maximum": 89.505624,
+      "keyforms": 3,
+      "rotationAnglesDeg": [
+        -8.0,
+        0.0,
+        8.0
+      ]
+    },
+    {
+      "id": "ParamArmElbow",
+      "minimum": -27.355943,
+      "default": -9.355943,
+      "maximum": -3.355943,
+      "keyforms": 3,
+      "rotationAnglesDeg": [
+        -18.0,
+        0.0,
+        6.0
+      ]
+    },
+    {
+      "id": "ParamArmWrist",
+      "minimum": -8.0,
+      "default": 0.0,
+      "maximum": 12.0,
+      "keyforms": 3,
+      "rotationAnglesDeg": [
+        -8.0,
+        0.0,
+        12.0
+      ]
+    },
+    {
+      "id": "ParamV7ForearmRootTaper",
+      "minimum": 0.0,
+      "default": 0.0,
+      "maximum": 1.0,
+      "keyforms": 3,
+      "maximumKeyform": "positive-side root controls compressed within the approved 4.373770766592578 px limit"
+    }
+  ],
+  "validation": {
+    "fourIndependentArtMeshes": "pass",
+    "jointDeformersAtFrozenTargets": "pass_with_gui_readout_tolerance",
+    "continuousIntermediatePose": "engineering_pass_prior_real_continuous_recording_plus_current_real_gui_extreme_and_return_replay",
+    "fixedBoneLengthConstruction": "pass",
+    "materialColorContinuity": "engineering_pass_retained",
+    "elbowContourAndVolumeContinuity": "engineering_and_user_visual_pass",
+    "intermediateTransparentSeams": "no_visible_gap_at_editor_400_percent",
+    "v7AngleDependentRootKeyform": "pass_visible_continuous_local_taper_at_0_25_50_75_100",
+    "frozenDrawOrder": "pass",
+    "deterministicReturnWithoutPhysics": "pass_exact_canvas_crop"
+  },
+  "fixedBoneLengthConstruction": {
+    "L1Px": 155.70806,
+    "L2Px": 123.967738,
+    "scaleKeyforms": false,
+    "reason": "Elbow is a child rotation deformer of shoulder; wrist is a child rotation deformer of elbow and a sibling of the forearm-root warp. The warp therefore does not move the wrist pivot."
+  },
+  "seamReview": {
+    "method": "The full earlier review covered 400 percent default, midpoint/extreme, taper five-state, combinations, isolation, and a genuine recording. After the CMO3 hash drift, the current file was separately replayed in the real GUI at default and the shoulder/elbow/wrist maxima plus taper 0->1->0.",
+    "result": "no visible transparent gap",
+    "userVisualApproval": true,
+    "limitation": "Approval applies to the current post-taper V10 engineering rough rig only, not to a production model."
+  },
+  "postFreezeCurrentCmo3Recheck": {
+    "previousFrozenSha256": "7d94374ea02981ec2c706a453a88c30bc09c104ffcb5eb034384502f052fb429",
+    "currentSha256": "6b3c6d5682eec1a019dc7f14c6ebe185bb1cdeca24f3fcd3d93b502e8aa60bf0",
+    "bytes": 80794,
+    "causeInferred": false,
+    "realCubismGui": true,
+    "sequences": [
+      "ParamArmShoulder default -> maximum -> default",
+      "ParamArmElbow default -> maximum -> default",
+      "ParamArmWrist 0 -> maximum -> 0",
+      "ParamV7ForearmRootTaper 0 -> 1 -> 0"
+    ],
+    "transparentSeam": false,
+    "detachment": false,
+    "contourJump": false,
+    "taperVisible": true,
+    "returnChangedPixels": 0,
+    "maximumChannelDifference": 0,
+    "currentCmo3SavedDuringReplay": false,
+    "currentSha256StableAfterReplay": true,
+    "currentEvidence": [
+      "qa/cubism-39-final-default-clean.png",
+      "qa/cubism-41-shoulder-max.png",
+      "qa/cubism-43-elbow-max.png",
+      "qa/cubism-45-wrist-max.png",
+      "qa/cubism-32-taper-100-clean.png",
+      "qa/cubism-38-taper-reset-clean.png"
+    ]
+  },
+  "keyformDecision": {
+    "edited": true,
+    "reason": "The existing D_ForearmRootTaper was refined from a 2x2 to a 2x6 Bezier grid. Only the outer top main control at the maximum keyform was moved, producing a visible local taper within the V7 displacement and falloff limits."
+  },
+  "elbowSeamMinimalFixDiagnostic": {
+    "historicalPreAuthorizationDiagnostic": true,
+    "realCubismGui": true,
+    "sampledParameter": "ParamV7ForearmRootTaper",
+    "sampledValues": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "cleanModelRoiScreenPx": [
+      900,
+      143,
+      1536,
+      780
+    ],
+    "changedPixelsAgainstDefaultByValue": {
+      "0.25": 0,
+      "0.5": 0,
+      "0.75": 0,
+      "1.0": 0
+    },
+    "returnSequence": "0 -> 0.25 -> 0.5 -> 0.75 -> 1 -> 0",
+    "returnToDefaultModelChangedPixels": 0,
+    "diagnosis": {
+      "transparentGap": false,
+      "newMaterialColorPollution": false,
+      "drawOrderCause": false,
+      "pivotCause": false,
+      "redControllerIllusion": false,
+      "hiddenCoverageInsufficient": false,
+      "intermediateInterpolationPinch": false,
+      "rootContourTransition": "The clean close-up retains a bilateral inward step/pinch immediately below the elbow overlap.",
+      "currentTaperKeyforms": "Three keyforms are present but produce identical visible model pixels and an identical selected Warp grid at the sampled values."
+    },
+    "existingDeformer": {
+      "id": "D_ForearmRootTaper",
+      "transformDivisions": [
+        5,
+        5
+      ],
+      "bezierDivisions": [
+        2,
+        2
+      ],
+      "directlyMovableMainControlGrid": [
+        3,
+        3
+      ],
+      "localityFinding": "A top Bezier main-point move propagates through a large patch or column beyond the approved s <= 22 px interval; green or black transform-grid subdivision points remain derived display points across Cubism edit levels and are not independently movable controls.",
+      "guiEditLevelRecheck": "Edit levels 1, 2, and 3 were inspected. Level 2 exposes the existing 2 x 2 Bezier main grid; attempts to drag subdivision points do not create a local deformation and instead leave the grid unchanged or select the underlying ArtMesh."
+    },
+    "trialMove": {
+      "retained": false,
+      "undoPerformedInGui": true,
+      "gridRestoredAfterUndo": true
+    },
+    "authorizedMaximumDisplacementPx": 4.373770766592578,
+    "authorizedFalloffEndPx": 22.0,
+    "retainedMaximumDisplacementPx": 0.0,
+    "retainedInfluenceRangePx": 0.0,
+    "stopConditionTriggered": true,
+    "stopReason": "The visible fix cannot be localized to s <= 22 px using only the existing directly movable Bezier main points. Changing divisions, adding a Deformer, editing the ArtMesh, or changing frozen material geometry is outside scope.",
+    "cmo3SavedByThisDiagnostic": false,
+    "cmo3Sha256BeforeAndAfterDiagnostic": "869d6bada94532c7a65b433323fd9aa337b6cd719c0e9210d8d0a7a9bf4cd386",
+    "preExistingCmo3EvidenceHashMismatch": {
+      "evidenceManifestSha256": "8262c32912986312024aad86c964accdccf62aa90edb285cb6a3c2ef8991a1f5",
+      "observedSha256BeforeDiagnostic": "869d6bada94532c7a65b433323fd9aa337b6cd719c0e9210d8d0a7a9bf4cd386",
+      "interpretation": "The editable CMO3 had already been saved after the prior evidence manifest. This diagnostic did not save it."
+    }
+  },
+  "elbowSeamMinimalCorrection": {
+    "authorization": "User explicitly authorized elbow-local refinement of the existing forearm ArtMesh after the real GUI confirmed that the existing D_ForearmRootTaper main grid could not localize the fix.",
+    "realCubismGui": true,
+    "rootCause": "The upper arm has intact hidden continuation. The apparent break came from an extremely sparse forearm ArtMesh and abrupt root taper; no transparent gap, new color contamination, Draw Order fault, pivot error, or controller illusion was found.",
+    "artMesh": "03_forearm_including_bracelet",
+    "parentDeformer": "D_ForearmRootTaper",
+    "verticesAdded": 6,
+    "addedRows": 2,
+    "movedBoundaryVertices": [
+      {
+        "row": 1,
+        "side": "left",
+        "screenDisplacementPx": 5.0,
+        "direction": "outward"
+      },
+      {
+        "row": 1,
+        "side": "right",
+        "screenDisplacementPx": 5.0,
+        "direction": "outward"
+      },
+      {
+        "row": 2,
+        "side": "left",
+        "screenDisplacementPx": 2.0,
+        "direction": "outward"
+      },
+      {
+        "row": 2,
+        "side": "right",
+        "screenDisplacementPx": 2.0,
+        "direction": "outward"
+      }
+    ],
+    "measurementMethod": "Final post-user-adjustment remeasurement at 400% against the frozen V7-C1 alpha contour, followed by a 2-screen-pixel outward correction and a separate L2-calibrated 2x6 Warp measurement. Full method is in audit/v10-final-closeout-audit.json.",
+    "authorizedMaximumDisplacementPx": 4.373770766592578,
+    "retainedMaximumDisplacementPxConservative": 4.27,
+    "authorizedFalloffEndPx": 22.0,
+    "retainedInfluenceRangePxConservative": 20.3,
+    "upperArmEdited": false,
+    "sourceRasterOrPsdEdited": false,
+    "colorOrAlphaEdited": false,
+    "jointOrBoneLengthEdited": false,
+    "parameterRangeOrKeyformEdited": true,
+    "hierarchyEdited": false,
+    "drawOrderEdited": false,
+    "newArtMeshOrDeformerCreated": false,
+    "sampledParameter": "ParamV7ForearmRootTaper",
+    "sampledValues": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "interpolationResult": "The taper now changes visibly and continuously at 0, 0.25, 0.5, 0.75 and 1. No transparent seam, transient pinch, foldover, or visible jump was observed.",
+    "returnSequence": "0 -> 0.25 -> 0.5 -> 0.75 -> 1 -> 0",
+    "returnToDefaultElbowRoiChangedPixels": 0,
+    "cmo3SavedInRealGui": true,
+    "cmo3Sha256BeforeCorrection": "869d6bada94532c7a65b433323fd9aa337b6cd719c0e9210d8d0a7a9bf4cd386",
+    "cmo3Sha256AfterAssistantCorrection": "04a1898f5cc320bd2cc832884668f8f54204f5901165a931deeb96146e8f3fc1",
+    "userFinalMicroAdjustment": {
+      "author": "user",
+      "performedInCubismGui": true,
+      "numericDeltaInstrumented": false,
+      "displacementAuditScope": "The 1.77 px maximum and 20.5 px influence figures above describe only the assistant-authored correction and must not be attributed to the user's final manual adjustment.",
+      "currentSavedCmo3Sha256": "6b3c6d5682eec1a019dc7f14c6ebe185bb1cdeca24f3fcd3d93b502e8aa60bf0",
+      "finalRemeasurementCompleted": true
+    },
+    "userVisualApproval": true,
+    "historicalUserApprovalStatement": "我觉得当前外观是可以的",
+    "currentApprovalRequired": null,
+    "currentApprovalRecord": "audit/v10-user-visual-approval-and-freeze-authorization-2026-07-27.json"
+  },
+  "determinismAudit": "audit/v10-cubism-return-determinism.json",
+  "closeoutAudit": "audit/v10-final-closeout-audit.json",
+  "wholeV10Approval": {
+    "received": true,
+    "freezeManifestGenerated": true,
+    "approvalRecordGenerated": true,
+    "approvalRecord": "audit/v10-user-visual-approval-and-freeze-authorization-2026-07-27.json",
+    "freezeManifest": "audit/v10-freeze-manifest-2026-07-27.json"
+  },
+  "artifactsInterpretation": "Historical evidence is retained without relabeling it as current-hash capture. The current CMO3 is directly supported by the overwritten current default, shoulder maximum, elbow maximum, wrist maximum, taper maximum and taper-return screenshots plus the rebuilt determinism and closeout audits. The older genuine continuous MP4 remains prior motion evidence.",
+  "artifacts": [
+    {
+      "path": "psd/xiaoxing-arm-chain-v10-import.psd",
+      "sha256": "5efed7934dbe5157c6d9f34120141dc8aa71b8b78a8f2652c86b1e1ea48f6369"
+    },
+    {
+      "path": "cubism/xiaoxing-arm-chain-v10-rough-rig.cmo3",
+      "sha256": "6b3c6d5682eec1a019dc7f14c6ebe185bb1cdeca24f3fcd3d93b502e8aa60bf0"
+    },
+    {
+      "path": "qa/cubism-01-four-artmeshes-imported.png",
+      "sha256": "40320c8680b86f08b9f380c5ecf6e7219023a509d137b0ca62c17f376fcc59e5"
+    },
+    {
+      "path": "qa/cubism-06-hierarchy-parameters.png",
+      "sha256": "40320c8680b86f08b9f380c5ecf6e7219023a509d137b0ca62c17f376fcc59e5"
+    },
+    {
+      "path": "qa/cubism-07-shoulder-five-state.png",
+      "sha256": "133fb21bbc4ea3d258f1c59d7e178d1f06163741b0a620bcba5f03c5aac1f560"
+    },
+    {
+      "path": "qa/cubism-08-elbow-five-state.png",
+      "sha256": "eff6491ff2d7cb4d7d1c51448a7f873727510b73ddae1f7c7cc6a65b3ee71c15"
+    },
+    {
+      "path": "qa/cubism-09-wrist-five-state.png",
+      "sha256": "e615948d57d7701b5735e100850eeb87f27a546b7d66204fca95185f519fe978"
+    },
+    {
+      "path": "qa/cubism-10-taper-five-state.png",
+      "sha256": "6250c4865f245e4a28689d4ae2be98d24c0424f970e4e95a2daa76ea6861cf0c"
+    },
+    {
+      "path": "qa/cubism-11-elbow-close.png",
+      "sha256": "04efd90fbb4f89cbc6aaf7b713efbbc994880b83900bdbbce9d085e35d7c6015"
+    },
+    {
+      "path": "qa/cubism-12-wrist-close.png",
+      "sha256": "1cfcffc02607cdcb66b9d71c6940bbad4b69813f35ac9b455dfd662bd3d9c957"
+    },
+    {
+      "path": "qa/cubism-v10-0-1-0.gif",
+      "kind": "state-capture animation assembled only from real GUI screenshots",
+      "sha256": "8f04d5f749e7dc5b35611cc060f512d1abecb46eaa054676b4c8281176c2c22e",
+      "continuousScreenRecording": false
+    },
+    {
+      "path": "qa/cubism-13-elbow-before-user-rejection.png",
+      "sha256": "ab28ce5a9b58976de4b6d2b056e894bd6dc0ab3aa84596df3cc0ec2cff7b12b5"
+    },
+    {
+      "path": "qa/cubism-14-elbow-diagnostic-25-clean.png",
+      "sha256": "ef39a82e1326e50e7809baa96046609915233ba3132626c5cf7414a020cfc0cc"
+    },
+    {
+      "path": "qa/cubism-15-elbow-diagnostic-50-clean.png",
+      "sha256": "83c2dcd1ab5ec5e19a39df349778905dbd9c0b5772ccc0b4f73777e1ce67df67"
+    },
+    {
+      "path": "qa/cubism-16-elbow-diagnostic-75-clean.png",
+      "sha256": "ee90f35ce97c99d6f5803ef32a0a3ad8e145f9b022258aa71333fcafcdd0de4a"
+    },
+    {
+      "path": "qa/cubism-17-elbow-diagnostic-max-clean.png",
+      "sha256": "e4a00328c2972eb54a5ef208fe6e80723eea5f897965ac539a9a6778403680b8"
+    },
+    {
+      "path": "qa/cubism-18-elbow-diagnostic-max-grid-deformer.png",
+      "sha256": "6ffbcb5cb4fb583ec22129ae5dc211b6af868d06f1fdb1175dac3f9c34efacdf"
+    },
+    {
+      "path": "qa/cubism-19-elbow-diagnostic-default-grid-deformer.png",
+      "sha256": "8066a45b2c74e1c5bf7a53924dc659e561adf6b02c32efa6ae474849b34b09c8"
+    },
+    {
+      "path": "qa/cubism-20-elbow-diagnostic-default-grid-close.png",
+      "sha256": "ee5475929794e7cd1f345711ec7a3642da85a7a5f13a85dafdcc484e00d26439"
+    },
+    {
+      "path": "qa/cubism-21-elbow-before-clean-close.png",
+      "sha256": "2553583ac12f9bdc470cc44e9480150a1549d89f5c9617219a0484bf9672bc15"
+    },
+    {
+      "path": "qa/cubism-22-elbow-after-default-grid.png",
+      "sha256": "52d6c49802ae957357f4679fa60b629874de556a70d39feb9b07cb642e9d231f"
+    },
+    {
+      "path": "qa/cubism-23-elbow-after-default-clean.png",
+      "sha256": "67f1b63ac551c7ee41e5454e4c2240c0c90666b1a3d8b6f0c06af20cd0b539b9"
+    },
+    {
+      "path": "qa/cubism-24-elbow-after-25-clean.png",
+      "sha256": "bfe6243ddd256ce1c80fcf1eb68a0e64aaa9acb83d1f9a87c8704f274cc3c777"
+    },
+    {
+      "path": "qa/cubism-25-elbow-after-50-clean.png",
+      "sha256": "c68ae5fcd6c0e3b82718fea255560cf984642eaa327ce32570034c7efa379041"
+    },
+    {
+      "path": "qa/cubism-26-elbow-after-75-clean.png",
+      "sha256": "b73032639846688ddbcfdc9001d409b70673e0abf575909f48fea2be6a662c30"
+    },
+    {
+      "path": "qa/cubism-27-elbow-after-100-clean.png",
+      "sha256": "dc0d16ab3ae77e8e816ae748e9aa30a3a18626f5afa7dfb03274222070d08b63"
+    },
+    {
+      "path": "qa/cubism-28-elbow-after-reset-clean.png",
+      "sha256": "641bde9e4c6fe086712c67a28cfe89603b61dc6862f496a450df5d08636d32c0"
+    },
+    {
+      "path": "qa/cubism-29-elbow-after-mesh-draw-order.png",
+      "sha256": "98f2b8a94b3eb94f432a923af24023f0b6d937c154eec56af58190a32fe9fe5a"
+    },
+    {
+      "path": "qa/cubism-30-elbow-after-deformer-hierarchy-params.png",
+      "sha256": "41c448931a83047d1f81682276e99e7f151e894e71f3271311977b4e6f53ec87"
+    },
+    {
+      "path": "qa/cubism-31-final-forearm-artmesh-wireframe.png",
+      "sha256": "8dde7a6e5cc885ce35f78c4fbcce9afc1726ddc55b7121468a3f3cc630d006fe"
+    },
+    {
+      "path": "qa/cubism-37-taper-100-grid.png",
+      "sha256": "113c486209aeba1a9f31bed59a7939d4750a17e6f193973f6e197b7c45c428f8"
+    },
+    {
+      "path": "qa/cubism-49-final-hierarchy-parameters-draw-order.png",
+      "sha256": "795a6890b2ab20c46d9ec0bfd4affd5931846e908836fc9dd7dae3209d39cb16"
+    },
+    {
+      "path": "qa/V10-FINAL-CONTINUOUS-MOTION.mp4",
+      "kind": "prior genuine continuous screen recording captured before the current CMO3 hash drift",
+      "sha256": "e65849dd03975f5516a03257719bd6379cb4138437fa59ca94e079e76409d02d",
+      "continuousScreenRecording": true,
+      "currentCmo3Proof": false
+    },
+    {
+      "path": "qa/V10-FINAL-USER-REVIEW.zh-CN.png",
+      "sha256": "795b7bb95446840521653441caae3ae53a34700e30c1289ffdb3ec347734afe1"
+    },
+    {
+      "path": "qa/V10-FINAL-ENGINEERING-QA.zh-CN.png",
+      "sha256": "20179463e26b7c65cc08ed5129f398c5e905c8ac8c626bb665f1dd2b82916aac"
+    }
+  ],
+  "excluded": {
+    "physics": true,
+    "clipping": true,
+    "runtimeExport": true,
+    "fullBody": true,
+    "fingerSplit": true,
+    "separateWristMaterial": true
+  },
+  "productionClaims": {
+    "formalPsdComplete": false,
+    "formalCharacterModelComplete": false,
+    "upperArmProductionTextureComplete": false
+  }
+}

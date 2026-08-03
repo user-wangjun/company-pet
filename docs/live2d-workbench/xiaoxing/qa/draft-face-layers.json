@@ -1,0 +1,83 @@
+{
+  "stage": "gate10-face-material-draft",
+  "status": "self_review_pending_hidden_mouth",
+  "canvas": [
+    512,
+    1086
+  ],
+  "layers": [
+    {
+      "id": "face_base",
+      "path": "qa/draft-face-layers/face_base.png",
+      "status": "visible_only_draft",
+      "kind": "skin"
+    },
+    {
+      "id": "ear_R",
+      "path": "qa/draft-face-layers/ear_R.png",
+      "status": "visible_only_draft",
+      "kind": "skin"
+    },
+    {
+      "id": "ear_L",
+      "path": "qa/draft-face-layers/ear_L.png",
+      "status": "visible_only_draft",
+      "kind": "skin"
+    },
+    {
+      "id": "brow_R",
+      "path": "qa/draft-face-layers/brow_R.png",
+      "status": "visible_only_draft",
+      "kind": "vector_brow"
+    },
+    {
+      "id": "brow_L",
+      "path": "qa/draft-face-layers/brow_L.png",
+      "status": "visible_only_draft",
+      "kind": "vector_brow"
+    },
+    {
+      "id": "nose",
+      "path": "qa/draft-face-layers/nose.png",
+      "status": "visible_only_draft",
+      "kind": "nose"
+    },
+    {
+      "id": "mouth_upper",
+      "path": "qa/draft-face-layers/mouth_upper.png",
+      "status": "visible_only_draft",
+      "kind": "dark"
+    },
+    {
+      "id": "mouth_lower",
+      "path": "qa/draft-face-layers/mouth_lower.png",
+      "status": "visible_only_draft",
+      "kind": "lip"
+    },
+    {
+      "id": "necklace_chain",
+      "path": "qa/draft-face-layers/necklace_chain.png",
+      "status": "visible_only_draft",
+      "kind": "vector_chain"
+    },
+    {
+      "id": "necklace_pendant",
+      "path": "qa/draft-face-layers/necklace_pendant.png",
+      "status": "visible_only_draft",
+      "kind": "vector_pendant"
+    }
+  ],
+  "reused": [
+    "qa/draft-eye-layers/eye_R_composite.png",
+    "qa/draft-eye-layers/eye_L_composite.png"
+  ],
+  "missingByDesign": [
+    "mouth_inner",
+    "tongue"
+  ],
+  "rules": {
+    "draftOnly": true,
+    "preserveSourceIdentity": true,
+    "doNotFakeClosedMouthInteriors": true
+  }
+}

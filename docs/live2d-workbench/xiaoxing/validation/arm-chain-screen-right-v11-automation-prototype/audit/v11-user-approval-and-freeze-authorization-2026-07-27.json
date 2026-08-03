@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V11 single screen-right arm automation verification prototype, transactional publication repair",
+  "decisionDate": "2026-07-27",
+  "decisionOwner": "user",
+  "decision": "approved",
+  "decisionText": "批准当前 V11 发布事务修复候选重新冻结",
+  "reapprovalReason": "The prior publication sequence exposed preliminary aggregate files before finalization and removed the old-output backup before final aggregate completion. The repaired candidate finalizes and validates all aggregate files before a rollback-protected transactional directory swap.",
+  "supersedesFreezeManifestSha256": "4414d4956bd66c19a685d72016c61f36a86fee70e699a3ec1c86d3388be06321",
+  "approvalScope": [
+    "the current V11 unified verification entrypoint and configuration",
+    "candidate-finalized-before-publish transactional directory swap",
+    "old-output rollback on candidate validation or directory-swap failure",
+    "explicit recoverable-backup warning on backup cleanup failure",
+    "two independent clean runs with byte-count and SHA-256 comparison",
+    "41 FK samples and 6 combination extrema",
+    "bone-length, seam, detachment and deterministic-return checks",
+    "the current machine-readable result, Chinese report and minimal review board"
+  ],
+  "approvedResult": {
+    "path": "output/audit/v11-result.json",
+    "sha256": "4b676382d6a475bc8960b7c9a35d4768261d8e6c74c738cf7e90005141973f3b",
+    "status": "pass",
+    "dualRunMatchedFiles": 7,
+    "dualRunComparedFiles": 7,
+    "firstDifference": null,
+    "candidateFinalizedBeforePublish": true,
+    "publishedOutputModifiedAfterSwap": false
+  },
+  "approvedEntrypoint": {
+    "path": "run_v11.py",
+    "sha256": "55667f03b51988f71050bcc987facf1197024b5528ddd74aae79f1f0ca5960d0"
+  },
+  "upstreamFreeze": {
+    "path": "../arm-chain-screen-right-v10-minimal-cubism-rough-rig/audit/v10-freeze-manifest-2026-07-27.json",
+    "sha256": "6a5ff7c38b709efb7ff6991901a46f136b6b97c412f5dfcd36e04c1a549f5db7",
+    "matchedArtifacts": 38,
+    "artifactCount": 38
+  },
+  "freezeAuthorization": true,
+  "explicitlyNotApproved": [
+    "strict single-operation atomic replacement of a non-empty directory",
+    "automatic generation of new source materials",
+    "formal production textures",
+    "another arm or a complete character",
+    "fresh Cubism GUI binding",
+    "fresh CMO3 vertex extraction",
+    "Physics",
+    "Runtime integration",
+    "platform or pet-package changes"
+  ]
+}

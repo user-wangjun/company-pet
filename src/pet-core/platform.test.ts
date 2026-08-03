@@ -26,14 +26,51 @@ describe("platform branding", () => {
     expect(APP_WINDOW_TITLE).toBe("愈心桌宠");
   });
 
-  test("starts on the platform panel before showing a pet", () => {
+  test("starts with independent hidden pet and platform windows", () => {
     expect(PLATFORM_START_OPEN).toBe(true);
     expect(PLATFORM_START_SECTION).toBe("pets");
+    expect(tauriConfig.app.windows.map((window) => window.label)).toEqual([
+      "main",
+      "platform",
+    ]);
+    expect(tauriConfig.app.windows[0]).toMatchObject({
+      label: "main",
+      width: 165,
+      height: 215,
+      visible: false,
+      resizable: false,
+      skipTaskbar: true,
+    });
+    expect(tauriConfig.app.windows[1]).toMatchObject({
+      label: "platform",
+      width: 860,
+      height: 590,
+      minWidth: 560,
+      minHeight: 420,
+      visible: false,
+      resizable: true,
+      maximizable: true,
+      minimizable: true,
+      skipTaskbar: false,
+    });
+    expect(defaultCapability.windows).toEqual(["main", "platform"]);
+    expect(defaultCapability.permissions).toContain(
+      "core:window:allow-show",
+    );
   });
 
   test("allows the platform panel to start native window dragging", () => {
     expect(defaultCapability.permissions).toContain(
       "core:window:allow-start-dragging",
+    );
+  });
+
+  test("allows the dedicated platform window controls", () => {
+    expect(defaultCapability.permissions).toEqual(
+      expect.arrayContaining([
+        "core:window:allow-minimize",
+        "core:window:allow-toggle-maximize",
+      ]),
     );
   });
 

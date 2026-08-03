@@ -1,0 +1,38 @@
+{
+  "version": "v13-handdrawn-appendage",
+  "frame_count": 24,
+  "duration_ms": 110,
+  "sequence": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    2,
+    2,
+    2,
+    2,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0
+  ],
+  "source_keyframes": [
+    "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\handdrawn-gen-key1.png",
+    "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\handdrawn-gen-key2.png",
+    "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\handdrawn-gen-key3.png",
+    "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\handdrawn-gen-key4.png"
+  ],
+  "method": "four generated discrete keyframes; fixed body/face/forelegs; only hind paws and tail vary; left is per-frame mirror"
+}

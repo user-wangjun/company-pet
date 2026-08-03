@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "status": "physical_sleeve_completion_candidate_pending_user_visual_approval",
+  "garmentClassification": "oversized drop-shoulder short T-shirt sleeve",
+  "lockedVisibleInput": {
+    "path": "../arm-chain-screen-left-v27-source-traced-layering/masks/visible/sleeve.png",
+    "sha256": "9ec8c3007cc4a6331d4b1ee99e254ea7d4329aaceea7e62cc1501e7f494d83fd",
+    "mutation": "none"
+  },
+  "anchorsPx": {
+    "shoulderPivot": [
+      170.0,
+      251.0
+    ],
+    "capTop": [
+      164.0,
+      220.0
+    ],
+    "underarmJoin": [
+      184.0,
+      416.0
+    ],
+    "cuffVisibleOuter": [
+      96.0,
+      372.0
+    ],
+    "cuffVisibleInner": [
+      184.0,
+      416.0
+    ]
+  },
+  "physicalResponsibilities": {
+    "attachmentArc": "continuous curved sleeve-cap/armhole attachment from shoulder top to underarm",
+    "bodyContact": "hidden inner sleeve lies beneath hair and shirt body, following the torso attachment rather than background",
+    "gravity": "free cloth mass hangs toward the cuff; hidden completion adds no upward spike or circular plug",
+    "strain": "attachment arc is longer and smoother than the former pointed closure, avoiding an artificial pin constraint",
+    "cuff": "visible cuff edge remains source-locked and free"
+  },
+  "onlineReferences": [
+    {
+      "title": "Geometrical Development of the Pattern for the Sleeve Top",
+      "url": "https://www.jstage.jst.go.jp/article/jhej1951/32/3/32_3_216/_article",
+      "appliedPrinciple": "model the sleeve as a cylindrical volume with an elliptical sleeve-cap attachment to the trunk"
+    },
+    {
+      "title": "CLO Help Center: Why is my armpit fabric doing this?",
+      "url": "https://support.clo3d.com/hc/en-us/community/posts/360045781713-Why-is-my-armpit-fabric-doing-this",
+      "appliedPrinciple": "sleeve-cap shape and its relationship to the armhole seam must be checked together"
+    },
+    {
+      "title": "A real-time cloth draping simulation algorithm using conjugate harmonic functions",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0097849306001865",
+      "appliedPrinciple": "large-scale cloth shape follows body transforms while local drape responds to gravity, elasticity, and body contact"
+    }
+  ],
+  "prohibitions": [
+    "no pointed cap closure",
+    "no circular hidden patch",
+    "no extension below the source-locked cuff",
+    "no texture, mesh, Physics, Cubism, or Runtime in this checkpoint"
+  ]
+}

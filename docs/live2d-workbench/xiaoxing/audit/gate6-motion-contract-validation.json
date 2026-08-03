@@ -1,0 +1,14 @@
+{
+  "status": "self_review_passed_pre_cubism",
+  "parameterCount": 11,
+  "physicsGroupCount": 4,
+  "missingTargets": [],
+  "badPhysicsInputs": [],
+  "badPhysicsOutputs": [],
+  "rules": {
+    "all_targets_exist": true,
+    "physics_inputs_exist": true,
+    "physics_outputs_exist": true,
+    "hand_is_coarse": true
+  }
+}

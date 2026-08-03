@@ -1,0 +1,662 @@
+{
+  "schemaVersion": 2,
+  "status": "x3-login-target-color-master-v1-user-review",
+  "currentPlan": "live2d/XIAOJU-LIVE2D-IMPLEMENTATION-PRD-v2.2.md",
+  "genericWorkflow": "rig-live2d-pet",
+  "currentGate": "x3-target-color-and-line-mask-master",
+  "x1ApprovedByUser": true,
+  "x1ApprovalEvidence": "User said to continue X2 in this thread after X1 visual review discussion.",
+  "x2Authorized": true,
+  "x2ApprovedByUser": true,
+  "x2ApprovalEvidence": "User said: \"没什么问题，继续吧，可以分层了\". Interpreted under the corrected PRD as X2 visual approval and authorization to proceed only to X3.",
+  "x3Authorized": true,
+  "gate3Approved": false,
+  "x3ApprovalEvidence": "User explicitly requested the target artwork that will actually appear on the login page. x3-login-target-color-master-v1.png is now the color-target candidate. It is not approved yet; production line/mask construction and all X4 work remain locked.",
+  "x3TargetColorCandidate": {
+    "path": "live2d/x3/qa/x3-login-target-color-master-v1.png",
+    "fullBodyPath": "live2d/x3/qa/x3-login-full-body-master-v1.png",
+    "contract": "live2d/x3/x3-login-target-color-master-v1.json",
+    "role": "paired-actual-login-visible-target-and-deoccluded-complete-body-master-before-line-mask-layering",
+    "approvedByUser": false,
+    "pairRegistrationApprovedByUser": false,
+    "lineMaskAuthorized": false
+  },
+  "x4Authorized": false,
+  "gate4Approved": false,
+  "x4ApprovalEvidence": "User requested proceeding from layer separation into detailed triangulation, torque anchors, link anchors, and elastic relationships.",
+  "x5Authorized": false,
+  "gate5Approved": false,
+  "x5ApprovalEvidence": "User approved the overall X5 visual candidate and explicitly authorized the next step: \"可以了，继续下一步吧\".",
+  "x6Authorized": false,
+  "gate6Approved": false,
+  "x7Authorized": false,
+  "x6AssemblyStatus": {
+    "maskDerivedRestReconstruction": "rejected-production-input-visible-pixel-cutouts-only",
+    "fine63BodySpacePlacement": "rejected-production-input-no-approved-identity-locked-master",
+    "productionLayerAssembly": "rejected-production-input-invalid-upstream-layers",
+    "coarseMotionBundles": "method-only-invalid-upstream-layers",
+    "jointSafeMotionBundles": "method-only-nonzero-overlap-does-not-prove-identity-or-material-quality",
+    "userDefinedFrontSegmentation": "candidate-10-semantic-groups-with-parent-child-occlusion-order-awaiting-user-review-before-side-back-propagation",
+    "frontActualSegmentation": "rejected-v8-rest-recomposition-masked-incomplete-hidden-anatomy-in-11-structural-layers",
+    "frontHiddenCompletion": "v10-candidate-rebuilt-after-v9-failure-awaiting-user-visual-review",
+    "frontCompleteOverlapLayers": "v10-shapes-and-overlap-masks-retained-but-radial-hidden-textures-rejected",
+    "headHiddenTexture": "v14-visible-pixel-cut-method-rejected-by-user-and-superseded-by-v15-generated-complete-materials",
+    "frontAllLayerReview": "v14-rejected-as-current-method-because-it-derived-layers-from-the-assembled-cat-image",
+    "generatedCompleteThreeViewLayers": "v15-rejected-production-input-independent-parts-lacked-shared-identity-locked-body-space-and-contained-baked-ear-contamination",
+    "generatedLayerAssembly": "v16-rejected-by-user-identity-and-proportion-drift-despite-thirty-of-thirty-nonzero-overlaps",
+    "gateImpact": "Regression to X3. No X4-X7 work may continue until a new identity-locked spread master is explicitly approved."
+  },
+  "x5LayerMaterialsApprovedByUser": false,
+  "x5LayerMaterialsApprovalEvidence": "User said: \"分层可以了，剩下的按照内置浏览器的直接进行吧\". This approves the layer-material sub-item only and authorizes completing the remaining article-aligned X5 checks; it does not approve the full X5 gate or authorize X6.",
+  "processCorrection": {
+    "status": "revised-after-v16-failure-and-line-first-correction",
+    "sourceReference": {
+      "title": "Live2D动画引擎的图形学原理及实现",
+      "url": "https://zhuanlan.zhihu.com/p/383268858",
+      "basis": "User requested that the Xiaoju workflow follow the Zhihu/PainterEngine-style layer-mesh-node-triangle process instead of the previous incomplete order."
+    },
+    "correctedSequence": [
+      "X2 user approval for support, cover blockout, physical moments, and control moments",
+      "X3 complete connected spread-pose / large-character target color master from the approved X1/X2 body",
+      "X3 user visual approval of identity and three-view consistency",
+      "X3 registered production line master defining semantic boundaries, hidden extensions, overlap depth, draw order, and joints",
+      "X3 deterministic full-canvas masks and flat-color layer-only reconstruction",
+      "X3 user visual approval of line and mask geometry",
+      "X4 texture each locked semantic mask from the approved X3 target without changing geometry",
+      "X4 user approval of hidden fills, layer boundaries, and recomposition",
+      "X5 triangulate each real layer boundary with Delaunay/triangular-primitive principles, then assign helper mesh points, node weights, and elastic coefficients"
+    ],
+    "hardRules": [
+      "Do not generate final layer materials before both the X3 target color master and registered line/mask master pass user review.",
+      "Do not use textured layer recomposition as the first geometry check; prove exact flat-color mask recomposition before material generation.",
+      "Generated texture may fill an approved mask but may not change its alpha boundary, scale, pose, or semantic ownership.",
+      "Do not place final triangulation/helper mesh points before real X4 layer boundaries exist.",
+      "Every real layer must own a mesh and exactly one primary node in the later Layer-Mesh-Node contract.",
+      "Elasticity belongs to mesh vertices after triangulation; bone segment lengths must remain stable."
+    ]
+  },
+  "regression": {
+    "date": "2026-07-19",
+    "reason": "The v16 assembly passed layer-count and overlap audits but visibly changed Xiaoju identity, body ratio, limb proportions, and side-view pose. Side/back head bases also contained baked ears.",
+    "historicalApprovalsSupersededForCurrentProduction": {
+      "gate3": true,
+      "gate4": true,
+      "gate5": true,
+      "x6Authorization": true
+    },
+    "artifactAudit": "live2d/blueprints/artifact-usability-audit-v1.json",
+    "humanReadableAudit": "live2d/PROCESS-AND-ARTIFACT-AUDIT-v1.md"
+  },
+  "artifactDecisionPrecedence": {
+    "current": "live2d/blueprints/artifact-usability-audit-v1.json",
+    "legacyArtifactsArray": "historical-record-only; when a legacy decision conflicts with the current audit, the current audit wins"
+  },
+  "prohibitedUntilGate3Approval": [
+    "production-layer-material-generation",
+    "material-separation",
+    "triangulation",
+    "node-weight-authoring",
+    "parameter-motion-authoring",
+    "photoshop-import",
+    "cubism-editing",
+    "physics-authoring",
+    "runtime-replacement"
+  ],
+  "artifacts": [
+    {
+      "path": "live2d/PROCESS-AND-ARTIFACT-AUDIT-v1.md",
+      "decision": "current-authoritative-audit",
+      "use": "classifies-authoritative-method-only-conditional-and-rejected-production-artifacts-after-v16-failure",
+      "gateBoundary": "current-gate-x3-no-new-generation-until-explicit-approval"
+    },
+    {
+      "path": "live2d/blueprints/artifact-usability-audit-v1.json",
+      "decision": "current-authoritative-machine-audit",
+      "use": "machine-readable-artifact-usability-and-gate-regression-record",
+      "gateBoundary": "current-gate-x3-no-x4-through-x7"
+    },
+    {
+      "path": "live2d/x6/qa/x6-generated-layer-assembly-review-v16.png",
+      "decision": "rejected-identity-drift-evidence",
+      "use": "proves-that-independent-layer-count-and-nonzero-overlap-can-still-reconstruct-the-wrong-character",
+      "gateBoundary": "not-a-production-candidate-regressed-to-x3"
+    },
+    {
+      "path": "live2d/x6/x6-generated-layer-assembly-contract-v16.json",
+      "decision": "rejected-production-contract-method-only",
+      "use": "retains-layer-only-assembly-and-overlap-audit-method-but-invalidates-v16-placements-and-source-layers",
+      "gateBoundary": "not-a-production-candidate-regressed-to-x3"
+    },
+    {
+      "path": "live2d/x6/qa/x6-generated-complete-three-view-layer-review-v15.png",
+      "decision": "rejected-production-input",
+      "use": "forty-eight-independent-materials-lacked-shared-body-space-and-failed-v16-identity-reconstruction",
+      "gateBoundary": "not-a-production-candidate-regressed-to-x3"
+    },
+    {
+      "path": "live2d/x6/qa/x6-generated-complete-front-layer-atlas-v15.png",
+      "decision": "rejected-production-input",
+      "use": "front-v15-inventory-only-source-parts-failed-shared-body-space-reconstruction",
+      "gateBoundary": "not-a-production-candidate-regressed-to-x3"
+    },
+    {
+      "path": "live2d/x6/qa/x6-generated-complete-side-layer-atlas-v15.png",
+      "decision": "rejected-production-input",
+      "use": "side-v15-inventory-only-included-ear-contaminated-head-source-before-correction-and-failed-identity-reconstruction",
+      "gateBoundary": "not-a-production-candidate-regressed-to-x3"
+    },
+    {
+      "path": "live2d/x6/qa/x6-generated-complete-back-layer-atlas-v15.png",
+      "decision": "rejected-production-input",
+      "use": "back-v15-inventory-only-included-baked-ear-contamination-and-failed-identity-reconstruction",
+      "gateBoundary": "not-a-production-candidate-regressed-to-x3"
+    },
+    {
+      "path": "live2d/x6/x6-generated-complete-layer-contract-v15.json",
+      "decision": "rejected-production-contract-method-only",
+      "use": "retains-export-and-alpha-qa-method-but-invalidates-v15-materials-and-layer-semantics",
+      "gateBoundary": "not-a-production-candidate-regressed-to-x3"
+    },
+    {
+      "path": "live2d/x6/qa/x6-front-eye-seam-review-v14.png",
+      "decision": "rejected-methodology-evidence",
+      "use": "superseded-after-user-rejected-visible-pixel-cutting-as-the-layer-generation-method",
+      "gateBoundary": "not-a-current-candidate-gate6-false-x7-false"
+    },
+    {
+      "path": "live2d/x6/qa/x6-front-all-layer-atlas-v14.png",
+      "decision": "rejected-methodology-evidence",
+      "use": "superseded-after-user-requested-skill-generated-complete-layers-from-three-view-and-spread-pose-references",
+      "gateBoundary": "not-a-current-candidate-gate6-false-x7-false"
+    },
+    {
+      "path": "live2d/x6/x6-front-all-layer-contract-v14.json",
+      "decision": "rejected-methodology-contract",
+      "use": "historical-visible-pixel-cut-layer-contract-superseded-by-v15-generated-complete-materials",
+      "gateBoundary": "not-a-current-candidate-gate6-false-x7-false"
+    },
+    {
+      "path": "live2d/x6/qa/x6-head-hidden-texture-review-v13.png",
+      "decision": "superseded-eye-seam-review",
+      "use": "superseded-by-v14-after-user-identified-visible-eye-edge-separation",
+      "gateBoundary": "head-only-v11-material-not-approved-remaining-layers-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-head-hidden-texture-review-contract-v13.json",
+      "decision": "superseded-review-contract",
+      "use": "superseded-by-v14-after-user-identified-visible-eye-edge-separation",
+      "gateBoundary": "head-only-v11-material-not-approved-remaining-layers-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-head-hidden-texture-review-v12.png",
+      "decision": "superseded-review-presentation",
+      "use": "superseded-by-v13-current-only-review",
+      "gateBoundary": "head-only-v11-material-not-approved-remaining-layers-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-head-hidden-texture-review-contract-v12.json",
+      "decision": "superseded-review-contract",
+      "use": "superseded-by-v13-and-v14-review-presentations",
+      "gateBoundary": "head-only-v11-material-not-approved-remaining-layers-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-head-hidden-texture-review-v11.png",
+      "decision": "rejected-comparison-evidence",
+      "use": "historical-comparison-containing-rejected-radial-head-not-a-current-review-candidate",
+      "gateBoundary": "head-only-v11-not-approved-remaining-layers-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-head-hidden-texture-contract-v11.json",
+      "decision": "superseded-head-material-contract",
+      "use": "natural-fur-source-retained-but-six-pixel-outward-feather-rejected-and-replaced-by-v14",
+      "gateBoundary": "head-only-v11-not-approved-remaining-layers-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-front-complete-overlap-review-v10.png",
+      "decision": "rejected-historical-artifact",
+      "use": "shape-and-overlap-reference-only-hidden-texture-visually-rejected-not-a-current-review-candidate",
+      "gateBoundary": "front-v10-not-approved-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-front-complete-overlap-contract-v10.json",
+      "decision": "candidate-contract",
+      "use": "sixteen-complete-layer-exports-draw-order-hidden-completion-and-real-overlap-audits",
+      "gateBoundary": "front-v10-not-approved-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-front-hidden-completion-audit-v9.png",
+      "decision": "failed-audit-primary-review",
+      "use": "primary-expanded-head-limb-tail-hidden-area-failure-and-correction-standard",
+      "gateBoundary": "x6-correction-required-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-front-hidden-completion-audit-v9.json",
+      "decision": "failed-audit-contract",
+      "use": "eleven-critical-incomplete-structural-layers-and-v8-rejection-record",
+      "gateBoundary": "x6-correction-required-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-front-actual-segmentation-review-v8.png",
+      "decision": "candidate-for-user-review",
+      "use": "primary-front-actual-transparent-layer-recomposition-and-forelimb-overlap-motion-review",
+      "gateBoundary": "front-actual-layers-not-approved-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-front-actual-segmentation-contract-v8.json",
+      "decision": "candidate-contract",
+      "use": "sixteen-front-movable-png-layers-draw-order-reconstruction-and-joint-audit",
+      "gateBoundary": "front-only-x6-candidate-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-user-defined-segmentation-preview-v7.png",
+      "decision": "candidate-for-user-review",
+      "use": "primary-user-defined-front-boundary-and-parent-child-occlusion-review",
+      "gateBoundary": "front-only-x6-candidate-side-back-and-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-user-defined-segmentation-contract-v7.json",
+      "decision": "candidate-contract",
+      "use": "ten-semantic-front-groups-and-occlusion-order-from-user-sketch",
+      "gateBoundary": "front-not-approved-side-back-propagation-false-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-shoulder-overlap-closeup-v6.png",
+      "decision": "candidate-for-user-review",
+      "use": "primary-front-shoulder-solid-cap-rest-lift-and-forearm-extension-review",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-clear-layer-and-overlap-review-v5.png",
+      "decision": "candidate-for-user-review",
+      "use": "primary-user-facing-clean-three-view-natural-bundle-and-single-limb-motion-review",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-clear-layer-review-contract-v5.json",
+      "decision": "candidate-contract",
+      "use": "user-review-simplification-over-v4-joint-safe-bundle-contract",
+      "gateBoundary": "x6-candidate-not-psd-not-cubism-not-x7"
+    },
+    {
+      "path": "live2d/x6/qa/x6-joint-safe-motion-bundle-review-v4.png",
+      "decision": "candidate-for-user-review",
+      "use": "primary-x6-clean-visible-cut-hidden-joint-collar-and-pull-test-review",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-joint-safe-motion-bundle-contract-v4.json",
+      "decision": "candidate-contract",
+      "use": "42-view-bundle-visible-and-hidden-collar-export-contract",
+      "gateBoundary": "x6-candidate-not-psd-not-cubism-not-x7"
+    },
+    {
+      "path": "live2d/x6/x6-joint-safe-motion-bundle-audit-v4.json",
+      "decision": "self-review-pass-candidate",
+      "use": "39-parent-child-joint-10px-outward-pull-dual-contact-audit",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-coarse-motion-bundle-review-v3.png",
+      "decision": "candidate-for-user-review",
+      "use": "primary-x6-coarse-action-bundle-review-over-fine-internal-layers",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-coarse-motion-bundle-contract-v3.json",
+      "decision": "candidate-contract",
+      "use": "16-action-bundle-parent-controller-and-unique-layer-assignment-contract",
+      "gateBoundary": "x6-candidate-not-psd-not-cubism-not-x7"
+    },
+    {
+      "path": "live2d/x6/qa/x6-production-layer-stack-review-v2.png",
+      "decision": "candidate-for-user-review",
+      "use": "primary-x6-visible-source-plus-fine-hidden-underpaint-layer-stack-review",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-production-layer-stack-contract-v2.json",
+      "decision": "candidate-contract",
+      "use": "63-fine-material-to-78-body-space-underpaint-instance-placement-contract",
+      "gateBoundary": "x6-candidate-not-psd-not-cubism-not-x7"
+    },
+    {
+      "path": "live2d/x6/qa/x6-production-layer-stack-rest-v2.png",
+      "decision": "candidate-for-user-review",
+      "use": "identity-safe-rest-composite-from-113-coordinate-aligned-visible-png-layers",
+      "gateBoundary": "x6-candidate-not-whole-image-switch-not-runtime"
+    },
+    {
+      "path": "live2d/x6/qa/x6-production-layer-stack-knockout-v2.png",
+      "decision": "candidate-for-user-review",
+      "use": "selected-visible-layer-knockout-reveals-body-space-fine-underpaint",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-layer-assembly-review-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "mask-derived-coordinate-aligned-rest-reconstruction-strict-versus-seam-assigned-qa",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-assembled-xiaoju-three-view-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "transparent-three-view-rest-reconstruction-from-113-source-mask-layers-not-production-fine-layer-assembly",
+      "gateBoundary": "x6-candidate-not-cubism-not-runtime"
+    },
+    {
+      "path": "live2d/x6/x6-layer-assembly-contract-v1.json",
+      "decision": "candidate-contract",
+      "use": "mask-layer-placement-draw-order-seam-assignment-coverage-and-evidence-limit-contract",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-mask-layer-origin-and-knockout-proof-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "png-only-group-composition-and-three-layer-knockout-proof-with-mask-origin-disclosure",
+      "gateBoundary": "x6-reconstruction-qa-not-production-layer-assembly-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-parameter-action-tracer-review-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "assembled-xiaoju-nine-point-gaze-cover-roundtrip-and-blink-keyform-review",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/qa/x6-actual-xiaoju-motion-contact-sheet-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-login-art-intent-with-bounded-bilateral-cover-parameter-timeline",
+      "gateBoundary": "x6-candidate-not-motion-file-not-x7"
+    },
+    {
+      "path": "live2d/x6/x6-parameter-action-tracer-contract-v1.json",
+      "decision": "candidate-contract",
+      "use": "parameter-keyform-input-priority-safety-bound-and-interruption-contract",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-input-to-parameter-trace-v1.json",
+      "decision": "candidate-contract",
+      "use": "41-sample-bounded-continuous-left-right-cover-action-trace",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/x6-self-review-v1.json",
+      "decision": "self-review-pass-candidate",
+      "use": "x6-automatic-boundary-continuity-and-ownership-checks",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x6/X6-USER-VISUAL-REVIEW.md",
+      "decision": "candidate-review-entry",
+      "use": "x6-user-review-order-questions-and-gate-phrases",
+      "gateBoundary": "x6-candidate-x7-not-authorized"
+    },
+    {
+      "path": "live2d/x5/qa/x5-layer-anchor-only-atlas-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "all-63-layers-one-red-action-anchor-each-with-mesh-and-elastic-points-hidden",
+      "gateBoundary": "x5-candidate-x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/qa/x5-layer-anchor-only-head-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "head-layer-anchor-only-detail-to-distinguish-action-anchors-from-mesh-vertices",
+      "gateBoundary": "x5-candidate-x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/x5-mesh-deformation-smoothness-audit-v1.json",
+      "decision": "candidate-contract",
+      "use": "all-layer-small-angle-mesh-flip-area-edge-stretch-audit",
+      "gateBoundary": "x5-topology-stress-test-only-x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/qa/x5-mesh-deformation-smoothness-preview-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "representative-rest-versus-elastic-lag-deformed-mesh-preview",
+      "gateBoundary": "x5-candidate-not-action-tracer-x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/x5-mesh-alpha-coverage-audit-v1.json",
+      "decision": "candidate-contract",
+      "use": "per-layer-triangle-raster-to-real-alpha-coverage-audit-63-of-63-pass",
+      "gateBoundary": "x5-candidate-x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/qa/x5-article-node-cascade-elastic-preview-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-article-aligned-unique-layer-node-parent-cascade-distance-elastic-preview",
+      "gateBoundary": "x5-candidate-action-tracer-not-entered-x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/x5-article-node-elastic-audit-v1.json",
+      "decision": "candidate-contract",
+      "use": "article-aligned-63-unique-layer-node-single-parent-rigid-zero-elasticity-distance-response-audit",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/qa/x5-generated-fine-production-review-composite-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "primary-generated-fine-layer-mesh-node-torque-elastic-review-entry",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/qa/x5-generated-fine-actual-xiaoju-mesh-node-torque-overlay-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-generated-fine-mesh-bone-node-force-elastic-overlay",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/qa/x5-generated-fine-layer-candidates-atlas-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-imagegen-derived-transparent-fine-layer-atlas",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/qa/x5-generated-fine-layer-triangulation-atlas-v1.png",
+      "decision": "candidate-for-user-review",
+      "use": "quality-constrained-alpha-boundary-triangulation-primary-pivot-elastic-vertex-atlas",
+      "gateBoundary": "x5-candidate-not-final-artmesh-not-x6"
+    },
+    {
+      "path": "live2d/x5/x5-generated-fine-layer-candidates-contract-v1.json",
+      "decision": "candidate-contract",
+      "use": "generated-fine-layer-parent-pivot-overlap-density-elastic-contract",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/x5-generated-fine-mesh-contract-v1.json",
+      "decision": "candidate-contract",
+      "use": "generated-fine-layer-triangulation-node-elastic-machine-contract",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/qa/x5-actual-xiaoju-spread-pose-three-view.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-spread-pose-three-view-reference-for-x5-layer-mesh-review",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/qa/x5-actual-xiaoju-spread-pose-moment-elastic.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-spread-pose-torque-distribution-link-anchor-muscle-envelope-elastic-preview",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/x5-actual-xiaoju-spread-pose-contract.json",
+      "decision": "candidate-contract",
+      "use": "actual-xiaoju-spread-pose-three-view-boundary",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/x5-actual-xiaoju-spread-pose-moment-elastic-contract.json",
+      "decision": "candidate-contract",
+      "use": "actual-xiaoju-spread-pose-torque-elastic-boundary",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/qa/x5-actual-xiaoju-transparent-layer-atlas.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-transparent-png-layer-candidates-atlas",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/qa/x5-actual-xiaoju-layer-boundary-preview.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-layer-boundary-preview-across-three-views",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/qa/x5-actual-xiaoju-layer-reconstruction-coverage.png",
+      "decision": "candidate-needs-refinement",
+      "use": "actual-xiaoju-transparent-layer-reconstruction-and-uncovered-pixel-evidence",
+      "gateBoundary": "x5-qa-evidence-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/x5-actual-xiaoju-layer-split-contract.json",
+      "decision": "candidate-contract",
+      "use": "actual-xiaoju-transparent-layer-candidate-boundaries-and-hidden-fill-placeholders",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/qa/x5-actual-xiaoju-review-composite.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-source-overlay-review-composite",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/qa/x5-actual-xiaoju-layer-overlay.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-source-layer-overlay",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/qa/x5-actual-xiaoju-triangulation-moment-overlay.png",
+      "decision": "candidate-for-user-review",
+      "use": "actual-xiaoju-source-triangulation-moment-overlay",
+      "gateBoundary": "x5-candidate-not-final-psd-not-x6"
+    },
+    {
+      "path": "live2d/x5/x5-actual-xiaoju-overlay-contract.json",
+      "decision": "candidate-contract",
+      "use": "actual-xiaoju-source-overlay-boundary",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/qa/x5-detailed-layer-atlas.png",
+      "decision": "candidate-for-user-review",
+      "use": "x5-detailed-three-view-layer-atlas",
+      "gateBoundary": "not-cubism-not-runtime"
+    },
+    {
+      "path": "live2d/x5/qa/x5-triangulation-moment-preview.png",
+      "decision": "candidate-for-user-review",
+      "use": "x5-triangulation-density-primary-secondary-moment-anchors",
+      "gateBoundary": "not-cubism-not-runtime"
+    },
+    {
+      "path": "live2d/x5/qa/x5-link-elastic-preview.png",
+      "decision": "candidate-for-user-review",
+      "use": "x5-parent-link-and-elastic-chain-preview",
+      "gateBoundary": "not-cubism-not-runtime"
+    },
+    {
+      "path": "live2d/x5/x5-layer-mesh-node-torque-contract.json",
+      "decision": "candidate-contract",
+      "use": "machine-readable-layer-mesh-node-torque-elastic-contract",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/X5-USER-VISUAL-REVIEW.md",
+      "decision": "candidate-review-entry",
+      "use": "x5-user-visual-review-questions-and-gate-phrases",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x5/x5-self-review.json",
+      "decision": "self-review-pass-with-known-art-likeness-risk",
+      "use": "x5-mechanical-completeness-self-review",
+      "gateBoundary": "x6-not-authorized"
+    },
+    {
+      "path": "live2d/x4/qa/x4-layer-separation-overview.png",
+      "decision": "approved-as-x5-input",
+      "use": "x4-semantic-layer-separation-overview",
+      "gateBoundary": "not-triangulation-not-artmesh"
+    },
+    {
+      "path": "live2d/x4/qa/x4-expanded-hidden-fill-check.png",
+      "decision": "approved-as-x5-input",
+      "use": "x4-hidden-fill-and-overlap-expanded-check",
+      "gateBoundary": "historical-x4-input-not-current-gate"
+    },
+    {
+      "path": "live2d/x4/x4-layer-separation-contract.json",
+      "decision": "approved-as-x5-input",
+      "use": "machine-readable-x4-layer-boundary-and-draw-order-contract",
+      "gateBoundary": "historical-x4-input-not-current-gate"
+    },
+    {
+      "path": "live2d/x4/X4-USER-VISUAL-REVIEW.md",
+      "decision": "approved-as-x5-input",
+      "use": "x4-user-visual-review-questions-and-gate-phrases",
+      "gateBoundary": "historical-x4-input-not-current-gate"
+    },
+    {
+      "path": "live2d/x3/qa/x3-spread-pose-master-blockout.png",
+      "decision": "approved-as-engineering-base-with-likeness-waiver",
+      "use": "x3-spread-pose-continuity-master-blockout-for-x4",
+      "gateBoundary": "not-layer-separation-not-artmesh"
+    },
+    {
+      "path": "live2d/x3/qa/x3-user-review-composite.png",
+      "decision": "candidate-review-aid",
+      "use": "x3-user-visual-review-overview",
+      "gateBoundary": "not-layer-separation-not-artmesh"
+    },
+    {
+      "path": "live2d/x3/x3-spread-pose-master-blockout.json",
+      "decision": "candidate-contract",
+      "use": "machine-readable-x3-blockout-boundary"
+    },
+    {
+      "path": "three-view-preview.png",
+      "decision": "authoritative-input",
+      "use": "identity-proportion-color-canonical-body"
+    },
+    {
+      "path": "live2d/planet-scene-source/planet-scene-v2-layered-preview.png",
+      "decision": "authoritative-input",
+      "use": "camera-composition-contact-intent"
+    },
+    {
+      "path": "live2d/blueprints/gate4-dynamics-contract.json",
+      "decision": "draft-needs-rederivation",
+      "use": "parameter-vocabulary-only"
+    },
+    {
+      "path": "live2d/gate3/parts-v5",
+      "decision": "rejected",
+      "use": "technical-history-only"
+    },
+    {
+      "path": "live2d/gate3/qa/gate3-v5-inferred-full-anatomy.png",
+      "decision": "rejected",
+      "use": "failure-evidence-mixed-disconnected-body"
+    },
+    {
+      "path": "live2d/gate3/candidates/xiaoju-connected-prone-v7-alpha.png",
+      "decision": "reference-only",
+      "use": "single-master-direction-not-support-approved"
+    },
+    {
+      "path": "live2d/gate3/import_v5_parts_into_working_psd.jsx",
+      "decision": "paused",
+      "use": "do-not-run"
+    },
+    {
+      "path": "live2d/model",
+      "decision": "historical-reference",
+      "use": "not-final-authority"
+    }
+  ]
+}

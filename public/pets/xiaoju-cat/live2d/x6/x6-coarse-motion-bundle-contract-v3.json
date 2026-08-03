@@ -1,0 +1,1108 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-coarse-motion-bundle-candidate",
+  "status": "candidate-for-user-visual-review",
+  "strategy": "coarse-action-bundles-over-fine-internal-layer-mesh-nodes",
+  "bundleVocabulary": [
+    "head",
+    "mouth",
+    "ear_L",
+    "ear_R",
+    "eye_L",
+    "eye_R",
+    "body",
+    "arm_L_upper",
+    "arm_L_lower_paw",
+    "arm_R_upper",
+    "arm_R_lower_paw",
+    "leg_L_upper",
+    "leg_L_lower_paw",
+    "leg_R_upper",
+    "leg_R_lower_paw",
+    "tail"
+  ],
+  "bundleCount": 16,
+  "visibleLayerCount": 113,
+  "visibleLayersUniquelyAssigned": true,
+  "finePlacementCount": 111,
+  "finePlacementsAssigned": 111,
+  "allFinePlacementsAssigned": true,
+  "bundles": [
+    {
+      "view": "front",
+      "id": "head",
+      "parentBundle": "Body",
+      "primaryController": "Head",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_head.png",
+      "bounds": [
+        196,
+        48,
+        476,
+        386
+      ],
+      "visibleLayerIds": [
+        "head_base",
+        "cheek_fur_L",
+        "cheek_fur_R"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/01_front_head_base_front_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/02_front_cheek_fur_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/04_front_cheek_fur_R_1.png"
+      ],
+      "fineUnderpaintCount": 3,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "mouth",
+      "parentBundle": "Head",
+      "primaryController": "Mouth",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_mouth.png",
+      "bounds": [
+        214,
+        204,
+        462,
+        297
+      ],
+      "visibleLayerIds": [
+        "muzzle_base",
+        "jaw_line",
+        "whisker_L",
+        "whisker_R"
+      ],
+      "visibleLayerCount": 4,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/03_front_muzzle_base_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/23_front_whisker_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/24_front_whisker_R_1.png"
+      ],
+      "fineUnderpaintCount": 3,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "ear_L",
+      "parentBundle": "Head",
+      "primaryController": "EarRoot_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_ear_L.png",
+      "bounds": [
+        373,
+        42,
+        461,
+        140
+      ],
+      "visibleLayerIds": [
+        "ear_root_L",
+        "ear_face_L",
+        "ear_tip_L"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/06_front_ear_face_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/07_front_ear_tip_L_1.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "ear_R",
+      "parentBundle": "Head",
+      "primaryController": "EarRoot_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_ear_R.png",
+      "bounds": [
+        223,
+        40,
+        298,
+        140
+      ],
+      "visibleLayerIds": [
+        "ear_root_R",
+        "ear_face_R",
+        "ear_tip_R"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/08_front_ear_face_R_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/10_front_ear_tip_R_1.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "eye_L",
+      "parentBundle": "Head",
+      "primaryController": "EyeSocket_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_eye_L.png",
+      "bounds": [
+        347,
+        135,
+        418,
+        220
+      ],
+      "visibleLayerIds": [
+        "eye_socket_L",
+        "iris_L",
+        "pupil_L",
+        "highlight_L",
+        "upper_lid_L",
+        "lower_lid_L"
+      ],
+      "visibleLayerCount": 6,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/11_front_eye_socket_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/13_front_iris_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/15_front_pupil_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/17_front_highlight_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/19_front_upper_lid_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/21_front_lower_lid_L_1.png"
+      ],
+      "fineUnderpaintCount": 6,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "eye_R",
+      "parentBundle": "Head",
+      "primaryController": "EyeSocket_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_eye_R.png",
+      "bounds": [
+        253,
+        135,
+        324,
+        220
+      ],
+      "visibleLayerIds": [
+        "eye_socket_R",
+        "iris_R",
+        "pupil_R",
+        "highlight_R",
+        "upper_lid_R",
+        "lower_lid_R"
+      ],
+      "visibleLayerCount": 6,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/12_front_eye_socket_R_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/14_front_iris_R_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/16_front_pupil_R_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/18_front_highlight_R_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/20_front_upper_lid_R_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/22_front_lower_lid_R_1.png"
+      ],
+      "fineUnderpaintCount": 6,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "body",
+      "parentBundle": "XiaojuRoot",
+      "primaryController": "Body",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_body.png",
+      "bounds": [
+        164,
+        371,
+        513,
+        742
+      ],
+      "visibleLayerIds": [
+        "pelvis",
+        "abdomen",
+        "ribcage",
+        "neck_fill",
+        "chest_fur"
+      ],
+      "visibleLayerCount": 5,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/25_front_neck_fill_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/26_front_chest_fur_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/27_front_ribcage_front_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/28_front_abdomen_front_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/29_front_pelvis_front_1.png"
+      ],
+      "fineUnderpaintCount": 5,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "arm_L_upper",
+      "parentBundle": "Body",
+      "primaryController": "Shoulder_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_arm_L_upper.png",
+      "bounds": [
+        404,
+        305,
+        496,
+        384
+      ],
+      "visibleLayerIds": [
+        "scapula_fur_L",
+        "upper_arm_L"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/31_front_upper_arm_L_1.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "arm_L_lower_paw",
+      "parentBundle": "arm_L_upper",
+      "primaryController": "Elbow_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_arm_L_lower_paw.png",
+      "bounds": [
+        473,
+        328,
+        682,
+        469
+      ],
+      "visibleLayerIds": [
+        "forearm_L",
+        "wrist_fur_L",
+        "fore_paw_L"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/32_front_fore_paw_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/33_front_forearm_L_1.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "arm_R_upper",
+      "parentBundle": "Body",
+      "primaryController": "Shoulder_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_arm_R_upper.png",
+      "bounds": [
+        176,
+        307,
+        267,
+        383
+      ],
+      "visibleLayerIds": [
+        "scapula_fur_R",
+        "upper_arm_R"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/34_front_upper_arm_R_1.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "arm_R_lower_paw",
+      "parentBundle": "arm_R_upper",
+      "primaryController": "Elbow_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_arm_R_lower_paw.png",
+      "bounds": [
+        69,
+        326,
+        199,
+        459
+      ],
+      "visibleLayerIds": [
+        "forearm_R",
+        "wrist_fur_R",
+        "fore_paw_R"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/35_front_forearm_R_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/36_front_fore_paw_R_1.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "leg_L_upper",
+      "parentBundle": "Body",
+      "primaryController": "Hip_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_leg_L_upper.png",
+      "bounds": [
+        450,
+        602,
+        517,
+        688
+      ],
+      "visibleLayerIds": [
+        "hind_thigh_L"
+      ],
+      "visibleLayerCount": 1,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/38_front_hind_thigh_L_1.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "leg_L_lower_paw",
+      "parentBundle": "leg_L_upper",
+      "primaryController": "Knee_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_leg_L_lower_paw.png",
+      "bounds": [
+        450,
+        654,
+        569,
+        724
+      ],
+      "visibleLayerIds": [
+        "hind_shin_L"
+      ],
+      "visibleLayerCount": 1,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/39_front_hind_shin_L_1.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "leg_R_upper",
+      "parentBundle": "Body",
+      "primaryController": "Hip_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_leg_R_upper.png",
+      "bounds": [
+        139,
+        601,
+        219,
+        687
+      ],
+      "visibleLayerIds": [
+        "hind_thigh_R"
+      ],
+      "visibleLayerCount": 1,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/40_front_hind_thigh_R_1.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "leg_R_lower_paw",
+      "parentBundle": "leg_R_upper",
+      "primaryController": "Knee_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_leg_R_lower_paw.png",
+      "bounds": [
+        98,
+        654,
+        218,
+        723
+      ],
+      "visibleLayerIds": [
+        "hind_shin_R"
+      ],
+      "visibleLayerCount": 1,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/41_front_hind_shin_R_1.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "front",
+      "id": "tail",
+      "parentBundle": "Body",
+      "primaryController": "TailRoot",
+      "file": "live2d/x6/coarse-motion-bundles-v3/front_tail.png",
+      "bounds": [
+        295,
+        730,
+        387,
+        849
+      ],
+      "visibleLayerIds": [
+        "tail_root_socket",
+        "tail_mid",
+        "tail_tip"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/44_front_tail_root_socket_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/45_front_tail_base_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/46_front_tail_mid_short_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/48_front_tail_mid_long_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/49_front_tail_tip_long_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/50_front_tail_tip_1.png"
+      ],
+      "fineUnderpaintCount": 6,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "head",
+      "parentBundle": "Body",
+      "primaryController": "Head",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_head.png",
+      "bounds": [
+        704,
+        58,
+        985,
+        386
+      ],
+      "visibleLayerIds": [
+        "head_base",
+        "cheek_fur_L",
+        "cheek_fur_R"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/05_side_head_base_side_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/52_side_head_profile_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/53_side_head_profile_R_1.png"
+      ],
+      "fineUnderpaintCount": 3,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "mouth",
+      "parentBundle": "Head",
+      "primaryController": "Mouth",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_mouth.png",
+      "bounds": [
+        769,
+        210,
+        907,
+        287
+      ],
+      "visibleLayerIds": [
+        "muzzle_base",
+        "whisker_L"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [],
+      "fineUnderpaintCount": 0,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "ear_L",
+      "parentBundle": "Head",
+      "primaryController": "EarRoot_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_ear_L.png",
+      "bounds": [
+        788,
+        41,
+        863,
+        141
+      ],
+      "visibleLayerIds": [
+        "ear_root_L",
+        "ear_face_L",
+        "ear_tip_L"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [],
+      "fineUnderpaintCount": 0,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "ear_R",
+      "parentBundle": "Head",
+      "primaryController": "EarRoot_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_ear_R.png",
+      "bounds": [
+        832,
+        63,
+        923,
+        146
+      ],
+      "visibleLayerIds": [
+        "ear_root_R",
+        "ear_face_R",
+        "ear_tip_R"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [],
+      "fineUnderpaintCount": 0,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "eye_L",
+      "parentBundle": "Head",
+      "primaryController": "EyeSocket_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_eye_L.png",
+      "bounds": [
+        746,
+        136,
+        796,
+        221
+      ],
+      "visibleLayerIds": [
+        "eye_socket_L",
+        "iris_L",
+        "pupil_L",
+        "highlight_L",
+        "upper_lid_L",
+        "lower_lid_L"
+      ],
+      "visibleLayerCount": 6,
+      "fineUnderpaintFiles": [],
+      "fineUnderpaintCount": 0,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "body",
+      "parentBundle": "XiaojuRoot",
+      "primaryController": "Body",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_body.png",
+      "bounds": [
+        710,
+        264,
+        1068,
+        724
+      ],
+      "visibleLayerIds": [
+        "pelvis",
+        "abdomen",
+        "ribcage",
+        "chest_fur"
+      ],
+      "visibleLayerCount": 4,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/25_side_neck_fill_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/30_side_torso_side_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/30_side_torso_side_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/30_side_torso_side_3.png"
+      ],
+      "fineUnderpaintCount": 4,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "arm_L_lower_paw",
+      "parentBundle": "arm_L_upper",
+      "primaryController": "Elbow_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_arm_L_lower_paw.png",
+      "bounds": [
+        667,
+        378,
+        793,
+        456
+      ],
+      "visibleLayerIds": [
+        "forearm_L",
+        "wrist_fur_L",
+        "fore_paw_L"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/32_side_fore_paw_L_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/33_side_forearm_L_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/37_side_paw_contact_alt_1.png"
+      ],
+      "fineUnderpaintCount": 3,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "arm_R_upper",
+      "parentBundle": "Body",
+      "primaryController": "Shoulder_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_arm_R_upper.png",
+      "bounds": [
+        821,
+        334,
+        934,
+        423
+      ],
+      "visibleLayerIds": [
+        "scapula_fur_R",
+        "upper_arm_R"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/34_side_upper_arm_R_2.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "arm_R_lower_paw",
+      "parentBundle": "arm_R_upper",
+      "primaryController": "Elbow_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_arm_R_lower_paw.png",
+      "bounds": [
+        680,
+        385,
+        849,
+        499
+      ],
+      "visibleLayerIds": [
+        "forearm_R",
+        "wrist_fur_R",
+        "fore_paw_R"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/35_side_forearm_R_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/36_side_fore_paw_R_2.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "leg_L_upper",
+      "parentBundle": "Body",
+      "primaryController": "Hip_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_leg_L_upper.png",
+      "bounds": [
+        779,
+        630,
+        831,
+        650
+      ],
+      "visibleLayerIds": [
+        "hind_thigh_L"
+      ],
+      "visibleLayerCount": 1,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/38_side_hind_thigh_L_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/42_side_hind_leg_side_L_1.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "leg_L_lower_paw",
+      "parentBundle": "leg_L_upper",
+      "primaryController": "Knee_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_leg_L_lower_paw.png",
+      "bounds": [
+        702,
+        639,
+        846,
+        730
+      ],
+      "visibleLayerIds": [
+        "hind_shin_L",
+        "hind_paw_L"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/39_side_hind_shin_L_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/42_side_hind_leg_side_L_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/42_side_hind_leg_side_L_3.png"
+      ],
+      "fineUnderpaintCount": 3,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "leg_R_lower_paw",
+      "parentBundle": "leg_R_upper",
+      "primaryController": "Knee_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_leg_R_lower_paw.png",
+      "bounds": [
+        781,
+        673,
+        882,
+        776
+      ],
+      "visibleLayerIds": [
+        "hind_shin_R",
+        "hind_paw_R"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/41_side_hind_shin_R_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/43_side_hind_leg_side_R_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/43_side_hind_leg_side_R_2.png"
+      ],
+      "fineUnderpaintCount": 3,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "side",
+      "id": "tail",
+      "parentBundle": "Body",
+      "primaryController": "TailRoot",
+      "file": "live2d/x6/coarse-motion-bundles-v3/side_tail.png",
+      "bounds": [
+        963,
+        708,
+        1066,
+        848
+      ],
+      "visibleLayerIds": [
+        "tail_mid",
+        "tail_tip"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/44_side_tail_root_socket_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/45_side_tail_base_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/46_side_tail_mid_short_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/47_side_tail_curve_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/48_side_tail_mid_long_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/49_side_tail_tip_long_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/50_side_tail_tip_2.png"
+      ],
+      "fineUnderpaintCount": 7,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "head",
+      "parentBundle": "Body",
+      "primaryController": "Head",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_head.png",
+      "bounds": [
+        1268,
+        41,
+        1567,
+        386
+      ],
+      "visibleLayerIds": [
+        "head_base"
+      ],
+      "visibleLayerCount": 1,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/51_back_head_back_base_1.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "ear_L",
+      "parentBundle": "Head",
+      "primaryController": "EarRoot_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_ear_L.png",
+      "bounds": [
+        1453,
+        52,
+        1523,
+        172
+      ],
+      "visibleLayerIds": [
+        "ear_root_L",
+        "ear_face_L",
+        "ear_tip_L"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/09_back_head_ear_back_1.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "ear_R",
+      "parentBundle": "Head",
+      "primaryController": "EarRoot_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_ear_R.png",
+      "bounds": [
+        1336,
+        69,
+        1428,
+        172
+      ],
+      "visibleLayerIds": [
+        "ear_root_R",
+        "ear_face_R",
+        "ear_tip_R"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/09_back_head_ear_back_2.png"
+      ],
+      "fineUnderpaintCount": 1,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "body",
+      "parentBundle": "XiaojuRoot",
+      "primaryController": "Body",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_body.png",
+      "bounds": [
+        1248,
+        378,
+        1596,
+        764
+      ],
+      "visibleLayerIds": [
+        "pelvis",
+        "abdomen",
+        "ribcage",
+        "neck_fill",
+        "chest_fur"
+      ],
+      "visibleLayerCount": 5,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/25_back_neck_fill_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/54_back_back_neck_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/55_back_back_ribcage_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/56_back_back_pelvis_L_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/60_back_back_torso_1_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/61_back_back_torso_2_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/62_back_back_torso_3_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/63_back_back_torso_4_1.png",
+        "live2d/x6/fine-body-space-underpaint-v2/63_back_back_torso_4_2.png"
+      ],
+      "fineUnderpaintCount": 9,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "arm_L_upper",
+      "parentBundle": "Body",
+      "primaryController": "Shoulder_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_arm_L_upper.png",
+      "bounds": [
+        1492,
+        325,
+        1632,
+        425
+      ],
+      "visibleLayerIds": [
+        "scapula_fur_L",
+        "upper_arm_L"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/31_back_upper_arm_L_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/57_back_back_limb_fill_1_1.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "arm_L_lower_paw",
+      "parentBundle": "arm_L_upper",
+      "primaryController": "Elbow_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_arm_L_lower_paw.png",
+      "bounds": [
+        1591,
+        385,
+        1667,
+        467
+      ],
+      "visibleLayerIds": [
+        "forearm_L",
+        "wrist_fur_L",
+        "fore_paw_L"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/32_back_fore_paw_L_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/33_back_forearm_L_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/57_back_back_limb_fill_1_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/57_back_back_limb_fill_1_3.png"
+      ],
+      "fineUnderpaintCount": 4,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "arm_R_upper",
+      "parentBundle": "Body",
+      "primaryController": "Shoulder_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_arm_R_upper.png",
+      "bounds": [
+        1215,
+        312,
+        1389,
+        437
+      ],
+      "visibleLayerIds": [
+        "scapula_fur_R",
+        "upper_arm_R"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/34_back_upper_arm_R_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/58_back_back_limb_fill_2_1.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "arm_R_lower_paw",
+      "parentBundle": "arm_R_upper",
+      "primaryController": "Elbow_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_arm_R_lower_paw.png",
+      "bounds": [
+        1155,
+        359,
+        1297,
+        468
+      ],
+      "visibleLayerIds": [
+        "forearm_R",
+        "wrist_fur_R",
+        "fore_paw_R"
+      ],
+      "visibleLayerCount": 3,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/35_back_forearm_R_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/36_back_fore_paw_R_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/58_back_back_limb_fill_2_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/58_back_back_limb_fill_2_3.png"
+      ],
+      "fineUnderpaintCount": 4,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "leg_L_upper",
+      "parentBundle": "Body",
+      "primaryController": "Hip_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_leg_L_upper.png",
+      "bounds": [
+        1562,
+        600,
+        1608,
+        685
+      ],
+      "visibleLayerIds": [
+        "hind_thigh_L"
+      ],
+      "visibleLayerCount": 1,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/38_back_hind_thigh_L_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_1.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "leg_L_lower_paw",
+      "parentBundle": "leg_L_upper",
+      "primaryController": "Knee_L",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_leg_L_lower_paw.png",
+      "bounds": [
+        1556,
+        653,
+        1651,
+        723
+      ],
+      "visibleLayerIds": [
+        "hind_shin_L",
+        "hind_paw_L"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/39_back_hind_shin_L_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_3.png"
+      ],
+      "fineUnderpaintCount": 3,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "leg_R_upper",
+      "parentBundle": "Body",
+      "primaryController": "Hip_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_leg_R_upper.png",
+      "bounds": [
+        1237,
+        578,
+        1308,
+        678
+      ],
+      "visibleLayerIds": [
+        "hind_thigh_R"
+      ],
+      "visibleLayerCount": 1,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/40_back_hind_thigh_R_2.png",
+        "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_4.png"
+      ],
+      "fineUnderpaintCount": 2,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "leg_R_lower_paw",
+      "parentBundle": "leg_R_upper",
+      "primaryController": "Knee_R",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_leg_R_lower_paw.png",
+      "bounds": [
+        1180,
+        644,
+        1296,
+        723
+      ],
+      "visibleLayerIds": [
+        "hind_shin_R",
+        "hind_paw_R"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/41_back_hind_shin_R_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_5.png",
+        "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_6.png"
+      ],
+      "fineUnderpaintCount": 3,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    },
+    {
+      "view": "back",
+      "id": "tail",
+      "parentBundle": "Body",
+      "primaryController": "TailRoot",
+      "file": "live2d/x6/coarse-motion-bundles-v3/back_tail.png",
+      "bounds": [
+        1354,
+        728,
+        1452,
+        849
+      ],
+      "visibleLayerIds": [
+        "tail_mid",
+        "tail_tip"
+      ],
+      "visibleLayerCount": 2,
+      "fineUnderpaintFiles": [
+        "live2d/x6/fine-body-space-underpaint-v2/44_back_tail_root_socket_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/45_back_tail_base_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/46_back_tail_mid_short_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/48_back_tail_mid_long_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/49_back_tail_tip_long_3.png",
+        "live2d/x6/fine-body-space-underpaint-v2/50_back_tail_tip_3.png"
+      ],
+      "fineUnderpaintCount": 6,
+      "rule": "one coarse action subject; internal PNG/mesh layers keep their own masks and topology"
+    }
+  ],
+  "qa": {
+    "review": "live2d/x6/qa/x6-coarse-motion-bundle-review-v3.png"
+  },
+  "gateBoundary": {
+    "gate6Approved": false,
+    "x7Authorized": false,
+    "notPsd": true,
+    "notCubism": true,
+    "notPhysics": true
+  },
+  "notes": [
+    "Forearm and fore paw are one coarse action bundle per side.",
+    "Hind shin and hind paw are one coarse action bundle per side.",
+    "Eyes, lids and highlights remain fine internal layers under one Eye bundle per side.",
+    "Tail remains one visible action bundle so later X7 elasticity can use internal TailRoot/TailMid/TailTip nodes without another art split."
+  ]
+}

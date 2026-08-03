@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-07-25",
+  "scope": "stage_b_input_freeze_verification",
+  "status": "pass",
+  "privacy": {
+    "pathsAreRelative": true,
+    "originalAssetsUploaded": false,
+    "externalImageServicesUsed": false
+  },
+  "v4Manifest": "validation/arm-chain-screen-right-v4-wrist-motion/archive/STAGE-A-V4-APPROVED-2026-07-24.json",
+  "v4Archive": "validation/arm-chain-screen-right-v4-wrist-motion/archive/stage-a-v4-approved-2026-07-24.zip",
+  "v4FrozenArtifacts": [
+    {
+      "path": "skeleton.json",
+      "expectedSha256": "07121297e1a431bc6bcc58e3a71156e26cefec204af9e3335910ff0e7e25f7c6",
+      "actualSha256": "07121297e1a431bc6bcc58e3a71156e26cefec204af9e3335910ff0e7e25f7c6",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "materials/solid/sleeve.png",
+      "expectedSha256": "8a0f9f65ecd3fbda839da71527e51e59d5d928a2f821bcb6a88113ab3ecbb6c7",
+      "actualSha256": "8a0f9f65ecd3fbda839da71527e51e59d5d928a2f821bcb6a88113ab3ecbb6c7",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "materials/solid/upper_arm.png",
+      "expectedSha256": "09c5861acda82defd9cb95b090e39e649c8acbf2075b364da3bc2e776ffafcaf",
+      "actualSha256": "09c5861acda82defd9cb95b090e39e649c8acbf2075b364da3bc2e776ffafcaf",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "materials/solid/forearm.png",
+      "expectedSha256": "9c5fef00203e2ddfc1f6a34bcdadcc8940e3b91ca8da93240092936fd8b14865",
+      "actualSha256": "9c5fef00203e2ddfc1f6a34bcdadcc8940e3b91ca8da93240092936fd8b14865",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "materials/solid/hand.png",
+      "expectedSha256": "5ed5ba889b1b1e89da0ab354cb606ba7a2fd34c4097db90b996012e94c4d8d64",
+      "actualSha256": "5ed5ba889b1b1e89da0ab354cb606ba7a2fd34c4097db90b996012e94c4d8d64",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "samples/fk-41-samples.json",
+      "expectedSha256": "a5bee2d0a73a0fdc8377613c3419906519aa83b132702c867f92bd8f983ee4b7",
+      "actualSha256": "a5bee2d0a73a0fdc8377613c3419906519aa83b132702c867f92bd8f983ee4b7",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "audit/stage-a-geometry-report.json",
+      "expectedSha256": "4a96dffa2479b0c94b50bb35368dc4593c5f61f0e669600ae0f5fe4355335bcf",
+      "actualSha256": "4a96dffa2479b0c94b50bb35368dc4593c5f61f0e669600ae0f5fe4355335bcf",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "audit/stage-a-regression-wrist-motion.json",
+      "expectedSha256": "582f790b3c485ffc71e7cbc0ce275a8b0193684fb2a9c05a7ca06210978c50b6",
+      "actualSha256": "582f790b3c485ffc71e7cbc0ce275a8b0193684fb2a9c05a7ca06210978c50b6",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "qa/default-recomposition.png",
+      "expectedSha256": "c9d813c796c3a8f9bf76f5f00644b8e07bf9f64ee29ce024644c2fe70875e248",
+      "actualSha256": "c9d813c796c3a8f9bf76f5f00644b8e07bf9f64ee29ce024644c2fe70875e248",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "qa/displaced-parts-review.png",
+      "expectedSha256": "636064fe28fd247b33bf9824ef5f82f898681543f0b6f175b9cc4cb5fea19b6c",
+      "actualSha256": "636064fe28fd247b33bf9824ef5f82f898681543f0b6f175b9cc4cb5fea19b6c",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "qa/fk-41-contact-sheet.png",
+      "expectedSha256": "54bd645eff89b0def0b9d7cab007e34fc75e1db81301718573d3bd8a29f4c2ab",
+      "actualSha256": "54bd645eff89b0def0b9d7cab007e34fc75e1db81301718573d3bd8a29f4c2ab",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "qa/fk-41-slow-preview.gif",
+      "expectedSha256": "f67bdcaecf9074550786f02a2f58f1e246be0b431e5e5af07128f3ef57559956",
+      "actualSha256": "f67bdcaecf9074550786f02a2f58f1e246be0b431e5e5af07128f3ef57559956",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "qa/seam-stress-review.png",
+      "expectedSha256": "810b27396eb38439aa04f1a4d9b6071cbd966cb632bbf8d027ab0063e114ff9c",
+      "actualSha256": "810b27396eb38439aa04f1a4d9b6071cbd966cb632bbf8d027ab0063e114ff9c",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "qa/sleeve-boundary-review.png",
+      "expectedSha256": "ac603d4246ab239147d8c9d7c99ca078bd40045bfa5c735d17e73946ad8df9a5",
+      "actualSha256": "ac603d4246ab239147d8c9d7c99ca078bd40045bfa5c735d17e73946ad8df9a5",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "qa/wrist-motion-review.png",
+      "expectedSha256": "e270fa1e95e856fcff492b83f462444660c2299f4eab15914b6b98507b5eecc3",
+      "actualSha256": "e270fa1e95e856fcff492b83f462444660c2299f4eab15914b6b98507b5eecc3",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "qa/wrist-motion-slow-preview.gif",
+      "expectedSha256": "4659c0b7f5b673f77874779a121fffa4f7a12708a5e383bc36e20bc46823cbd7",
+      "actualSha256": "4659c0b7f5b673f77874779a121fffa4f7a12708a5e383bc36e20bc46823cbd7",
+      "present": true,
+      "matches": true
+    },
+    {
+      "path": "tools/build_stage_a_geometry.py",
+      "expectedSha256": "ee9f6ee8235eb282f73073593ba8d0ddea4da087c847e3555d01320f8d5f7d98",
+      "actualSha256": "ee9f6ee8235eb282f73073593ba8d0ddea4da087c847e3555d01320f8d5f7d98",
+      "present": true,
+      "matches": true
+    }
+  ],
+  "authoritativeImages": [
+    {
+      "path": "source/xiaoxing-three-view-line.png",
+      "expectedSha256": "7f8605a85df7fa2c8843e925f8274a06403d884d975b1b195b2a583478dc222c",
+      "actualSha256": "7f8605a85df7fa2c8843e925f8274a06403d884d975b1b195b2a583478dc222c",
+      "matches": true,
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "source/xiaoxing-three-view-color.png",
+      "expectedSha256": "2d1b9c71c4e6c17ea503800b05f44bf7bfe127799a5e156886c191b97d350154",
+      "actualSha256": "2d1b9c71c4e6c17ea503800b05f44bf7bfe127799a5e156886c191b97d350154",
+      "matches": true,
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "source/masters/front-line-source-exact-after-reset.png",
+      "expectedSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+      "actualSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+      "matches": true,
+      "size": [
+        512,
+        1086
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "source/masters/front-color-source-exact-after-reset.png",
+      "expectedSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "actualSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "matches": true,
+      "size": [
+        512,
+        1086
+      ],
+      "mode": "RGB"
+    }
+  ],
+  "frontMasterCropVerification": [
+    {
+      "threeViewPath": "source/xiaoxing-three-view-line.png",
+      "frontMasterPath": "source/masters/front-line-source-exact-after-reset.png",
+      "cropBox": [
+        34,
+        0,
+        512,
+        1086
+      ],
+      "frontSize": [
+        512,
+        1086
+      ],
+      "frontIs512x1086": true,
+      "pixelExactIntegerCrop": true,
+      "scaled": false
+    },
+    {
+      "threeViewPath": "source/xiaoxing-three-view-color.png",
+      "frontMasterPath": "source/masters/front-color-source-exact-after-reset.png",
+      "cropBox": [
+        34,
+        0,
+        512,
+        1086
+      ],
+      "frontSize": [
+        512,
+        1086
+      ],
+      "frontIs512x1086": true,
+      "pixelExactIntegerCrop": true,
+      "scaled": false
+    }
+  ],
+  "limitations": [
+    "Does not prove exact visible upper-arm ownership.",
+    "Does not prove the sleeve-hem occluder alpha boundary.",
+    "Does not prove continuous-parameter coverage.",
+    "Does not prove textured-alpha seam quality."
+  ],
+  "nextGate": "Lock exact V_upper_arm and the sleeve-hem occluder alpha boundary, then obtain explicit Chinese visual approval."
+}

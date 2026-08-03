@@ -1,0 +1,88 @@
+{
+  "stage": "v2-upper-body-lineart-ownership-review",
+  "status": "coarse_ownership_candidate_no_masks",
+  "source": "source/masters/gate3-line-master-candidate-v1.png",
+  "canvas": [512, 1086],
+  "note": "候选范围只用于材料归属审查；衣身、袖子、前臂和手层的正式边界仍需沿线稿复核。",
+  "groups": [
+    {
+      "id": "neck",
+      "label": "脖子",
+      "polygon": [[221,198],[291,198],[294,232],[282,246],[230,246],[218,232]],
+      "parent": "Head/Torso",
+      "seam": "neck_collar",
+      "status": "coarse_candidate"
+    },
+    {
+      "id": "torso_tshirt_core",
+      "label": "上衣衣身",
+      "polygon": [[171,236],[220,222],[292,222],[341,237],[358,389],[358,578],[139,578],[139,389]],
+      "parent": "Torso",
+      "seam": "neck_collar / shirt_skirt",
+      "status": "coarse_candidate"
+    },
+    {
+      "id": "sleeve_screen_left",
+      "label": "画面左袖子",
+      "polygon": [[171,236],[139,250],[98,370],[139,390],[165,373]],
+      "parent": "Torso",
+      "seam": "screen_left_sleeve_arm",
+      "status": "coarse_candidate"
+    },
+    {
+      "id": "sleeve_screen_right",
+      "label": "画面右袖子",
+      "polygon": [[341,237],[373,250],[414,370],[373,390],[348,373]],
+      "parent": "Torso",
+      "seam": "screen_right_sleeve_arm",
+      "status": "coarse_candidate"
+    },
+    {
+      "id": "arm_screen_left_forearm",
+      "label": "画面左前臂",
+      "polygon": [[139,389],[165,373],[128,523],[99,520]],
+      "parent": "Arm_screen_left",
+      "seam": "screen_left_sleeve_arm / screen_left_bracelet_hand",
+      "status": "coarse_candidate"
+    },
+    {
+      "id": "arm_screen_right_forearm",
+      "label": "画面右前臂",
+      "polygon": [[373,390],[348,373],[384,523],[413,520]],
+      "parent": "Arm_screen_right",
+      "seam": "screen_right_sleeve_arm / screen_right_bracelet_hand",
+      "status": "coarse_candidate"
+    },
+    {
+      "id": "hand_screen_left",
+      "label": "画面左完整手层",
+      "polygon": [[99,520],[126,523],[124,552],[114,582],[95,615],[76,625],[66,611],[73,580],[86,548]],
+      "parent": "Arm_screen_left",
+      "seam": "screen_left_bracelet_hand",
+      "status": "coarse_candidate"
+    },
+    {
+      "id": "hand_screen_right",
+      "label": "画面右完整手层",
+      "polygon": [[384,523],[413,520],[426,548],[439,580],[446,611],[436,625],[417,615],[398,582],[388,552]],
+      "parent": "Arm_screen_right",
+      "seam": "screen_right_bracelet_hand",
+      "status": "coarse_candidate"
+    },
+    {
+      "id": "necklace",
+      "label": "项链（链条与吊坠同一装饰组）",
+      "polygon": [[229,245],[240,255],[255,263],[270,255],[282,245],[264,271],[255,282],[246,271]],
+      "parent": "Neck/Torso",
+      "seam": "neck_collar",
+      "status": "coarse_candidate"
+    }
+  ],
+  "rules": [
+    "衣身与袖子按服装接缝分开，印花仍是衣身表面内容",
+    "左右前臂和手层保留少量腕部重叠",
+    "手部每侧一整层，不拆拇指/手指，不做逐指动作",
+    "头发遮挡下的衣身和脖子隐藏区域需补全后才可导出",
+    "通过视觉门禁前不生成正式 RGBA mask"
+  ]
+}

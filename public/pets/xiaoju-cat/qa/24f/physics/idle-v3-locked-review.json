@@ -1,0 +1,36 @@
+{
+  "method": "idle-v3-locked-pose",
+  "reason": "User reported forelimb instability and fast breathing; v3 locks all sprite pixels to one stable sleeping keyframe and slows preview timing.",
+  "source_frame_1_based": 1,
+  "target_frames": 24,
+  "preview_duration_ms": 160,
+  "recommended_runtime_speed_if_integrated": 0.0125,
+  "metrics": {
+    "frames": 24,
+    "width_range": [
+      182,
+      182
+    ],
+    "height_range": [
+      118,
+      118
+    ],
+    "bottom_range": [
+      164,
+      164
+    ],
+    "center_x_range": [
+      96.0,
+      96.0
+    ],
+    "unique_alpha_bboxes": 1
+  },
+  "outputs": {
+    "strip": "public/pets/xiaoju-cat/qa/24f/physics/idle-24-physics-v3-locked-strip.png",
+    "preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/idle-v3-locked.gif",
+    "counter_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/idle-v3-locked-counter.gif",
+    "sample_sheet": "public/pets/xiaoju-cat/qa/24f/physics/idle-v3-locked-sample-sheet.png",
+    "v2_vs_v3_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/compare/idle-v2-calm-vs-v3-locked.gif",
+    "original_vs_v3_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/compare/idle-original-vs-v3-locked.gif"
+  }
+}

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest";
 import {
+  getPetCanvasPosition,
   getPetAnimationTransform,
   PET_VISUAL_SCALE,
   PET_WINDOW_HEIGHT,
@@ -60,5 +61,20 @@ describe("desktop pet visual sizing", () => {
   test("matches the transparent desktop pet window size", () => {
     expect(PET_WINDOW_WIDTH).toBe(165);
     expect(PET_WINDOW_HEIGHT).toBe(215);
+  });
+
+  test("converts a window-space pet viewport to canvas-local coordinates", () => {
+    const reminderViewport = { x: 75, y: 235, width: 165, height: 215 };
+
+    expect(
+      getPetCanvasPosition(reminderViewport, { x: 75, y: 235 }),
+    ).toEqual({ x: 82.5, y: 209 });
+    expect(
+      getPetCanvasPosition(
+        { x: 146, y: 0, width: 165, height: 215 },
+        { x: 0, y: 0 },
+        { x: 2, y: -3 },
+      ),
+    ).toEqual({ x: 230.5, y: 206 });
   });
 });

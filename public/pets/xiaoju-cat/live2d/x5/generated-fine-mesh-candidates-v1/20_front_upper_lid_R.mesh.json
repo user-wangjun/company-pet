@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "layerId": "upper_lid_R",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/20_front_upper_lid_R.png",
+  "primaryController": "EyeSocket_R",
+  "parent": "EyeSocket_R",
+  "actionSubject": "EyeSocket_R",
+  "deformationRole": "micro-feature-local",
+  "densityProfile": "micro-coarse",
+  "pivotName": "eye_R",
+  "pivotPoint": [
+    34.0,
+    11.0
+  ],
+  "points": [
+    [
+      2.0,
+      23.5
+    ],
+    [
+      1.5,
+      18.0
+    ],
+    [
+      11.0,
+      7.5
+    ],
+    [
+      27.0,
+      1.5
+    ],
+    [
+      45.0,
+      0.5
+    ],
+    [
+      68.5,
+      12.0
+    ],
+    [
+      68.0,
+      14.5
+    ],
+    [
+      20.0,
+      12.5
+    ],
+    [
+      54.129,
+      4.967
+    ],
+    [
+      44.0,
+      13.5
+    ],
+    [
+      56.0,
+      14.0
+    ],
+    [
+      61.314,
+      8.484
+    ],
+    [
+      8.826,
+      19.328
+    ],
+    [
+      62.0,
+      14.25
+    ]
+  ],
+  "triangles": [
+    [
+      7,
+      12,
+      2
+    ],
+    [
+      7,
+      2,
+      3
+    ],
+    [
+      9,
+      7,
+      3
+    ],
+    [
+      0,
+      1,
+      12
+    ],
+    [
+      8,
+      10,
+      9
+    ],
+    [
+      9,
+      4,
+      8
+    ],
+    [
+      2,
+      12,
+      1
+    ],
+    [
+      11,
+      13,
+      10
+    ],
+    [
+      10,
+      8,
+      11
+    ],
+    [
+      6,
+      13,
+      5
+    ],
+    [
+      9,
+      3,
+      4
+    ],
+    [
+      5,
+      13,
+      11
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.1793,
+    0.1741,
+    0.1278,
+    0.0747,
+    0.0905,
+    0.18,
+    0.1784,
+    0.0853,
+    0.1174,
+    0.0,
+    0.1229,
+    0.1472,
+    0.1429,
+    0.1507
+  ],
+  "vertexResistanceDecay": [
+    0.353,
+    0.3739,
+    0.5619,
+    0.7778,
+    0.7136,
+    0.35,
+    0.3563,
+    0.7348,
+    0.6043,
+    1.0,
+    0.5818,
+    0.4834,
+    0.5006,
+    0.4691
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.844,
+      0.912
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.67
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      0.35
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 14,
+    "triangleCount": 12,
+    "minimumTriangleAngleDegrees": 21.479,
+    "medianTriangleAngleDegrees": 42.103
+  },
+  "candidateOnly": true
+}

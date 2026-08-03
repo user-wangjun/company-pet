@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "decisionDate": "2026-07-26",
+  "decisionOwner": "user",
+  "status": "v7a_approved_bracelet_merged_wrist_continuity_required_dependency_reopen_authorized",
+  "sourceStatement": "肘线和腕线符合的，手链也批准了，然后，第一个我没懂你意思；解释后用户回复：都批准；随后用户修订：感觉手链单独分出来没用，会加大工作量，没必要分出来了，合并在前臂吧；用户进一步指出：腕这里是不是也要补一下，不然到时候要骨裂",
+  "approvedItems": {
+    "visibleForearmCandidate": true,
+    "elbowOwnershipLine": true,
+    "wristOwnershipLine": true,
+    "braceletIndependentSurfaceLayer": false,
+    "braceletMergedIntoForearmMaterial": true,
+    "braceletBoundToForearm": true,
+    "braceletDrawnAboveForearmAndHand": false,
+    "braceletMixedBandOwnership": true,
+    "braceletMovedAwayQaRequired": true,
+    "wristContinuityUnderBraceletRequired": true,
+    "braceletCannotServeAsWristCoverage": true,
+    "temporaryHandRootEnvelopeRequired": true,
+    "contractConflictConclusion": true,
+    "dependencyReopenAuthorization": true
+  },
+  "interpretation": {
+    "approved": [
+      "elbow ownership line candidate",
+      "wrist ownership line candidate",
+      "bracelet candidate merged into the production forearm material with no independent runtime layer",
+      "bracelet and its two-pixel mixed band owned by the forearm material",
+      "future bracelet-hidden QA retained as a diagnostic-only operation, not a runtime layer",
+      "the skin geometry beneath the bracelet must remain continuous with no transparent wrist fracture",
+      "the bracelet cannot count as wrist coverage",
+      "a temporary hand-root minimum envelope is required before wrist coverage can pass",
+      "visible forearm candidate",
+      "the 416-pixel frozen-contract conflict conclusion",
+      "a new dependency-repair gate inside V7 that does not modify frozen V4, sleeve, or V6 files"
+    ],
+    "notInferred": [
+      "the prior independent bracelet surface-layer decision is superseded",
+      "the user did not approve assigning the missing hand-side wrist pixels to the forearm",
+      "the user did not pre-approve a specific temporary hand-root outline",
+      "approval does not authorize modifying frozen V4, sleeve, or V6 files",
+      "approval does not authorize texture, PSD, Cubism, Physics, or Runtime",
+      "approval does not pre-approve the repaired envelope or complete forearm geometry"
+    ]
+  },
+  "downstreamAuthorization": true
+}

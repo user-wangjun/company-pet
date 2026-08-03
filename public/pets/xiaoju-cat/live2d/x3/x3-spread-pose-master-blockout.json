@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "stage": "X3-spread-pose-master",
+  "status": "approved-as-engineering-base-with-likeness-waiver",
+  "artifact": "live2d/x3/qa/x3-spread-pose-master-blockout.png",
+  "type": "construction-blockout-not-final-layer-art",
+  "sourceAuthority": [
+    "three-view-preview.png",
+    "live2d/x1/x1-canonical-body-contract.json",
+    "live2d/x2/x2-pose-solve-contract.json",
+    "live2d/x3/x3-spread-pose-master-contract.json"
+  ],
+  "gateBoundary": {
+    "x3ApprovedByUser": true,
+    "x3ApprovalEvidence": "User explicitly accepted moving into layer separation despite likeness concerns.",
+    "x4Authorized": true,
+    "forbidden": [
+      "formal layer images",
+      "formal triangulation",
+      "ArtMesh",
+      "PSD",
+      "Cubism"
+    ]
+  }
+}

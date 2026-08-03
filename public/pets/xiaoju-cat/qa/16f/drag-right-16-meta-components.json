@@ -1,0 +1,370 @@
+[
+  {
+    "frame": 0,
+    "center": 108,
+    "window": [
+      23,
+      193
+    ],
+    "bbox": [
+      23,
+      282,
+      149,
+      437
+    ],
+    "scaled": [
+      131,
+      161
+    ],
+    "placement": [
+      30,
+      41
+    ],
+    "component_size": 10231
+  },
+  {
+    "frame": 1,
+    "center": 246,
+    "window": [
+      161,
+      331
+    ],
+    "bbox": [
+      161,
+      282,
+      283,
+      436
+    ],
+    "scaled": [
+      127,
+      160
+    ],
+    "placement": [
+      224,
+      42
+    ],
+    "component_size": 10305
+  },
+  {
+    "frame": 2,
+    "center": 374,
+    "window": [
+      289,
+      459
+    ],
+    "bbox": [
+      289,
+      282,
+      416,
+      437
+    ],
+    "scaled": [
+      132,
+      161
+    ],
+    "placement": [
+      414,
+      41
+    ],
+    "component_size": 10232
+  },
+  {
+    "frame": 3,
+    "center": 507,
+    "window": [
+      422,
+      592
+    ],
+    "bbox": [
+      422,
+      282,
+      549,
+      437
+    ],
+    "scaled": [
+      132,
+      161
+    ],
+    "placement": [
+      606,
+      41
+    ],
+    "component_size": 10267
+  },
+  {
+    "frame": 4,
+    "center": 632,
+    "window": [
+      547,
+      717
+    ],
+    "bbox": [
+      557,
+      282,
+      684,
+      437
+    ],
+    "scaled": [
+      132,
+      161
+    ],
+    "placement": [
+      798,
+      41
+    ],
+    "component_size": 9886
+  },
+  {
+    "frame": 5,
+    "center": 763,
+    "window": [
+      678,
+      848
+    ],
+    "bbox": [
+      681,
+      282,
+      818,
+      436
+    ],
+    "scaled": [
+      142,
+      160
+    ],
+    "placement": [
+      985,
+      42
+    ],
+    "component_size": 10011
+  },
+  {
+    "frame": 6,
+    "center": 896,
+    "window": [
+      811,
+      981
+    ],
+    "bbox": [
+      816,
+      282,
+      951,
+      437
+    ],
+    "scaled": [
+      140,
+      161
+    ],
+    "placement": [
+      1178,
+      41
+    ],
+    "component_size": 9943
+  },
+  {
+    "frame": 7,
+    "center": 1028,
+    "window": [
+      943,
+      1113
+    ],
+    "bbox": [
+      947,
+      282,
+      1083,
+      437
+    ],
+    "scaled": [
+      141,
+      161
+    ],
+    "placement": [
+      1369,
+      41
+    ],
+    "component_size": 10136
+  },
+  {
+    "frame": 8,
+    "center": 1168,
+    "window": [
+      1083,
+      1253
+    ],
+    "bbox": [
+      1083,
+      282,
+      1218,
+      434
+    ],
+    "scaled": [
+      140,
+      158
+    ],
+    "placement": [
+      1562,
+      44
+    ],
+    "component_size": 10284
+  },
+  {
+    "frame": 9,
+    "center": 1290,
+    "window": [
+      1205,
+      1375
+    ],
+    "bbox": [
+      1216,
+      282,
+      1350,
+      437
+    ],
+    "scaled": [
+      139,
+      161
+    ],
+    "placement": [
+      1754,
+      41
+    ],
+    "component_size": 9849
+  },
+  {
+    "frame": 10,
+    "center": 1432,
+    "window": [
+      1347,
+      1517
+    ],
+    "bbox": [
+      1347,
+      282,
+      1483,
+      437
+    ],
+    "scaled": [
+      141,
+      161
+    ],
+    "placement": [
+      1945,
+      41
+    ],
+    "component_size": 10054
+  },
+  {
+    "frame": 11,
+    "center": 1561,
+    "window": [
+      1476,
+      1646
+    ],
+    "bbox": [
+      1478,
+      282,
+      1616,
+      437
+    ],
+    "scaled": [
+      144,
+      161
+    ],
+    "placement": [
+      2136,
+      41
+    ],
+    "component_size": 10050
+  },
+  {
+    "frame": 12,
+    "center": 1712,
+    "window": [
+      1627,
+      1797
+    ],
+    "bbox": [
+      1627,
+      282,
+      1750,
+      437
+    ],
+    "scaled": [
+      128,
+      161
+    ],
+    "placement": [
+      2336,
+      41
+    ],
+    "component_size": 10270
+  },
+  {
+    "frame": 13,
+    "center": 1829,
+    "window": [
+      1744,
+      1914
+    ],
+    "bbox": [
+      1744,
+      281,
+      1883,
+      437
+    ],
+    "scaled": [
+      145,
+      162
+    ],
+    "placement": [
+      2519,
+      40
+    ],
+    "component_size": 10094
+  },
+  {
+    "frame": 14,
+    "center": 1964,
+    "window": [
+      1879,
+      2049
+    ],
+    "bbox": [
+      1884,
+      282,
+      2016,
+      437
+    ],
+    "scaled": [
+      137,
+      161
+    ],
+    "placement": [
+      2715,
+      41
+    ],
+    "component_size": 9930
+  },
+  {
+    "frame": 15,
+    "center": 2108,
+    "window": [
+      2023,
+      2172
+    ],
+    "bbox": [
+      2023,
+      282,
+      2151,
+      437
+    ],
+    "scaled": [
+      133,
+      161
+    ],
+    "placement": [
+      2909,
+      41
+    ],
+    "component_size": 10285
+  }
+]

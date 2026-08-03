@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "stage": "X4-layer-separation",
+  "status": "candidate-for-user-review",
+  "x3ApprovalBasis": "User said the X3 likeness is not important now and explicitly requested entering layer separation: \"肯定是不像xiaoju的，但是我们应该进入分层了，不要管这个了\".",
+  "sourceAuthority": [
+    "three-view-preview.png",
+    "live2d/x1/x1-canonical-body-contract.json",
+    "live2d/x2/x2-pose-solve-contract.json",
+    "live2d/x3/qa/x3-spread-pose-master-blockout.png"
+  ],
+  "gateBoundary": {
+    "x4MayPassOnlyWithUserApproval": true,
+    "x5Authorized": false,
+    "allowed": [
+      "semantic visual layer preview",
+      "hidden-fill and overlap review",
+      "draw-order proposal",
+      "future mesh boundary readiness notes"
+    ],
+    "forbidden": [
+      "formal Delaunay triangulation",
+      "ArtMesh point placement",
+      "Cubism Deformer editing",
+      "runtime replacement"
+    ]
+  },
+  "layers": [
+    {
+      "id": "planet_back",
+      "name": "星球后层",
+      "parent": "PlanetRoot",
+      "draw": 10,
+      "hidden": "behind Xiaoju and planet rim",
+      "source": "planet-scene-source"
+    },
+    {
+      "id": "tail_base",
+      "name": "尾根插口",
+      "parent": "Pelvis",
+      "draw": 90,
+      "hidden": "large overlap under pelvis and tail_mid",
+      "source": "X3 pelvis/tail continuity"
+    },
+    {
+      "id": "tail_mid",
+      "name": "尾中段",
+      "parent": "TailRoot",
+      "draw": 95,
+      "hidden": "under tail_base and tail_tip",
+      "source": "X3 tail"
+    },
+    {
+      "id": "tail_tip",
+      "name": "尾尖",
+      "parent": "TailMid",
+      "draw": 100,
+      "hidden": "overlap into tail_mid",
+      "source": "X3 tail"
+    },
+    {
+      "id": "hind_leg_L",
+      "name": "左后腿",
+      "parent": "Pelvis",
+      "draw": 150,
+      "hidden": "hip/thigh fill under pelvis",
+      "source": "X1/X3 hind chain"
+    },
+    {
+      "id": "hind_leg_R",
+      "name": "右后腿",
+      "parent": "Pelvis",
+      "draw": 151,
+      "hidden": "hip/thigh fill under pelvis",
+      "source": "X1/X3 hind chain"
+    },
+    {
+      "id": "pelvis",
+      "name": "骨盆/臀部",
+      "parent": "BodyRoot",
+      "draw": 210,
+      "hidden": "under abdomen, legs, tail root",
+      "source": "X3 body mass"
+    },
+    {
+      "id": "abdomen",
+      "name": "腹部软层",
+      "parent": "BodyRoot",
+      "draw": 220,
+      "hidden": "under ribcage and pelvis",
+      "source": "X3 body mass"
+    },
+    {
+      "id": "ribcage",
+      "name": "胸腔/躯干",
+      "parent": "BodyRoot",
+      "draw": 230,
+      "hidden": "under neck, forelimbs, chest fur",
+      "source": "X3 body mass"
+    },
+    {
+      "id": "neck_chest_fur",
+      "name": "颈胸毛软层",
+      "parent": "Neck",
+      "draw": 300,
+      "hidden": "bridges head, neck, chest",
+      "source": "X1 soft-tissue zone"
+    },
+    {
+      "id": "forelimb_L",
+      "name": "左前肢整链",
+      "parent": "Scapula_L",
+      "draw": 360,
+      "hidden": "shoulder/elbow/wrist sleeve overlap",
+      "source": "X2 cover chain"
+    },
+    {
+      "id": "forelimb_R",
+      "name": "右前肢整链",
+      "parent": "Scapula_R",
+      "draw": 361,
+      "hidden": "shoulder/elbow/wrist sleeve overlap",
+      "source": "X2 cover chain"
+    },
+    {
+      "id": "head_base",
+      "name": "头骨/脸底",
+      "parent": "Neck",
+      "draw": 500,
+      "hidden": "complete underside under ears/muzzle/eyes",
+      "source": "three-view-preview + X3 head"
+    },
+    {
+      "id": "muzzle_jaw",
+      "name": "口鼻/下颌",
+      "parent": "Head",
+      "draw": 540,
+      "hidden": "under cheek fur and eye region",
+      "source": "three-view-preview"
+    },
+    {
+      "id": "cheek_fur_L",
+      "name": "左脸颊毛",
+      "parent": "Head",
+      "draw": 560,
+      "hidden": "overlaps head edge and neck",
+      "source": "X1 soft zone"
+    },
+    {
+      "id": "cheek_fur_R",
+      "name": "右脸颊毛",
+      "parent": "Head",
+      "draw": 561,
+      "hidden": "overlaps head edge and neck",
+      "source": "X1 soft zone"
+    },
+    {
+      "id": "ear_L",
+      "name": "左耳根/耳面/耳尖",
+      "parent": "Head",
+      "draw": 620,
+      "hidden": "ear root wedge under head fur",
+      "source": "X1 ear anchors"
+    },
+    {
+      "id": "ear_R",
+      "name": "右耳根/耳面/耳尖",
+      "parent": "Head",
+      "draw": 621,
+      "hidden": "ear root wedge under head fur",
+      "source": "X1 ear anchors"
+    },
+    {
+      "id": "eye_L_parts",
+      "name": "左眼组",
+      "parent": "EyeSocket_L",
+      "draw": 700,
+      "hidden": "socket mask, lids, pupil, highlight separated in X5",
+      "source": "PRD X6.1"
+    },
+    {
+      "id": "eye_R_parts",
+      "name": "右眼组",
+      "parent": "EyeSocket_R",
+      "draw": 701,
+      "hidden": "socket mask, lids, pupil, highlight separated in X5",
+      "source": "PRD X6.1"
+    },
+    {
+      "id": "whisker_L",
+      "name": "左胡须束",
+      "parent": "Muzzle",
+      "draw": 760,
+      "hidden": "root tucked under muzzle",
+      "source": "three-view-preview"
+    },
+    {
+      "id": "whisker_R",
+      "name": "右胡须束",
+      "parent": "Muzzle",
+      "draw": 761,
+      "hidden": "root tucked under muzzle",
+      "source": "three-view-preview"
+    },
+    {
+      "id": "planet_front",
+      "name": "星球前景边缘/接触阴影",
+      "parent": "PlanetRoot",
+      "draw": 900,
+      "hidden": "front occluder only, not anatomy",
+      "source": "planet-scene-source"
+    }
+  ],
+  "qa": {
+    "overview": "live2d/x4/qa/x4-layer-separation-overview.png",
+    "expandedHiddenFillCheck": "live2d/x4/qa/x4-expanded-hidden-fill-check.png",
+    "review": "live2d/x4/X4-USER-VISUAL-REVIEW.md"
+  },
+  "nextGateIfApproved": "X5 layer-boundary triangulation and Layer-Mesh-Node contract"
+}

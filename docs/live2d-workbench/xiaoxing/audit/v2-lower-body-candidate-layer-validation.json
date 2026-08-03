@@ -1,0 +1,12 @@
+{
+  "status": "self_review_passed_candidate_layers",
+  "layerCount": 7,
+  "errors": [],
+  "rules": {
+    "full_canvas_rgba": true,
+    "lineart_contract_geometry": true,
+    "no_texture": true,
+    "no_artmesh": true,
+    "no_motion": true
+  }
+}

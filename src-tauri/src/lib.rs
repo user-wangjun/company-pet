@@ -28,6 +28,12 @@ struct OpenPlatformPayload {
     reset_pet_position: bool,
 }
 
+#[derive(Clone, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+struct TaskSchedulerWakeupPayload {
+    care_kind: Option<String>,
+}
+
 #[tauri::command]
 fn record_interaction(event: String) -> Result<(), String> {
     let Ok(path) = std::env::var("XIAOJU_SELF_TEST_LOG") else {
@@ -48,6 +54,19 @@ fn emit_open_platform(app: &tauri::AppHandle, reset_pet_position: bool) {
         OPEN_PLATFORM_EVENT,
         OpenPlatformPayload { reset_pet_position },
     );
+}
+
+fn show_window(app: &tauri::AppHandle, label: &str) {
+    if let Some(window) = app.get_webview_window(label) {
+        let _ = window.show();
+        let _ = window.unminimize();
+        let _ = window.set_focus();
+    }
+}
+
+fn show_platform(app: &tauri::AppHandle, reset_pet_position: bool) {
+    show_window(app, "platform");
+    emit_open_platform(app, reset_pet_position);
 }
 
 fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
@@ -91,36 +110,20 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
             .show_menu_on_left_click(false)
             .on_menu_event(move |app, event| match event.id().as_ref() {
                 MENU_NEW_TASK => {
-                    if let Some(window) = app.get_webview_window("main") {
-                        let _ = window.show();
-                        let _ = window.unminimize();
-                        let _ = window.set_focus();
-                        let _ = app.emit("open-task-quick-create", ());
-                        let _ = show_item_menu.set_text("隐藏愈心桌宠");
-                    }
+                    show_platform(app, false);
+                    let _ = app.emit("open-task-quick-create", ());
                 }
                 MENU_TODAY_TASKS | MENU_REMINDERS => {
-                    if let Some(window) = app.get_webview_window("main") {
-                        let _ = window.show();
-                        let _ = window.unminimize();
-                        let _ = window.set_focus();
-                        let event_name = if event.id().as_ref() == MENU_TODAY_TASKS {
-                            "open-task-today"
-                        } else {
-                            "open-task-reminders"
-                        };
-                        let _ = app.emit(event_name, ());
-                        let _ = show_item_menu.set_text("隐藏愈心桌宠");
-                    }
+                    show_platform(app, false);
+                    let event_name = if event.id().as_ref() == MENU_TODAY_TASKS {
+                        "open-task-today"
+                    } else {
+                        "open-task-reminders"
+                    };
+                    let _ = app.emit(event_name, ());
                 }
                 MENU_OPEN_PLATFORM => {
-                    if let Some(window) = app.get_webview_window("main") {
-                        let _ = window.show();
-                        let _ = window.unminimize();
-                        let _ = window.set_focus();
-                        emit_open_platform(app, false);
-                        let _ = show_item_menu.set_text("隐藏愈心桌宠");
-                    }
+                    show_platform(app, false);
                 }
                 MENU_SHOW => {
                     if let Some(window) = app.get_webview_window("main") {
@@ -132,7 +135,6 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
                                 let _ = window.show();
                                 let _ = window.unminimize();
                                 let _ = window.set_focus();
-                                emit_open_platform(app, true);
                                 "隐藏愈心桌宠"
                             };
                             let _ = show_item_menu.set_text(new_text);
@@ -169,14 +171,9 @@ fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
                 } = event
                 {
                     let app = tray.app_handle();
-                    if let Some(window) = app.get_webview_window("main") {
-                        let was_visible = window.is_visible().unwrap_or(true);
-                        let _ = window.show();
-                        let _ = window.unminimize();
-                        let _ = window.set_focus();
-                        emit_open_platform(&app, !was_visible);
-                        let _ = show_item_tray.set_text("隐藏愈心桌宠");
-                    }
+                    show_window(&app, "main");
+                    show_platform(&app, false);
+                    let _ = show_item_tray.set_text("隐藏愈心桌宠");
                 }
             })
             .build(app)?;
@@ -198,12 +195,15 @@ pub fn run() {
                 .iter()
                 .any(|argument| argument == "--task-reminder-wakeup")
             {
-                let _ = app.emit("task-scheduler-wakeup", ());
-            } else if let Some(window) = app.get_webview_window("main") {
-                let _ = window.show();
-                let _ = window.unminimize();
-                let _ = window.set_focus();
-                emit_open_platform(app, false);
+                let _ = app.emit(
+                    "task-scheduler-wakeup",
+                    TaskSchedulerWakeupPayload {
+                        care_kind: task_scheduler::task_scheduler_wakeup_kind_from_args(&args),
+                    },
+                );
+            } else {
+                show_window(app, "main");
+                show_platform(app, false);
             }
         }))
         .plugin(tauri_plugin_deep_link::init())
@@ -216,7 +216,9 @@ pub fn run() {
             desktop_icons::is_point_on_desktop,
             task_scheduler::sync_task_schedules,
             task_scheduler::is_task_scheduler_wakeup,
+            task_scheduler::get_task_scheduler_wakeup_kind,
             task_notifications::show_task_notification,
+            task_notifications::show_care_notification,
             task_notifications::show_task_summary_notification,
             task_notifications::get_initial_task_notification_actions,
             task_notifications::clear_task_notification

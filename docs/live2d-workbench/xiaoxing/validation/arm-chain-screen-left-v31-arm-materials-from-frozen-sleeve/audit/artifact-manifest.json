@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "status": "candidate_not_frozen",
+  "artifacts": [
+    {
+      "path": "audit/machine-report.json",
+      "sha256": "e92ba83753c51610092e24265c0e3a48439251b0ed782b76cb214f7c8d4ac635"
+    },
+    {
+      "path": "audit/user-visual-approval-forearm-geometry-2026-07-29.json",
+      "sha256": "c9ce920104a0be71fa2fd3ff9f9ecf88a7ea1ea0c0279a704f9ceb4afbf7ba36"
+    },
+    {
+      "path": "audit/user-visual-approval-upper-arm-geometry-2026-07-28.json",
+      "sha256": "4581ef45a1b923a5c5237d87463d797416d19dbf97d57550381ccd73cbc28288"
+    },
+    {
+      "path": "audit/v31-forearm-geometry-freeze-manifest-2026-07-29.json",
+      "sha256": "d80a4e3e68f81e1eacb06b47db88b100e902d4d09c372cc81b462c72fcec5c6f"
+    },
+    {
+      "path": "audit/v31-upper-arm-geometry-freeze-manifest-2026-07-28.json",
+      "sha256": "0baa6a1a73b1ce791e8ee16164af746cfb2b4fb9aa1c7691a6cd8870a44125f5"
+    },
+    {
+      "path": "layering-contract.json",
+      "sha256": "c56266d33efc50ab5b15172093224e6a7c74dc28180e82cc12d9f5dd81798563"
+    },
+    {
+      "path": "masks/complete/forearm.png",
+      "sha256": "862178856b0bd2e0254775810dbbef45e8678fb1334bde586d7e271213b88d16"
+    },
+    {
+      "path": "masks/complete/hand.png",
+      "sha256": "7c997013ba1bd5809cfbc8066e2131df6365494175393ef710778d10ae9273f0"
+    },
+    {
+      "path": "masks/complete/sleeve.png",
+      "sha256": "ab5306e7a0551583b8ae6873db9dc41c52923dd1a9003cf4c6aca89690d8f6f9"
+    },
+    {
+      "path": "masks/complete/upper_arm.png",
+      "sha256": "6ff9fac95336e8a8797d1281a5f4a7e8e05cbb618c055b417b7a46d3c6c8cc28"
+    },
+    {
+      "path": "masks/hidden/forearm.png",
+      "sha256": "17358f04fe54ca95d2e01a6ae6e153bb434bd23af8807b2015b188b303fafe1d"
+    },
+    {
+      "path": "masks/hidden/hand.png",
+      "sha256": "44a79efca07eab81d40bc0441caf0f12d4bf3a390f7bdd230a7ef69d95ccd14a"
+    },
+    {
+      "path": "masks/hidden/sleeve.png",
+      "sha256": "90e6d3d229ba55171b30639c7ef2c88b5d03f5b35e0e3aff3eed3c198219ce39"
+    },
+    {
+      "path": "masks/hidden/upper_arm.png",
+      "sha256": "4930a48d498081103bc12708d25eda2e11617f75e048aae72605e5e511f78fd9"
+    },
+    {
+      "path": "masks/reference/forearm-before-curved-hidden-root.png",
+      "sha256": "1715df504ee55f48008b8f1f73230a2c50121220044d5e191aa48f3f4beaa264"
+    },
+    {
+      "path": "masks/reference/forearm-before-proximal-fill.png",
+      "sha256": "23233aaf06c90edeaf14052b8696ca0d56c8ff851cbda91c76622b3be8955ab8"
+    },
+    {
+      "path": "masks/reference/forearm-before-smooth-endcaps.png",
+      "sha256": "b2c1db9a7e06f6b84cbbe01e9c1f85a22ebff336a1bb8260a7f9b6e3666a9273"
+    },
+    {
+      "path": "masks/reference/forearm-before-user-convex-caps.png",
+      "sha256": "c6a93f07e3a045afb8609c4a7f569d66a07a1f3d71030c2763731f54b7e63bb5"
+    },
+    {
+      "path": "masks/reference/forearm-before-user-redline-caps.png",
+      "sha256": "50fb4db8b6f426abde441e27ec470d91237e42ded59ba59724ea9f93caef5c71"
+    },
+    {
+      "path": "masks/visible/bracelet-owned-by-forearm.png",
+      "sha256": "4f8a5dfac8bfaa64f8b0b032ae4768526a0805b7d64d81006df582241fd4c850"
+    },
+    {
+      "path": "masks/visible/forearm.png",
+      "sha256": "0e4b2ffd0ad31254f4f311619367fca02f6f2f2a0ed917f7fd2610c8917017e1"
+    },
+    {
+      "path": "masks/visible/hand.png",
+      "sha256": "69cd58e9bb51a43e2a7cc8674f899136b735525f97dde759e58890d48fba3774"
+    },
+    {
+      "path": "masks/visible/sleeve.png",
+      "sha256": "cb190d681d39030487a5487aecbaac3d985e377a3f407a097bd55bfa6fd64daf"
+    },
+    {
+      "path": "masks/visible/upper_arm.png",
+      "sha256": "49a9701e1f780d8a3305f2b4f6063abb58402a1ebb58120d7bb84a3f23520ad7"
+    },
+    {
+      "path": "materials/forearm.png",
+      "sha256": "e786ba59af35ab511dc174cff9ae74025a6b81b534b3d88f444646d6e5c5378a"
+    },
+    {
+      "path": "materials/hand.png",
+      "sha256": "729aa8fc93984c7329f583b71a9204c3b5ea1c43e111b35384d9f5c71ec4a710"
+    },
+    {
+      "path": "materials/sleeve.png",
+      "sha256": "65f6e6df3c4b2ab76c6e69be790a7aa48559fa4cd3dcb69043ab5180d2257cc2"
+    },
+    {
+      "path": "materials/upper_arm.png",
+      "sha256": "7287b78c0d6d4096f808627e442381c5d1533ed4d07ec861a99976a5a4fb27e9"
+    },
+    {
+      "path": "qa/bracelet-forearm-ownership-review.png",
+      "sha256": "d861039672a4424290b1d246f156b8911cd1ee122c54fad7fb5592d809295379"
+    },
+    {
+      "path": "qa/cuff-correction-before-after.png",
+      "sha256": "0ac4ef440f817695e776a3214ec9c587c779a53fc72c75889289a6cadda6957a"
+    },
+    {
+      "path": "qa/default-overlay-original.png",
+      "sha256": "816830474f7ba3b43bf1548e9f4133c53651cb9f9d6853880668bbd62ea138fc"
+    },
+    {
+      "path": "qa/default-recomposition.png",
+      "sha256": "bc715b3fab6be3b938de4139bb70e25cda038fcdab459c948a34d86326c43bdf"
+    },
+    {
+      "path": "qa/displaced-forearm.png",
+      "sha256": "c98c788d991bb80c47c97372a46e2261040bdb5383de25382cc8eb2e7baf91cf"
+    },
+    {
+      "path": "qa/displaced-hand.png",
+      "sha256": "c3a37980ada3570ce701a4b50214819c364f287094c9cf538061fc07e22e0e76"
+    },
+    {
+      "path": "qa/displaced-upper_arm.png",
+      "sha256": "188f6bb0a145f8b510e1c90c06cf24f6d1b424a0e9a672466626e9a5dd7b2ab7"
+    },
+    {
+      "path": "qa/fk-41-slow-preview.gif",
+      "sha256": "f220a970d64ab106b73bc1f2433f9db832266ad74656c651e1da45eefb3b224a"
+    },
+    {
+      "path": "qa/fk-selected-contact-sheet.png",
+      "sha256": "81ebb7b94910542b3185f486bf00c274586a05a31f1a3166d8031b3bd40e8972"
+    },
+    {
+      "path": "qa/forearm-root-before-after.png",
+      "sha256": "cee4a051c1e0ce94699a7f77ca6b6f2f91ea4300329750c42b68949948bf3593"
+    },
+    {
+      "path": "qa/forearm-wrist-length-and-bracelet-review.png",
+      "sha256": "1f464bfa6eb1a2f59dbe2518c4196a9122cce87f9fc2f84cbae2cac926b32bc1"
+    },
+    {
+      "path": "qa/joint-transitions-review.png",
+      "sha256": "930deb68d50dfbdc66bb7800b15cce4d42217db7b3acd3d88f9ab5150d59f8af"
+    },
+    {
+      "path": "qa/source-bracelet-zoom.png",
+      "sha256": "36ac6880fd03cfcad4e41988905d1264aa08377e37088199c52b4bf7274219fb"
+    },
+    {
+      "path": "qa/upper-arm-anatomy-before-after.png",
+      "sha256": "23cd136c10f8fe0ff2657868447b4eb67b425bef97565cae7c99237d905cfee5"
+    },
+    {
+      "path": "qa/V31-阶段A-大臂前臂手-中文视觉审查板.png",
+      "sha256": "fd20e9eeffc657efbe2e1bc18ad8415f08ffeac0d86352343950527a50bfd9db"
+    },
+    {
+      "path": "qa/wrist-hidden-tongue-motion-clearance-review.png",
+      "sha256": "0f29c783ce89e980b244487005ffc4c49813d2b6f8cfb369f3f5c98a24c87dae"
+    },
+    {
+      "path": "qa/zoom-cuff-upper-arm.png",
+      "sha256": "0d8d9dfec391be9955b2d95db99d5293e64eace79474de5131e59c3afd9887bd"
+    },
+    {
+      "path": "qa/zoom-elbow.png",
+      "sha256": "dfa769bbabbe0b362b5a5085884a93b3071890a627248afa90d278a7c1a1031f"
+    },
+    {
+      "path": "qa/zoom-hand.png",
+      "sha256": "ec5f0f8918a99e77e44275d0dd0081996447b0622d2ac178a3b4f202a1055eec"
+    },
+    {
+      "path": "qa/zoom-wrist.png",
+      "sha256": "dd06307dba4a94a40fe367cb437de1192145ae12dd5607b12ae553209f539db0"
+    },
+    {
+      "path": "samples/fk-000.png",
+      "sha256": "2f5af11cc35009fc10c901906b131503e00417318a04bebc3a021abdccaba68d"
+    },
+    {
+      "path": "samples/fk-001.png",
+      "sha256": "832d5da75d096e2ae3758a43daeec2972a552711ae18009c71eecd16ddc38d58"
+    },
+    {
+      "path": "samples/fk-002.png",
+      "sha256": "5ac1c267659443d26bcbe639145b3cd991e93217bd669604eb404d2826d241df"
+    },
+    {
+      "path": "samples/fk-003.png",
+      "sha256": "cb08856988536e8abaf1f4d8376e25331cb392abbc97e302eb6c9d7838c928af"
+    },
+    {
+      "path": "samples/fk-004.png",
+      "sha256": "c61879422e30686beadb8275af48b0fa52aa63a9768af7cb7b59a3f591d7c611"
+    },
+    {
+      "path": "samples/fk-005.png",
+      "sha256": "0ae3e6ad91833d8a00e114b880d9bf9655a6df4b82c4013b04a7c028f13ba8cd"
+    },
+    {
+      "path": "samples/fk-006.png",
+      "sha256": "858d669f017a8ff4511b283d2f6901171510994abd953db3884cee7c73356fdf"
+    },
+    {
+      "path": "samples/fk-007.png",
+      "sha256": "9758f02b27af983b1b8f40387f529327408558e3c6bcfd1607115b690bee0989"
+    },
+    {
+      "path": "samples/fk-008.png",
+      "sha256": "5b2869149f48fa19f5fa19187bedd05f983e5c55e1a71da92709ca871f450c23"
+    },
+    {
+      "path": "samples/fk-009.png",
+      "sha256": "efdc4fb098f7bc4e251de5a9f6eacef069fbc5f718679461f50442c8d8bc32c1"
+    },
+    {
+      "path": "samples/fk-010.png",
+      "sha256": "b93001cb9c5f3c486a69ebef73c80b85bc633e5352157223c7da72af2ef38cf5"
+    },
+    {
+      "path": "samples/fk-011.png",
+      "sha256": "4a6062084858de56b1180b68869b15b0097b1cf2c05ae2f95056ea518e6fc4f1"
+    },
+    {
+      "path": "samples/fk-012.png",
+      "sha256": "56680e4501b2ce7a9ac47efee90451d3822d344077165bfa8828b6f4565e1fdb"
+    },
+    {
+      "path": "samples/fk-013.png",
+      "sha256": "ca0af8803c367503299c31e44dbc7fb9915521b52e9e76c4b72dad58df8c27a1"
+    },
+    {
+      "path": "samples/fk-014.png",
+      "sha256": "03e61cc91b008921fe0efeb35c2bb44df9549a10550e82b965a3e89c8a4d7edc"
+    },
+    {
+      "path": "samples/fk-015.png",
+      "sha256": "d2152a05d0093e1b67331be66c689ee3cca38f2c0d4b20830bf5a64b623d9b93"
+    },
+    {
+      "path": "samples/fk-016.png",
+      "sha256": "6fa7401ea31a2da2dcac5dc0ce88f2e3a85f79d1e30f035837bbdbf6814be350"
+    },
+    {
+      "path": "samples/fk-017.png",
+      "sha256": "981e968f6ae55d9ad2d56df023e31b9c52299f90bd2adad8d569dbf545fa4a0c"
+    },
+    {
+      "path": "samples/fk-018.png",
+      "sha256": "a93330f3100247659b9f04ce130a5aacd0a287cf6ffb6ad57daf4eaa05045dc1"
+    },
+    {
+      "path": "samples/fk-019.png",
+      "sha256": "3fe621b68f2f2a9b2aad845537b72881343b99f239b1c1d61821e8fc39a356b3"
+    },
+    {
+      "path": "samples/fk-020.png",
+      "sha256": "d030a8930814084daae49af187a6644973d1a755fc26339beae03630281937b7"
+    },
+    {
+      "path": "samples/fk-021.png",
+      "sha256": "e85c2265ff4bc1d5020bfb707c075654c7859bad4dde1ce7fb22099a383cac4f"
+    },
+    {
+      "path": "samples/fk-022.png",
+      "sha256": "c73cbb68a5371a95345ec0f4671307b43965f284cab23d264187589da9340eb3"
+    },
+    {
+      "path": "samples/fk-023.png",
+      "sha256": "e64e066abef1bf6946152802252d2ecf95a80772a902c559bb61a935e8196e64"
+    },
+    {
+      "path": "samples/fk-024.png",
+      "sha256": "465098d694be6d4f7f380acec62a041d2a0febe4fda87005b29fdcd10463def0"
+    },
+    {
+      "path": "samples/fk-025.png",
+      "sha256": "a2c11b0bba380cf70a7568b5e3deaafefee5debf26ed6f980360314a02699d93"
+    },
+    {
+      "path": "samples/fk-026.png",
+      "sha256": "331c108841160106031b9b69bf6d6d549f9277b6d380e945537c7b146cb6558e"
+    },
+    {
+      "path": "samples/fk-027.png",
+      "sha256": "3802b1b1a0abc7365138fab7963c29f8fda907aa9a12d5acac6cb1a1697daf57"
+    },
+    {
+      "path": "samples/fk-028.png",
+      "sha256": "1ea80931c624e699ca8f0bc05bd665608015e843e622a1c8b9fe5765183f0da4"
+    },
+    {
+      "path": "samples/fk-029.png",
+      "sha256": "369880df97fd409a91f2395b8e4fee5d0e95cfc6f6edf58a016e78c1542d1616"
+    },
+    {
+      "path": "samples/fk-030.png",
+      "sha256": "095927513e24416cddb1f3dbf9005973b6b994db197877b31d9009772a3a2d7c"
+    },
+    {
+      "path": "samples/fk-031.png",
+      "sha256": "e492ba155edacd8189010ed7338a5e2bca1273661a888ec8929b8b87b445f346"
+    },
+    {
+      "path": "samples/fk-032.png",
+      "sha256": "91cea053abee1781637af77e522eeaa6f99c42a9729a191d2080bf6419087c5b"
+    },
+    {
+      "path": "samples/fk-033.png",
+      "sha256": "23350aabed8367cb266e6698623526690d59bd4f8573caeb94858cae201120d7"
+    },
+    {
+      "path": "samples/fk-034.png",
+      "sha256": "16ed3a4755ecbd9bf0898b5d7ef3fe9916541b4592a6d2b346ea68a9cd9b0f96"
+    },
+    {
+      "path": "samples/fk-035.png",
+      "sha256": "e8e01abb1b0095be808907d1e7a54c9f3559c4a8f8f4e768bb9729f2e348af18"
+    },
+    {
+      "path": "samples/fk-036.png",
+      "sha256": "32c283a30a2501d91dfa04ea447cc27620117cbdae360381abd87df3917c0a3c"
+    },
+    {
+      "path": "samples/fk-037.png",
+      "sha256": "3618625de8ca6ca929202ce87e819d3ffb9d903a87a911f0868ff2ff29bdf819"
+    },
+    {
+      "path": "samples/fk-038.png",
+      "sha256": "7c04b3abc7f526df1b174d85114dcde2514f1a46aa9a52fdd8a3d395fa9ab6a1"
+    },
+    {
+      "path": "samples/fk-039.png",
+      "sha256": "8d8843be89af7ad8b8ac5fd83390742e1a9c18ddb70f41709f77b63c8e4deca1"
+    },
+    {
+      "path": "samples/fk-040.png",
+      "sha256": "d88908a4a19ee346874a04ffd56431180c1557102d8d77ef6fbdcb261ac74a18"
+    },
+    {
+      "path": "samples/fk-41-samples.json",
+      "sha256": "ed03d7c95520badb86ff51c73a373d304da71b2b43d3856b87841424af4dd147"
+    },
+    {
+      "path": "skeleton-lock.json",
+      "sha256": "b670a6a944c7ff49e2eef7fd8e9f9f6d5b6e25e1effbbf8eb88be51bb1aa1fe9"
+    },
+    {
+      "path": "tools/__pycache__/build_v31_arm_materials.cpython-312.pyc",
+      "sha256": "745f1d89f83b636596c9cd565c419e6e5cf23ee6e1ca2c9a2a55a6fcb0759c5e"
+    },
+    {
+      "path": "tools/__pycache__/build_v31_arm_materials.cpython-313.pyc",
+      "sha256": "b146b42dcbdde1fe275e6681caba92fa8e136dfa85c359c457d5cc63bf209031"
+    },
+    {
+      "path": "tools/build_v31_arm_materials.py",
+      "sha256": "643cc91d02e25f9661152462106fb27c860ea90c201fa03b0e9351e7dd3244da"
+    }
+  ]
+}

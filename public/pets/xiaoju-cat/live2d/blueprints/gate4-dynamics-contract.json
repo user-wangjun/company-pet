@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "modelId": "xiaoju-planet-login-v4",
+  "status": "gate3_not_approved_contract_only",
+  "sourceArticle": "https://zhuanlan.zhihu.com/p/383268858",
+  "controlRateHz": 60,
+  "principle": {
+    "activeMotion": "target trajectory plus constrained inverse-dynamics audit",
+    "secondaryMotion": "Cubism Physics spring-damper response only",
+    "runtime": "continuous parameter targets; never pose-image switching"
+  },
+  "generalizedCoordinates": [
+    "ParamBodyX",
+    "ParamBodyY",
+    "ParamBodyAngleZ",
+    "ParamBreath",
+    "ParamBellyContact",
+    "ParamHipShift",
+    "ParamHindLoadL",
+    "ParamHindLoadR",
+    "ParamNeckPitch",
+    "ParamAngleX",
+    "ParamAngleY",
+    "ParamAngleZ",
+    "ParamScapulaL",
+    "ParamScapulaR",
+    "ParamShoulderL",
+    "ParamShoulderR",
+    "ParamElbowL",
+    "ParamElbowR",
+    "ParamWristL",
+    "ParamWristR",
+    "ParamPawContactL",
+    "ParamPawContactR",
+    "ParamTailBase",
+    "ParamTailMid",
+    "ParamTailTip",
+    "ParamEarRootL",
+    "ParamEarRootR",
+    "ParamEarTipL",
+    "ParamEarTipR",
+    "ParamEyeBallX",
+    "ParamEyeBallY",
+    "ParamEyeLOpen",
+    "ParamEyeROpen",
+    "ParamWhiskerL",
+    "ParamWhiskerR"
+  ],
+  "activeChains": {
+    "forelegL": [
+      "ParamScapulaL",
+      "ParamShoulderL",
+      "ParamElbowL",
+      "ParamWristL",
+      "ParamPawContactL"
+    ],
+    "forelegR": [
+      "ParamScapulaR",
+      "ParamShoulderR",
+      "ParamElbowR",
+      "ParamWristR",
+      "ParamPawContactR"
+    ],
+    "balance": [
+      "ParamBodyX",
+      "ParamBodyY",
+      "ParamBodyAngleZ",
+      "ParamHipShift",
+      "ParamHindLoadL",
+      "ParamHindLoadR"
+    ],
+    "gaze": [
+      "ParamEyeBallX",
+      "ParamEyeBallY",
+      "ParamAngleX",
+      "ParamAngleY",
+      "ParamAngleZ"
+    ]
+  },
+  "generalizedEfforts": {
+    "note": "35 generalized coordinates are not 35 torques; forces, constraints, and kinematic controls are classified separately.",
+    "activeRotationalTorques": [
+      "ParamBodyAngleZ",
+      "ParamNeckPitch",
+      "ParamAngleX",
+      "ParamAngleY",
+      "ParamAngleZ",
+      "ParamShoulderL",
+      "ParamShoulderR",
+      "ParamElbowL",
+      "ParamElbowR",
+      "ParamWristL",
+      "ParamWristR",
+      "ParamTailBase",
+      "ParamEarRootL",
+      "ParamEarRootR"
+    ],
+    "passiveElasticTorques": [
+      "ParamTailMid",
+      "ParamTailTip",
+      "ParamEarTipL",
+      "ParamEarTipR",
+      "ParamWhiskerL",
+      "ParamWhiskerR"
+    ],
+    "activeLinearForces": [
+      "ParamBodyX",
+      "ParamBodyY",
+      "ParamHipShift",
+      "ParamScapulaL",
+      "ParamScapulaR"
+    ],
+    "constraintForcesAndPressures": [
+      "ParamBreath",
+      "ParamBellyContact",
+      "ParamHindLoadL",
+      "ParamHindLoadR",
+      "ParamPawContactL",
+      "ParamPawContactR"
+    ],
+    "kinematicOnly": [
+      "ParamEyeBallX",
+      "ParamEyeBallY",
+      "ParamEyeLOpen",
+      "ParamEyeROpen"
+    ],
+    "counts": {
+      "activeRotationalTorque": 14,
+      "passiveElasticTorque": 6,
+      "activeLinearForce": 5,
+      "constraintForceOrPressure": 6,
+      "kinematicOnly": 4,
+      "total": 35
+    },
+    "requiredPerActiveActuator": [
+      "mass_or_inertia",
+      "effort_min",
+      "effort_max",
+      "velocity_max",
+      "acceleration_max",
+      "damping"
+    ],
+    "measurementGate": "derive numerical bounds from final Gate 3 separated geometry; do not guess before Gate 3 approval"
+  },
+  "forelimbSegments": {
+    "upperArm": {
+      "relativeMass": 0.32,
+      "lengthTolerancePct": 3.0,
+      "dampingRatio": 0.82
+    },
+    "forearm": {
+      "relativeMass": 0.22,
+      "lengthTolerancePct": 3.0,
+      "dampingRatio": 0.76
+    },
+    "carpalsPaw": {
+      "relativeMass": 0.15,
+      "lengthTolerancePct": 3.0,
+      "dampingRatio": 0.74
+    }
+  },
+  "jointConstraints": {
+    "elbowFlexionDeg": {
+      "min": 35,
+      "max": 140,
+      "sameBendBranch": true,
+      "maxStepDegPerFrameAt60Hz": 3.5
+    },
+    "scapulaSlide": {
+      "maxChestWidthFraction": 0.06,
+      "direction": "tangent_to_ribcage"
+    },
+    "pawFaceContact": {
+      "lockAfterProgress": 0.94,
+      "maxTangentialDriftPx": 4,
+      "maxNormalCompressionFraction": 0.12,
+      "releaseBeforeReverseProgress": 0.88
+    },
+    "bodyVolume": {
+      "headAreaScale": [0.98, 1.02],
+      "ribcageAreaScale": [0.9, 1.1],
+      "pelvisAreaScale": [0.9, 1.1],
+      "meshJacobianDeterminant": [0.9, 1.1],
+      "contactBandJacobianDeterminant": [0.78, 1.08]
+    }
+  },
+  "eyeControl": {
+    "gaze": {
+      "parameters": ["ParamEyeBallX", "ParamEyeBallY"],
+      "runtimeRange": {
+        "x": [-0.65, 0.65],
+        "y": [-0.45, 0.45]
+      },
+      "materialRangePxAtSourceCanvas": {
+        "x": [-12, 12],
+        "y": [-8, 8]
+      },
+      "requiredClipping": {
+        "pupilL": "EyeClipMask_L",
+        "highlightL": "EyeClipMask_L",
+        "pupilR": "EyeClipMask_R",
+        "highlightR": "EyeClipMask_R"
+      },
+      "coordination": "eyes lead head by 80-140 ms; head catches only after gaze magnitude exceeds 0.35",
+      "reject": ["fixed_pupil_ghost_in_iris", "unclipped_pupil_edge", "eye_and_head_start_simultaneously"]
+    },
+    "blink": {
+      "parameters": ["ParamEyeLOpen", "ParamEyeROpen"],
+      "open": 1.0,
+      "closed": 0.0,
+      "closeDurationMs": [90, 120],
+      "closedHoldMs": [35, 55],
+      "openDurationMs": [130, 180],
+      "leftRightPhaseOffsetMs": [-18, 18],
+      "method": "continuous vertical ArtMesh compression plus closed-lid line fade; never whole-eye image switching",
+      "keyformAuditValues": [1.0, 0.72, 0.42, 0.16, 0.0]
+    },
+    "gate3Evidence": [
+      "gate3/qa/gate3-v5-eye-parts-audit.json",
+      "gate3/qa/gate3-v5-gaze-extremes-contact-sheet.png",
+      "gate3/qa/gate3-v5-blink-contact-sheet.png"
+    ]
+  },
+  "contactStates": [
+    {
+      "id": "supported_rest",
+      "progress": [0.0, 0.12],
+      "externalSupports": ["forepawL", "forepawR", "belly", "hindquarters"]
+    },
+    {
+      "id": "forepaw_release",
+      "progress": [0.12, 0.38],
+      "externalSupports": ["belly", "hindquarters"],
+      "requireComInsideSupportPolygon": true
+    },
+    {
+      "id": "free_reach",
+      "progress": [0.38, 0.78],
+      "externalSupports": ["chest", "belly", "hindquarters"],
+      "requireComInsideSupportPolygon": true
+    },
+    {
+      "id": "face_contact_capture",
+      "progress": [0.78, 0.94],
+      "externalSupports": ["chest", "belly", "hindquarters"],
+      "internalContacts": ["pawL_face", "pawR_face"]
+    },
+    {
+      "id": "face_contact_hold",
+      "progress": [0.94, 1.0],
+      "externalSupports": ["chest", "belly", "hindquarters"],
+      "internalContacts": ["pawL_face_locked", "pawR_face_locked"],
+      "disablePhysicsOutputs": ["ParamWristL", "ParamWristR", "ParamPawContactL", "ParamPawContactR"]
+    }
+  ],
+  "secondaryPhysics": {
+    "allowedOutputs": [
+      "ParamEarTipL",
+      "ParamEarTipR",
+      "ParamTailMid",
+      "ParamTailTip",
+      "ParamWhiskerL",
+      "ParamWhiskerR"
+    ],
+    "forbiddenCorePoseOutputs": [
+      "ParamShoulderL",
+      "ParamShoulderR",
+      "ParamElbowL",
+      "ParamElbowR",
+      "ParamPawContactL",
+      "ParamPawContactR"
+    ],
+    "maxCombinedInfluencePct": 100
+  },
+  "meshWeightRules": {
+    "rigidAnchors": ["joint_pivots", "limb_segment_ends", "paw_face_contact_vertices"],
+    "elasticRegions": ["ear_tips", "tail_tip", "whisker_tips", "chest_fur", "cheek_fur"],
+    "elasticityGradient": "increase_with_distance_from_anatomical_root",
+    "reject": ["triangle_flip", "transparent_hole", "bone_length_change", "whole_body_squash"]
+  },
+  "requiredEvidence": [
+    "cubism_deformer_tree_screenshot",
+    "parameter_extremes_contact_sheet",
+    "quarter_speed_cover_roundtrip_video",
+    "physics_off_vs_on_comparison",
+    "60_second_idle_capture",
+    "runtime_parameter_binding_audit"
+  ]
+}

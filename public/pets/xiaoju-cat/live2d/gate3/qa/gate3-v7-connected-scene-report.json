@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "candidate": "xiaoju-connected-prone-v7",
+  "sourceRole": "single coherent anatomy master before layer separation",
+  "alphaBbox": [
+    122,
+    106,
+    1261,
+    1003
+  ],
+  "transparentCorners": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "variants": [
+    {
+      "id": "A",
+      "width": 1280,
+      "x": 20,
+      "y": 62
+    },
+    {
+      "id": "B",
+      "width": 1340,
+      "x": -5,
+      "y": 38
+    },
+    {
+      "id": "C",
+      "width": 1215,
+      "x": 72,
+      "y": 90
+    }
+  ],
+  "previousV5CompositeVerdict": "rejected_disconnected_anatomy_and_mixed_pose_sources",
+  "gate3Pass": false,
+  "nextGate": "human choose connected scene alignment before any v7 separation"
+}

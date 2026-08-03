@@ -1,10 +1,15 @@
 import type { FormEvent } from "react";
-import type { CompanionChatMessage } from "./companionChatRuntime";
+import type {
+  CompanionChatMessage,
+  CompanionChatProviderInfo,
+} from "./companionChatRuntime";
+import { LOCAL_COMPANION_CHAT_PROVIDER_INFO } from "./companionChatRuntime";
 
 type CompanionChatBubbleProps = {
   messages: CompanionChatMessage[];
   draft: string;
   isWaiting: boolean;
+  providerInfo?: CompanionChatProviderInfo;
   onDraftChange: (draft: string) => void;
   onSend: () => void;
   onStop: () => void;
@@ -14,6 +19,7 @@ export function CompanionChatBubble({
   messages,
   draft,
   isWaiting,
+  providerInfo = LOCAL_COMPANION_CHAT_PROVIDER_INFO,
   onDraftChange,
   onSend,
   onStop,
@@ -31,6 +37,14 @@ export function CompanionChatBubble({
       onMouseDown={(event) => event.stopPropagation()}
       onClick={(event) => event.stopPropagation()}
     >
+      <div
+        className={`companion-chat-provider-notice is-${providerInfo.kind}`}
+        role="status"
+      >
+        <strong>{providerInfo.provider}</strong>
+        <span>{providerInfo.target}</span>
+        <small>{providerInfo.disclosure}</small>
+      </div>
       <div className="companion-chat-messages">
         {messages.map((message) => (
           <div

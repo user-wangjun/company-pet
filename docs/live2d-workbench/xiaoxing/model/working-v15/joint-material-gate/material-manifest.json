@@ -1,0 +1,134 @@
+{
+  "stage": "v15-joint-material-gate",
+  "canvas": [
+    512,
+    1086
+  ],
+  "drawOrder": [
+    {
+      "index": 1,
+      "name": "后发",
+      "path": "model/working-v14/hair-subgroups/01_后发_含遮挡补全.png"
+    },
+    {
+      "index": 2,
+      "name": "画面左腿",
+      "path": "model/working-v10/hidden-thigh/画面左腿_含裙内补全.png"
+    },
+    {
+      "index": 3,
+      "name": "画面右腿",
+      "path": "model/working-v10/hidden-thigh/画面右腿_含裙内补全.png"
+    },
+    {
+      "index": 4,
+      "name": "画面左袜",
+      "path": "model/working-v11/joint-overlaps/画面左袜_含鞋内补全.png"
+    },
+    {
+      "index": 5,
+      "name": "画面右袜",
+      "path": "model/working-v11/joint-overlaps/画面右袜_含鞋内补全.png"
+    },
+    {
+      "index": 6,
+      "name": "画面左鞋",
+      "path": "model/working-v11/joint-overlaps/画面左鞋_原像素.png"
+    },
+    {
+      "index": 7,
+      "name": "画面右鞋",
+      "path": "model/working-v11/joint-overlaps/画面右鞋_原像素.png"
+    },
+    {
+      "index": 8,
+      "name": "裙子",
+      "path": "model/working-v10/hidden-thigh/裙子_原像素.png"
+    },
+    {
+      "index": 9,
+      "name": "颈部",
+      "path": "model/working-v15/joint-material-gate/颈部_含遮挡补全.png"
+    },
+    {
+      "index": 10,
+      "name": "衣身",
+      "path": "model/working-v9/long-hair-shirt/衣身_含长发下补底.png"
+    },
+    {
+      "index": 11,
+      "name": "画面左前臂与整手",
+      "path": "model/working-v11/joint-overlaps/画面左前臂手链整手_含袖内补全.png"
+    },
+    {
+      "index": 12,
+      "name": "画面右前臂与整手",
+      "path": "model/working-v11/joint-overlaps/画面右前臂手链整手_含袖内补全.png"
+    },
+    {
+      "index": 13,
+      "name": "画面左袖",
+      "path": "model/working-v11/joint-overlaps/画面左袖子_原像素.png"
+    },
+    {
+      "index": 14,
+      "name": "画面右袖",
+      "path": "model/working-v11/joint-overlaps/画面右袖子_原像素.png"
+    },
+    {
+      "index": 15,
+      "name": "脸底",
+      "path": "model/working-v14/hair-subgroups/05_脸底.png"
+    },
+    {
+      "index": 16,
+      "name": "画面左眼默认",
+      "path": "model/working-v15/joint-material-gate/画面左眼默认.png"
+    },
+    {
+      "index": 17,
+      "name": "画面右眼默认",
+      "path": "model/working-v15/joint-material-gate/画面右眼默认.png"
+    },
+    {
+      "index": 18,
+      "name": "双眉",
+      "path": "model/working-v14/hair-subgroups/07_双眉.png"
+    },
+    {
+      "index": 19,
+      "name": "画面左侧发",
+      "path": "model/working-v15/joint-material-gate/画面左侧发_含胸前长发原像素.png"
+    },
+    {
+      "index": 20,
+      "name": "画面右侧发",
+      "path": "model/working-v15/joint-material-gate/画面右侧发_含胸前长发原像素.png"
+    },
+    {
+      "index": 21,
+      "name": "刘海",
+      "path": "model/working-v14/hair-subgroups/04_刘海_原像素.png"
+    }
+  ],
+  "alternateHiddenMaterials": [
+    "model/working-v12/eye-hidden-materials/left_01_完整眼白.png",
+    "model/working-v12/eye-hidden-materials/left_02_完整虹膜.png",
+    "model/working-v12/eye-hidden-materials/left_03_完整瞳孔.png",
+    "model/working-v12/eye-hidden-materials/left_04_原高光.png",
+    "model/working-v12/eye-hidden-materials/left_05_眼睑表面原像素.png",
+    "model/working-v12/eye-hidden-materials/left_06_上眼线原像素.png",
+    "model/working-v12/eye-hidden-materials/left_07_下眼线原像素.png",
+    "model/working-v12/eye-hidden-materials/left_08_闭眼线候选.png",
+    "model/working-v12/eye-hidden-materials/right_01_完整眼白.png",
+    "model/working-v12/eye-hidden-materials/right_02_完整虹膜.png",
+    "model/working-v12/eye-hidden-materials/right_03_完整瞳孔.png",
+    "model/working-v12/eye-hidden-materials/right_04_原高光.png",
+    "model/working-v12/eye-hidden-materials/right_05_眼睑表面原像素.png",
+    "model/working-v12/eye-hidden-materials/right_06_上眼线原像素.png",
+    "model/working-v12/eye-hidden-materials/right_07_下眼线原像素.png",
+    "model/working-v12/eye-hidden-materials/right_08_闭眼线候选.png"
+  ],
+  "psdImport": false,
+  "cubismImport": false
+}

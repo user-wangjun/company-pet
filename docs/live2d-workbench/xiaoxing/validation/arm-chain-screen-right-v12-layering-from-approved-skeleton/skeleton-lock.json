@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "status": "locked_from_user_approved_v3_skeleton",
+  "scope": "screen-right arm Stage A layering geometry only",
+  "approvedEvidence": {
+    "approvalRecord": "../arm-chain-screen-right-v3/audit/skeleton-approval.json",
+    "approvedReview": "../arm-chain-screen-right-v3/qa/skeleton-design-review-v3.png",
+    "approvedContract": "../arm-chain-screen-right-v3/skeleton.json"
+  },
+  "authoritativeInputs": [
+    {
+      "role": "three_view_line_identity_and_proportion",
+      "path": "source/xiaoxing-three-view-line.png",
+      "sha256": "7F8605A85DF7FA2C8843E925F8274A06403D884D975B1B195B2A583478DC222C"
+    },
+    {
+      "role": "three_view_color_identity_and_material_reference",
+      "path": "source/xiaoxing-three-view-color.png",
+      "sha256": "2D1B9C71C4E6C17EA503800B05F44BF7BFE127799A5E156886C191B97D350154"
+    },
+    {
+      "role": "front_line_geometry_master",
+      "path": "source/masters/front-line-source-exact-after-reset.png",
+      "sha256": "706AAF10652147CF76E233532B5459CE130921A96806F6970C91E1F3A427172F",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "role": "front_color_visible_pixel_master",
+      "path": "source/masters/front-color-source-exact-after-reset.png",
+      "sha256": "33B3CE81781C02B36488ED72FA27C2A136682824CA10C42077895EAB0FFB2DD5",
+      "size": [
+        512,
+        1086
+      ]
+    }
+  ],
+  "integerCropContract": {
+    "sourceRect": {
+      "x": 34,
+      "y": 0,
+      "width": 512,
+      "height": 1086
+    },
+    "operations": [
+      "integer crop only",
+      "PNG encode",
+      "no resize",
+      "no redraw",
+      "no generation"
+    ],
+    "evidence": "audit/reset-source-fidelity-audit.json"
+  },
+  "canvas": {
+    "width": 512,
+    "height": 1086,
+    "origin": "top_left",
+    "xAxis": "right",
+    "yAxis": "down"
+  },
+  "landmarks": {
+    "shoulder": {
+      "x": 332.0,
+      "y": 261.0,
+      "evidence": "anatomical pivot inferred beneath the sleeve",
+      "confidence": "inferred"
+    },
+    "elbow": {
+      "x": 355.0,
+      "y": 415.0,
+      "evidence": "visible skin center at y=415 plus projected upper-arm/forearm balance",
+      "confidence": "estimated_with_visible_and_proportion_evidence"
+    },
+    "wrist": {
+      "x": 393.0,
+      "y": 533.0,
+      "evidence": "joint center estimated beneath bracelet occlusion",
+      "confidence": "estimated_occluded"
+    }
+  },
+  "boneLengthsPx": {
+    "L1ShoulderToElbow": 155.70806,
+    "L2ElbowToWrist": 123.967738,
+    "ratioL1ToL2": 1.256037,
+    "lockedForStageAAfterApproval": true,
+    "analyticTolerancePx": 0.01,
+    "renderedEndpointTolerancePx": 0.25
+  },
+  "restAnglesDeg": {
+    "theta1": 81.505624,
+    "theta2": -9.355943,
+    "forearmGlobal": 72.149682
+  },
+  "allowedRangesDeg": {
+    "theta1": {
+      "min": 73.505624,
+      "max": 89.505624,
+      "reason": "rest plus or minus 8 degrees"
+    },
+    "theta2": {
+      "min": -27.355943,
+      "max": -3.355943,
+      "preferredBendBranch": "negative_theta2_screen_right_outward",
+      "reason": "keeps the outward branch and does not cross the straight-arm branch"
+    }
+  },
+  "motion": {
+    "name": "quiet_outward_arm_shift",
+    "rest": {
+      "theta1": 81.505624,
+      "theta2": -9.355943
+    },
+    "target": {
+      "theta1": 73.505624,
+      "theta2": -19.355943
+    },
+    "sampleCount": 41,
+    "path": "0_to_1_to_0",
+    "progressFunction": "for i=0..20: 0.5*(1-cos(pi*i/20)); for i=21..40 use i'=40-i",
+    "physics": false,
+    "deterministicReturnRequired": true
+  },
+  "parentChildRelations": [
+    {
+      "id": "shoulder_rotation",
+      "parent": "torso_anchor_out_of_scope",
+      "pivot": "shoulder"
+    },
+    {
+      "id": "sleeve",
+      "parent": "shoulder_rotation"
+    },
+    {
+      "id": "upper_arm",
+      "parent": "shoulder_rotation"
+    },
+    {
+      "id": "elbow_rotation",
+      "parent": "shoulder_rotation",
+      "pivot": "elbow"
+    },
+    {
+      "id": "forearm",
+      "parent": "elbow_rotation"
+    },
+    {
+      "id": "wrist_rotation",
+      "parent": "elbow_rotation",
+      "pivot": "wrist"
+    },
+    {
+      "id": "hand",
+      "parent": "wrist_rotation"
+    }
+  ],
+  "drawOrderBackToFront": [
+    {
+      "id": "upper_arm",
+      "order": 10
+    },
+    {
+      "id": "forearm",
+      "order": 20
+    },
+    {
+      "id": "hand",
+      "order": 30
+    },
+    {
+      "id": "sleeve",
+      "order": 40
+    }
+  ],
+  "geometryMutation": "none"
+}

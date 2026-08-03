@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V14 screen-left arm corrected ownership and complete textures",
+  "decisionDate": "2026-07-28",
+  "decisionOwner": "user",
+  "decision": "approved",
+  "decisionText": "合适，请继续任务",
+  "approvedScope": [
+    "448 cuff-edge pixels reassigned from upper arm to sleeve without modifying frozen V13",
+    "complete sleeve texture",
+    "complete upper-arm texture",
+    "complete forearm texture including bracelet ownership",
+    "complete whole-hand texture including the source-registered enclosed finger gap",
+    "41-sample seam scan and deterministic return"
+  ],
+  "approvedEvidence": {
+    "reviewBoard": {
+      "path": "qa/V14-COMPLETE-TEXTURE-USER-REVIEW.zh-CN.png",
+      "sha256": "057e8575aab9c750d1a971a0299dc1d1f4109791339a361a7573394726786058"
+    },
+    "slowScan": {
+      "path": "qa/V14-TEXTURE-SEAM-SLOW-SCAN.gif",
+      "sha256": "37155f9a0548912bfab52460db7ef539926b5bd2d94f35226d23b1ee9b4e5528"
+    }
+  },
+  "authorization": {
+    "artMesh": true,
+    "nodesBeforeMeshVisualApproval": false,
+    "activeMotionBeforeNodeApproval": false,
+    "physics": false,
+    "runtime": false
+  }
+}

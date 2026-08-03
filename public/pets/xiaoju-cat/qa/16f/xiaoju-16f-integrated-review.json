@@ -1,0 +1,51 @@
+{
+  "status": "pass",
+  "rows": [
+    {
+      "animation": "idle",
+      "resource": "idle-16-spritesheet.png",
+      "frames": 16,
+      "previewGif": "qa/16f/previews/idle.gif",
+      "bboxWidthRange": [
+        162,
+        184
+      ],
+      "bboxHeightRange": [
+        116,
+        123
+      ],
+      "visualReview": "pass: same orange tabby identity, stable baseline, no slot overlap, no detached effects"
+    },
+    {
+      "animation": "dragRight",
+      "resource": "drag-right-16-spritesheet.png",
+      "frames": 16,
+      "previewGif": "qa/16f/previews/dragRight.gif",
+      "bboxWidthRange": [
+        161,
+        178
+      ],
+      "bboxHeightRange": [
+        193,
+        198
+      ],
+      "visualReview": "pass: same orange tabby identity, stable baseline, no slot overlap, no detached effects"
+    },
+    {
+      "animation": "dragLeft",
+      "resource": "drag-left-16-spritesheet.png",
+      "frames": 16,
+      "previewGif": "qa/16f/previews/dragLeft.gif",
+      "bboxWidthRange": [
+        161,
+        178
+      ],
+      "bboxHeightRange": [
+        193,
+        198
+      ],
+      "visualReview": "pass: same orange tabby identity, stable baseline, no slot overlap, no detached effects"
+    }
+  ],
+  "reviewImage": "qa/16f/xiaoju-16f-integrated-review.png"
+}

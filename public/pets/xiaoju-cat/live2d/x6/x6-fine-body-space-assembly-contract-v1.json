@@ -1,0 +1,1677 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-fine-independent-material-body-space-assembly",
+  "status": "rejected-visible-replacement-experiment",
+  "evidenceClassification": "historical fine-material placement experiment; not the production rest stack",
+  "supersededBy": "live2d/x6/x6-production-layer-stack-contract-v2.json",
+  "sourceContract": "live2d/x5/x5-generated-fine-layer-candidates-contract-v1.json",
+  "sourceMaterialCount": 63,
+  "allSourceMaterialsRegistered": true,
+  "compositionUsesFullSpreadPoseSource": false,
+  "compositionReadsTransformedPngInstancesOnly": true,
+  "sourceMaterialSha256": {
+    "head_base_front": "43383361542453dee94446a7d2f7c94bb3cfb69cbf021c214a8b82c485a193f6",
+    "cheek_fur_L": "cbe78c18935ad2d5c2b51e6314465bd8e6d5b8d8a5cde54b3103bfd997d9597d",
+    "muzzle_base": "c987c2a6a98cacf9e39bf62c1a41f2658c906d5c0a5287ab16372a652d5a0e0b",
+    "cheek_fur_R": "f7904dd4717bf357dd364f6af144524122e2e8efa0d03a572ad580424b983ad1",
+    "head_base_side": "9eb8f31e69616443470cd2ec84677a3036a9570f70dab1e0d55690b23a4f70bf",
+    "ear_face_L": "fb618154df654e7e5c162ebad0340dca6104d35b4eedf129292f22044609de25",
+    "ear_tip_L": "3b1c285eb7205cb98dc5c58ae9eec427de56c973d17a283d0fffad64f605409a",
+    "ear_face_R": "48e847c07ead95cfc041cc0b21a953629b958386838898052bcae83c1281b626",
+    "head_ear_back": "15edca4281907639166020fcb6078cd53dfeb738fb25462b767f12fa2a59c74f",
+    "ear_tip_R": "2194ae8d5c0e74dcdeecf55337fca66cc828fd2b12a065c89cfc976113addccb",
+    "eye_socket_L": "b27353df24b1087da69ccaff573c8a34299b452e9ecd33bacec924f08ba04b86",
+    "eye_socket_R": "2ba4758f47da02c200e74b80cccd7662fd574427b736a148e9c71d25e64559a9",
+    "iris_L": "7299b4cd8fecb59107cc87848850c95d9660381b9c6cc7d227d2410d6f1cfb02",
+    "iris_R": "dd41e9441e884b8115eb14794d94a74b62a00911be6845445b614b3c52bacfab",
+    "pupil_L": "66ddbd9b32ea67dc7df23bd2f68cce7bef6b98466f35cc3cb9c7ca730f06add6",
+    "pupil_R": "5e4436a11fd59a26bc8c0863afe7ea5f6ef3f835b7461c919df97307f0a6079e",
+    "highlight_L": "134236353dd4a0d1266ee0a20376d645d518d8acbce044e8cc25241accd0b32e",
+    "highlight_R": "86da195ac741e53d25981b0a62194616eefeef8d95fce5dad69162eaa5fb4f87",
+    "upper_lid_L": "c4cac71ac1e69b618f1ad997be3475ecdeded0848b863965b92438f275c68f09",
+    "upper_lid_R": "73a5af43bfee1c0be5285dffaa38de0bdf25f3d73c877d1af91097a1c60dac92",
+    "lower_lid_L": "a9594fff6712ec5a56a591aaff75526023e3ed307df1efc965ba23d42bd9c70a",
+    "lower_lid_R": "390143d5bb36db20e3b2050d8ab86d7e48be525fdd5d0c9f0bf82a8a7995013f",
+    "whisker_L": "c0958499a1c6acc6c14f2ae7edff6f3f0bf65828601649e2062af6ed459cd248",
+    "whisker_R": "77e6c70cdf4eab16993015a5515012dab86f66d33a71b1a94df38cdbabc5e56e",
+    "neck_fill": "71fd0b68cbd5231f6adfe99b674e9b20e26b508891761f93b183e6f7f499919c",
+    "chest_fur": "d8a21d186505fc48abc3cbcf4c34443d6d18939317a654ea058019fbfc4fba92",
+    "ribcage_front": "a9273ec63baa964ad49f5a700620072b7e7666092cb305068cbe6bc54adb76f5",
+    "abdomen_front": "ee4e6592b8272929b0149cf20f0a739f44afb811323b66809fc83ade3c0d5d18",
+    "pelvis_front": "a5cdcaecdde0007365a167c8c592c3b473dbbeedda197ef818551220b154cba9",
+    "torso_side": "a188f5a1e7ef5e81c419f2c17c7c374a734b9eb4b8cb41aefbd859c3e904e54d",
+    "upper_arm_L": "6485f3aa3072c32a76d63b4ee38599e31ac7625d3c11984c5dc222c7b32b1ef6",
+    "fore_paw_L": "c7d75c6ec7f7541a9ad22e7ecae577e29531521890fc357de4d34e2db0cf0bef",
+    "forearm_L": "33c9efcd0893121c900e3ca9741250a337ba9eb516ce35680eaff58820155c1f",
+    "upper_arm_R": "3012270afd98b91a77a9d3050a4c152a75aea83f57e0dde59a448172f0797321",
+    "forearm_R": "8e6390c6c54f5ccccaff735ff80f83de01d8567281338d69c3d171d615310d8e",
+    "fore_paw_R": "8ef89f77d6cf8076e8fe151572f434c6491acd1dd35da1a2429e1c44db9c53e2",
+    "paw_contact_alt": "20bd2a2e30352b230ae4f7b2de0e63ff150677186c34fc0c8323fe02a5b27392",
+    "hind_thigh_L": "455e585c561c5f559098fe2e7147a17fb26e58a7921b8a86302d4a97b23e565e",
+    "hind_shin_L": "66604e055a60cd055bfa6e3ab596d8ad1d3141d64b026e817d0a17165dd63a11",
+    "hind_thigh_R": "402b114c60d8261db3487c8aa6256923b1a3e7938d2dca005cd7ec4a8c4eb334",
+    "hind_shin_R": "21b01aa950c70310ea846e9cabd69196aa194db0a97e446776586ed4eb6b7bfc",
+    "hind_leg_side_L": "2b25b641cc3d2c1df03d4aa6d0931edc9aaa5e12cc285d9252a61d73a762ec56",
+    "hind_leg_side_R": "32b7cfd03e1d927ec8166bd7c15135e1f9fd651e2ec6d5dd4b38d485d0a0c60b",
+    "tail_root_socket": "f5fdb29d58322e502e9f9fc19f759b1928de4148cae01e11358e1c34e71eed9d",
+    "tail_base": "1583ae9c10426eb06879ff7177c327cebcc4ce0392d1ed8fac08f28d9310047e",
+    "tail_mid_short": "86034a56944564999770ff67dc8f21f60c2c16eb3697678fe4cc1025d9d07d5d",
+    "tail_curve": "6a2523f273934707becb921be0841889ceb318a5f4f55703bdd274e8c88b46d7",
+    "tail_mid_long": "24e09dbf211153e841b34a69ac1d10772a9423080160d38a872b6dd2d92efd5d",
+    "tail_tip_long": "c4b6b704462a4742c9cb687ac8e7698721ab8b1b122484241a5b498273a47ce0",
+    "tail_tip": "bfaf7c94bf9c8192bf32fdeed1c674f78f80fd20f931648fa01a38f66adc386c",
+    "head_back_base": "b335b40bbc4f6ef974f793ef2e2b6164e24bd0dd45db933884b2fd4d668b8086",
+    "head_profile_L": "8096f8061c63249a006ee461a37b716b5a7d518e2437803bb2b4e6b9203b4850",
+    "head_profile_R": "b024e53399e0e135bcacdde2629631bb4b0ddac4b81538c779fb76a3cea25e63",
+    "back_neck_L": "304143f81f2ffd311b0d4fa0559c18ee985fb3306c152a2c3bb0b378d7d9d910",
+    "back_ribcage_L": "ef13001d9cb8da64b742dc50c3a977671600f638d0411930fb352bc12256de79",
+    "back_pelvis_L": "32c4350f03f1096df1ac9eca2aa8a1f3a4f0a97184dd69cd95c1bd1012c97fa2",
+    "back_limb_fill_1": "9772bace77d24c59328b042b9efd3949aa26f7665f3af200d0cec6df6ef1f5ca",
+    "back_limb_fill_2": "5af9429360aa79dbfbd400d7b4685fd761626fea1c8393c39eb3c0f080319d36",
+    "back_limb_fill_3": "87d404fedfc17a832d8cc513784c55806e802ed48e41a894a3d3616e62250e07",
+    "back_torso_1": "1e86f4ef4cf95f035c228b984e706484740c29fafb6e8b3d1893fada1c6dcc7c",
+    "back_torso_2": "331ed43b26ef829e1bae8a8d943b0ccd57e132474e27c988a1e0bb6e5be02d96",
+    "back_torso_3": "e8dd3c10bef32f4cf3beeb6ecf156ba9e1938e98b21dc7c67d2a4d4985fe5622",
+    "back_torso_4": "f6a874502447d8fbb79633f76e9051a7f99fe08b15dfa57438f650966131b1dc"
+  },
+  "canvas": [
+    1800,
+    900
+  ],
+  "viewOrigins": {
+    "front": 0,
+    "side": 600,
+    "back": 1200
+  },
+  "instances": [
+    {
+      "z": 0,
+      "sourceIndex": 44,
+      "sourceId": "tail_root_socket",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/44_shared_tail_root_socket.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/001_front_44_tail_root_socket_1.png",
+      "position": [
+        257,
+        614
+      ],
+      "center": [
+        300,
+        650
+      ],
+      "width": 86,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "d45daf86eb0b617a4aff74dccb350387f7f86e83c1c8a79dabda809ea4bb34af"
+    },
+    {
+      "z": 1,
+      "sourceIndex": 45,
+      "sourceId": "tail_base",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/45_shared_tail_base.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/002_front_45_tail_base_1.png",
+      "position": [
+        244,
+        630
+      ],
+      "center": [
+        300,
+        690
+      ],
+      "width": 112,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "7a73196c45567a3a9c07f69e9407017b8ae12c46654e409479e62aba6566ae6e"
+    },
+    {
+      "z": 2,
+      "sourceIndex": 48,
+      "sourceId": "tail_mid_long",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/48_shared_tail_mid_long.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/003_front_48_tail_mid_long_1.png",
+      "position": [
+        243,
+        674
+      ],
+      "center": [
+        300,
+        755
+      ],
+      "width": 150,
+      "rotationDeg": 82,
+      "mirror": false,
+      "sha256": "924b5a4c843150b03595265ff87b28407e6c23cec5be912ae9d918bf097df441"
+    },
+    {
+      "z": 3,
+      "sourceIndex": 49,
+      "sourceId": "tail_tip_long",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/49_shared_tail_tip_long.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/004_front_49_tail_tip_long_1.png",
+      "position": [
+        268,
+        740
+      ],
+      "center": [
+        300,
+        815
+      ],
+      "width": 145,
+      "rotationDeg": 86,
+      "mirror": false,
+      "sha256": "a67bf90a23c5ee6731107e42fecd4a141e99bec58cf328b4ec86bc1ee6054f6a"
+    },
+    {
+      "z": 4,
+      "sourceIndex": 50,
+      "sourceId": "tail_tip",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/50_shared_tail_tip.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/005_front_50_tail_tip_1.png",
+      "position": [
+        280,
+        814
+      ],
+      "center": [
+        300,
+        855
+      ],
+      "width": 82,
+      "rotationDeg": 90,
+      "mirror": false,
+      "sha256": "91d0c03370fef1f768d619a0a4cae4263e7891d7c67b40106ee4817ecdf19bdf"
+    },
+    {
+      "z": 5,
+      "sourceIndex": 29,
+      "sourceId": "pelvis_front",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/29_front_pelvis_front.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/006_front_29_pelvis_front_1.png",
+      "position": [
+        168,
+        445
+      ],
+      "center": [
+        300,
+        612
+      ],
+      "width": 264,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "8fdabd8532af0c9e4da1a9f58b1b1bb7c978a6830e34e3a414a17f9fe11c87b2"
+    },
+    {
+      "z": 6,
+      "sourceIndex": 28,
+      "sourceId": "abdomen_front",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/28_front_abdomen_front.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/007_front_28_abdomen_front_1.png",
+      "position": [
+        179,
+        362
+      ],
+      "center": [
+        300,
+        505
+      ],
+      "width": 242,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "b566b1e875a8694f3c7243a31759eace540454a649a0648623afdcd8dbaa8508"
+    },
+    {
+      "z": 7,
+      "sourceIndex": 27,
+      "sourceId": "ribcage_front",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/27_front_ribcage_front.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/008_front_27_ribcage_front_1.png",
+      "position": [
+        181,
+        263
+      ],
+      "center": [
+        300,
+        402
+      ],
+      "width": 238,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "d0781469f465b82a2ac585d28486310461ad5492fefd11250127cbb1e0eaaa47"
+    },
+    {
+      "z": 8,
+      "sourceIndex": 25,
+      "sourceId": "neck_fill",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/25_shared_neck_fill.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/009_front_25_neck_fill_1.png",
+      "position": [
+        215,
+        227
+      ],
+      "center": [
+        300,
+        292
+      ],
+      "width": 170,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "f136e56eb6620871ab2b8be017cb42237402c7db9f70114796db1f6b95828c01"
+    },
+    {
+      "z": 9,
+      "sourceIndex": 26,
+      "sourceId": "chest_fur",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/26_front_chest_fur.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/010_front_26_chest_fur_1.png",
+      "position": [
+        196,
+        246
+      ],
+      "center": [
+        300,
+        350
+      ],
+      "width": 208,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "d2538bcaaaf88d6b21fbe00e693d02f214d2e8fb3447adbc9a7dd42350f55098"
+    },
+    {
+      "z": 10,
+      "sourceIndex": 40,
+      "sourceId": "hind_thigh_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/40_front_hind_thigh_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/011_front_40_hind_thigh_R_1.png",
+      "position": [
+        145,
+        540
+      ],
+      "center": [
+        225,
+        642
+      ],
+      "width": 108,
+      "rotationDeg": 18,
+      "mirror": false,
+      "sha256": "ded553d290c5b4b473d6ff40cdb854b883d244e0165b2c817765d46d61260047"
+    },
+    {
+      "z": 11,
+      "sourceIndex": 41,
+      "sourceId": "hind_shin_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/41_front_hind_shin_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/012_front_41_hind_shin_R_1.png",
+      "position": [
+        55,
+        622
+      ],
+      "center": [
+        165,
+        710
+      ],
+      "width": 94,
+      "rotationDeg": 62,
+      "mirror": false,
+      "sha256": "a2a56f6eb77977a12bd2a81b685e46678f893dc7f64747c5ef9fe1217a348d26"
+    },
+    {
+      "z": 12,
+      "sourceIndex": 38,
+      "sourceId": "hind_thigh_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/38_front_hind_thigh_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/013_front_38_hind_thigh_L_1.png",
+      "position": [
+        287,
+        514
+      ],
+      "center": [
+        375,
+        642
+      ],
+      "width": 108,
+      "rotationDeg": -18,
+      "mirror": false,
+      "sha256": "48e8d3ca44c24f7664c2866d4fc4be1ad6d957b6896074e184711a98b3a84a90"
+    },
+    {
+      "z": 13,
+      "sourceIndex": 39,
+      "sourceId": "hind_shin_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/39_front_hind_shin_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/014_front_39_hind_shin_L_1.png",
+      "position": [
+        324,
+        621
+      ],
+      "center": [
+        435,
+        710
+      ],
+      "width": 94,
+      "rotationDeg": -62,
+      "mirror": false,
+      "sha256": "327759fce370b2d0b3aabff7224aeb3c76ef9eee3c2b5778ac5c4c215fbe0be7"
+    },
+    {
+      "z": 14,
+      "sourceIndex": 34,
+      "sourceId": "upper_arm_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/34_front_upper_arm_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/015_front_34_upper_arm_R_1.png",
+      "position": [
+        123,
+        303
+      ],
+      "center": [
+        210,
+        388
+      ],
+      "width": 90,
+      "rotationDeg": -48,
+      "mirror": false,
+      "sha256": "3d8183d322e4927a8e83ed989c409680e97201f1c14d4f1717ed52d9f0522ed6"
+    },
+    {
+      "z": 15,
+      "sourceIndex": 35,
+      "sourceId": "forearm_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/35_front_forearm_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/016_front_35_forearm_R_1.png",
+      "position": [
+        84,
+        376
+      ],
+      "center": [
+        151,
+        443
+      ],
+      "width": 86,
+      "rotationDeg": -45,
+      "mirror": false,
+      "sha256": "9013707fb4f68b8b4f43fc59f6b0dfd7426bd848ce3281eb7b0b3036c3004987"
+    },
+    {
+      "z": 16,
+      "sourceIndex": 36,
+      "sourceId": "fore_paw_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/36_front_fore_paw_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/017_front_36_fore_paw_R_1.png",
+      "position": [
+        38,
+        435
+      ],
+      "center": [
+        98,
+        492
+      ],
+      "width": 72,
+      "rotationDeg": 56,
+      "mirror": false,
+      "sha256": "580cc74c47081e2a797b6c3ece8879f577a4632716747126e8adb4516646b444"
+    },
+    {
+      "z": 17,
+      "sourceIndex": 31,
+      "sourceId": "upper_arm_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/31_front_upper_arm_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/018_front_31_upper_arm_L_1.png",
+      "position": [
+        323,
+        320
+      ],
+      "center": [
+        390,
+        388
+      ],
+      "width": 90,
+      "rotationDeg": 48,
+      "mirror": false,
+      "sha256": "53fa408d2dbbc1e737a317acfae70b74b1e297e25a6b412395b592fe5a923077"
+    },
+    {
+      "z": 18,
+      "sourceIndex": 33,
+      "sourceId": "forearm_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/33_front_forearm_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/019_front_33_forearm_L_1.png",
+      "position": [
+        370,
+        364
+      ],
+      "center": [
+        449,
+        443
+      ],
+      "width": 86,
+      "rotationDeg": 45,
+      "mirror": false,
+      "sha256": "ac0664a720760878b91a5c749c7010134da2e7d95806aac8b649c4e62126ae4a"
+    },
+    {
+      "z": 19,
+      "sourceIndex": 32,
+      "sourceId": "fore_paw_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/32_front_fore_paw_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/020_front_32_fore_paw_L_1.png",
+      "position": [
+        440,
+        434
+      ],
+      "center": [
+        502,
+        492
+      ],
+      "width": 72,
+      "rotationDeg": -56,
+      "mirror": false,
+      "sha256": "21ee9e49ec0933f286b2b77e7d05551a7d0144d728631db0ee820b68aad67ff0"
+    },
+    {
+      "z": 20,
+      "sourceIndex": 1,
+      "sourceId": "head_base_front",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/01_front_head_base_front.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/021_front_01_head_base_front_1.png",
+      "position": [
+        165,
+        67
+      ],
+      "center": [
+        300,
+        185
+      ],
+      "width": 270,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "4ebc4a40e2a4a6ee576f50634ffda9e695812474850abba84532a3417ba6593c"
+    },
+    {
+      "z": 21,
+      "sourceIndex": 4,
+      "sourceId": "cheek_fur_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/04_front_cheek_fur_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/022_front_04_cheek_fur_R_1.png",
+      "position": [
+        156,
+        137
+      ],
+      "center": [
+        225,
+        220
+      ],
+      "width": 126,
+      "rotationDeg": -4,
+      "mirror": false,
+      "sha256": "cfe8ba33a278ee9325ac9bf36bfd9f693a88cc23147204fcbe80982893f92222"
+    },
+    {
+      "z": 22,
+      "sourceIndex": 2,
+      "sourceId": "cheek_fur_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/02_front_cheek_fur_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/023_front_02_cheek_fur_L_1.png",
+      "position": [
+        306,
+        134
+      ],
+      "center": [
+        375,
+        220
+      ],
+      "width": 126,
+      "rotationDeg": 4,
+      "mirror": false,
+      "sha256": "d8cad054bd8a0d189289f3e69ffe0ad261fd8b43413a112c0063201f5ac19215"
+    },
+    {
+      "z": 23,
+      "sourceIndex": 8,
+      "sourceId": "ear_face_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/08_front_ear_face_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/024_front_08_ear_face_R_1.png",
+      "position": [
+        171,
+        42
+      ],
+      "center": [
+        220,
+        106
+      ],
+      "width": 84,
+      "rotationDeg": -7,
+      "mirror": false,
+      "sha256": "4c1b6c028ee6448147d87f982160dfd05b22fa08db6a7c2d0977177c126c0c75"
+    },
+    {
+      "z": 24,
+      "sourceIndex": 10,
+      "sourceId": "ear_tip_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/10_front_ear_tip_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/025_front_10_ear_tip_R_1.png",
+      "position": [
+        189,
+        44
+      ],
+      "center": [
+        217,
+        72
+      ],
+      "width": 50,
+      "rotationDeg": -6,
+      "mirror": false,
+      "sha256": "b12c5c1ff4de32347fa929cc6f05e9b9f8bc649845e69a6c4fb46914b6e9e469"
+    },
+    {
+      "z": 25,
+      "sourceIndex": 6,
+      "sourceId": "ear_face_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/06_front_ear_face_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/026_front_06_ear_face_L_1.png",
+      "position": [
+        330,
+        40
+      ],
+      "center": [
+        380,
+        106
+      ],
+      "width": 84,
+      "rotationDeg": 7,
+      "mirror": false,
+      "sha256": "b3142046806344e2204f798900252a94ad9d9749ed532b11a98ab54d3b0a3c85"
+    },
+    {
+      "z": 26,
+      "sourceIndex": 7,
+      "sourceId": "ear_tip_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/07_front_ear_tip_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/027_front_07_ear_tip_L_1.png",
+      "position": [
+        355,
+        48
+      ],
+      "center": [
+        383,
+        72
+      ],
+      "width": 50,
+      "rotationDeg": 6,
+      "mirror": false,
+      "sha256": "fe9d3941f5eccd9f17f658ecb902c671cc8649139a3925397d71e4a7ee0d71cb"
+    },
+    {
+      "z": 27,
+      "sourceIndex": 3,
+      "sourceId": "muzzle_base",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/03_front_muzzle_base.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/028_front_03_muzzle_base_1.png",
+      "position": [
+        239,
+        210
+      ],
+      "center": [
+        300,
+        242
+      ],
+      "width": 122,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "51dabb663e49a38decb2ad88241e3bda0ed804f805b66e7d9377967e24782a15"
+    },
+    {
+      "z": 28,
+      "sourceIndex": 12,
+      "sourceId": "eye_socket_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/12_front_eye_socket_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/029_front_12_eye_socket_R_1.png",
+      "position": [
+        223,
+        163
+      ],
+      "center": [
+        252,
+        186
+      ],
+      "width": 58,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "5ac98fd2beab1f8309576d32eef584141a00ff214d9d4e85f9143c2684e422a4"
+    },
+    {
+      "z": 29,
+      "sourceIndex": 11,
+      "sourceId": "eye_socket_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/11_front_eye_socket_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/030_front_11_eye_socket_L_1.png",
+      "position": [
+        319,
+        164
+      ],
+      "center": [
+        348,
+        186
+      ],
+      "width": 58,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "8739eab1f06470af034151c9359686eba6d56102c01e16cc65ca1ca9b9588cd7"
+    },
+    {
+      "z": 30,
+      "sourceIndex": 14,
+      "sourceId": "iris_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/14_front_iris_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/031_front_14_iris_R_1.png",
+      "position": [
+        234,
+        168
+      ],
+      "center": [
+        252,
+        186
+      ],
+      "width": 37,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "d21537225d5069fe64479d01d29302639d3013677c02e7236951d3f2deae3d3d"
+    },
+    {
+      "z": 31,
+      "sourceIndex": 13,
+      "sourceId": "iris_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/13_front_iris_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/032_front_13_iris_L_1.png",
+      "position": [
+        330,
+        168
+      ],
+      "center": [
+        348,
+        186
+      ],
+      "width": 37,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "f10058c2af61ae6b5488b3b24dd3508ebad87e3572801df0e2ec932a832e5e8d"
+    },
+    {
+      "z": 32,
+      "sourceIndex": 16,
+      "sourceId": "pupil_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/16_front_pupil_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/033_front_16_pupil_R_1.png",
+      "position": [
+        244,
+        179
+      ],
+      "center": [
+        252,
+        188
+      ],
+      "width": 15,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "9cf76325baa0a244e2d20bd3e1de1f6f41370fd818bcd77983b056db0ff0f7ec"
+    },
+    {
+      "z": 33,
+      "sourceIndex": 15,
+      "sourceId": "pupil_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/15_front_pupil_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/034_front_15_pupil_L_1.png",
+      "position": [
+        340,
+        178
+      ],
+      "center": [
+        348,
+        188
+      ],
+      "width": 15,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "73c753979694c4e09aedbda3d6f5430dae0d0527f95e0315321379288f5a67a1"
+    },
+    {
+      "z": 34,
+      "sourceIndex": 18,
+      "sourceId": "highlight_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/18_front_highlight_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/035_front_18_highlight_R_1.png",
+      "position": [
+        240,
+        172
+      ],
+      "center": [
+        245,
+        177
+      ],
+      "width": 9,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "885a29db5c6eea2c34b4470cf6c99dbe3d63c373beccb3a825b2e571dc99aee2"
+    },
+    {
+      "z": 35,
+      "sourceIndex": 17,
+      "sourceId": "highlight_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/17_front_highlight_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/036_front_17_highlight_L_1.png",
+      "position": [
+        336,
+        172
+      ],
+      "center": [
+        341,
+        177
+      ],
+      "width": 9,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "2831bb1dbfef405779014417c576c12ef26bfc8e5d078a8de750a33e283b63e9"
+    },
+    {
+      "z": 36,
+      "sourceIndex": 20,
+      "sourceId": "upper_lid_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/20_front_upper_lid_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/037_front_20_upper_lid_R_1.png",
+      "position": [
+        224,
+        158
+      ],
+      "center": [
+        252,
+        167
+      ],
+      "width": 56,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "922c60e4f94a076cd8bab7c60eb2cb64cb6714ac7b7c621db5207877f7d05915"
+    },
+    {
+      "z": 37,
+      "sourceIndex": 19,
+      "sourceId": "upper_lid_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/19_front_upper_lid_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/038_front_19_upper_lid_L_1.png",
+      "position": [
+        320,
+        158
+      ],
+      "center": [
+        348,
+        167
+      ],
+      "width": 56,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "c491dbb8fc27b52a0d323cb239eaf3370a1e676977c0c3d4eab6dffdde63683c"
+    },
+    {
+      "z": 38,
+      "sourceIndex": 22,
+      "sourceId": "lower_lid_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/22_front_lower_lid_R.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/039_front_22_lower_lid_R_1.png",
+      "position": [
+        225,
+        198
+      ],
+      "center": [
+        252,
+        205
+      ],
+      "width": 54,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "f36212b580e81850c34dacebc7bf9186506ee044e9f4fcac49d1f2b360daa05f"
+    },
+    {
+      "z": 39,
+      "sourceIndex": 21,
+      "sourceId": "lower_lid_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/21_front_lower_lid_L.png",
+      "view": "front",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/040_front_21_lower_lid_L_1.png",
+      "position": [
+        321,
+        198
+      ],
+      "center": [
+        348,
+        205
+      ],
+      "width": 54,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "01f080b7300c71f6dbcc77c5e59519588cc0ee8f7e55aaf8b09daf2f22e659af"
+    },
+    {
+      "z": 40,
+      "sourceIndex": 23,
+      "sourceId": "whisker_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/23_front_whisker_L.png",
+      "view": "front",
+      "role": "registered-source-defect-hidden",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/041_front_23_whisker_L_1.png",
+      "position": [
+        135,
+        159
+      ],
+      "center": [
+        210,
+        247
+      ],
+      "width": 150,
+      "rotationDeg": 0,
+      "mirror": false,
+      "sha256": "85c3285f9d402e42349d9e15411295ca87d43d15db2b2000b449e1a51b9e5d9c"
+    },
+    {
+      "z": 41,
+      "sourceIndex": 24,
+      "sourceId": "whisker_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/24_front_whisker_R.png",
+      "view": "front",
+      "role": "registered-source-defect-hidden",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/042_front_24_whisker_R_1.png",
+      "position": [
+        315,
+        156
+      ],
+      "center": [
+        390,
+        247
+      ],
+      "width": 150,
+      "rotationDeg": 0,
+      "mirror": false,
+      "sha256": "201ef1f77867aea796dc493ef9c6bbd7cd6c71d4693c352693779efa9fff1aac"
+    },
+    {
+      "z": 42,
+      "sourceIndex": 49,
+      "sourceId": "tail_tip_long",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/49_shared_tail_tip_long.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/043_side_49_tail_tip_long_1.png",
+      "position": [
+        988,
+        670
+      ],
+      "center": [
+        1100,
+        735
+      ],
+      "width": 210,
+      "rotationDeg": -15,
+      "mirror": false,
+      "sha256": "7466c296cf264996dacd8b1358bd74aa69ead1071e31960dc3b499450a84c66a"
+    },
+    {
+      "z": 43,
+      "sourceIndex": 48,
+      "sourceId": "tail_mid_long",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/48_shared_tail_mid_long.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/044_side_48_tail_mid_long_1.png",
+      "position": [
+        941,
+        581
+      ],
+      "center": [
+        1070,
+        690
+      ],
+      "width": 220,
+      "rotationDeg": -25,
+      "mirror": false,
+      "sha256": "9ca7603cea4ba8f050ecb39904a3fd2814755ef8e17e6bd76b9e8d8f1214501d"
+    },
+    {
+      "z": 44,
+      "sourceIndex": 47,
+      "sourceId": "tail_curve",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/47_side_tail_curve.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/045_side_47_tail_curve_1.png",
+      "position": [
+        895,
+        495
+      ],
+      "center": [
+        1020,
+        625
+      ],
+      "width": 176,
+      "rotationDeg": -28,
+      "mirror": false,
+      "sha256": "e395121c22afc18a6e1435aa335565397fa3b5baf44e1a16c18edc9477f4537a"
+    },
+    {
+      "z": 45,
+      "sourceIndex": 43,
+      "sourceId": "hind_leg_side_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/43_side_hind_leg_side_R.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/046_side_43_hind_leg_side_R_1.png",
+      "position": [
+        915,
+        580
+      ],
+      "center": [
+        990,
+        675
+      ],
+      "width": 108,
+      "rotationDeg": -16,
+      "mirror": false,
+      "sha256": "5e2fb02c54a123fcf98ae359394d824cec765c3d7207ef433926eaf30589b95d"
+    },
+    {
+      "z": 46,
+      "sourceIndex": 42,
+      "sourceId": "hind_leg_side_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/42_side_hind_leg_side_L.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/047_side_42_hind_leg_side_L_1.png",
+      "position": [
+        830,
+        548
+      ],
+      "center": [
+        915,
+        675
+      ],
+      "width": 108,
+      "rotationDeg": 16,
+      "mirror": false,
+      "sha256": "5c69878a3475fb897493aef21033b4362d80ce9756c7b0c3e96a05a03a8d9366"
+    },
+    {
+      "z": 47,
+      "sourceIndex": 30,
+      "sourceId": "torso_side",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/30_side_torso_side.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/048_side_30_torso_side_1.png",
+      "position": [
+        790,
+        256
+      ],
+      "center": [
+        920,
+        462
+      ],
+      "width": 260,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "eeabbb24e35b8d8cf37f538566aaa8e7b917da6edad43a492017fdb3e3289112"
+    },
+    {
+      "z": 48,
+      "sourceIndex": 25,
+      "sourceId": "neck_fill",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/25_shared_neck_fill.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/049_side_25_neck_fill_1.png",
+      "position": [
+        766,
+        232
+      ],
+      "center": [
+        845,
+        292
+      ],
+      "width": 158,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "8828f0ed29f277a37dc2baf60b741652bec79fac67c6837654604c80b73bdb44"
+    },
+    {
+      "z": 49,
+      "sourceIndex": 37,
+      "sourceId": "paw_contact_alt",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/37_side_paw_contact_alt.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/050_side_37_paw_contact_alt_1.png",
+      "position": [
+        679,
+        422
+      ],
+      "center": [
+        745,
+        490
+      ],
+      "width": 82,
+      "rotationDeg": 36,
+      "mirror": false,
+      "sha256": "ee080078dd951e6c63501ea39dc759b9dd55f41d523cb80f20c9356168248fe3"
+    },
+    {
+      "z": 50,
+      "sourceIndex": 33,
+      "sourceId": "forearm_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/33_front_forearm_L.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/051_side_33_forearm_L_1.png",
+      "position": [
+        712,
+        370
+      ],
+      "center": [
+        780,
+        445
+      ],
+      "width": 80,
+      "rotationDeg": 32,
+      "mirror": false,
+      "sha256": "d9ec41f53b54b446b1a30296d79977fd7fa975296a893cfd10d8b87ff4dec08e"
+    },
+    {
+      "z": 51,
+      "sourceIndex": 31,
+      "sourceId": "upper_arm_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/31_front_upper_arm_L.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/052_side_31_upper_arm_L_1.png",
+      "position": [
+        759,
+        332
+      ],
+      "center": [
+        820,
+        395
+      ],
+      "width": 86,
+      "rotationDeg": 28,
+      "mirror": false,
+      "sha256": "07a4ba55712b5b8af6c6cde907bb6f500c77e7c0d337fec5fc6e13bb90e9a84c"
+    },
+    {
+      "z": 52,
+      "sourceIndex": 5,
+      "sourceId": "head_base_side",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/05_side_head_base_side.png",
+      "view": "side",
+      "role": "registered-redundant-profile-hidden",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/053_side_05_head_base_side_1.png",
+      "position": [
+        710,
+        19
+      ],
+      "center": [
+        815,
+        185
+      ],
+      "width": 210,
+      "rotationDeg": 0,
+      "mirror": false,
+      "sha256": "78b2c25eae4cc135182a8966824c92db27972f5bcb641bfb9fefbadfdae1c79e"
+    },
+    {
+      "z": 53,
+      "sourceIndex": 52,
+      "sourceId": "head_profile_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/52_side_head_profile_L.png",
+      "view": "side",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/054_side_52_head_profile_L_1.png",
+      "position": [
+        690,
+        70
+      ],
+      "center": [
+        805,
+        185
+      ],
+      "width": 230,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "1ca433bd70a00586e965c2f3d6ddadcfbbef9ce36914c3f44f5e06702c6d8eaa"
+    },
+    {
+      "z": 54,
+      "sourceIndex": 6,
+      "sourceId": "ear_face_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/06_front_ear_face_L.png",
+      "view": "side",
+      "role": "registered-duplicate-ear-hidden",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/055_side_06_ear_face_L_1.png",
+      "position": [
+        794,
+        10
+      ],
+      "center": [
+        845,
+        82
+      ],
+      "width": 92,
+      "rotationDeg": 4,
+      "mirror": false,
+      "sha256": "7c4361141efb2b5edc66eb62ff8a6ab5e8b4f6a6d1edde6e5ab22efbf8e178a2"
+    },
+    {
+      "z": 55,
+      "sourceIndex": 53,
+      "sourceId": "head_profile_R",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/53_side_head_profile_R.png",
+      "view": "side",
+      "role": "registered-opposite-profile-hidden",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/056_side_53_head_profile_R_1.png",
+      "position": [
+        690,
+        70
+      ],
+      "center": [
+        805,
+        185
+      ],
+      "width": 230,
+      "rotationDeg": 0,
+      "mirror": false,
+      "sha256": "faf06d76310728d3889c7356d80cefa0f9494db6758bcf8254bfe4cda2d4fc58"
+    },
+    {
+      "z": 56,
+      "sourceIndex": 45,
+      "sourceId": "tail_base",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/45_shared_tail_base.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/057_back_45_tail_base_1.png",
+      "position": [
+        1444,
+        630
+      ],
+      "center": [
+        1500,
+        690
+      ],
+      "width": 112,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "7a73196c45567a3a9c07f69e9407017b8ae12c46654e409479e62aba6566ae6e"
+    },
+    {
+      "z": 57,
+      "sourceIndex": 46,
+      "sourceId": "tail_mid_short",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/46_shared_tail_mid_short.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/058_back_46_tail_mid_short_1.png",
+      "position": [
+        1448,
+        684
+      ],
+      "center": [
+        1500,
+        742
+      ],
+      "width": 104,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "48e7390373874ad3d86aef65870142b94e7a28628a7a7c1aced39371bdd65066"
+    },
+    {
+      "z": 58,
+      "sourceIndex": 48,
+      "sourceId": "tail_mid_long",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/48_shared_tail_mid_long.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/059_back_48_tail_mid_long_1.png",
+      "position": [
+        1445,
+        679
+      ],
+      "center": [
+        1500,
+        760
+      ],
+      "width": 152,
+      "rotationDeg": 84,
+      "mirror": false,
+      "sha256": "6e754aec28f1f2e2a31b36ae688efa011cf63f120e69531ca0e0fdefcacfa463"
+    },
+    {
+      "z": 59,
+      "sourceIndex": 49,
+      "sourceId": "tail_tip_long",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/49_shared_tail_tip_long.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/060_back_49_tail_tip_long_1.png",
+      "position": [
+        1468,
+        750
+      ],
+      "center": [
+        1500,
+        825
+      ],
+      "width": 145,
+      "rotationDeg": 86,
+      "mirror": false,
+      "sha256": "a67bf90a23c5ee6731107e42fecd4a141e99bec58cf328b4ec86bc1ee6054f6a"
+    },
+    {
+      "z": 60,
+      "sourceIndex": 59,
+      "sourceId": "back_limb_fill_3",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/59_back_back_limb_fill_3.png",
+      "view": "back",
+      "role": "mirrored-instance",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/061_back_59_back_limb_fill_3_1.png",
+      "position": [
+        1305,
+        610
+      ],
+      "center": [
+        1405,
+        700
+      ],
+      "width": 102,
+      "rotationDeg": 58,
+      "mirror": true,
+      "sha256": "65204c4c46ffca869d5bab72b2080fd59a3f381601c7ed5f7340b83b987a7cdc"
+    },
+    {
+      "z": 61,
+      "sourceIndex": 59,
+      "sourceId": "back_limb_fill_3",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/59_back_back_limb_fill_3.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/062_back_59_back_limb_fill_3_2.png",
+      "position": [
+        1495,
+        610
+      ],
+      "center": [
+        1595,
+        700
+      ],
+      "width": 102,
+      "rotationDeg": -58,
+      "mirror": false,
+      "sha256": "c596a9aff8eb2cff957020f8906a9dba94d0f19e12bf27464cea908fc65b4c18"
+    },
+    {
+      "z": 62,
+      "sourceIndex": 56,
+      "sourceId": "back_pelvis_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/56_back_back_pelvis_L.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/063_back_56_back_pelvis_L_1.png",
+      "position": [
+        1362,
+        489
+      ],
+      "center": [
+        1500,
+        605
+      ],
+      "width": 276,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "a6e11515324ec41e65cce71c566b3a11e365c2814c612175ff662a9d1a1040b2"
+    },
+    {
+      "z": 63,
+      "sourceIndex": 62,
+      "sourceId": "back_torso_3",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/62_back_back_torso_3.png",
+      "view": "back",
+      "role": "registered-redundant-torso-hidden",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/064_back_62_back_torso_3_1.png",
+      "position": [
+        1365,
+        465
+      ],
+      "center": [
+        1445,
+        565
+      ],
+      "width": 150,
+      "rotationDeg": 3,
+      "mirror": false,
+      "sha256": "4660f86f3165f094c252abbb3df155f81b2893aba17188fedadc2b50c58dac4e"
+    },
+    {
+      "z": 64,
+      "sourceIndex": 63,
+      "sourceId": "back_torso_4",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/63_back_back_torso_4.png",
+      "view": "back",
+      "role": "registered-redundant-torso-hidden",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/065_back_63_back_torso_4_1.png",
+      "position": [
+        1475,
+        473
+      ],
+      "center": [
+        1555,
+        565
+      ],
+      "width": 150,
+      "rotationDeg": -3,
+      "mirror": false,
+      "sha256": "8a0dccaccdfdb578b9d8181491bfab510426ecf9f379b9703ff2803587ad93c2"
+    },
+    {
+      "z": 65,
+      "sourceIndex": 61,
+      "sourceId": "back_torso_2",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/61_back_back_torso_2.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/066_back_61_back_torso_2_1.png",
+      "position": [
+        1368,
+        352
+      ],
+      "center": [
+        1500,
+        492
+      ],
+      "width": 264,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "f6980ff4e81a814dfe2fc2a1dd6047601072c8dfe27f9833539c753899f3a6e3"
+    },
+    {
+      "z": 66,
+      "sourceIndex": 60,
+      "sourceId": "back_torso_1",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/60_back_back_torso_1.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/067_back_60_back_torso_1_1.png",
+      "position": [
+        1364,
+        267
+      ],
+      "center": [
+        1500,
+        392
+      ],
+      "width": 272,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "3bf6d4c41583acdcda9ed6eb9d3165ff2dac9605fb5ead7b03f65eb25d8ef355"
+    },
+    {
+      "z": 67,
+      "sourceIndex": 55,
+      "sourceId": "back_ribcage_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/55_back_back_ribcage_L.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/068_back_55_back_ribcage_L_1.png",
+      "position": [
+        1374,
+        179
+      ],
+      "center": [
+        1500,
+        310
+      ],
+      "width": 252,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "8acc112959a75f109a04d2aebf123e84ba029df288fbf3c85d40d05672f87bb9"
+    },
+    {
+      "z": 68,
+      "sourceIndex": 58,
+      "sourceId": "back_limb_fill_2",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/58_back_back_limb_fill_2.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/069_back_58_back_limb_fill_2_1.png",
+      "position": [
+        1321,
+        340
+      ],
+      "center": [
+        1405,
+        420
+      ],
+      "width": 88,
+      "rotationDeg": -52,
+      "mirror": false,
+      "sha256": "d0be284822def8140458d9e38a0c659940e6a33b296a1f68227fdc32f139ca6f"
+    },
+    {
+      "z": 69,
+      "sourceIndex": 57,
+      "sourceId": "back_limb_fill_1",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/57_back_back_limb_fill_1.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/070_back_57_back_limb_fill_1_1.png",
+      "position": [
+        1508,
+        339
+      ],
+      "center": [
+        1595,
+        420
+      ],
+      "width": 88,
+      "rotationDeg": 52,
+      "mirror": false,
+      "sha256": "637dcf63ae42e2b8524e5f43e7dc500c9f869ca7a37ee34f134b83f1ee6671aa"
+    },
+    {
+      "z": 70,
+      "sourceIndex": 54,
+      "sourceId": "back_neck_L",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/54_back_back_neck_L.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/071_back_54_back_neck_L_1.png",
+      "position": [
+        1401,
+        147
+      ],
+      "center": [
+        1500,
+        252
+      ],
+      "width": 198,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "6b159260f5c28a06912980f659d06114ba2bc40bb1df12019628dffcad4181ee"
+    },
+    {
+      "z": 71,
+      "sourceIndex": 51,
+      "sourceId": "head_back_base",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/51_back_head_back_base.png",
+      "view": "back",
+      "role": "visible-primary",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/072_back_51_head_back_base_1.png",
+      "position": [
+        1365,
+        54
+      ],
+      "center": [
+        1500,
+        172
+      ],
+      "width": 270,
+      "rotationDeg": 0.0,
+      "mirror": false,
+      "sha256": "d31e4d243050c917e08883a2c68276de4654c16664f94a8cccf81f31c8fada66"
+    },
+    {
+      "z": 72,
+      "sourceIndex": 9,
+      "sourceId": "head_ear_back",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/09_back_head_ear_back.png",
+      "view": "back",
+      "role": "registered-duplicate-ear-hidden",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/073_back_09_head_ear_back_1.png",
+      "position": [
+        1362,
+        8
+      ],
+      "center": [
+        1415,
+        82
+      ],
+      "width": 92,
+      "rotationDeg": -6,
+      "mirror": false,
+      "sha256": "c3ca42a6c6f90e4d5f7942fc45f9808b4edaca88ffaf0079a71bcb0ff3b1ec05"
+    },
+    {
+      "z": 73,
+      "sourceIndex": 9,
+      "sourceId": "head_ear_back",
+      "sourceFile": "live2d/x5/generated-fine-layer-candidates-v1/09_back_head_ear_back.png",
+      "view": "back",
+      "role": "registered-duplicate-ear-hidden",
+      "instanceFile": "live2d/x6/fine-body-space-instances-v1/074_back_09_head_ear_back_2.png",
+      "position": [
+        1532,
+        8
+      ],
+      "center": [
+        1585,
+        82
+      ],
+      "width": 92,
+      "rotationDeg": 6,
+      "mirror": true,
+      "sha256": "47c851b5ec2887e0a1d1c2688651769bf54a311798cb50a5cfad1f95c5808e19"
+    }
+  ],
+  "knockoutProof": {
+    "proofImage": "live2d/x6/qa/x6-fine-body-space-knockout-proof-v1.png",
+    "disabledInstanceZ": [
+      2,
+      18,
+      20,
+      47,
+      66
+    ],
+    "disabledInstances": [
+      "front:head_base_front",
+      "front:forearm_L",
+      "front:tail_mid_long",
+      "side:torso_side",
+      "back:back_torso_1"
+    ],
+    "compositionReadsInstancePngsOnly": true,
+    "fullPoseSourceReadDuringComposition": false
+  },
+  "qa": {
+    "assembledThreeView": "live2d/x6/qa/x6-fine-body-space-assembled-three-view-v1.png",
+    "review": "live2d/x6/qa/x6-fine-body-space-assembly-review-v1.png",
+    "knockoutProof": "live2d/x6/qa/x6-fine-body-space-knockout-proof-v1.png"
+  },
+  "gateBoundary": {
+    "currentGate": "x6-parameter-action-tracer",
+    "candidateOnly": true,
+    "gate6Approved": false,
+    "x7Authorized": false
+  },
+  "knownLimits": [
+    "This experiment incorrectly forced hidden-fill materials to replace visible identity art and must not be used as the X6 rest candidate.",
+    "The opposite side-profile material is registered but hidden in the primary left-facing side composite.",
+    "No Cubism ArtMesh, Deformer, Physics or runtime output is produced."
+  ]
+}

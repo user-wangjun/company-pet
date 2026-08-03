@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-front-actual-segmentation-candidate",
+  "status": "rejected-user-identified-incomplete-hidden-anatomy",
+  "basis": "user-approved-v7-front-boundary-and-occlusion-order",
+  "scope": "front-view-actual-transparent-png-separation-only",
+  "canvas": {
+    "width": 650,
+    "height": 887
+  },
+  "semanticGroupCount": 10,
+  "movableLayerCount": 16,
+  "drawOrderBackToFront": [
+    "tail",
+    "leg_L_lower_paw",
+    "leg_R_lower_paw",
+    "leg_L_upper",
+    "leg_R_upper",
+    "arm_L_lower_paw",
+    "arm_R_lower_paw",
+    "arm_L_upper",
+    "arm_R_upper",
+    "ear_L",
+    "ear_R",
+    "eye_L",
+    "eye_R",
+    "mouth",
+    "head",
+    "body"
+  ],
+  "layers": [
+    {
+      "id": "tail",
+      "displayName": "尾巴",
+      "file": "live2d/x6/front-user-segmentation-v8/01_tail.png",
+      "canvasBounds": [
+        294,
+        715,
+        387,
+        849
+      ],
+      "parent": "body",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_tail_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_tail_hidden-collar.png"
+    },
+    {
+      "id": "leg_L_lower_paw",
+      "displayName": "左小腿＋后爪",
+      "file": "live2d/x6/front-user-segmentation-v8/02_leg_L_lower_paw.png",
+      "canvasBounds": [
+        450,
+        640,
+        569,
+        724
+      ],
+      "parent": "leg_L_upper",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_L_lower_paw_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_L_lower_paw_hidden-collar.png"
+    },
+    {
+      "id": "leg_R_lower_paw",
+      "displayName": "右小腿＋后爪",
+      "file": "live2d/x6/front-user-segmentation-v8/03_leg_R_lower_paw.png",
+      "canvasBounds": [
+        98,
+        640,
+        219,
+        723
+      ],
+      "parent": "leg_R_upper",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_R_lower_paw_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_R_lower_paw_hidden-collar.png"
+    },
+    {
+      "id": "leg_L_upper",
+      "displayName": "左大腿",
+      "file": "live2d/x6/front-user-segmentation-v8/04_leg_L_upper.png",
+      "canvasBounds": [
+        433,
+        585,
+        517,
+        688
+      ],
+      "parent": "body",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_L_upper_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_L_upper_hidden-collar.png"
+    },
+    {
+      "id": "leg_R_upper",
+      "displayName": "右大腿",
+      "file": "live2d/x6/front-user-segmentation-v8/05_leg_R_upper.png",
+      "canvasBounds": [
+        139,
+        584,
+        236,
+        687
+      ],
+      "parent": "body",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_R_upper_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_R_upper_hidden-collar.png"
+    },
+    {
+      "id": "arm_L_lower_paw",
+      "displayName": "左小臂＋前爪",
+      "file": "live2d/x6/front-user-segmentation-v8/06_arm_L_lower_paw.png",
+      "canvasBounds": [
+        460,
+        315,
+        594,
+        469
+      ],
+      "parent": "arm_L_upper",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_L_lower_paw_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_L_lower_paw_hidden-collar.png"
+    },
+    {
+      "id": "arm_R_lower_paw",
+      "displayName": "右小臂＋前爪",
+      "file": "live2d/x6/front-user-segmentation-v8/07_arm_R_lower_paw.png",
+      "canvasBounds": [
+        69,
+        315,
+        212,
+        459
+      ],
+      "parent": "arm_R_upper",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_R_lower_paw_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_R_lower_paw_hidden-collar.png"
+    },
+    {
+      "id": "arm_L_upper",
+      "displayName": "左上臂／肩袖",
+      "file": "live2d/x6/front-user-segmentation-v8/08_arm_L_upper.png",
+      "canvasBounds": [
+        389,
+        301,
+        496,
+        393
+      ],
+      "parent": "body+head",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_L_upper_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_L_upper_hidden-collar.png"
+    },
+    {
+      "id": "arm_R_upper",
+      "displayName": "右上臂／肩袖",
+      "file": "live2d/x6/front-user-segmentation-v8/09_arm_R_upper.png",
+      "canvasBounds": [
+        176,
+        302,
+        282,
+        392
+      ],
+      "parent": "body+head",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_R_upper_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_R_upper_hidden-collar.png"
+    },
+    {
+      "id": "ear_L",
+      "displayName": "左耳",
+      "file": "live2d/x6/front-user-segmentation-v8/10_ear_L.png",
+      "canvasBounds": [
+        363,
+        42,
+        461,
+        150
+      ],
+      "parent": "head",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_ear_L_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_ear_L_hidden-collar.png"
+    },
+    {
+      "id": "ear_R",
+      "displayName": "右耳",
+      "file": "live2d/x6/front-user-segmentation-v8/11_ear_R.png",
+      "canvasBounds": [
+        223,
+        40,
+        308,
+        150
+      ],
+      "parent": "head",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_ear_R_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_ear_R_hidden-collar.png"
+    },
+    {
+      "id": "eye_L",
+      "displayName": "左眼",
+      "file": "live2d/x6/front-user-segmentation-v8/12_eye_L.png",
+      "canvasBounds": [
+        342,
+        130,
+        423,
+        225
+      ],
+      "parent": "head",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_eye_L_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_eye_L_hidden-collar.png"
+    },
+    {
+      "id": "eye_R",
+      "displayName": "右眼",
+      "file": "live2d/x6/front-user-segmentation-v8/13_eye_R.png",
+      "canvasBounds": [
+        248,
+        130,
+        329,
+        225
+      ],
+      "parent": "head",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_eye_R_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_eye_R_hidden-collar.png"
+    },
+    {
+      "id": "mouth",
+      "displayName": "嘴部（含内部口鼻子层）",
+      "file": "live2d/x6/front-user-segmentation-v8/14_mouth.png",
+      "canvasBounds": [
+        208,
+        196,
+        468,
+        305
+      ],
+      "parent": "head",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_mouth_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_mouth_hidden-collar.png"
+    },
+    {
+      "id": "head",
+      "displayName": "头部主体",
+      "file": "live2d/x6/front-user-segmentation-v8/15_head.png",
+      "canvasBounds": [
+        196,
+        48,
+        476,
+        403
+      ],
+      "parent": "body",
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": true,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_head_visible.png",
+      "sourceHiddenOverlapFile": "live2d/x6/joint-safe-motion-bundles-v4/front_head_hidden-collar.png"
+    },
+    {
+      "id": "body",
+      "displayName": "连续身体",
+      "file": "live2d/x6/front-user-segmentation-v8/16_body.png",
+      "canvasBounds": [
+        164,
+        371,
+        513,
+        742
+      ],
+      "parent": null,
+      "containsVisibleSurface": true,
+      "containsHiddenJointOverlap": false,
+      "sourceVisibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_body_visible.png",
+      "sourceHiddenOverlapFile": null
+    }
+  ],
+  "restReconstructionAudit": {
+    "extraAlphaPixels": 0,
+    "missingAlphaPixels": 15,
+    "changedRgbaPixels": 34,
+    "status": "pass"
+  },
+  "inheritedFrontJointPullAudit": {
+    "source": "live2d/x6/x6-joint-safe-motion-bundle-audit-v4.json",
+    "stressDistancePixels": 10,
+    "jointCount": 15,
+    "passCount": 15,
+    "minimumParentContactAfterShiftPixels": 351,
+    "minimumChildBoundaryContactAfterShiftPixels": 160
+  },
+  "qa": {
+    "reconstruction": "live2d/x6/front-user-segmentation-v8/front-reconstruction.png",
+    "review": "live2d/x6/qa/x6-front-actual-segmentation-review-v8.png"
+  },
+  "gateBoundary": {
+    "frontBoundaryApprovedByUser": true,
+    "frontActualLayersApprovedByUser": false,
+    "sideBackPropagationAuthorized": false,
+    "gate6Approved": false,
+    "x7Authorized": false
+  },
+  "disposition": "retained-only-as-slice-failure-and-rest-recomposition-evidence",
+  "knownFailure": "Rest recomposition passes because draw order hides missing anatomy; 11 structural layers are not complete when head, limbs, or tail move away."
+}

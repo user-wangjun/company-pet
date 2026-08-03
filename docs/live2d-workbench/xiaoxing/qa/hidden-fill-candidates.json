@@ -1,0 +1,227 @@
+{
+  "stage": "gate8-hidden-fill-candidates",
+  "status": "candidate_only_pending_visual_review",
+  "canvas": [
+    512,
+    1086
+  ],
+  "source": "source/masters/gate3-color-target-v1.png",
+  "entries": [
+    {
+      "id": "back_hair_center",
+      "target": [
+        205,
+        55,
+        310,
+        125
+      ],
+      "donor": [
+        215,
+        45,
+        300,
+        105
+      ],
+      "note": "头顶发根与刘海下方",
+      "path": "qa/hidden-fill-candidates/01_back_hair_center.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "front_hair_side_R",
+      "target": [
+        176,
+        285,
+        210,
+        345
+      ],
+      "donor": [
+        175,
+        220,
+        205,
+        280
+      ],
+      "note": "角色右侧发束根部",
+      "path": "qa/hidden-fill-candidates/02_front_hair_side_R.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "front_hair_side_L",
+      "target": [
+        300,
+        285,
+        338,
+        345
+      ],
+      "donor": [
+        305,
+        220,
+        338,
+        280
+      ],
+      "note": "角色左侧发束根部",
+      "path": "qa/hidden-fill-candidates/03_front_hair_side_L.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "sleeve_R",
+      "target": [
+        120,
+        345,
+        150,
+        372
+      ],
+      "donor": [
+        115,
+        290,
+        148,
+        330
+      ],
+      "note": "角色右袖口内侧",
+      "path": "qa/hidden-fill-candidates/04_sleeve_R.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "sleeve_L",
+      "target": [
+        300,
+        345,
+        335,
+        372
+      ],
+      "donor": [
+        350,
+        290,
+        385,
+        330
+      ],
+      "note": "角色左袖口内侧",
+      "path": "qa/hidden-fill-candidates/05_sleeve_L.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "torso_tshirt_core",
+      "target": [
+        170,
+        225,
+        342,
+        260
+      ],
+      "donor": "flat shirt average",
+      "note": "肩线与领口后方衣身（使用衣身平均色，避免带入头发/印花）",
+      "path": "qa/hidden-fill-candidates/06_torso_tshirt_core.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "torso_tshirt_core_hem",
+      "target": [
+        145,
+        550,
+        390,
+        580
+      ],
+      "donor": [
+        150,
+        515,
+        365,
+        550
+      ],
+      "note": "裙腰上方衣身下摆",
+      "path": "qa/hidden-fill-candidates/07_torso_tshirt_core_hem.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "leg_R_thigh",
+      "target": [
+        176,
+        590,
+        242,
+        650
+      ],
+      "donor": [
+        183,
+        650,
+        232,
+        710
+      ],
+      "note": "角色右裙下大腿",
+      "path": "qa/hidden-fill-candidates/08_leg_R_thigh.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "leg_L_thigh",
+      "target": [
+        270,
+        590,
+        334,
+        650
+      ],
+      "donor": [
+        278,
+        650,
+        327,
+        710
+      ],
+      "note": "角色左裙下大腿",
+      "path": "qa/hidden-fill-candidates/09_leg_L_thigh.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "sock_R",
+      "target": [
+        178,
+        845,
+        235,
+        885
+      ],
+      "donor": [
+        180,
+        885,
+        232,
+        930
+      ],
+      "note": "角色右袜口内侧",
+      "path": "qa/hidden-fill-candidates/10_sock_R.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "sock_L",
+      "target": [
+        274,
+        845,
+        334,
+        885
+      ],
+      "donor": [
+        278,
+        885,
+        330,
+        930
+      ],
+      "note": "角色左袜口内侧",
+      "path": "qa/hidden-fill-candidates/11_sock_L.png",
+      "status": "candidate_only"
+    },
+    {
+      "id": "skirt_back",
+      "target": [
+        130,
+        580,
+        380,
+        610
+      ],
+      "donor": [
+        140,
+        590,
+        375,
+        640
+      ],
+      "note": "裙腰与后裙褶连续区",
+      "path": "qa/hidden-fill-candidates/12_skirt_back.png",
+      "status": "candidate_only"
+    }
+  ],
+  "rules": {
+    "candidateOnly": true,
+    "notFormalExport": true,
+    "noImageGenUsed": true
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "stage": "v12-eye-hidden-materials",
+  "status": "eye-hidden-materials-passed-working-review-long-hair-gate-pending",
+  "authoritativeSources": {
+    "line": "source/masters/gate3-line-master-candidate-v1.png",
+    "color": "source/masters/gate3-color-target-v1.png",
+    "threeViewLine": "source/xiaoxing-three-view-line.png",
+    "threeViewColor": "source/xiaoxing-three-view-color.png",
+    "workingPsd": "model/xiaoxing-line-separation-working-v1.psd"
+  },
+  "supersedes": "audit/authoritative-status-v11.json",
+  "acceptedWorkingEvidence": {
+    "frontHairOwnership": "qa/v5-front-hair-ownership-review.png",
+    "faceAndOriginalEyes": "qa/v6-face-eye-preservation-review.png",
+    "bodyOriginalPixelOwnership": "qa/v8-body-original-pixel-ownership-review.png",
+    "hiddenThighContinuity": "qa/v10-hidden-thigh-continuity-review.png",
+    "sleeveHandSockOverlaps": "qa/v11-sleeve-hand-sock-overlap-review.png",
+    "eyeHiddenMaterials": "qa/v12-eye-hidden-materials-review.png"
+  },
+  "eyePolicy": {
+    "defaultOpenEye": "原彩稿像素、原坐标、零误差回组",
+    "completeSclera": "位于默认像素下方，只在视线移动时露出",
+    "completeIrisAndPupil": "从原眼可见色彩生成隐藏补全，默认睁眼不可见",
+    "gazeStress": "水平 3 像素",
+    "closedEye": "独立候选层，不参与默认合成"
+  },
+  "validatedFacts": [
+    "双眼默认回组平均绝对误差为 0，最大通道差为 0",
+    "默认可见眼睛未重新描边、未缩放、未移动",
+    "完整眼白不再使用肤色补丁",
+    "完整虹膜和瞳孔在默认睁眼中完全被原像素覆盖",
+    "3 像素视线压力测试未暴露透明洞",
+    "闭眼线单独保存，不污染默认睁眼"
+  ],
+  "remainingBeforePsdImport": [
+    "胸前长发与 Savoir 印花交叠处的局部人工归属精修",
+    "整套材料的最终默认合成、拉开和透明边缘联合审查"
+  ],
+  "psdImport": false,
+  "cubismImport": false,
+  "runtimeIntegration": false,
+  "next": "manual-long-hair-print-boundary-refinement_then-final-material-gate"
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-07-25",
+  "status": "pass",
+  "checks": {
+    "visibleRgbPixelDifferenceCount": 0,
+    "visibleMaximumRgbChannelDifference": 0,
+    "visiblePixelExact": true,
+    "outsideHTestRgbaDifferenceCount": 0,
+    "outsideHTestMaximumChannelDifference": 0,
+    "outsideHTestZeroModification": true,
+    "alphaPixelsOutsideVisibleUnionHTest": 0,
+    "hTestNonOpaquePixels": 0,
+    "defaultLocalCompositeDifferenceCount": 0,
+    "defaultRecompositionPreservesSource": true
+  },
+  "limitations": "Default recomposition uses authoritative RGB outside the local evaluation mask and the semantic-purity-filtered sleeve-hem QA strip inside it; complete sleeve separation is out of scope."
+}

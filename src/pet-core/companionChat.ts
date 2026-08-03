@@ -6,9 +6,16 @@ export type CompanionChatCue = {
   weight?: number;
 };
 
+export type CompanionChatStyle = {
+  tone?: string;
+  maxReplyLength?: number;
+};
+
 export type CompanionChatConfig = {
   openers: CompanionChatCue[];
   localReplies: string[];
+  style?: CompanionChatStyle;
+  systemPrompt?: string;
 };
 
 export type CompanionChatPackage =
@@ -59,6 +66,24 @@ function parseCue(value: unknown): CompanionChatCue {
   };
 }
 
+function parseStyle(value: unknown): CompanionChatStyle | undefined {
+  if (!isRecord(value)) return undefined;
+
+  const style: CompanionChatStyle = {};
+  if (typeof value.tone === "string" && value.tone.trim()) {
+    style.tone = value.tone.trim();
+  }
+  if (
+    typeof value.maxReplyLength === "number" &&
+    Number.isInteger(value.maxReplyLength) &&
+    value.maxReplyLength > 0
+  ) {
+    style.maxReplyLength = Math.min(value.maxReplyLength, 240);
+  }
+
+  return Object.keys(style).length > 0 ? style : undefined;
+}
+
 function parseConfig(value: unknown): CompanionChatConfig {
   if (!isRecord(value)) throw new Error("Companion chat config must be an object");
   if (!Array.isArray(value.openers) || value.openers.length === 0) {
@@ -68,10 +93,18 @@ function parseConfig(value: unknown): CompanionChatConfig {
     throw new Error("Missing companion replies");
   }
 
-  return {
+  const config: CompanionChatConfig = {
     openers: value.openers.map(parseCue),
     localReplies: value.localReplies.map((reply) => text(reply, "reply")),
   };
+
+  const style = parseStyle(value.style);
+  if (style) config.style = style;
+  if (value.systemPrompt !== undefined) {
+    config.systemPrompt = text(value.systemPrompt, "system prompt");
+  }
+
+  return config;
 }
 
 export async function loadPetCompanionChatPackage(

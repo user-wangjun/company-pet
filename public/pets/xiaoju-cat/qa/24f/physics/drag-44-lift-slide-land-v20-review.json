@@ -1,0 +1,235 @@
+{
+  "version": "v20-lift-slide-land",
+  "frame_count": 44,
+  "pickup_frames": 6,
+  "slide_frames": 32,
+  "landing_frames": 6,
+  "durations_ms": {
+    "pickup": 130,
+    "slide": 95,
+    "landing": 130
+  },
+  "method": "fixed sprite shapes; pickup/landing shown by eased vertical translation in preview; slide uses v19 32-frame cadence; no scale/warp",
+  "timeline": [
+    {
+      "phase": "pickup",
+      "source_frame": 0,
+      "t": 0.0
+    },
+    {
+      "phase": "pickup",
+      "source_frame": 0,
+      "t": 0.36
+    },
+    {
+      "phase": "pickup",
+      "source_frame": 1,
+      "t": 0.64
+    },
+    {
+      "phase": "pickup",
+      "source_frame": 1,
+      "t": 0.84
+    },
+    {
+      "phase": "pickup",
+      "source_frame": 2,
+      "t": 0.96
+    },
+    {
+      "phase": "pickup",
+      "source_frame": 2,
+      "t": 1.0
+    },
+    {
+      "phase": "slide",
+      "source_frame": 0,
+      "t": 0.0
+    },
+    {
+      "phase": "slide",
+      "source_frame": 0,
+      "t": 0.0323
+    },
+    {
+      "phase": "slide",
+      "source_frame": 0,
+      "t": 0.0645
+    },
+    {
+      "phase": "slide",
+      "source_frame": 0,
+      "t": 0.0968
+    },
+    {
+      "phase": "slide",
+      "source_frame": 1,
+      "t": 0.129
+    },
+    {
+      "phase": "slide",
+      "source_frame": 1,
+      "t": 0.1613
+    },
+    {
+      "phase": "slide",
+      "source_frame": 1,
+      "t": 0.1935
+    },
+    {
+      "phase": "slide",
+      "source_frame": 1,
+      "t": 0.2258
+    },
+    {
+      "phase": "slide",
+      "source_frame": 2,
+      "t": 0.2581
+    },
+    {
+      "phase": "slide",
+      "source_frame": 2,
+      "t": 0.2903
+    },
+    {
+      "phase": "slide",
+      "source_frame": 2,
+      "t": 0.3226
+    },
+    {
+      "phase": "slide",
+      "source_frame": 2,
+      "t": 0.3548
+    },
+    {
+      "phase": "slide",
+      "source_frame": 3,
+      "t": 0.3871
+    },
+    {
+      "phase": "slide",
+      "source_frame": 3,
+      "t": 0.4194
+    },
+    {
+      "phase": "slide",
+      "source_frame": 3,
+      "t": 0.4516
+    },
+    {
+      "phase": "slide",
+      "source_frame": 3,
+      "t": 0.4839
+    },
+    {
+      "phase": "slide",
+      "source_frame": 4,
+      "t": 0.5161
+    },
+    {
+      "phase": "slide",
+      "source_frame": 4,
+      "t": 0.5484
+    },
+    {
+      "phase": "slide",
+      "source_frame": 4,
+      "t": 0.5806
+    },
+    {
+      "phase": "slide",
+      "source_frame": 4,
+      "t": 0.6129
+    },
+    {
+      "phase": "slide",
+      "source_frame": 3,
+      "t": 0.6452
+    },
+    {
+      "phase": "slide",
+      "source_frame": 3,
+      "t": 0.6774
+    },
+    {
+      "phase": "slide",
+      "source_frame": 3,
+      "t": 0.7097
+    },
+    {
+      "phase": "slide",
+      "source_frame": 3,
+      "t": 0.7419
+    },
+    {
+      "phase": "slide",
+      "source_frame": 2,
+      "t": 0.7742
+    },
+    {
+      "phase": "slide",
+      "source_frame": 2,
+      "t": 0.8065
+    },
+    {
+      "phase": "slide",
+      "source_frame": 2,
+      "t": 0.8387
+    },
+    {
+      "phase": "slide",
+      "source_frame": 2,
+      "t": 0.871
+    },
+    {
+      "phase": "slide",
+      "source_frame": 1,
+      "t": 0.9032
+    },
+    {
+      "phase": "slide",
+      "source_frame": 1,
+      "t": 0.9355
+    },
+    {
+      "phase": "slide",
+      "source_frame": 1,
+      "t": 0.9677
+    },
+    {
+      "phase": "slide",
+      "source_frame": 1,
+      "t": 1.0
+    },
+    {
+      "phase": "landing",
+      "source_frame": 2,
+      "t": 0.0
+    },
+    {
+      "phase": "landing",
+      "source_frame": 2,
+      "t": 0.04
+    },
+    {
+      "phase": "landing",
+      "source_frame": 1,
+      "t": 0.16
+    },
+    {
+      "phase": "landing",
+      "source_frame": 1,
+      "t": 0.36
+    },
+    {
+      "phase": "landing",
+      "source_frame": 0,
+      "t": 0.64
+    },
+    {
+      "phase": "landing",
+      "source_frame": 0,
+      "t": 1.0
+    }
+  ]
+}

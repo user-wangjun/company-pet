@@ -8,12 +8,14 @@ import { TaskReviewPanel } from "./TaskReviewPanel";
 import { CareReminderSettings } from "../pet-core/CareReminderSettings";
 import { DEFAULT_CARE_REMINDER_SETTINGS, type CareReminderSettings as CareReminderSettingsValue } from "../pet-core/careReminders";
 import { NativeScheduleInput } from "./NativeScheduleInput";
+import { CompanionMemorySettings } from "../pet-core/CompanionMemorySettings";
+import type { MemoryRepository } from "../pet-core/companionMemory";
 
 type Props = {
   database: TaskDatabase;
   initialView?: TaskListView;
   initialSelectedTaskId?: string | null;
-  onChange: (database: TaskDatabase, feedback?: string) => void;
+  onChange: (database: TaskDatabase, feedback?: string) => boolean;
   careReminderSettings?: CareReminderSettingsValue;
   onCareReminderSettingsChange?: (settings: CareReminderSettingsValue) => void;
   careReminderNoticeDismissed?: boolean;
@@ -21,6 +23,8 @@ type Props = {
   reviewSpeakerName?: string;
   reviewSpeakerTexts?: Partial<Record<DailyReviewTone, string>>;
   onPreviewPetNotificationSound?: () => void;
+  companionMemoryRepository?: MemoryRepository;
+  companionMemoryPetId?: string;
 };
 
 const views: Array<{ id: TaskListView; label: string }> = [
@@ -29,6 +33,11 @@ const views: Array<{ id: TaskListView; label: string }> = [
   { id: "completed", label: "已完成" }, { id: "cancelled", label: "已取消" },
   { id: "trash", label: "回收站" },
   { id: "settings", label: "提醒设置" },
+];
+const viewGroups = [
+  { label: "安排", items: views.slice(0, 4) },
+  { label: "记录", items: views.slice(4, 7) },
+  { label: "偏好", items: views.slice(7) },
 ];
 
 type TaskSort = "default" | "created" | "due" | "priority" | "project";
@@ -110,7 +119,7 @@ function getTaskDraft(database: TaskDatabase, task: Task): TaskDraft {
   };
 }
 
-export function TaskWorkspace({ database, initialView = "today", initialSelectedTaskId = null, onChange, careReminderSettings = DEFAULT_CARE_REMINDER_SETTINGS, onCareReminderSettingsChange = () => {}, careReminderNoticeDismissed = false, onDismissCareReminderNotice = () => {}, reviewSpeakerName, reviewSpeakerTexts, onPreviewPetNotificationSound = () => {} }: Props) {
+export function TaskWorkspace({ database, initialView = "today", initialSelectedTaskId = null, onChange, careReminderSettings = DEFAULT_CARE_REMINDER_SETTINGS, onCareReminderSettingsChange = () => {}, careReminderNoticeDismissed = false, onDismissCareReminderNotice = () => {}, reviewSpeakerName, reviewSpeakerTexts, onPreviewPetNotificationSound = () => {}, companionMemoryRepository, companionMemoryPetId }: Props) {
   const [view, setView] = useState<TaskListView>(initialView);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isLongTermCreateOpen, setIsLongTermCreateOpen] = useState(false);
@@ -233,14 +242,14 @@ export function TaskWorkspace({ database, initialView = "today", initialSelected
     lastFocusedElement.current = null;
   }, [pendingDeleteTask, selectedTask]);
 
-  const create = (draft: TaskDraft) => {
+  const create = (draft: TaskDraft): boolean => {
     const result = createTask(database, draft);
-    onChange(recordTaskMetric(result.database, "full_create_used"), `已记录「${result.task.title}」`);
-    setIsCreatePanelOpen(false);
+    const saved = onChange(recordTaskMetric(result.database, "full_create_used"), `已记录「${result.task.title}」`);
+    if (saved) setIsCreatePanelOpen(false);
+    return saved;
   };
   const createLongTerm = (draft: TaskDraft) => {
-    create({ ...draft, kind: "long_term" });
-    setIsLongTermCreateOpen(false);
+    if (create({ ...draft, kind: "long_term" })) setIsLongTermCreateOpen(false);
   };
 
   const readCustomSoundFile = (file: File): Promise<CustomSoundDraft> => new Promise((resolve, reject) => {
@@ -302,9 +311,10 @@ export function TaskWorkspace({ database, initialView = "today", initialSelected
       void audio.play().catch(() => {});
     }
   };
-  const change = (next: TaskDatabase, feedback?: string) => {
-    onChange(next, feedback);
-    setSelectedTask(null);
+  const change = (next: TaskDatabase, feedback?: string): boolean => {
+    const saved = onChange(next, feedback);
+    if (saved) setSelectedTask(null);
+    return saved;
   };
 
   const openTask = (task: Task) => {
@@ -413,8 +423,9 @@ export function TaskWorkspace({ database, initialView = "today", initialSelected
       priority: parent.priority,
       projectId: parent.projectId,
     });
-    setInsertDraft(null);
-    onChange(result.database, `已添加节点「${result.task.title}」`);
+    if (onChange(result.database, `已添加节点「${result.task.title}」`)) {
+      setInsertDraft(null);
+    }
   };
 
   const saveCurrentOccurrence = () => {
@@ -543,18 +554,18 @@ export function TaskWorkspace({ database, initialView = "today", initialSelected
     <div className="task-workspace">
       <aside className="task-sidebar" inert={selectedTask || pendingDeleteTask || isLongTermCreateOpen ? true : undefined}>
         <div><strong>待办与提醒</strong><span>把今天安稳地放在眼前</span></div>
-        <nav>{views.map((item) => <button className={view === item.id ? "is-active" : ""} key={item.id} onClick={() => setView(item.id)}>{item.label}</button>)}</nav>
+        <nav>{viewGroups.map((group) => <div className="task-nav-group" key={group.label}><span>{group.label}</span>{group.items.map((item) => <button className={view === item.id ? "is-active" : ""} key={item.id} onClick={() => setView(item.id)}>{item.label}</button>)}</div>)}</nav>
       </aside>
       <section className="task-main" inert={selectedTask || pendingDeleteTask || isLongTermCreateOpen ? true : undefined}>
-        <header className="task-main-header"><div><p>{views.find((item) => item.id === view)?.label}</p><h2>{view === "today" ? "今天，慢慢做好每一件事" : view === "trash" ? "删除的事项会保留30天" : view === "settings" ? "让提醒保持合适的分寸" : "管理你的待办"}</h2></div>{view !== "settings" && <div className="task-header-tools">{view !== "today" && view !== "trash" && <select aria-label="待办排序" value={sort} onChange={(event) => setSort(event.target.value as TaskSort)}><option value="default">默认排序</option><option value="created">创建时间</option><option value="due">截止时间</option><option value="priority">优先级</option><option value="project">项目</option></select>}<span>{tasks.length} 项</span></div>}</header>
-        {view !== "trash" && view !== "settings" && <button className="task-add-rail" type="button" aria-label="添加待办" onClick={() => setIsCreatePanelOpen(true)}>＋</button>}
+        <header className="task-main-header"><div><p>{views.find((item) => item.id === view)?.label}</p><h2>{view === "today" ? "今天，慢慢做好每一件事" : view === "trash" ? "删除的事项会保留30天" : view === "settings" ? "让提醒保持合适的分寸" : "管理你的待办"}</h2></div>{view !== "settings" && <div className="task-header-tools">{view !== "today" && view !== "trash" && <select aria-label="待办排序" value={sort} onChange={(event) => setSort(event.target.value as TaskSort)}><option value="default">默认排序</option><option value="created">创建时间</option><option value="due">截止时间</option><option value="priority">优先级</option><option value="project">项目</option></select>}<span>{tasks.length} 项</span>{view !== "trash" && <button className="task-add-button" type="button" aria-label="添加待办" onClick={() => setIsCreatePanelOpen(true)}><b>＋</b> 新建</button>}</div>}</header>
         {view === "settings" && <><section className="task-settings" aria-label="任务提醒设置">
+          <label className="task-setting-font-size"><strong>界面字体大小</strong><select aria-label="界面字体大小" value={database.settings.interfaceFontSize} onChange={(event) => onChange(updateTaskSettings(database, { interfaceFontSize: event.target.value as TaskDatabase["settings"]["interfaceFontSize"] }), "界面字体大小已保存")}><option value="standard">标准</option><option value="large">大号</option><option value="extraLarge">特大</option></select><small>只调整平台和待办文字，不影响桌宠动画。</small></label>
           <section className="task-sound-settings" aria-label="提示音设置"><div><strong>提示音</strong><small>{database.settings.notificationSound === "custom" && database.settings.customNotificationSoundName ? database.settings.customNotificationSoundName : "选择提醒响起时的声音"}</small></div><div className="task-sound-options">{[{ id: "system", label: "系统" }, { id: "gentle", label: "轻柔" }, { id: "pet", label: "宠物" }, { id: "custom", label: "自定义" }, { id: "off", label: "关闭" }].map((item) => <button type="button" key={item.id} className={database.settings.notificationSound === item.id ? "is-active" : ""} onClick={() => onChange(updateTaskSettings(database, { notificationSound: item.id as TaskDatabase["settings"]["notificationSound"] }), "提醒声音设置已保存")}>{item.label}</button>)}</div><div className="task-sound-actions"><label><input type="file" accept="audio/*" onChange={(event) => uploadCustomSound(event.currentTarget.files?.[0])} />上传声音</label><button type="button" disabled={database.settings.notificationSound === "system" || database.settings.notificationSound === "off" || (database.settings.notificationSound === "custom" && !database.settings.customNotificationSoundDataUrl)} onClick={previewNotificationSound}>试听</button></div>{customSoundError && <p role="alert">{customSoundError}</p>}{database.settings.customNotificationSoundDurationMs && <small>自定义声音 {Math.round(database.settings.customNotificationSoundDurationMs / 100) / 10} 秒，最多 5 秒。</small>}</section>
           <label>桌宠气泡停留<select value={database.settings.bubbleDurationMinutes} onChange={(event) => onChange(updateTaskSettings(database, { bubbleDurationMinutes: Number(event.target.value) as TaskDatabase["settings"]["bubbleDurationMinutes"] }), "气泡停留时间已保存")}><option value="1">1分钟</option><option value="3">3分钟</option><option value="5">5分钟</option><option value="10">10分钟</option></select></label>
           <label className="task-setting-toggle"><span><strong>后台提醒</strong><small>退出主界面后仍由系统唤醒提醒</small></span><input type="checkbox" checked={database.settings.backgroundReminders} onChange={(event) => onChange(updateTaskSettings(database, { backgroundReminders: event.currentTarget.checked }), "后台提醒设置已保存")} /></label>
           <label className="task-setting-toggle"><span><strong>今日回顾</strong><small>保留完成、延期和取消的本地统计</small></span><input type="checkbox" checked={database.settings.dailyReview} onChange={(event) => onChange(updateTaskSettings(database, { dailyReview: event.currentTarget.checked }), "今日回顾设置已保存")} /></label>
           <div className="task-local-metrics"><strong>本地使用记录</strong><span>已创建 {database.metrics.task_created ?? 0} 项</span><span>已完成 {database.metrics.task_completed ?? 0} 项</span><span>已延后提醒 {database.metrics.reminder_snoozed ?? 0} 次</span><small>这些数据只保存在本机，不会上传。</small></div>
-        </section><CareReminderSettings embedded settings={careReminderSettings} onChange={onCareReminderSettingsChange} disableNoticeDismissed={careReminderNoticeDismissed} onDismissDisableNotice={onDismissCareReminderNotice} /></>}
+         </section><CareReminderSettings embedded settings={careReminderSettings} onChange={onCareReminderSettingsChange} disableNoticeDismissed={careReminderNoticeDismissed} onDismissDisableNotice={onDismissCareReminderNotice} />{companionMemoryRepository && companionMemoryPetId && <CompanionMemorySettings repository={companionMemoryRepository} petId={companionMemoryPetId} />}</>}
         {view !== "settings" && <div className="task-list">
           {view === "today" ? <>
           {longTermProgress.length > 0 && <details className="task-section task-long-term-section" open><summary><span>长期任务</span><b>{longTermProgress.length}</b></summary><div>{longTermProgress.map((progress) => renderTaskCard(progress.task))}</div></details>}
@@ -570,9 +581,11 @@ export function TaskWorkspace({ database, initialView = "today", initialSelected
               });
             }}>
               <summary><span>{section.label}</span><b>{section.tasks.length}</b></summary>
-              <div>{section.tasks.map(renderTaskCard)}{section.completions?.map(({ entry, task }) => <article className="task-completion-row" key={entry.id}><span>✓</span><div><strong>{task.title}</strong><small>{formatDate(entry.createdAt)} 完成</small></div></article>)}{section.tasks.length === 0 && (section.completions?.length ?? 0) === 0 && <p>暂无事项</p>}</div>
+              <div>{section.tasks.map(renderTaskCard)}{section.completions?.map(({ entry, task }) => <article className="task-completion-row" key={entry.id}><span>✓</span><div><strong>{task.title}</strong><small>{formatDate(entry.createdAt)} 完成</small></div></article>)}</div>
             </details>
-          ))}</> : <>{tasks.length === 0 && <div className="task-empty"><span>☁</span><strong>这里还很轻盈</strong><p>{view === "trash" ? "回收站里没有事项。" : "写下一件小事，小伙伴会替你记着。"}</p></div>}{tasks.map(renderTaskCard)}</>}
+          ))}
+          {longTermProgress.length === 0 && todaySections.every((section) => section.tasks.length === 0 && (section.completions?.length ?? 0) === 0) && <div className="task-empty task-today-empty"><span>✓</span><strong>今天还很轻盈</strong><p>写下一件小事，小伙伴会替你记着。</p></div>}
+          </> : <>{tasks.length === 0 && <div className="task-empty"><span>☁</span><strong>这里还很轻盈</strong><p>{view === "trash" ? "回收站里没有事项。" : "写下一件小事，小伙伴会替你记着。"}</p></div>}{tasks.map(renderTaskCard)}</>}
         </div>}
         {view === "today" && database.settings.dailyReview && (
           <TaskReviewPanel
@@ -594,7 +607,7 @@ export function TaskWorkspace({ database, initialView = "today", initialSelected
         <div className="task-create-backdrop" onMouseDown={() => setIsCreatePanelOpen(false)}>
           <section className="task-create-panel" role="dialog" aria-modal="true" aria-labelledby="task-create-panel-title" onMouseDown={(event) => event.stopPropagation()}>
             <header><div><span>NEW TASK</span><h3 id="task-create-panel-title">添加待办</h3></div><button type="button" aria-label="关闭添加待办" onClick={() => setIsCreatePanelOpen(false)}>×</button></header>
-            <div className="task-create-panel-scroll"><QuickCreateTask initialKind="single" onCreate={create} onCancel={() => setIsCreatePanelOpen(false)} onOpenLongTerm={() => { setIsCreatePanelOpen(false); setIsLongTermCreateOpen(true); }} /></div>
+            <div className="task-create-panel-scroll"><QuickCreateTask compact initialKind="single" onCreate={create} onCancel={() => setIsCreatePanelOpen(false)} onOpenLongTerm={() => { setIsCreatePanelOpen(false); setIsLongTermCreateOpen(true); }} /></div>
           </section>
         </div>
       )}

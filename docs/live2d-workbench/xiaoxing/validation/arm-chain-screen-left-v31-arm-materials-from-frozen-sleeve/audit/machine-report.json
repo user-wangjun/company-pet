@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "status": "engineering_pass_pending_user_visual_approval",
+  "scope": "screen-left cuff correction plus upper arm, forearm, and hand Stage A geometry",
+  "authoritativeInputs": {
+    "resetColorMasterSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+    "rejectedV30SleeveManifestSha256": "78b36955a2535c2de8f8b4bc173920acee33a4f7199ea8e7137265021507db4a",
+    "approvedSkeletonSha256": "c17e863e9abc5896dbcc89240f46cde0b5cce294a11662ff98e4507804f4bd77",
+    "approvedRightUpperArmV6ManifestSha256": "e23e54c89e9fd5615b4686915f2243f32e21542dd81fb126ac45606a610107ae",
+    "approvedRightUpperArmMaskSha256": "b0045ffecbcfd9dfdb776a84049a70c1589314cc2df8df8091eb30ababadb94d",
+    "pass": true
+  },
+  "skeletonUnchanged": true,
+  "upperArmFrozen": {
+    "manifest": "audit/v31-upper-arm-geometry-freeze-manifest-2026-07-28.json",
+    "status": "frozen_engineering_and_user_visual_pass",
+    "lockedArtifactCount": 5,
+    "pass": true
+  },
+  "forearmFrozen": {
+    "manifest": "audit/v31-forearm-geometry-freeze-manifest-2026-07-29.json",
+    "status": "frozen_engineering_and_user_visual_pass",
+    "lockedArtifactCount": 9,
+    "pass": true
+  },
+  "cuffCorrection": {
+    "correctionStartRow": 350,
+    "removedVisiblePixels": 973,
+    "removedCompletePixels": 978,
+    "correctedVisibleBeyondSourceCuffPixels": 0,
+    "correctedCompleteBeyondSourceCuffPixels": 0,
+    "terminalVisiblePixelsRows410Plus": 0,
+    "sourceSleeveContourPointCount": 19,
+    "sourceRule": "closed Reset semantic cuff outline is authoritative from row 350 downward",
+    "pass": true
+  },
+  "sourceTracing": {
+    "skinContourPointCount": 526,
+    "visibleUnionPixels": 7369,
+    "upperToForearmElbowReassignedPixels": 18,
+    "skinVisibleUnionPixels": 6973,
+    "braceletContourPointCount": 30,
+    "braceletVisiblePixelsOwnedByForearm": 429,
+    "braceletPixelsAddedBeyondSkinExtraction": 277,
+    "braceletPixelsRemovedFromHandOwnership": 9,
+    "visibleUnionPixelsAfterSemanticSplit": 7369,
+    "visibleLayerOverlapPixels": {
+      "upperForearm": 0,
+      "forearmHand": 0
+    },
+    "pass": true
+  },
+  "geometry": {
+    "upper_arm": {
+      "components": 1,
+      "holes": 0,
+      "visiblePixels": 310,
+      "hiddenPixels": 5048
+    },
+    "forearm": {
+      "components": 1,
+      "holes": 4,
+      "visiblePixels": 4161,
+      "hiddenPixels": 1708
+    },
+    "hand": {
+      "components": 1,
+      "holes": 0,
+      "visiblePixels": 2770,
+      "hiddenPixels": 75
+    }
+  },
+  "upperArmAnatomy": {
+    "profile": "exact approved screen-right V6 upper-arm geometry registered into the unchanged screen-left bone frame",
+    "registration": "rigid bone-local transform with mirrored normal coordinate; identical L1",
+    "rightReferenceL1Px": 155.70806,
+    "leftTargetL1Px": 155.70806,
+    "sourceMaskSha256": "b0045ffecbcfd9dfdb776a84049a70c1589314cc2df8df8091eb30ababadb94d",
+    "flatTrapezoidRejected": true,
+    "genericRoundedCapsuleRejected": true
+  },
+  "forearmProximalCorrection": {
+    "reason": "user explicitly specifies outward convex round caps at both ends to support joint overlap",
+    "method": "use an integrated outward cubic-bezier cap at the elbow and a wrist-plane-origin rounded hidden tongue that tapers directly into the hand; both are continuous parts of the forearm silhouette, not separate circular patches",
+    "addedPixels": 978,
+    "removedPixels": 69,
+    "circularPatchUsed": false,
+    "straightCapRejected": true,
+    "rootLongitudinalExtensionBeyondSideEndpointsPx": 18.0,
+    "wristShaftEndpointBeyondLockedWristPx": 0.0,
+    "wristRoundedTongueNominalExtensionBeyondLockedWristPx": 19.0,
+    "wristRoundedTongueBezierSegments": 3,
+    "wristBoundaryRule": "start 5 px above the locked wrist under the bracelet, keep both sides close to the wrist skin boundary, then close with a downward convex U-cap",
+    "wristMaskSupersampling": "8x with LANCZOS downsample",
+    "review": "qa/forearm-root-before-after.png"
+  },
+  "braceletOwnership": {
+    "logicalOwner": "forearm",
+    "movesWith": "forearm",
+    "construction": "8x supersampled fine double-chain, bead, knot, and dangle silhouette traced from Reset; no filled outer hull",
+    "mask": "masks/visible/bracelet-owned-by-forearm.png",
+    "visiblePixels": 429,
+    "pixelsAddedBeyondSkinThreshold": 277,
+    "pixelsRemovedFromHandOwnership": 9,
+    "naturalTransparentLoopHoles": 4,
+    "structuralTransparentLoopHolesArea8PxPlus": 1,
+    "forearmSkinBodyHoles": 0,
+    "maximumDeclaredAccessoryLoopHoles": 2,
+    "accessoryLoopHolesAllowed": true,
+    "review": "qa/bracelet-forearm-ownership-review.png",
+    "status": "pending_user_visual_approval"
+  },
+  "forearmWristReach": {
+    "lockedWristPointPx": [
+      115.0,
+      529.0
+    ],
+    "wristProjectionFromElbowPx": 128.062485,
+    "completeForearmMaxProjectionPx": 147.240623,
+    "hiddenExtensionBeyondWristPx": 19.178138,
+    "handMovedAwayForReview": true,
+    "review": "qa/forearm-wrist-length-and-bracelet-review.png",
+    "pass": true
+  },
+  "wristTongueMotionClearance": {
+    "method": "count U-cap pixels from 1 px above the locked wrist downward that fall outside the hand cover after a one-pixel raster tolerance; the proximal closure is under the bracelet",
+    "all41ApprovedPullTestMaximumLeakPixels": 0,
+    "diagnosticWristLocalSweepDeg": [
+      -12,
+      -8,
+      -4,
+      0,
+      4,
+      8,
+      12
+    ],
+    "diagnosticSweepResults": [
+      {
+        "wristLocalDeg": -12,
+        "leakPixels": 0
+      },
+      {
+        "wristLocalDeg": -8,
+        "leakPixels": 0
+      },
+      {
+        "wristLocalDeg": -4,
+        "leakPixels": 0
+      },
+      {
+        "wristLocalDeg": 0,
+        "leakPixels": 0
+      },
+      {
+        "wristLocalDeg": 4,
+        "leakPixels": 0
+      },
+      {
+        "wristLocalDeg": 8,
+        "leakPixels": 0
+      },
+      {
+        "wristLocalDeg": 12,
+        "leakPixels": 0
+      }
+    ],
+    "diagnosticSweepMaximumLeakPixels": 0,
+    "diagnosticSweepIsNotApprovedMotionRange": true,
+    "review": "qa/wrist-hidden-tongue-motion-clearance-review.png",
+    "pass": true
+  },
+  "jointTransitionVisualEvidence": {
+    "review": "qa/joint-transitions-review.png",
+    "samples": [
+      0,
+      10,
+      20
+    ],
+    "status": "pending_user_visual_approval"
+  },
+  "seams": {
+    "defaultCompleteOverlapPixels": {
+      "sleeveUpper": 5318,
+      "upperForearm": 1428,
+      "forearmHand": 548
+    },
+    "minimumAcross41Samples": {
+      "sleeveUpper": 5156,
+      "upperForearm": 1356,
+      "forearmHand": 510
+    },
+    "all41SamplesPass": true
+  },
+  "boneLengths": {
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "maxL1ErrorPx": 2.842170943040401e-14,
+    "maxL2ErrorPx": 5.684341886080802e-14,
+    "pass": true
+  },
+  "disconnects": {
+    "count": 0,
+    "pass": true
+  },
+  "motionCanvas": {
+    "width": 768,
+    "height": 1086,
+    "horizontalReviewPaddingPx": 160,
+    "edgeTouchSampleCount": 0,
+    "pass": true
+  },
+  "returnConsistency": {
+    "firstPoseSha256": "d028e150f5922480ff967864b29c4035759a568e0fe502bad552c38397182358",
+    "lastPoseSha256": "d028e150f5922480ff967864b29c4035759a568e0fe502bad552c38397182358",
+    "pass": true
+  },
+  "visualGate": {
+    "status": "pending_user_visual_approval",
+    "review": "qa/V31-阶段A-大臂前臂手-中文视觉审查板.png",
+    "earliestFailurePoint": "short wrist wedge boundary and motion-clearance visuals pending user re-review"
+  },
+  "stop": "remain at Stage A"
+}

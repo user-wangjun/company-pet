@@ -1,0 +1,544 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V38 Reset-guided screen-left forearm wrist-underlay repair",
+  "status": "rejected_by_user_visual_review",
+  "decisionOwner": "user",
+  "authorization": {
+    "date": "2026-07-30",
+    "userInstruction": "Authorized the proposed minimal geometry reopen after requiring the repair to follow the original Reset image.",
+    "allowed": [
+      "create one next candidate version",
+      "reopen only the forearm-owned hidden wrist U-cap/skin underlay",
+      "derive the repair from the registered Reset original"
+    ],
+    "stillForbidden": [
+      "modify V31, V34, V35, V36, or V37 files",
+      "modify the V36 hand texture or alpha",
+      "change the hand width",
+      "enter ArtMesh, nodes, parameters, animation, physics, or runtime",
+      "freeze V38 without user visual approval"
+    ]
+  },
+  "source": {
+    "path": "source/masters/front-color-source-exact-after-reset.png",
+    "sha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+    "role": "sole RGB and visible wrist-boundary authority for V38"
+  },
+  "frozenIntegrity": {
+    "preflightCheckCount": 298,
+    "preflightMismatchCount": 0,
+    "preflightStatusFailureCount": 0,
+    "directories": {
+      "v31": {
+        "root": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve",
+        "fileCountBefore": 96,
+        "fileCountAfter": 96,
+        "treeSha256Before": "b11bb669ff0999a28a4084ff1722ad2615f968d95b375df7c3244e24447dcf9e",
+        "treeSha256After": "b11bb669ff0999a28a4084ff1722ad2615f968d95b375df7c3244e24447dcf9e",
+        "unchanged": true
+      },
+      "v34": {
+        "root": "validation/arm-chain-screen-left-v34-hand-root-from-frozen-ucap",
+        "fileCountBefore": 50,
+        "fileCountAfter": 50,
+        "treeSha256Before": "b6ede4f9a483c89ccff59758ebb980748df9472e9753bee640844e9a390c8b6b",
+        "treeSha256After": "b6ede4f9a483c89ccff59758ebb980748df9472e9753bee640844e9a390c8b6b",
+        "unchanged": true
+      },
+      "v35": {
+        "root": "validation/arm-chain-screen-left-v35-frozen-arm-recomposition-review",
+        "fileCountBefore": 4,
+        "fileCountAfter": 4,
+        "treeSha256Before": "6b1ce5790735302c8f659d9e9d53e850117321063d226968a29ad265da31d1d5",
+        "treeSha256After": "6b1ce5790735302c8f659d9e9d53e850117321063d226968a29ad265da31d1d5",
+        "unchanged": true
+      },
+      "v36": {
+        "root": "validation/arm-chain-screen-left-v36-skin-boundary-wrist-cap",
+        "fileCountBefore": 17,
+        "fileCountAfter": 17,
+        "treeSha256Before": "fc8acceb5ecafbca4f3827cdae0177593a1407d12f0bb788160c1383f337ebeb",
+        "treeSha256After": "fc8acceb5ecafbca4f3827cdae0177593a1407d12f0bb788160c1383f337ebeb",
+        "unchanged": true
+      }
+    },
+    "changedFrozenFiles": [],
+    "modifiedAnyFrozenFile": false,
+    "pass": true
+  },
+  "frozenInputs": {
+    "resetColorMaster": {
+      "path": "source/masters/front-color-source-exact-after-reset.png",
+      "expectedSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "actualSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "match": true
+    },
+    "sleeveCompleteMask": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/complete/sleeve.png",
+      "expectedSha256": "ab5306e7a0551583b8ae6873db9dc41c52923dd1a9003cf4c6aca89690d8f6f9",
+      "actualSha256": "ab5306e7a0551583b8ae6873db9dc41c52923dd1a9003cf4c6aca89690d8f6f9",
+      "match": true
+    },
+    "sleeveVisibleMask": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/visible/sleeve.png",
+      "expectedSha256": "cb190d681d39030487a5487aecbaac3d985e377a3f407a097bd55bfa6fd64daf",
+      "actualSha256": "cb190d681d39030487a5487aecbaac3d985e377a3f407a097bd55bfa6fd64daf",
+      "match": true
+    },
+    "upperArmCompleteMask": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/complete/upper_arm.png",
+      "expectedSha256": "6ff9fac95336e8a8797d1281a5f4a7e8e05cbb618c055b417b7a46d3c6c8cc28",
+      "actualSha256": "6ff9fac95336e8a8797d1281a5f4a7e8e05cbb618c055b417b7a46d3c6c8cc28",
+      "match": true
+    },
+    "upperArmVisibleMask": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/visible/upper_arm.png",
+      "expectedSha256": "49a9701e1f780d8a3305f2b4f6063abb58402a1ebb58120d7bb84a3f23520ad7",
+      "actualSha256": "49a9701e1f780d8a3305f2b4f6063abb58402a1ebb58120d7bb84a3f23520ad7",
+      "match": true
+    },
+    "forearmSlimCompleteMask": {
+      "path": "validation/arm-chain-screen-left-v34-hand-root-from-frozen-ucap/masks/complete/forearm-slim.png",
+      "expectedSha256": "5a55ab4f9f326593cd4c27b779e61841195309479638bf237589cc6a45adc05c",
+      "actualSha256": "5a55ab4f9f326593cd4c27b779e61841195309479638bf237589cc6a45adc05c",
+      "match": true
+    },
+    "forearmVisibleWithBracelet": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/visible/forearm.png",
+      "expectedSha256": "0e4b2ffd0ad31254f4f311619367fca02f6f2f2a0ed917f7fd2610c8917017e1",
+      "actualSha256": "0e4b2ffd0ad31254f4f311619367fca02f6f2f2a0ed917f7fd2610c8917017e1",
+      "match": true
+    },
+    "braceletOwnedByForearmMask": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/visible/bracelet-owned-by-forearm.png",
+      "expectedSha256": "4f8a5dfac8bfaa64f8b0b032ae4768526a0805b7d64d81006df582241fd4c850",
+      "actualSha256": "4f8a5dfac8bfaa64f8b0b032ae4768526a0805b7d64d81006df582241fd4c850",
+      "match": true
+    },
+    "handCompleteMask": {
+      "path": "validation/arm-chain-screen-left-v36-skin-boundary-wrist-cap/masks/complete/hand.png",
+      "expectedSha256": "6dd6bb549ae3bb0e29e2acab0505924e7001de58c37342b29e63c011b31e8ee5",
+      "actualSha256": "6dd6bb549ae3bb0e29e2acab0505924e7001de58c37342b29e63c011b31e8ee5",
+      "match": true
+    },
+    "handFrozenTexture": {
+      "path": "validation/arm-chain-screen-left-v36-skin-boundary-wrist-cap/materials/hand-textured-from-reset.png",
+      "expectedSha256": "82cc61096df0d8f9ff4db6afa800baafd5d1afa63ab3b119dc85bce371298876",
+      "actualSha256": "82cc61096df0d8f9ff4db6afa800baafd5d1afa63ab3b119dc85bce371298876",
+      "match": true
+    },
+    "v31UpperFreezeManifest": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/audit/v31-upper-arm-geometry-freeze-manifest-2026-07-28.json",
+      "expectedSha256": "0baa6a1a73b1ce791e8ee16164af746cfb2b4fb9aa1c7691a6cd8870a44125f5",
+      "actualSha256": "0baa6a1a73b1ce791e8ee16164af746cfb2b4fb9aa1c7691a6cd8870a44125f5",
+      "match": true
+    },
+    "v31ForearmFreezeManifest": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/audit/v31-forearm-geometry-freeze-manifest-2026-07-29.json",
+      "expectedSha256": "d80a4e3e68f81e1eacb06b47db88b100e902d4d09c372cc81b462c72fcec5c6f",
+      "actualSha256": "d80a4e3e68f81e1eacb06b47db88b100e902d4d09c372cc81b462c72fcec5c6f",
+      "match": true
+    },
+    "v34HandFreezeManifest": {
+      "path": "validation/arm-chain-screen-left-v34-hand-root-from-frozen-ucap/audit/v34-hand-stage-a-freeze-manifest-2026-07-29.json",
+      "expectedSha256": "4d5992a9b077944dc2e4fc2e7e1722a0e34cafcc6920aed26cbc06e3b7fd5480",
+      "actualSha256": "4d5992a9b077944dc2e4fc2e7e1722a0e34cafcc6920aed26cbc06e3b7fd5480",
+      "match": true
+    },
+    "v35RecompositionReport": {
+      "path": "validation/arm-chain-screen-left-v35-frozen-arm-recomposition-review/audit/v35-frozen-arm-recomposition-report.json",
+      "expectedSha256": "2a359fc3c5a9a4116eb0b83677d0916aa053802a48a29ffbe6c35db146d00f0b",
+      "actualSha256": "2a359fc3c5a9a4116eb0b83677d0916aa053802a48a29ffbe6c35db146d00f0b",
+      "match": true
+    },
+    "v36HandFreezeManifest": {
+      "path": "validation/arm-chain-screen-left-v36-skin-boundary-wrist-cap/audit/v36-hand-geometry-and-texture-freeze-manifest-2026-07-30.json",
+      "expectedSha256": "e456f65b948c9020f56e3a72f1f35c17a6157f21a5b422f0fbe25ac38771c187",
+      "actualSha256": "e456f65b948c9020f56e3a72f1f35c17a6157f21a5b422f0fbe25ac38771c187",
+      "match": true
+    },
+    "v14TextureReferenceManifest": {
+      "path": "validation/arm-chain-screen-left-v14-complete-textures/audit/v14-complete-texture-freeze-manifest-2026-07-28.json",
+      "expectedSha256": "4b7220c0ede94711029f4dcc667a12b988e2a621a2192e0e8e75d726effb4c56",
+      "actualSha256": "4b7220c0ede94711029f4dcc667a12b988e2a621a2192e0e8e75d726effb4c56",
+      "match": true
+    }
+  },
+  "v37BaselineIntegrity": {
+    "report": {
+      "path": "validation/arm-chain-screen-left-v37-full-arm-textures-from-frozen-geometry/audit/machine-report.json",
+      "sha256": "7f9e47b517eb19e314fdcf00047bbcbf66443d9ce4329d87e4cc52206e029b90"
+    },
+    "builder": {
+      "path": "validation/arm-chain-screen-left-v37-full-arm-textures-from-frozen-geometry/tools/build_v37_full_arm_textures.py",
+      "sha256": "6de592332c435a6f396126e3519a070d7add28e608cf9d75b42c93493e312c05"
+    },
+    "treeSha256Before": "6774e4ae317023a8a031e3c294958ceb969d9b091acd6b4def14f3503cbbf7b0",
+    "treeSha256After": "6774e4ae317023a8a031e3c294958ceb969d9b091acd6b4def14f3503cbbf7b0",
+    "changedFiles": [],
+    "unchanged": true
+  },
+  "inputs": {
+    "v34ForearmBaseMask": {
+      "path": "validation/arm-chain-screen-left-v34-hand-root-from-frozen-ucap/masks/complete/forearm-slim.png",
+      "sha256": "5a55ab4f9f326593cd4c27b779e61841195309479638bf237589cc6a45adc05c"
+    },
+    "v31ForearmVisibleMask": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/visible/forearm.png",
+      "sha256": "0e4b2ffd0ad31254f4f311619367fca02f6f2f2a0ed917f7fd2610c8917017e1"
+    },
+    "v31BraceletMask": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/visible/bracelet-owned-by-forearm.png",
+      "sha256": "4f8a5dfac8bfaa64f8b0b032ae4768526a0805b7d64d81006df582241fd4c850"
+    },
+    "v36HandMask": {
+      "path": "validation/arm-chain-screen-left-v36-skin-boundary-wrist-cap/masks/complete/hand.png",
+      "sha256": "6dd6bb549ae3bb0e29e2acab0505924e7001de58c37342b29e63c011b31e8ee5"
+    },
+    "v36HandVisibleMask": {
+      "path": "validation/arm-chain-screen-left-v36-skin-boundary-wrist-cap/masks/visible/hand.png",
+      "sha256": "6dd6bb549ae3bb0e29e2acab0505924e7001de58c37342b29e63c011b31e8ee5"
+    },
+    "v36HandTexture": {
+      "path": "validation/arm-chain-screen-left-v36-skin-boundary-wrist-cap/materials/hand-textured-from-reset.png",
+      "sha256": "82cc61096df0d8f9ff4db6afa800baafd5d1afa63ab3b119dc85bce371298876",
+      "expectedSha256": "82cc61096df0d8f9ff4db6afa800baafd5d1afa63ab3b119dc85bce371298876",
+      "unchanged": true
+    },
+    "v37ForearmTexture": {
+      "path": "validation/arm-chain-screen-left-v37-full-arm-textures-from-frozen-geometry/materials/forearm-textured.png",
+      "sha256": "57757d05a79052ac2bf8b908c3bc9af35d40ad900fa2bbbb188c6b155bd7cb45"
+    },
+    "v37BraceletTexture": {
+      "path": "validation/arm-chain-screen-left-v37-full-arm-textures-from-frozen-geometry/materials/bracelet-owned-by-forearm-textured.png",
+      "sha256": "344a0e6a406861dbc3970b72843def095fc94fd53576540fd209eb5f617d24bf"
+    }
+  },
+  "baselineFailure": {
+    "userFinding": "Visible white break under the bracelet in the V37 wrist stress review.",
+    "cause": "V34 forearm U-cap and V36 hand leave a background-open strip inside the Reset-derived wrist skin channel. Foreground connectivity and total overlap stayed nonzero, so the old component metric did not detect the unilateral visual break.",
+    "v37BridgeCoreGapPxByAngle": {
+      "-12": 52,
+      "0": 52,
+      "12": 52
+    },
+    "notRepairableByRgbOnly": true
+  },
+  "geometryCandidate": {
+    "method": "Connect the Reset-derived proximal forearm and distal hand skin cross-sections inside the old neutral row envelope. The bridge uses the common 10th-to-92nd percentile transverse interval and analytic one-pixel edge coverage; no blur, dilation, or hand geometry change is used.",
+    "sourceAnchorBands": {
+      "proximalForearmLongitudinalPx": [
+        -24.0,
+        -16.0
+      ],
+      "distalHandLongitudinalPx": [
+        12.0,
+        20.0
+      ],
+      "proximalSampleCount": 191,
+      "distalSampleCount": 185
+    },
+    "bridgeLongitudinalPx": [
+      -18.0,
+      18.0
+    ],
+    "bridgeTransversePx": [
+      -8.25,
+      10.5
+    ],
+    "bridgeWidthPx": 18.75,
+    "candidateAddedPixels": 58,
+    "candidateRemovedPixels": 0,
+    "candidateAlphaChangedPixels": 58,
+    "addedBoundingBoxPx": [
+      105,
+      525,
+      124,
+      548
+    ],
+    "addedOutsideAuthorizedBridgePx": 0,
+    "addedOutsideOldNeutralRowEnvelopePx": 0,
+    "forearmRowOuterBoundaryChangedRows": 3,
+    "neutralArmRowOuterBoundaryChangedRows": 0,
+    "baseTopology": {
+      "connectedComponents": 1,
+      "closedHoles": 3
+    },
+    "candidateTopology": {
+      "connectedComponents": 1,
+      "closedHoles": 4
+    },
+    "bridgeCorePixels": 675,
+    "topologyChangeClassification": "The skin remains one connected component. Closing the old background-open wrist crack converts one bracelet-loop background opening into a closed transparent accessory hole; that hole is outside the audited Reset skin-channel core.",
+    "baseMask": {
+      "path": "validation/arm-chain-screen-left-v34-hand-root-from-frozen-ucap/masks/complete/forearm-slim.png",
+      "sha256": "5a55ab4f9f326593cd4c27b779e61841195309479638bf237589cc6a45adc05c"
+    },
+    "candidateMask": {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/masks/complete/forearm-reset-guided-wrist-underlay.png",
+      "sha256": "d471e8e549ee45a34baffc60698d46a95af4a9254aa7771832b7b5bff6383987"
+    },
+    "deltaMask": {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/masks/delta/added-wrist-underlay.png",
+      "sha256": "2c649b8e7f62d42cadb009650280401d738d9fb88b8fced635892959443f0ccb"
+    },
+    "candidateIsNewUnfrozenArtifact": true,
+    "oldFrozenMaskModified": false
+  },
+  "textureCandidate": {
+    "method": "Replace the wrist/U-cap RGB inside the candidate alpha with a Reset-only longitudinal continuation. Proximal forearm and distal hand interior pixels are inverse-distance donors; directly visible source pixels remain byte-identical. V14 is not used in the corrected wrist field.",
+    "textureRegionPixels": 1056,
+    "directResetPixels": 615,
+    "interpolatedResetDonorPixels": 441,
+    "proximalDonorPixels": 331,
+    "distalDonorPixels": 531,
+    "textureTransversePx": [
+      -11.25,
+      13.0
+    ],
+    "directResetRgbMismatchPx": 0,
+    "newGeometryUniqueRgbCount": 27,
+    "newGeometryLuminanceStdDev": 10.979376792907715,
+    "v14UsedInCorrectedWristField": false,
+    "alphaBlurFeatherOrDilationUsed": false,
+    "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/materials/forearm-textured-reset-guided.png",
+    "sha256": "722c065d6805d330fc10e294a832cfd013913da0f94b31521cc7b7c6af12fd99",
+    "alphaMask": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/masks/complete/forearm-reset-guided-wrist-underlay.png",
+    "alphaMismatchPx": 0
+  },
+  "finalMaterialSet": {
+    "sleeve": {
+      "path": "validation/arm-chain-screen-left-v37-full-arm-textures-from-frozen-geometry/materials/sleeve-textured.png",
+      "sha256": "d05d0b2978d8772cd7772db3057611309b8d8237bed8598b2a05421ee94f978e",
+      "alphaMask": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/complete/sleeve.png",
+      "alphaMaskSha256": "ab5306e7a0551583b8ae6873db9dc41c52923dd1a9003cf4c6aca89690d8f6f9",
+      "alphaMismatchPx": 0,
+      "status": "unchanged V37 texture"
+    },
+    "upperArm": {
+      "path": "validation/arm-chain-screen-left-v37-full-arm-textures-from-frozen-geometry/materials/upper-arm-textured.png",
+      "sha256": "b1a3a358bd34a26b746bd751f5109c8ac6747a647298d94c13715303dbbd6b49",
+      "alphaMask": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/complete/upper_arm.png",
+      "alphaMaskSha256": "6ff9fac95336e8a8797d1281a5f4a7e8e05cbb618c055b417b7a46d3c6c8cc28",
+      "alphaMismatchPx": 0,
+      "status": "unchanged V37 texture"
+    },
+    "forearm": {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/materials/forearm-textured-reset-guided.png",
+      "sha256": "722c065d6805d330fc10e294a832cfd013913da0f94b31521cc7b7c6af12fd99",
+      "alphaMask": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/masks/complete/forearm-reset-guided-wrist-underlay.png",
+      "alphaMaskSha256": "d471e8e549ee45a34baffc60698d46a95af4a9254aa7771832b7b5bff6383987",
+      "alphaMismatchPx": 0,
+      "status": "new unfrozen V38 candidate"
+    },
+    "braceletOwnedByForearm": {
+      "path": "validation/arm-chain-screen-left-v37-full-arm-textures-from-frozen-geometry/materials/bracelet-owned-by-forearm-textured.png",
+      "sha256": "344a0e6a406861dbc3970b72843def095fc94fd53576540fd209eb5f617d24bf",
+      "alphaMask": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/visible/bracelet-owned-by-forearm.png",
+      "alphaMaskSha256": "4f8a5dfac8bfaa64f8b0b032ae4768526a0805b7d64d81006df582241fd4c850",
+      "alphaMismatchPx": 0,
+      "status": "unchanged V37 Reset RGB texture"
+    },
+    "hand": {
+      "path": "validation/arm-chain-screen-left-v36-skin-boundary-wrist-cap/materials/hand-textured-from-reset.png",
+      "sha256": "82cc61096df0d8f9ff4db6afa800baafd5d1afa63ab3b119dc85bce371298876",
+      "alphaMask": "validation/arm-chain-screen-left-v36-skin-boundary-wrist-cap/masks/complete/hand.png",
+      "alphaMaskSha256": "6dd6bb549ae3bb0e29e2acab0505924e7001de58c37342b29e63c011b31e8ee5",
+      "alphaMismatchPx": 0,
+      "status": "byte-preserved frozen V36 texture"
+    }
+  },
+  "componentAlphaMismatchPx": {
+    "sleeve": 0,
+    "upperArm": 0,
+    "forearmV38Candidate": 0,
+    "braceletOwnedByForearm": 0,
+    "handV36Frozen": 0
+  },
+  "recompositionDifference": {
+    "inheritedUnchangedV37VisibleOwnership": {
+      "missingVisibleTexturePx": 0,
+      "extraOutsideFrozenVisibleOwnershipPx": 0,
+      "sourceRgbMismatchPx": 0,
+      "baselineReport": "validation/arm-chain-screen-left-v37-full-arm-textures-from-frozen-geometry/audit/machine-report.json",
+      "baselineReportSha256": "7f9e47b517eb19e314fdcf00047bbcbf66443d9ce4329d87e4cc52206e029b90"
+    },
+    "v38AuthorizedDifference": {
+      "forearmAlphaAddedPx": 58,
+      "forearmAlphaRemovedPx": 0,
+      "addedOutsideOldNeutralRowEnvelopePx": 0,
+      "neutralArmOuterBoundaryChangedRows": 0,
+      "directVisibleResetRgbMismatchPx": 0,
+      "v37BridgeCoreGapPxByAngle": {
+        "-12": 52,
+        "0": 52,
+        "12": 52
+      },
+      "v38BridgeCoreGapPxByAngle": {
+        "-12": 0,
+        "0": 0,
+        "12": 0
+      }
+    },
+    "visibleHardSeamReview": "completed visually; no obvious new seam"
+  },
+  "neutralReview": {
+    "oldNeutralRowEnvelopeExpandedPx": 0,
+    "candidateNeutralRowEnvelopeExpandedPx": 0,
+    "forearmRowOuterBoundaryChangedRows": 3,
+    "neutralArmRowOuterBoundaryChangedRows": 0,
+    "comparison": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/qa/neutral-reset-v37-v38-comparison.png",
+    "note": "The authorized bridge fills only an internal Reset-derived skin channel. It changes the forearm-owned hidden U-cap on three rows but changes no complete neutral-arm row outer bound."
+  },
+  "wristStress": {
+    "anglesDeg": [
+      -12,
+      0,
+      12
+    ],
+    "samples": [
+      {
+        "angleDeg": -12,
+        "v37BridgeCoreGapPx": 52,
+        "v38BridgeCoreGapPx": 0,
+        "v37ForearmHandOverlapPx": 261,
+        "v38ForearmHandOverlapPx": 261,
+        "v37ConnectedComponents": 1,
+        "v38ConnectedComponents": 1,
+        "braceletHandOverlapPx": 3,
+        "v37MaximumOuterSkinSpanPx": 25.706201206864556,
+        "v38MaximumOuterSkinSpanPx": 25.70620120686456,
+        "maximumOuterSkinSpanDeltaPx": 3.552713678800501e-15
+      },
+      {
+        "angleDeg": 0,
+        "v37BridgeCoreGapPx": 52,
+        "v38BridgeCoreGapPx": 0,
+        "v37ForearmHandOverlapPx": 261,
+        "v38ForearmHandOverlapPx": 264,
+        "v37ConnectedComponents": 1,
+        "v38ConnectedComponents": 1,
+        "braceletHandOverlapPx": 0,
+        "v37MaximumOuterSkinSpanPx": 24.7379238831552,
+        "v38MaximumOuterSkinSpanPx": 24.7379238831552,
+        "maximumOuterSkinSpanDeltaPx": 0.0
+      },
+      {
+        "angleDeg": 12,
+        "v37BridgeCoreGapPx": 52,
+        "v38BridgeCoreGapPx": 0,
+        "v37ForearmHandOverlapPx": 234,
+        "v38ForearmHandOverlapPx": 237,
+        "v37ConnectedComponents": 1,
+        "v38ConnectedComponents": 1,
+        "braceletHandOverlapPx": 0,
+        "v37MaximumOuterSkinSpanPx": 24.987801902176972,
+        "v38MaximumOuterSkinSpanPx": 24.987801902176972,
+        "maximumOuterSkinSpanDeltaPx": 0.0
+      }
+    ],
+    "minimumV38ForearmHandOverlapPx": 237,
+    "v38BridgeCoreGapTotalPx": 0,
+    "v38DisconnectCount": 0,
+    "maximumOuterSkinSpanDeltaVsV37Px": 3.552713678800501e-15,
+    "pass": true,
+    "review": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/qa/wrist-v37-v38-three-pose-comparison.png",
+    "diagnosticOnlyNotApprovedMotionRange": true
+  },
+  "braceletOwnership": {
+    "owner": "forearm",
+    "movesWith": "forearm",
+    "texture": "validation/arm-chain-screen-left-v37-full-arm-textures-from-frozen-geometry/materials/bracelet-owned-by-forearm-textured.png",
+    "mask": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/visible/bracelet-owned-by-forearm.png",
+    "geometryOrTextureChangedInV38": false,
+    "note": "The new skin bridge sits underneath the existing bracelet; the bracelet remains the foreground forearm-owned material."
+  },
+  "outputFiles": [
+    {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/masks/complete/forearm-reset-guided-wrist-underlay.png",
+      "sha256": "d471e8e549ee45a34baffc60698d46a95af4a9254aa7771832b7b5bff6383987",
+      "bytes": 1513
+    },
+    {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/masks/delta/added-wrist-underlay.png",
+      "sha256": "2c649b8e7f62d42cadb009650280401d738d9fb88b8fced635892959443f0ccb",
+      "bytes": 683
+    },
+    {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/materials/forearm-textured-reset-guided.png",
+      "sha256": "722c065d6805d330fc10e294a832cfd013913da0f94b31521cc7b7c6af12fd99",
+      "bytes": 14727
+    },
+    {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/qa/neutral-reset-v37-v38-comparison.png",
+      "sha256": "b3a48f78e67ad1309d63ae19a44f126d9c753864a9299977f21d4a8f21573cac",
+      "bytes": 267693
+    },
+    {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/qa/wrist-v37-v38-three-pose-comparison.png",
+      "sha256": "67b8601d89a324f6cd6f0b81e4a2e00f651acb4aee6f8bdde27ecd38ec9a000e",
+      "bytes": 297576
+    },
+    {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/qa/underlay-delta-and-texture-check.png",
+      "sha256": "3211b353ce8db6bdb2076cadc29f28e627ab6007ad94b17555cefe04d424919e",
+      "bytes": 217336
+    },
+    {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/qa/V38-screen-left腕部原图导向修复-中文审查图.png",
+      "sha256": "1a738dd607cf3cb90e1e4331eaa15189551e8dea994a58133aac9a62ff00f622",
+      "bytes": 1531531
+    },
+    {
+      "path": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/tools/build_v38_reset_guided_wrist_underlay.py",
+      "sha256": "da67217df180c432c8b4f410adc8d5b1d56ea0efc0c98e47ead8afc801d33305",
+      "bytes": 61956
+    }
+  ],
+  "engineeringPass": true,
+  "overallGatePass": false,
+  "selfVisualQa": {
+    "status": "invalidated_by_user_visual_rejection",
+    "reviewedArtifacts": []
+  },
+  "visualRisksPendingUserApproval": [
+    "The V38 alpha adds a 58-pixel-scale hidden forearm bridge (exact count is recorded in geometryCandidate); it is a new candidate geometry and needs explicit visual approval.",
+    "The frozen -12 degree diagnostic retains the pre-existing small bracelet/hand raster contact; inspect the three-pose panel.",
+    "The corrected wrist texture is Reset-only donor interpolation in pixels hidden by the bracelet; judge its skin flow with the bracelet removed."
+  ],
+  "userVisualApproval": {
+    "status": "rejected",
+    "finding": "全是断口",
+    "reviewBoard": "validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay/qa/V38-screen-left腕部原图导向修复-中文审查图.png",
+    "engineeringChecksDoNotReplaceVisualApproval": true,
+    "freezeAuthorized": false
+  },
+  "userVisualRejection": {
+    "date": "2026-07-30",
+    "result": "V38 is invalidated and must return to the material-separation gate. No downstream work is allowed.",
+    "diagnostics": {
+      "rootTransitionPixels": 752,
+      "rootTransitionNearWhiteRgbPixels": 53,
+      "braceletMaskPixels": 429,
+      "braceletPixelsAlsoPresentInForearmAlpha": 429,
+      "forearmPixelsUnderBracelet": 429,
+      "nearWhiteForearmRgbPixelsUnderBracelet": 235,
+      "sleeveUpperAlphaUnionComponents": 1,
+      "upperForearmAlphaUnionComponents": 1,
+      "forearmHandAlphaUnionComponents": 1
+    },
+    "diagnosis": [
+      "The sleeve/upper/forearm and forearm/hand alpha unions remain connected; their visible white cuts are therefore primarily contaminated hidden RGB and edge-matte seams.",
+      "Every effective bracelet-mask pixel is also present in the forearm alpha. RGB-only repainting cannot make the forearm a semantically clean skin layer when the bracelet is displaced."
+    ],
+    "stopCondition": "A correct independent forearm material cannot be completed inside the current forearm alpha without retaining bracelet-shaped non-skin geometry.",
+    "newAuthorizationRequired": "Permit a new unfrozen forearm candidate mask to remove only bracelet-only off-skin ownership while retaining the central skin underlay; all old frozen files and the V36 hand remain immutable."
+  },
+  "explicitlyNotPerformed": [
+    "no old frozen file modified",
+    "no V36 hand alpha or RGB modification",
+    "no right-arm or body work",
+    "no ArtMesh, node, parameter, animation, physics, or runtime work",
+    "no V38 freeze"
+  ]
+}

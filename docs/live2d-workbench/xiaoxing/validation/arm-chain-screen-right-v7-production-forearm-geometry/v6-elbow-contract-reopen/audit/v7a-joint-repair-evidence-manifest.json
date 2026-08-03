@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-A joint repair candidate evidence",
+  "status": "engineering_tradeoff_pending_user_contract_choice",
+  "checksumAlgorithm": "SHA-256",
+  "files": [
+    {
+      "path": "audit/v7a-joint-repair-candidate.json",
+      "sha256": "a31dd1130ce0cc750565126cb0b68c4b5b85cd92120ee0cb6ab7dd919d23a622",
+      "bytes": 12409
+    },
+    {
+      "path": "audit/V7-A-JOINT-REPAIR-CANDIDATE.zh-CN.md",
+      "sha256": "b7530fa9d634d13c9ad8f854b5361b88346d666459f6033579636d5846ed3dd3",
+      "bytes": 2341
+    },
+    {
+      "path": "qa/V7-A-JOINT-REPAIR-CANDIDATE-BOARD.png",
+      "sha256": "c80c3da122a4b4acfe05a56138043ba9240a32fb2006e382773831f7f213f3f5",
+      "bytes": 113173
+    },
+    {
+      "path": "qa/V7-A-JOINT-REPAIR-CANDIDATE-SLOW-SCAN.gif",
+      "sha256": "d2b6b3390caad9423ce573c8658a7f2f402c1c7350eddc55c4f9a1f9c6eb048e",
+      "bytes": 357924
+    },
+    {
+      "path": "qa/V7-A-JOINT-REPAIR-CANDIDATE-THREE-ANGLES.png",
+      "sha256": "26905628bede856bc4cf1a7d26ed96681830c20c348025b33179cb8bfd5eb3c8",
+      "bytes": 38971
+    },
+    {
+      "path": "qa/V7-A-ELBOW-STRUCTURE-COMPARISON-SLOW-SCAN.gif",
+      "sha256": "e393e78a297deedb4e52de8a0492ed083a98043775a6dabd8555e2d012dc3d46",
+      "bytes": 901657
+    },
+    {
+      "path": "qa/V7-A-ELBOW-STRUCTURE-COMPARISON-THREE-ANGLES.png",
+      "sha256": "b0a13af5ca4bbc594a65a31f6603a9fdcff3655bd2b7a22e014b5554f7666513",
+      "bytes": 56573
+    },
+    {
+      "path": "masks/joint-repair-selected-root-envelope.png",
+      "sha256": "bc4a2875248dea56cf77a600f4f663ab897ada23409982d9fed87fa02a0f4ab0",
+      "bytes": 4710
+    },
+    {
+      "path": "masks/joint-repair-candidate-forearm-ownership.png",
+      "sha256": "2d1a534037f01e65ea6b26c803558880497714597e40071cd69387232ff4669d",
+      "bytes": 4954
+    },
+    {
+      "path": "masks/joint-repair-upper-trim-mask.png",
+      "sha256": "fc9bc1ae6ba79a63762d7865e0f062e7c82713fe5a916770f7057a08cf2d1542",
+      "bytes": 4646
+    },
+    {
+      "path": "masks/joint-repair-upper-visible-trim.png",
+      "sha256": "504f0a8ad04d135d5b6c5251768041e8046e6c3c8aaaf5aafa6c79964952b7db",
+      "bytes": 4636
+    },
+    {
+      "path": "masks/joint-repair-upper-hidden-trim.png",
+      "sha256": "675bc2563b1cbf92b600dcd8502e214378413f1de8d310d04750760377167590",
+      "bytes": 4597
+    },
+    {
+      "path": "masks/joint-repair-upper-geometry-simulated-copy.png",
+      "sha256": "1dbcefd814e7570c46809f49b8f7ccc72fbe7ef080ce8c992cf46b42793e53e4",
+      "bytes": 4935
+    },
+    {
+      "path": "masks/joint-repair-visible-upper-reassignment.png",
+      "sha256": "d04907ff71ca6b6ab3ffed25a2be3de56babafdafd0dfb0439116bee253d022b",
+      "bytes": 4655
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "gazeRangePx": {
+    "x": [
+      -12,
+      12
+    ],
+    "y": [
+      -8,
+      8
+    ]
+  },
+  "eyes": {
+    "L": {
+      "cleanIrisDarkResidualPixels": 0,
+      "rawPupilOutsideAperturePixels": {
+        "left": 187,
+        "right": 171,
+        "up": 166,
+        "down": 111
+      },
+      "clippedPupilOutsideAperturePixels": {
+        "left": 0,
+        "right": 0,
+        "up": 0,
+        "down": 0
+      },
+      "requiresClippingMask": true,
+      "pass": true
+    },
+    "R": {
+      "cleanIrisDarkResidualPixels": 0,
+      "rawPupilOutsideAperturePixels": {
+        "left": 193,
+        "right": 139,
+        "up": 177,
+        "down": 85
+      },
+      "clippedPupilOutsideAperturePixels": {
+        "left": 0,
+        "right": 0,
+        "up": 0,
+        "down": 0
+      },
+      "requiresClippingMask": true,
+      "pass": true
+    }
+  },
+  "pass": true,
+  "gate3Pass": false,
+  "gate3Blocker": "blink fur deformation and PSD/Cubism import are not yet visually validated"
+}

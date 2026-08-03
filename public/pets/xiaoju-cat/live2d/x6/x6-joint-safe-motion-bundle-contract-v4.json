@@ -1,0 +1,1335 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-joint-safe-coarse-motion-bundle-candidate",
+  "status": "candidate-for-user-visual-review",
+  "strategy": "clean-visible-cuts-plus-separate-child-owned-hidden-joint-collars",
+  "bundleVocabulary": [
+    "head",
+    "mouth",
+    "ear_L",
+    "ear_R",
+    "eye_L",
+    "eye_R",
+    "body",
+    "arm_L_upper",
+    "arm_L_lower_paw",
+    "arm_R_upper",
+    "arm_R_lower_paw",
+    "leg_L_upper",
+    "leg_L_lower_paw",
+    "leg_R_upper",
+    "leg_R_lower_paw",
+    "tail"
+  ],
+  "bundleCount": 16,
+  "viewBundleRecordCount": 42,
+  "parentChildJointRecordCount": 39,
+  "allParentChildJointsHaveOverlap": true,
+  "minimumOverlapPixels": 417,
+  "isolatedComponentsRemoved": 46,
+  "isolatedPixelsRemoved": 862,
+  "exports": [
+    {
+      "view": "front",
+      "bundle": "tail",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "TailRoot",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_tail_visible.png",
+      "visibleBounds": [
+        295,
+        730,
+        387,
+        849
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_tail_hidden-collar.png",
+      "hiddenCollarBounds": [
+        294,
+        715,
+        370,
+        742
+      ],
+      "overlapPixels": 1305,
+      "collarWidthPixels": 31,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "leg_L_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Hip_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_L_upper_visible.png",
+      "visibleBounds": [
+        450,
+        602,
+        517,
+        688
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_L_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        433,
+        585,
+        504,
+        688
+      ],
+      "overlapPixels": 2553,
+      "collarWidthPixels": 35,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "leg_L_lower_paw",
+      "parentBundle": "leg_L_upper",
+      "effectiveParentBundleInView": "leg_L_upper",
+      "occlusionCoverBundles": [
+        "leg_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Knee_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_L_lower_paw_visible.png",
+      "visibleBounds": [
+        450,
+        654,
+        569,
+        724
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_L_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        450,
+        640,
+        517,
+        688
+      ],
+      "overlapPixels": 973,
+      "collarWidthPixels": 29,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "leg_R_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Hip_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_R_upper_visible.png",
+      "visibleBounds": [
+        139,
+        601,
+        219,
+        687
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_R_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        165,
+        584,
+        236,
+        686
+      ],
+      "overlapPixels": 2532,
+      "collarWidthPixels": 35,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "leg_R_lower_paw",
+      "parentBundle": "leg_R_upper",
+      "effectiveParentBundleInView": "leg_R_upper",
+      "occlusionCoverBundles": [
+        "leg_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Knee_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_R_lower_paw_visible.png",
+      "visibleBounds": [
+        98,
+        654,
+        218,
+        723
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_leg_R_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        139,
+        640,
+        219,
+        687
+      ],
+      "overlapPixels": 1064,
+      "collarWidthPixels": 29,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "body",
+      "parentBundle": null,
+      "effectiveParentBundleInView": null,
+      "occlusionCoverBundles": [],
+      "occludedParentFallback": false,
+      "primaryController": "Body",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_body_visible.png",
+      "visibleBounds": [
+        164,
+        371,
+        513,
+        742
+      ],
+      "hiddenCollarFile": null,
+      "hiddenCollarBounds": null,
+      "overlapPixels": 0,
+      "collarWidthPixels": 0,
+      "shoulderCapMode": null,
+      "removedComponents": 4,
+      "removedPixels": 9,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "arm_L_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Shoulder_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_L_upper_visible.png",
+      "visibleBounds": [
+        404,
+        305,
+        496,
+        384
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_L_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        389,
+        301,
+        486,
+        393
+      ],
+      "overlapPixels": 6164,
+      "collarWidthPixels": 31,
+      "shoulderCapMode": "rounded-broad-underlap",
+      "removedComponents": 2,
+      "removedPixels": 3,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "arm_L_lower_paw",
+      "parentBundle": "arm_L_upper",
+      "effectiveParentBundleInView": "arm_L_upper",
+      "occlusionCoverBundles": [
+        "arm_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Elbow_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_L_lower_paw_visible.png",
+      "visibleBounds": [
+        473,
+        328,
+        594,
+        469
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_L_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        460,
+        315,
+        496,
+        384
+      ],
+      "overlapPixels": 1073,
+      "collarWidthPixels": 27,
+      "shoulderCapMode": null,
+      "removedComponents": 2,
+      "removedPixels": 39,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "arm_R_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Shoulder_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_R_upper_visible.png",
+      "visibleBounds": [
+        176,
+        309,
+        267,
+        383
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_R_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        187,
+        302,
+        282,
+        392
+      ],
+      "overlapPixels": 6127,
+      "collarWidthPixels": 31,
+      "shoulderCapMode": "rounded-broad-underlap",
+      "removedComponents": 1,
+      "removedPixels": 3,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "arm_R_lower_paw",
+      "parentBundle": "arm_R_upper",
+      "effectiveParentBundleInView": "arm_R_upper",
+      "occlusionCoverBundles": [
+        "arm_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Elbow_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_R_lower_paw_visible.png",
+      "visibleBounds": [
+        69,
+        326,
+        199,
+        459
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_arm_R_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        176,
+        315,
+        212,
+        383
+      ],
+      "overlapPixels": 1076,
+      "collarWidthPixels": 27,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "head",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Head",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_head_visible.png",
+      "visibleBounds": [
+        196,
+        48,
+        476,
+        386
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_head_hidden-collar.png",
+      "hiddenCollarBounds": [
+        229,
+        371,
+        442,
+        403
+      ],
+      "overlapPixels": 3571,
+      "collarWidthPixels": 35,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "ear_L",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "EarRoot_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_ear_L_visible.png",
+      "visibleBounds": [
+        373,
+        42,
+        461,
+        140
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_ear_L_hidden-collar.png",
+      "hiddenCollarBounds": [
+        363,
+        56,
+        454,
+        150
+      ],
+      "overlapPixels": 1610,
+      "collarWidthPixels": 21,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "ear_R",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "EarRoot_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_ear_R_visible.png",
+      "visibleBounds": [
+        223,
+        40,
+        298,
+        140
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_ear_R_hidden-collar.png",
+      "hiddenCollarBounds": [
+        227,
+        48,
+        308,
+        150
+      ],
+      "overlapPixels": 1798,
+      "collarWidthPixels": 21,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "mouth",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Mouth",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_mouth_visible.png",
+      "visibleBounds": [
+        214,
+        204,
+        462,
+        297
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_mouth_hidden-collar.png",
+      "hiddenCollarBounds": [
+        208,
+        196,
+        468,
+        305
+      ],
+      "overlapPixels": 9260,
+      "collarWidthPixels": 17,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "eye_L",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "EyeSocket_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_eye_L_visible.png",
+      "visibleBounds": [
+        347,
+        135,
+        418,
+        220
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_eye_L_hidden-collar.png",
+      "hiddenCollarBounds": [
+        342,
+        130,
+        423,
+        225
+      ],
+      "overlapPixels": 1567,
+      "collarWidthPixels": 11,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "front",
+      "bundle": "eye_R",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "EyeSocket_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/front_eye_R_visible.png",
+      "visibleBounds": [
+        253,
+        135,
+        324,
+        220
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/front_eye_R_hidden-collar.png",
+      "hiddenCollarBounds": [
+        248,
+        130,
+        329,
+        225
+      ],
+      "overlapPixels": 1567,
+      "collarWidthPixels": 11,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "tail",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "TailRoot",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_tail_visible.png",
+      "visibleBounds": [
+        963,
+        708,
+        1066,
+        848
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_tail_hidden-collar.png",
+      "hiddenCollarBounds": [
+        984,
+        693,
+        1067,
+        724
+      ],
+      "overlapPixels": 1609,
+      "collarWidthPixels": 31,
+      "shoulderCapMode": null,
+      "removedComponents": 1,
+      "removedPixels": 6,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "leg_L_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Hip_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_leg_L_upper_visible.png",
+      "visibleBounds": [
+        779,
+        630,
+        821,
+        643
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_leg_L_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        780,
+        613,
+        838,
+        658
+      ],
+      "overlapPixels": 1295,
+      "collarWidthPixels": 35,
+      "shoulderCapMode": null,
+      "removedComponents": 10,
+      "removedPixels": 10,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "leg_L_lower_paw",
+      "parentBundle": "leg_L_upper",
+      "effectiveParentBundleInView": "leg_L_upper",
+      "occlusionCoverBundles": [
+        "leg_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Knee_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_leg_L_lower_paw_visible.png",
+      "visibleBounds": [
+        702,
+        639,
+        846,
+        729
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_leg_L_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        779,
+        630,
+        821,
+        643
+      ],
+      "overlapPixels": 417,
+      "collarWidthPixels": 29,
+      "shoulderCapMode": null,
+      "removedComponents": 1,
+      "removedPixels": 1,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "leg_R_lower_paw",
+      "parentBundle": "leg_R_upper",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": true,
+      "primaryController": "Knee_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_leg_R_lower_paw_visible.png",
+      "visibleBounds": [
+        781,
+        673,
+        882,
+        776
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_leg_R_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        837,
+        659,
+        894,
+        703
+      ],
+      "overlapPixels": 1074,
+      "collarWidthPixels": 29,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "body",
+      "parentBundle": null,
+      "effectiveParentBundleInView": null,
+      "occlusionCoverBundles": [],
+      "occludedParentFallback": false,
+      "primaryController": "Body",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_body_visible.png",
+      "visibleBounds": [
+        780,
+        264,
+        1068,
+        724
+      ],
+      "hiddenCollarFile": null,
+      "hiddenCollarBounds": null,
+      "overlapPixels": 0,
+      "collarWidthPixels": 0,
+      "shoulderCapMode": null,
+      "removedComponents": 4,
+      "removedPixels": 682,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "arm_L_lower_paw",
+      "parentBundle": "arm_L_upper",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": true,
+      "primaryController": "Elbow_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_arm_L_lower_paw_visible.png",
+      "visibleBounds": [
+        667,
+        378,
+        793,
+        456
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_arm_L_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        775,
+        398,
+        843,
+        457
+      ],
+      "overlapPixels": 1425,
+      "collarWidthPixels": 27,
+      "shoulderCapMode": null,
+      "removedComponents": 1,
+      "removedPixels": 1,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "arm_R_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Shoulder_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_arm_R_upper_visible.png",
+      "visibleBounds": [
+        821,
+        334,
+        934,
+        423
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_arm_R_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        821,
+        333,
+        934,
+        426
+      ],
+      "overlapPixels": 6410,
+      "collarWidthPixels": 31,
+      "shoulderCapMode": "rounded-broad-underlap",
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "arm_R_lower_paw",
+      "parentBundle": "arm_R_upper",
+      "effectiveParentBundleInView": "arm_R_upper",
+      "occlusionCoverBundles": [
+        "arm_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Elbow_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_arm_R_lower_paw_visible.png",
+      "visibleBounds": [
+        680,
+        385,
+        849,
+        499
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_arm_R_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        821,
+        382,
+        862,
+        423
+      ],
+      "overlapPixels": 772,
+      "collarWidthPixels": 27,
+      "shoulderCapMode": null,
+      "removedComponents": 2,
+      "removedPixels": 2,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "head",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Head",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_head_visible.png",
+      "visibleBounds": [
+        704,
+        58,
+        985,
+        386
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_head_hidden-collar.png",
+      "hiddenCollarBounds": [
+        924,
+        264,
+        995,
+        357
+      ],
+      "overlapPixels": 2199,
+      "collarWidthPixels": 35,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "ear_L",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "EarRoot_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_ear_L_visible.png",
+      "visibleBounds": [
+        788,
+        41,
+        863,
+        141
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_ear_L_hidden-collar.png",
+      "hiddenCollarBounds": [
+        788,
+        58,
+        865,
+        151
+      ],
+      "overlapPixels": 1593,
+      "collarWidthPixels": 21,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "ear_R",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "EarRoot_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_ear_R_visible.png",
+      "visibleBounds": [
+        832,
+        63,
+        923,
+        146
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_ear_R_hidden-collar.png",
+      "hiddenCollarBounds": [
+        822,
+        58,
+        933,
+        156
+      ],
+      "overlapPixels": 1724,
+      "collarWidthPixels": 21,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "mouth",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Mouth",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_mouth_visible.png",
+      "visibleBounds": [
+        769,
+        210,
+        907,
+        287
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_mouth_hidden-collar.png",
+      "hiddenCollarBounds": [
+        761,
+        202,
+        915,
+        295
+      ],
+      "overlapPixels": 5497,
+      "collarWidthPixels": 17,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "side",
+      "bundle": "eye_L",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "EyeSocket_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/side_eye_L_visible.png",
+      "visibleBounds": [
+        746,
+        136,
+        796,
+        221
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/side_eye_L_hidden-collar.png",
+      "hiddenCollarBounds": [
+        750,
+        131,
+        801,
+        226
+      ],
+      "overlapPixels": 883,
+      "collarWidthPixels": 11,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "tail",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "TailRoot",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_tail_visible.png",
+      "visibleBounds": [
+        1354,
+        728,
+        1452,
+        849
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_tail_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1377,
+        713,
+        1457,
+        764
+      ],
+      "overlapPixels": 1610,
+      "collarWidthPixels": 31,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "leg_L_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Hip_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_leg_L_upper_visible.png",
+      "visibleBounds": [
+        1562,
+        633,
+        1608,
+        685
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_leg_L_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1545,
+        616,
+        1586,
+        692
+      ],
+      "overlapPixels": 1633,
+      "collarWidthPixels": 35,
+      "shoulderCapMode": null,
+      "removedComponents": 1,
+      "removedPixels": 4,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "leg_L_lower_paw",
+      "parentBundle": "leg_L_upper",
+      "effectiveParentBundleInView": "leg_L_upper",
+      "occlusionCoverBundles": [
+        "leg_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Knee_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_leg_L_lower_paw_visible.png",
+      "visibleBounds": [
+        1556,
+        653,
+        1651,
+        723
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_leg_L_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1562,
+        642,
+        1608,
+        685
+      ],
+      "overlapPixels": 722,
+      "collarWidthPixels": 29,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "leg_R_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Hip_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_leg_R_upper_visible.png",
+      "visibleBounds": [
+        1237,
+        578,
+        1308,
+        678
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_leg_R_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1248,
+        561,
+        1325,
+        669
+      ],
+      "overlapPixels": 2728,
+      "collarWidthPixels": 35,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "leg_R_lower_paw",
+      "parentBundle": "leg_R_upper",
+      "effectiveParentBundleInView": "leg_R_upper",
+      "occlusionCoverBundles": [
+        "leg_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Knee_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_leg_R_lower_paw_visible.png",
+      "visibleBounds": [
+        1180,
+        644,
+        1296,
+        723
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_leg_R_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1237,
+        630,
+        1308,
+        678
+      ],
+      "overlapPixels": 1435,
+      "collarWidthPixels": 29,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "body",
+      "parentBundle": null,
+      "effectiveParentBundleInView": null,
+      "occlusionCoverBundles": [],
+      "occludedParentFallback": false,
+      "primaryController": "Body",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_body_visible.png",
+      "visibleBounds": [
+        1248,
+        378,
+        1587,
+        764
+      ],
+      "hiddenCollarFile": null,
+      "hiddenCollarBounds": null,
+      "overlapPixels": 0,
+      "collarWidthPixels": 0,
+      "shoulderCapMode": null,
+      "removedComponents": 14,
+      "removedPixels": 83,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "arm_L_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Shoulder_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_arm_L_upper_visible.png",
+      "visibleBounds": [
+        1492,
+        325,
+        1632,
+        425
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_arm_L_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1477,
+        322,
+        1567,
+        414
+      ],
+      "overlapPixels": 5770,
+      "collarWidthPixels": 31,
+      "shoulderCapMode": "rounded-broad-underlap",
+      "removedComponents": 1,
+      "removedPixels": 1,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "arm_L_lower_paw",
+      "parentBundle": "arm_L_upper",
+      "effectiveParentBundleInView": "arm_L_upper",
+      "occlusionCoverBundles": [
+        "arm_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Elbow_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_arm_L_lower_paw_visible.png",
+      "visibleBounds": [
+        1591,
+        385,
+        1667,
+        467
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_arm_L_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1579,
+        372,
+        1632,
+        425
+      ],
+      "overlapPixels": 1071,
+      "collarWidthPixels": 27,
+      "shoulderCapMode": null,
+      "removedComponents": 1,
+      "removedPixels": 1,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "arm_R_upper",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Shoulder_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_arm_R_upper_visible.png",
+      "visibleBounds": [
+        1215,
+        312,
+        1389,
+        437
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_arm_R_upper_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1292,
+        327,
+        1393,
+        422
+      ],
+      "overlapPixels": 6404,
+      "collarWidthPixels": 31,
+      "shoulderCapMode": "rounded-broad-underlap",
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "arm_R_lower_paw",
+      "parentBundle": "arm_R_upper",
+      "effectiveParentBundleInView": "arm_R_upper",
+      "occlusionCoverBundles": [
+        "arm_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Elbow_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_arm_R_lower_paw_visible.png",
+      "visibleBounds": [
+        1155,
+        359,
+        1272,
+        468
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_arm_R_lower_paw_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1215,
+        346,
+        1285,
+        399
+      ],
+      "overlapPixels": 1342,
+      "collarWidthPixels": 27,
+      "shoulderCapMode": null,
+      "removedComponents": 1,
+      "removedPixels": 17,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "head",
+      "parentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "Head",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_head_visible.png",
+      "visibleBounds": [
+        1268,
+        41,
+        1567,
+        386
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_head_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1376,
+        378,
+        1505,
+        403
+      ],
+      "overlapPixels": 2199,
+      "collarWidthPixels": 35,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "ear_L",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "EarRoot_L",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_ear_L_visible.png",
+      "visibleBounds": [
+        1453,
+        52,
+        1523,
+        172
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_ear_L_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1443,
+        44,
+        1524,
+        182
+      ],
+      "overlapPixels": 2334,
+      "collarWidthPixels": 21,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    },
+    {
+      "view": "back",
+      "bundle": "ear_R",
+      "parentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "primaryController": "EarRoot_R",
+      "visibleFile": "live2d/x6/joint-safe-motion-bundles-v4/back_ear_R_visible.png",
+      "visibleBounds": [
+        1336,
+        69,
+        1428,
+        172
+      ],
+      "hiddenCollarFile": "live2d/x6/joint-safe-motion-bundles-v4/back_ear_R_hidden-collar.png",
+      "hiddenCollarBounds": [
+        1326,
+        68,
+        1438,
+        182
+      ],
+      "overlapPixels": 3560,
+      "collarWidthPixels": 21,
+      "shoulderCapMode": null,
+      "removedComponents": 0,
+      "removedPixels": 0,
+      "drawRule": "hidden collar moves with child but renders behind parent; visible child renders above parent"
+    }
+  ],
+  "qa": {
+    "review": "live2d/x6/qa/x6-joint-safe-motion-bundle-review-v4.png"
+  },
+  "gateBoundary": {
+    "gate6Approved": false,
+    "x7Authorized": false,
+    "notPsd": true,
+    "notCubism": true,
+    "notPhysics": true
+  },
+  "notes": [
+    "Visible cuts and hidden overlap reserves are separate PNGs so rest-pose identity pixels are not replaced.",
+    "The hidden collar follows the child bundle and is drawn behind its parent bundle.",
+    "Small disconnected mask artifacts are removed only from body, limb and tail layer exports.",
+    "This is X6 separation and overlap QA, not X7 elasticity or Cubism output."
+  ]
+}

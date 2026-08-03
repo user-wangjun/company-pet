@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "status": "frozen_engineering_and_user_visual_pass",
+  "artifacts": [
+    {
+      "path": "skeleton-lock.json",
+      "sha256": "fb26d0f12905889ead33035f6c588b2fb0c0b581c845445f313bb3bdcf560a45"
+    },
+    {
+      "path": "hand-layering-contract.json",
+      "sha256": "c8da7f263dfd00f25fd3049d78559781771cabaf9801325edd45fe575c08b2ea"
+    },
+    {
+      "path": "masks/visible/hand.png",
+      "sha256": "4a023801cc08e824208c045b7af727891ca7cbe0056cf15c4d549dfbe02b0c0a"
+    },
+    {
+      "path": "masks/hidden/hand.png",
+      "sha256": "4d5d2c2bf8e993b31db6f4a319c14a4c30fbb59957cefef2000d67d68eeba0ba"
+    },
+    {
+      "path": "masks/complete/hand.png",
+      "sha256": "d005a9bce6a2eda08916400a255df5a2fd8377c89aebe5d26fb5c7ab88c199f0"
+    },
+    {
+      "path": "masks/reference/yellow-hand-root.png",
+      "sha256": "e1e1c4ddeb0aaf4a0502b959ffcf83c84e26906d2695a8024df08d430874e99b"
+    },
+    {
+      "path": "masks/reference/slim-blue-forearm-ucap.png",
+      "sha256": "8d8035a2c2db315d967380cf6c9dff2a7630828deeddf3fb018485473dc74447"
+    },
+    {
+      "path": "masks/complete/forearm-slim.png",
+      "sha256": "5a55ab4f9f326593cd4c27b779e61841195309479638bf237589cc6a45adc05c"
+    },
+    {
+      "path": "materials/hand-visible-flat.png",
+      "sha256": "ee110dd7dd7ea3c8ef2072922acfb78fc8423928312fb2744287861bba2cb948"
+    },
+    {
+      "path": "materials/hand-hidden-flat.png",
+      "sha256": "e74e6a6d7309574ca8acddc53a518fc9c62c143be23835e679bf707b3bf901c8"
+    },
+    {
+      "path": "materials/hand.png",
+      "sha256": "5b5f35a44c8e05e99898faca6909b85e4c0020be00771f2acb8e58008545ec83"
+    },
+    {
+      "path": "materials/forearm-slim.png",
+      "sha256": "1cd18d89cde216dfde1b04b237e784e065526d47482338029a9f04505806bcac"
+    },
+    {
+      "path": "qa/complete-hand-hidden-root-closeup.png",
+      "sha256": "66c9fa2fa139efba3637db39139aef3eb08557afbfed5dd909c453108797394b"
+    },
+    {
+      "path": "qa/default-solid-recomposition.png",
+      "sha256": "2576e44b4c9648c8f09466856a2f7da3cb2316967a033d9bf7c3071b507c5fa3"
+    },
+    {
+      "path": "qa/default-solid-recomposition-closeup.png",
+      "sha256": "6ff8563e24dae03f99ad92f374aa6fd57cb50ad507895927c493e597aea50080"
+    },
+    {
+      "path": "qa/default-overlay-reset.png",
+      "sha256": "83ffc018fc391f7b4786f73c32276b2fe2743c628d9c31f383552e684d8d3696"
+    },
+    {
+      "path": "qa/hand-displaced-review.png",
+      "sha256": "8527a9f76f80d8b7afe28c1936680c45f14fe47d983ef347fbb884831882760b"
+    },
+    {
+      "path": "qa/reset-vs-candidate-hand-contour.png",
+      "sha256": "bc3cdd502da123675ec7eda136d5ce5e75a7ca12450592ce1472f677b53187eb"
+    },
+    {
+      "path": "qa/hand-local-zooms.png",
+      "sha256": "7867c457c8d716fd05451a6e53182a9e49ae9fa6fe6a96df39e1075a61c36c24"
+    },
+    {
+      "path": "qa/bracelet-exclusion-ownership.png",
+      "sha256": "cb0a3aa4185dea272b6888e2d4a0c11d36d253a2a896659e1f2ae5ce1cf03eaf"
+    },
+    {
+      "path": "qa/forearm-ucap-hand-coverage.png",
+      "sha256": "28e65945d12a0326e54cfb8bd08f015b401352bd7f3f2d2dddf4f3551ee31cd7"
+    },
+    {
+      "path": "qa/reset-yellow-hand-boundary.png",
+      "sha256": "9f6b21fea9d235f5058da7fff279fb3809f4e5445b7f0264f63b7ca8a088c197"
+    },
+    {
+      "path": "qa/yellow-hand-root-only.png",
+      "sha256": "52971af8c258a8cb330954d0c669687f4c390957be6fc129c8c94f002dc20b31"
+    },
+    {
+      "path": "qa/frozen-blue-hand-coverage.png",
+      "sha256": "188d85125d7c6ccc704d34cbc890ea6a05c006d45318a026f474b636b103d022"
+    },
+    {
+      "path": "qa/forearm-displaced-hand-root.png",
+      "sha256": "b078dc274b037220c6f1ceff65ebfee7c10f1edea89d0f5fa2d4e6a7a1596ef7"
+    },
+    {
+      "path": "qa/fk-41-slow-preview.gif",
+      "sha256": "bca34a95c8b9c67190eb60a50ffc6d5d0f9ba2ef59cde30985b11dbc6a6efdb8"
+    },
+    {
+      "path": "qa/fk-key-wrist-samples.png",
+      "sha256": "8bf88c608089fc464b2f37b3df4346203a31b5182a73656142f97de3849b1f6f"
+    },
+    {
+      "path": "qa/wrist-stress-review.png",
+      "sha256": "b8b7fc9454c3890fe1ed0c3d71c1541e1a5c4dd30acf14152f3c2f00b06515e7"
+    },
+    {
+      "path": "qa/V34-手链禁区与零外露冲突审查图.png",
+      "sha256": "9d89f8d56c7d0d059f131f13d49f60b6c2d3ad952b7fd2bcd020f4cec69731a2"
+    },
+    {
+      "path": "qa/V34-前臂凸包削瘦复核图.png",
+      "sha256": "b637d6fda0a817f4433003bc2bc0129d72e15bdea7c9b8c86b4d54b2013f59dc"
+    },
+    {
+      "path": "qa/V34-黄色手部边界-中文视觉审查板.png",
+      "sha256": "6b9b3b6983db9cb7f303b6dd6ac27ed47b141b7a4ad0283d92a268638547aeb2"
+    },
+    {
+      "path": "qa/V34-腕关节覆盖关系-简明审查图.png",
+      "sha256": "22ec39c17bfc8f0db5516568c90f25968fac25fc648c3fc9527dbab2200d3dd1"
+    },
+    {
+      "path": "qa/V34-完整手部纯色材料-正式审查图.png",
+      "sha256": "83b5f3bd073311ce2849dead089f3fe1c2c6ffc2fb2a7d75c27e9aab2fb2709e"
+    },
+    {
+      "path": "qa/V34-阶段A-screen-left手部-最终中文视觉审查板.png",
+      "sha256": "aebf4e19fdb014c4f68b2c3401f01e9b857da1ef5acb1b14f6d8d19374e131cf"
+    },
+    {
+      "path": "samples/fk-41-samples.json",
+      "sha256": "99948490513d74b4e5440e4bdeebced58bb85d852e1b3a66a5bbdeec105a17c0"
+    },
+    {
+      "path": "audit/machine-report.json",
+      "sha256": "e56cee8d9030a394c450fa274f19004f7a07a8c93339457004a91346c54f8931"
+    },
+    {
+      "path": "audit/user-rejection-bulky-closed-hand-root-2026-07-29.json",
+      "sha256": "9e54ca70ea59956131b36d2c6bfe9fd533b17e115995f464a8622c184e85d705"
+    },
+    {
+      "path": "audit/user-rejection-thick-visible-wrist-2026-07-29.json",
+      "sha256": "1afa3a5c852c31c0af864282d413d2ed348912ec5750af268b16df6a5feb83aa"
+    },
+    {
+      "path": "audit/user-visual-approval-hand-geometry-2026-07-29.json",
+      "sha256": "bd63af3a77a01281ef7b9b8478c3f2c074449d70f492dd459addcae9c1a250d6"
+    },
+    {
+      "path": "audit/hand-zero-exposure-bracelet-conflict-2026-07-29.json",
+      "sha256": "769e2fd0b75581aadf235d8d0b5cfca640e8232f46f56b21d31f600719b967fb"
+    },
+    {
+      "path": "audit/self-visual-qa-slim-ucap-2026-07-29.json",
+      "sha256": "c2eb9d73e66acf882808be51b626739345e654935581ef1e0e0c054f89e305bc"
+    },
+    {
+      "path": "audit/user-authorized-reopen-forearm-ucap-slimming-2026-07-29.json",
+      "sha256": "f5dfcd485ae0f8d84d1a554e9444330721d046ed99f000bced50dd9fb88c0c59"
+    },
+    {
+      "path": "audit/user-authorization-forearm-foreground-ownership-2026-07-29.json",
+      "sha256": "684d222f6863dc1f7a98c558abd53eb61c4c51e6b91723a35b65fece4203c3f9"
+    },
+    {
+      "path": "tools/build_v34_hand_root.py",
+      "sha256": "6b367d164dbabf8f28cde46102ee8eff0aeee2a588ca630bf9064061fb22e473"
+    },
+    {
+      "path": "tools/freeze_v34_hand_stage_a.py",
+      "sha256": "a917a1d4bbefb33f984a51e0f6513f99b1fbb616eb5625fcbdb89ea2b0a10db4"
+    },
+    {
+      "path": "audit/user-visual-approval-and-freeze-authorization-2026-07-29.json",
+      "sha256": "4536ad30d334b1d21ec40fa08a594e881db02098ad7af0c52d9f1ed9d30294d4"
+    }
+  ],
+  "frozenUpstreamPreserved": true,
+  "originalForearmUCapBytePreserved": true,
+  "slimForearmUCapFrozen": true,
+  "handFrozen": true
+}

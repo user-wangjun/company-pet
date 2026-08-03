@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-clear-layer-review-candidate",
+  "status": "candidate-for-user-visual-review",
+  "sourceBundleContract": "live2d/x6/x6-joint-safe-motion-bundle-contract-v4.json",
+  "sourcePullAudit": "live2d/x6/x6-joint-safe-motion-bundle-audit-v4.json",
+  "review": "live2d/x6/qa/x6-clear-layer-and-overlap-review-v5.png",
+  "shoulderCloseup": "live2d/x6/qa/x6-shoulder-overlap-closeup-v6.png",
+  "displayRules": {
+    "technicalOverlaysHidden": true,
+    "actualFurPixelsOnly": true,
+    "singleLimbExplanation": true,
+    "userQuestions": [
+      "分组是否自然",
+      "手臂移动后视觉上是否仍连贯"
+    ]
+  },
+  "gateBoundary": {
+    "gate6Approved": false,
+    "x7Authorized": false
+  }
+}

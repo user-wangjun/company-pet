@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "complete_sleeve_geometry_and_texture_frozen",
+  "freezeDate": "2026-07-25",
+  "decisionOwner": "user",
+  "status": "frozen_engineering_and_user_visual_pass",
+  "scope": "screen-right complete sleeve R9 geometry and complete texture inside that locked geometry",
+  "checksumAlgorithm": "SHA-256",
+  "approvedCoverage": [
+    "single connected complete sleeve geometry",
+    "hidden inner-sleeve geometry",
+    "complete sleeve texture inside the locked geometry",
+    "hidden inner-sleeve texture continuity",
+    "continued hem detail",
+    "isolated, seam-closeup, and displaced visual QA"
+  ],
+  "lockedArtifacts": [
+    {
+      "role": "locked geometry",
+      "path": "inputs/sleeve-complete-geometry-r9.png",
+      "sha256": "b2ea7d745578b2977bd19eb8b6e41c3da65efd388b5a78608c145a4ba458fe28"
+    },
+    {
+      "role": "locked hidden geometry extension",
+      "path": "inputs/sleeve-hidden-extension-r9.png",
+      "sha256": "6bc5de5a9acfe2507e28fc0500c79d352e75a30ae94fe62d8a132a9e338efba1"
+    },
+    {
+      "role": "locked complete sleeve texture",
+      "path": "materials/sleeve-complete-textured-r1.png",
+      "sha256": "d470c8b192c043457860528adc25d250bb43a5e56ebd1ab46dcda947773b5cc7"
+    },
+    {
+      "role": "hidden texture region mask",
+      "path": "masks/sleeve-new-hidden-texture-region-r1.png",
+      "sha256": "65a5ad0608f9938615813e1584b411613176b5391d07c937f6635a440df1c356"
+    }
+  ],
+  "supportingMasks": [
+    {
+      "role": "internal seam repair band",
+      "path": "masks/sleeve-internal-seam-repair-band-r1.png",
+      "sha256": "c526ecb0fefeec863add3c40398d3d7ca09c1dbeff65491906d224d92e518599"
+    },
+    {
+      "role": "texture provenance",
+      "path": "masks/sleeve-texture-provenance-r1.png",
+      "sha256": "200c6a18f3f1f1449fda96e155707ef389f65da1c7dfb651f782a6fe39221f6b"
+    }
+  ],
+  "userApprovalRecords": [
+    {
+      "role": "geometry approval",
+      "path": "audit/user-visual-approval-geometry-2026-07-25.json",
+      "sha256": "35e95b1cc1bc5a36ce46666a53ad3f99495a72f548c911e6b9fbaee7647e683d"
+    },
+    {
+      "role": "complete texture approval",
+      "path": "audit/user-visual-approval-complete-sleeve-texture-2026-07-25.json",
+      "sha256": "581cb9d3424decd810b34092083d37754a7eadc21db9fb1ce3a113ddb8994ee8"
+    }
+  ],
+  "finalQa": [
+    {
+      "role": "isolated complete textured sleeve",
+      "path": "qa/gate-1-complete-textured-sleeve-isolated.png",
+      "sha256": "e85895cfcc361fb09728bb2b200575bc6a1adc8e1757d1c6c451db5cfb68731a"
+    },
+    {
+      "role": "hidden texture seam closeup",
+      "path": "qa/gate-2-hidden-texture-seam-closeup.png",
+      "sha256": "ed6fb8ba93367db036890777d643619e6e3e64c4fc9ecd10b053834ac053ed5e"
+    },
+    {
+      "role": "complete textured sleeve displaced",
+      "path": "qa/gate-3-complete-textured-sleeve-displaced.png",
+      "sha256": "89092028563da40ce399104e1b0d2a6a939f83ea048aefa92e24f4d67be04941"
+    }
+  ],
+  "metadataSources": [
+    {
+      "role": "corrected geometry engineering audit",
+      "path": "audit/approved-geometry-engineering-audit.json",
+      "sha256": "9c809c5f45d9362df6932642cffdc924e3923e8609c024849ffe2e946171df61"
+    },
+    {
+      "role": "corrected texture engineering audit",
+      "path": "audit/complete-sleeve-texture-r1.json",
+      "sha256": "60a14090d7bc5fc478f763fd4ac698828a29745f0903e9dea4842a798dc6936f"
+    },
+    {
+      "role": "completion audit",
+      "path": "audit/COMPLETION-AUDIT-COMPLETE-SLEEVE-2026-07-25.md",
+      "sha256": "0a82dc489be99648ac08265045f711cc4de296246be1f0405afbc6f293c9b146"
+    },
+    {
+      "role": "current gate state documentation",
+      "path": "README.md",
+      "sha256": "5aa458564bc7742aa8d526d8cc2d392b45b88c4ae93b636aef68c1f65e5c7ede"
+    },
+    {
+      "role": "texture audit generator",
+      "path": "tools/build_complete_sleeve.py",
+      "sha256": "73edf886339c363d900a188ab90f85f25db9f00e6f9102b84fcbb73db55c76e4"
+    }
+  ],
+  "doesNotCover": [
+    "complete upper arm",
+    "elbow overlap validation",
+    "forearm production material",
+    "PSD",
+    "Cubism",
+    "Physics",
+    "Runtime"
+  ],
+  "invalidationRule": "Any byte change to a locked artifact, user approval record, or final QA item invalidates this freeze and requires a new explicit audit and user decision."
+}

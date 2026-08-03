@@ -1,0 +1,45 @@
+{
+  "version": "v25-12f-slide-loop-with-12f-transitions",
+  "frameCountForPreview": 36,
+  "takeoff": {
+    "frames": 12,
+    "fpsMs": 90,
+    "playback": "once"
+  },
+  "slide": {
+    "frames": 12,
+    "fpsMs": 95,
+    "playback": "loop-while-dragging",
+    "source": "v24 scale-locked strip slide segment (32 frames) evenly sampled to 12",
+    "sourceIndices": [
+      0,
+      3,
+      5,
+      8,
+      11,
+      13,
+      16,
+      19,
+      21,
+      24,
+      27,
+      29
+    ]
+  },
+  "landing": {
+    "frames": 12,
+    "fpsMs": 120,
+    "playback": "once"
+  },
+  "directions": [
+    "dragRight",
+    "dragLeft"
+  ],
+  "runtimeChanged": false,
+  "qaFiles": {
+    "previewGif": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\drag-v25-12f-slide-36f-preview.gif",
+    "sampleSheet": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\drag-v25-12f-slide-sample-sheet.png",
+    "rightSlideStrip": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-12-slide-v25-strip.png",
+    "leftSlideStrip": "public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-12-slide-v25-strip.png"
+  }
+}

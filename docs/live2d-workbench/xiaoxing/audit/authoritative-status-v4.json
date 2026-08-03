@@ -1,0 +1,29 @@
+{
+  "stage": "v4-pixel-roundtrip-before-semantic-eye-separation",
+  "status": "in_progress_not_promoted_to_psd",
+  "authoritativeSources": {
+    "line": "source/masters/gate3-line-master-candidate-v1.png",
+    "color": "source/masters/gate3-color-target-v1.png",
+    "workingPsd": "model/xiaoxing-line-separation-working-v1.psd"
+  },
+  "rejected": [
+    {
+      "id": "v3-vector-eye-reconstruction",
+      "reason": "眼裂、眼白与虹膜比例偏离原彩稿",
+      "evidence": "audit/REJECTED-V3-EYE-RECONSTRUCTION.md"
+    }
+  ],
+  "currentEvidence": {
+    "articleContract": "ARTICLE_EXECUTION_CONTRACT.md",
+    "pixelRoundtripReview": "qa/v4-eye-pixel-roundtrip-review.png"
+  },
+  "promotionRules": [
+    "默认睁眼必须使用原彩稿像素，不重新设计眼型",
+    "先完成前发像素所有权，再从眼睛候选中去除头发遮挡像素",
+    "虹膜、瞳孔、高光、眼线拆分后的默认回组必须继续保持像素一致",
+    "未通过头发覆盖后的整脸回组审查前不得导入 PSD"
+  ],
+  "psdImport": false,
+  "cubismImport": false
+}
+

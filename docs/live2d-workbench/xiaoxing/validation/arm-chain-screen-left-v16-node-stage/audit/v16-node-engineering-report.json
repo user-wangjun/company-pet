@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "status": "engineering_pass_pending_node_visual_approval",
+  "engineeringPass": true,
+  "upstreamV15": {
+    "manifest": "validation/arm-chain-screen-left-v15-mesh-gate/audit/v15-artmesh-freeze-manifest-2026-07-28.json",
+    "manifestSha256": "8fbcd9354413813b8d9d5f71f1f7dde1d39d2322ac69e3f3541d0428667fa3ab",
+    "matchedArtifacts": 15,
+    "artifactCount": 15,
+    "pass": true
+  },
+  "psdAudit": {
+    "path": "validation/arm-chain-screen-left-v16-node-stage/audit/v16-psd-build-report.json",
+    "status": "pass_psd_structure",
+    "canvas": [
+      512,
+      1086
+    ],
+    "layerCount": 4,
+    "sha256": "6ff3cc53c29c24f0532d156be39a424d8d02f662cdfb96348fd05229a8ee8c22"
+  },
+  "cmo3": {
+    "path": "validation/arm-chain-screen-left-v16-node-stage/cubism/xiaoxing-arm-chain-screen-left-v16-nodes.cmo3",
+    "sha256": "4b006d6739d9a2a42652382c6b3bf44598743f45327689f0d89fe3ddf7fbff7e",
+    "actualCubismGuiSaved": true
+  },
+  "nodes": [
+    {
+      "id": "D_LeftShoulder",
+      "type": "Rotation",
+      "parent": "Root",
+      "pivotPx": [
+        176.0,
+        257.0
+      ]
+    },
+    {
+      "id": "D_LeftElbow",
+      "type": "Rotation",
+      "parent": "D_LeftShoulder",
+      "pivotPx": [
+        153.0,
+        411.0
+      ]
+    },
+    {
+      "id": "D_LeftForearmRootTaper",
+      "type": "Warp",
+      "parent": "D_LeftElbow",
+      "pivotPx": [
+        153.0,
+        411.0
+      ]
+    },
+    {
+      "id": "D_LeftWrist",
+      "type": "Rotation",
+      "parent": "D_LeftElbow",
+      "pivotPx": [
+        115.0,
+        529.0
+      ]
+    }
+  ],
+  "materialControllers": [
+    {
+      "layer": "sleeve",
+      "primaryController": "D_LeftShoulder",
+      "drawOrder": 400
+    },
+    {
+      "layer": "upper_arm",
+      "primaryController": "D_LeftShoulder",
+      "drawOrder": 100
+    },
+    {
+      "layer": "forearm_bracelet",
+      "primaryController": "D_LeftForearmRootTaper",
+      "drawOrder": 300
+    },
+    {
+      "layer": "whole_hand",
+      "primaryController": "D_LeftWrist",
+      "drawOrder": 200
+    }
+  ],
+  "defaultState": {
+    "angles": {
+      "D_LeftShoulder": 0.0,
+      "D_LeftElbow": 0.0,
+      "D_LeftWrist": 0.0
+    },
+    "warp": {
+      "D_LeftForearmRootTaper": 0.0
+    },
+    "physics": false,
+    "runtime": false
+  },
+  "reviewBoard": "validation/arm-chain-screen-left-v16-node-stage/qa/V16-NODE-USER-REVIEW.zh-CN.png",
+  "nextGate": "node visual approval, then continuous parameter motion"
+}

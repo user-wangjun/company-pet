@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V13 screen-left arm material boundaries and hidden overlaps",
+  "freezeDate": "2026-07-27",
+  "decisionOwner": "user",
+  "status": "frozen_v13_material_boundaries_user_approved",
+  "scope": "four complete screen-left arm masks and semantic ownership; texture not yet approved",
+  "upstreamFreeze": {
+    "path": "validation/arm-chain-screen-left-v12-body-geometry/audit/v12-body-geometry-freeze-manifest-2026-07-27.json",
+    "sha256": "8ae1486e48625c2085294c5c270bd0b0f654d0072f9f000c8ac14055aa4ccd6b",
+    "matchedArtifacts": 7,
+    "artifactCount": 7
+  },
+  "lockedArtifacts": [
+    {
+      "role": "user visual approval and texture authorization",
+      "path": "audit/v13-user-visual-approval-material-boundaries-2026-07-27.json",
+      "sha256": "a247b4f93ed6273f579987481aa7c9c95231341c8724ed94e13fc9c8b5123a3b",
+      "bytes": 1182
+    },
+    {
+      "role": "V13 material separation engineering report",
+      "path": "audit/v13-material-separation-engineering-report.json",
+      "sha256": "0cedeb034889eab10a9adf2a8e4f421f29b4c5c28a9e2421da5de436ca69c361",
+      "bytes": 15349
+    },
+    {
+      "role": "Chinese V13 report",
+      "path": "audit/V13-MATERIAL-SEPARATION-REPORT.zh-CN.md",
+      "sha256": "41d084d95306424b7a2d19456e9d40f862171250e4cb6c3760d4265b8decbebc",
+      "bytes": 1074
+    },
+    {
+      "role": "approved four-layer ownership contract",
+      "path": "contracts/v13-material-ownership-contract.json",
+      "sha256": "5d28982553398e89b7b12c9120111181ed86d31b7c50a783659a81d2d6a43032",
+      "bytes": 1622
+    },
+    {
+      "role": "approved material-boundary review board",
+      "path": "qa/V13-MATERIAL-BOUNDARY-USER-REVIEW.zh-CN.png",
+      "sha256": "a5faf85f5ef8af205faafa34734ec6878652f4e0ac4433c6c8aba7dc3424ace4",
+      "bytes": 340018
+    },
+    {
+      "role": "deterministic V13 evidence builder",
+      "path": "tools/build_v13_material_separation.py",
+      "sha256": "3947f4c85a706b31b997acca5979ac0cacf3ede926e4e6eddd486f9e6514c230",
+      "bytes": 29125
+    },
+    {
+      "role": "V13 freeze manifest builder",
+      "path": "tools/freeze_v13_material_boundaries.py",
+      "sha256": "bb1534a032933334adf33b8a32daeca50bce3f38ee6e7640506c2a4970e1f0bc",
+      "bytes": 5874
+    },
+    {
+      "role": "visible mask: forearm_bracelet",
+      "path": "masks/visible/forearm_bracelet.png",
+      "sha256": "aae25c5b96562abd43a5173a0cf3d814951baec977f0b9f4fa2f8f845c9f6a5a",
+      "bytes": 4952
+    },
+    {
+      "role": "visible mask: sleeve",
+      "path": "masks/visible/sleeve.png",
+      "sha256": "58a3bf8c6a3330bfc22e770cffe8cd10f599521f809c793b934eff0cb5e276c7",
+      "bytes": 4984
+    },
+    {
+      "role": "visible mask: upper_arm",
+      "path": "masks/visible/upper_arm.png",
+      "sha256": "1a9c721b7a4ca6fc9367c5c1ce31d014ed994b253aecab84f3190819549678bb",
+      "bytes": 4694
+    },
+    {
+      "role": "visible mask: whole_hand",
+      "path": "masks/visible/whole_hand.png",
+      "sha256": "e0765b2cb6b0262c47ae88cec657e4d3bdcde108f7fab72e43fb491bf76421d1",
+      "bytes": 4890
+    },
+    {
+      "role": "complete mask: forearm_bracelet",
+      "path": "masks/complete/forearm_bracelet.png",
+      "sha256": "5543522c48faad0bdc0c3f50fe0c35d06012b8afedbfb3545b13442cd150aa63",
+      "bytes": 4971
+    },
+    {
+      "role": "complete mask: sleeve",
+      "path": "masks/complete/sleeve.png",
+      "sha256": "d4b7ab7d571dbe98cca727fb97621e86633ccce9b90712414dbff0aeb3ffeaf4",
+      "bytes": 5036
+    },
+    {
+      "role": "complete mask: upper_arm",
+      "path": "masks/complete/upper_arm.png",
+      "sha256": "d7e98c2a1d639a5bc81d7dc2278e5d0c7a4c02815c6fbbd6ed90623303f02cdb",
+      "bytes": 4848
+    },
+    {
+      "role": "complete mask: whole_hand",
+      "path": "masks/complete/whole_hand.png",
+      "sha256": "70ff94508ca107a74b04a38b884c04a0dbe4020f8fccafa24404d924faaf5cba",
+      "bytes": 4904
+    },
+    {
+      "role": "hidden mask: forearm_bracelet",
+      "path": "masks/hidden/forearm_bracelet.png",
+      "sha256": "1c2eecd971273352926f6af3cd9f9a6c3f53cd864cb22f002d8c61e0e82dcaed",
+      "bytes": 4888
+    },
+    {
+      "role": "hidden mask: sleeve",
+      "path": "masks/hidden/sleeve.png",
+      "sha256": "0e1160205a4a5c1c5c207b340ef67789f7d6c72372a41d9ae055d40b19056ca6",
+      "bytes": 4817
+    },
+    {
+      "role": "hidden mask: upper_arm",
+      "path": "masks/hidden/upper_arm.png",
+      "sha256": "843e04b8ab5bf01448aa4836e9dddf38e1a89992921be88221f9e3f4c63841c8",
+      "bytes": 4898
+    },
+    {
+      "role": "hidden mask: whole_hand",
+      "path": "masks/hidden/whole_hand.png",
+      "sha256": "4f22458e8806d64be9f152224da105fae65ff9a4963bae2881e818731ccc5f07",
+      "bytes": 4670
+    },
+    {
+      "role": "source-registered enclosed finger-gap responsibility",
+      "path": "masks/reference/source-registered-enclosed-finger-gap.png",
+      "sha256": "714b542bdecc558896778c705aeea80ac2d442ae8628294256aca8e707f69153",
+      "bytes": 4591
+    }
+  ],
+  "artifactCount": 20,
+  "invalidationRules": [
+    "Any byte change to a locked V13 artifact reopens material-boundary approval.",
+    "Any alpha-boundary, ownership, hidden-overlap, draw-order, or finger-gap change reopens V13.",
+    "Texture may fill only the frozen complete masks and must preserve visible source pixels 1:1.",
+    "Mesh work requires separate visual approval of the completed textured materials."
+  ],
+  "explicitlyNotApproved": [
+    "completed textures",
+    "PSD",
+    "mesh",
+    "nodes",
+    "continuous parameter motion",
+    "Physics",
+    "Runtime"
+  ],
+  "nextGate": "complete texture fill and displaced-part visual review"
+}

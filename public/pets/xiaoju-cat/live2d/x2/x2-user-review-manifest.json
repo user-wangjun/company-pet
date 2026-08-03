@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "stage": "X2-pose-solve",
+  "status": "x2-approved",
+  "currentGate": "x2-pose-solve",
+  "gateBoundary": {
+    "purpose": "User visual review of Xiaoju X2 support, cover blockout, physical moment, and control moment evidence.",
+    "doesNotAuthorize": [
+      "X3 complete master generation",
+      "spread-pose Xiaoju art generation",
+      "material separation",
+      "formal triangulation",
+      "PSD or Photoshop import",
+      "Cubism ArtMesh, Deformer, Physics, or runtime edits"
+    ]
+  },
+  "requiredReviewArtifacts": [
+    {
+      "id": "review-composite",
+      "path": "live2d/x2/qa/x2-user-review-composite.png",
+      "role": "single-page visual overview",
+      "reviewFocus": [
+        "paw path",
+        "support/COM",
+        "41-sample continuity",
+        "cover-frame moment readability"
+      ]
+    },
+    {
+      "id": "length-triangle-diagnostic",
+      "path": "live2d/x2/qa/x2-length-triangle-diagnostic.png",
+      "role": "X2-only bone-length and local triangle constraint diagnostic",
+      "reviewFocus": [
+        "bone segment drift remains visually zero",
+        "local forelimb triangle proportions do not cheat the cover motion",
+        "diagnostic triangles are not layer boundaries and not formal triangulation"
+      ],
+      "machineReadableSummary": "live2d/x2/x2-length-triangle-diagnostic.json"
+    },
+    {
+      "id": "intuitive-cover-preview",
+      "path": "live2d/x2/qa/x2-intuitive-moment-cover-preview.png",
+      "role": "direct visual review of paw-to-eye cover path",
+      "reviewFocus": [
+        "paws lift from outside toward eyes",
+        "cover is visually natural",
+        "short forelimbs still read as Xiaoju"
+      ]
+    },
+    {
+      "id": "intuitive-cover-gif",
+      "path": "live2d/x2/qa/x2-intuitive-moment-cover-preview.gif",
+      "role": "slow Rest-Cover-Rest preview",
+      "reviewFocus": [
+        "continuous return path",
+        "no branch flip",
+        "no visible bone stretch or disconnect"
+      ]
+    },
+    {
+      "id": "blockout-sheet",
+      "path": "live2d/x2/qa/x2-cover-roundtrip-blockout-sheet.png",
+      "role": "key frames from 41 samples",
+      "reviewFocus": [
+        "shoulder-elbow-wrist chain stability",
+        "chest/belly remains supported",
+        "body compensation remains low amplitude"
+      ]
+    },
+    {
+      "id": "support-map",
+      "path": "live2d/x2/qa/x2-contact-support-map.png",
+      "role": "contact band and COM support evidence",
+      "reviewFocus": [
+        "COM remains in support range",
+        "hind paws and chest/belly support are plausible",
+        "forepaw release does not make body look unsupported"
+      ]
+    },
+    {
+      "id": "full-moment-review",
+      "path": "live2d/x2/qa/x2-full-moment-review-sheet.png",
+      "role": "cover-frame physical moment evidence",
+      "reviewFocus": [
+        "left/right signed tau mirror",
+        "external force and contact directions are legible",
+        "shoulder, elbow, and wrist effort distribution is plausible"
+      ]
+    }
+  ],
+  "automaticChecks": {
+    "sampleCount": 41,
+    "maxSegmentLengthDrift": 0.0,
+    "supportOkAllSamples": true,
+    "faceContactOccursAtCover": true,
+    "peakRelativeMomentDemand": 0.8698,
+    "peakPhysicalMomentDemand": 1.0,
+    "note": "Automatic checks are consistency evidence only; they do not replace user visual approval."
+  },
+  "userReviewQuestions": [
+    "Does the chest/belly contact band match the intended planet login scene?",
+    "When the forepaws release the planet, does the body still look supported?",
+    "Do the shoulder, elbow, and wrist bend directions fit Xiaoju's round body and short forelimbs?",
+    "Is the paw-center path into the eye cover zone natural, or should left/right paw timing be offset?",
+    "Is low-amplitude body compensation enough without ribcage, abdomen, or pelvis collapse?",
+    "Does the user confirm that X2 remains only an action/support/moment gate and should not generate formal layers yet?"
+  ],
+  "allowedUserDecisions": [
+    {
+      "phrase": "X2 通过",
+      "effect": "Authorize moving to X3 only: complete connected spread-pose / large-character three-view master for the next visual review."
+    },
+    {
+      "phrase": "X2 不通过",
+      "effect": "Remain in X2 and revise support, cover blockout, moment preflight, and QA previews."
+    },
+    {
+      "phrase": "specific visual or biomechanical correction",
+      "effect": "Remain in X2 and revise only the cited X2 evidence."
+    }
+  ],
+  "currentAuthorization": {
+    "x2ApprovedByUser": true,
+    "x3Authorized": true,
+    "x4Authorized": false
+  },
+  "approvalEvidence": {
+    "userPhrase": "没什么问题，继续吧，可以分层了",
+    "interpretation": "Under the corrected PRD sequence, this approves X2 and authorizes X3 spread-pose / large-character three-view master only. Formal layer separation still waits for X3 visual approval."
+  }
+}

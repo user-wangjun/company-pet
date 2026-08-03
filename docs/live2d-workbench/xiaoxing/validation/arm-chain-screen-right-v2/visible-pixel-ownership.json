@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "status": "design_candidate_no_masks_generated",
+  "coordinateMaster": "source/masters/front-color-source-exact-after-reset.png",
+  "lineBoundaryMaster": "source/masters/front-line-source-exact-after-reset.png",
+  "screenSide": "right",
+  "rules": [
+    "Visible pixels remain at original integer coordinates with no scaling or regeneration.",
+    "Each included pixel has one semantic owner.",
+    "Hidden completion is separate from visible ownership.",
+    "Default occlusion never counts as seam proof."
+  ],
+  "materials": [
+    {
+      "id": "sleeve",
+      "owns": ["screen-right T-shirt sleeve fabric, outline, shading, and hem"],
+      "hiddenResponsibility": ["inner sleeve continuation across the approved shoulder range"]
+    },
+    {
+      "id": "upper_arm",
+      "owns": ["skin from the sleeve exit to the elbow ownership boundary"],
+      "hiddenResponsibility": ["skin under the sleeve", "proximal elbow overlap"]
+    },
+    {
+      "id": "forearm",
+      "owns": ["skin from the elbow boundary to the wrist boundary"],
+      "hiddenResponsibility": ["distal elbow overlap", "continuous wrist material beneath the bracelet test mask"]
+    },
+    {
+      "id": "hand",
+      "owns": ["palm and all visible fingers as one semantic material"],
+      "hiddenResponsibility": ["wrist-root continuation"]
+    }
+  ],
+  "outOfScopeOccluders": [
+    {
+      "id": "bracelet_screen_right",
+      "treatment": "excluded from the four materials and source-difference scoring",
+      "requiredQa": "wrist must pass with bracelet hidden",
+      "prohibition": "bracelet cannot hide a wrist gap"
+    }
+  ]
+}
+

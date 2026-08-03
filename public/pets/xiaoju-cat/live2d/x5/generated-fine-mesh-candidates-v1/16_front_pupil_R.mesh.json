@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "layerId": "pupil_R",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/16_front_pupil_R.png",
+  "primaryController": "Iris_R",
+  "parent": "Iris_R",
+  "actionSubject": "Iris_R",
+  "deformationRole": "micro-feature-local",
+  "densityProfile": "micro-coarse",
+  "pivotName": "eye_R",
+  "pivotPoint": [
+    14.0,
+    16.0
+  ],
+  "points": [
+    [
+      14.0,
+      33.5
+    ],
+    [
+      6.0,
+      30.5
+    ],
+    [
+      0.5,
+      21.0
+    ],
+    [
+      0.5,
+      11.0
+    ],
+    [
+      3.5,
+      5.0
+    ],
+    [
+      11.0,
+      -0.5
+    ],
+    [
+      21.0,
+      1.5
+    ],
+    [
+      26.5,
+      10.0
+    ],
+    [
+      23.5,
+      27.0
+    ],
+    [
+      19.0,
+      32.5
+    ],
+    [
+      14.793,
+      24.467
+    ],
+    [
+      12.073,
+      13.036
+    ]
+  ],
+  "triangles": [
+    [
+      2,
+      11,
+      10
+    ],
+    [
+      3,
+      4,
+      11
+    ],
+    [
+      2,
+      10,
+      1
+    ],
+    [
+      7,
+      8,
+      10
+    ],
+    [
+      11,
+      2,
+      3
+    ],
+    [
+      6,
+      11,
+      5
+    ],
+    [
+      8,
+      9,
+      10
+    ],
+    [
+      10,
+      9,
+      0
+    ],
+    [
+      1,
+      10,
+      0
+    ],
+    [
+      7,
+      11,
+      6
+    ],
+    [
+      11,
+      7,
+      10
+    ],
+    [
+      5,
+      11,
+      4
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.92,
+      0.92
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.72
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      1.0
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 12,
+    "triangleCount": 12,
+    "minimumTriangleAngleDegrees": 28.971,
+    "medianTriangleAngleDegrees": 42.292
+  },
+  "candidateOnly": true
+}

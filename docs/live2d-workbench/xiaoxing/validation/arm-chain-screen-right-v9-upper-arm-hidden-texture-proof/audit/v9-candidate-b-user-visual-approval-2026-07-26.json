@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V9 shoulder-side hidden upper-arm texture proof",
+  "decisionDate": "2026-07-26",
+  "decisionOwner": "user",
+  "decision": "approved",
+  "decisionText": "批准候选B",
+  "approvedCandidate": {
+    "id": "B",
+    "path": "materials/upper-arm-shoulder-hidden-candidate-b.png",
+    "sha256": "e58b767234ca2a9fd5578518b4e309aef4cbb4a6e7359a2b44a4abdcf8cc3d11",
+    "bytes": 8007
+  },
+  "reviewedEvidence": [
+    {
+      "role": "Chinese user review board",
+      "path": "qa/15-user-review-board.zh-CN.png",
+      "sha256": "164f5a46b0c38e26ad7f44c6bc4743dce231c9ee0db8421a8f9fe5dea52696e5"
+    },
+    {
+      "role": "41-sample slow motion preview",
+      "path": "qa/11-41-sample-slow-motion.gif",
+      "sha256": "280822915778be6d3a2dff5485a84f206bd9425e1aadf667f293e56d62c64587"
+    },
+    {
+      "role": "stabilized seam flicker check",
+      "path": "qa/13-seam-flicker-check.gif",
+      "sha256": "d6fb80b4c5d9b51fb311350b82c98af4cc77c4211efc0e6c111b547443b72682"
+    }
+  ],
+  "engineeringEvidence": {
+    "path": "audit/v9-upper-arm-hidden-texture-engineering-report.json",
+    "sha256": "95059b127e62d82415e516593c38c248356e6f3f331c17919b8268380c8380e5",
+    "frozenInputsPass": true,
+    "vUpperCoordinateDifferencePixels": 0,
+    "vUpperRgbDifferencePixels": 0,
+    "vUpperAlphaDifferencePixels": 0,
+    "mUpperGeometryDifferencePixels": 0,
+    "paintedPixelsOutsideRShoulderHidden": 0,
+    "alphaPixelsOutsideFrozenMUpper": 0,
+    "deterministicRegenerationDifferencePixels": 0,
+    "motionFirstLastDifferencePixels": 0
+  },
+  "approvalScope": [
+    "candidate B only",
+    "4465 px R_shoulder_hidden shoulder-side hidden texture proof only",
+    "the existing frozen M_upper geometry and V_upper visible pixels remain unchanged"
+  ],
+  "latestDecisionRule": "This latest explicit approval supersedes the earlier interrupted color-feedback message for candidate B.",
+  "freezeAuthorization": true,
+  "explicitlyNotApproved": [
+    "the remaining 349 px upper-arm hidden region",
+    "complete upper-arm production texture",
+    "forearm texture",
+    "hand texture",
+    "PSD",
+    "ArtMesh",
+    "Cubism implementation",
+    "Physics",
+    "Runtime"
+  ]
+}

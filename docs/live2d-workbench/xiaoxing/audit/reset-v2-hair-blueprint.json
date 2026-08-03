@@ -1,0 +1,42 @@
+{
+  "stage": "reset-v2-hair-closed-semantic-boundary",
+  "status": "visual_review_required",
+  "canvas": [
+    512,
+    1086
+  ],
+  "lineSource": "source\\masters\\front-line-source-exact-after-reset.png",
+  "colorReference": "source\\masters\\front-color-source-exact-after-reset.png",
+  "groups": [
+    {
+      "name": "01_后发完整遮罩",
+      "mask": "model\\reset-v2\\hair-blueprint\\01_后发完整遮罩.png",
+      "closedPointCount": 157
+    },
+    {
+      "name": "02_中央刘海完整遮罩",
+      "mask": "model\\reset-v2\\hair-blueprint\\02_中央刘海完整遮罩.png",
+      "closedPointCount": 89
+    },
+    {
+      "name": "03_画面左侧发完整遮罩",
+      "mask": "model\\reset-v2\\hair-blueprint\\03_画面左侧发完整遮罩.png",
+      "closedPointCount": 114
+    },
+    {
+      "name": "04_画面右侧发完整遮罩",
+      "mask": "model\\reset-v2\\hair-blueprint\\04_画面右侧发完整遮罩.png",
+      "closedPointCount": 114
+    }
+  ],
+  "rules": {
+    "fullCanvasLayers": true,
+    "closedGeometry": true,
+    "coarseFourGroupPolicy": true,
+    "noCropAsMaterial": true,
+    "flatMasksOnly": true,
+    "noTexturePsdYet": true,
+    "noCubism": true
+  },
+  "closeupReviewOnly": "qa\\reset-v2-hair-closeup-review.png"
+}

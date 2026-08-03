@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V13 screen-left arm material boundaries and hidden overlaps",
+  "decisionDate": "2026-07-27",
+  "decisionOwner": "user",
+  "decision": "approved",
+  "decisionText": "合适，请继续任务",
+  "approvedScope": [
+    "screen-left sleeve visible ownership and complete hidden shoulder cap",
+    "upper-arm and forearm split at the approved elbow",
+    "bracelet uniquely owned by forearm_bracelet",
+    "whole-hand ownership including one source-registered enclosed finger gap",
+    "hidden shoulder, elbow and wrist overlaps",
+    "41 pull samples and 3 reviewed extrema"
+  ],
+  "approvedEvidence": {
+    "reviewBoard": {
+      "path": "qa/V13-MATERIAL-BOUNDARY-USER-REVIEW.zh-CN.png",
+      "sha256": "a5faf85f5ef8af205faafa34734ec6878652f4e0ac4433c6c8aba7dc3424ace4"
+    },
+    "contract": {
+      "path": "contracts/v13-material-ownership-contract.json",
+      "sha256": "5d28982553398e89b7b12c9120111181ed86d31b7c50a783659a81d2d6a43032"
+    }
+  },
+  "authorization": {
+    "textureInsideApprovedMasks": true,
+    "meshBeforeTextureVisualApproval": false,
+    "physics": false,
+    "runtime": false
+  }
+}

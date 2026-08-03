@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 3,
+  "status": "design_candidate_no_masks_generated",
+  "coordinateMaster": "source/masters/front-color-source-exact-after-reset.png",
+  "lineBoundaryMaster": "source/masters/front-line-source-exact-after-reset.png",
+  "screenSide": "right",
+  "rules": [
+    "Visible pixels remain at original integer coordinates.",
+    "Each included pixel has one semantic owner.",
+    "Hidden completion is separate from visible ownership.",
+    "Default occlusion never proves seam completeness."
+  ],
+  "materials": [
+    {"id": "sleeve", "owns": ["screen-right sleeve fabric and hem"], "hiddenResponsibility": ["inner sleeve continuation"]},
+    {"id": "upper_arm", "owns": ["skin from sleeve exit to elbow boundary"], "hiddenResponsibility": ["skin under sleeve", "proximal elbow overlap"]},
+    {"id": "forearm", "owns": ["skin from elbow to wrist boundary"], "hiddenResponsibility": ["distal elbow overlap", "wrist continuation"]},
+    {"id": "hand", "owns": ["palm and all visible fingers"], "hiddenResponsibility": ["wrist-root continuation"]}
+  ],
+  "outOfScopeOccluders": [
+    {
+      "id": "bracelet_screen_right",
+      "treatment": "excluded from four materials",
+      "requiredQa": "wrist must pass with bracelet hidden"
+    }
+  ]
+}
+

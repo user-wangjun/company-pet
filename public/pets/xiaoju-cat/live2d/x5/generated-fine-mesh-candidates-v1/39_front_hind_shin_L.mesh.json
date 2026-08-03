@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "layerId": "hind_shin_L",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/39_front_hind_shin_L.png",
+  "primaryController": "Knee_L",
+  "parent": "Knee_L",
+  "actionSubject": "Knee_L",
+  "deformationRole": "parent-transform-rigid-surface",
+  "densityProfile": "inherited-rigid-sparse",
+  "pivotName": "knee_L",
+  "pivotPoint": [
+    48.0,
+    2.0
+  ],
+  "points": [
+    [
+      71.0,
+      207.5
+    ],
+    [
+      36.5,
+      192.0
+    ],
+    [
+      8.5,
+      121.0
+    ],
+    [
+      0.5,
+      35.0
+    ],
+    [
+      13.0,
+      14.5
+    ],
+    [
+      46.0,
+      -0.5
+    ],
+    [
+      79.5,
+      16.0
+    ],
+    [
+      93.5,
+      48.0
+    ],
+    [
+      71.5,
+      120.0
+    ],
+    [
+      96.5,
+      184.0
+    ],
+    [
+      45.503,
+      48.38
+    ],
+    [
+      4.5,
+      78.0
+    ],
+    [
+      43.98,
+      89.461
+    ],
+    [
+      40.459,
+      149.418
+    ]
+  ],
+  "triangles": [
+    [
+      5,
+      10,
+      4
+    ],
+    [
+      10,
+      11,
+      3
+    ],
+    [
+      1,
+      2,
+      13
+    ],
+    [
+      7,
+      12,
+      10
+    ],
+    [
+      12,
+      2,
+      11
+    ],
+    [
+      6,
+      10,
+      5
+    ],
+    [
+      3,
+      4,
+      10
+    ],
+    [
+      9,
+      13,
+      8
+    ],
+    [
+      1,
+      9,
+      0
+    ],
+    [
+      1,
+      13,
+      9
+    ],
+    [
+      8,
+      12,
+      7
+    ],
+    [
+      12,
+      8,
+      13
+    ],
+    [
+      12,
+      13,
+      2
+    ],
+    [
+      10,
+      6,
+      7
+    ],
+    [
+      12,
+      11,
+      10
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.92,
+      0.92
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.72
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      1.0
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 14,
+    "triangleCount": 15,
+    "minimumTriangleAngleDegrees": 26.834,
+    "medianTriangleAngleDegrees": 43.151
+  },
+  "candidateOnly": true
+}

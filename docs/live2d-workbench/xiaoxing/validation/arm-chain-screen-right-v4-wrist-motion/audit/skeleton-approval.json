@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "approvedArtifact": "qa/skeleton-design-review-v3.png",
+  "approvedContract": "skeleton.json",
+  "decision": "user_approved_v3_skeleton_and_stage_a_design",
+  "evidenceSummary": "User replied 整个可以 after reviewing the V3 elbow-height correction.",
+  "scopeOfApproval": [
+    "screen-right arm selection",
+    "shoulder elbow wrist landmarks",
+    "fixed L1 and L2",
+    "theta1 and theta2 ranges",
+    "single negative-theta2 bend branch",
+    "Stage A flat-color geometry generation"
+  ],
+  "notApprovedYet": [
+    "four solid full-canvas materials",
+    "41-sample FK visual result",
+    "hidden texture reconstruction",
+    "PSD",
+    "Cubism binding",
+    "Physics",
+    "runtime"
+  ]
+}

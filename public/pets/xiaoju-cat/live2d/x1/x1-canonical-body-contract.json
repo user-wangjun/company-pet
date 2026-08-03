@@ -1,0 +1,2762 @@
+{
+  "schemaVersion": 1,
+  "stage": "X1-canonical-body",
+  "status": "candidate-for-user-review",
+  "source": "three-view-preview.png",
+  "sourceLimitations": [
+    "single RGB composite rather than separate transparent orthographic plates",
+    "views are visually aligned but not calibrated camera projections",
+    "fur and seated pose occlude scapula, hip, and several limb joints",
+    "tail curl differs in projected visibility and is provisional"
+  ],
+  "biomechanicsReferences": [
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11737544/",
+      "use": "forelimb topology: scapula, upper arm, forearm, carpals; shoulder, elbow, wrist"
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2043500/",
+      "use": "three-dimensional feline hindlimb topology and coupled hip, knee, ankle axes"
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3137431/",
+      "use": "postural endpoint forces and small-angle balance behavior"
+    }
+  ],
+  "coordinateSystem": {
+    "units": "normalized kitten body height",
+    "origin": "ground projection below pelvis center",
+    "axes": {
+      "x": "cat anatomical left",
+      "y": "up",
+      "z": "forward"
+    },
+    "anatomicalSideRule": "L/R always refers to the cat, never the viewer"
+  },
+  "views": {
+    "front": {
+      "label": "FRONT",
+      "ground_y": 750,
+      "body_top_y": 120,
+      "center_x": 292,
+      "bbox": [
+        84,
+        120,
+        550,
+        770
+      ]
+    },
+    "side": {
+      "label": "LEFT SIDE",
+      "ground_y": 750,
+      "body_top_y": 120,
+      "center_x": 875,
+      "bbox": [
+        625,
+        120,
+        1165,
+        770
+      ]
+    },
+    "back": {
+      "label": "BACK",
+      "ground_y": 750,
+      "body_top_y": 120,
+      "center_x": 1452,
+      "bbox": [
+        1250,
+        120,
+        1665,
+        770
+      ]
+    }
+  },
+  "observedLandmarks2D": {
+    "front": {
+      "skull_center": {
+        "xy": [
+          292,
+          282
+        ],
+        "visibility": "visible"
+      },
+      "jaw_center": {
+        "xy": [
+          292,
+          392
+        ],
+        "visibility": "visible"
+      },
+      "neck_base": {
+        "xy": [
+          292,
+          443
+        ],
+        "visibility": "inferred"
+      },
+      "ribcage_center": {
+        "xy": [
+          292,
+          516
+        ],
+        "visibility": "inferred"
+      },
+      "abdomen_center": {
+        "xy": [
+          292,
+          626
+        ],
+        "visibility": "inferred"
+      },
+      "pelvis_center": {
+        "xy": [
+          292,
+          655
+        ],
+        "visibility": "occluded"
+      },
+      "scapula_L": {
+        "xy": [
+          370,
+          472
+        ],
+        "visibility": "inferred"
+      },
+      "shoulder_L": {
+        "xy": [
+          382,
+          492
+        ],
+        "visibility": "inferred"
+      },
+      "elbow_L": {
+        "xy": [
+          399,
+          586
+        ],
+        "visibility": "inferred"
+      },
+      "wrist_L": {
+        "xy": [
+          389,
+          682
+        ],
+        "visibility": "inferred"
+      },
+      "forepaw_L": {
+        "xy": [
+          380,
+          730
+        ],
+        "visibility": "visible"
+      },
+      "scapula_R": {
+        "xy": [
+          214,
+          472
+        ],
+        "visibility": "inferred"
+      },
+      "shoulder_R": {
+        "xy": [
+          202,
+          492
+        ],
+        "visibility": "inferred"
+      },
+      "elbow_R": {
+        "xy": [
+          185,
+          586
+        ],
+        "visibility": "inferred"
+      },
+      "wrist_R": {
+        "xy": [
+          195,
+          682
+        ],
+        "visibility": "inferred"
+      },
+      "forepaw_R": {
+        "xy": [
+          204,
+          730
+        ],
+        "visibility": "visible"
+      },
+      "hip_L": {
+        "xy": [
+          412,
+          586
+        ],
+        "visibility": "inferred"
+      },
+      "knee_L": {
+        "xy": [
+          432,
+          652
+        ],
+        "visibility": "inferred"
+      },
+      "hock_L": {
+        "xy": [
+          422,
+          704
+        ],
+        "visibility": "inferred"
+      },
+      "hindpaw_L": {
+        "xy": [
+          420,
+          730
+        ],
+        "visibility": "visible"
+      },
+      "hip_R": {
+        "xy": [
+          172,
+          586
+        ],
+        "visibility": "inferred"
+      },
+      "knee_R": {
+        "xy": [
+          152,
+          652
+        ],
+        "visibility": "inferred"
+      },
+      "hock_R": {
+        "xy": [
+          162,
+          704
+        ],
+        "visibility": "inferred"
+      },
+      "hindpaw_R": {
+        "xy": [
+          164,
+          730
+        ],
+        "visibility": "visible"
+      },
+      "tail_root": {
+        "xy": [
+          292,
+          642
+        ],
+        "visibility": "occluded"
+      },
+      "tail_mid_1": {
+        "xy": [
+          440,
+          650
+        ],
+        "visibility": "visible"
+      },
+      "tail_mid_2": {
+        "xy": [
+          475,
+          625
+        ],
+        "visibility": "visible"
+      },
+      "tail_tip": {
+        "xy": [
+          478,
+          590
+        ],
+        "visibility": "visible"
+      }
+    },
+    "side": {
+      "skull_center": {
+        "xy": [
+          780,
+          286
+        ],
+        "visibility": "visible"
+      },
+      "jaw_center": {
+        "xy": [
+          710,
+          392
+        ],
+        "visibility": "visible"
+      },
+      "neck_base": {
+        "xy": [
+          790,
+          444
+        ],
+        "visibility": "inferred"
+      },
+      "ribcage_center": {
+        "xy": [
+          864,
+          516
+        ],
+        "visibility": "inferred"
+      },
+      "abdomen_center": {
+        "xy": [
+          906,
+          619
+        ],
+        "visibility": "inferred"
+      },
+      "pelvis_center": {
+        "xy": [
+          958,
+          648
+        ],
+        "visibility": "inferred"
+      },
+      "scapula_L": {
+        "xy": [
+          818,
+          470
+        ],
+        "visibility": "inferred"
+      },
+      "shoulder_L": {
+        "xy": [
+          797,
+          496
+        ],
+        "visibility": "inferred"
+      },
+      "elbow_L": {
+        "xy": [
+          835,
+          588
+        ],
+        "visibility": "inferred"
+      },
+      "wrist_L": {
+        "xy": [
+          758,
+          681
+        ],
+        "visibility": "inferred"
+      },
+      "forepaw_L": {
+        "xy": [
+          730,
+          730
+        ],
+        "visibility": "visible"
+      },
+      "scapula_R": {
+        "xy": [
+          826,
+          476
+        ],
+        "visibility": "occluded"
+      },
+      "shoulder_R": {
+        "xy": [
+          805,
+          502
+        ],
+        "visibility": "occluded"
+      },
+      "elbow_R": {
+        "xy": [
+          843,
+          594
+        ],
+        "visibility": "occluded"
+      },
+      "wrist_R": {
+        "xy": [
+          766,
+          687
+        ],
+        "visibility": "occluded"
+      },
+      "forepaw_R": {
+        "xy": [
+          738,
+          734
+        ],
+        "visibility": "partly-visible"
+      },
+      "hip_L": {
+        "xy": [
+          963,
+          586
+        ],
+        "visibility": "inferred"
+      },
+      "knee_L": {
+        "xy": [
+          928,
+          650
+        ],
+        "visibility": "inferred"
+      },
+      "hock_L": {
+        "xy": [
+          892,
+          704
+        ],
+        "visibility": "inferred"
+      },
+      "hindpaw_L": {
+        "xy": [
+          868,
+          730
+        ],
+        "visibility": "visible"
+      },
+      "hip_R": {
+        "xy": [
+          972,
+          592
+        ],
+        "visibility": "occluded"
+      },
+      "knee_R": {
+        "xy": [
+          937,
+          656
+        ],
+        "visibility": "occluded"
+      },
+      "hock_R": {
+        "xy": [
+          901,
+          710
+        ],
+        "visibility": "occluded"
+      },
+      "hindpaw_R": {
+        "xy": [
+          877,
+          734
+        ],
+        "visibility": "partly-visible"
+      },
+      "tail_root": {
+        "xy": [
+          1000,
+          640
+        ],
+        "visibility": "inferred"
+      },
+      "tail_mid_1": {
+        "xy": [
+          1060,
+          670
+        ],
+        "visibility": "visible"
+      },
+      "tail_mid_2": {
+        "xy": [
+          1110,
+          704
+        ],
+        "visibility": "visible"
+      },
+      "tail_tip": {
+        "xy": [
+          1090,
+          730
+        ],
+        "visibility": "visible"
+      }
+    },
+    "back": {
+      "skull_center": {
+        "xy": [
+          1452,
+          282
+        ],
+        "visibility": "visible"
+      },
+      "jaw_center": {
+        "xy": [
+          1452,
+          392
+        ],
+        "visibility": "occluded"
+      },
+      "neck_base": {
+        "xy": [
+          1452,
+          440
+        ],
+        "visibility": "inferred"
+      },
+      "ribcage_center": {
+        "xy": [
+          1452,
+          518
+        ],
+        "visibility": "inferred"
+      },
+      "abdomen_center": {
+        "xy": [
+          1452,
+          620
+        ],
+        "visibility": "inferred"
+      },
+      "pelvis_center": {
+        "xy": [
+          1452,
+          648
+        ],
+        "visibility": "inferred"
+      },
+      "scapula_L": {
+        "xy": [
+          1374,
+          470
+        ],
+        "visibility": "inferred"
+      },
+      "shoulder_L": {
+        "xy": [
+          1362,
+          496
+        ],
+        "visibility": "occluded"
+      },
+      "elbow_L": {
+        "xy": [
+          1345,
+          588
+        ],
+        "visibility": "occluded"
+      },
+      "wrist_L": {
+        "xy": [
+          1354,
+          681
+        ],
+        "visibility": "occluded"
+      },
+      "forepaw_L": {
+        "xy": [
+          1362,
+          730
+        ],
+        "visibility": "occluded"
+      },
+      "scapula_R": {
+        "xy": [
+          1530,
+          470
+        ],
+        "visibility": "inferred"
+      },
+      "shoulder_R": {
+        "xy": [
+          1542,
+          496
+        ],
+        "visibility": "occluded"
+      },
+      "elbow_R": {
+        "xy": [
+          1559,
+          588
+        ],
+        "visibility": "occluded"
+      },
+      "wrist_R": {
+        "xy": [
+          1550,
+          681
+        ],
+        "visibility": "occluded"
+      },
+      "forepaw_R": {
+        "xy": [
+          1542,
+          730
+        ],
+        "visibility": "occluded"
+      },
+      "hip_L": {
+        "xy": [
+          1340,
+          586
+        ],
+        "visibility": "inferred"
+      },
+      "knee_L": {
+        "xy": [
+          1318,
+          650
+        ],
+        "visibility": "inferred"
+      },
+      "hock_L": {
+        "xy": [
+          1328,
+          704
+        ],
+        "visibility": "inferred"
+      },
+      "hindpaw_L": {
+        "xy": [
+          1340,
+          730
+        ],
+        "visibility": "visible"
+      },
+      "hip_R": {
+        "xy": [
+          1564,
+          586
+        ],
+        "visibility": "inferred"
+      },
+      "knee_R": {
+        "xy": [
+          1586,
+          650
+        ],
+        "visibility": "inferred"
+      },
+      "hock_R": {
+        "xy": [
+          1576,
+          704
+        ],
+        "visibility": "inferred"
+      },
+      "hindpaw_R": {
+        "xy": [
+          1564,
+          730
+        ],
+        "visibility": "visible"
+      },
+      "tail_root": {
+        "xy": [
+          1452,
+          640
+        ],
+        "visibility": "inferred"
+      },
+      "tail_mid_1": {
+        "xy": [
+          1410,
+          676
+        ],
+        "visibility": "visible"
+      },
+      "tail_mid_2": {
+        "xy": [
+          1355,
+          708
+        ],
+        "visibility": "visible"
+      },
+      "tail_tip": {
+        "xy": [
+          1304,
+          710
+        ],
+        "visibility": "visible"
+      }
+    }
+  },
+  "canonicalJoints3D": {
+    "skull_center": [
+      0.0,
+      0.74,
+      0.1
+    ],
+    "jaw_center": [
+      0.0,
+      0.63,
+      0.19
+    ],
+    "neck_base": [
+      0.0,
+      0.5,
+      0.03
+    ],
+    "ribcage_center": [
+      0.0,
+      0.37,
+      0.0
+    ],
+    "abdomen_center": [
+      0.0,
+      0.21,
+      -0.01
+    ],
+    "pelvis_center": [
+      0.0,
+      0.16,
+      -0.08
+    ],
+    "scapula_L": [
+      0.12,
+      0.45,
+      -0.02
+    ],
+    "shoulder_L": [
+      0.18,
+      0.41,
+      0.04
+    ],
+    "elbow_L": [
+      0.18,
+      0.26,
+      -0.04
+    ],
+    "wrist_L": [
+      0.16,
+      0.11,
+      0.1
+    ],
+    "forepaw_L": [
+      0.16,
+      0.03,
+      0.18
+    ],
+    "scapula_R": [
+      -0.12,
+      0.45,
+      -0.02
+    ],
+    "shoulder_R": [
+      -0.18,
+      0.41,
+      0.04
+    ],
+    "elbow_R": [
+      -0.18,
+      0.26,
+      -0.04
+    ],
+    "wrist_R": [
+      -0.16,
+      0.11,
+      0.1
+    ],
+    "forepaw_R": [
+      -0.16,
+      0.03,
+      0.18
+    ],
+    "hip_L": [
+      0.18,
+      0.25,
+      -0.05
+    ],
+    "knee_L": [
+      0.23,
+      0.13,
+      0.03
+    ],
+    "hock_L": [
+      0.21,
+      0.06,
+      -0.02
+    ],
+    "hindpaw_L": [
+      0.22,
+      0.03,
+      0.09
+    ],
+    "hip_R": [
+      -0.18,
+      0.25,
+      -0.05
+    ],
+    "knee_R": [
+      -0.23,
+      0.13,
+      0.03
+    ],
+    "hock_R": [
+      -0.21,
+      0.06,
+      -0.02
+    ],
+    "hindpaw_R": [
+      -0.22,
+      0.03,
+      0.09
+    ],
+    "tail_root": [
+      0.0,
+      0.18,
+      -0.21
+    ],
+    "tail_mid_1": [
+      0.18,
+      0.13,
+      -0.27
+    ],
+    "tail_mid_2": [
+      0.31,
+      0.06,
+      -0.18
+    ],
+    "tail_tip": [
+      0.25,
+      0.03,
+      0.03
+    ]
+  },
+  "headReferenceAnchors2D": {
+    "front": {
+      "eye_socket_L": {
+        "xy": [
+          352,
+          315
+        ],
+        "visibility": "visible"
+      },
+      "eye_center_L": {
+        "xy": [
+          352,
+          318
+        ],
+        "visibility": "visible"
+      },
+      "eye_safe_ellipse_L": {
+        "center": [
+          352,
+          318
+        ],
+        "radii": [
+          34,
+          44
+        ],
+        "visibility": "visible"
+      },
+      "eye_cover_zone_L": {
+        "center": [
+          352,
+          321
+        ],
+        "radii": [
+          43,
+          52
+        ],
+        "visibility": "visible"
+      },
+      "eye_socket_R": {
+        "xy": [
+          232,
+          315
+        ],
+        "visibility": "visible"
+      },
+      "eye_center_R": {
+        "xy": [
+          232,
+          318
+        ],
+        "visibility": "visible"
+      },
+      "eye_safe_ellipse_R": {
+        "center": [
+          232,
+          318
+        ],
+        "radii": [
+          34,
+          44
+        ],
+        "visibility": "visible"
+      },
+      "eye_cover_zone_R": {
+        "center": [
+          232,
+          321
+        ],
+        "radii": [
+          43,
+          52
+        ],
+        "visibility": "visible"
+      },
+      "ear_base_L": {
+        "xy": [
+          405,
+          205
+        ],
+        "visibility": "visible"
+      },
+      "ear_tip_L": {
+        "xy": [
+          460,
+          125
+        ],
+        "visibility": "visible"
+      },
+      "ear_inner_L": {
+        "xy": [
+          406,
+          183
+        ],
+        "visibility": "visible"
+      },
+      "ear_base_R": {
+        "xy": [
+          179,
+          205
+        ],
+        "visibility": "visible"
+      },
+      "ear_tip_R": {
+        "xy": [
+          124,
+          125
+        ],
+        "visibility": "visible"
+      },
+      "ear_inner_R": {
+        "xy": [
+          178,
+          183
+        ],
+        "visibility": "visible"
+      }
+    },
+    "side": {
+      "eye_socket_L": {
+        "xy": [
+          690,
+          324
+        ],
+        "visibility": "visible"
+      },
+      "eye_center_L": {
+        "xy": [
+          690,
+          326
+        ],
+        "visibility": "visible"
+      },
+      "eye_safe_ellipse_L": {
+        "center": [
+          690,
+          326
+        ],
+        "radii": [
+          20,
+          34
+        ],
+        "visibility": "visible"
+      },
+      "eye_cover_zone_L": {
+        "center": [
+          690,
+          328
+        ],
+        "radii": [
+          27,
+          42
+        ],
+        "visibility": "visible"
+      },
+      "eye_socket_R": {
+        "xy": [
+          704,
+          326
+        ],
+        "visibility": "occluded"
+      },
+      "eye_center_R": {
+        "xy": [
+          704,
+          328
+        ],
+        "visibility": "occluded"
+      },
+      "eye_safe_ellipse_R": {
+        "center": [
+          704,
+          328
+        ],
+        "radii": [
+          18,
+          32
+        ],
+        "visibility": "occluded"
+      },
+      "eye_cover_zone_R": {
+        "center": [
+          704,
+          330
+        ],
+        "radii": [
+          25,
+          40
+        ],
+        "visibility": "occluded"
+      },
+      "ear_base_L": {
+        "xy": [
+          740,
+          210
+        ],
+        "visibility": "visible"
+      },
+      "ear_tip_L": {
+        "xy": [
+          720,
+          122
+        ],
+        "visibility": "visible"
+      },
+      "ear_inner_L": {
+        "xy": [
+          738,
+          183
+        ],
+        "visibility": "visible"
+      },
+      "ear_base_R": {
+        "xy": [
+          760,
+          214
+        ],
+        "visibility": "occluded"
+      },
+      "ear_tip_R": {
+        "xy": [
+          730,
+          128
+        ],
+        "visibility": "occluded"
+      },
+      "ear_inner_R": {
+        "xy": [
+          756,
+          188
+        ],
+        "visibility": "occluded"
+      }
+    },
+    "back": {
+      "eye_socket_L": {
+        "xy": [
+          1392,
+          318
+        ],
+        "visibility": "occluded"
+      },
+      "eye_center_L": {
+        "xy": [
+          1392,
+          320
+        ],
+        "visibility": "occluded"
+      },
+      "eye_safe_ellipse_L": {
+        "center": [
+          1392,
+          320
+        ],
+        "radii": [
+          31,
+          40
+        ],
+        "visibility": "occluded"
+      },
+      "eye_cover_zone_L": {
+        "center": [
+          1392,
+          322
+        ],
+        "radii": [
+          40,
+          49
+        ],
+        "visibility": "occluded"
+      },
+      "eye_socket_R": {
+        "xy": [
+          1512,
+          318
+        ],
+        "visibility": "occluded"
+      },
+      "eye_center_R": {
+        "xy": [
+          1512,
+          320
+        ],
+        "visibility": "occluded"
+      },
+      "eye_safe_ellipse_R": {
+        "center": [
+          1512,
+          320
+        ],
+        "radii": [
+          31,
+          40
+        ],
+        "visibility": "occluded"
+      },
+      "eye_cover_zone_R": {
+        "center": [
+          1512,
+          322
+        ],
+        "radii": [
+          40,
+          49
+        ],
+        "visibility": "occluded"
+      },
+      "ear_base_L": {
+        "xy": [
+          1348,
+          210
+        ],
+        "visibility": "visible"
+      },
+      "ear_tip_L": {
+        "xy": [
+          1288,
+          126
+        ],
+        "visibility": "visible"
+      },
+      "ear_inner_L": {
+        "xy": [
+          1350,
+          184
+        ],
+        "visibility": "occluded"
+      },
+      "ear_base_R": {
+        "xy": [
+          1556,
+          210
+        ],
+        "visibility": "visible"
+      },
+      "ear_tip_R": {
+        "xy": [
+          1616,
+          126
+        ],
+        "visibility": "visible"
+      },
+      "ear_inner_R": {
+        "xy": [
+          1554,
+          184
+        ],
+        "visibility": "occluded"
+      }
+    }
+  },
+  "headReferencePoints3D": {
+    "eye_socket_L": [
+      0.105,
+      0.705,
+      0.215
+    ],
+    "eye_center_L": [
+      0.105,
+      0.7,
+      0.235
+    ],
+    "eye_socket_R": [
+      -0.105,
+      0.705,
+      0.215
+    ],
+    "eye_center_R": [
+      -0.105,
+      0.7,
+      0.235
+    ],
+    "ear_base_L": [
+      0.135,
+      0.825,
+      0.06
+    ],
+    "ear_tip_L": [
+      0.21,
+      0.965,
+      0.02
+    ],
+    "ear_inner_L": [
+      0.14,
+      0.87,
+      0.085
+    ],
+    "ear_base_R": [
+      -0.135,
+      0.825,
+      0.06
+    ],
+    "ear_tip_R": [
+      -0.21,
+      0.965,
+      0.02
+    ],
+    "ear_inner_R": [
+      -0.14,
+      0.87,
+      0.085
+    ]
+  },
+  "headReferenceSegments": [
+    {
+      "from": "skull_center",
+      "to": "ear_base_L",
+      "group": "ear",
+      "use": "head-to-left-ear-root transform reference; not a solved ear deformer"
+    },
+    {
+      "from": "ear_base_L",
+      "to": "ear_tip_L",
+      "group": "ear",
+      "use": "left ear root-to-tip attention and secondary-motion reference"
+    },
+    {
+      "from": "ear_base_L",
+      "to": "ear_inner_L",
+      "group": "ear",
+      "use": "left inner-ear surface orientation reference"
+    },
+    {
+      "from": "skull_center",
+      "to": "ear_base_R",
+      "group": "ear",
+      "use": "head-to-right-ear-root transform reference; not a solved ear deformer"
+    },
+    {
+      "from": "ear_base_R",
+      "to": "ear_tip_R",
+      "group": "ear",
+      "use": "right ear root-to-tip attention and secondary-motion reference"
+    },
+    {
+      "from": "ear_base_R",
+      "to": "ear_inner_R",
+      "group": "ear",
+      "use": "right inner-ear surface orientation reference"
+    }
+  ],
+  "headReferenceVolumes": {
+    "eye_safe_ellipse_L": {
+      "center": [
+        0.105,
+        0.7,
+        0.238
+      ],
+      "radii": [
+        0.04,
+        0.052,
+        0.018
+      ],
+      "use": "future X6 gaze and clipping range reference; not a solved eye rig"
+    },
+    "eye_safe_ellipse_R": {
+      "center": [
+        -0.105,
+        0.7,
+        0.238
+      ],
+      "radii": [
+        0.04,
+        0.052,
+        0.018
+      ],
+      "use": "future X6 gaze and clipping range reference; not a solved eye rig"
+    },
+    "eye_cover_zone_L": {
+      "center": [
+        0.105,
+        0.698,
+        0.252
+      ],
+      "radii": [
+        0.052,
+        0.064,
+        0.028
+      ],
+      "use": "future X2 forepaw cover target reference; not a contact solve"
+    },
+    "eye_cover_zone_R": {
+      "center": [
+        -0.105,
+        0.698,
+        0.252
+      ],
+      "radii": [
+        0.052,
+        0.064,
+        0.028
+      ],
+      "use": "future X2 forepaw cover target reference; not a contact solve"
+    }
+  },
+  "auxiliaryReferenceJoints": {
+    "status": "reference-only-not-solved-in-X1",
+    "gateBoundary": "Auxiliary joints are future layer, node, and triangulation seed references only. X1 does not define ArtMesh topology, deformers, weights, or numerical motion ranges.",
+    "triangulationReference": {
+      "source": "user supplied Zhihu article p/383268858; direct page access returned 403 during implementation, so only the general triangle-mesh principle is adopted",
+      "adoptedPrinciple": "future mesh control should keep semantic boundary points and interior hinge points explicit so that later ArtMesh triangles can preserve anatomy and soft-tissue envelopes",
+      "forbiddenInX1": [
+        "actual ArtMesh vertex list",
+        "Delaunay or Cubism triangulation output",
+        "deformation weights",
+        "Rotation Deformer pivots",
+        "Physics groups"
+      ]
+    },
+    "joints": [
+      {
+        "id": "cheek_fur_L",
+        "kind": "soft-boundary",
+        "attachedTo": [
+          "skull_center",
+          "jaw_center",
+          "neck_base"
+        ],
+        "futureUse": "left cheek fur layer boundary and head-to-neck overlap control",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "cheek_fur_R",
+        "kind": "soft-boundary",
+        "attachedTo": [
+          "skull_center",
+          "jaw_center",
+          "neck_base"
+        ],
+        "futureUse": "right cheek fur layer boundary and head-to-neck overlap control",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "whisker_root_L",
+        "kind": "appendage-root",
+        "attachedTo": [
+          "jaw_center",
+          "cheek_fur_L"
+        ],
+        "futureUse": "left whisker bundle root and cheek-follow reference",
+        "futureGate": "X4-X7"
+      },
+      {
+        "id": "whisker_root_R",
+        "kind": "appendage-root",
+        "attachedTo": [
+          "jaw_center",
+          "cheek_fur_R"
+        ],
+        "futureUse": "right whisker bundle root and cheek-follow reference",
+        "futureGate": "X4-X7"
+      },
+      {
+        "id": "ear_mid_L",
+        "kind": "secondary-hinge",
+        "attachedTo": [
+          "ear_base_L",
+          "ear_tip_L",
+          "ear_inner_L"
+        ],
+        "futureUse": "left ear surface bend and tip-lag reference",
+        "futureGate": "X5-X7"
+      },
+      {
+        "id": "ear_mid_R",
+        "kind": "secondary-hinge",
+        "attachedTo": [
+          "ear_base_R",
+          "ear_tip_R",
+          "ear_inner_R"
+        ],
+        "futureUse": "right ear surface bend and tip-lag reference",
+        "futureGate": "X5-X7"
+      },
+      {
+        "id": "chest_fur_tip",
+        "kind": "soft-boundary",
+        "attachedTo": [
+          "neck_base",
+          "ribcage_center",
+          "abdomen_center"
+        ],
+        "futureUse": "front chest-fur hanging point and breathing overlap reference",
+        "futureGate": "X4-X7"
+      },
+      {
+        "id": "armpit_L",
+        "kind": "fold-boundary",
+        "attachedTo": [
+          "ribcage_center",
+          "scapula_L",
+          "shoulder_L"
+        ],
+        "futureUse": "left shoulder/chest hidden overlap and sleeve fold reference",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "armpit_R",
+        "kind": "fold-boundary",
+        "attachedTo": [
+          "ribcage_center",
+          "scapula_R",
+          "shoulder_R"
+        ],
+        "futureUse": "right shoulder/chest hidden overlap and sleeve fold reference",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "foretoe_L",
+        "kind": "distal-boundary",
+        "attachedTo": [
+          "wrist_L",
+          "forepaw_L"
+        ],
+        "futureUse": "left forepaw toe/edge mesh seed for contact silhouettes",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "foretoe_R",
+        "kind": "distal-boundary",
+        "attachedTo": [
+          "wrist_R",
+          "forepaw_R"
+        ],
+        "futureUse": "right forepaw toe/edge mesh seed for contact silhouettes",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "hindtoe_L",
+        "kind": "distal-boundary",
+        "attachedTo": [
+          "hock_L",
+          "hindpaw_L"
+        ],
+        "futureUse": "left hindpaw toe/edge mesh seed for sitting silhouette",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "hindtoe_R",
+        "kind": "distal-boundary",
+        "attachedTo": [
+          "hock_R",
+          "hindpaw_R"
+        ],
+        "futureUse": "right hindpaw toe/edge mesh seed for sitting silhouette",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "tail_base_socket_L",
+        "kind": "socket-boundary",
+        "attachedTo": [
+          "pelvis_center",
+          "tail_root"
+        ],
+        "futureUse": "left tail-root fur socket boundary and hidden overlap seed",
+        "futureGate": "X4-X7"
+      },
+      {
+        "id": "tail_base_socket_R",
+        "kind": "socket-boundary",
+        "attachedTo": [
+          "pelvis_center",
+          "tail_root"
+        ],
+        "futureUse": "right tail-root fur socket boundary and hidden overlap seed",
+        "futureGate": "X4-X7"
+      }
+    ]
+  },
+  "auxiliaryJoints3D": {
+    "cheek_fur_L": [
+      0.145,
+      0.635,
+      0.185
+    ],
+    "cheek_fur_R": [
+      -0.145,
+      0.635,
+      0.185
+    ],
+    "whisker_root_L": [
+      0.125,
+      0.615,
+      0.235
+    ],
+    "whisker_root_R": [
+      -0.125,
+      0.615,
+      0.235
+    ],
+    "ear_mid_L": [
+      0.175,
+      0.895,
+      0.04
+    ],
+    "ear_mid_R": [
+      -0.175,
+      0.895,
+      0.04
+    ],
+    "chest_fur_tip": [
+      0.0,
+      0.335,
+      0.155
+    ],
+    "armpit_L": [
+      0.145,
+      0.365,
+      0.065
+    ],
+    "armpit_R": [
+      -0.145,
+      0.365,
+      0.065
+    ],
+    "foretoe_L": [
+      0.16,
+      0.01,
+      0.225
+    ],
+    "foretoe_R": [
+      -0.16,
+      0.01,
+      0.225
+    ],
+    "hindtoe_L": [
+      0.245,
+      0.01,
+      0.13
+    ],
+    "hindtoe_R": [
+      -0.245,
+      0.01,
+      0.13
+    ],
+    "tail_base_socket_L": [
+      0.08,
+      0.165,
+      -0.185
+    ],
+    "tail_base_socket_R": [
+      -0.08,
+      0.165,
+      -0.185
+    ]
+  },
+  "auxiliaryJoints2D": {
+    "front": {
+      "cheek_fur_L": {
+        "xy": [
+          390,
+          380
+        ],
+        "visibility": "visible"
+      },
+      "cheek_fur_R": {
+        "xy": [
+          194,
+          380
+        ],
+        "visibility": "visible"
+      },
+      "whisker_root_L": {
+        "xy": [
+          366,
+          398
+        ],
+        "visibility": "visible"
+      },
+      "whisker_root_R": {
+        "xy": [
+          218,
+          398
+        ],
+        "visibility": "visible"
+      },
+      "ear_mid_L": {
+        "xy": [
+          432,
+          164
+        ],
+        "visibility": "visible"
+      },
+      "ear_mid_R": {
+        "xy": [
+          152,
+          164
+        ],
+        "visibility": "visible"
+      },
+      "chest_fur_tip": {
+        "xy": [
+          292,
+          542
+        ],
+        "visibility": "visible"
+      },
+      "armpit_L": {
+        "xy": [
+          350,
+          555
+        ],
+        "visibility": "inferred"
+      },
+      "armpit_R": {
+        "xy": [
+          234,
+          555
+        ],
+        "visibility": "inferred"
+      },
+      "foretoe_L": {
+        "xy": [
+          382,
+          744
+        ],
+        "visibility": "visible"
+      },
+      "foretoe_R": {
+        "xy": [
+          202,
+          744
+        ],
+        "visibility": "visible"
+      },
+      "hindtoe_L": {
+        "xy": [
+          430,
+          744
+        ],
+        "visibility": "visible"
+      },
+      "hindtoe_R": {
+        "xy": [
+          154,
+          744
+        ],
+        "visibility": "visible"
+      },
+      "tail_base_socket_L": {
+        "xy": [
+          330,
+          646
+        ],
+        "visibility": "occluded"
+      },
+      "tail_base_socket_R": {
+        "xy": [
+          254,
+          646
+        ],
+        "visibility": "occluded"
+      }
+    },
+    "side": {
+      "cheek_fur_L": {
+        "xy": [
+          704,
+          390
+        ],
+        "visibility": "visible"
+      },
+      "cheek_fur_R": {
+        "xy": [
+          720,
+          394
+        ],
+        "visibility": "occluded"
+      },
+      "whisker_root_L": {
+        "xy": [
+          675,
+          408
+        ],
+        "visibility": "visible"
+      },
+      "whisker_root_R": {
+        "xy": [
+          690,
+          410
+        ],
+        "visibility": "occluded"
+      },
+      "ear_mid_L": {
+        "xy": [
+          730,
+          165
+        ],
+        "visibility": "visible"
+      },
+      "ear_mid_R": {
+        "xy": [
+          745,
+          170
+        ],
+        "visibility": "occluded"
+      },
+      "chest_fur_tip": {
+        "xy": [
+          812,
+          542
+        ],
+        "visibility": "visible"
+      },
+      "armpit_L": {
+        "xy": [
+          790,
+          552
+        ],
+        "visibility": "inferred"
+      },
+      "armpit_R": {
+        "xy": [
+          798,
+          558
+        ],
+        "visibility": "occluded"
+      },
+      "foretoe_L": {
+        "xy": [
+          714,
+          744
+        ],
+        "visibility": "visible"
+      },
+      "foretoe_R": {
+        "xy": [
+          722,
+          746
+        ],
+        "visibility": "partly-visible"
+      },
+      "hindtoe_L": {
+        "xy": [
+          852,
+          744
+        ],
+        "visibility": "visible"
+      },
+      "hindtoe_R": {
+        "xy": [
+          861,
+          746
+        ],
+        "visibility": "partly-visible"
+      },
+      "tail_base_socket_L": {
+        "xy": [
+          990,
+          652
+        ],
+        "visibility": "inferred"
+      },
+      "tail_base_socket_R": {
+        "xy": [
+          1008,
+          654
+        ],
+        "visibility": "occluded"
+      }
+    },
+    "back": {
+      "cheek_fur_L": {
+        "xy": [
+          1374,
+          382
+        ],
+        "visibility": "visible"
+      },
+      "cheek_fur_R": {
+        "xy": [
+          1530,
+          382
+        ],
+        "visibility": "visible"
+      },
+      "whisker_root_L": {
+        "xy": [
+          1390,
+          402
+        ],
+        "visibility": "occluded"
+      },
+      "whisker_root_R": {
+        "xy": [
+          1514,
+          402
+        ],
+        "visibility": "occluded"
+      },
+      "ear_mid_L": {
+        "xy": [
+          1318,
+          166
+        ],
+        "visibility": "visible"
+      },
+      "ear_mid_R": {
+        "xy": [
+          1586,
+          166
+        ],
+        "visibility": "visible"
+      },
+      "chest_fur_tip": {
+        "xy": [
+          1452,
+          540
+        ],
+        "visibility": "occluded"
+      },
+      "armpit_L": {
+        "xy": [
+          1385,
+          555
+        ],
+        "visibility": "occluded"
+      },
+      "armpit_R": {
+        "xy": [
+          1519,
+          555
+        ],
+        "visibility": "occluded"
+      },
+      "foretoe_L": {
+        "xy": [
+          1360,
+          744
+        ],
+        "visibility": "occluded"
+      },
+      "foretoe_R": {
+        "xy": [
+          1544,
+          744
+        ],
+        "visibility": "occluded"
+      },
+      "hindtoe_L": {
+        "xy": [
+          1334,
+          744
+        ],
+        "visibility": "visible"
+      },
+      "hindtoe_R": {
+        "xy": [
+          1570,
+          744
+        ],
+        "visibility": "visible"
+      },
+      "tail_base_socket_L": {
+        "xy": [
+          1430,
+          650
+        ],
+        "visibility": "inferred"
+      },
+      "tail_base_socket_R": {
+        "xy": [
+          1474,
+          650
+        ],
+        "visibility": "inferred"
+      }
+    }
+  },
+  "auxiliaryReferenceSegments": [
+    {
+      "from": "jaw_center",
+      "to": "cheek_fur_L",
+      "group": "auxiliary",
+      "rest_length": 0.14517,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "jaw_center",
+      "to": "cheek_fur_R",
+      "group": "auxiliary",
+      "rest_length": 0.14517,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "cheek_fur_L",
+      "to": "whisker_root_L",
+      "group": "auxiliary",
+      "rest_length": 0.05745,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "cheek_fur_R",
+      "to": "whisker_root_R",
+      "group": "auxiliary",
+      "rest_length": 0.05745,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "ear_base_L",
+      "to": "ear_mid_L",
+      "group": "auxiliary",
+      "rest_length": 0.08307,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "ear_mid_L",
+      "to": "ear_tip_L",
+      "group": "auxiliary",
+      "rest_length": 0.08078,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "ear_base_R",
+      "to": "ear_mid_R",
+      "group": "auxiliary",
+      "rest_length": 0.08307,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "ear_mid_R",
+      "to": "ear_tip_R",
+      "group": "auxiliary",
+      "rest_length": 0.08078,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "neck_base",
+      "to": "chest_fur_tip",
+      "group": "auxiliary",
+      "rest_length": 0.207,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "chest_fur_tip",
+      "to": "ribcage_center",
+      "group": "auxiliary",
+      "rest_length": 0.1589,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "shoulder_L",
+      "to": "armpit_L",
+      "group": "auxiliary",
+      "rest_length": 0.06225,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "armpit_L",
+      "to": "ribcage_center",
+      "group": "auxiliary",
+      "rest_length": 0.15898,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "shoulder_R",
+      "to": "armpit_R",
+      "group": "auxiliary",
+      "rest_length": 0.06225,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "armpit_R",
+      "to": "ribcage_center",
+      "group": "auxiliary",
+      "rest_length": 0.15898,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "forepaw_L",
+      "to": "foretoe_L",
+      "group": "auxiliary",
+      "rest_length": 0.04924,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "forepaw_R",
+      "to": "foretoe_R",
+      "group": "auxiliary",
+      "rest_length": 0.04924,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "hindpaw_L",
+      "to": "hindtoe_L",
+      "group": "auxiliary",
+      "rest_length": 0.05123,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "hindpaw_R",
+      "to": "hindtoe_R",
+      "group": "auxiliary",
+      "rest_length": 0.05123,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "tail_root",
+      "to": "tail_base_socket_L",
+      "group": "auxiliary",
+      "rest_length": 0.08515,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    },
+    {
+      "from": "tail_root",
+      "to": "tail_base_socket_R",
+      "group": "auxiliary",
+      "rest_length": 0.08515,
+      "use": "future layer boundary / triangulation seed reference only",
+      "length_drift_limit": "deferred-to-X5"
+    }
+  ],
+  "segments": [
+    {
+      "from": "skull_center",
+      "to": "jaw_center",
+      "group": "head",
+      "rest_length": 0.14213,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "skull_center",
+      "to": "neck_base",
+      "group": "neck",
+      "rest_length": 0.25,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "neck_base",
+      "to": "ribcage_center",
+      "group": "spine",
+      "rest_length": 0.13342,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "ribcage_center",
+      "to": "abdomen_center",
+      "group": "spine",
+      "rest_length": 0.16031,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "abdomen_center",
+      "to": "pelvis_center",
+      "group": "spine",
+      "rest_length": 0.08602,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "ribcage_center",
+      "to": "scapula_L",
+      "group": "left",
+      "rest_length": 0.1456,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "scapula_L",
+      "to": "shoulder_L",
+      "group": "left",
+      "rest_length": 0.09381,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "shoulder_L",
+      "to": "elbow_L",
+      "group": "left",
+      "rest_length": 0.17,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "elbow_L",
+      "to": "wrist_L",
+      "group": "left",
+      "rest_length": 0.20616,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "wrist_L",
+      "to": "forepaw_L",
+      "group": "left",
+      "rest_length": 0.11314,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "ribcage_center",
+      "to": "scapula_R",
+      "group": "right",
+      "rest_length": 0.1456,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "scapula_R",
+      "to": "shoulder_R",
+      "group": "right",
+      "rest_length": 0.09381,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "shoulder_R",
+      "to": "elbow_R",
+      "group": "right",
+      "rest_length": 0.17,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "elbow_R",
+      "to": "wrist_R",
+      "group": "right",
+      "rest_length": 0.20616,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "wrist_R",
+      "to": "forepaw_R",
+      "group": "right",
+      "rest_length": 0.11314,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "pelvis_center",
+      "to": "hip_L",
+      "group": "left",
+      "rest_length": 0.20347,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "hip_L",
+      "to": "knee_L",
+      "group": "left",
+      "rest_length": 0.15264,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "knee_L",
+      "to": "hock_L",
+      "group": "left",
+      "rest_length": 0.08832,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "hock_L",
+      "to": "hindpaw_L",
+      "group": "left",
+      "rest_length": 0.11446,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "pelvis_center",
+      "to": "hip_R",
+      "group": "right",
+      "rest_length": 0.20347,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "hip_R",
+      "to": "knee_R",
+      "group": "right",
+      "rest_length": 0.15264,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "knee_R",
+      "to": "hock_R",
+      "group": "right",
+      "rest_length": 0.08832,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "hock_R",
+      "to": "hindpaw_R",
+      "group": "right",
+      "rest_length": 0.11446,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "pelvis_center",
+      "to": "tail_root",
+      "group": "tail",
+      "rest_length": 0.13153,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "tail_root",
+      "to": "tail_mid_1",
+      "group": "tail",
+      "rest_length": 0.19621,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "tail_mid_1",
+      "to": "tail_mid_2",
+      "group": "tail",
+      "rest_length": 0.17292,
+      "length_drift_limit": 0.02
+    },
+    {
+      "from": "tail_mid_2",
+      "to": "tail_tip",
+      "group": "tail",
+      "rest_length": 0.22045,
+      "length_drift_limit": 0.02
+    }
+  ],
+  "massBlocks": {
+    "skull": {
+      "center": [
+        0.0,
+        0.72,
+        0.1
+      ],
+      "radii": [
+        0.2,
+        0.16,
+        0.17
+      ],
+      "mass_fraction": 0.18,
+      "volume_drift_limit": 0.03
+    },
+    "ribcage": {
+      "center": [
+        0.0,
+        0.38,
+        0.0
+      ],
+      "radii": [
+        0.23,
+        0.2,
+        0.2
+      ],
+      "mass_fraction": 0.36,
+      "volume_drift_limit": 0.03
+    },
+    "abdomen": {
+      "center": [
+        0.0,
+        0.23,
+        -0.01
+      ],
+      "radii": [
+        0.21,
+        0.14,
+        0.18
+      ],
+      "mass_fraction": 0.21,
+      "volume_drift_limit": 0.05
+    },
+    "pelvis": {
+      "center": [
+        0.0,
+        0.16,
+        -0.08
+      ],
+      "radii": [
+        0.22,
+        0.13,
+        0.16
+      ],
+      "mass_fraction": 0.25,
+      "volume_drift_limit": 0.03
+    }
+  },
+  "softTissueControlZones": {
+    "status": "x1-review-reference-not-deformer-contract",
+    "gateBoundary": "These zones name future skin/fur/muscle envelopes for X4/X5. X1 does not define ArtMesh topology, Rotation Deformers, Physics, or deformation weights.",
+    "zones": [
+      {
+        "id": "neck-cheek-chest-fur",
+        "displayName": "颈部/脸颊/胸毛软层",
+        "drivenBy": [
+          "skull_center",
+          "jaw_center",
+          "neck_base",
+          "ribcage_center"
+        ],
+        "purpose": "bridge head-to-chest motion and hide normal fur overlap without covering anatomical errors",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "scapula-chest-sling-L",
+        "displayName": "左肩胛-胸侧软组织",
+        "drivenBy": [
+          "ribcage_center",
+          "scapula_L",
+          "shoulder_L"
+        ],
+        "purpose": "preserve armpit and shoulder-side volume when the left forelimb lifts",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "scapula-chest-sling-R",
+        "displayName": "右肩胛-胸侧软组织",
+        "drivenBy": [
+          "ribcage_center",
+          "scapula_R",
+          "shoulder_R"
+        ],
+        "purpose": "preserve armpit and shoulder-side volume when the right forelimb lifts",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "forelimb-envelope-L",
+        "displayName": "左上臂/前臂包络",
+        "drivenBy": [
+          "shoulder_L",
+          "elbow_L",
+          "wrist_L",
+          "forepaw_L"
+        ],
+        "purpose": "keep limb thickness and fur sleeve continuity across shoulder, elbow, and wrist",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "forelimb-envelope-R",
+        "displayName": "右上臂/前臂包络",
+        "drivenBy": [
+          "shoulder_R",
+          "elbow_R",
+          "wrist_R",
+          "forepaw_R"
+        ],
+        "purpose": "keep limb thickness and fur sleeve continuity across shoulder, elbow, and wrist",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "ribcage-abdomen-skin",
+        "displayName": "胸腹表皮包络",
+        "drivenBy": [
+          "ribcage_center",
+          "abdomen_center",
+          "pelvis_center"
+        ],
+        "purpose": "allow local breathing and paw-pull response without whole-body scaling or ribcage collapse",
+        "futureGate": "X4-X7"
+      },
+      {
+        "id": "hip-thigh-envelope-L",
+        "displayName": "左髋/大腿/后腿包络",
+        "drivenBy": [
+          "pelvis_center",
+          "hip_L",
+          "knee_L",
+          "hock_L",
+          "hindpaw_L"
+        ],
+        "purpose": "preserve kitten round thigh volume from sitting pose to later hidden-anatomy references",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "hip-thigh-envelope-R",
+        "displayName": "右髋/大腿/后腿包络",
+        "drivenBy": [
+          "pelvis_center",
+          "hip_R",
+          "knee_R",
+          "hock_R",
+          "hindpaw_R"
+        ],
+        "purpose": "preserve kitten round thigh volume from sitting pose to later hidden-anatomy references",
+        "futureGate": "X4-X5"
+      },
+      {
+        "id": "tail-root-fur-socket",
+        "displayName": "尾根毛发/皮肤插口",
+        "drivenBy": [
+          "pelvis_center",
+          "tail_root",
+          "tail_mid_1"
+        ],
+        "purpose": "keep tail-root attachment continuous when the tail moves",
+        "futureGate": "X4-X7"
+      },
+      {
+        "id": "ear-soft-envelope-L",
+        "displayName": "左耳根/耳面软组织",
+        "drivenBy": [
+          "skull_center",
+          "ear_base_L",
+          "ear_tip_L",
+          "ear_inner_L"
+        ],
+        "purpose": "preserve ear-root attachment, inner-ear surface, and ear-tip secondary motion reference",
+        "futureGate": "X4-X7"
+      },
+      {
+        "id": "ear-soft-envelope-R",
+        "displayName": "右耳根/耳面软组织",
+        "drivenBy": [
+          "skull_center",
+          "ear_base_R",
+          "ear_tip_R",
+          "ear_inner_R"
+        ],
+        "purpose": "preserve ear-root attachment, inner-ear surface, and ear-tip secondary motion reference",
+        "futureGate": "X4-X7"
+      }
+    ]
+  },
+  "softTissueMomentAnchors": {
+    "status": "reference-only-not-solved-in-X1",
+    "gateBoundary": "These anchors mark future soft-tissue pivot/pull directions. X1 does not solve torque magnitudes, deformation weights, ArtMesh topology, Physics, or contact reactions.",
+    "anchors": [
+      {
+        "id": "neck-fur-pull",
+        "zone": "neck-cheek-chest-fur",
+        "pivot": "neck_base",
+        "pullToward": "ribcage_center",
+        "futureUse": "neck/chest fur compression and stretch around head follow"
+      },
+      {
+        "id": "left-scapula-sling-pivot",
+        "zone": "scapula-chest-sling-L",
+        "pivot": "scapula_L",
+        "pullToward": "shoulder_L",
+        "futureUse": "left armpit and shoulder fur shear during forelimb lift"
+      },
+      {
+        "id": "right-scapula-sling-pivot",
+        "zone": "scapula-chest-sling-R",
+        "pivot": "scapula_R",
+        "pullToward": "shoulder_R",
+        "futureUse": "right armpit and shoulder fur shear during forelimb lift"
+      },
+      {
+        "id": "left-forelimb-elbow-sleeve",
+        "zone": "forelimb-envelope-L",
+        "pivot": "elbow_L",
+        "pullToward": "wrist_L",
+        "futureUse": "left forearm sleeve bend and volume preservation"
+      },
+      {
+        "id": "right-forelimb-elbow-sleeve",
+        "zone": "forelimb-envelope-R",
+        "pivot": "elbow_R",
+        "pullToward": "wrist_R",
+        "futureUse": "right forearm sleeve bend and volume preservation"
+      },
+      {
+        "id": "belly-skin-hinge",
+        "zone": "ribcage-abdomen-skin",
+        "pivot": "abdomen_center",
+        "pullToward": "pelvis_center",
+        "futureUse": "belly skin lag, breathing offset, and low-amplitude body compensation"
+      },
+      {
+        "id": "left-thigh-soft-hinge",
+        "zone": "hip-thigh-envelope-L",
+        "pivot": "hip_L",
+        "pullToward": "knee_L",
+        "futureUse": "left thigh mass preservation and sitting-to-reference continuity"
+      },
+      {
+        "id": "right-thigh-soft-hinge",
+        "zone": "hip-thigh-envelope-R",
+        "pivot": "hip_R",
+        "pullToward": "knee_R",
+        "futureUse": "right thigh mass preservation and sitting-to-reference continuity"
+      },
+      {
+        "id": "tail-root-socket-pull",
+        "zone": "tail-root-fur-socket",
+        "pivot": "tail_root",
+        "pullToward": "tail_mid_1",
+        "futureUse": "tail root socket continuity under tail motion"
+      },
+      {
+        "id": "left-ear-root-pivot",
+        "zone": "ear-soft-envelope-L",
+        "pivot": "ear_base_L",
+        "pullToward": "ear_tip_L",
+        "futureUse": "left ear attention tilt, root compression, and ear-tip secondary motion"
+      },
+      {
+        "id": "right-ear-root-pivot",
+        "zone": "ear-soft-envelope-R",
+        "pivot": "ear_base_R",
+        "pullToward": "ear_tip_R",
+        "futureUse": "right ear attention tilt, root compression, and ear-tip secondary motion"
+      }
+    ]
+  },
+  "momentPreflight": {
+    "status": "reference-only-not-solved-in-X1",
+    "gateBoundary": "X1 may list future moment arms and pivots, but X2/X5/X6 must solve numeric ranges, contacts, support, and deformer pivots after user approval.",
+    "futureMomentChains": [
+      {
+        "name": "password-cover-forelimb",
+        "deferredTo": "X2",
+        "chain": [
+          "scapula",
+          "shoulder",
+          "elbow",
+          "wrist",
+          "forepaw",
+          "eye_cover_zone"
+        ],
+        "requiredChecksLater": [
+          "forepaw contact timing",
+          "lever-arm direction",
+          "shoulder/elbow/wrist torque sign",
+          "ribcage and pelvis volume preservation",
+          "body support reaction while paw is released"
+        ]
+      },
+      {
+        "name": "gaze-and-eyelid",
+        "deferredTo": "X5-X6",
+        "chain": [
+          "skull_center",
+          "eye_socket",
+          "eye_center",
+          "upper_lid",
+          "lower_lid"
+        ],
+        "requiredChecksLater": [
+          "eye rotation center",
+          "eyelid hinge/deformer pivot",
+          "safe ellipse clipping",
+          "blink and gaze parameter coupling"
+        ]
+      }
+    ],
+    "forbiddenInX1": [
+      "numeric torque values",
+      "contact reaction forces",
+      "center-of-mass support solve",
+      "eye deformer pivots",
+      "new spread-pose or master image generation"
+    ]
+  },
+  "futureArtifactRequests": {
+    "spreadPoseXiaojuPlate": {
+      "requestedByUser": true,
+      "reason": "A spread-pose / 大字型 anatomical plate would make hidden limb, torso, and eye-area drawing easier for later separation.",
+      "gateDisposition": "realistic-master-deferred-until-after-X1-approval-and-X2-pose/support-solve",
+      "x1ReviewAid": "live2d/x1/qa/x1-spread-pose-review-aid.png",
+      "notGeneratedInX1": true,
+      "constraintsWhenAuthorized": [
+        "derive from approved X1 body and X2 support/action constraints",
+        "must preserve Xiaoju identity, proportions, segment lengths, and mass volumes",
+        "must not replace the authoritative three-view body or bypass hidden-anatomy validation"
+      ]
+    }
+  },
+  "jointRangePolicy": {
+    "status": "topology-only-in-X1",
+    "note": "Numerical pose ranges are intentionally deferred to X2; X1 freezes joint identity, bend branch, and segment length only.",
+    "preferredBendBranches": {
+      "fore_elbow_L": "caudal-and-inward",
+      "fore_elbow_R": "caudal-and-inward",
+      "hind_knee_L": "cranial-with-folded-hock",
+      "hind_knee_R": "cranial-with-folded-hock"
+    }
+  },
+  "gatePolicy": {
+    "x1MayPassOnlyWithUserApproval": true,
+    "x2Authorized": false,
+    "forbiddenBeforeX1Approval": [
+      "support-pose-solve",
+      "new-master-generation",
+      "material-separation",
+      "photoshop-import",
+      "cubism-editing"
+    ]
+  },
+  "qa": {
+    "verticalConsistency": {
+      "rows": [
+        {
+          "landmark": "skull_center",
+          "normalizedHeights": {
+            "front": 0.7429,
+            "side": 0.7365,
+            "back": 0.7429
+          },
+          "mean": 0.7407,
+          "stddev": 0.003,
+          "spread": 0.0063
+        },
+        {
+          "landmark": "jaw_center",
+          "normalizedHeights": {
+            "front": 0.5683,
+            "side": 0.5683,
+            "back": 0.5683
+          },
+          "mean": 0.5683,
+          "stddev": 0.0,
+          "spread": 0.0
+        },
+        {
+          "landmark": "neck_base",
+          "normalizedHeights": {
+            "front": 0.4873,
+            "side": 0.4857,
+            "back": 0.4921
+          },
+          "mean": 0.4884,
+          "stddev": 0.0027,
+          "spread": 0.0063
+        },
+        {
+          "landmark": "ribcage_center",
+          "normalizedHeights": {
+            "front": 0.3714,
+            "side": 0.3714,
+            "back": 0.3683
+          },
+          "mean": 0.3704,
+          "stddev": 0.0015,
+          "spread": 0.0032
+        },
+        {
+          "landmark": "abdomen_center",
+          "normalizedHeights": {
+            "front": 0.1968,
+            "side": 0.2079,
+            "back": 0.2063
+          },
+          "mean": 0.2037,
+          "stddev": 0.0049,
+          "spread": 0.0111
+        },
+        {
+          "landmark": "pelvis_center",
+          "normalizedHeights": {
+            "front": 0.1508,
+            "side": 0.1619,
+            "back": 0.1619
+          },
+          "mean": 0.1582,
+          "stddev": 0.0052,
+          "spread": 0.0111
+        },
+        {
+          "landmark": "shoulder_L",
+          "normalizedHeights": {
+            "front": 0.4095,
+            "side": 0.4032,
+            "back": 0.4032
+          },
+          "mean": 0.4053,
+          "stddev": 0.003,
+          "spread": 0.0063
+        },
+        {
+          "landmark": "elbow_L",
+          "normalizedHeights": {
+            "front": 0.2603,
+            "side": 0.2571,
+            "back": 0.2571
+          },
+          "mean": 0.2582,
+          "stddev": 0.0015,
+          "spread": 0.0032
+        },
+        {
+          "landmark": "wrist_L",
+          "normalizedHeights": {
+            "front": 0.1079,
+            "side": 0.1095,
+            "back": 0.1095
+          },
+          "mean": 0.109,
+          "stddev": 0.0007,
+          "spread": 0.0016
+        },
+        {
+          "landmark": "forepaw_L",
+          "normalizedHeights": {
+            "front": 0.0317,
+            "side": 0.0317,
+            "back": 0.0317
+          },
+          "mean": 0.0317,
+          "stddev": 0.0,
+          "spread": 0.0
+        },
+        {
+          "landmark": "hip_L",
+          "normalizedHeights": {
+            "front": 0.2603,
+            "side": 0.2603,
+            "back": 0.2603
+          },
+          "mean": 0.2603,
+          "stddev": 0.0,
+          "spread": 0.0
+        },
+        {
+          "landmark": "knee_L",
+          "normalizedHeights": {
+            "front": 0.1556,
+            "side": 0.1587,
+            "back": 0.1587
+          },
+          "mean": 0.1577,
+          "stddev": 0.0015,
+          "spread": 0.0032
+        },
+        {
+          "landmark": "hock_L",
+          "normalizedHeights": {
+            "front": 0.073,
+            "side": 0.073,
+            "back": 0.073
+          },
+          "mean": 0.073,
+          "stddev": 0.0,
+          "spread": 0.0
+        },
+        {
+          "landmark": "hindpaw_L",
+          "normalizedHeights": {
+            "front": 0.0317,
+            "side": 0.0317,
+            "back": 0.0317
+          },
+          "mean": 0.0317,
+          "stddev": 0.0,
+          "spread": 0.0
+        }
+      ],
+      "maxSpread": 0.0111,
+      "meanSpread": 0.0037,
+      "reviewThreshold": 0.06
+    },
+    "overlay": "live2d/x1/qa/x1-three-view-landmark-overlay.png",
+    "reviewSheet": "live2d/x1/qa/x1-three-view-review-sheet.png",
+    "canonicalProjections": "live2d/x1/qa/x1-canonical-skeleton-projections.png",
+    "spreadPoseReviewAid": "live2d/x1/qa/x1-spread-pose-review-aid.png",
+    "report": "live2d/x1/x1-canonical-body-report.md"
+  }
+}

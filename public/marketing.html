@@ -178,7 +178,7 @@
         viewport.onpointerleave=()=>{camera.style.setProperty('--look-x','0%');camera.style.setProperty('--look-y','0%');viewport.style.setProperty('--pet-look-x','0px');viewport.style.setProperty('--pet-look-y','0px')};
         window.onkeydown=e=>{if(e.key==='Escape')focus(null);if(['ArrowRight','ArrowDown'].includes(e.key))focus(adjacent(1));if(['ArrowLeft','ArrowUp'].includes(e.key))focus(adjacent(-1))};
         const toast=document.getElementById('toast');document.querySelectorAll('.pending,#wechat').forEach(b=>b.onclick=()=>{toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800)});
-        document.getElementById('download').onclick=()=>window.open('../releases/yuxin-desktop-pet-0.3.0-windows-x64-setup.exe','_blank','noopener,noreferrer');
+        document.getElementById('download').onclick=()=>window.open('../releases/yuxin-desktop-pet-0.3.1-windows-x64-setup.exe','_blank','noopener,noreferrer');
       })();
     </script>
   </body>

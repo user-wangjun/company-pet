@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-front-all-layer-review",
+  "status": "candidate-for-user-visual-review",
+  "authorizationEvidence": "User requested all separated layers after identifying the visible eye-edge seam.",
+  "scope": "front-sixteen-layers-only",
+  "layerCount": 16,
+  "drawOrderBackToFront": [
+    "tail",
+    "leg_L_lower_paw",
+    "leg_R_lower_paw",
+    "leg_L_upper",
+    "leg_R_upper",
+    "arm_L_lower_paw",
+    "arm_R_lower_paw",
+    "arm_L_upper",
+    "arm_R_upper",
+    "body",
+    "ear_L",
+    "ear_R",
+    "head",
+    "eye_L",
+    "eye_R",
+    "mouth"
+  ],
+  "exports": [
+    {
+      "id": "tail",
+      "file": "live2d/x6/front-all-layers-v14/01_tail.png",
+      "canvasBounds": [
+        295,
+        667,
+        387,
+        849
+      ]
+    },
+    {
+      "id": "leg_L_lower_paw",
+      "file": "live2d/x6/front-all-layers-v14/02_leg_L_lower_paw.png",
+      "canvasBounds": [
+        450,
+        642,
+        569,
+        724
+      ]
+    },
+    {
+      "id": "leg_R_lower_paw",
+      "file": "live2d/x6/front-all-layers-v14/03_leg_R_lower_paw.png",
+      "canvasBounds": [
+        98,
+        642,
+        218,
+        723
+      ]
+    },
+    {
+      "id": "leg_L_upper",
+      "file": "live2d/x6/front-all-layers-v14/04_leg_L_upper.png",
+      "canvasBounds": [
+        409,
+        572,
+        517,
+        688
+      ]
+    },
+    {
+      "id": "leg_R_upper",
+      "file": "live2d/x6/front-all-layers-v14/05_leg_R_upper.png",
+      "canvasBounds": [
+        139,
+        572,
+        262,
+        687
+      ]
+    },
+    {
+      "id": "arm_L_lower_paw",
+      "file": "live2d/x6/front-all-layers-v14/06_arm_L_lower_paw.png",
+      "canvasBounds": [
+        451,
+        328,
+        594,
+        469
+      ]
+    },
+    {
+      "id": "arm_R_lower_paw",
+      "file": "live2d/x6/front-all-layers-v14/07_arm_R_lower_paw.png",
+      "canvasBounds": [
+        69,
+        326,
+        220,
+        459
+      ]
+    },
+    {
+      "id": "arm_L_upper",
+      "file": "live2d/x6/front-all-layers-v14/08_arm_L_upper.png",
+      "canvasBounds": [
+        378,
+        305,
+        507,
+        413
+      ]
+    },
+    {
+      "id": "arm_R_upper",
+      "file": "live2d/x6/front-all-layers-v14/09_arm_R_upper.png",
+      "canvasBounds": [
+        164,
+        309,
+        293,
+        408
+      ]
+    },
+    {
+      "id": "body",
+      "file": "live2d/x6/front-all-layers-v14/10_body.png",
+      "canvasBounds": [
+        164,
+        326,
+        513,
+        742
+      ]
+    },
+    {
+      "id": "ear_L",
+      "file": "live2d/x6/front-all-layers-v14/11_ear_L.png",
+      "canvasBounds": [
+        373,
+        42,
+        461,
+        140
+      ]
+    },
+    {
+      "id": "ear_R",
+      "file": "live2d/x6/front-all-layers-v14/12_ear_R.png",
+      "canvasBounds": [
+        223,
+        40,
+        298,
+        140
+      ]
+    },
+    {
+      "id": "head",
+      "file": "live2d/x6/front-all-layers-v14/13_head.png",
+      "canvasBounds": [
+        196,
+        48,
+        476,
+        390
+      ]
+    },
+    {
+      "id": "eye_L",
+      "file": "live2d/x6/front-all-layers-v14/14_eye_L.png",
+      "canvasBounds": [
+        347,
+        135,
+        418,
+        220
+      ]
+    },
+    {
+      "id": "eye_R",
+      "file": "live2d/x6/front-all-layers-v14/15_eye_R.png",
+      "canvasBounds": [
+        253,
+        135,
+        324,
+        220
+      ]
+    },
+    {
+      "id": "mouth",
+      "file": "live2d/x6/front-all-layers-v14/16_mouth.png",
+      "canvasBounds": [
+        214,
+        204,
+        462,
+        297
+      ]
+    }
+  ],
+  "headCorrection": {
+    "canvasBounds": [
+      196,
+      48,
+      476,
+      390
+    ],
+    "hiddenTexturePixels": 6287,
+    "visibleIdentityPixels": 63113,
+    "inverseAlphaSolvedEdgePixels": 422,
+    "removedDisconnectedMaskComponents": 3,
+    "visibleBlendOutsideOcclusionPixels": 0,
+    "method": "largest-connected-head-mask-with-exact-visible-reference-natural-hidden-guide-and-inverse-alpha-edge-solve"
+  },
+  "eyeLayerCorrection": {
+    "eye_L": {
+      "sourceAlphaPixels": 4693,
+      "eyeOnlyAlphaPixels": 1343,
+      "darkContourBoundsInSource": [
+        16,
+        29,
+        52,
+        61
+      ],
+      "eyeOnlyBoundsInSource": [
+        13,
+        26,
+        55,
+        64
+      ],
+      "method": "dark-eye-contour-bounds-plus-three-pixel-antialiased-ellipse-no-surrounding-face-patch"
+    },
+    "eye_R": {
+      "sourceAlphaPixels": 4693,
+      "eyeOnlyAlphaPixels": 1281,
+      "darkContourBoundsInSource": [
+        31,
+        29,
+        66,
+        60
+      ],
+      "eyeOnlyBoundsInSource": [
+        28,
+        26,
+        69,
+        63
+      ],
+      "method": "dark-eye-contour-bounds-plus-three-pixel-antialiased-ellipse-no-surrounding-face-patch"
+    }
+  },
+  "restAlphaRecovery": {
+    "recoveredPixels": 180,
+    "assignedLayers": {
+      "ear_L": 179,
+      "ear_R": 0,
+      "head": 1
+    }
+  },
+  "restReconstructionAudit": {
+    "extraAlphaPixels": 0,
+    "missingAlphaPixels": 0,
+    "visibleRgbMeanAbsoluteError": 0.0021
+  },
+  "remainingInvalidHiddenTextures": [
+    "arm_L_lower_paw",
+    "arm_L_upper",
+    "arm_R_lower_paw",
+    "arm_R_upper",
+    "body",
+    "leg_L_lower_paw",
+    "leg_L_upper",
+    "leg_R_lower_paw",
+    "leg_R_upper",
+    "tail"
+  ],
+  "qa": {
+    "allLayerAtlas": "live2d/x6/qa/x6-front-all-layer-atlas-v14.png",
+    "eyeSeamReview": "live2d/x6/qa/x6-front-eye-seam-review-v14.png",
+    "reconstruction": "live2d/x6/front-all-layers-v14/front-reconstruction.png"
+  },
+  "supersedesHeadReview": "live2d/x6/qa/x6-head-hidden-texture-review-v13.png",
+  "gateBoundary": {
+    "frontAllLayerReviewAuthorizedByUser": true,
+    "headCorrectionApprovedByUser": false,
+    "remainingStructuralHiddenTexturesApprovedByUser": false,
+    "sideBackPropagationAuthorized": false,
+    "gate6Approved": false,
+    "x7Authorized": false
+  },
+  "materialSource": "live2d/x6/hidden-texture-guides-v11/head-base-texture-alpha.png"
+}

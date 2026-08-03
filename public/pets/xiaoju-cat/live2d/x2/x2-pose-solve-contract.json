@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "stage": "X2-pose-solve",
+  "status": "candidate-for-user-review",
+  "x1ApprovalBasis": "User said to continue X2 after reviewing X1; X1 artifacts are treated as the approved body source for this X2 candidate.",
+  "sourceContracts": {
+    "x1": "live2d/x1/x1-canonical-body-contract.json",
+    "planetScene": "live2d/planet-scene-source/planet-scene-v2-layered-preview.png"
+  },
+  "gateBoundary": {
+    "allowed": [
+      "contact map",
+      "center-of-mass and support report",
+      "0-to-1-to-0 connected low-detail blockout",
+      "qualitative moment direction and relative demand simulation"
+    ],
+    "forbidden": [
+      "realistic master generation",
+      "spread-pose Xiaoju art generation",
+      "material separation",
+      "Photoshop or PSD import",
+      "Cubism ArtMesh, Deformer, Physics, or runtime edits"
+    ]
+  },
+  "contactModel": {
+    "primarySupport": {
+      "id": "chest-belly-planet-band",
+      "bodyDrivers": [
+        "ribcage",
+        "abdomen"
+      ],
+      "normal": [
+        0.0,
+        1.0
+      ],
+      "supportHullX": [
+        -0.285,
+        0.285
+      ],
+      "frictionAssumption": "static preferred; tiny slide below 0.015 normalized body height is allowed during cover enter/exit",
+      "mustNotCollapse": [
+        "ribcage",
+        "abdomen",
+        "pelvis"
+      ]
+    },
+    "secondarySupport": [
+      {
+        "id": "hindpaw_L",
+        "role": "stabilizer",
+        "maySlide": false
+      },
+      {
+        "id": "hindpaw_R",
+        "role": "stabilizer",
+        "maySlide": false
+      }
+    ],
+    "releasedDuringCover": [
+      {
+        "id": "forepaw_L",
+        "releaseProgress": 0.12,
+        "target": "eye_cover_zone_L"
+      },
+      {
+        "id": "forepaw_R",
+        "releaseProgress": 0.12,
+        "target": "eye_cover_zone_R"
+      }
+    ]
+  },
+  "momentSimulation": {
+    "status": "split-physical-and-control-preflight",
+    "physicalMomentPreflight": {
+      "method": "2D front-plane qualitative tau = r x F using distal gravity, lift inertia, and face contact reaction",
+      "chain": [
+        "scapula",
+        "shoulder",
+        "elbow",
+        "wrist",
+        "forepaw",
+        "eye_cover_zone"
+      ],
+      "forceModel": {
+        "distalGravity": "downward force applied at forepaw",
+        "liftInertia": "upward transient force during lift",
+        "faceContactReaction": "normal reaction from eye-cover zone when progress approaches cover"
+      },
+      "signConvention": "positive tau is counter-clockwise in the X2 front-plane drawing; left/right signs are expected to mirror",
+      "summary": {
+        "L": {
+          "scapula": {
+            "peakRelativeDemand": 0.6284,
+            "peakSignedTau": 0.02639,
+            "coverSignedTau": 0.02639,
+            "coverSign": "positive",
+            "signConvention": "positive is counter-clockwise in the X2 front-plane drawing"
+          },
+          "shoulder": {
+            "peakRelativeDemand": 1.0,
+            "peakSignedTau": 0.03696,
+            "coverSignedTau": 0.03728,
+            "coverSign": "positive",
+            "signConvention": "positive is counter-clockwise in the X2 front-plane drawing"
+          },
+          "elbow": {
+            "peakRelativeDemand": 0.589,
+            "peakSignedTau": 0.01531,
+            "coverSignedTau": 0.01531,
+            "coverSign": "positive",
+            "signConvention": "positive is counter-clockwise in the X2 front-plane drawing"
+          },
+          "wrist": {
+            "peakRelativeDemand": 0.635,
+            "peakSignedTau": 0.01143,
+            "coverSignedTau": 0.01143,
+            "coverSign": "positive",
+            "signConvention": "positive is counter-clockwise in the X2 front-plane drawing"
+          }
+        },
+        "R": {
+          "scapula": {
+            "peakRelativeDemand": 0.6284,
+            "peakSignedTau": -0.02639,
+            "coverSignedTau": -0.02639,
+            "coverSign": "negative",
+            "signConvention": "positive is counter-clockwise in the X2 front-plane drawing"
+          },
+          "shoulder": {
+            "peakRelativeDemand": 1.0,
+            "peakSignedTau": -0.03696,
+            "coverSignedTau": -0.03728,
+            "coverSign": "negative",
+            "signConvention": "positive is counter-clockwise in the X2 front-plane drawing"
+          },
+          "elbow": {
+            "peakRelativeDemand": 0.589,
+            "peakSignedTau": -0.01531,
+            "coverSignedTau": -0.01531,
+            "coverSign": "negative",
+            "signConvention": "positive is counter-clockwise in the X2 front-plane drawing"
+          },
+          "wrist": {
+            "peakRelativeDemand": 0.635,
+            "peakSignedTau": -0.01143,
+            "coverSignedTau": -0.01143,
+            "coverSign": "negative",
+            "signConvention": "positive is counter-clockwise in the X2 front-plane drawing"
+          }
+        }
+      },
+      "interpretation": "Checks whether external force direction and lever arms agree with the intended cover pose. This is not a calibrated animal dynamics solve."
+    },
+    "controlMomentPreflight": {
+      "method": "active joint curve with qualitative demand = active angle demand + distal load + velocity load",
+      "chain": [
+        "scapula",
+        "shoulder",
+        "elbow",
+        "wrist",
+        "forepaw",
+        "eye_cover_zone"
+      ],
+      "summary": {
+        "L": {
+          "scapula": {
+            "peakRelativeDemand": 0.2001,
+            "peakSignedMoment": -0.20008,
+            "coverSignedMoment": -0.20008
+          },
+          "shoulder": {
+            "peakRelativeDemand": 0.8476,
+            "peakSignedMoment": -0.36619,
+            "coverSignedMoment": -0.35933
+          },
+          "elbow": {
+            "peakRelativeDemand": 0.8698,
+            "peakSignedMoment": 0.81125,
+            "coverSignedMoment": 0.85385
+          },
+          "wrist": {
+            "peakRelativeDemand": 0.6317,
+            "peakSignedMoment": -0.42286,
+            "coverSignedMoment": -0.42462
+          }
+        },
+        "R": {
+          "scapula": {
+            "peakRelativeDemand": 0.2001,
+            "peakSignedMoment": 0.20008,
+            "coverSignedMoment": 0.20008
+          },
+          "shoulder": {
+            "peakRelativeDemand": 0.8476,
+            "peakSignedMoment": 0.79627,
+            "coverSignedMoment": 0.83933
+          },
+          "elbow": {
+            "peakRelativeDemand": 0.8698,
+            "peakSignedMoment": -0.48869,
+            "coverSignedMoment": -0.49385
+          },
+          "wrist": {
+            "peakRelativeDemand": 0.6317,
+            "peakSignedMoment": 0.61071,
+            "coverSignedMoment": 0.62462
+          }
+        }
+      },
+      "interpretation": "Checks whether the Motion-like drive can remain smooth and avoid a single saturated joint."
+    }
+  },
+  "continuity": {
+    "sampleCount": 41,
+    "maxSegmentLengthDrift": 0.0,
+    "maxSingleSampleAngleStepDeg": 19.1643,
+    "supportOkSamples": 41,
+    "supportOkAllSamples": true,
+    "faceContactOccursAtCover": true,
+    "peakRelativeMomentDemand": 0.8698,
+    "peakPhysicalMomentDemand": 1.0,
+    "volumePolicy": "skull/ribcage/abdomen/pelvis scale remains 1.0; contact compression is local soft tissue only",
+    "futureMeshPolicy": "formal layer images, Delaunay triangulation, helper mesh points, and elastic coefficients are deferred until X3/X4 approval"
+  },
+  "samplePaths": {
+    "roundtripSamples": "live2d/x2/x2-cover-roundtrip-samples.json",
+    "supportMap": "live2d/x2/qa/x2-contact-support-map.png",
+    "blockoutSheet": "live2d/x2/qa/x2-cover-roundtrip-blockout-sheet.png",
+    "controlMomentDemand": "live2d/x2/qa/x2-moment-demand-preflight.png",
+    "physicalMomentDemand": "live2d/x2/qa/x2-physical-moment-preflight.png",
+    "fullMomentReviewSheet": "live2d/x2/qa/x2-full-moment-review-sheet.png",
+    "intuitiveMomentCoverPreview": "live2d/x2/qa/x2-intuitive-moment-cover-preview.png",
+    "intuitiveMomentCoverPreviewGif": "live2d/x2/qa/x2-intuitive-moment-cover-preview.gif",
+    "report": "live2d/x2/x2-pose-solve-report.md"
+  },
+  "futureLayerAndMeshPolicy": {
+    "sourceReference": "Zhihu article opened by user: Live2D动画引擎的图形学原理及实现",
+    "sequence": [
+      "X2 user approval for support and cover blockout",
+      "X3 complete connected spread-pose/continuous master from approved body",
+      "X3 user approval",
+      "X4 detailed semantic layer images from the approved master",
+      "Delaunay-style triangulation per actual layer boundary",
+      "helper mesh nodes and elastic coefficients after layer boundaries exist"
+    ],
+    "rules": [
+      "Do not use bone length changes to simulate swing or elasticity",
+      "Every real layer will own a mesh and exactly one primary node in the later mesh-node contract",
+      "Triangulation must happen on actual layer point sets and layer boundaries, not on the X2 blockout alone",
+      "Elastic coefficients belong to mesh vertices after triangulation; farther soft vertices may have higher elasticity while anatomical pivots remain stable"
+    ]
+  },
+  "gatePolicy": {
+    "x2MayPassOnlyWithUserApproval": true,
+    "x3Authorized": false,
+    "forbiddenBeforeX2Approval": [
+      "complete-master-generation",
+      "realistic-spread-pose-three-view",
+      "material-separation",
+      "photoshop-import",
+      "cubism-editing"
+    ]
+  }
+}

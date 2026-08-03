@@ -1,0 +1,14 @@
+{
+  "stage": "v9-long-hair-shirt-separation",
+  "source": "source\\masters\\gate3-color-target-v1.png",
+  "lineReference": "source\\masters\\gate3-line-master-candidate-v1.png",
+  "longHairPixelCount": 15496,
+  "shirtHiddenFillPixelCount": 8279,
+  "defaultCompositeMae": 0.0,
+  "defaultCompositeMaxError": 0,
+  "visiblePixelsRepainted": false,
+  "hiddenFillVisibleInDefault": false,
+  "psdImport": false,
+  "cubismImport": false,
+  "next": "visual-review_then_neck_sleeve_wrist_hidden-fill"
+}

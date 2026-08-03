@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "status": "engineering_candidate_pending_user_visual_approval",
+  "scope": "screen-left arm (character anatomical right), static shoulder-and-elbow correction only",
+  "sideIdentity": {
+    "screenSide": "left",
+    "characterSide": "right",
+    "explicitCorrection": "the earlier screen-right edit was retracted; this candidate affects screen-left only"
+  },
+  "authoritativeInputs": [
+    {
+      "path": "source/masters/front-line-source-exact-after-reset.png",
+      "sha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f"
+    },
+    {
+      "path": "source/masters/front-color-source-exact-after-reset.png",
+      "sha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5"
+    },
+    {
+      "path": "validation/arm-chain-screen-left-v12-body-geometry/contracts/v12-screen-left-body-geometry-contract.json",
+      "sha256": "571170097143c410380dfc639b66992b92bbfbbef3b88ae1453cd2632f4ca033",
+      "role": "frozen approved baseline; read-only"
+    }
+  ],
+  "baselineFrozenV12": {
+    "shoulder": [
+      176.0,
+      257.0
+    ],
+    "elbow": [
+      153.0,
+      411.0
+    ],
+    "wrist": [
+      115.0,
+      529.0
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 123.96773773849388
+  },
+  "candidateV25": {
+    "shoulder": [
+      170.0,
+      251.0
+    ],
+    "elbow": [
+      147.0,
+      405.0
+    ],
+    "wrist": [
+      115.0,
+      529.0
+    ],
+    "deltaFromBaselinePx": {
+      "shoulder": [
+        -6.0,
+        -6.0
+      ],
+      "elbow": [
+        -6.0,
+        -6.0
+      ],
+      "wrist": [
+        0.0,
+        0.0
+      ]
+    },
+    "deltaFromPreviousCandidatePx": {
+      "shoulder": [
+        -5.0,
+        -5.0
+      ],
+      "elbow": [
+        -5.0,
+        -5.0
+      ],
+      "wrist": [
+        0.0,
+        0.0
+      ]
+    },
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "restAnglesDeg": {
+      "theta1": 98.494375789809,
+      "theta2": 5.975918310256901,
+      "forearmGlobal": 104.4702941000659
+    },
+    "motionRanges": "not generated at this static landmark-review checkpoint"
+  },
+  "approvalEffect": {
+    "current": "candidate_only",
+    "ifApproved": "reopens downstream screen-left material, mesh, and node evidence derived from the old shoulder and elbow",
+    "ifRejected": "frozen V12 and downstream artifacts remain unchanged"
+  },
+  "prohibitions": [
+    "do not modify frozen screen-left V12 through V24 artifacts",
+    "do not rebuild materials before these shoulder and elbow points are approved",
+    "do not alter the screen-right V12 candidate"
+  ]
+}

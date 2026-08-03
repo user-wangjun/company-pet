@@ -1,0 +1,10 @@
+{
+  "status": "pass_pending_visual_gate",
+  "checks": {
+    "all_group_layers_exist_in_gate3": true,
+    "all_overlay_points_inside_master": true,
+    "hand_policy_remains_complete_layer": true
+  },
+  "missingLayers": [],
+  "boundsErrors": []
+}

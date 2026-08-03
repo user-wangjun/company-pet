@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V9 shoulder-side hidden upper-arm texture candidate B",
+  "freezeDate": "2026-07-26",
+  "decisionOwner": "user",
+  "status": "frozen_engineering_and_user_visual_pass",
+  "scope": "4465 px R_shoulder_hidden shoulder-side hidden upper-arm texture proof only",
+  "approvedCandidate": {
+    "id": "B",
+    "path": "materials/upper-arm-shoulder-hidden-candidate-b.png",
+    "sha256": "e58b767234ca2a9fd5578518b4e309aef4cbb4a6e7359a2b44a4abdcf8cc3d11"
+  },
+  "userApproval": {
+    "path": "audit/v9-candidate-b-user-visual-approval-2026-07-26.json",
+    "sha256": "7613a2e05ecdc31a92f2e85e4d9da9125e2400d4db6836796da5b4cd4b4a6b9d",
+    "decisionText": "批准候选B"
+  },
+  "frozenInputIntegrity": {
+    "status": "pass",
+    "groups": [
+      {
+        "group": "V6 direct references",
+        "checked": 9,
+        "passed": 9,
+        "failed": 0,
+        "firstFailure": null
+      },
+      {
+        "group": "V6 supplemental keyed hashes",
+        "checked": 13,
+        "passed": 13,
+        "failed": 0,
+        "firstFailure": null
+      },
+      {
+        "group": "complete sleeve",
+        "checked": 16,
+        "passed": 16,
+        "failed": 0,
+        "firstFailure": null
+      },
+      {
+        "group": "V8-B1/V8-C",
+        "checked": 38,
+        "passed": 38,
+        "failed": 0,
+        "firstFailure": null
+      }
+    ],
+    "masters": [
+      {
+        "role": "authoritative line master",
+        "width": 512,
+        "height": 1086,
+        "sha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+        "expectedSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+        "pass": true
+      },
+      {
+        "role": "authoritative color master",
+        "width": 512,
+        "height": 1086,
+        "sha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+        "expectedSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+        "pass": true
+      }
+    ],
+    "failed": 0
+  },
+  "finalMetrics": {
+    "mUpperPixels": 5358,
+    "vUpperPixels": 544,
+    "rShoulderHiddenPixels": 4465,
+    "otherHiddenNotInScopePixels": 349,
+    "elbowSidePixelsIncluded": 0,
+    "vUpperCoordinateDifferencePixels": 0,
+    "vUpperRgbDifferencePixels": 0,
+    "vUpperAlphaDifferencePixels": 0,
+    "mUpperGeometryDifferencePixels": 0,
+    "paintedPixelsOutsideRShoulderHidden": 0,
+    "alphaPixelsOutsideFrozenMUpper": 0,
+    "defaultRecompositionLockedSourcePixelDifference": 0,
+    "sleeveOcclusionRelationDifferencePixels": 0,
+    "deterministicRegenerationDifferencePixels": 0,
+    "motionSampleCount": 41,
+    "motionFirstLastPixelDifference": 0,
+    "fullOutputDeterministicDifferenceFiles": 0
+  },
+  "lockedArtifacts": [
+    {
+      "role": "explicit user visual approval and freeze authorization",
+      "path": "audit/v9-candidate-b-user-visual-approval-2026-07-26.json",
+      "sha256": "7613a2e05ecdc31a92f2e85e4d9da9125e2400d4db6836796da5b4cd4b4a6b9d",
+      "bytes": 2209
+    },
+    {
+      "role": "machine-readable engineering report",
+      "path": "audit/v9-upper-arm-hidden-texture-engineering-report.json",
+      "sha256": "95059b127e62d82415e516593c38c248356e6f3f331c17919b8268380c8380e5",
+      "bytes": 7902
+    },
+    {
+      "role": "Chinese engineering report",
+      "path": "audit/V9-UPPER-ARM-HIDDEN-TEXTURE-REPORT.zh-CN.md",
+      "sha256": "ea3a73374333a5d592dbf525a26350f6b3f32156dff1864b3fe86ff70593177f",
+      "bytes": 917
+    },
+    {
+      "role": "reference-only input manifest",
+      "path": "inputs/input-reference-manifest.json",
+      "sha256": "0d7b1beefb5619b0d1a51ef83b81c5a9ed27ffacca1d991a984afabde0694542",
+      "bytes": 2326
+    },
+    {
+      "role": "explicit unapproved hidden upper-arm region",
+      "path": "masks/H_upper-not-in-scope.png",
+      "sha256": "b1a46115641c9738842e3de14f49194cb4e04770c8fafa036ad327acc4b1c9a4",
+      "bytes": 815
+    },
+    {
+      "role": "frozen complete upper-arm geometry reference",
+      "path": "masks/M_upper-frozen-reference.png",
+      "sha256": "b0045ffecbcfd9dfdb776a84049a70c1589314cc2df8df8091eb30ababadb94d",
+      "bytes": 1213
+    },
+    {
+      "role": "locked approved paint permission mask",
+      "path": "masks/R_shoulder_hidden.png",
+      "sha256": "15ea20f40ca92bbcd4e2218e8985d9fd563cdc6dcba60dfc831a9c99be6e66be",
+      "bytes": 1072
+    },
+    {
+      "role": "visible, approved-paint, and unapproved-hidden partition",
+      "path": "masks/upper-arm-source-partition.png",
+      "sha256": "899e0427b539deaaaacdec7a59277a15b773afbeeb744537b483bf6a4d508f85",
+      "bytes": 3139
+    },
+    {
+      "role": "write-protected visible upper-arm mask",
+      "path": "masks/V_upper-frozen-visible.png",
+      "sha256": "c2dfe729e21f3359b9fe866ede85aef2304452a662b9ba471172b57af45c4ebd",
+      "bytes": 732
+    },
+    {
+      "role": "non-selected comparison candidate A",
+      "path": "materials/upper-arm-shoulder-hidden-candidate-a.png",
+      "sha256": "2b4866603bcc0a8e718d7792041460e86f463e685a9ad13bcfbb12824b07e273",
+      "bytes": 7659
+    },
+    {
+      "role": "selected and approved candidate B",
+      "path": "materials/upper-arm-shoulder-hidden-candidate-b.png",
+      "sha256": "e58b767234ca2a9fd5578518b4e309aef4cbb4a6e7359a2b44a4abdcf8cc3d11",
+      "bytes": 8007
+    },
+    {
+      "role": "screened-out comparison candidate C",
+      "path": "materials/upper-arm-shoulder-hidden-candidate-c.png",
+      "sha256": "1c4e94967911362e82a65876c544bec03a12bc46467857256169c67ebf6bbb14",
+      "bytes": 8290
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/01-R-shoulder-hidden-mask.png",
+      "sha256": "aa0ea199e9befc074d654ae17d82119a0a728157d853fbeb769191e024a22d53",
+      "bytes": 9392
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/02-source-partition.png",
+      "sha256": "c6deaa0468c44ad80a5bee0f39f923e9d231195a85fee04af2637fc3bff29d1c",
+      "bytes": 15517
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/03-upper-arm-target-checkerboard.png",
+      "sha256": "e40953f35f49cb851f6cf23b36b8b356d87b25c4c58d3287664b01d981f1da44",
+      "bytes": 21111
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/04-hidden-region-checkerboard.png",
+      "sha256": "61925ed8d8eaa627a36a6abfb0080847e7aa3d7b0a7057e85e793bacd1121789",
+      "bytes": 16432
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/05-default-recomposition.png",
+      "sha256": "b8d979ad80d9c611f7ef1fdb61b1cd785c632de5a5ea6c13a65ffb24890d05c0",
+      "bytes": 280764
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/06-sleeve-moved-away.png",
+      "sha256": "547fbe38d97867accbe8ec537524a7234ecb20ad1561bb634003aedb34f03e38",
+      "bytes": 40245
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/07-shoulder-seam-zoom-1000pct.png",
+      "sha256": "2f308f0266b6ab5836500fb41728aa254c5a66f75669d6a13f471d235b7c900e",
+      "bytes": 28951
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/08-candidate-comparison.png",
+      "sha256": "d55a98b862077a8e7b81235333506967d22b215e2e9800c93a8afd9ec785994c",
+      "bytes": 31160
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/09-grayscale-check.png",
+      "sha256": "82a156d2073d20f454a702400f5f15877511bfa05bdaee02015564a7885c3b1e",
+      "bytes": 15861
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/10-edge-enhanced-check.png",
+      "sha256": "9335cdf120159bac891ce2252a195fe65dd4e5be60c5fa12593e6cf9e16cb4f3",
+      "bytes": 25145
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/10b-color-gradient-heatmaps.png",
+      "sha256": "36ba4a7cee3d93fe25715efb42f752f7e6cdd8617fae49c46dc1d76b7cf9e46d",
+      "bytes": 30653
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/11-41-sample-slow-motion.gif",
+      "sha256": "280822915778be6d3a2dff5485a84f206bd9425e1aadf667f293e56d62c64587",
+      "bytes": 342547
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/12-key-motion-extremes.png",
+      "sha256": "d5cb0203bf478f17f223dfb6989f83e47a459a86d951d63823754b7343c24437",
+      "bytes": 50530
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/13-seam-flicker-check.gif",
+      "sha256": "d6fb80b4c5d9b51fb311350b82c98af4cc77c4211efc0e6c111b547443b72682",
+      "bytes": 238300
+    },
+    {
+      "role": "frozen visual QA evidence",
+      "path": "qa/15-user-review-board.zh-CN.png",
+      "sha256": "164f5a46b0c38e26ad7f44c6bc4743dce231c9ee0db8421a8f9fe5dea52696e5",
+      "bytes": 165039
+    },
+    {
+      "role": "deterministic V9 candidate and QA builder",
+      "path": "tools/build_v9_upper_arm_hidden_texture.py",
+      "sha256": "93d12571fad0f4440330b2d55b5b939811c5e4d3ce7043740d2775ba90212c83",
+      "bytes": 46154
+    },
+    {
+      "role": "V9 freeze verifier and manifest generator",
+      "path": "tools/freeze_v9_upper_arm_hidden_texture.py",
+      "sha256": "c9f53523d22819137b550e2faf30ebe1761f9f2ca73a3c5974466409d78cfd96",
+      "bytes": 9256
+    }
+  ],
+  "artifactCount": 29,
+  "invalidationRules": [
+    "Any byte change to candidate B, R_shoulder_hidden, the approval record, engineering report, builder, freeze verifier, or frozen QA evidence reopens V9.",
+    "Any change to frozen M_upper geometry or any V_upper coordinate, RGB, or alpha value invalidates V9.",
+    "Expanding paint beyond R_shoulder_hidden or into the 349 px out-of-scope hidden region invalidates V9.",
+    "Changing the frozen sleeve occlusion relation or the approved V4 motion range reopens the relevant upstream gate.",
+    "A future torso or hair separation still reopens the V6 18-pixel conditional shoulder coverage check."
+  ],
+  "explicitlyNotApproved": [
+    "the remaining 349 px upper-arm hidden region",
+    "complete upper-arm production texture",
+    "forearm texture",
+    "hand texture",
+    "PSD",
+    "ArtMesh",
+    "Cubism implementation",
+    "Physics",
+    "Runtime"
+  ],
+  "nextGate": "separately authorized discussion of a minimal Cubism rough-rig scope",
+  "sequencingRule": "Do not create PSD, ArtMesh, Cubism, Physics, or Runtime artifacts without new explicit user authorization."
+}

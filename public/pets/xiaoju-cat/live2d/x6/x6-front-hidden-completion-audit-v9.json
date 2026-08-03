@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-front-hidden-completion-correction",
+  "status": "failed-hidden-area-completeness",
+  "sourceCandidate": "live2d/x6/x6-front-actual-segmentation-contract-v8.json",
+  "articleReference": {
+    "url": "https://zhuanlan.zhihu.com/p/383268858",
+    "observedPrinciples": [
+      "each semantic layer is exported as an independent PNG",
+      "each actual layer binds its own mesh",
+      "painter draw order manages occlusion but does not synthesize missing texture"
+    ]
+  },
+  "criticalIncompleteLayerCount": 11,
+  "criticalIncompleteLayers": [
+    {
+      "id": "head",
+      "displayName": "头底",
+      "failure": "缺完整脸底、眼窝/口鼻后方与连续颈根"
+    },
+    {
+      "id": "body",
+      "displayName": "身体底",
+      "failure": "缺头、肩、髋和尾根移开后应出现的连续躯干表面"
+    },
+    {
+      "id": "arm_L_upper",
+      "displayName": "左上臂",
+      "failure": "目前只有可见切片与局部肩帽，不是完整上臂"
+    },
+    {
+      "id": "arm_R_upper",
+      "displayName": "右上臂",
+      "failure": "目前只有可见切片与局部肩帽，不是完整上臂"
+    },
+    {
+      "id": "arm_L_lower_paw",
+      "displayName": "左小臂＋爪",
+      "failure": "肘后方只有短接入带，缺完整关节内藏长度"
+    },
+    {
+      "id": "arm_R_lower_paw",
+      "displayName": "右小臂＋爪",
+      "failure": "肘后方只有短接入带，缺完整关节内藏长度"
+    },
+    {
+      "id": "leg_L_upper",
+      "displayName": "左大腿",
+      "failure": "髋部主体仍由身体可见像素代替，独立大腿不完整"
+    },
+    {
+      "id": "leg_R_upper",
+      "displayName": "右大腿",
+      "failure": "髋部主体仍由身体可见像素代替，独立大腿不完整"
+    },
+    {
+      "id": "leg_L_lower_paw",
+      "displayName": "左小腿＋爪",
+      "failure": "膝后方只有短接入带，缺完整关节内藏长度"
+    },
+    {
+      "id": "leg_R_lower_paw",
+      "displayName": "右小腿＋爪",
+      "failure": "膝后方只有短接入带，缺完整关节内藏长度"
+    },
+    {
+      "id": "tail",
+      "displayName": "尾巴",
+      "failure": "只有局部尾根接入带，未证明尾巴移开后的完整根部"
+    }
+  ],
+  "decision": "reject-v8-as-complete-layer-set-and-return-to-front-hidden-area-reconstruction",
+  "qa": {
+    "review": "live2d/x6/qa/x6-front-hidden-completion-audit-v9.png"
+  },
+  "gateBoundary": {
+    "frontBoundaryApprovedByUser": true,
+    "frontActualLayersApprovedByUser": false,
+    "sideBackPropagationAuthorized": false,
+    "gate6Approved": false,
+    "x7Authorized": false
+  }
+}

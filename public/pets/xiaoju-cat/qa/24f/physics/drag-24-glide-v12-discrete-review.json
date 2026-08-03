@@ -1,0 +1,216 @@
+{
+  "version": "v12-discrete",
+  "frame_count": 24,
+  "duration_ms": 120,
+  "frame_size": [
+    192,
+    208
+  ],
+  "method": "fixed base frame with discrete tail/hind-leg pose swaps from original drag row, no global deformation",
+  "outputs": {
+    "dragRight_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v12-discrete-strip.png",
+    "dragLeft_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v12-discrete-strip.png",
+    "dragRight_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v12-discrete-sample-sheet.png",
+    "dragLeft_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v12-discrete-sample-sheet.png",
+    "dragRight_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragRight-24-glide-v12-discrete.gif",
+    "dragLeft_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragLeft-24-glide-v12-discrete.gif",
+    "combined_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\drag-v12-discrete-combined-preview.gif",
+    "zoom_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\drag-v12-discrete-zoom-preview.gif"
+  },
+  "dragRight_meta": [
+    {
+      "frame": 1,
+      "source_pose": 1
+    },
+    {
+      "frame": 2,
+      "source_pose": 2
+    },
+    {
+      "frame": 3,
+      "source_pose": 3
+    },
+    {
+      "frame": 4,
+      "source_pose": 4
+    },
+    {
+      "frame": 5,
+      "source_pose": 5
+    },
+    {
+      "frame": 6,
+      "source_pose": 6
+    },
+    {
+      "frame": 7,
+      "source_pose": 7
+    },
+    {
+      "frame": 8,
+      "source_pose": 8
+    },
+    {
+      "frame": 9,
+      "source_pose": 7
+    },
+    {
+      "frame": 10,
+      "source_pose": 6
+    },
+    {
+      "frame": 11,
+      "source_pose": 5
+    },
+    {
+      "frame": 12,
+      "source_pose": 4
+    },
+    {
+      "frame": 13,
+      "source_pose": 3
+    },
+    {
+      "frame": 14,
+      "source_pose": 2
+    },
+    {
+      "frame": 15,
+      "source_pose": 1
+    },
+    {
+      "frame": 16,
+      "source_pose": 2
+    },
+    {
+      "frame": 17,
+      "source_pose": 3
+    },
+    {
+      "frame": 18,
+      "source_pose": 4
+    },
+    {
+      "frame": 19,
+      "source_pose": 5
+    },
+    {
+      "frame": 20,
+      "source_pose": 6
+    },
+    {
+      "frame": 21,
+      "source_pose": 7
+    },
+    {
+      "frame": 22,
+      "source_pose": 8
+    },
+    {
+      "frame": 23,
+      "source_pose": 7
+    },
+    {
+      "frame": 24,
+      "source_pose": 6
+    }
+  ],
+  "dragLeft_meta": [
+    {
+      "frame": 1,
+      "source_pose": 1
+    },
+    {
+      "frame": 2,
+      "source_pose": 2
+    },
+    {
+      "frame": 3,
+      "source_pose": 3
+    },
+    {
+      "frame": 4,
+      "source_pose": 4
+    },
+    {
+      "frame": 5,
+      "source_pose": 5
+    },
+    {
+      "frame": 6,
+      "source_pose": 6
+    },
+    {
+      "frame": 7,
+      "source_pose": 7
+    },
+    {
+      "frame": 8,
+      "source_pose": 8
+    },
+    {
+      "frame": 9,
+      "source_pose": 7
+    },
+    {
+      "frame": 10,
+      "source_pose": 6
+    },
+    {
+      "frame": 11,
+      "source_pose": 5
+    },
+    {
+      "frame": 12,
+      "source_pose": 4
+    },
+    {
+      "frame": 13,
+      "source_pose": 3
+    },
+    {
+      "frame": 14,
+      "source_pose": 2
+    },
+    {
+      "frame": 15,
+      "source_pose": 1
+    },
+    {
+      "frame": 16,
+      "source_pose": 2
+    },
+    {
+      "frame": 17,
+      "source_pose": 3
+    },
+    {
+      "frame": 18,
+      "source_pose": 4
+    },
+    {
+      "frame": 19,
+      "source_pose": 5
+    },
+    {
+      "frame": 20,
+      "source_pose": 6
+    },
+    {
+      "frame": 21,
+      "source_pose": 7
+    },
+    {
+      "frame": 22,
+      "source_pose": 8
+    },
+    {
+      "frame": 23,
+      "source_pose": 7
+    },
+    {
+      "frame": 24,
+      "source_pose": 6
+    }
+  ]
+}

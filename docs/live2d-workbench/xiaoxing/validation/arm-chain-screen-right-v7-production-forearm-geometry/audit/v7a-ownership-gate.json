@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-A pixel ownership",
+  "status": "blocked_by_neutral_footprint_contract_conflict",
+  "authority": {
+    "line": "source/masters/front-line-source-exact-after-reset.png",
+    "color": "source/masters/front-color-source-exact-after-reset.png",
+    "lineSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+    "colorSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5"
+  },
+  "ownershipCandidates": {
+    "V_forearm": {
+      "pixelCount": 3756,
+      "owner": "production_forearm",
+      "approved": true,
+      "rule": "source-traced arm shaft, distal of frozen elbow local s=0, proximal of frozen wrist, excluding frozen V_upper_arm, plus the approved bracelet decoration merged into this material"
+    },
+    "elbowBoundary": {
+      "rule": "frozen local s=0 with immutable V_upper_arm ownership precedence",
+      "lineEndpoints": [
+        [
+          380.7002350621318,
+          406.7236531155847
+        ],
+        [
+          329.2997649378682,
+          423.2763468844153
+        ]
+      ],
+      "approved": true
+    },
+    "wristBoundary": {
+      "rule": "frozen wrist local s=L2",
+      "lineEndpoints": [
+        [
+          418.7002350621318,
+          524.7236531155846
+        ],
+        [
+          367.2997649378682,
+          541.2763468844154
+        ]
+      ],
+      "approved": true
+    },
+    "bracelet": {
+      "owner": "production_forearm",
+      "independentRuntimeLayer": false,
+      "binding": "inherited_from_forearm",
+      "drawOrder": "same_as_forearm_above_upper_below_hand",
+      "crossesFrozenWristBoundary": true,
+      "pixelCount": 709,
+      "diagnosticSubregionOnly": true,
+      "braceletHiddenQaRequired": true,
+      "braceletHiddenQaGeometryMask": "masks/forearm-no-bracelet-qa-geometry.png",
+      "approved": true
+    },
+    "wristMixedBand": {
+      "owner": "production_forearm",
+      "widthPx": 2,
+      "pixelCount": 324,
+      "sourceAlphaRecoverable": false
+    }
+  },
+  "mutualExclusion": {
+    "visibleUpperVsVisibleForearmOverlapPixels": 0,
+    "braceletSubregionPixelsOutsideForearmMaterial": 0,
+    "mixedBandPixelsOutsideForearmMaterial": 0
+  },
+  "pixelCopy": {
+    "schemaVersion": 1,
+    "gate": "V7-A visible forearm pixel copy",
+    "status": "engineering_and_user_visual_pass",
+    "candidateOnly": false,
+    "source": "source/masters/front-color-source-exact-after-reset.png",
+    "mask": "validation/arm-chain-screen-right-v7-production-forearm-geometry/masks/visible-forearm-locked.png",
+    "visiblePixelCount": 3756,
+    "boundingBoxExclusive": [
+      338,
+      410,
+      405,
+      546
+    ],
+    "coordinateDifferencePixels": 0,
+    "rgbDifferencePixels": 0,
+    "maximumRgbChannelDifference": 0,
+    "alphaPixelsOutsideMask": 0,
+    "connectedComponents": 1,
+    "note": "The visible forearm candidate has explicit user approval."
+  },
+  "neutralFootprint": {
+    "schemaVersion": 1,
+    "gate": "V7-A neutral footprint compatibility",
+    "status": "fail_contract_conflict",
+    "frozenElbow": [
+      355.0,
+      415.0
+    ],
+    "frozenWrist": [
+      393.0,
+      533.0
+    ],
+    "localSInclusiveUpperBoundPx": 22.0,
+    "frozenMinimumEnvelopePixelCount": 1177,
+    "sourceArmNeutralOutlinePixelCount": 4357,
+    "envelopePixelsOutsideOriginalArmOutline": 132,
+    "envelopePixelsCollidingWithFrozenVisibleUpperArmOwnership": 416,
+    "envelopePixelsNotInVForearmCandidate": 555,
+    "tests": {
+      "neutralFootprintSubsetOfOriginalArmOutline": false,
+      "uniqueStaticPixelOwnershipCompatibleWithFrozenUpperArm": false,
+      "productionForearmAboveUpperArmCanContainEnvelopeWithoutOverwrite": false
+    },
+    "decision": "stop_before_complete_forearm_geometry",
+    "automaticReopenCondition": "Only an explicit user-approved contract revision that preserves the frozen skeleton and does not silently modify V6 may reopen V7.",
+    "independentContradictionProof": "audit/v7a-contract-contradiction-proof.json"
+  },
+  "wristNeutralResponsibility": {
+    "schemaVersion": 1,
+    "gate": "V7-A neutral wrist continuity responsibility",
+    "status": "blocked_pending_temporary_hand_root_envelope",
+    "frozenWrist": [
+      393.0,
+      533.0
+    ],
+    "responsibilityDiskRadiusPx": 11.0,
+    "sourceSupportedResponsibilityPixels": 348,
+    "coveredByNaturalForearmPixelsWithoutBracelet": 162,
+    "uncoveredResponsibilityPixels": 186,
+    "uncoveredPixelsOnHandSideOfFrozenWrist": 186,
+    "uncoveredPixelsOnForearmSideOfFrozenWrist": 0,
+    "braceletPixelsInsideResponsibilityDisk": 263,
+    "interpretation": "The uncovered source-supported pixels are entirely on the hand side. They must seed the temporary hand-root envelope; assigning them to the forearm would silently move the approved wrist ownership line.",
+    "braceletMayCountAsCoverage": false,
+    "neutralSeedIsFinalHandEnvelope": false,
+    "requiredNextWorkAfterElbowGate": "build a source-contained asymmetric temporary hand-root minimum envelope, then scan the full active wrist range with the bracelet hidden",
+    "automaticInvalidation": [
+      "wrist point changes",
+      "active wrist-angle range changes",
+      "formal hand root does not contain the approved temporary envelope",
+      "bracelet is used to hide a wrist gap"
+    ]
+  },
+  "contractContradictionProof": {
+    "schemaVersion": 1,
+    "proof": "V7-A frozen-envelope versus frozen-upper ownership contradiction",
+    "status": "unsatisfiable_under_current_frozen_contracts",
+    "coordinateFingerprintCanonicalFormat": "rows sorted by y then x; UTF-8 LF; each row x,y",
+    "sets": {
+      "A": {
+        "definition": "V6 frozen temporary-forearm raster restricted by frozen forearm-local pixel-center s <= 22 px",
+        "pixelCount": 1177,
+        "coordinateFingerprintSha256": "361158b50628270dd10077ae493900c0d05d915304fea860d0c0e0f1541c8ae7",
+        "rasterSha256": "66aedca3c0e3a7e304a8f49a93aa34119e80407a03cb2b8f46e0af012afdbbeb"
+      },
+      "U": {
+        "definition": "V6 frozen visible upper-arm ownership pixels",
+        "pixelCount": 544,
+        "coordinateFingerprintSha256": "e6344ef13d6bf7b2b7cda1ea328a79166eb687008f900efdab1cd6d8ee075783",
+        "rasterSha256": "c2dfe729e21f3359b9fe866ede85aef2304452a662b9ba471172b57af45c4ebd"
+      },
+      "A_intersection_U": {
+        "pixelCount": 416,
+        "boundingBoxExclusive": [
+          343,
+          394,
+          371,
+          417
+        ],
+        "coordinateFingerprintSha256": "74420e81869dbe9d23ef4667ef546f5c2e38467b95c94467e11c89d5fc30d14d",
+        "rasterSha256": "ea0bdf8565ef7dc60bcf7d29214e583f17e02ab23887c422b89e49e50ef5ce47"
+      }
+    },
+    "frozenRequirements": [
+      "A must be contained by the production forearm P.",
+      "P is drawn above U in the neutral pose.",
+      "U remains immutable frozen visible upper-arm ownership.",
+      "One static source pixel cannot belong to both materials.",
+      "Default occlusion cannot hide the neutral root footprint."
+    ],
+    "derivation": [
+      "A subset P implies A intersection U subset P intersection U.",
+      "|A intersection U| = 416.",
+      "Therefore every admissible P has |P intersection U| >= 416.",
+      "Unique static ownership requires |P intersection U| = 0."
+    ],
+    "conclusion": "No production forearm P can satisfy all current frozen requirements.",
+    "independentOf": [
+      "source-arm outline candidate",
+      "V_forearm distal silhouette candidate",
+      "wrist ownership line",
+      "bracelet ownership",
+      "hand proxy",
+      "future texture",
+      "Cubism",
+      "Physics"
+    ],
+    "requiredReopen": "At least one of A, U, draw order, or unique neutral ownership must be explicitly revised in a new user-approved dependency gate. Frozen artifacts themselves remain byte-unchanged."
+  },
+  "userDecision": {
+    "path": "audit/v7a-user-visual-decision-2026-07-26.json",
+    "status": "v7a_approved_bracelet_merged_wrist_continuity_required_dependency_reopen_authorized",
+    "approvedItems": {
+      "visibleForearmCandidate": true,
+      "elbowOwnershipLine": true,
+      "wristOwnershipLine": true,
+      "braceletIndependentSurfaceLayer": false,
+      "braceletMergedIntoForearmMaterial": true,
+      "braceletBoundToForearm": true,
+      "braceletDrawnAboveForearmAndHand": false,
+      "braceletMixedBandOwnership": true,
+      "braceletMovedAwayQaRequired": true,
+      "wristContinuityUnderBraceletRequired": true,
+      "braceletCannotServeAsWristCoverage": true,
+      "temporaryHandRootEnvelopeRequired": true,
+      "contractConflictConclusion": true,
+      "dependencyReopenAuthorization": true
+    },
+    "contractConflictApproved": true,
+    "downstreamAuthorization": true
+  },
+  "nextGate": "No downstream gate. Stop for user decision on the frozen-envelope conflict."
+}

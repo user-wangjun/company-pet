@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V15 screen-left arm four-layer ArtMesh",
+  "freezeDate": "2026-07-28",
+  "decisionOwner": "user",
+  "status": "frozen_v15_artmesh_user_approved",
+  "scope": "four approved ArtMesh topologies and their exact V14 material mapping",
+  "upstreamFreeze": {
+    "path": "validation/arm-chain-screen-left-v14-complete-textures/audit/v14-complete-texture-freeze-manifest-2026-07-28.json",
+    "sha256": "4b7220c0ede94711029f4dcc667a12b988e2a621a2192e0e8e75d726effb4c56",
+    "matchedArtifacts": 24,
+    "artifactCount": 24
+  },
+  "lockedArtifacts": [
+    {
+      "role": "user visual approval and actual-node authorization",
+      "path": "audit/v15-user-visual-approval-artmesh-2026-07-28.json",
+      "sha256": "1f32b3b821c4f16d45989c23614f874a2bbea77be8ca3dc8afd296c0081c5f89",
+      "bytes": 903
+    },
+    {
+      "role": "V15 ArtMesh engineering report",
+      "path": "audit/v15-mesh-engineering-report.json",
+      "sha256": "6d8de3aa56cd56dd88ceaad784bb8750a70f3fc282b93e124fb1b4d79484e041",
+      "bytes": 3311
+    },
+    {
+      "role": "Chinese V15 report",
+      "path": "audit/V15-MESH-REPORT.zh-CN.md",
+      "sha256": "a4fbe94bfaab0da09a159f8a9844ed41ffd00a1e76a738b0d6557759b2a8df61",
+      "bytes": 641
+    },
+    {
+      "role": "approved ArtMesh review board",
+      "path": "qa/V15-MESH-USER-REVIEW.zh-CN.png",
+      "sha256": "f010d24d1d87c6124fa15577f5f1f7de09f90907948c04fa6a716eeb7046b5c2",
+      "bytes": 202868
+    },
+    {
+      "role": "approved mesh and node-candidate contract",
+      "path": "contracts/v15-layer-mesh-node-contract.json",
+      "sha256": "f2704eadc23c0fae14d7117788e2c741d8ff5e3c1694d497a4edf7b8fdf4e4aa",
+      "bytes": 76595
+    },
+    {
+      "role": "deterministic V15 mesh builder",
+      "path": "tools/build_v15_mesh_gate.py",
+      "sha256": "cffdb9e3084deec1713e2c3fd8d89b17d86c12cdc6067ba9b8444a2167de5051",
+      "bytes": 20923
+    },
+    {
+      "role": "V15 freeze manifest builder",
+      "path": "tools/freeze_v15_mesh_gate.py",
+      "sha256": "e1bcc40cf7720878d95ff9486a55702f9c8564c277631c63dccdb8da9279a0b2",
+      "bytes": 5844
+    },
+    {
+      "role": "approved ArtMesh topology: forearm_bracelet",
+      "path": "meshes/forearm_bracelet.json",
+      "sha256": "34dbbf35a9a881f4e3e167cdcf52f29ef51ea729142064c354a3ba52435f6062",
+      "bytes": 13330
+    },
+    {
+      "role": "approved ArtMesh topology: sleeve",
+      "path": "meshes/sleeve.json",
+      "sha256": "e211413dd7dd93bf66d84b476082c6da9f4ed2a726fbf62a70e0deb961e8403c",
+      "bytes": 13875
+    },
+    {
+      "role": "approved ArtMesh topology: upper_arm",
+      "path": "meshes/upper_arm.json",
+      "sha256": "c316171a9013ad87589358293cc1cea853c9d4703e490a8377516d03c3771a43",
+      "bytes": 12316
+    },
+    {
+      "role": "approved ArtMesh topology: whole_hand",
+      "path": "meshes/whole_hand.json",
+      "sha256": "e38797fb473a6c393162e7e3c1111655ba4faa5f07b404b03a59483ccaea3866",
+      "bytes": 15346
+    },
+    {
+      "role": "approved ArtMesh wireframe: wireframe-forearm_bracelet",
+      "path": "qa/wireframe-forearm_bracelet.png",
+      "sha256": "f2100b4b7e1dec486df8a92a7fa6bcb407fd680779c92893d94027bc9c78a537",
+      "bytes": 4832
+    },
+    {
+      "role": "approved ArtMesh wireframe: wireframe-sleeve",
+      "path": "qa/wireframe-sleeve.png",
+      "sha256": "0f2163959a9380e747f36aeb4873648ddc16e4c4a8d14254e6a99e029359bf63",
+      "bytes": 5457
+    },
+    {
+      "role": "approved ArtMesh wireframe: wireframe-upper_arm",
+      "path": "qa/wireframe-upper_arm.png",
+      "sha256": "6fb27570a5f4af5a05512a3a6dd89c477e7756316ea9f0488510ee1f48f64eb3",
+      "bytes": 5210
+    },
+    {
+      "role": "approved ArtMesh wireframe: wireframe-whole_hand",
+      "path": "qa/wireframe-whole_hand.png",
+      "sha256": "cdb410cc2f8bd185ae6c03e9399aef0694947fb846001d36ba702e027dc612d2",
+      "bytes": 4137
+    }
+  ],
+  "artifactCount": 15,
+  "invalidationRules": [
+    "Any byte change to a locked V15 artifact reopens ArtMesh approval.",
+    "Any vertex, triangle, UV, alpha-boundary mapping, or hand-gap change reopens V15.",
+    "Downstream node work must copy or reference V15; it must not edit V15 in place.",
+    "Active motion requires separate node approval before parameter authoring."
+  ],
+  "explicitlyNotApproved": [
+    "actual node hierarchy",
+    "continuous parameter motion",
+    "Physics",
+    "Runtime"
+  ],
+  "nextGate": "actual node hierarchy, pivots, ownership, and parent-only cascade proof"
+}

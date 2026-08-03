@@ -1,0 +1,31 @@
+{
+  "stage": "v5-front-hair-ownership-before-hidden-face-reconstruction",
+  "status": "visual_gate_waiting_for_approval",
+  "authoritativeSources": {
+    "line": "source/masters/gate3-line-master-candidate-v1.png",
+    "color": "source/masters/gate3-color-target-v1.png",
+    "workingPsd": "model/xiaoxing-line-separation-working-v1.psd"
+  },
+  "supersedes": "audit/authoritative-status-v4.json",
+  "currentEvidence": {
+    "review": "qa/v5-front-hair-ownership-review.png",
+    "report": "audit/v5-front-hair-ownership.json",
+    "frontHairLayer": "model/working-v5/head-sample/前发_原像素.png",
+    "restLayer": "model/working-v5/head-sample/其余原像素.png",
+    "defaultComposite": "model/working-v5/head-sample/默认合成_像素回贴.png"
+  },
+  "facts": [
+    "前发层只复制原彩稿像素，没有重画眼睛或头发纹理",
+    "前发与其余像素构成二值所有权分区",
+    "默认回贴的平均绝对误差为 0，最大通道误差为 0",
+    "拉开检查仅用于发现归属错误，不代表最终运动或隐藏补画"
+  ],
+  "nextAfterApproval": [
+    "在前发遮挡范围下补齐脸底",
+    "以原彩稿可见像素拆分双眼并补齐被刘海遮挡的小范围区域",
+    "制作前发关闭与拉开两种整脸中文审查图",
+    "通过后再导入工作 PSD"
+  ],
+  "psdImport": false,
+  "cubismImport": false
+}

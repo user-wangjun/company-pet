@@ -1,0 +1,45 @@
+{
+  "version": "v7-clean",
+  "sequence": [
+    0,
+    0,
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    4,
+    4,
+    5,
+    5,
+    6,
+    6,
+    7,
+    7,
+    6,
+    6,
+    5,
+    5,
+    4,
+    4,
+    3,
+    3
+  ],
+  "frame_count": 24,
+  "duration_ms": 125,
+  "frame_size": [
+    192,
+    208
+  ],
+  "rationale": "Use original drag poses only, slowed into an out-and-back suspended sway with no local seam editing.",
+  "outputs": {
+    "dragRight_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v7-clean-strip.png",
+    "dragLeft_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v7-clean-strip.png",
+    "dragRight_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v7-clean-sample-sheet.png",
+    "dragLeft_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v7-clean-sample-sheet.png",
+    "dragRight_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragRight-24-glide-v7-clean.gif",
+    "dragLeft_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragLeft-24-glide-v7-clean.gif",
+    "combined_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\drag-v7-clean-combined-preview.gif"
+  }
+}

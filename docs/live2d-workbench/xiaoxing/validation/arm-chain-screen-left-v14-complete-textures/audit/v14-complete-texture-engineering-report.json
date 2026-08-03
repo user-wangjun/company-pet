@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V14 complete textures for screen-left arm",
+  "status": "user_visual_approved_ready_to_freeze",
+  "decisionOwner": "user",
+  "scope": "four complete textured layers inside frozen V13 masks",
+  "inputIntegrity": {
+    "v13Freeze": {
+      "path": "validation/arm-chain-screen-left-v13-material-separation/audit/v13-material-boundary-freeze-manifest-2026-07-27.json",
+      "sha256": "e7d2c7a00984f15fe0d150321e2673e3da2b2d76b152ea7b26f47020cb1d0949",
+      "matchedArtifacts": 20,
+      "artifactCount": 20,
+      "pass": true
+    },
+    "sourceColor": {
+      "path": "source/masters/front-color-source-exact-after-reset.png",
+      "sha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5"
+    },
+    "externalOrCloudGenerationUsed": false,
+    "rejectedV5V15MasksUsed": false,
+    "screenRightPixelsMirrored": false
+  },
+  "v13BoundaryCorrection": {
+    "reason": "isolated textured upper-arm review exposed sleeve-edge highlight/shadow pixels remaining on the arm when the sleeve moved away",
+    "v13FrozenArtifactsModified": false,
+    "supersededScope": "cuff-edge ownership only",
+    "pixelsReassignedFromUpperArmToSleeve": 448,
+    "correctedMaskRoot": "corrected-masks",
+    "requiresFreshUserVisualApproval": true
+  },
+  "method": {
+    "type": "deterministic local color-field continuation",
+    "rules": [
+      "copy every approved visible source pixel 1:1",
+      "fit a bounded low-order field in each approved layer coordinate frame",
+      "blend hidden seam pixels toward nearby visible anchors",
+      "add only low-amplitude deterministic nonperiodic variation away from seams",
+      "continue an estimated source outline color along hidden complete boundaries",
+      "never write alpha outside frozen V13 complete masks"
+    ],
+    "defaultOwnershipPatchPixels": 308
+  },
+  "materials": {
+    "sleeve": {
+      "geometryPixels": 9301,
+      "visiblePixels": 7332,
+      "hiddenPixels": 1969,
+      "lineRgb": [
+        184,
+        180,
+        171
+      ],
+      "fit": {
+        "sampleCount": 6831,
+        "sCenter": 74.91197751652015,
+        "nCenter": 16.332569048942695,
+        "sScale": 169.55950637702873,
+        "nScale": 71.28068271928946,
+        "meanFitRgbError": 17.87065734502617,
+        "maximumFitRgbError": 137.47661251608363
+      },
+      "adjacentPairCount": 161,
+      "meanRgbJump": 47.1399801830936,
+      "maximumRgbJump": 154.7449514523818,
+      "hiddenLuminanceStdDev": 7.480501938560982,
+      "visibleRgbDifferencePixels": 0,
+      "alphaGeometryDifferencePixels": 0,
+      "pass": true
+    },
+    "upper_arm": {
+      "geometryPixels": 5260,
+      "visiblePixels": 116,
+      "hiddenPixels": 5144,
+      "lineRgb": [
+        191,
+        175,
+        170
+      ],
+      "fit": {
+        "sampleCount": 6066,
+        "sCenter": 256.0117235675646,
+        "nCenter": 18.93214498311746,
+        "sScale": 225.64021389143872,
+        "nScale": 67.53022283453289,
+        "meanFitRgbError": 31.47655296963298,
+        "maximumFitRgbError": 170.1160066457267
+      },
+      "adjacentPairCount": 67,
+      "meanRgbJump": 20.98628243552906,
+      "maximumRgbJump": 90.49861877399013,
+      "hiddenLuminanceStdDev": 14.946450039172262,
+      "visibleRgbDifferencePixels": 0,
+      "alphaGeometryDifferencePixels": 0,
+      "pass": true
+    },
+    "forearm_bracelet": {
+      "geometryPixels": 4785,
+      "visiblePixels": 4057,
+      "hiddenPixels": 728,
+      "lineRgb": [
+        188,
+        172,
+        167
+      ],
+      "fit": {
+        "sampleCount": 3545,
+        "sCenter": 57.488063363983976,
+        "nCenter": 2.164533320586461,
+        "sScale": 125.93599177338406,
+        "nScale": 34.4444456105784,
+        "meanFitRgbError": 23.372731349517718,
+        "maximumFitRgbError": 133.70618360446645
+      },
+      "adjacentPairCount": 137,
+      "meanRgbJump": 60.58803185539572,
+      "maximumRgbJump": 163.79560433662436,
+      "hiddenLuminanceStdDev": 28.19645601246128,
+      "visibleRgbDifferencePixels": 0,
+      "alphaGeometryDifferencePixels": 0,
+      "pass": true
+    },
+    "whole_hand": {
+      "geometryPixels": 3103,
+      "visiblePixels": 2754,
+      "hiddenPixels": 349,
+      "lineRgb": [
+        189,
+        171,
+        166
+      ],
+      "fit": {
+        "sampleCount": 2380,
+        "sCenter": 48.407667963519884,
+        "nCenter": 3.8959498934257,
+        "sScale": 94.04769096146104,
+        "nScale": 35.233709804239226,
+        "meanFitRgbError": 35.81278125229172,
+        "maximumFitRgbError": 170.11234916868446
+      },
+      "adjacentPairCount": 32,
+      "meanRgbJump": 62.484815114822865,
+      "maximumRgbJump": 106.51291001564083,
+      "hiddenLuminanceStdDev": 10.772513040212095,
+      "visibleRgbDifferencePixels": 0,
+      "alphaGeometryDifferencePixels": 0,
+      "pass": true
+    }
+  },
+  "defaultRecomposition": {
+    "visibleUnionPixels": 14259,
+    "sourceRgbDifferencePixels": 0
+  },
+  "motionStress": {
+    "sampleCount": 41,
+    "minimumAdjacentAlphaOverlapPixels": {
+      "sleeveUpper": 4043,
+      "upperForearm": 835,
+      "forearmHand": 542
+    },
+    "failureCount": 0,
+    "returnDifferencePixels": 0,
+    "slowScan": "qa/V14-TEXTURE-SEAM-SLOW-SCAN.gif"
+  },
+  "engineeringPass": true,
+  "userVisualApproval": {
+    "status": "approved",
+    "decisionText": "合适，请继续任务",
+    "reviewBoard": "qa/V14-COMPLETE-TEXTURE-USER-REVIEW.zh-CN.png",
+    "engineeringChecksDoNotReplaceVisualApproval": true
+  },
+  "explicitlyNotPerformed": [
+    "PSD",
+    "mesh",
+    "nodes",
+    "continuous parameter motion",
+    "Physics",
+    "Runtime",
+    "upstream frozen-file modification"
+  ],
+  "nextGateIfApproved": "mesh construction for the four approved textured layers"
+}

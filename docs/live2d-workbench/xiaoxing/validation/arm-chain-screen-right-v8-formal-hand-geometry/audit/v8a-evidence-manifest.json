@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "root": "arm-chain-screen-right-v8-formal-hand-geometry",
+  "fileCount": 13,
+  "files": [
+    {
+      "path": "audit/V8-A-HAND-OWNERSHIP-ENVELOPE-COMPATIBILITY.zh-CN.md",
+      "sha256": "6927d9ac0e747a1f8ffb6254225fc9de98a1a5c69599cdd483e78d2fccc19903",
+      "bytes": 2131
+    },
+    {
+      "path": "audit/v8a-hand-ownership-envelope-compatibility.json",
+      "sha256": "55cc3bf8dd561e2730a9669b3b45e6089d7146d02def8f75d07fca7363b2f8ac",
+      "bytes": 6753
+    },
+    {
+      "path": "audit/v8a-input-integrity.json",
+      "sha256": "5dea05e0d7b706a4c9b633355699dd4baff29e031aff90059d970c05e6ee8f7f",
+      "bytes": 3530
+    },
+    {
+      "path": "masks/envelope-bracelet-conflict-81px.png",
+      "sha256": "cce102ab5705ea0eef66fc70ec584de3de33c89a68c70261cda21dc3f6e2c829",
+      "bytes": 4635
+    },
+    {
+      "path": "masks/envelope-formal-forearm-material-overlap-215px.png",
+      "sha256": "d045761ddc1754248f6630457b2dda00990530cec99a5a74a3b317ec422661e1",
+      "bytes": 4644
+    },
+    {
+      "path": "masks/envelope-hidden-forearm-material-only-overlap-134px.png",
+      "sha256": "5e3c0a121f15d58b2b7e0d32be87eaff439c39f4a21da675ad643326ac8710c5",
+      "bytes": 4633
+    },
+    {
+      "path": "masks/envelope-outside-formal-forearm-material-174px.png",
+      "sha256": "098bb04cbb982c0c432eb58a2a88029bbf22303c208adb1de6ce6e3319a6180f",
+      "bytes": 4634
+    },
+    {
+      "path": "masks/envelope-visible-forearm-conflict-81px.png",
+      "sha256": "cce102ab5705ea0eef66fc70ec584de3de33c89a68c70261cda21dc3f6e2c829",
+      "bytes": 4635
+    },
+    {
+      "path": "masks/envelope-without-visible-forearm-308px.png",
+      "sha256": "bdcd0224994c34052dc8f5f37337fd673dcabeccdd2923573fde493cbefb89cd",
+      "bytes": 4641
+    },
+    {
+      "path": "qa/V8-A-ENVELOPE-BRACELET-CONFLICT-200PCT.png",
+      "sha256": "17c200b13979b72839e45a32e0c926d3ced147fbacbbecd99598a09f846dd84b",
+      "bytes": 39409
+    },
+    {
+      "path": "qa/V8-A-MINIMAL-COUNTEREXAMPLE.png",
+      "sha256": "f5ac335b39f922e8b93522872558f75f6f90846f3fa74c42a838f3187b2eaf5a",
+      "bytes": 30622
+    },
+    {
+      "path": "qa/V8-A-STOP-REVIEW-BOARD.png",
+      "sha256": "09baac1e5c86fd2522fa8e09ac087fa944fcee8d05eb9c69f9a3eaf7d324954f",
+      "bytes": 120934
+    },
+    {
+      "path": "tools/build_v8a_hand_ownership_contract_check.py",
+      "sha256": "e6c812952eba6ec5ab35badb377b908def6d18e8d7feaf8cdceadaf274a45db8",
+      "bytes": 27310
+    }
+  ]
+}

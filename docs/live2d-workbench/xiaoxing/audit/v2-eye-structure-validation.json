@@ -1,0 +1,11 @@
+{
+  "status": "self_review_passed_structure_only",
+  "layerCount": 10,
+  "errors": [],
+  "rules": {
+    "full_canvas_rgba": true,
+    "lineart_only": true,
+    "no_final_texture": true,
+    "no_motion_keys": true
+  }
+}

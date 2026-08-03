@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "root": "v7c1-elbow-seam-fairing",
+  "fileCount": 29,
+  "files": [
+    {
+      "path": "audit/V7-C1-ELBOW-SEAM-FAIRING.zh-CN.md",
+      "sha256": "e7d26f785ed8de58e5bf4a78b6ccdd60b019ac3a1c6ca9703dca9154c741847a",
+      "bytes": 1613
+    },
+    {
+      "path": "audit/V7-C1-FINAL-COMPLETION-AUDIT-2026-07-26.zh-CN.md",
+      "sha256": "0d0d6c86a43ec371d22d369cb0463f89deebfbc39dbe84bf7cf9ebb834e4fad3",
+      "bytes": 1133
+    },
+    {
+      "path": "audit/V7-C1-USER-REVIEW-CHECKLIST.zh-CN.md",
+      "sha256": "8d2b668ec2a2f878a479020bb333502323117bae681957170148d6869bfefde6",
+      "bytes": 539
+    },
+    {
+      "path": "audit/v7c1-elbow-seam-fairing.json",
+      "sha256": "c00f10e2d14e8f32d2313aafa3fdf5ca19e3a1c2c1bda5dea047bdfd93865c86",
+      "bytes": 3884
+    },
+    {
+      "path": "audit/v7c1-final-completion-audit-2026-07-26.json",
+      "sha256": "1717b9aa3a3952770c60dfa63e457f7b13b3a43e78c942350118ee550272b89a",
+      "bytes": 3934
+    },
+    {
+      "path": "audit/v7c1-formal-elbow-root-replacement-contract.json",
+      "sha256": "e4f9bc019e3f41464d02ccfcadaa920610712d40cbd2290a2bc8edf6aa11b7c0",
+      "bytes": 1542
+    },
+    {
+      "path": "audit/v7c1-parameter-domain-scans.json",
+      "sha256": "8cc1b808d4ac7d774337a0696acefb157845c6579156890607b85422a272ef95",
+      "bytes": 229567
+    },
+    {
+      "path": "audit/v7c1-temporary-hand-root-envelope-contract.json",
+      "sha256": "da4f277a510de5e6ca1a2a7ba9f75645a8963b6e8d371ea4f61e75fd38e67028",
+      "bytes": 1359
+    },
+    {
+      "path": "audit/v7c1-user-review-stale-cache-2026-07-26.json",
+      "sha256": "8d15398dd25044377cc6c6838e7521d02de6a99a7e2ecd4d47e1f2077fd9f0b4",
+      "bytes": 671
+    },
+    {
+      "path": "audit/v7c1-user-visual-approval-and-freeze-authorization-2026-07-26.json",
+      "sha256": "22182880f0e2a68561ef524662c79aaa4c98821734b5eea00785fd17ca5f0c88",
+      "bytes": 1285
+    },
+    {
+      "path": "masks/elbow-seam-bilateral-fairing-removed-35px.png",
+      "sha256": "097adc2dd3cf0c8a770947df111a7716d6afef65df4f4208da7fa299a2a907f3",
+      "bytes": 4626
+    },
+    {
+      "path": "masks/F1-elbow-active-root-faired.png",
+      "sha256": "361759732488e28b4d38bb98b31731d8840eaec0522903e50997866661176889",
+      "bytes": 4674
+    },
+    {
+      "path": "masks/F2-locked-visible-source.png",
+      "sha256": "bdba10398c9c44eb8a13d2e146c8d78e2c9b3ebef73a23ba1d74ade7bf9738c3",
+      "bytes": 4898
+    },
+    {
+      "path": "masks/F3-hidden-body-fill.png",
+      "sha256": "4f7f770539d8eea1dee9a4cc8fb5d84189c7be08609514dacbb36e62363047d7",
+      "bytes": 4566
+    },
+    {
+      "path": "masks/F4-wrist-hidden-extension.png",
+      "sha256": "5448ba31a192d5d84d4b16c3e5b13e9c43e09ce0364e1cc842f2ca99ac7e8783",
+      "bytes": 4636
+    },
+    {
+      "path": "masks/F5-wrist-responsibility-not-material.png",
+      "sha256": "6afa37f159e15f92a46865d014334e79f156268587dfb64c27a2b403454b89e2",
+      "bytes": 4655
+    },
+    {
+      "path": "masks/production-forearm-flat-color-faired.png",
+      "sha256": "7ec7effaec970f99d02a9661d5a87f65d39743020a43d44239bec2e628c9ced5",
+      "bytes": 13756
+    },
+    {
+      "path": "masks/production-forearm-geometry-faired.png",
+      "sha256": "94e0c68344efc9c718f42de445cad5e06a750a6c163b864362a30198cc5befe1",
+      "bytes": 4908
+    },
+    {
+      "path": "masks/temporary-hand-root-envelope.png",
+      "sha256": "29ed3326d99497c7fb815476f63d0825564c6b9cb174fdd151c275542c8ce421",
+      "bytes": 4637
+    },
+    {
+      "path": "qa/V7-C1-DISPLACED-PART-INTEGRITY.png",
+      "sha256": "ed5056cf88de8743fd0773386929c27b1f935558af3b73c394233af294fdd2d5",
+      "bytes": 34002
+    },
+    {
+      "path": "qa/V7-C1-ELBOW-SEAM-BEFORE-AFTER.png",
+      "sha256": "d5c15155f1906a1a85d1e955730e05babe7aa4fd45d9b3a27a613c5656a73f43",
+      "bytes": 46106
+    },
+    {
+      "path": "qa/V7-C1-FORMAL-ELBOW-SLOW-SCAN.gif",
+      "sha256": "a770bdae5b32268449554efc8870d16aed19093ba97105a65a0f5e92d351db4e",
+      "bytes": 557544
+    },
+    {
+      "path": "qa/V7-C1-FORMAL-ELBOW-THREE-ANGLES.png",
+      "sha256": "b3f06cc63a345ed968fa814c48dc8bc1ba291f13ae41ea17d574eae9b29990ce",
+      "bytes": 13925
+    },
+    {
+      "path": "qa/V7-C1-FULL-CHAIN-ELBOW-WRIST-3X3.png",
+      "sha256": "b631b09cf53c90b69a098f331a894da771d840762f0fb90531cde673fd779f71",
+      "bytes": 25264
+    },
+    {
+      "path": "qa/V7-C1-PRODUCTION-FOREARM-F1-F5-BOARD.png",
+      "sha256": "612864f6224b73de281987486fd01c5d99b49713486f40161d69930b5c89f10e",
+      "bytes": 76200
+    },
+    {
+      "path": "qa/V7-C1-WRIST-SLOW-SCAN.gif",
+      "sha256": "f12ca007ec53eb4bdd54f0be71fb01d8df8f17156cbf19a915c69eb85a807f68",
+      "bytes": 492910
+    },
+    {
+      "path": "qa/V7-C1-WRIST-THREE-ANGLES.png",
+      "sha256": "7d6392d25c82baf0e10f20d35953ed96ed7ecd8571e7fc2e455a6c681354ca1c",
+      "bytes": 28257
+    },
+    {
+      "path": "tools/build_v7c1_elbow_seam_fairing.py",
+      "sha256": "6ac796e67e290ae718174b556f2c841553699584e15827e1d0b4a0de7c2954be",
+      "bytes": 32842
+    },
+    {
+      "path": "tools/freeze_v7c1_production_forearm.py",
+      "sha256": "c3a50c3ec3fda4c25717585d2639e9fd7101d8295a42ec43a888350b86de1f6c",
+      "bytes": 23134
+    }
+  ]
+}

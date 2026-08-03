@@ -1,0 +1,330 @@
+[
+  {
+    "index": 0,
+    "progress": 0.0,
+    "sleeveUpperOverlapPixels": 4869,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 1,
+    "progress": 0.006155829702431115,
+    "sleeveUpperOverlapPixels": 4810,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 2,
+    "progress": 0.024471741852423234,
+    "sleeveUpperOverlapPixels": 4772,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 3,
+    "progress": 0.05449673790581605,
+    "sleeveUpperOverlapPixels": 4752,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 4,
+    "progress": 0.09549150281252627,
+    "sleeveUpperOverlapPixels": 4755,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 5,
+    "progress": 0.1464466094067262,
+    "sleeveUpperOverlapPixels": 4748,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 6,
+    "progress": 0.20610737385376343,
+    "sleeveUpperOverlapPixels": 4750,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 7,
+    "progress": 0.2730047501302266,
+    "sleeveUpperOverlapPixels": 4748,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 8,
+    "progress": 0.3454915028125263,
+    "sleeveUpperOverlapPixels": 4746,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 9,
+    "progress": 0.4217827674798845,
+    "sleeveUpperOverlapPixels": 4745,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 10,
+    "progress": 0.49999999999999994,
+    "sleeveUpperOverlapPixels": 4746,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "pass": true
+  },
+  {
+    "index": 11,
+    "progress": 0.5782172325201153,
+    "sleeveUpperOverlapPixels": 4745,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "pass": true
+  },
+  {
+    "index": 12,
+    "progress": 0.6545084971874737,
+    "sleeveUpperOverlapPixels": 4736,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 13,
+    "progress": 0.7269952498697734,
+    "sleeveUpperOverlapPixels": 4743,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 14,
+    "progress": 0.7938926261462365,
+    "sleeveUpperOverlapPixels": 4732,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 15,
+    "progress": 0.8535533905932737,
+    "sleeveUpperOverlapPixels": 4734,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 16,
+    "progress": 0.9045084971874737,
+    "sleeveUpperOverlapPixels": 4733,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 17,
+    "progress": 0.9455032620941839,
+    "sleeveUpperOverlapPixels": 4734,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 18,
+    "progress": 0.9755282581475768,
+    "sleeveUpperOverlapPixels": 4733,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 19,
+    "progress": 0.9938441702975689,
+    "sleeveUpperOverlapPixels": 4731,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 20,
+    "progress": 1.0,
+    "sleeveUpperOverlapPixels": 4735,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 21,
+    "progress": 0.9938441702975689,
+    "sleeveUpperOverlapPixels": 4731,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 22,
+    "progress": 0.9755282581475768,
+    "sleeveUpperOverlapPixels": 4733,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 23,
+    "progress": 0.9455032620941839,
+    "sleeveUpperOverlapPixels": 4734,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 24,
+    "progress": 0.9045084971874737,
+    "sleeveUpperOverlapPixels": 4733,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 25,
+    "progress": 0.8535533905932737,
+    "sleeveUpperOverlapPixels": 4734,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 26,
+    "progress": 0.7938926261462365,
+    "sleeveUpperOverlapPixels": 4732,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 27,
+    "progress": 0.7269952498697734,
+    "sleeveUpperOverlapPixels": 4743,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 28,
+    "progress": 0.6545084971874737,
+    "sleeveUpperOverlapPixels": 4736,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 29,
+    "progress": 0.5782172325201153,
+    "sleeveUpperOverlapPixels": 4745,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "pass": true
+  },
+  {
+    "index": 30,
+    "progress": 0.49999999999999994,
+    "sleeveUpperOverlapPixels": 4746,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "pass": true
+  },
+  {
+    "index": 31,
+    "progress": 0.4217827674798845,
+    "sleeveUpperOverlapPixels": 4745,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 32,
+    "progress": 0.3454915028125263,
+    "sleeveUpperOverlapPixels": 4746,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 33,
+    "progress": 0.2730047501302266,
+    "sleeveUpperOverlapPixels": 4748,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 34,
+    "progress": 0.20610737385376343,
+    "sleeveUpperOverlapPixels": 4750,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  },
+  {
+    "index": 35,
+    "progress": 0.1464466094067262,
+    "sleeveUpperOverlapPixels": 4748,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 36,
+    "progress": 0.09549150281252627,
+    "sleeveUpperOverlapPixels": 4755,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 37,
+    "progress": 0.05449673790581605,
+    "sleeveUpperOverlapPixels": 4752,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 38,
+    "progress": 0.024471741852423234,
+    "sleeveUpperOverlapPixels": 4772,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 39,
+    "progress": 0.006155829702431115,
+    "sleeveUpperOverlapPixels": 4810,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "pass": true
+  },
+  {
+    "index": 40,
+    "progress": 0.0,
+    "sleeveUpperOverlapPixels": 4869,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "pass": true
+  }
+]

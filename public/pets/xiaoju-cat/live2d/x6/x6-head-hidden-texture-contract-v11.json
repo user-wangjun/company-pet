@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-front-head-hidden-texture-candidate",
+  "status": "candidate-for-user-visual-review",
+  "rejectedSource": "live2d/x6/front-complete-overlap-layers-v10/13_head.png",
+  "generatedTextureSource": "live2d/x6/hidden-texture-guides-v11/head-base-texture-source.png",
+  "generatedTextureAlpha": "live2d/x6/hidden-texture-guides-v11/head-base-texture-alpha.png",
+  "outputLayer": "live2d/x6/front-head-hidden-texture-v11/13_head-complete-natural-fur.png",
+  "canvasBounds": [
+    196,
+    48,
+    476,
+    390
+  ],
+  "visiblePixelsPreservedOutsideBlendZone": 47112,
+  "blendZonePixels": 19614,
+  "hiddenTexturePixelsReplaced": 22468,
+  "method": "generated-hidden-fur-texture-guide-with-six-pixel-boundary-feather-and-preserved-outer-identity",
+  "qa": {
+    "review": "live2d/x6/qa/x6-head-hidden-texture-review-v11.png",
+    "reconstruction": "live2d/x6/front-head-hidden-texture-v11/front-head-corrected-reconstruction.png"
+  },
+  "restReconstructionAudit": {
+    "extraAlphaPixels": 0,
+    "missingAlphaPixels": 0,
+    "visibleRgbMeanAbsoluteError": 1.6371,
+    "status": "pass-candidate"
+  },
+  "gateBoundary": {
+    "headHiddenTextureApprovedByUser": false,
+    "remainingStructuralLayersAuthorizedForSameMethod": false,
+    "sideBackPropagationAuthorized": false,
+    "gate6Approved": false,
+    "x7Authorized": false
+  }
+}

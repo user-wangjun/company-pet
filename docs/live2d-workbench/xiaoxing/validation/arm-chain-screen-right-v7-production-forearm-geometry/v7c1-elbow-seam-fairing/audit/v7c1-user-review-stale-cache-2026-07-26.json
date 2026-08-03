@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "evidence_delivery_corrected_pending_user_review",
+  "decisionOwner": "user",
+  "sourceStatement": "这些为什么是断掉的",
+  "finding": "The reviewed crop came from the pre-fix 3x3 render because the corrected render reused the V7-C filename and the UI retained the older image.",
+  "geometryFinding": "The current V7-C1 full-pose forearm is connected in all 9 elbow-angle samples.",
+  "correction": {
+    "oldReusedPathRemoved": "qa/V7-C-FULL-CHAIN-ELBOW-WRIST-3X3.png",
+    "newCacheSafePath": "qa/V7-C1-FULL-CHAIN-ELBOW-WRIST-3X3.png",
+    "allV7C1QaFilesUseV7C1Prefix": true
+  },
+  "userVisualApprovalStillRequired": true
+}

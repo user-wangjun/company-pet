@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-A neutral wrist continuity responsibility",
+  "status": "blocked_pending_temporary_hand_root_envelope",
+  "frozenWrist": [
+    393.0,
+    533.0
+  ],
+  "responsibilityDiskRadiusPx": 11.0,
+  "sourceSupportedResponsibilityPixels": 348,
+  "coveredByNaturalForearmPixelsWithoutBracelet": 162,
+  "uncoveredResponsibilityPixels": 186,
+  "uncoveredPixelsOnHandSideOfFrozenWrist": 186,
+  "uncoveredPixelsOnForearmSideOfFrozenWrist": 0,
+  "braceletPixelsInsideResponsibilityDisk": 263,
+  "interpretation": "The uncovered source-supported pixels are entirely on the hand side. They must seed the temporary hand-root envelope; assigning them to the forearm would silently move the approved wrist ownership line.",
+  "braceletMayCountAsCoverage": false,
+  "neutralSeedIsFinalHandEnvelope": false,
+  "requiredNextWorkAfterElbowGate": "build a source-contained asymmetric temporary hand-root minimum envelope, then scan the full active wrist range with the bracelet hidden",
+  "automaticInvalidation": [
+    "wrist point changes",
+    "active wrist-angle range changes",
+    "formal hand root does not contain the approved temporary envelope",
+    "bracelet is used to hide a wrist gap"
+  ]
+}

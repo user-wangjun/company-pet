@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-C1 user-requested elbow-seam fairing",
+  "status": "engineering_pass_pending_user_visual_approval",
+  "trigger": {
+    "decisionOwner": "user",
+    "sourceStatement": "突出了一点，可以圆滑的链接",
+    "rejectedGate": "V7-C elbow seam"
+  },
+  "evidenceDeliveryCorrection": {
+    "reviewStatement": "这些为什么是断掉的",
+    "cause": "the corrected 3x3 render reused the rejected V7-C filename and the UI retained the pre-fix image",
+    "cacheSafeFullChainPath": "qa/V7-C1-FULL-CHAIN-ELBOW-WRIST-3X3.png",
+    "allQaFilesVersionedV7C1": true
+  },
+  "selectedRepair": {
+    "method": "bilateral root profile for 0<=s<=10: negative n>=mix(-14.0,-16.2,smoothstep(s/10)); positive n<=mix(13.5,18.0,smoothstep(s/10))",
+    "removedSourceBoundaryPixels": 35,
+    "remainingProfileViolationPixels": 0,
+    "removedMask": "masks/elbow-seam-bilateral-fairing-removed-35px.png",
+    "alternativeReason": "the prior 5-pixel one-sided repair removed the isolated tip but retained a visible width step at the neutral elbow; the bilateral 10px smoothstep profile aligns both root shoulders",
+    "neutralOwnershipExceptionRequiresUserApproval": true
+  },
+  "frozenIntegrity": {
+    "status": "pass",
+    "groups": [
+      {
+        "name": "V4",
+        "checked": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      {
+        "name": "completeSleeve",
+        "checked": 16,
+        "passed": 16,
+        "failed": 0
+      },
+      {
+        "name": "V6",
+        "checked": 22,
+        "passed": 22,
+        "failed": 0
+      }
+    ]
+  },
+  "productionForearm": {
+    "pixels": 3855,
+    "connectedComponents": 1,
+    "holes": 0,
+    "outsideApprovedNeutralSupportPixels": 0,
+    "originalApprovedVisibleSourcePixels": 3756,
+    "userRequestedFairingExceptionPixels": 35,
+    "retainedVisibleSourcePixels": 3721,
+    "retainedSourceRgbDifferencePixels": 0,
+    "flatColorAlphaDifferencePixels": 0
+  },
+  "partitions": {
+    "F1Pixels": 683,
+    "F2Pixels": 2986,
+    "F3Pixels": 0,
+    "F4Pixels": 186,
+    "F5ResponsibilityPixels": 348,
+    "pairwiseOverlapPixels": {
+      "F1&F2": 0,
+      "F1&F3": 0,
+      "F1&F4": 0,
+      "F2&F3": 0,
+      "F2&F4": 0,
+      "F3&F4": 0
+    },
+    "reconstructionDifferencePixels": 0
+  },
+  "elbowValidation": {
+    "primarySamples": 41,
+    "combinationExtremes": 6,
+    "denseSamples": 241,
+    "maximumMissingResponsibilityPixelsAt4x": 0,
+    "brokenAdjacencyEvaluations": 0,
+    "deterministicReturnDifferencePixelsAt4x": 0,
+    "boneLengthErrorPx": 0.0
+  },
+  "wristValidation": {
+    "denseSamples": 201,
+    "criticalEpsilonSamples": 11,
+    "adaptiveMinimumSamples": 81,
+    "maximumMissingResponsibilityPixelsAt4x": 0,
+    "brokenAdjacencySamples": 0,
+    "deterministicReturnDifferencePixelsAt4x": 0,
+    "braceletCountedAsCoverage": false
+  },
+  "combinedDomain": {
+    "grid": "9x9",
+    "samples": 81,
+    "maximumMissingWristResponsibilityPixelsAt4x": 0,
+    "fullPoseForearmThetaSamples": 9,
+    "disconnectedFullPoseForearmSamples": 0,
+    "fkOnlyDisclaimer": "joint-local seam independence belongs only to this rigid-FK proof and must not be transferred to Cubism combined key shapes"
+  },
+  "visualApprovalStillRequired": true,
+  "finalV7Frozen": false,
+  "notPerformed": [
+    "no frozen V4, complete sleeve, or V6 file changed",
+    "no texture, PSD, ArtMesh, Cubism, Physics, or Runtime",
+    "no final freeze manifest"
+  ],
+  "visualEvidence": [
+    "qa/V7-C1-ELBOW-SEAM-BEFORE-AFTER.png",
+    "qa/V7-C1-FORMAL-ELBOW-THREE-ANGLES.png",
+    "qa/V7-C1-FORMAL-ELBOW-SLOW-SCAN.gif",
+    "qa/V7-C1-WRIST-THREE-ANGLES.png",
+    "qa/V7-C1-WRIST-SLOW-SCAN.gif",
+    "qa/V7-C1-FULL-CHAIN-ELBOW-WRIST-3X3.png",
+    "qa/V7-C1-DISPLACED-PART-INTEGRITY.png"
+  ]
+}

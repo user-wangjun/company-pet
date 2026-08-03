@@ -1,0 +1,874 @@
+{
+  "schemaVersion": 1,
+  "stage": "X5-article-aligned-layer-node-cascade-elastic-audit",
+  "status": "candidate-for-user-review",
+  "sourceArticle": {
+    "title": "Live2D动画引擎的图形学原理及实现",
+    "url": "https://zhuanlan.zhihu.com/p/383268858",
+    "appliedRules": [
+      "each layer owns exactly one node",
+      "each node has at most one parent and parent transforms cascade to children",
+      "elastic coefficient zero means static vertex",
+      "elasticity increases and resistance decay weakens with distance from the layer node"
+    ],
+    "nextTopicNotEntered": "Action Tracer (X6)"
+  },
+  "counts": {
+    "layers": 63,
+    "layerNodes": 63,
+    "structuralControllers": 25,
+    "rigidLayers": 32,
+    "softLayers": 31
+  },
+  "controllerHierarchy": [
+    {
+      "node": "BodyRoot",
+      "parent": null
+    },
+    {
+      "node": "Ribcage",
+      "parent": "BodyRoot"
+    },
+    {
+      "node": "Pelvis",
+      "parent": "BodyRoot"
+    },
+    {
+      "node": "Neck",
+      "parent": "Ribcage"
+    },
+    {
+      "node": "Head",
+      "parent": "Neck"
+    },
+    {
+      "node": "Muzzle",
+      "parent": "Head"
+    },
+    {
+      "node": "EyeSocket_L",
+      "parent": "Head"
+    },
+    {
+      "node": "EyeSocket_R",
+      "parent": "Head"
+    },
+    {
+      "node": "Iris_L",
+      "parent": "EyeSocket_L"
+    },
+    {
+      "node": "Iris_R",
+      "parent": "EyeSocket_R"
+    },
+    {
+      "node": "EarRoot_L",
+      "parent": "Head"
+    },
+    {
+      "node": "EarRoot_R",
+      "parent": "Head"
+    },
+    {
+      "node": "Shoulder_L",
+      "parent": "Ribcage"
+    },
+    {
+      "node": "Shoulder_R",
+      "parent": "Ribcage"
+    },
+    {
+      "node": "Elbow_L",
+      "parent": "Shoulder_L"
+    },
+    {
+      "node": "Elbow_R",
+      "parent": "Shoulder_R"
+    },
+    {
+      "node": "Wrist_L",
+      "parent": "Elbow_L"
+    },
+    {
+      "node": "Wrist_R",
+      "parent": "Elbow_R"
+    },
+    {
+      "node": "Hip_L",
+      "parent": "Pelvis"
+    },
+    {
+      "node": "Hip_R",
+      "parent": "Pelvis"
+    },
+    {
+      "node": "Knee_L",
+      "parent": "Hip_L"
+    },
+    {
+      "node": "Knee_R",
+      "parent": "Hip_R"
+    },
+    {
+      "node": "TailRoot",
+      "parent": "Pelvis"
+    },
+    {
+      "node": "TailMid",
+      "parent": "TailRoot"
+    },
+    {
+      "node": "TailTip",
+      "parent": "TailMid"
+    }
+  ],
+  "layerNodes": [
+    {
+      "layerId": "head_base_front",
+      "layerNodeId": "LayerNode::front::head_base_front",
+      "parentControllerNode": "Neck",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "cheek_fur_L",
+      "layerNodeId": "LayerNode::front::cheek_fur_L",
+      "parentControllerNode": "Head",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "muzzle_base",
+      "layerNodeId": "LayerNode::front::muzzle_base",
+      "parentControllerNode": "Head",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "cheek_fur_R",
+      "layerNodeId": "LayerNode::front::cheek_fur_R",
+      "parentControllerNode": "Head",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "head_base_side",
+      "layerNodeId": "LayerNode::side::head_base_side",
+      "parentControllerNode": "Neck",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "ear_face_L",
+      "layerNodeId": "LayerNode::front::ear_face_L",
+      "parentControllerNode": "EarRoot_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EarRoot_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "ear_tip_L",
+      "layerNodeId": "LayerNode::front::ear_tip_L",
+      "parentControllerNode": "EarRoot_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EarRoot_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "ear_face_R",
+      "layerNodeId": "LayerNode::front::ear_face_R",
+      "parentControllerNode": "EarRoot_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EarRoot_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "head_ear_back",
+      "layerNodeId": "LayerNode::back::head_ear_back",
+      "parentControllerNode": "Neck",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "ear_tip_R",
+      "layerNodeId": "LayerNode::front::ear_tip_R",
+      "parentControllerNode": "EarRoot_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EarRoot_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "eye_socket_L",
+      "layerNodeId": "LayerNode::front::eye_socket_L",
+      "parentControllerNode": "Head",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "eye_socket_R",
+      "layerNodeId": "LayerNode::front::eye_socket_R",
+      "parentControllerNode": "Head",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "iris_L",
+      "layerNodeId": "LayerNode::front::iris_L",
+      "parentControllerNode": "EyeSocket_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "iris_R",
+      "layerNodeId": "LayerNode::front::iris_R",
+      "parentControllerNode": "EyeSocket_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "pupil_L",
+      "layerNodeId": "LayerNode::front::pupil_L",
+      "parentControllerNode": "Iris_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_L",
+        "Iris_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "pupil_R",
+      "layerNodeId": "LayerNode::front::pupil_R",
+      "parentControllerNode": "Iris_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_R",
+        "Iris_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "highlight_L",
+      "layerNodeId": "LayerNode::front::highlight_L",
+      "parentControllerNode": "Iris_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_L",
+        "Iris_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "highlight_R",
+      "layerNodeId": "LayerNode::front::highlight_R",
+      "parentControllerNode": "Iris_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_R",
+        "Iris_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "upper_lid_L",
+      "layerNodeId": "LayerNode::front::upper_lid_L",
+      "parentControllerNode": "EyeSocket_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "upper_lid_R",
+      "layerNodeId": "LayerNode::front::upper_lid_R",
+      "parentControllerNode": "EyeSocket_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "lower_lid_L",
+      "layerNodeId": "LayerNode::front::lower_lid_L",
+      "parentControllerNode": "EyeSocket_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "lower_lid_R",
+      "layerNodeId": "LayerNode::front::lower_lid_R",
+      "parentControllerNode": "EyeSocket_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "EyeSocket_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "whisker_L",
+      "layerNodeId": "LayerNode::front::whisker_L",
+      "parentControllerNode": "Muzzle",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "Muzzle"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "whisker_R",
+      "layerNodeId": "LayerNode::front::whisker_R",
+      "parentControllerNode": "Muzzle",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck",
+        "Head",
+        "Muzzle"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "neck_fill",
+      "layerNodeId": "LayerNode::shared::neck_fill",
+      "parentControllerNode": "Neck",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "chest_fur",
+      "layerNodeId": "LayerNode::front::chest_fur",
+      "parentControllerNode": "Ribcage",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "ribcage_front",
+      "layerNodeId": "LayerNode::front::ribcage_front",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "abdomen_front",
+      "layerNodeId": "LayerNode::front::abdomen_front",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "pelvis_front",
+      "layerNodeId": "LayerNode::front::pelvis_front",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "torso_side",
+      "layerNodeId": "LayerNode::side::torso_side",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "upper_arm_L",
+      "layerNodeId": "LayerNode::front::upper_arm_L",
+      "parentControllerNode": "Shoulder_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Shoulder_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "fore_paw_L",
+      "layerNodeId": "LayerNode::front::fore_paw_L",
+      "parentControllerNode": "Wrist_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Shoulder_L",
+        "Elbow_L",
+        "Wrist_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "forearm_L",
+      "layerNodeId": "LayerNode::front::forearm_L",
+      "parentControllerNode": "Elbow_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Shoulder_L",
+        "Elbow_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "upper_arm_R",
+      "layerNodeId": "LayerNode::front::upper_arm_R",
+      "parentControllerNode": "Shoulder_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Shoulder_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "forearm_R",
+      "layerNodeId": "LayerNode::front::forearm_R",
+      "parentControllerNode": "Elbow_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Shoulder_R",
+        "Elbow_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "fore_paw_R",
+      "layerNodeId": "LayerNode::front::fore_paw_R",
+      "parentControllerNode": "Wrist_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Shoulder_R",
+        "Elbow_R",
+        "Wrist_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "paw_contact_alt",
+      "layerNodeId": "LayerNode::side::paw_contact_alt",
+      "parentControllerNode": "Wrist_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Shoulder_L",
+        "Elbow_L",
+        "Wrist_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "hind_thigh_L",
+      "layerNodeId": "LayerNode::front::hind_thigh_L",
+      "parentControllerNode": "Hip_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "Hip_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "hind_shin_L",
+      "layerNodeId": "LayerNode::front::hind_shin_L",
+      "parentControllerNode": "Knee_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "Hip_L",
+        "Knee_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "hind_thigh_R",
+      "layerNodeId": "LayerNode::front::hind_thigh_R",
+      "parentControllerNode": "Hip_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "Hip_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "hind_shin_R",
+      "layerNodeId": "LayerNode::front::hind_shin_R",
+      "parentControllerNode": "Knee_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "Hip_R",
+        "Knee_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "hind_leg_side_L",
+      "layerNodeId": "LayerNode::side::hind_leg_side_L",
+      "parentControllerNode": "Hip_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "Hip_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "hind_leg_side_R",
+      "layerNodeId": "LayerNode::side::hind_leg_side_R",
+      "parentControllerNode": "Hip_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "Hip_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "tail_root_socket",
+      "layerNodeId": "LayerNode::shared::tail_root_socket",
+      "parentControllerNode": "Pelvis",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "tail_base",
+      "layerNodeId": "LayerNode::shared::tail_base",
+      "parentControllerNode": "TailRoot",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "TailRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "tail_mid_short",
+      "layerNodeId": "LayerNode::shared::tail_mid_short",
+      "parentControllerNode": "TailMid",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "TailRoot",
+        "TailMid"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "tail_curve",
+      "layerNodeId": "LayerNode::side::tail_curve",
+      "parentControllerNode": "TailMid",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "TailRoot",
+        "TailMid"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "tail_mid_long",
+      "layerNodeId": "LayerNode::shared::tail_mid_long",
+      "parentControllerNode": "TailMid",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "TailRoot",
+        "TailMid"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "tail_tip_long",
+      "layerNodeId": "LayerNode::shared::tail_tip_long",
+      "parentControllerNode": "TailTip",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "TailRoot",
+        "TailMid",
+        "TailTip"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "tail_tip",
+      "layerNodeId": "LayerNode::shared::tail_tip",
+      "parentControllerNode": "TailTip",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "TailRoot",
+        "TailMid",
+        "TailTip"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "head_back_base",
+      "layerNodeId": "LayerNode::back::head_back_base",
+      "parentControllerNode": "Neck",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "head_profile_L",
+      "layerNodeId": "LayerNode::side::head_profile_L",
+      "parentControllerNode": "Neck",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "head_profile_R",
+      "layerNodeId": "LayerNode::side::head_profile_R",
+      "parentControllerNode": "Neck",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_neck_L",
+      "layerNodeId": "LayerNode::back::back_neck_L",
+      "parentControllerNode": "Neck",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Neck"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_ribcage_L",
+      "layerNodeId": "LayerNode::back::back_ribcage_L",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_pelvis_L",
+      "layerNodeId": "LayerNode::back::back_pelvis_L",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_limb_fill_1",
+      "layerNodeId": "LayerNode::back::back_limb_fill_1",
+      "parentControllerNode": "Shoulder_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Shoulder_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_limb_fill_2",
+      "layerNodeId": "LayerNode::back::back_limb_fill_2",
+      "parentControllerNode": "Shoulder_R",
+      "controllerChain": [
+        "BodyRoot",
+        "Ribcage",
+        "Shoulder_R"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_limb_fill_3",
+      "layerNodeId": "LayerNode::back::back_limb_fill_3",
+      "parentControllerNode": "Hip_L",
+      "controllerChain": [
+        "BodyRoot",
+        "Pelvis",
+        "Hip_L"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_torso_1",
+      "layerNodeId": "LayerNode::back::back_torso_1",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_torso_2",
+      "layerNodeId": "LayerNode::back::back_torso_2",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_torso_3",
+      "layerNodeId": "LayerNode::back::back_torso_3",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    },
+    {
+      "layerId": "back_torso_4",
+      "layerNodeId": "LayerNode::back::back_torso_4",
+      "parentControllerNode": "BodyRoot",
+      "controllerChain": [
+        "BodyRoot"
+      ],
+      "parentCount": 1
+    }
+  ],
+  "checks": {
+    "oneUniqueLayerNodePerLayer": true,
+    "singleParentPerLayerNode": true,
+    "allLayerNodesReachRoot": true,
+    "maximumRigidLengthDrift": 0.0,
+    "rigidLayersAllZeroElasticity": true,
+    "softLayerElasticityMonotonic": true,
+    "softLayerResistanceMonotonic": true,
+    "actionTracerGenerated": false
+  },
+  "qa": {
+    "preview": "live2d/x5/qa/x5-article-node-cascade-elastic-preview-v1.png"
+  },
+  "gateBoundary": {
+    "currentGate": "x5-layer-mesh-node-torque",
+    "gate5Approved": false,
+    "x6Authorized": false
+  }
+}

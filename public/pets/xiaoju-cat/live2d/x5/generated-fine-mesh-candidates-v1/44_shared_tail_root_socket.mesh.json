@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "layerId": "tail_root_socket",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/44_shared_tail_root_socket.png",
+  "primaryController": "Pelvis",
+  "parent": "Pelvis",
+  "actionSubject": "Pelvis",
+  "deformationRole": "secondary-soft-local",
+  "densityProfile": "soft-medium",
+  "pivotName": "tail_root",
+  "pivotPoint": [
+    30.0,
+    3.0
+  ],
+  "points": [
+    [
+      29.0,
+      51.5
+    ],
+    [
+      10.0,
+      45.5
+    ],
+    [
+      1.5,
+      36.0
+    ],
+    [
+      -0.5,
+      23.0
+    ],
+    [
+      2.5,
+      14.0
+    ],
+    [
+      14.0,
+      3.5
+    ],
+    [
+      38.0,
+      0.5
+    ],
+    [
+      57.5,
+      14.0
+    ],
+    [
+      60.5,
+      29.0
+    ],
+    [
+      52.0,
+      43.5
+    ],
+    [
+      22.875,
+      25.792
+    ],
+    [
+      39.794,
+      18.741
+    ],
+    [
+      36.542,
+      36.119
+    ]
+  ],
+  "triangles": [
+    [
+      5,
+      10,
+      4
+    ],
+    [
+      10,
+      2,
+      3
+    ],
+    [
+      3,
+      4,
+      10
+    ],
+    [
+      11,
+      6,
+      7
+    ],
+    [
+      6,
+      11,
+      5
+    ],
+    [
+      10,
+      1,
+      2
+    ],
+    [
+      8,
+      9,
+      12
+    ],
+    [
+      9,
+      0,
+      12
+    ],
+    [
+      12,
+      11,
+      8
+    ],
+    [
+      0,
+      10,
+      12
+    ],
+    [
+      5,
+      11,
+      10
+    ],
+    [
+      11,
+      12,
+      10
+    ],
+    [
+      0,
+      1,
+      10
+    ],
+    [
+      8,
+      11,
+      7
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.52,
+    0.506,
+    0.4755,
+    0.4108,
+    0.3486,
+    0.2252,
+    0.0,
+    0.3486,
+    0.4435,
+    0.498,
+    0.2966,
+    0.2482,
+    0.3862
+  ],
+  "vertexResistanceDecay": [
+    0.35,
+    0.3706,
+    0.4157,
+    0.5113,
+    0.6031,
+    0.7855,
+    1.0,
+    0.6031,
+    0.463,
+    0.3824,
+    0.68,
+    0.7516,
+    0.5477
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.702,
+      0.886
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.574
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      0.35
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 13,
+    "triangleCount": 14,
+    "minimumTriangleAngleDegrees": 23.249,
+    "medianTriangleAngleDegrees": 40.434
+  },
+  "candidateOnly": true
+}

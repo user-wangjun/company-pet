@@ -1,0 +1,700 @@
+{
+  "version": "v6-suspended",
+  "reference_basis": [
+    "Real handling references show a supported or suspended cat has body carried by support point, while legs dangle rather than walk.",
+    "Tail-language references support slow/tail-tip movement as body-language cue; fast swishing reads agitation.",
+    "ASPCA handling advice says support front-leg/chest area and hindquarters, implying whole-body support rather than limb-driven locomotion."
+  ],
+  "fix_from_v5": "v5 still read like an 8-pose walking/striding cadence stretched over time; v6 uses one canonical suspended pose and only local passive appendage changes.",
+  "frame_count": 24,
+  "duration_ms": 125,
+  "frame_size": [
+    192,
+    208
+  ],
+  "outputs": {
+    "dragRight_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v6-suspended-strip.png",
+    "dragLeft_strip": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v6-suspended-strip.png",
+    "dragRight_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragRight-24-glide-v6-suspended-sample-sheet.png",
+    "dragLeft_sheet": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\dragLeft-24-glide-v6-suspended-sample-sheet.png",
+    "dragRight_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragRight-24-glide-v6-suspended.gif",
+    "dragLeft_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\dragLeft-24-glide-v6-suspended.gif",
+    "combined_preview": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\24f\\physics\\previews\\drag-v6-suspended-combined-preview.gif"
+  },
+  "dragRight_meta": [
+    {
+      "frame": 1,
+      "tail_phase": -0.783,
+      "leg_phase": 0.389,
+      "tail_offset": [
+        1,
+        0
+      ],
+      "leg_offset": [
+        1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 2,
+      "tail_phase": -0.596,
+      "leg_phase": 0.615,
+      "tail_offset": [
+        1,
+        0
+      ],
+      "leg_offset": [
+        0,
+        -1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 3,
+      "tail_phase": -0.368,
+      "leg_phase": 0.798,
+      "tail_offset": [
+        1,
+        1
+      ],
+      "leg_offset": [
+        0,
+        -1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 4,
+      "tail_phase": -0.114,
+      "leg_phase": 0.927,
+      "tail_offset": [
+        1,
+        1
+      ],
+      "leg_offset": [
+        -1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 5,
+      "tail_phase": 0.147,
+      "leg_phase": 0.992,
+      "tail_offset": [
+        0,
+        1
+      ],
+      "leg_offset": [
+        -1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 6,
+      "tail_phase": 0.398,
+      "leg_phase": 0.99,
+      "tail_offset": [
+        0,
+        1
+      ],
+      "leg_offset": [
+        -1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 7,
+      "tail_phase": 0.622,
+      "leg_phase": 0.921,
+      "tail_offset": [
+        -1,
+        0
+      ],
+      "leg_offset": [
+        -1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 8,
+      "tail_phase": 0.803,
+      "leg_phase": 0.789,
+      "tail_offset": [
+        -1,
+        -1
+      ],
+      "leg_offset": [
+        0,
+        -1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 9,
+      "tail_phase": 0.93,
+      "leg_phase": 0.603,
+      "tail_offset": [
+        -1,
+        -1
+      ],
+      "leg_offset": [
+        0,
+        -1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 10,
+      "tail_phase": 0.993,
+      "leg_phase": 0.376,
+      "tail_offset": [
+        -1,
+        -1
+      ],
+      "leg_offset": [
+        1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 11,
+      "tail_phase": 0.989,
+      "leg_phase": 0.123,
+      "tail_offset": [
+        -1,
+        -1
+      ],
+      "leg_offset": [
+        1,
+        0
+      ],
+      "blink_or_eye": true
+    },
+    {
+      "frame": 12,
+      "tail_phase": 0.918,
+      "leg_phase": -0.138,
+      "tail_offset": [
+        -1,
+        -1
+      ],
+      "leg_offset": [
+        1,
+        1
+      ],
+      "blink_or_eye": true
+    },
+    {
+      "frame": 13,
+      "tail_phase": 0.783,
+      "leg_phase": -0.389,
+      "tail_offset": [
+        -1,
+        0
+      ],
+      "leg_offset": [
+        1,
+        1
+      ],
+      "blink_or_eye": true
+    },
+    {
+      "frame": 14,
+      "tail_phase": 0.596,
+      "leg_phase": -0.615,
+      "tail_offset": [
+        -1,
+        0
+      ],
+      "leg_offset": [
+        0,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 15,
+      "tail_phase": 0.368,
+      "leg_phase": -0.798,
+      "tail_offset": [
+        0,
+        1
+      ],
+      "leg_offset": [
+        0,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 16,
+      "tail_phase": 0.114,
+      "leg_phase": -0.927,
+      "tail_offset": [
+        0,
+        1
+      ],
+      "leg_offset": [
+        0,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 17,
+      "tail_phase": -0.147,
+      "leg_phase": -0.992,
+      "tail_offset": [
+        1,
+        1
+      ],
+      "leg_offset": [
+        0,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 18,
+      "tail_phase": -0.398,
+      "leg_phase": -0.99,
+      "tail_offset": [
+        1,
+        1
+      ],
+      "leg_offset": [
+        0,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 19,
+      "tail_phase": -0.622,
+      "leg_phase": -0.921,
+      "tail_offset": [
+        1,
+        0
+      ],
+      "leg_offset": [
+        0,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 20,
+      "tail_phase": -0.803,
+      "leg_phase": -0.789,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        0,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 21,
+      "tail_phase": -0.93,
+      "leg_phase": -0.603,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        0,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 22,
+      "tail_phase": -0.993,
+      "leg_phase": -0.376,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        1,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 23,
+      "tail_phase": -0.989,
+      "leg_phase": -0.123,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        1,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 24,
+      "tail_phase": -0.918,
+      "leg_phase": 0.138,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        1,
+        0
+      ],
+      "blink_or_eye": false
+    }
+  ],
+  "dragLeft_meta": [
+    {
+      "frame": 1,
+      "tail_phase": -0.783,
+      "leg_phase": 0.389,
+      "tail_offset": [
+        -1,
+        0
+      ],
+      "leg_offset": [
+        -1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 2,
+      "tail_phase": -0.596,
+      "leg_phase": 0.615,
+      "tail_offset": [
+        -1,
+        0
+      ],
+      "leg_offset": [
+        0,
+        -1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 3,
+      "tail_phase": -0.368,
+      "leg_phase": 0.798,
+      "tail_offset": [
+        -1,
+        1
+      ],
+      "leg_offset": [
+        0,
+        -1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 4,
+      "tail_phase": -0.114,
+      "leg_phase": 0.927,
+      "tail_offset": [
+        -1,
+        1
+      ],
+      "leg_offset": [
+        1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 5,
+      "tail_phase": 0.147,
+      "leg_phase": 0.992,
+      "tail_offset": [
+        0,
+        1
+      ],
+      "leg_offset": [
+        1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 6,
+      "tail_phase": 0.398,
+      "leg_phase": 0.99,
+      "tail_offset": [
+        0,
+        1
+      ],
+      "leg_offset": [
+        1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 7,
+      "tail_phase": 0.622,
+      "leg_phase": 0.921,
+      "tail_offset": [
+        1,
+        0
+      ],
+      "leg_offset": [
+        1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 8,
+      "tail_phase": 0.803,
+      "leg_phase": 0.789,
+      "tail_offset": [
+        1,
+        -1
+      ],
+      "leg_offset": [
+        0,
+        -1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 9,
+      "tail_phase": 0.93,
+      "leg_phase": 0.603,
+      "tail_offset": [
+        1,
+        -1
+      ],
+      "leg_offset": [
+        0,
+        -1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 10,
+      "tail_phase": 0.993,
+      "leg_phase": 0.376,
+      "tail_offset": [
+        1,
+        -1
+      ],
+      "leg_offset": [
+        -1,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 11,
+      "tail_phase": 0.989,
+      "leg_phase": 0.123,
+      "tail_offset": [
+        1,
+        -1
+      ],
+      "leg_offset": [
+        -1,
+        0
+      ],
+      "blink_or_eye": true
+    },
+    {
+      "frame": 12,
+      "tail_phase": 0.918,
+      "leg_phase": -0.138,
+      "tail_offset": [
+        1,
+        -1
+      ],
+      "leg_offset": [
+        -1,
+        1
+      ],
+      "blink_or_eye": true
+    },
+    {
+      "frame": 13,
+      "tail_phase": 0.783,
+      "leg_phase": -0.389,
+      "tail_offset": [
+        1,
+        0
+      ],
+      "leg_offset": [
+        -1,
+        1
+      ],
+      "blink_or_eye": true
+    },
+    {
+      "frame": 14,
+      "tail_phase": 0.596,
+      "leg_phase": -0.615,
+      "tail_offset": [
+        1,
+        0
+      ],
+      "leg_offset": [
+        0,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 15,
+      "tail_phase": 0.368,
+      "leg_phase": -0.798,
+      "tail_offset": [
+        0,
+        1
+      ],
+      "leg_offset": [
+        0,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 16,
+      "tail_phase": 0.114,
+      "leg_phase": -0.927,
+      "tail_offset": [
+        0,
+        1
+      ],
+      "leg_offset": [
+        0,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 17,
+      "tail_phase": -0.147,
+      "leg_phase": -0.992,
+      "tail_offset": [
+        -1,
+        1
+      ],
+      "leg_offset": [
+        0,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 18,
+      "tail_phase": -0.398,
+      "leg_phase": -0.99,
+      "tail_offset": [
+        -1,
+        1
+      ],
+      "leg_offset": [
+        0,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 19,
+      "tail_phase": -0.622,
+      "leg_phase": -0.921,
+      "tail_offset": [
+        -1,
+        0
+      ],
+      "leg_offset": [
+        0,
+        0
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 20,
+      "tail_phase": -0.803,
+      "leg_phase": -0.789,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        0,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 21,
+      "tail_phase": -0.93,
+      "leg_phase": -0.603,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        0,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 22,
+      "tail_phase": -0.993,
+      "leg_phase": -0.376,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        -1,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 23,
+      "tail_phase": -0.989,
+      "leg_phase": -0.123,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        -1,
+        1
+      ],
+      "blink_or_eye": false
+    },
+    {
+      "frame": 24,
+      "tail_phase": -0.918,
+      "leg_phase": 0.138,
+      "tail_offset": [
+        0,
+        0
+      ],
+      "leg_offset": [
+        -1,
+        0
+      ],
+      "blink_or_eye": false
+    }
+  ]
+}

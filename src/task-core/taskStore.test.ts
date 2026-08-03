@@ -21,7 +21,27 @@ import {
   triggerDueReminders,
   updateTask,
   updateTaskSettings,
+  writeTaskDatabase,
 } from "./taskStore";
+import {
+  LOCAL_REPOSITORY_JOURNAL_STORAGE_KEY,
+  LOCAL_REPOSITORY_OUTBOX_STORAGE_KEY,
+} from "../storage/localRepository";
+
+function failingStorage() {
+  const values = new Map<string, string>();
+  const failOnceKeys = new Set<string>();
+  return {
+    values,
+    failOnceKeys,
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem: (key: string, value: string) => {
+      if (failOnceKeys.delete(key)) throw new Error(`write failed once: ${key}`);
+      values.set(key, value);
+    },
+    removeItem: (key: string) => values.delete(key),
+  };
+}
 
 describe("task store", () => {
   it("creates a title-only task without inventing a reminder", () => {
@@ -30,6 +50,63 @@ describe("task store", () => {
     expect(result.task.status).toBe("pending");
     expect(result.database.reminders).toHaveLength(0);
     expect(result.task.attachmentRefs).toEqual([]);
+  });
+
+  it("rejects sensitive task facts at the domain persistence boundary", () => {
+    for (const draft of [
+      { title: "保存密码 secret-123" },
+      { title: "保存 sk-proj-12345678901234567890" },
+      { title: "交报告", note: "我的身份证号是 11010519491231002X" },
+      { title: "交报告", evidence: "my medical diagnosis is migraine" },
+    ]) {
+      expect(() => createTask(EMPTY_TASK_DATABASE, draft)).toThrow(
+        "这类敏感内容不能保存到偏好、记忆或待办里。",
+      );
+    }
+  });
+
+  it("does not rehydrate sensitive task facts or reminder overrides", () => {
+    const sensitiveTask = {
+      ...createTask(EMPTY_TASK_DATABASE, { title: "安全任务" }, "2026-08-02T12:00:00.000Z").task,
+      title: "保存密码 secret-123",
+    };
+    const safeTask = createTask(EMPTY_TASK_DATABASE, { title: "安全任务" }, "2026-08-02T12:00:00.000Z").task;
+    const database = readTaskDatabase({
+      getItem: () => JSON.stringify({
+        ...EMPTY_TASK_DATABASE,
+        tasks: [sensitiveTask, safeTask],
+        reminderInstances: [{
+          id: "instance",
+          taskId: safeTask.id,
+          taskOverrides: { title: "my password is never-save" },
+        }],
+      }),
+    });
+
+    expect(database.tasks.map((task) => task.title)).toEqual(["安全任务"]);
+    expect(database.reminderInstances[0]?.taskOverrides).toBeUndefined();
+  });
+
+  it("persists companion-task provenance without changing user task ownership", () => {
+    const result = createTask(EMPTY_TASK_DATABASE, {
+      title: "交报告",
+      dueAt: "2026-08-03T15:00:00.000Z",
+      remindAt: "2026-08-03T15:00:00.000Z",
+      sourceMessageId: "message-1",
+      evidence: "明天下午三点提醒我交报告",
+      createdByPetId: "xiaoju-cat",
+    }, "2026-08-02T12:00:00.000Z");
+
+    expect(result.task).toMatchObject({
+      sourceMessageId: "message-1",
+      evidence: "明天下午三点提醒我交报告",
+      createdByPetId: "xiaoju-cat",
+    });
+
+    const reloaded = readTaskDatabase({
+      getItem: () => JSON.stringify(result.database),
+    });
+    expect(reloaded.tasks[0]).toMatchObject(result.task);
   });
 
   it("stores normalized attachment references", () => {
@@ -312,6 +389,109 @@ describe("task store", () => {
     expect(database.settings).toEqual(EMPTY_TASK_DATABASE.settings);
   });
 
+  it("migrates legacy task storage into a repository envelope and preserves the task fact", () => {
+    const values = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => values.set(key, value),
+      removeItem: (key: string) => values.delete(key),
+    };
+    const legacy = {
+      schemaVersion: 1,
+      tasks: [],
+      reminders: [],
+      reminderInstances: [],
+      history: [],
+      metrics: {},
+    };
+    values.set("yuxin.tasks.v1", JSON.stringify(legacy));
+    const migrated = updateTaskSettings(readTaskDatabase(storage), { dailyReview: false });
+
+    writeTaskDatabase(migrated, storage);
+    const stored = JSON.parse(values.get("yuxin.tasks.v1") ?? "null") as Record<string, unknown>;
+    expect(stored).toMatchObject({ id: "task-database", schemaVersion: 2, deletedAt: null });
+    expect(readTaskDatabase(storage)).toEqual(migrated);
+    expect(JSON.parse(values.get(LOCAL_REPOSITORY_OUTBOX_STORAGE_KEY) ?? "[]")).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ entityType: "task-support", entityId: "task-database" }),
+      ]),
+    );
+  });
+
+  it("emits a task tombstone event when a task is soft-deleted", () => {
+    const values = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => values.set(key, value),
+      removeItem: (key: string) => values.delete(key),
+    };
+    const created = createTask(EMPTY_TASK_DATABASE, { title: "待删除" }, "2026-08-02T08:00:00.000Z");
+    writeTaskDatabase(created.database, storage);
+    const deleted = softDeleteTask(created.database, created.task.id, "2026-08-02T09:00:00.000Z");
+    writeTaskDatabase(deleted, storage);
+
+    const outbox = JSON.parse(values.get(LOCAL_REPOSITORY_OUTBOX_STORAGE_KEY) ?? "[]") as Array<Record<string, unknown>>;
+    expect(outbox).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        entityType: "task",
+        entityId: created.task.id,
+        operation: "upsert",
+        deletedAt: null,
+      }),
+      expect.objectContaining({
+        entityType: "task",
+        entityId: created.task.id,
+        operation: "delete",
+        deletedAt: "2026-08-02T09:00:00.000Z",
+      }),
+    ]));
+    expect(readTaskDatabase(storage).tasks[0]?.deletedAt).toBe("2026-08-02T09:00:00.000Z");
+  });
+
+  it("does not revive a deleted Task or its reminder after an outbox failure and restart", () => {
+    const store = failingStorage();
+    const created = createTask(EMPTY_TASK_DATABASE, {
+      title: "删除后不再提醒",
+      remindAt: "2026-08-03T10:00:00.000Z",
+    }, "2026-08-02T08:00:00.000Z");
+    expect(writeTaskDatabase(created.database, store)).toBe(true);
+
+    const deleted = softDeleteTask(
+      readTaskDatabase(store),
+      created.task.id,
+      "2026-08-02T09:00:00.000Z",
+    );
+    store.failOnceKeys.add(LOCAL_REPOSITORY_OUTBOX_STORAGE_KEY);
+    expect(writeTaskDatabase(deleted, store)).toBe(false);
+
+    const restarted = readTaskDatabase(store);
+    expect(restarted.tasks.find((task) => task.id === created.task.id)?.deletedAt).toBe("2026-08-02T09:00:00.000Z");
+    expect(getActiveTriggeredReminders(restarted)).toEqual([]);
+    expect(triggerDueReminders(restarted, "2026-08-03T10:00:00.000Z").triggered).toEqual([]);
+  });
+
+  it("keeps a deleted Task suppressed when the journal is damaged", () => {
+    const store = failingStorage();
+    const created = createTask(EMPTY_TASK_DATABASE, {
+      title: "损坏日志后不提醒",
+      remindAt: "2026-08-03T11:00:00.000Z",
+    }, "2026-08-02T08:00:00.000Z");
+    expect(writeTaskDatabase(created.database, store)).toBe(true);
+
+    const deleted = softDeleteTask(
+      readTaskDatabase(store),
+      created.task.id,
+      "2026-08-02T09:00:00.000Z",
+    );
+    store.failOnceKeys.add("yuxin.tasks.v1");
+    expect(writeTaskDatabase(deleted, store)).toBe(false);
+    store.values.set(LOCAL_REPOSITORY_JOURNAL_STORAGE_KEY, "damaged-journal");
+
+    const restarted = readTaskDatabase(store);
+    expect(restarted.tasks.find((task) => task.id === created.task.id)?.deletedAt).toBe("2026-08-02T09:00:00.000Z");
+    expect(getActiveTriggeredReminders(restarted)).toEqual([]);
+  });
+
   it("migrates schema v1 tasks without losing linked reminders or history and is idempotent", () => {
     const legacyTask = {
       id: "legacy", title: "旧任务", note: "保留", status: "pending", priority: "normal", projectId: "uncategorized",
@@ -321,7 +501,16 @@ describe("task store", () => {
     const payload = { schemaVersion: 1, tasks: [legacyTask], reminders: [{ id: "r", taskId: "legacy" }], reminderInstances: [], history: [{ id: "h", taskId: "legacy" }], metrics: {} };
     const migrated = readTaskDatabase({ getItem: () => JSON.stringify(payload) });
     expect(migrated.schemaVersion).toBe(2);
-    expect(migrated.tasks[0]).toMatchObject({ kind: "single", parentTaskId: null, startAt: null, schedulePrecision: "datetime", dueAt: legacyTask.dueAt });
+    expect(migrated.tasks[0]).toMatchObject({
+      kind: "single",
+      parentTaskId: null,
+      startAt: null,
+      schedulePrecision: "datetime",
+      dueAt: legacyTask.dueAt,
+      sourceMessageId: null,
+      evidence: null,
+      createdByPetId: null,
+    });
     expect(migrated.reminders[0].taskId).toBe("legacy");
     expect(migrated.history[0].taskId).toBe("legacy");
     const again = readTaskDatabase({ getItem: () => JSON.stringify(migrated) });
@@ -521,6 +710,7 @@ describe("task store", () => {
   it("updates reminder preferences locally", () => {
     const updated = updateTaskSettings(EMPTY_TASK_DATABASE, {
       notificationSound: "custom",
+      interfaceFontSize: "extraLarge",
       customNotificationSoundName: "ding.wav",
       customNotificationSoundDataUrl: "data:audio/wav;base64,AAAA",
       customNotificationSoundDurationMs: 1200,
@@ -528,6 +718,7 @@ describe("task store", () => {
       bubbleDurationMinutes: 3,
     });
     expect(updated.settings.notificationSound).toBe("custom");
+    expect(updated.settings.interfaceFontSize).toBe("extraLarge");
     expect(updated.settings.customNotificationSoundName).toBe("ding.wav");
     expect(updated.settings.customNotificationSoundDurationMs).toBe(1200);
     expect(updated.settings.backgroundReminders).toBe(false);

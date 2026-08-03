@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "status": "engineering_pass_pending_user_visual_approval",
+  "scope": "screen-left V27 source-traced Stage A geometry",
+  "authority": {
+    "lineMasterSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+    "colorMasterSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+    "v25ApprovalSha256": "8cd2c5dcbc098e017271e666ed71478db0803395bfb04056eff7565d0ffbcf9d",
+    "v26RejectionSha256": "04b713260d37119486dbf899aae5a27cb4c3be0246ccc4752ffd2da14e4a5f8c",
+    "pass": true
+  },
+  "sourceTracing": {
+    "visibleUnionDifferencePixels": 0,
+    "visibleLayerOverlapPixels": {
+      "upper_arm:forearm": 0,
+      "upper_arm:hand": 0,
+      "upper_arm:sleeve": 0,
+      "forearm:hand": 0,
+      "forearm:sleeve": 0,
+      "hand:sleeve": 0
+    },
+    "skinContourPointCount": 526,
+    "sleeveContourPointCount": 461,
+    "pass": true
+  },
+  "boneLengths": {
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "maxL1ErrorPx": 2.842170943040401e-14,
+    "maxL2ErrorPx": 5.684341886080802e-14,
+    "pass": true
+  },
+  "seams": {
+    "defaultCompleteOverlapPixels": {
+      "sleeveUpper": 4607,
+      "upperForearm": 304,
+      "forearmHand": 404
+    },
+    "all41SamplesPass": true,
+    "pass": true
+  },
+  "disconnects": {
+    "count": 0,
+    "pass": true
+  },
+  "returnConsistency": {
+    "firstPoseSha256": "5382e7409d398c76630ca23552e5acb39b1198114162a0bf9be48a2a60d56956",
+    "lastPoseSha256": "5382e7409d398c76630ca23552e5acb39b1198114162a0bf9be48a2a60d56956",
+    "pass": true
+  },
+  "visualGate": {
+    "status": "pending_user_visual_approval",
+    "review": "qa/V27-阶段A-中文用户视觉审查板.png",
+    "earliestFailurePoint": null,
+    "required": [
+      "default resemblance",
+      "natural cuff transition",
+      "no shoulder/hair intrusion",
+      "anatomical elbow",
+      "wrist and palm follow forearm",
+      "non-coarse hand contour",
+      "credible displaced hidden material"
+    ]
+  },
+  "stop": "remain at Stage A until user approval"
+}

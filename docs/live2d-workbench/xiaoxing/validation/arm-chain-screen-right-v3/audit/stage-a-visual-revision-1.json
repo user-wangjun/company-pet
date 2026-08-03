@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "status": "corrected_engineering_revalidated_user_visual_review_required",
+  "gate": "stage_a_visual",
+  "userFindings": [
+    {
+      "area": "shoulder_hidden_upper_arm",
+      "finding": "The orange upper-arm allowance protruded beyond the blue sleeve boundary."
+    },
+    {
+      "area": "hand_solid_mask",
+      "finding": "The hand silhouette was visibly coarse around the outer contour and fingers."
+    }
+  ],
+  "corrections": [
+    {
+      "area": "shoulder_hidden_upper_arm",
+      "action": "Reduce the proximal upper-arm cap from an oversized circular allowance to an 11 px hidden cap that remains inside the sleeve envelope."
+    },
+    {
+      "area": "hand_solid_mask",
+      "action": "Rebuild the hand from the connected source foreground silhouette including line contours, exclude the bracelet band, and apply only subpixel edge antialiasing."
+    }
+  ],
+  "prohibitionsMaintained": [
+    "no texture generation",
+    "no source scaling",
+    "no mirror copy",
+    "no Cubism",
+    "no Physics"
+  ],
+  "evidence": [
+    "qa/revision-shoulder-hand-review.png",
+    "qa/visible-ownership-review.png",
+    "qa/default-recomposition.png",
+    "qa/seam-stress-review.png"
+  ]
+}

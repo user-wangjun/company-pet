@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "status": "user_visual_approved",
+  "decisionOwner": "user",
+  "decisionDate": "2026-07-28",
+  "scope": "screen-left arm static shoulder, elbow, and wrist landmarks only",
+  "approvedLandmarksPx": {
+    "shoulder": [170.0, 251.0],
+    "elbow": [147.0, 405.0],
+    "wrist": [115.0, 529.0]
+  },
+  "approvalEvidence": {
+    "userStatement": "可以，就这样",
+    "reviewArtifact": "qa/V25-SCREEN-LEFT-SHOULDER-CORRECTION-REVIEW.zh-CN.png"
+  },
+  "explicitLimits": [
+    "approval applies to static landmark placement only",
+    "material geometry still requires separate visual approval",
+    "no texture, mesh, Cubism, Physics, or Runtime approval is implied"
+  ]
+}

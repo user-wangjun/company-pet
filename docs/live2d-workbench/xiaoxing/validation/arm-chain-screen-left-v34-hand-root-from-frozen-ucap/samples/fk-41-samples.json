@@ -1,0 +1,371 @@
+[
+  {
+    "index": 0,
+    "progress": 0.0,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 535,
+    "ucapExposedPx": 1,
+    "disconnected": false
+  },
+  {
+    "index": 1,
+    "progress": 0.006155829702431115,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 526,
+    "ucapExposedPx": 3,
+    "disconnected": false
+  },
+  {
+    "index": 2,
+    "progress": 0.024471741852423234,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 526,
+    "ucapExposedPx": 3,
+    "disconnected": false
+  },
+  {
+    "index": 3,
+    "progress": 0.05449673790581605,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 5,
+    "disconnected": false
+  },
+  {
+    "index": 4,
+    "progress": 0.09549150281252627,
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 5,
+    "progress": 0.1464466094067262,
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 524,
+    "ucapExposedPx": 3,
+    "disconnected": false
+  },
+  {
+    "index": 6,
+    "progress": 0.20610737385376343,
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 5,
+    "disconnected": false
+  },
+  {
+    "index": 7,
+    "progress": 0.2730047501302266,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 521,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 8,
+    "progress": 0.3454915028125263,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 523,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 9,
+    "progress": 0.4217827674798845,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 10,
+    "progress": 0.49999999999999994,
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.0624847486569,
+    "completeOverlapPx": 519,
+    "ucapExposedPx": 5,
+    "disconnected": false
+  },
+  {
+    "index": 11,
+    "progress": 0.5782172325201153,
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.06248474865703,
+    "completeOverlapPx": 525,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 12,
+    "progress": 0.6545084971874737,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 524,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 13,
+    "progress": 0.7269952498697734,
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 527,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 14,
+    "progress": 0.7938926261462365,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 8,
+    "disconnected": false
+  },
+  {
+    "index": 15,
+    "progress": 0.8535533905932737,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 524,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 16,
+    "progress": 0.9045084971874737,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 7,
+    "disconnected": false
+  },
+  {
+    "index": 17,
+    "progress": 0.9455032620941839,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 523,
+    "ucapExposedPx": 7,
+    "disconnected": false
+  },
+  {
+    "index": 18,
+    "progress": 0.9755282581475768,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 521,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 19,
+    "progress": 0.9938441702975689,
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 520,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 20,
+    "progress": 1.0,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 524,
+    "ucapExposedPx": 7,
+    "disconnected": false
+  },
+  {
+    "index": 21,
+    "progress": 0.9938441702975689,
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 520,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 22,
+    "progress": 0.9755282581475768,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 521,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 23,
+    "progress": 0.9455032620941839,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 523,
+    "ucapExposedPx": 7,
+    "disconnected": false
+  },
+  {
+    "index": 24,
+    "progress": 0.9045084971874737,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 7,
+    "disconnected": false
+  },
+  {
+    "index": 25,
+    "progress": 0.8535533905932737,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 524,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 26,
+    "progress": 0.7938926261462365,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 8,
+    "disconnected": false
+  },
+  {
+    "index": 27,
+    "progress": 0.7269952498697734,
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 527,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 28,
+    "progress": 0.6545084971874737,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 524,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 29,
+    "progress": 0.5782172325201153,
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.06248474865703,
+    "completeOverlapPx": 525,
+    "ucapExposedPx": 6,
+    "disconnected": false
+  },
+  {
+    "index": 30,
+    "progress": 0.49999999999999994,
+    "L1Px": 155.70806016388488,
+    "L2Px": 128.0624847486569,
+    "completeOverlapPx": 519,
+    "ucapExposedPx": 5,
+    "disconnected": false
+  },
+  {
+    "index": 31,
+    "progress": 0.4217827674798845,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 32,
+    "progress": 0.3454915028125263,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 523,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 33,
+    "progress": 0.2730047501302266,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 521,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 34,
+    "progress": 0.20610737385376343,
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 5,
+    "disconnected": false
+  },
+  {
+    "index": 35,
+    "progress": 0.1464466094067262,
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 524,
+    "ucapExposedPx": 3,
+    "disconnected": false
+  },
+  {
+    "index": 36,
+    "progress": 0.09549150281252627,
+    "L1Px": 155.70806016388494,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 4,
+    "disconnected": false
+  },
+  {
+    "index": 37,
+    "progress": 0.05449673790581605,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 522,
+    "ucapExposedPx": 5,
+    "disconnected": false
+  },
+  {
+    "index": 38,
+    "progress": 0.024471741852423234,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865694,
+    "completeOverlapPx": 526,
+    "ucapExposedPx": 3,
+    "disconnected": false
+  },
+  {
+    "index": 39,
+    "progress": 0.006155829702431115,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.062484748657,
+    "completeOverlapPx": 526,
+    "ucapExposedPx": 3,
+    "disconnected": false
+  },
+  {
+    "index": 40,
+    "progress": 0.0,
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "completeOverlapPx": 535,
+    "ucapExposedPx": 1,
+    "disconnected": false
+  }
+]

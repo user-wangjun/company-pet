@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "layerId": "back_torso_3",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/62_back_back_torso_3.png",
+  "primaryController": "BodyRoot",
+  "parent": "BodyRoot",
+  "actionSubject": "BodyRoot",
+  "deformationRole": "parent-transform-rigid-surface",
+  "densityProfile": "inherited-rigid-sparse",
+  "pivotName": "pelvis",
+  "pivotPoint": [
+    56.0,
+    73.0
+  ],
+  "points": [
+    [
+      64.0,
+      146.5
+    ],
+    [
+      17.0,
+      142.5
+    ],
+    [
+      0.5,
+      129.0
+    ],
+    [
+      9.5,
+      25.0
+    ],
+    [
+      50.0,
+      -0.5
+    ],
+    [
+      94.0,
+      11.5
+    ],
+    [
+      113.5,
+      61.0
+    ],
+    [
+      112.5,
+      133.0
+    ],
+    [
+      5.0,
+      77.0
+    ],
+    [
+      60.903,
+      46.188
+    ],
+    [
+      33.377,
+      105.65
+    ],
+    [
+      80.81,
+      96.553
+    ]
+  ],
+  "triangles": [
+    [
+      8,
+      3,
+      9
+    ],
+    [
+      9,
+      11,
+      10
+    ],
+    [
+      9,
+      3,
+      4
+    ],
+    [
+      8,
+      9,
+      10
+    ],
+    [
+      5,
+      9,
+      4
+    ],
+    [
+      2,
+      8,
+      10
+    ],
+    [
+      11,
+      9,
+      6
+    ],
+    [
+      6,
+      9,
+      5
+    ],
+    [
+      10,
+      1,
+      2
+    ],
+    [
+      10,
+      0,
+      1
+    ],
+    [
+      11,
+      6,
+      7
+    ],
+    [
+      0,
+      11,
+      7
+    ],
+    [
+      11,
+      0,
+      10
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.92,
+      0.92
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.72
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      1.0
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 12,
+    "triangleCount": 13,
+    "minimumTriangleAngleDegrees": 30.656,
+    "medianTriangleAngleDegrees": 51.263
+  },
+  "candidateOnly": true
+}

@@ -1,0 +1,13 @@
+{
+  "version": "v23-pickup-fast",
+  "frame_count": 56,
+  "pickup_frames": 12,
+  "slide_frames": 32,
+  "landing_frames": 12,
+  "duration_ms": {
+    "pickup": 90,
+    "slide": 95,
+    "landing": 120
+  },
+  "note": "pickup playback faster only; no extra generated poses; compare against v22 for timing"
+}

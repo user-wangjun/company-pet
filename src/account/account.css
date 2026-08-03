@@ -1,0 +1,303 @@
+.account-gate {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  min-height: 540px;
+  display: grid;
+  grid-template-columns: minmax(350px, .96fr) minmax(420px, 1.04fr);
+  overflow: auto;
+  background: #f5f2eb;
+  color: #24483f;
+  cursor: default;
+}
+
+.account-intro {
+  --gaze-x: 0px;
+  --gaze-y: 0px;
+  --scene-x: 0px;
+  --scene-y: 0px;
+  --bubble-tilt: 0deg;
+  --pupil-x: 0px;
+  --pupil-y: 0px;
+  --pupil-bias: 0px;
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  background: #07175f;
+  isolation: isolate;
+}
+
+.account-pet-stage {
+  position: absolute;
+  z-index: -4;
+  inset: 0;
+  transform: translate(var(--scene-x), var(--scene-y));
+  transition: transform 160ms ease-out;
+}
+
+.account-puppet {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.account-live2d-fallback,
+.account-live2d-canvas,
+.account-live2d-eye-layer,
+.account-foreleg-rig,
+.account-foreleg-layer,
+.account-planet-overlay,
+.account-shoulder-occluder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.account-live2d-fallback {
+  display: block;
+  object-fit: cover;
+  object-position: 53% 50%;
+  pointer-events: none;
+}
+
+.account-live2d-canvas {
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+}
+
+.account-live2d-eye-layer,
+.account-foreleg-layer,
+.account-planet-overlay,
+.account-shoulder-occluder {
+  display: block;
+  object-fit: cover;
+  object-position: 53% 50%;
+  pointer-events: none;
+}
+
+.account-live2d-eye-layer {
+  z-index: 2;
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.account-foreleg-rig {
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.account-foreleg-layer {
+  will-change: transform;
+}
+
+.account-foreleg-layer-left {
+  transform-origin: 41% 80%;
+}
+
+.account-foreleg-layer-right {
+  transform-origin: 72% 76%;
+}
+
+.account-planet-overlay {
+  z-index: 4;
+}
+
+.account-shoulder-occluder {
+  z-index: 5;
+}
+
+.account-world-vignette {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(circle at 72% 50%, transparent 0 25%, rgba(3, 12, 62, .08) 48%, rgba(2, 12, 55, .42) 100%),
+    linear-gradient(180deg, rgba(3, 13, 60, .42) 0%, rgba(3, 13, 60, .02) 39%, rgba(3, 13, 60, .08) 72%, rgba(2, 11, 49, .28) 100%);
+}
+
+.account-brand {
+  position: absolute;
+  z-index: 4;
+  top: 30px;
+  left: 34px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  text-shadow: 0 2px 10px rgba(0, 10, 57, .35);
+}
+
+.account-brand-mark {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .55);
+  border-radius: 16px 16px 16px 7px;
+  background: rgba(255, 255, 255, .18);
+  color: #fff;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: 25px;
+  box-shadow: inset 0 0 18px rgba(255,255,255,.15), 0 10px 24px rgba(1,10,52,.22);
+  backdrop-filter: blur(12px);
+}
+
+.account-brand > div:last-child { display: grid; gap: 2px; }
+.account-brand strong { font-size: 14px; letter-spacing: .08em; }
+.account-brand span { color: rgba(255,255,255,.68); font-size: 8px; font-weight: 700; letter-spacing: .19em; }
+
+.account-hero-copy {
+  position: absolute;
+  z-index: 3;
+  top: 112px;
+  left: 36px;
+  color: white;
+  text-shadow: 0 3px 18px rgba(0, 8, 54, .38);
+}
+
+.account-hero-copy p { margin: 0 0 8px; color: #ffe69a; font-size: 9px; font-weight: 800; letter-spacing: .25em; }
+.account-hero-copy h1 { margin: 0; font-family: "STKaiti", "KaiTi", "Microsoft YaHei", serif; font-size: clamp(33px, 4.3vw, 48px); font-weight: 500; line-height: 1.12; letter-spacing: .08em; }
+.account-hero-copy span { display: block; margin-top: 12px; color: rgba(255,255,255,.78); font-size: 11px; letter-spacing: .04em; }
+
+.account-pet-speech {
+  position: absolute;
+  z-index: 5;
+  right: 24px;
+  bottom: 78px;
+  max-width: 205px;
+  padding: 11px 14px;
+  border: 1px solid rgba(255,255,255,.68);
+  border-radius: 17px 17px 5px 17px;
+  background: rgba(255, 252, 240, .88);
+  color: #365e53;
+  font-size: 11px;
+  line-height: 1.45;
+  box-shadow: 0 12px 30px rgba(1, 11, 50, .2);
+  backdrop-filter: blur(12px);
+  transform: rotate(var(--bubble-tilt));
+  transition: transform 150ms ease-out;
+  animation: account-bubble-float 3.8s ease-in-out infinite;
+}
+
+.account-pet-speech i {
+  position: absolute;
+  right: 7px;
+  bottom: -8px;
+  width: 15px;
+  height: 15px;
+  border-right: 1px solid rgba(255,255,255,.68);
+  border-bottom: 1px solid rgba(255,255,255,.68);
+  background: rgba(255, 252, 240, .88);
+  transform: skewY(38deg);
+}
+
+.account-gaze-hint {
+  position: absolute;
+  z-index: 4;
+  left: 28px;
+  bottom: 27px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(255,255,255,.7);
+  font-size: 9px;
+  letter-spacing: .05em;
+}
+
+.account-gaze-hint span { width: 20px; height: 20px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; background: rgba(255,255,255,.1); }
+.account-stars i { position: absolute; z-index: 1; width: 4px; height: 4px; border-radius: 50%; background: #fff1aa; box-shadow: 0 0 10px #fff1aa; animation: account-star-twinkle 2.8s ease-in-out infinite; }
+.account-stars i:nth-child(1) { left: 9%; top: 37%; }
+.account-stars i:nth-child(2) { left: 21%; top: 31%; animation-delay: .8s; }
+.account-stars i:nth-child(3) { left: 83%; top: 24%; animation-delay: 1.4s; }
+.account-stars i:nth-child(4) { left: 11%; top: 67%; animation-delay: .3s; }
+.account-stars i:nth-child(5) { left: 88%; top: 73%; animation-delay: 1.8s; }
+.account-stars i:nth-child(6) { left: 38%; top: 77%; animation-delay: 2.2s; }
+
+.account-card {
+  position: relative;
+  align-self: center;
+  justify-self: center;
+  box-sizing: border-box;
+  width: min(398px, calc(100% - 48px));
+  max-height: calc(100vh - 34px);
+  overflow-y: auto;
+  padding: 27px 32px 23px;
+  border: 1px solid rgba(103, 92, 73, .12);
+  border-radius: 29px 29px 29px 13px;
+  background:
+    radial-gradient(circle at 90% 8%, rgba(255, 214, 167, .25), transparent 25%),
+    rgba(255, 253, 247, .96);
+  box-shadow: 0 27px 72px rgba(65, 71, 63, .14), 0 2px 0 #fff inset;
+}
+
+.account-card-paw { position: absolute; top: 14px; right: 17px; width: 28px; height: 25px; opacity: .13; transform: rotate(18deg); }
+.account-card-paw i { position: absolute; border-radius: 50%; background: #b8784d; }
+.account-card-paw i:nth-child(1) { width: 13px; height: 11px; left: 8px; bottom: 1px; }
+.account-card-paw i:nth-child(2) { width: 6px; height: 8px; left: 1px; top: 4px; }
+.account-card-paw i:nth-child(3) { width: 6px; height: 8px; left: 10px; top: 0; }
+.account-card-paw i:nth-child(4) { width: 6px; height: 8px; right: 1px; top: 5px; }
+
+.account-mode-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 5px; border: 1px solid rgba(85,116,106,.08); border-radius: 14px; background: #eef3ef; }
+.account-mode-switch button { min-height: 35px; display: flex; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 10px; background: transparent; color: #71857e; cursor: pointer; transition: background .16s ease, color .16s ease, transform .16s ease; }
+.account-mode-switch button span { font-size: 13px; }
+.account-mode-switch button:hover { color: #356c5e; }
+.account-mode-switch button.is-active { background: #fff; color: #285e51; font-weight: 700; box-shadow: 0 6px 17px rgba(48,79,70,.1); transform: translateY(-1px); }
+
+.account-card header { margin: 21px 0 16px; }
+.account-card header p { display: flex; align-items: center; gap: 8px; margin: 0 0 5px; color: #82a096; font-size: 10px; }
+.account-card header p span { padding: 3px 7px; border-radius: 999px; background: #e8f1ec; color: #4b806f; font-size: 7px; font-weight: 800; letter-spacing: .13em; }
+.account-card header h2 { margin: 0; color: #23483e; font-size: 21px; font-weight: 680; letter-spacing: .01em; }
+.account-card form { display: grid; gap: 12px; }
+.account-card label { display: grid; gap: 6px; color: #526d65; font-size: 10px; }
+.account-card input { box-sizing: border-box; width: 100%; min-height: 42px; padding: 0 13px; border: 1px solid #d7e1dc; border-radius: 12px; outline: none; background: rgba(251,252,249,.9); color: #2f5148; font: inherit; font-size: 13px; user-select: text; transition: border-color .16s ease, box-shadow .16s ease, background .16s ease; }
+.account-card input:hover { background: #fff; }
+.account-card input:focus { border-color: #6ba08f; background: #fff; box-shadow: 0 0 0 3px rgba(83,143,124,.12); }
+.account-card input::placeholder { color: #a3b1ac; }
+
+.account-verification-reserved { display: grid; gap: 7px; padding: 10px 11px; border: 1px dashed #d2ddd7; border-radius: 13px; background: linear-gradient(135deg, #f6f9f5, #faf7f1); }
+.account-verification-reserved > div:first-child { display: flex; align-items: center; justify-content: space-between; color: #637c74; font-size: 10px; }
+.account-verification-reserved small { padding: 2px 7px; border-radius: 999px; background: #e8eee9; color: #81928c; }
+.account-verification-input { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px; }
+.account-verification-input input { min-height: 35px; background: #eef2ee; }
+.account-verification-input button { padding: 0 10px; border: 0; border-radius: 9px; background: #dfe7e2; color: #8b9a95; }
+.account-error { margin: 0; padding: 9px 11px; border-radius: 10px; background: #fff0ed; color: #a04d42; font-size: 11px; }
+
+.account-submit { min-height: 44px; display: flex; align-items: center; justify-content: space-between; margin-top: 3px; padding: 0 16px 0 21px; border: 0; border-radius: 13px 13px 13px 6px; background: linear-gradient(135deg, #347564, #5b9887); color: #fff; font-weight: 700; cursor: pointer; box-shadow: 0 11px 23px rgba(47,113,95,.21); transition: transform .16s ease, box-shadow .16s ease; }
+.account-submit:hover { transform: translateY(-1px); box-shadow: 0 14px 28px rgba(47,113,95,.25); }
+.account-submit:disabled { cursor: wait; opacity: .68; }
+.account-submit i { width: 25px; height: 25px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.16); font-style: normal; }
+
+.account-card footer { display: grid; justify-items: center; gap: 7px; margin-top: 15px; color: #8a9994; font-size: 9px; text-align: center; }
+.account-card footer > span { display: flex; align-items: center; gap: 6px; }
+.account-card footer > span i { color: #73a593; font-size: 7px; font-style: normal; }
+.account-card footer button { border: 0; background: transparent; color: #397466; font-size: 10px; cursor: pointer; }
+
+.platform-account-button { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid rgba(52,92,82,.13); border-radius: 50%; background: #edf4f0; color: #2f6e5e; font-weight: 750; cursor: pointer; }
+.platform-account-button:hover { background: #dfece6; }
+
+@keyframes account-bubble-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -5px; }
+}
+
+@keyframes account-star-twinkle {
+  0%, 100% { opacity: .25; scale: .7; }
+  50% { opacity: 1; scale: 1.35; }
+}
+
+@media (max-width: 700px) {
+  .account-gate { grid-template-columns: 1fr; min-height: 100%; }
+  .account-intro { display: none; }
+  .account-card { width: min(410px, calc(100% - 28px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .account-pet-stage,
+  .account-puppet,
+  .account-pet-speech,
+  .account-stars i { animation: none; transition: none; }
+}

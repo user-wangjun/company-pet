@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "status": "engineering_pass_pending_user_visual_approval",
+  "scope": "screen-left arm Stage A flat layering geometry",
+  "authorityIntegrity": {
+    "lineMasterSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+    "colorMasterSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+    "v25ApprovalSha256": "8cd2c5dcbc098e017271e666ed71478db0803395bfb04056eff7565d0ffbcf9d",
+    "pass": true
+  },
+  "skeleton": {
+    "shoulder": [
+      170.0,
+      251.0
+    ],
+    "elbow": [
+      147.0,
+      405.0
+    ],
+    "wrist": [
+      115.0,
+      529.0
+    ],
+    "L1Px": 155.7080601638849,
+    "L2Px": 128.06248474865697,
+    "maxL1ErrorPx": 5.684341886080802e-14,
+    "maxL2ErrorPx": 5.684341886080802e-14,
+    "pass": true
+  },
+  "seams": {
+    "defaultOverlapPixels": {
+      "sleeveUpperArm": 4959,
+      "upperArmForearm": 714,
+      "forearmHand": 471
+    },
+    "all41SamplesPass": true,
+    "pass": true
+  },
+  "disconnects": {
+    "analyticCriterion": "each parent-child material pair has positive overlap at every sampled joint",
+    "count": 0,
+    "pass": true
+  },
+  "returnConsistency": {
+    "firstPoseRgbaSha256": "e714fb20ac4bf29989be9c2b977b8581c20226aa031e4133faa0dcc36da56b19",
+    "lastPoseRgbaSha256": "e714fb20ac4bf29989be9c2b977b8581c20226aa031e4133faa0dcc36da56b19",
+    "pass": true
+  },
+  "visualGate": {
+    "status": "pending_user_visual_approval",
+    "review": "qa/V26-阶段A-中文用户视觉审查板.png",
+    "internalPreflight": {
+      "defaultCompositeReadsAsOneArm": "candidate_yes_user_confirmation_required",
+      "sleeveToUpperArm": "candidate_natural_user_confirmation_required",
+      "shoulderHairIntrusion": "no_visible_intrusion_detected_after_hair_occlusion_subtraction",
+      "elbowContinuity": "candidate_continuous_user_confirmation_required",
+      "wristAndPalmFollowForearm": "present_in_41_sample_QA_motion",
+      "handContour": "retraced_against_Reset_line_master_after_initial_coarse_candidate",
+      "displacedHiddenMaterials": "all_four_shown_on_main_review_board",
+      "earliestFailurePoint": null
+    },
+    "requiredQuestions": [
+      "默认回组是否像原图",
+      "袖口到上臂是否自然",
+      "肩部是否错误突出或侵入头发",
+      "肘部是否符合人体结构",
+      "腕部和手掌是否随前臂自然运动",
+      "手部轮廓是否过粗、过糙或像贴片",
+      "移开部件后隐藏材料是否可信",
+      "最早失败点在哪里"
+    ]
+  },
+  "stop": "do not continue beyond Stage A before user visual approval"
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "objective": "V7 production forearm pure-color geometry validation",
+  "status": "complete_ready_to_freeze",
+  "decisionOwner": "user",
+  "requirements": [
+    {
+      "id": "scope-and-privacy",
+      "status": "pass",
+      "evidence": "all final artifacts are V7-local and use relative paths; the final outward privacy scan is required to have zero hits"
+    },
+    {
+      "id": "frozen-input-integrity",
+      "status": "pass",
+      "evidence": "fresh verification: V4 17/17, complete sleeve 16/16, V6 22/22"
+    },
+    {
+      "id": "v7a-ownership-and-bracelet",
+      "status": "pass",
+      "evidence": "visible forearm, elbow line, wrist line, and bracelet merged into the forearm were user-approved"
+    },
+    {
+      "id": "visible-source-copy",
+      "status": "pass",
+      "evidence": "3756 original approved visible pixels; 35 approved fairing exceptions; 3721 retained source pixels with RGB difference 0"
+    },
+    {
+      "id": "production-forearm-topology",
+      "status": "pass",
+      "evidence": "3855 pixels; connected components 1; holes 0"
+    },
+    {
+      "id": "f1-f5-partition",
+      "status": "pass",
+      "evidence": "F1/F2/F3/F4 are mutually exclusive and reconstruct the geometry exactly; F5 remains QA responsibility only"
+    },
+    {
+      "id": "neutral-elbow-fairing",
+      "status": "pass_user_approved",
+      "evidence": "bilateral 10 px smoothstep root transition with the explicit 35-pixel boundary exception"
+    },
+    {
+      "id": "formal-elbow-contract-replacement",
+      "status": "pass_user_approved",
+      "evidence": "V7-C1 active-root outcome contract supersedes the incompatible V6 temporary static forearm dependency without modifying V6"
+    },
+    {
+      "id": "formal-elbow-domain",
+      "status": "pass",
+      "evidence": "41 primary + 6 extremes + 241 dense samples; gap 0; broken adjacency 0; return difference 0; bone-length error 0"
+    },
+    {
+      "id": "temporary-hand-root-contract",
+      "status": "pass_user_approved",
+      "evidence": "389 pixels; one component; zero holes; neutral containment pass; future formal hand containment remains mandatory"
+    },
+    {
+      "id": "wrist-domain",
+      "status": "pass",
+      "evidence": "201 dense + 11 epsilon + 81 adaptive samples; gap 0; broken adjacency 0; return difference 0; bracelet not counted"
+    },
+    {
+      "id": "combined-and-full-pose-domain",
+      "status": "pass",
+      "evidence": "9x9 elbow-by-wrist grid gap 0 and 9 full-pose elbow samples with zero disconnected forearms"
+    },
+    {
+      "id": "chinese-visual-evidence",
+      "status": "pass_user_approved",
+      "evidence": "isolated geometry, F1-F5, elbow/wrist zooms and slow scans, full-chain 3x3, and displaced-part evidence were approved"
+    },
+    {
+      "id": "cache-safe-evidence-delivery",
+      "status": "pass",
+      "evidence": "all corrected QA files use unique V7-C1 names; the stale pre-fix 3x3 filename is absent"
+    },
+    {
+      "id": "deterministic-generation",
+      "status": "pass",
+      "evidence": "fresh post-approval non-manifest regeneration diff 0"
+    },
+    {
+      "id": "user-visual-approval",
+      "status": "pass",
+      "evidence": "audit/v7c1-user-visual-approval-and-freeze-authorization-2026-07-26.json"
+    },
+    {
+      "id": "forbidden-downstream-work",
+      "status": "pass_none_created",
+      "evidence": "no texture, formal hand, PSD, ArtMesh, Cubism, Physics, Runtime, platform, registry, or release work was performed"
+    }
+  ],
+  "summary": {
+    "passed": 17,
+    "failed": 0,
+    "missing": 0,
+    "forbiddenDownstreamWorkCreated": false
+  },
+  "finalGeometry": {
+    "pixels": 3855,
+    "connectedComponents": 1,
+    "holes": 0,
+    "approvedBoundaryExceptionPixels": 35
+  },
+  "nextGate": "formal hand pure-color geometry"
+}

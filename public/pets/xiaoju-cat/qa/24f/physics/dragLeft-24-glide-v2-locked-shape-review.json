@@ -1,0 +1,33 @@
+{
+  "method": "drag-glide-v2-locked-shape",
+  "source_frame_1_based": 1,
+  "target_frames": 24,
+  "runtime_note": "Animation strip keeps identical sprite pixels across all frames; drag movement should come from the runtime cursor/window motion, not limb-shape changes.",
+  "metrics": {
+    "frames": 24,
+    "width_range": [
+      144,
+      144
+    ],
+    "height_range": [
+      198,
+      198
+    ],
+    "bottom_range": [
+      203,
+      203
+    ],
+    "center_x_range": [
+      96.0,
+      96.0
+    ],
+    "unique_bboxes": 1
+  },
+  "outputs": {
+    "strip": "public/pets/xiaoju-cat/qa/24f/physics/dragLeft-24-glide-v2-locked-shape-strip.png",
+    "counter_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/dragLeft-24-glide-v2-locked-shape-counter.gif",
+    "path_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/dragLeft-24-glide-v2-path-preview.gif",
+    "sample_sheet": "public/pets/xiaoju-cat/qa/24f/physics/dragLeft-24-glide-v2-locked-shape-sample-sheet.png",
+    "v1_vs_v2_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/compare/dragLeft-glide-v1-vs-v2-locked-shape.gif"
+  }
+}

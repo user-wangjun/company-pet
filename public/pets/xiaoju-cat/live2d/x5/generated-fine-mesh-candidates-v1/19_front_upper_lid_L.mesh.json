@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "layerId": "upper_lid_L",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/19_front_upper_lid_L.png",
+  "primaryController": "EyeSocket_L",
+  "parent": "EyeSocket_L",
+  "actionSubject": "EyeSocket_L",
+  "deformationRole": "micro-feature-local",
+  "densityProfile": "micro-coarse",
+  "pivotName": "eye_L",
+  "pivotPoint": [
+    34.0,
+    10.0
+  ],
+  "points": [
+    [
+      69.0,
+      22.5
+    ],
+    [
+      45.0,
+      10.5
+    ],
+    [
+      -0.5,
+      13.0
+    ],
+    [
+      20.0,
+      0.5
+    ],
+    [
+      44.0,
+      0.5
+    ],
+    [
+      61.0,
+      8.5
+    ],
+    [
+      15.476,
+      12.122
+    ]
+  ],
+  "triangles": [
+    [
+      6,
+      2,
+      3
+    ],
+    [
+      1,
+      3,
+      4
+    ],
+    [
+      1,
+      5,
+      0
+    ],
+    [
+      5,
+      1,
+      4
+    ],
+    [
+      3,
+      1,
+      6
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.18,
+    0.0,
+    0.1691,
+    0.0928,
+    0.0794,
+    0.1364,
+    0.1003
+  ],
+  "vertexResistanceDecay": [
+    0.35,
+    1.0,
+    0.3943,
+    0.7041,
+    0.7588,
+    0.5271,
+    0.6739
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.844,
+      0.912
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.67
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      0.35
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 7,
+    "triangleCount": 5,
+    "minimumTriangleAngleDegrees": 21.801,
+    "medianTriangleAngleDegrees": 28.228
+  },
+  "candidateOnly": true
+}

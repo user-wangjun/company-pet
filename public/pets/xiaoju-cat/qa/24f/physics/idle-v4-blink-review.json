@@ -1,0 +1,28 @@
+{
+  "method": "idle-v4-blink",
+  "base_pose": "locked sleeping pose",
+  "blink_band": [
+    38,
+    56,
+    118,
+    84
+  ],
+  "blink_frames_1_based": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "preview_duration_ms": 180,
+  "outputs": {
+    "strip": "public/pets/xiaoju-cat/qa/24f/physics/idle-24-physics-v4-blink-strip.png",
+    "preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/idle-v4-blink.gif",
+    "counter_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/idle-v4-blink-counter.gif",
+    "sample_sheet": "public/pets/xiaoju-cat/qa/24f/physics/idle-v4-blink-sample-sheet.png",
+    "v3_vs_v4_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/compare/idle-v3-locked-vs-v4-blink.gif",
+    "original_vs_v4_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/compare/idle-original-vs-v4-blink.gif"
+  }
+}

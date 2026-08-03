@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V15 screen-left arm four-layer ArtMesh",
+  "decisionDate": "2026-07-28",
+  "decisionOwner": "user",
+  "decision": "approved",
+  "decisionText": "合适，请继续任务",
+  "approvedScope": [
+    "one ArtMesh per approved V14 material",
+    "triangles constrained to each complete alpha boundary",
+    "source-registered enclosed hand gap remains unbridged",
+    "UV coordinates remain on the unchanged 512x1086 canvas",
+    "sparse joint-local and long-span topology shown in the V15 review board"
+  ],
+  "approvedEvidence": {
+    "reviewBoard": {
+      "path": "qa/V15-MESH-USER-REVIEW.zh-CN.png",
+      "sha256": "f010d24d1d87c6124fa15577f5f1f7de09f90907948c04fa6a716eeb7046b5c2"
+    }
+  },
+  "authorization": {
+    "actualNodes": true,
+    "activeMotionBeforeNodeApproval": false,
+    "physics": false,
+    "runtime": false
+  }
+}

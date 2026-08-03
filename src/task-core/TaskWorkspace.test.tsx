@@ -52,6 +52,8 @@ describe("TaskWorkspace", () => {
       <TaskWorkspace database={EMPTY_TASK_DATABASE} initialView="settings" onChange={vi.fn()} />,
     );
     expect(html).toContain("提示音");
+    expect(html).toContain("界面字体大小");
+    expect(html).toContain('option value="extraLarge"');
     expect(html).toContain("系统");
     expect(html).toContain("宠物");
     expect(html).toContain("自定义");

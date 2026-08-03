@@ -1,0 +1,361 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-07-25",
+  "status": "engineering_pass_awaiting_user_visual_approval",
+  "scope": "screen-right complete upper-arm flat geometry only",
+  "inputVerification": [
+    {
+      "path": "source/masters/front-line-source-exact-after-reset.png",
+      "expectedSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+      "actualSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+      "match": true
+    },
+    {
+      "path": "source/masters/front-color-source-exact-after-reset.png",
+      "expectedSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "actualSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "match": true
+    },
+    {
+      "path": "validation/arm-chain-screen-right-v4-wrist-motion/archive/stage-a-v4-approved-2026-07-24.zip",
+      "expectedSha256": "2cbbe6182f9d4937cbbaf4d8e1f6f9768c9161597edd8a09efdbde0ec8884800",
+      "actualSha256": "2cbbe6182f9d4937cbbaf4d8e1f6f9768c9161597edd8a09efdbde0ec8884800",
+      "match": true
+    },
+    {
+      "path": "validation/arm-chain-screen-right-v5-hidden-upper-arm/masks/visible-upper-arm-locked.png",
+      "expectedSha256": "aaf373b65f9b3a201a6b8810530a5ee82cfc19d1bb0cdfedf2221beb3884a71a",
+      "actualSha256": "aaf373b65f9b3a201a6b8810530a5ee82cfc19d1bb0cdfedf2221beb3884a71a",
+      "match": true
+    },
+    {
+      "path": "validation/arm-chain-screen-right-v5-hidden-upper-arm/audit/ownership-gate-user-approval-2026-07-25.json",
+      "expectedSha256": "545fd058de5977dd75a5641c03b0a361316a9367be0120366d8cb683d6764631",
+      "actualSha256": "545fd058de5977dd75a5641c03b0a361316a9367be0120366d8cb683d6764631",
+      "match": true
+    },
+    {
+      "path": "validation/arm-chain-screen-right-v5-hidden-upper-arm/complete-sleeve-final/materials/sleeve-complete-textured-r1.png",
+      "expectedSha256": "d470c8b192c043457860528adc25d250bb43a5e56ebd1ab46dcda947773b5cc7",
+      "actualSha256": "d470c8b192c043457860528adc25d250bb43a5e56ebd1ab46dcda947773b5cc7",
+      "match": true
+    },
+    {
+      "path": "validation/arm-chain-screen-right-v5-hidden-upper-arm/complete-sleeve-final/audit/complete-sleeve-freeze-manifest-2026-07-25.json",
+      "expectedSha256": "a36c1959a1a16364997f60e4704c9af071173b79530a417216f6e5b71f3642e8",
+      "actualSha256": "a36c1959a1a16364997f60e4704c9af071173b79530a417216f6e5b71f3642e8",
+      "match": true
+    }
+  ],
+  "engineeringPassCriteria": {
+    "visiblePixelCountIs544": true,
+    "visibleRgbDifferencesAreZero": true,
+    "geometryIsSingleConnectedComponent": true,
+    "geometryHasNoHoles": true,
+    "visibleAnchorFullyContained": true,
+    "shoulderCapInsideActualSleeveAlpha": true,
+    "displayForearmDoesNotOverwriteVisibleAnchor": true,
+    "upperArmElbowExtensionMeetsRequiredMargin": true,
+    "temporaryForearmReferenceMeetsRequiredMargin": true,
+    "continuousElbowScanHasNoGap": true,
+    "continuousElbowScanHasNoDetachment": true,
+    "continuousElbowScanHasNoInnerBendSpike": true,
+    "deterministicReturn": true,
+    "noTangentJumpAbove20Deg": true,
+    "shoulderRegularCircleRiskNotTriggered": true,
+    "elbowRegularCircleRiskNotTriggered": true,
+    "temporaryForearmOuterRootWidensWithoutProximalBulge": true
+  },
+  "frozenGeometry": {
+    "shoulder": [
+      332.0,
+      261.0
+    ],
+    "elbow": [
+      355.0,
+      415.0
+    ],
+    "L1Px": 155.7080601638849,
+    "changed": false,
+    "allowedMotionRangeChanged": false
+  },
+  "visibleAnchor": {
+    "expectedPixelCount": 544,
+    "actualPixelCount": 544,
+    "coordinateDifferences": 0,
+    "rgbDifferencePixels": 0,
+    "maximumRgbChannelDifference": 0,
+    "rescaled": false,
+    "redrawn": false
+  },
+  "geometryChecks": {
+    "alphaConnectedComponents": 1,
+    "alphaHoleCount": 0,
+    "outsideGeometryAlphaPixels": 0,
+    "visibleAnchorFullyContained": true,
+    "z1PixelCount": 4465,
+    "z1PixelsOutsideActualSleeveAlphaThreshold": 18,
+    "z1ShoulderCapPixelCount": 1484,
+    "z1ShoulderCapPixelsOutsideActualSleeveAlphaThreshold": 0,
+    "temporaryForearmOverlapWithLockedVisibleUpperArmPixels": 0
+  },
+  "shoulderCoverage": {
+    "occluder": "actual frozen complete-sleeve texture alpha",
+    "alphaThreshold": 16,
+    "z1ShoulderCapContainmentMarginChebyshevPx": 8,
+    "relativeTransform": "shared frozen shoulder transform; static invariant",
+    "temporaryDependency": "torso and hair remain flattened authority inputs and must be recalculated after formal separation",
+    "finalPsdOrCubismProof": false
+  },
+  "sleeveHemBoundaryDependency": {
+    "flatGeometryPixelsOutsideFrozenSleeveAlphaAndOutsideLockedZ2": 18,
+    "location": "within approximately 3 px of the approved sleeve/skin boundary",
+    "treatment": "declared flat-master boundary dependency for visual review; not added to the 544 locked Z2 pixels and not claimed as texture"
+  },
+  "elbowCoverage": {
+    "supersampling": 4,
+    "responsibilityDiskRadiusPx": 9.0,
+    "primarySampleCount": 41,
+    "combinationExtremeCount": 6,
+    "denseContinuousTheta2SampleCount": 241,
+    "adaptiveSubdivision": {
+      "method": "uniform dense verification after primary and extreme evaluation",
+      "intervalCount": 240,
+      "maximumIntervalDeg": 0.1
+    },
+    "upperArmResponsibility": {
+      "motionDerivedCoreExtensionPx": 8,
+      "marginsPx": {
+        "antiAliasingPx": 2,
+        "futureTextureAlphaPx": 2,
+        "futureCubismInterpolationPx": 3
+      },
+      "finalRequiredExtensionPx": 15,
+      "candidateExtensionBeyondFrozenElbowPx": 17.302211826855853,
+      "passes": true
+    },
+    "forearmRootResponsibility": {
+      "motionDerivedCoreExtensionPx": 8,
+      "marginsPx": {
+        "antiAliasingPx": 2,
+        "futureTextureAlphaPx": 2,
+        "futureCubismInterpolationPx": 3
+      },
+      "finalRequiredExtensionPx": 15,
+      "temporaryReferenceExtensionPx": 23.53687427662037,
+      "temporaryReferenceWidthAtElbowPx": 30.557899199565867,
+      "passesTemporaryReferenceOnly": true,
+      "productionMaterialApproved": false,
+      "frozenPrototypeProximalPixelsReplacedInTemporaryQaProxy": 1033,
+      "frozenV4ArchiveModified": false
+    },
+    "maximumMissingResponsibilityPixelsAt4x": 0,
+    "worstGapTheta2Deg": -27.355943,
+    "minimumOverlapPixelsAt4x": 4181,
+    "worstOverlapTheta2Deg": -27.355943,
+    "brokenAdjacencySamples": 0,
+    "maximumInnerBendExposedUpperPixelsAt4x": 0,
+    "worstInnerBendExposureTheta2Deg": -27.355943
+  },
+  "elbowProtrusionRefinement": {
+    "cause": "rounded proximal cap in the frozen solid forearm prototype used by the temporary QA proxy",
+    "treatment": "keep the frozen V4 archive unchanged; replace only the temporary QA proxy before local s=22 px with a tapered root",
+    "temporaryForearmRootWidthProfile": [
+      {
+        "sPx": -17.0,
+        "innerBendNegativeNormalPx": -16.68377706282029,
+        "outerBendPositiveNormalPx": -0.09135433719026748,
+        "fullWidthPx": 16.592422725630023
+      },
+      {
+        "sPx": -14.0,
+        "innerBendNegativeNormalPx": -18.0,
+        "outerBendPositiveNormalPx": 1.6383001064316376,
+        "fullWidthPx": 19.638300106431636
+      },
+      {
+        "sPx": -8.0,
+        "innerBendNegativeNormalPx": -18.0,
+        "outerBendPositiveNormalPx": 8.137037037037036,
+        "fullWidthPx": 26.137037037037036
+      },
+      {
+        "sPx": 0.0,
+        "innerBendNegativeNormalPx": -18.0,
+        "outerBendPositiveNormalPx": 12.557899199565867,
+        "fullWidthPx": 30.557899199565867
+      },
+      {
+        "sPx": 10.0,
+        "innerBendNegativeNormalPx": -17.0,
+        "outerBendPositiveNormalPx": 13.5,
+        "fullWidthPx": 30.5
+      },
+      {
+        "sPx": 22.0,
+        "innerBendNegativeNormalPx": -16.0,
+        "outerBendPositiveNormalPx": 15.2,
+        "fullWidthPx": 31.2
+      }
+    ],
+    "outerBendMonotonicTowardShaftWithinTolerance": true,
+    "maximumOuterBendProximalExcessOverShaftPx": 0.0,
+    "innerBendExtensionIsIntentionallyLonger": true,
+    "visualEvidence": "qa/gate-10-elbow-protrusion-refinement.png",
+    "productionForearmMaterialApproved": false
+  },
+  "outlineQuality": {
+    "widthProfile": [
+      {
+        "sPx": 0.0,
+        "negativeNormalPx": -11.64475706831863,
+        "positiveNormalPx": 11.814229146681784,
+        "fullWidthPx": 23.458986215000415
+      },
+      {
+        "sPx": 20.0,
+        "negativeNormalPx": -18.0,
+        "positiveNormalPx": 14.96218783068783,
+        "fullWidthPx": 32.96218783068783
+      },
+      {
+        "sPx": 40.0,
+        "negativeNormalPx": -18.5,
+        "positiveNormalPx": 15.834212376933896,
+        "fullWidthPx": 34.3342123769339
+      },
+      {
+        "sPx": 80.0,
+        "negativeNormalPx": -16.21875,
+        "positiveNormalPx": 15.593745562970325,
+        "fullWidthPx": 31.812495562970327
+      },
+      {
+        "sPx": 120.0,
+        "negativeNormalPx": -14.5,
+        "positiveNormalPx": 14.95985604784266,
+        "fullWidthPx": 29.45985604784266
+      },
+      {
+        "sPx": 145.0,
+        "negativeNormalPx": -15.3299058011565,
+        "positiveNormalPx": 15.5,
+        "fullWidthPx": 30.8299058011565
+      },
+      {
+        "sPx": 155.7080601638849,
+        "negativeNormalPx": -12.581312068568847,
+        "positiveNormalPx": 14.827129237285254,
+        "fullWidthPx": 27.4084413058541
+      },
+      {
+        "sPx": 165.0,
+        "negativeNormalPx": -5.5,
+        "positiveNormalPx": 11.802728026533996,
+        "fullWidthPx": 17.302728026533998
+      }
+    ],
+    "tangentMetrics": {
+      "maximumAdjacentTangentChangeDeg": 5.038782962503149,
+      "maximumCoreAdjacentTangentChangeDeg": 3.229481774316241,
+      "tangentJumpCountAbove20Deg": 0
+    },
+    "shoulderCircularArcRisk": {
+      "fitAvailable": true,
+      "radiusPx": 14.803997684271206,
+      "normalizedRmse": 0.06897671657787888,
+      "regularCircleRisk": false,
+      "interpretation": "risk prompt only; Chinese visual review remains authoritative"
+    },
+    "elbowCircularArcRisk": {
+      "fitAvailable": true,
+      "radiusPx": 10.772858724010216,
+      "normalizedRmse": 0.10090908844067678,
+      "regularCircleRisk": false,
+      "interpretation": "risk prompt only; Chinese visual review remains authoritative"
+    },
+    "upperArmWidthAtElbowPx": 27.4084413058541,
+    "temporaryForearmRootWidthPx": 30.557899199565867,
+    "longStripPlusRoundPatchUsed": false,
+    "visualReviewStillRequired": true
+  },
+  "motionChecks": {
+    "primarySampleCount": 41,
+    "combinationExtremeCount": 6,
+    "maximumMissingSeamPixelsAt4x": 0,
+    "brokenAdjacencySamples": 0,
+    "deterministicReturn0To1To0": true,
+    "physicsUsed": false
+  },
+  "artifacts": {
+    "masks/upper-arm-complete-geometry.png": "b0045ffecbcfd9dfdb776a84049a70c1589314cc2df8df8091eb30ababadb94d",
+    "materials/geometry/upper-arm-complete-flat-reference.png": "fceb40907e7c47859bfb7de151a7fc1da35f3051ca4faebd055a5df437b83baf",
+    "masks/reference/visible-upper-arm-locked-reference.png": "c2dfe729e21f3359b9fe866ede85aef2304452a662b9ba471172b57af45c4ebd",
+    "masks/reference/forearm-root-temporary-coverage.png": "deb3c5f91850a03c8d324f694d9f4752e15784b614c63f3e3ef21ca64fd62650",
+    "samples/fk-41-and-continuous-elbow-scan.json": "4e521c4e5c4eed4e4187bd2e1b7e66bbb341ea14617e5e3272ae33f48fe75fd7",
+    "qa/gate-0-body-alignment-review.png": "d174e20b6b7228fa906d6223a6af695eadbaf3b9c3f36074d372ec7684f9e4f0",
+    "qa/gate-1-complete-upper-arm-isolated.png": "1687266e190dca805d8452bd3504dcc9113d0252d6ddaff3e5f04482b7c85c2a",
+    "qa/gate-2-default-recomposition.png": "1b65ea2168f88d82e94b390ea724d897378403ee88661c598a4253c16af261d2",
+    "qa/gate-3-sleeve-moved-away.png": "4279eeb76d74846742d9f52a73fb4c3bf33591b164ef785b5dbb06198d97ece6",
+    "qa/gate-4-forearm-moved-away.png": "c09c9350413a596cba8e49329bf49038ee993c2f6635f8fdbf7b8f01e63d93bd",
+    "qa/gate-5-shoulder-zoom.png": "a517853b536f48119d5118d7f4da195df31fdf851ecb1bf488b8bccb48b67f33",
+    "qa/gate-6-elbow-zoom.png": "66d8ab03f940463ddd922f1d68de307ee4561cc87a4d3ebe6bca377cd6c7d036",
+    "qa/gate-7-six-combination-extremes.png": "224690de9302a614f4f0960190540658cf3c06c96ba726791b4caeab17b60074",
+    "qa/gate-8-elbow-single-parameter-scan.gif": "218b9a740371965d7cbee725d54ebdf6c7863f779017718bb4f2b80784d91dc4",
+    "qa/gate-9-displaced-parts-integrity.png": "268cbaab74e2771ab4c4d78c748a007a9499a89562a5cd412b89b2014e15feb7",
+    "qa/gate-10-elbow-protrusion-refinement.png": "29fb7f16a86ef2f8af927f97741bf04f05ea9c89cb0cc19727fb7ea8017ec51b"
+  },
+  "visualEvidence": [
+    "qa/gate-0-body-alignment-review.png",
+    "qa/gate-1-complete-upper-arm-isolated.png",
+    "qa/gate-2-default-recomposition.png",
+    "qa/gate-3-sleeve-moved-away.png",
+    "qa/gate-4-forearm-moved-away.png",
+    "qa/gate-5-shoulder-zoom.png",
+    "qa/gate-6-elbow-zoom.png",
+    "qa/gate-7-six-combination-extremes.png",
+    "qa/gate-8-elbow-single-parameter-scan.gif",
+    "qa/gate-9-displaced-parts-integrity.png",
+    "qa/gate-10-elbow-protrusion-refinement.png"
+  ],
+  "limitations": [
+    "shoulder-side body and hair occlusion is a temporary flat-master dependency",
+    "the forearm-root extension is a temporary solid reference, not approved production material",
+    "the future production forearm root must reproduce and revalidate the tapered asymmetric overlap instead of inheriting this QA proxy automatically",
+    "FK and supersampled raster evidence do not prove Cubism interpolation",
+    "no texture, PSD, Cubism, Physics, or Runtime claim"
+  ],
+  "selfVisualAudit": {
+    "previousCandidateRejectedByUser": true,
+    "userFeedback": "outline and alignment do not match the body posture",
+    "latestUserFeedback": "the right side of the temporary forearm root still protrudes",
+    "revision": "removed the right-side width peak, trimmed the matching hidden upper-arm end, and preserved every locked visible upper-arm pixel",
+    "currentShoulderRegularCircleRisk": false,
+    "currentElbowRegularCircleRisk": false,
+    "displacedTemporaryForearmHasDetachedFragments": false,
+    "decision": "approved_candidate_reopened_for_elbow_protrusion_refinement"
+  },
+  "userVisualApproval": {
+    "recordPath": "audit/user-visual-approval-complete-upper-arm-geometry-2026-07-25.json",
+    "sha256": "c3712a02f59a353d15de538f6b9acbb383c3e46d9b0391f9c721257cb9f0c3d4",
+    "decision": "approved",
+    "approvalStatement": "通过",
+    "status": "superseded_for_elbow_protrusion_refinement",
+    "approvedArtifactHashesMatchCurrentArtifacts": null,
+    "invalidationRecord": {
+      "path": "audit/geometry-approval-invalidation-2026-07-25.json",
+      "sha256": "4f9a5894d98980fe67444934fb6abecc067ef0a856be006f5e8802e0ec751366",
+      "reason": "After approval, the user requested a finer elbow review because bending may create a visually illogical protrusion at the upper-arm and forearm overlap."
+    }
+  },
+  "doesNotClaim": [
+    "user-approved complete upper-arm geometry",
+    "production forearm material",
+    "upper-arm texture",
+    "PSD",
+    "Cubism",
+    "Physics",
+    "Runtime"
+  ],
+  "nextGate": "Refine elbow overlap protrusion evidence and obtain a new Chinese user visual approval; stop before texture."
+}

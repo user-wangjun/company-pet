@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "status": "advisory_measurement_requires_visual_approval",
+  "source": "source/masters/front-color-source-exact-after-reset.png",
+  "method": {
+    "description": "Compare candidate elbow heights using the dominant visible skin-span midpoint, fixed shoulder and wrist, bone-length balance, and a single outward bend branch.",
+    "warning": "Color scanlines assist landmark placement only; they are not production masks."
+  },
+  "candidateComparison": [
+    {
+      "point": [353, 405],
+      "upperArmLengthPx": 145.523,
+      "forearmLengthPx": 134.104,
+      "lengthRatio": 1.085,
+      "relativeElbowAngleDeg": -9.057
+    },
+    {
+      "point": [353, 410],
+      "upperArmLengthPx": 150.473,
+      "forearmLengthPx": 129.341,
+      "lengthRatio": 1.163,
+      "relativeElbowAngleDeg": -9.992
+    },
+    {
+      "point": [355, 415],
+      "upperArmLengthPx": 155.708,
+      "forearmLengthPx": 123.968,
+      "lengthRatio": 1.256,
+      "relativeElbowAngleDeg": -9.356,
+      "selected": true
+    },
+    {
+      "point": [356, 420],
+      "upperArmLengthPx": 160.801,
+      "forearmLengthPx": 118.903,
+      "lengthRatio": 1.352,
+      "relativeElbowAngleDeg": -9.547
+    },
+    {
+      "point": [357, 425],
+      "upperArmLengthPx": 165.895,
+      "forearmLengthPx": 113.842,
+      "lengthRatio": 1.457,
+      "relativeElbowAngleDeg": -9.768,
+      "rejectedAsV2": true
+    }
+  ],
+  "selectedScanline": {
+    "y": 415,
+    "dominantSkinSpanX": [339, 371],
+    "midpointX": 355.0
+  },
+  "selectedElbow": {
+    "x": 355,
+    "y": 415,
+    "deltaFromV2": [-2, -10],
+    "reason": "Matches the visible volume center while restoring a more balanced projected upper-arm/forearm proportion."
+  },
+  "straightChordAtSelectedY": {
+    "x": 366.536765,
+    "elbowInwardOffsetPx": 11.536765
+  },
+  "correctedCenterlineCheck": {
+    "sampleYRange": [400, 475],
+    "sampleCount": 9,
+    "rmsErrorPx": 1.434232,
+    "maximumAbsoluteErrorPx": 2.822034,
+    "interpretation": "The rigid two-bone axis remains within a small fraction of the visible local half-width; anatomical segment balance takes priority over fitting the soft contour as one straight line."
+  }
+}
+

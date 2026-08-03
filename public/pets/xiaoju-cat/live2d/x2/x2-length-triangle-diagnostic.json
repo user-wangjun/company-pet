@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "stage": "X2-pose-solve",
+  "status": "diagnostic-only-not-layer-separation",
+  "gateBoundary": {
+    "allowedUse": "Visualize X2 bone-length preservation and local triangle constraints in the existing low-detail blockout.",
+    "notAllowedUse": [
+      "formal material separation",
+      "formal Delaunay triangulation",
+      "ArtMesh topology",
+      "X3/X4 authorization"
+    ]
+  },
+  "sampleCount": 41,
+  "reviewFrames": [
+    0,
+    8,
+    16,
+    20,
+    24,
+    32,
+    40
+  ],
+  "maxSegmentLengthDrift": 0.0,
+  "maxTriangleEdgeDrift": {
+    "L": {
+      "scapula_L->shoulder_L": 0.0,
+      "shoulder_L->elbow_L": 5.77e-06,
+      "elbow_L->scapula_L": 0.12103135,
+      "elbow_L->wrist_L": 9.65e-06,
+      "wrist_L->shoulder_L": 0.27110283,
+      "wrist_L->forepaw_L": 7.12e-06,
+      "forepaw_L->elbow_L": 0.1551117
+    },
+    "R": {
+      "scapula_R->shoulder_R": 0.0,
+      "shoulder_R->elbow_R": 5.77e-06,
+      "elbow_R->scapula_R": 0.12103135,
+      "elbow_R->wrist_R": 9.65e-06,
+      "wrist_R->shoulder_R": 0.27110283,
+      "wrist_R->forepaw_R": 7.12e-06,
+      "forepaw_R->elbow_R": 0.1551117
+    }
+  },
+  "interpretation": {
+    "boneEdges": "Anatomical bone segment rows should remain near zero; these are the no-stretch evidence.",
+    "foldingDiagonals": "Diagonal rows such as shoulder->wrist and elbow->forepaw are expected to change as the limb folds; they are visual triangle constraints, not fixed bones.",
+    "formalTriangulation": "These diagnostic triangles are not layer boundaries, not Delaunay output, and not ArtMesh topology."
+  },
+  "outputs": {
+    "visualDiagnostic": "live2d/x2/qa/x2-length-triangle-diagnostic.png"
+  }
+}

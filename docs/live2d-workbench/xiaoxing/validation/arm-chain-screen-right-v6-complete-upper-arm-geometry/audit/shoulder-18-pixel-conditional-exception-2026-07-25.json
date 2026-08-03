@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "exception": "v6_shoulder_side_18_pixel_flat_master_dependency",
+  "date": "2026-07-25",
+  "decisionOwner": "user",
+  "userDecision": "conditionally_accepted_with_v6_visual_approval",
+  "status": "accepted_only_while_torso_and_hair_remain_flattened",
+  "occluder": {
+    "path": "../arm-chain-screen-right-v5-hidden-upper-arm/complete-sleeve-final/materials/sleeve-complete-textured-r1.png",
+    "sha256": "d470c8b192c043457860528adc25d250bb43a5e56ebd1ab46dcda947773b5cc7",
+    "alphaThreshold": 16
+  },
+  "diagnostic": {
+    "path": "qa/gate-11-shoulder-18-conditional-pixels-zoom.png",
+    "sha256": "6225d3302826c2b750e60e96408b6ed33c039f61977bbbcb2dcb41a82505db27"
+  },
+  "pixels": [
+    {"x":361,"y":392,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":362,"y":392,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":363,"y":392,"sleeveAlpha":2,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":364,"y":392,"sleeveAlpha":3,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":365,"y":392,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":359,"y":393,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":360,"y":393,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":361,"y":393,"sleeveAlpha":4,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":362,"y":393,"sleeveAlpha":2,"distanceToSleeveAlpha16ChebyshevPx":2,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":363,"y":393,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":2,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":364,"y":393,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":2,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":365,"y":393,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":2,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":357,"y":394,"sleeveAlpha":1,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":358,"y":394,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":359,"y":394,"sleeveAlpha":4,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":360,"y":394,"sleeveAlpha":1,"distanceToSleeveAlpha16ChebyshevPx":2,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":361,"y":394,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":2,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"},
+    {"x":355,"y":395,"sleeveAlpha":0,"distanceToSleeveAlpha16ChebyshevPx":1,"reason":"approved flat-master sleeve/skin antialiased boundary pixel"}
+  ],
+  "pixelCount": 18,
+  "acceptanceBasis": [
+    "All pixels lie within two Chebyshev pixels of the frozen sleeve alpha-16 boundary.",
+    "The high-magnification diagnostic shows them on the approved flat-master sleeve/skin transition.",
+    "The user approved the current V6 geometry after reviewing this diagnostic."
+  ],
+  "automaticReopenRules": [
+    "Reopen shoulder-side coverage when torso or hair is formally separated.",
+    "Reopen if the frozen sleeve alpha, complete upper-arm mask, or flat-master registration changes."
+  ],
+  "claimBoundary": "This conditional exception does not prove future PSD or Cubism shoulder-side coverage."
+}

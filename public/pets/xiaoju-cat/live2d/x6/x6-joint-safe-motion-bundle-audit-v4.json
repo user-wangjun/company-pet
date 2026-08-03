@@ -1,0 +1,686 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-joint-safe-motion-bundle-10px-pull-audit",
+  "status": "pass-candidate",
+  "stressDistancePixels": 10,
+  "jointRecordCount": 39,
+  "passCount": 39,
+  "allJointsRemainConnected": true,
+  "minimumParentContactAfterShiftPixels": 56,
+  "minimumChildBoundaryContactAfterShiftPixels": 19,
+  "records": [
+    {
+      "view": "front",
+      "childBundle": "tail",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        0,
+        10
+      ],
+      "parentContactAfterShiftPixels": 552,
+      "childBoundaryContactAfterShiftPixels": 203,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "leg_L_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        9,
+        5
+      ],
+      "parentContactAfterShiftPixels": 1391,
+      "childBoundaryContactAfterShiftPixels": 279,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "leg_L_lower_paw",
+      "declaredParentBundle": "leg_L_upper",
+      "effectiveParentBundleInView": "leg_L_upper",
+      "occlusionCoverBundles": [
+        "leg_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        5,
+        9
+      ],
+      "parentContactAfterShiftPixels": 351,
+      "childBoundaryContactAfterShiftPixels": 197,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "leg_R_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -9,
+        5
+      ],
+      "parentContactAfterShiftPixels": 1379,
+      "childBoundaryContactAfterShiftPixels": 282,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "leg_R_lower_paw",
+      "declaredParentBundle": "leg_R_upper",
+      "effectiveParentBundleInView": "leg_R_upper",
+      "occlusionCoverBundles": [
+        "leg_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -4,
+        9
+      ],
+      "parentContactAfterShiftPixels": 393,
+      "childBoundaryContactAfterShiftPixels": 222,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "arm_L_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        9,
+        -4
+      ],
+      "parentContactAfterShiftPixels": 3029,
+      "childBoundaryContactAfterShiftPixels": 2866,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "arm_L_lower_paw",
+      "declaredParentBundle": "arm_L_upper",
+      "effectiveParentBundleInView": "arm_L_upper",
+      "occlusionCoverBundles": [
+        "arm_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        8,
+        5
+      ],
+      "parentContactAfterShiftPixels": 471,
+      "childBoundaryContactAfterShiftPixels": 160,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "arm_R_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -9,
+        -4
+      ],
+      "parentContactAfterShiftPixels": 3104,
+      "childBoundaryContactAfterShiftPixels": 2754,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "arm_R_lower_paw",
+      "declaredParentBundle": "arm_R_upper",
+      "effectiveParentBundleInView": "arm_R_upper",
+      "occlusionCoverBundles": [
+        "arm_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -9,
+        5
+      ],
+      "parentContactAfterShiftPixels": 422,
+      "childBoundaryContactAfterShiftPixels": 165,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "head",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        0,
+        -10
+      ],
+      "parentContactAfterShiftPixels": 1619,
+      "childBoundaryContactAfterShiftPixels": 334,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "ear_L",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        5,
+        -8
+      ],
+      "parentContactAfterShiftPixels": 641,
+      "childBoundaryContactAfterShiftPixels": 421,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "ear_R",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -5,
+        -9
+      ],
+      "parentContactAfterShiftPixels": 695,
+      "childBoundaryContactAfterShiftPixels": 487,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "mouth",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        1,
+        10
+      ],
+      "parentContactAfterShiftPixels": 7392,
+      "childBoundaryContactAfterShiftPixels": 2481,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "eye_L",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        8,
+        -6
+      ],
+      "parentContactAfterShiftPixels": 848,
+      "childBoundaryContactAfterShiftPixels": 646,
+      "passes": true
+    },
+    {
+      "view": "front",
+      "childBundle": "eye_R",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -8,
+        -6
+      ],
+      "parentContactAfterShiftPixels": 847,
+      "childBoundaryContactAfterShiftPixels": 646,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "tail",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        3,
+        10
+      ],
+      "parentContactAfterShiftPixels": 746,
+      "childBoundaryContactAfterShiftPixels": 222,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "leg_L_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -7,
+        8
+      ],
+      "parentContactAfterShiftPixels": 618,
+      "childBoundaryContactAfterShiftPixels": 113,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "leg_L_lower_paw",
+      "declaredParentBundle": "leg_L_upper",
+      "effectiveParentBundleInView": "leg_L_upper",
+      "occlusionCoverBundles": [
+        "leg_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -5,
+        9
+      ],
+      "parentContactAfterShiftPixels": 76,
+      "childBoundaryContactAfterShiftPixels": 96,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "leg_R_lower_paw",
+      "declaredParentBundle": "leg_R_upper",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": true,
+      "outwardShiftPixels": [
+        -4,
+        9
+      ],
+      "parentContactAfterShiftPixels": 492,
+      "childBoundaryContactAfterShiftPixels": 134,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "arm_L_lower_paw",
+      "declaredParentBundle": "arm_L_upper",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": true,
+      "outwardShiftPixels": [
+        -9,
+        -4
+      ],
+      "parentContactAfterShiftPixels": 56,
+      "childBoundaryContactAfterShiftPixels": 19,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "arm_R_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -6,
+        -8
+      ],
+      "parentContactAfterShiftPixels": 3453,
+      "childBoundaryContactAfterShiftPixels": 3405,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "arm_R_lower_paw",
+      "declaredParentBundle": "arm_R_upper",
+      "effectiveParentBundleInView": "arm_R_upper",
+      "occlusionCoverBundles": [
+        "arm_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -9,
+        5
+      ],
+      "parentContactAfterShiftPixels": 316,
+      "childBoundaryContactAfterShiftPixels": 130,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "head",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -3,
+        -10
+      ],
+      "parentContactAfterShiftPixels": 1376,
+      "childBoundaryContactAfterShiftPixels": 260,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "ear_L",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -1,
+        -10
+      ],
+      "parentContactAfterShiftPixels": 614,
+      "childBoundaryContactAfterShiftPixels": 397,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "ear_R",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        3,
+        -10
+      ],
+      "parentContactAfterShiftPixels": 567,
+      "childBoundaryContactAfterShiftPixels": 304,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "mouth",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -2,
+        10
+      ],
+      "parentContactAfterShiftPixels": 4081,
+      "childBoundaryContactAfterShiftPixels": 1433,
+      "passes": true
+    },
+    {
+      "view": "side",
+      "childBundle": "eye_L",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -9,
+        -5
+      ],
+      "parentContactAfterShiftPixels": 220,
+      "childBoundaryContactAfterShiftPixels": 350,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "tail",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -1,
+        10
+      ],
+      "parentContactAfterShiftPixels": 792,
+      "childBoundaryContactAfterShiftPixels": 221,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "leg_L_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        9,
+        5
+      ],
+      "parentContactAfterShiftPixels": 826,
+      "childBoundaryContactAfterShiftPixels": 158,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "leg_L_lower_paw",
+      "declaredParentBundle": "leg_L_upper",
+      "effectiveParentBundleInView": "leg_L_upper",
+      "occlusionCoverBundles": [
+        "leg_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        5,
+        8
+      ],
+      "parentContactAfterShiftPixels": 294,
+      "childBoundaryContactAfterShiftPixels": 147,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "leg_R_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -9,
+        4
+      ],
+      "parentContactAfterShiftPixels": 1554,
+      "childBoundaryContactAfterShiftPixels": 310,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "leg_R_lower_paw",
+      "declaredParentBundle": "leg_R_upper",
+      "effectiveParentBundleInView": "leg_R_upper",
+      "occlusionCoverBundles": [
+        "leg_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -5,
+        8
+      ],
+      "parentContactAfterShiftPixels": 763,
+      "childBoundaryContactAfterShiftPixels": 211,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "arm_L_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        10,
+        -2
+      ],
+      "parentContactAfterShiftPixels": 2408,
+      "childBoundaryContactAfterShiftPixels": 2878,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "arm_L_lower_paw",
+      "declaredParentBundle": "arm_L_upper",
+      "effectiveParentBundleInView": "arm_L_upper",
+      "occlusionCoverBundles": [
+        "arm_L_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        8,
+        6
+      ],
+      "parentContactAfterShiftPixels": 484,
+      "childBoundaryContactAfterShiftPixels": 167,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "arm_R_upper",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body",
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -10,
+        -2
+      ],
+      "parentContactAfterShiftPixels": 1451,
+      "childBoundaryContactAfterShiftPixels": 4567,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "arm_R_lower_paw",
+      "declaredParentBundle": "arm_R_upper",
+      "effectiveParentBundleInView": "arm_R_upper",
+      "occlusionCoverBundles": [
+        "arm_R_upper"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -9,
+        4
+      ],
+      "parentContactAfterShiftPixels": 690,
+      "childBoundaryContactAfterShiftPixels": 206,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "head",
+      "declaredParentBundle": "body",
+      "effectiveParentBundleInView": "body",
+      "occlusionCoverBundles": [
+        "body"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        0,
+        -10
+      ],
+      "parentContactAfterShiftPixels": 983,
+      "childBoundaryContactAfterShiftPixels": 238,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "ear_L",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        6,
+        -8
+      ],
+      "parentContactAfterShiftPixels": 848,
+      "childBoundaryContactAfterShiftPixels": 503,
+      "passes": true
+    },
+    {
+      "view": "back",
+      "childBundle": "ear_R",
+      "declaredParentBundle": "head",
+      "effectiveParentBundleInView": "head",
+      "occlusionCoverBundles": [
+        "head"
+      ],
+      "occludedParentFallback": false,
+      "outwardShiftPixels": [
+        -4,
+        -9
+      ],
+      "parentContactAfterShiftPixels": 2276,
+      "childBoundaryContactAfterShiftPixels": 713,
+      "passes": true
+    }
+  ],
+  "gateBoundary": {
+    "gate6Approved": false,
+    "x7Authorized": false
+  },
+  "limit": "This tests layer overlap under a 10 px outward pull. It does not authorize or replace X7 elasticity, Cubism deformation, or rotation QA."
+}

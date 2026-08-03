@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "v7c1_production_forearm_geometry_user_approved",
+  "decisionDate": "2026-07-26",
+  "decisionOwner": "user",
+  "status": "user_visual_approved_and_freeze_authorized",
+  "actualUserStatement": "批准",
+  "contextualApprovalRequest": "批准 V7-C1 肘缝双侧圆滑修正及 35 像素边界例外",
+  "approvedScope": [
+    "V7-C1 complete production forearm pure-color geometry",
+    "bilateral 10 px elbow-root smoothstep fairing",
+    "35 source-boundary-pixel neutral fairing exception",
+    "F1-F4 mutually exclusive material partition and F5 QA responsibility",
+    "temporary hand-root minimum-envelope contract",
+    "formal elbow-root dependency replacement",
+    "elbow, wrist, full-chain, and displaced-part Chinese visual evidence"
+  ],
+  "approvedEvidence": [
+    "qa/V7-C1-ELBOW-SEAM-BEFORE-AFTER.png",
+    "qa/V7-C1-FORMAL-ELBOW-THREE-ANGLES.png",
+    "qa/V7-C1-FORMAL-ELBOW-SLOW-SCAN.gif",
+    "qa/V7-C1-WRIST-THREE-ANGLES.png",
+    "qa/V7-C1-WRIST-SLOW-SCAN.gif",
+    "qa/V7-C1-FULL-CHAIN-ELBOW-WRIST-3X3.png",
+    "qa/V7-C1-DISPLACED-PART-INTEGRITY.png"
+  ],
+  "explicitlyNotApproved": [
+    "forearm or upper-arm texture",
+    "formal hand geometry",
+    "PSD",
+    "ArtMesh",
+    "Cubism",
+    "Physics",
+    "Runtime"
+  ]
+}

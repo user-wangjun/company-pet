@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "status": "pass-candidate-for-user-review",
+  "checks": {
+    "x5ApprovalRecorded": true,
+    "x2RoundtripReused": true,
+    "maskReconstructionReferenced": true,
+    "gazeNinePointBounded": true,
+    "blinkFiveKeyforms": true,
+    "traceBounded": true,
+    "traceContinuous": true,
+    "returnsToRest": true,
+    "intentionalBilateralOffset": true,
+    "coreMotionNotPhysics": true,
+    "x7NotAuthorized": true
+  },
+  "knownLimits": [
+    "This is a Cubism-ready parameter/keyform candidate, not a .cmo3/.moc3 model.",
+    "Eye clipping and eyelid deformation still require Cubism wireframe proof after this gate.",
+    "The five cover diagrams are control-chain previews over the approved X2 solve, not final rendered fur deformation."
+  ]
+}

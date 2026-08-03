@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "layerId": "upper_arm_L",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/31_front_upper_arm_L.png",
+  "primaryController": "Shoulder_L",
+  "parent": "Shoulder_L",
+  "actionSubject": "Shoulder_L",
+  "deformationRole": "parent-transform-rigid-surface",
+  "densityProfile": "inherited-rigid-sparse",
+  "pivotName": "shoulder_L",
+  "pivotPoint": [
+    57.0,
+    5.0
+  ],
+  "points": [
+    [
+      40.0,
+      125.5
+    ],
+    [
+      -0.5,
+      115.0
+    ],
+    [
+      14.5,
+      55.0
+    ],
+    [
+      51.0,
+      7.5
+    ],
+    [
+      92.0,
+      5.5
+    ],
+    [
+      113.5,
+      28.0
+    ],
+    [
+      108.5,
+      50.0
+    ],
+    [
+      58.5,
+      118.0
+    ],
+    [
+      35.299,
+      87.339
+    ],
+    [
+      63.057,
+      51.334
+    ]
+  ],
+  "triangles": [
+    [
+      0,
+      8,
+      7
+    ],
+    [
+      1,
+      8,
+      0
+    ],
+    [
+      1,
+      2,
+      8
+    ],
+    [
+      4,
+      9,
+      3
+    ],
+    [
+      4,
+      5,
+      6
+    ],
+    [
+      7,
+      9,
+      6
+    ],
+    [
+      9,
+      7,
+      8
+    ],
+    [
+      2,
+      9,
+      8
+    ],
+    [
+      9,
+      4,
+      6
+    ],
+    [
+      2,
+      3,
+      9
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.92,
+      0.92
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.72
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      1.0
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 10,
+    "triangleCount": 10,
+    "minimumTriangleAngleDegrees": 23.354,
+    "medianTriangleAngleDegrees": 42.961
+  },
+  "candidateOnly": true
+}

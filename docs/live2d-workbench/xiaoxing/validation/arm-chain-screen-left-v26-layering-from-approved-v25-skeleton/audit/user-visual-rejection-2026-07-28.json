@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "status": "user_visual_rejected",
+  "decisionOwner": "user",
+  "decisionDate": "2026-07-28",
+  "userFeedback": "太粗糙，请你仔细一点",
+  "earliestFailurePoint": "Stage A material boundary construction",
+  "observedProblems": [
+    "sleeve silhouette was reduced to a hard polygon",
+    "upper-arm and forearm volumes read as straight engineering strips",
+    "hand and finger silhouette lost source-specific curvature and spacing"
+  ],
+  "consequence": [
+    "V26 is retained as failed evidence only",
+    "V26 visual gate is not passed",
+    "no texture, PSD, Cubism, Physics, or Runtime work may proceed from V26"
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "layerId": "back_neck_L",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/54_back_back_neck_L.png",
+  "primaryController": "Neck",
+  "parent": "Neck",
+  "actionSubject": "Neck",
+  "deformationRole": "parent-transform-rigid-surface",
+  "densityProfile": "inherited-rigid-sparse",
+  "pivotName": "neck",
+  "pivotPoint": [
+    68.0,
+    72.0
+  ],
+  "points": [
+    [
+      80.0,
+      143.5
+    ],
+    [
+      33.0,
+      140.5
+    ],
+    [
+      -0.5,
+      124.0
+    ],
+    [
+      16.5,
+      82.0
+    ],
+    [
+      25.0,
+      -0.5
+    ],
+    [
+      63.0,
+      21.5
+    ],
+    [
+      120.5,
+      4.0
+    ],
+    [
+      120.5,
+      78.0
+    ],
+    [
+      135.5,
+      126.0
+    ],
+    [
+      100.348,
+      41.0
+    ],
+    [
+      68.588,
+      82.286
+    ]
+  ],
+  "triangles": [
+    [
+      3,
+      10,
+      1
+    ],
+    [
+      7,
+      0,
+      10
+    ],
+    [
+      1,
+      10,
+      0
+    ],
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      3,
+      4,
+      5
+    ],
+    [
+      5,
+      6,
+      9
+    ],
+    [
+      9,
+      7,
+      10
+    ],
+    [
+      0,
+      7,
+      8
+    ],
+    [
+      5,
+      10,
+      3
+    ],
+    [
+      6,
+      7,
+      9
+    ],
+    [
+      5,
+      9,
+      10
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.92,
+      0.92
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.72
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      1.0
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 11,
+    "triangleCount": 11,
+    "minimumTriangleAngleDegrees": 28.575,
+    "medianTriangleAngleDegrees": 42.29
+  },
+  "candidateOnly": true
+}

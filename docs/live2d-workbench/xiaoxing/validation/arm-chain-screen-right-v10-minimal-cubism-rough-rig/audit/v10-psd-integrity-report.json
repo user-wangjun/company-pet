@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "status": "pass_psd_structure",
+  "canvas": [
+    512,
+    1086
+  ],
+  "resolutionPpi": 72,
+  "colorMode": "RGB",
+  "bitsPerChannel": 8,
+  "layerCount": 4,
+  "layerOrderFrontToBack": [
+    {
+      "name": "01_sleeve",
+      "boundsCanvasPx": [
+        303,
+        219,
+        403,
+        401
+      ]
+    },
+    {
+      "name": "03_forearm_including_bracelet",
+      "boundsCanvasPx": [
+        341,
+        414,
+        405,
+        546
+      ]
+    },
+    {
+      "name": "04_whole_hand",
+      "boundsCanvasPx": [
+        378,
+        529,
+        435,
+        621
+      ]
+    },
+    {
+      "name": "02_upper_arm_engineering",
+      "boundsCanvasPx": [
+        320,
+        252,
+        371,
+        433
+      ]
+    }
+  ],
+  "drawOrderBackToFront": [
+    {
+      "name": "02_upper_arm_engineering",
+      "order": 100
+    },
+    {
+      "name": "04_whole_hand",
+      "order": 200
+    },
+    {
+      "name": "03_forearm_including_bracelet",
+      "order": 300
+    },
+    {
+      "name": "01_sleeve",
+      "order": 400
+    }
+  ],
+  "stableLayerNamesFoundInPsd": [
+    "01_sleeve",
+    "02_upper_arm_engineering",
+    "03_forearm_including_bracelet",
+    "04_whole_hand"
+  ],
+  "integerRegistrationChanged": false,
+  "resampled": false,
+  "translated": false,
+  "scaled": false,
+  "referenceMasterIncluded": false,
+  "fallbackLayerIncluded": false,
+  "sourceInputs": [
+    "inputs/01_sleeve.png",
+    "inputs/02_upper_arm_engineering.png",
+    "inputs/03_forearm_including_bracelet.png",
+    "inputs/04_whole_hand.png"
+  ],
+  "output": "psd/xiaoxing-arm-chain-v10-import.psd",
+  "outputSha256": "5efed7934dbe5157c6d9f34120141dc8aa71b8b78a8f2652c86b1e1ea48f6369",
+  "outputBytes": 198241,
+  "verification": {
+    "construction": "Photoshop JSX duplicated the four full-canvas PNG inputs into one 512x1086 document without transforms and saved over the existing V10 PSD.",
+    "realGuiObserved": true,
+    "layerPanelObserved": true,
+    "binaryStableLayerNameCheck": true
+  },
+  "privacy": {
+    "absolutePathsWritten": false,
+    "sourceFilesUploaded": false,
+    "cloudServicesUsed": false
+  }
+}

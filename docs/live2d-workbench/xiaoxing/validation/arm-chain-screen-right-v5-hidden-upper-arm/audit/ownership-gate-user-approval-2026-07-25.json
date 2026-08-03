@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "decisionDate": "2026-07-25",
+  "decisionOwner": "user",
+  "status": "approved",
+  "approvedItems": {
+    "visibleUpperArmBoundary": true,
+    "sleeveHemOccluderBoundary": true,
+    "mixedBandOwnedBySleeve": true,
+    "predeclaredMotionFringeTolerance": true
+  },
+  "decisionEvidence": "User replied: 批准",
+  "scope": "Stage B visible upper-arm and sleeve-hem ownership gate only",
+  "doesNotApprove": [
+    "H_test geometry",
+    "hidden texture",
+    "textured-alpha QA",
+    "Cubism",
+    "PSD",
+    "Physics",
+    "Runtime"
+  ]
+}

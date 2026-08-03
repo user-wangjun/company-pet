@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "stage": "X3-spread-pose-master",
+  "status": "candidate-for-user-review",
+  "authorization": {
+    "x2ApprovedByUser": true,
+    "x3Authorized": true,
+    "x3ApprovedByUser": false,
+    "x4Authorized": false,
+    "evidence": "User said: \"没什么问题，继续吧，可以分层了\". Under the corrected PRD, this approves X2 and authorizes X3 only."
+  },
+  "sourceAuthority": {
+    "identityAndProportion": "three-view-preview.png",
+    "bodyContract": "live2d/x1/x1-canonical-body-contract.json",
+    "poseSolveContract": "live2d/x2/x2-pose-solve-contract.json",
+    "x2ReviewManifest": "live2d/x2/x2-user-review-manifest.json",
+    "processPlan": "live2d/XIAOJU-LIVE2D-IMPLEMENTATION-PRD-v2.1.md"
+  },
+  "goal": "Create one complete, connected Xiaoju spread-pose / large-character three-view master for visual review before any formal layer separation.",
+  "mustInclude": [
+    "front spread-pose Xiaoju with full head, torso, four limbs, four paws, ears, tail, face, and hidden anatomical continuity",
+    "side spread-pose Xiaoju that preserves the same segment lengths, rounded kitten volumes, ear identity, tail root, and limb identity",
+    "back spread-pose Xiaoju that resolves hidden forelimb and tail-root attachment without inventing a different body",
+    "visible safe overlap zones around shoulders, elbows, wrists, hips, hocks, tail root, ears, cheeks, chest fur, and belly fur",
+    "clear eye sockets and eye cover zones as future layer references, without creating final eye layer separation yet"
+  ],
+  "mustNotInclude": [
+    "formal separated layer images",
+    "PSD or Photoshop import",
+    "formal Delaunay triangulation",
+    "ArtMesh vertex topology",
+    "Cubism Deformer, Physics, or runtime edits",
+    "mixed-source body parts or old login head reuse",
+    "bone shortening or body scaling to satisfy the cover action"
+  ],
+  "reviewQuestions": [
+    "Does the spread-pose master still read as Xiaoju from the approved three-view identity?",
+    "Do front, side, and back views describe the same body rather than three separate cats?",
+    "Are hidden shoulder, forelimb, hip, tail-root, ear-root, and belly areas continuous enough for later layer separation?",
+    "Are round kitten volumes preserved without ribcage, abdomen, pelvis, or head collapse?",
+    "Are there enough visible overlap areas to later cut layers safely without holes?",
+    "Does the master avoid pre-solving formal layer boundaries or ArtMesh triangles?"
+  ],
+  "nextGate": {
+    "ifApproved": "X4 detailed semantic layer image generation from the approved X3 master",
+    "ifRejected": "revise X3 master only; do not proceed to layer separation"
+  }
+}

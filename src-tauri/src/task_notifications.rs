@@ -169,6 +169,52 @@ pub fn show_task_notification(
 }
 
 #[tauri::command]
+pub fn show_care_notification(
+    app: tauri::AppHandle,
+    kind: String,
+    title: String,
+    body: String,
+) -> Result<(), String> {
+    #[cfg(not(target_os = "windows"))]
+    {
+        let _ = (app, kind, title, body);
+        return Err("custom care notification is only available on Windows".into());
+    }
+
+    #[cfg(target_os = "windows")]
+    {
+        use windows::{
+            core::HSTRING,
+            Data::Xml::Dom::XmlDocument,
+            UI::Notifications::{ToastNotification, ToastNotificationManager},
+        };
+
+        let xml = format!(
+            r#"<toast><visual><binding template="ToastGeneric"><text>{}</text><text>{}</text></binding></visual></toast>"#,
+            xml_escape(&title),
+            xml_escape(&body),
+        );
+        let document = XmlDocument::new().map_err(|error| error.to_string())?;
+        document
+            .LoadXml(&HSTRING::from(xml))
+            .map_err(|error| error.to_string())?;
+        let toast = ToastNotification::CreateToastNotification(&document)
+            .map_err(|error| error.to_string())?;
+        toast
+            .SetTag(&HSTRING::from(format!("care-{kind}")))
+            .map_err(|error| error.to_string())?;
+        toast
+            .SetGroup(&HSTRING::from("yuxin-care"))
+            .map_err(|error| error.to_string())?;
+        let notifier = ToastNotificationManager::CreateToastNotifierWithId(&HSTRING::from(
+            app.config().identifier.clone(),
+        ))
+        .map_err(|error| error.to_string())?;
+        notifier.Show(&toast).map_err(|error| error.to_string())
+    }
+}
+
+#[tauri::command]
 pub fn show_task_summary_notification(
     app: tauri::AppHandle,
     summary_id: String,

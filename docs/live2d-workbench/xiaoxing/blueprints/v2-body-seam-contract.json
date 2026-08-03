@@ -1,0 +1,84 @@
+{
+  "stage": "v2-body-lineart-seam-review",
+  "status": "review_landmarks_only_no_masks",
+  "source": "source/masters/gate3-line-master-candidate-v1.png",
+  "canvas": [512, 1086],
+  "sideNaming": "统一按画面左/画面右命名，括号补充角色自身侧别",
+  "purpose": "锁定相邻材料层在线稿中的可见交界；红线不是生产遮罩",
+  "seams": [
+    {
+      "id": "neck_collar",
+      "label": "脖子 与 上衣领口",
+      "crop": [205, 195, 307, 274],
+      "polyline": [[218, 226], [230, 231], [245, 234], [260, 234], [276, 231], [292, 226]],
+      "status": "visible_boundary_candidate",
+      "hiddenWork": "脖子在领口与头发下方需要连续补全"
+    },
+    {
+      "id": "screen_left_sleeve_arm",
+      "label": "画面左袖口 与 画面左手臂",
+      "crop": [91, 344, 166, 416],
+      "polyline": [[99, 370], [112, 379], [127, 386], [140, 390]],
+      "status": "visible_boundary_candidate",
+      "hiddenWork": "手臂在袖口下方保留少量重叠"
+    },
+    {
+      "id": "screen_right_sleeve_arm",
+      "label": "画面右袖口 与 画面右手臂",
+      "crop": [347, 344, 422, 416],
+      "polyline": [[373, 390], [388, 385], [402, 378], [413, 370]],
+      "status": "visible_boundary_candidate",
+      "hiddenWork": "手臂在袖口下方保留少量重叠"
+    },
+    {
+      "id": "screen_left_bracelet_hand",
+      "label": "画面左前臂、手链与完整手层",
+      "crop": [76, 510, 133, 620],
+      "polyline": [[99, 520], [111, 526], [124, 523]],
+      "status": "coarse_boundary_candidate",
+      "hiddenWork": "整只手为一个层；不拆手指，只在手链下补腕部"
+    },
+    {
+      "id": "screen_right_bracelet_hand",
+      "label": "画面右前臂、手链与完整手层",
+      "crop": [379, 510, 436, 620],
+      "polyline": [[387, 523], [400, 526], [412, 520]],
+      "status": "coarse_boundary_candidate",
+      "hiddenWork": "整只手为一个层；不拆手指，只在手链下补腕部"
+    },
+    {
+      "id": "shirt_skirt",
+      "label": "上衣衣摆 与 裙子",
+      "crop": [125, 552, 376, 655],
+      "polyline": [[139, 578], [190, 584], [256, 586], [321, 583], [358, 578]],
+      "status": "visible_boundary_candidate",
+      "hiddenWork": "裙腰在衣摆下方需连续补全"
+    },
+    {
+      "id": "skirt_legs",
+      "label": "裙摆 与 双腿",
+      "crop": [139, 606, 374, 679],
+      "polyline": [[148, 628], [196, 638], [255, 640], [317, 638], [365, 628]],
+      "status": "visible_boundary_candidate",
+      "hiddenWork": "大腿在裙内需要按三视图体积连续补全"
+    },
+    {
+      "id": "socks_shoes",
+      "label": "袜子 与 鞋口（左右分别独立）",
+      "crop": [153, 855, 358, 984],
+      "polylines": [
+        [[175, 941], [195, 948], [217, 942]],
+        [[286, 942], [307, 948], [329, 941]]
+      ],
+      "status": "visible_boundary_candidate",
+      "hiddenWork": "袜子伸入鞋口少量重叠；鞋作为完整刚性层"
+    }
+  ],
+  "rules": [
+    "所有坐标来自同一张 512×1086 正面线稿",
+    "审查图只能等比例整数放大，禁止非均匀拉伸",
+    "红线是接缝候选，不等于最终 alpha 边界",
+    "手部保持每侧一整层，手链独立，不制作逐指动作",
+    "隐藏补全必须在正式 RGBA 导出前单独通过视觉审查"
+  ]
+}

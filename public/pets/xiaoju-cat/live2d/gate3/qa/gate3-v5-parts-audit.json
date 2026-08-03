@@ -1,0 +1,710 @@
+{
+  "schemaVersion": 1,
+  "candidate": "v5_hidden_anatomy_material_trial",
+  "canvas": [
+    1370,
+    1148
+  ],
+  "requiredPartCount": 27,
+  "foundPartCount": 27,
+  "missing": [],
+  "invalid": [],
+  "provisional": [],
+  "inferred": [
+    "42_HindLeg_Far_v5_INFERRED.png",
+    "43_HindPaw_Far_v5_INFERRED.png",
+    "47_Hip_Far_v5_INFERRED.png",
+    "48_Thigh_Far_v5_INFERRED.png",
+    "49_Hock_Far_v5_INFERRED.png"
+  ],
+  "parts": [
+    {
+      "file": "10_Body_HiddenBase_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        335,
+        591,
+        1107,
+        1079
+      ],
+      "visiblePixelCount": 315322,
+      "visibleCoverage": 0.20049,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "11_Ribcage_Hidden_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        401,
+        594,
+        1107,
+        1060
+      ],
+      "visiblePixelCount": 270853,
+      "visibleCoverage": 0.172215,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "12_Belly_Hidden_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        340,
+        692,
+        1093,
+        1079
+      ],
+      "visiblePixelCount": 219034,
+      "visibleCoverage": 0.139267,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "13_Pelvis_Hidden_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        335,
+        595,
+        824,
+        1079
+      ],
+      "visiblePixelCount": 195079,
+      "visibleCoverage": 0.124036,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "15_NeckFill_Approved.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        384,
+        467,
+        814,
+        865
+      ],
+      "visiblePixelCount": 125856,
+      "visibleCoverage": 0.080022,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "20_Head_Approved.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        372,
+        14,
+        1147,
+        830
+      ],
+      "visiblePixelCount": 374658,
+      "visibleCoverage": 0.238217,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "30_Tail_Complete_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        138,
+        623,
+        461,
+        1021
+      ],
+      "visiblePixelCount": 77562,
+      "visibleCoverage": 0.049316,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "40_HindLeg_Near_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        310,
+        596,
+        741,
+        1025
+      ],
+      "visiblePixelCount": 140476,
+      "visibleCoverage": 0.089318,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "41_HindPaw_Near_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        359,
+        898,
+        728,
+        1079
+      ],
+      "visiblePixelCount": 52325,
+      "visibleCoverage": 0.03327,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "42_HindLeg_Far_v5_INFERRED.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        733,
+        675,
+        1083,
+        1032
+      ],
+      "visiblePixelCount": 93711,
+      "visibleCoverage": 0.059584,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": true,
+      "valid": true
+    },
+    {
+      "file": "43_HindPaw_Far_v5_INFERRED.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        823,
+        918,
+        1126,
+        1072
+      ],
+      "visiblePixelCount": 34910,
+      "visibleCoverage": 0.022197,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": true,
+      "valid": true
+    },
+    {
+      "file": "44_Hip_Near_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        311,
+        596,
+        680,
+        924
+      ],
+      "visiblePixelCount": 86428,
+      "visibleCoverage": 0.054953,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "45_Thigh_Near_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        316,
+        627,
+        736,
+        1025
+      ],
+      "visiblePixelCount": 131560,
+      "visibleCoverage": 0.083649,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "46_Hock_Near_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        438,
+        789,
+        739,
+        1025
+      ],
+      "visiblePixelCount": 59920,
+      "visibleCoverage": 0.038099,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "47_Hip_Far_v5_INFERRED.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        735,
+        675,
+        1073,
+        935
+      ],
+      "visiblePixelCount": 61969,
+      "visibleCoverage": 0.039401,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": true,
+      "valid": true
+    },
+    {
+      "file": "48_Thigh_Far_v5_INFERRED.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        735,
+        692,
+        1083,
+        1032
+      ],
+      "visiblePixelCount": 91253,
+      "visibleCoverage": 0.058021,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": true,
+      "valid": true
+    },
+    {
+      "file": "49_Hock_Far_v5_INFERRED.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        832,
+        805,
+        1083,
+        1032
+      ],
+      "visiblePixelCount": 46464,
+      "visibleCoverage": 0.029543,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": true,
+      "valid": true
+    },
+    {
+      "file": "60_Foreleg_ViewL_Complete_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        545,
+        611,
+        1065,
+        1078
+      ],
+      "visiblePixelCount": 129927,
+      "visibleCoverage": 0.082611,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "61_Foreleg_ViewR_Complete_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        890,
+        601,
+        1251,
+        977
+      ],
+      "visiblePixelCount": 76169,
+      "visibleCoverage": 0.04843,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "62_ShoulderFill_ViewL_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        545,
+        612,
+        835,
+        858
+      ],
+      "visiblePixelCount": 55807,
+      "visibleCoverage": 0.035483,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "63_UpperArm_ViewL_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        552,
+        618,
+        866,
+        926
+      ],
+      "visiblePixelCount": 65378,
+      "visibleCoverage": 0.041569,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "64_Forearm_ViewL_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        665,
+        725,
+        971,
+        1056
+      ],
+      "visiblePixelCount": 62785,
+      "visibleCoverage": 0.03992,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "65_Paw_ViewL_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        755,
+        905,
+        1019,
+        1078
+      ],
+      "visiblePixelCount": 31539,
+      "visibleCoverage": 0.020053,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "66_ShoulderFill_ViewR_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        891,
+        602,
+        1133,
+        842
+      ],
+      "visiblePixelCount": 43473,
+      "visibleCoverage": 0.027641,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "67_UpperArm_ViewR_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        904,
+        604,
+        1170,
+        888
+      ],
+      "visiblePixelCount": 49054,
+      "visibleCoverage": 0.03119,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "68_Forearm_ViewR_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        995,
+        705,
+        1221,
+        977
+      ],
+      "visiblePixelCount": 39842,
+      "visibleCoverage": 0.025333,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    },
+    {
+      "file": "69_Paw_ViewR_v5.png",
+      "size": [
+        1370,
+        1148
+      ],
+      "alphaBbox": [
+        1046,
+        860,
+        1251,
+        977
+      ],
+      "visiblePixelCount": 18413,
+      "visibleCoverage": 0.011707,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "greenResiduePixels": 0,
+      "provisional": false,
+      "inferred": false,
+      "valid": true
+    }
+  ],
+  "sourceVerdicts": {
+    "v5Fullbody": "accept_as_hidden_anatomy_and_texture_source_only_not_as_final_login_pose",
+    "v5NoForelegs": "accept_as_hidden_body_reconstruction_source",
+    "v6Limbless": "reject_whole_silhouette_use_only_local_occluded_inpaint_pixels"
+  },
+  "gate3Pass": false,
+  "blockers": [
+    "far_hindlimb_bilateral_inference_requires_expanded_pose_acceptance",
+    "ribcage_belly_pelvis_overlap_needs_final_expanded_pose_review",
+    "rounded_forelimb_masks_need_final_fur_matte_and_draw_order_review",
+    "v5_parts_not_yet_imported_into_editable_psd",
+    "expanded_pose_and_roundtrip_motion_not_yet_approved"
+  ]
+}

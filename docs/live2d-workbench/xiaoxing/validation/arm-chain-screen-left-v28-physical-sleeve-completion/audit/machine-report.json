@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "status": "engineering_pass_pending_user_visual_approval",
+  "scope": "screen-left V28 physical sleeve completion only",
+  "authority": {
+    "lineMasterSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+    "colorMasterSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+    "v25ApprovalSha256": "8cd2c5dcbc098e017271e666ed71478db0803395bfb04056eff7565d0ffbcf9d",
+    "v27SkeletonSha256": "2db8155be29678dbfa6d6978c4439fad701ee141abb6f41bfbeafa6d6581eb98",
+    "pass": true
+  },
+  "visibleSleeve": {
+    "differenceFromV27Pixels": 0,
+    "pass": true
+  },
+  "hiddenCompletion": {
+    "addedPixels": 5055,
+    "connectedComponents": 1,
+    "cuffBandDifferencePixels": 5,
+    "pixelsBeyondCuff": 0,
+    "construction": "continuous sleeve-cap and armhole attachment arc",
+    "pass": true
+  },
+  "motion": {
+    "samples": 41,
+    "allSleeveUpperOverlapsPass": true,
+    "maxL1ErrorPx": 2.842170943040401e-14,
+    "maxL2ErrorPx": 5.684341886080802e-14,
+    "returnConsistency": true,
+    "pass": true
+  },
+  "visualGate": {
+    "status": "pending_user_visual_approval",
+    "review": "qa/V28-SLEEVE-PHYSICS-USER-REVIEW.zh-CN.png",
+    "earliestFailurePoint": null
+  },
+  "stop": "remain at Stage A until user approves the completed sleeve"
+}

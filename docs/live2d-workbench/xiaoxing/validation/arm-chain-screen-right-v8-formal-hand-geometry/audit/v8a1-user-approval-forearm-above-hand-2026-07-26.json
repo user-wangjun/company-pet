@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "v8a1_forearm_above_whole_hand_structure_authorized",
+  "decisionDate": "2026-07-26",
+  "decisionOwner": "user",
+  "status": "user_approved_contract_reopen_and_revalidation",
+  "actualUserStatement": "批准",
+  "approvedStructure": {
+    "drawOrder": "forearm including bracelet above whole hand",
+    "handMaterialGranularity": "one whole-hand material",
+    "braceletRuntimeLayer": "remains merged into forearm",
+    "clipping": "none",
+    "fingerSplit": "none"
+  },
+  "authorizedRevalidation": [
+    "neutral default recomposition",
+    "wrist 201 dense samples",
+    "wrist 11 critical epsilon samples",
+    "wrist 81 adaptive minimum samples",
+    "elbow-by-wrist 9x9 combined domain",
+    "bracelet-hidden skin-seam QA"
+  ],
+  "unchangedBoundaries": [
+    "do not modify V4 frozen artifacts",
+    "do not modify complete-sleeve frozen artifacts",
+    "do not modify V6 frozen artifacts",
+    "do not overwrite V7-C1 frozen artifacts",
+    "do not create formal complete hand geometry before V8-A user approval",
+    "do not create texture, PSD, ArtMesh, Cubism, Physics, or Runtime work"
+  ]
+}

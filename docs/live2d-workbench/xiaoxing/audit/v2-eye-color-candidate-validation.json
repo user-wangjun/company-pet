@@ -1,0 +1,11 @@
+{
+  "status": "self_review_passed_color_candidate_only",
+  "layerCount": 12,
+  "errors": [],
+  "rules": {
+    "full_canvas_rgba": true,
+    "geometry_from_lineart_contract": true,
+    "color_only_from_color_master": true,
+    "no_motion": true
+  }
+}

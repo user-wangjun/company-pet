@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "status": "user_visual_approved_frozen",
+  "decisionOwner": "user",
+  "decisionDate": "2026-07-29",
+  "userDecision": "蓝色可以",
+  "approvedScope": {
+    "side": "screen-left",
+    "part": "forearm distal wrist U-cap",
+    "visualEncoding": "blue",
+    "meaning": "the blue forearm U-shaped hidden cap and its Reset-skin-boundary geometry are approved"
+  },
+  "frozenArtifacts": [
+    {
+      "path": "../masks/reference/blue-forearm-ucap.png",
+      "sha256": "ac4f894ddeb6d06dce768a62f1bb37e3b26e871b25c363b63e533f623335ffcd"
+    },
+    {
+      "path": "../masks/hidden/forearm.png",
+      "sha256": "df7f30f203dcb54b8b7afe1f273734dc4fbb3fcfa150862544565a3118564e7c"
+    },
+    {
+      "path": "../masks/complete/forearm.png",
+      "sha256": "1fdf28ab02698e5ba7291c5dc58550ba2272da99a28ca810c8ebfc094c48e392"
+    },
+    {
+      "path": "../materials/forearm.png",
+      "sha256": "3960361749a7b7fa0af77c85951c8d567396c164db46faad27256de32e4df0ec"
+    }
+  ],
+  "approvalEvidence": [
+    {
+      "path": "../qa/reset-blue-yellow-boundaries.png",
+      "sha256": "b38e99fee70f074759242661e74c54ee3aad89019e3140f2c710b89442bf5199"
+    },
+    {
+      "path": "../qa/V33-蓝黄边界-中文视觉审查板.png",
+      "sha256": "9b43c8d2385e81d9f232e3b825dfa544fd96a26fa949182e71d11b04a1cb5f3d"
+    },
+    {
+      "path": "machine-report.json",
+      "sha256": "7912c183c44b893545fc7c3f237a89fcd28a8cd6b84dada6c69ec207717f64f8",
+      "engineeringStatusAtApproval": "engineering_pass_pending_user_visual_approval",
+      "maximumFkUCapExposurePx": 0,
+      "maximumStressUCapExposurePx": 0
+    }
+  ],
+  "explicitlyNotApproved": [
+    "yellow hand hidden-root boundary",
+    "visible hand mask",
+    "complete hand mask",
+    "hand material",
+    "whole screen-left arm chain"
+  ],
+  "currentGate": "screen-left hand hidden-root visual approval",
+  "frozen": {
+    "forearmUCap": true,
+    "hand": false
+  },
+  "stop": "preserve the frozen blue forearm U-cap; do not advance past hand Stage A until the yellow hand boundary receives separate user visual approval"
+}

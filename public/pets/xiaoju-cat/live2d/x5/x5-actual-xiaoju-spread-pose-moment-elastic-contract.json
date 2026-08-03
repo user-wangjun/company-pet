@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "stage": "X5-actual-xiaoju-spread-pose-moment-elastic-preview",
+  "status": "candidate-for-user-review",
+  "revision": "clean-v12-visible-body-short-guides",
+  "sourceImage": "live2d/x5/qa/x5-actual-xiaoju-spread-pose-three-view.png",
+  "outputImage": "live2d/x5/qa/x5-actual-xiaoju-spread-pose-moment-elastic.png",
+  "userCorrectionApplied": [
+    "Removed large opaque color blocks.",
+    "Torque is shown primarily through bone segments, key/secondary anchors, r/F arrows, and tau arcs.",
+    "Elasticity is shown with small secondary anchors, thin spring links, and pale outline envelopes only.",
+    "Anchor coordinates were realigned to the actual spread-pose Xiaoju preview.",
+    "Clean-v3 moves torque bone segments closer to the visible limbs and removes face-crossing ear bones.",
+    "Clean-v4 shows only the near-side primary forelimb torque chain in side view and moves back-view ear anchors inside the visible ears.",
+    "Clean-v5 recalibrates back-view ear, forelimb, hindlimb, pelvis, and tail anchors against the cropped actual Xiaoju back silhouette.",
+    "Clean-v6 moves back-view hindlimb bones from outer contour toward visible limb centerlines and pulls the right ear elastic anchor back inside the ear surface.",
+    "Clean-v7 shortens back-view hindlimb and tail bones so they remain inside the visible fur silhouette and reduces ear/tail elastic overreach.",
+    "Clean-v8 moves back-view hindlimb chains onto the visible splayed leg centers and pulls both ear-tip anchors further inside the ear surfaces.",
+    "Clean-v9 shortens back-view hindlimb drawing to internal visible-leg guide segments instead of full external fold lines.",
+    "Clean-v10 removes back-view lower hindlimb guide segments that still fell into blank space; distal hind paw subdivision is deferred to real transparent leg layers.",
+    "Clean-v11 hides the back-view far-side ear elastic hint when it cannot be placed fully inside the visible ear surface.",
+    "Clean-v12 replaces long hindlimb guide chains in all views with short visible-body support guides, restores both back-view ear elastic hints inside the ear surfaces, aligns the back/side tail elastic chain to the visible tail direction, and hides back-view whisker anchors that have no visible surface."
+  ],
+  "momentModel": {
+    "primaryAnchors": [
+      "M0_body_support",
+      "M1_shoulder_L/R",
+      "M2_elbow_L/R",
+      "M3_wrist_L/R"
+    ],
+    "secondaryAnchors": [
+      "S1_chest_fur",
+      "S2_ear_tip_L/R",
+      "S3_tail_follow",
+      "S4_whisker_tip",
+      "S5_belly_soft"
+    ],
+    "visualRule": "r and F arrows plus tau arcs show sign/direction; relative size is shown by anchor class and line weight, not by filled blobs."
+  },
+  "elasticModel": {
+    "rule": "Bone-segment lengths remain stable; soft response lives in mesh vertices around secondary anchors.",
+    "coefficients": {
+      "ear_tip": {
+        "k": 0.72,
+        "c": 0.78
+      },
+      "tail": {
+        "k": 0.48,
+        "c": 0.68
+      },
+      "fur": {
+        "k": 0.58,
+        "c": 0.82
+      },
+      "whisker": {
+        "k": 0.42,
+        "c": 0.74
+      },
+      "belly": {
+        "k": 0.64,
+        "c": 0.86
+      }
+    }
+  },
+  "gateBoundary": {
+    "currentGate": "x5-layer-mesh-node-torque",
+    "candidateOnly": true,
+    "x5MayPassOnlyWithUserApproval": true,
+    "x6Authorized": false,
+    "forbidden": [
+      "PSD import",
+      "Cubism editing",
+      "X6 parameter/keyform finalization",
+      "runtime replacement"
+    ]
+  }
+}

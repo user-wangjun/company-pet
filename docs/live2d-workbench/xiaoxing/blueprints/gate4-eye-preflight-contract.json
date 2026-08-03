@@ -1,0 +1,83 @@
+{
+  "stage": "gate4-eye-preflight",
+  "status": "landmarks_pending_visual_qc",
+  "coordinateSystem": "512x1086 source master",
+  "eyes": {
+    "R": {
+      "label": "角色右眼（画面左侧）",
+      "crop": [
+        205,
+        100,
+        260,
+        158
+      ],
+      "outerCorner": [
+        216,
+        130
+      ],
+      "innerCorner": [
+        243,
+        130
+      ],
+      "upperApex": [
+        233,
+        124
+      ],
+      "lowerApex": [
+        233,
+        139
+      ],
+      "irisCenter": [
+        234,
+        132
+      ],
+      "irisRadius": 9
+    },
+    "L": {
+      "label": "角色左眼（画面右侧）",
+      "crop": [
+        263,
+        100,
+        318,
+        158
+      ],
+      "innerCorner": [
+        266,
+        130
+      ],
+      "outerCorner": [
+        296,
+        130
+      ],
+      "upperApex": [
+        280,
+        124
+      ],
+      "lowerApex": [
+        280,
+        139
+      ],
+      "irisCenter": [
+        278,
+        132
+      ],
+      "irisRadius": 9
+    }
+  },
+  "requiredMaterialsPerEye": [
+    "socket",
+    "sclera",
+    "iris",
+    "pupil",
+    "highlight",
+    "upper_lid",
+    "lower_lid",
+    "mask"
+  ],
+  "rules": [
+    "iris and pupil move together inside the eye-opening mask",
+    "highlight follows the iris with reduced translation",
+    "blink is lid deformation, not opacity-only hiding",
+    "closed eye must preserve a clean lash line and no visible sclera leak"
+  ]
+}

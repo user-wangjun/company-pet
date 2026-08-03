@@ -1,0 +1,40 @@
+{
+  "stage": "v8-body-original-pixel-ownership",
+  "source": "source\\masters\\gate3-color-target-v1.png",
+  "lineReference": "source\\masters\\gate3-line-master-candidate-v1.png",
+  "drawOrder": [
+    "neck",
+    "torso_tshirt_core",
+    "sleeve_screen_left",
+    "sleeve_screen_right",
+    "arm_screen_left_forearm",
+    "arm_screen_right_forearm",
+    "hand_screen_left",
+    "hand_screen_right",
+    "necklace",
+    "leg_screen_left",
+    "leg_screen_right",
+    "skirt",
+    "sock_screen_left",
+    "sock_screen_right",
+    "shoe_screen_left",
+    "shoe_screen_right"
+  ],
+  "defaultCompositeMae": 0.0,
+  "defaultCompositeMaxError": 0,
+  "visiblePixelsRepainted": false,
+  "hiddenThighStatus": {
+    "leg_screen_left": {
+      "pixelCount": 2842,
+      "status": "range_only_not_textured"
+    },
+    "leg_screen_right": {
+      "pixelCount": 2928,
+      "status": "range_only_not_textured"
+    }
+  },
+  "hands": "one_complete_layer_per_side_no_finger_rig",
+  "psdImport": false,
+  "cubismImport": false,
+  "next": "line-edge-seam-review-and-hidden-fill"
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-B2 angle-dependent outer-root taper feasibility",
+  "status": "user_visual_approved",
+  "decisionOwner": "user",
+  "sourceStatements": [
+    "批准",
+    "批准"
+  ],
+  "approvedEvidence": [
+    "qa/V7-B2-ANGLE-TAPER-THREE-ANGLES.png",
+    "qa/V7-B2-ANGLE-TAPER-SLOW-SCAN.gif",
+    "qa/V7-B2-NEUTRAL-INVARIANCE-AND-DEFORMATION-MAP.png"
+  ],
+  "approvedItems": {
+    "mostBentRootThickness": true,
+    "neutralNoJump": true,
+    "slowSweepNoVisibleFracture": true,
+    "continuousOuterRootTaperRule": true
+  },
+  "scopeBoundary": {
+    "productionForearmGeometryApproved": false,
+    "temporaryHandRootContractApproved": false,
+    "finalV7FreezeApproved": false,
+    "textureOrCubismAuthorized": false
+  },
+  "nextGate": "build and validate the mutually exclusive production forearm zones and temporary hand-root contract"
+}

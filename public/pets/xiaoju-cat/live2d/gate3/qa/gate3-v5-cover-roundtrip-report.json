@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "sampleRateHz": 60,
+  "previewRateHz": 20,
+  "sampleCount": 238,
+  "durationSeconds": 3.967,
+  "trajectory": "quintic smootherstep with proximal-to-distal lift and distal-to-proximal release delays",
+  "maxJointStepDegPerFrameAt60Hz": {
+    "ViewL": [
+      2.2517,
+      1.849,
+      0.7593
+    ],
+    "ViewR": [
+      0.7847,
+      3.3715,
+      1.4806
+    ]
+  },
+  "maxObservedStepDeg": 3.3715,
+  "jointStepLimitDeg": 3.5,
+  "technicalPass": true,
+  "visualPass": false,
+  "visualStatus": "preview_generated_requires_human_review_and_final_live2d_deformer_validation"
+}

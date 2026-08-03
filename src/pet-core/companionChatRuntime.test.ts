@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 import {
   INACTIVE_COMPANION_CHAT,
   createLocalCompanionChatProvider,
+  createLocalCompanionChatFallbackProvider,
   enterCompanionChat,
   exitCompanionChat,
   receiveCompanionReply,
@@ -67,5 +68,37 @@ describe("companion chat runtime", () => {
     await expect(
       createLocalCompanionChatProvider(config, () => 0).send({ text: "今天还行" }),
     ).resolves.toEqual({ text: "嗯，我听着。" });
+  });
+
+  test("local provider uses assembled Soul, Preference, and session context", async () => {
+    await expect(
+      createLocalCompanionChatProvider(
+        { ...config, localReplies: ["我在这里。", "慢慢说。"] },
+        () => 0,
+      ).send({
+        text: "继续刚才的话",
+        context: {
+          petId: "xiaoju-cat",
+          systemInstruction: [
+            "【当前宠物 Soul｜只读人格资料】",
+            "我是小橘，只在这里安静陪伴。",
+            "【用户偏好｜低优先级普通参考】",
+            "- nickname: 小主人",
+          ].join("\n"),
+          history: [{ id: "user-1", speaker: "user", text: "刚才那件事" }],
+          userInput: "继续刚才的话",
+        },
+      }),
+    ).resolves.toEqual({ text: "小主人，慢慢说。" });
+  });
+
+  test("remote failure fallback is disclosed as local and does not retry remotely", async () => {
+    const fallback = createLocalCompanionChatFallbackProvider(config, () => 0);
+
+    expect(fallback.info).toMatchObject({ kind: "local", target: "本机" });
+    expect(fallback.info.disclosure).toContain("本轮远程服务未接通，已切换为本地回复");
+    await expect(fallback.send({ text: "你好" })).resolves.toEqual({
+      text: "嗯，我听着。",
+    });
   });
 });

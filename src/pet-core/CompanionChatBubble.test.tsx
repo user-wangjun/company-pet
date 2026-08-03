@@ -19,6 +19,8 @@ describe("CompanionChatBubble", () => {
     );
 
     expect(html).toContain("companion-chat-messages");
+    expect(html).toContain("本地 Provider");
+    expect(html).toContain("本地模式：不会发起网络请求");
     expect(html).toContain("喵？");
     expect(html).toContain("今天有点累");
     expect(html).toContain('value="你好"');
@@ -37,5 +39,29 @@ describe("CompanionChatBubble", () => {
     );
 
     expect(html).toContain("撤回");
+  });
+
+  test("shows the remote provider, target, and disclosure without credentials", () => {
+    const html = renderToStaticMarkup(
+      <CompanionChatBubble
+        draft=""
+        isWaiting={false}
+        messages={[{ id: "1", speaker: "pet", text: "嗯？" }]}
+        providerInfo={{
+          kind: "remote",
+          provider: "自定义 Gemini Provider",
+          target: "https://custom.example/v1beta",
+          disclosure:
+            "远程模式：本轮必要上下文会发送到远程 AI 服务。",
+        }}
+        onDraftChange={vi.fn()}
+        onSend={vi.fn()}
+        onStop={vi.fn()}
+      />,
+    );
+
+    expect(html).toContain("自定义 Gemini Provider");
+    expect(html).toContain("https://custom.example/v1beta");
+    expect(html).toContain("本轮必要上下文会发送到远程 AI 服务");
   });
 });

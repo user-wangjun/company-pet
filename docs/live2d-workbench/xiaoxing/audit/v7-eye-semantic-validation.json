@@ -1,0 +1,28 @@
+{
+  "stage": "v7-original-pixel-eye-semantic-separation",
+  "defaultCompositeMae": 0.0,
+  "defaultCompositeMaxError": 0,
+  "visiblePixelsRepainted": false,
+  "coordinateTransformApplied": false,
+  "parts": {
+    "画面左眼": {
+      "眼白与眼睑表面": 232,
+      "虹膜": 183,
+      "瞳孔": 83,
+      "高光": 13,
+      "上眼线": 113,
+      "下眼线": 22
+    },
+    "画面右眼": {
+      "眼白与眼睑表面": 199,
+      "虹膜": 189,
+      "瞳孔": 57,
+      "高光": 9,
+      "上眼线": 147,
+      "下眼线": 33
+    }
+  },
+  "psdImport": false,
+  "cubismImport": false,
+  "next": "visual-review-then-closed-eye-hidden-material"
+}

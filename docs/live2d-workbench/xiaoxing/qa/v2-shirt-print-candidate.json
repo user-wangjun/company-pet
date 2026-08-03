@@ -1,0 +1,18 @@
+{
+  "status": "candidate_only_surface_decal",
+  "path": "qa/v2-shirt-print-candidate-layer.png",
+  "geometrySource": "line-art internal components within shirt ROI",
+  "colorSource": "gate3-color-target-v1",
+  "roi": [
+    181,
+    292,
+    321,
+    552
+  ],
+  "keptComponents": 132,
+  "missingByDesign": [
+    "texture refinement",
+    "mesh",
+    "motion"
+  ]
+}

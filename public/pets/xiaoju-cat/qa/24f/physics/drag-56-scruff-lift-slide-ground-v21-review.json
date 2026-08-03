@@ -1,0 +1,28 @@
+{
+  "version": "v21-scruff-lift-slide-ground",
+  "frame_count": 56,
+  "pickup_frames": 12,
+  "slide_frames": 32,
+  "landing_frames": 12,
+  "duration_ms": {
+    "pickup": 120,
+    "slide": 95,
+    "landing": 120
+  },
+  "method": "generated six-step scruff pickup bridge with chroma-key removal; original 32f slide; landing returns to low ground pose; no sprite scaling in preview",
+  "pickup_keyframes": "pickup-v21-key1..6.png",
+  "landing_sequence": [
+    5,
+    5,
+    4,
+    4,
+    3,
+    3,
+    2,
+    2,
+    1,
+    1,
+    1,
+    1
+  ]
+}

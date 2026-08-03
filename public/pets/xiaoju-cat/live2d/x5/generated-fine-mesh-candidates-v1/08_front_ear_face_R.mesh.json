@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "layerId": "ear_face_R",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/08_front_ear_face_R.png",
+  "primaryController": "EarRoot_R",
+  "parent": "EarRoot_R",
+  "actionSubject": "EarRoot_R",
+  "deformationRole": "ear-hinge-local",
+  "densityProfile": "hinge-coarse",
+  "pivotName": "ear_base_R",
+  "pivotPoint": [
+    20.0,
+    103.0
+  ],
+  "points": [
+    [
+      19.0,
+      105.5
+    ],
+    [
+      5.5,
+      97.0
+    ],
+    [
+      -0.5,
+      55.0
+    ],
+    [
+      9.5,
+      7.0
+    ],
+    [
+      27.0,
+      -0.5
+    ],
+    [
+      55.0,
+      15.5
+    ],
+    [
+      75.5,
+      43.0
+    ],
+    [
+      70.0,
+      52.5
+    ],
+    [
+      32.5,
+      71.0
+    ],
+    [
+      54.56,
+      37.219
+    ],
+    [
+      28.554,
+      27.293
+    ]
+  ],
+  "triangles": [
+    [
+      8,
+      1,
+      2
+    ],
+    [
+      8,
+      10,
+      9
+    ],
+    [
+      8,
+      0,
+      1
+    ],
+    [
+      10,
+      4,
+      5
+    ],
+    [
+      10,
+      8,
+      2
+    ],
+    [
+      3,
+      4,
+      10
+    ],
+    [
+      6,
+      9,
+      5
+    ],
+    [
+      9,
+      6,
+      7
+    ],
+    [
+      7,
+      8,
+      9
+    ],
+    [
+      10,
+      5,
+      9
+    ],
+    [
+      2,
+      3,
+      10
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.92,
+      0.92
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.72
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      1.0
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 11,
+    "triangleCount": 11,
+    "minimumTriangleAngleDegrees": 24.71,
+    "medianTriangleAngleDegrees": 38.304
+  },
+  "candidateOnly": true
+}

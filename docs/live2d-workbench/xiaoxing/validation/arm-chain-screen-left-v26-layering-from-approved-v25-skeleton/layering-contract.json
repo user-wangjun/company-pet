@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "status": "stage_a_geometry_candidate_pending_user_visual_approval",
+  "scope": "screen-left sleeve, upper arm, forearm, and hand flat geometry only",
+  "sourceRule": "all boundaries newly traced from Reset masters; V13-V24 materials are failure comparison only and were not read by the builder",
+  "layers": [
+    {
+      "id": "upper_arm",
+      "visiblePixelOwnership": "skin between the sleeve opening and the internal elbow split",
+      "hiddenExtensionResponsibility": "continuous tapered upper-arm skin from the approved shoulder beneath the sleeve",
+      "overlapResponsibility": [
+        "under sleeve at cuff",
+        "under forearm at elbow"
+      ],
+      "forbiddenIntrusion": [
+        "hair",
+        "shirt torso",
+        "background"
+      ],
+      "parent": "shoulder_rotation",
+      "drawOrder": 10
+    },
+    {
+      "id": "forearm",
+      "visiblePixelOwnership": "tapered skin from elbow through the bracelet/wrist region",
+      "hiddenExtensionResponsibility": "continuous elbow and wrist roots; bracelet interruption may not create an anatomical hole",
+      "overlapResponsibility": [
+        "over upper arm at elbow",
+        "under hand at wrist"
+      ],
+      "forbiddenIntrusion": [
+        "shirt torso",
+        "background",
+        "hand palm"
+      ],
+      "parent": "elbow_rotation",
+      "drawOrder": 20
+    },
+    {
+      "id": "hand",
+      "visiblePixelOwnership": "palm, thumb, and all visible finger silhouettes from the Reset master",
+      "hiddenExtensionResponsibility": "narrow wrist root beneath the bracelet/forearm overlap",
+      "overlapResponsibility": [
+        "over forearm at wrist"
+      ],
+      "forbiddenIntrusion": [
+        "forearm shaft",
+        "shirt",
+        "skirt",
+        "background"
+      ],
+      "parent": "wrist_rotation",
+      "drawOrder": 30
+    },
+    {
+      "id": "sleeve",
+      "visiblePixelOwnership": "the original screen-left garment sleeve silhouette and cuff opening",
+      "hiddenExtensionResponsibility": "garment continuation beneath the hair and torso-side occlusion without a shoulder bulge",
+      "overlapResponsibility": [
+        "over upper arm at cuff",
+        "beneath foreground hair"
+      ],
+      "forbiddenIntrusion": [
+        "skin below cuff",
+        "hair pixels",
+        "background outside garment silhouette"
+      ],
+      "parent": "shoulder_rotation",
+      "drawOrder": 40
+    }
+  ],
+  "defaultCompositeRule": "visible masks are used for source-registered rest review; complete materials are used for displaced and FK overlap review",
+  "braceletStageAResponsibility": "the bracelet occlusion corridor belongs to the forearm geometry in this four-layer-only checkpoint; texture/accessory separation is out of scope",
+  "stopConditions": [
+    "default visible composite does not read as the source arm",
+    "shoulder or sleeve intrudes into hair/background",
+    "hidden geometry looks like a circular patch or mechanical plug",
+    "elbow or wrist overlap is not anatomically continuous",
+    "hand reads as a static attached sticker"
+  ]
+}

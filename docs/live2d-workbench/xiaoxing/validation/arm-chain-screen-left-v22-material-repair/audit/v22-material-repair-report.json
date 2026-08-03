@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "status": "engineering_pass_pending_user_visual_approval",
+  "scope": "sleeve hidden cloth-only fill and hidden upper-arm anatomy candidate",
+  "upstreamIntegrity": {
+    "v12": {
+      "matched": 7,
+      "total": 7,
+      "mismatches": [],
+      "pass": true
+    },
+    "v14": {
+      "matched": 24,
+      "total": 24,
+      "mismatches": [],
+      "pass": true
+    }
+  },
+  "sleeve": {
+    "visibleRgbUnchanged": true,
+    "hiddenHairGeometryOverlapPixels": 719,
+    "oldHiddenDarkPixels": 0,
+    "newHiddenDarkPixels": 0
+  },
+  "upperArm": {
+    "visibleMaskUnchanged": true,
+    "addedHiddenPixels": 1405,
+    "anchors": {
+      "shoulder": [
+        176.0,
+        257.0
+      ],
+      "elbow": [
+        153.0,
+        411.0
+      ],
+      "wrist": [
+        115.0,
+        529.0
+      ]
+    }
+  },
+  "defaultVisibleSourceRgbDifferencePixels": 0,
+  "reviewBoard": "qa/V22-MATERIAL-REPAIR-USER-REVIEW.zh-CN.png",
+  "notCreated": [
+    "mesh",
+    "nodes",
+    "continuous motion",
+    "Physics",
+    "Runtime"
+  ]
+}

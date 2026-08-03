@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "status": "source_traced_stage_a_candidate_pending_user_visual_approval",
+  "scope": "screen-left sleeve, upper arm, forearm, and hand flat geometry",
+  "constructionRule": {
+    "visible": "deterministically extracted from Reset color pixels inside source-registered semantic envelopes",
+    "hidden": "smooth tapered anatomical or garment continuation; never used to redefine visible source ownership",
+    "rejectedEvidence": "V26 is comparison evidence only and is not read as geometry input"
+  },
+  "layers": [
+    {
+      "id": "sleeve",
+      "visiblePixelOwnership": "source-traced sleeve pixels up to the cuff and hair/torso semantic boundary",
+      "hiddenExtension": "garment-flow continuation beneath foreground hair",
+      "overlap": "covers upper-arm root and cuff overlap",
+      "forbidden": [
+        "hair pixels",
+        "skin below cuff",
+        "background"
+      ]
+    },
+    {
+      "id": "upper_arm",
+      "visiblePixelOwnership": "source-traced skin between cuff and approved elbow split",
+      "hiddenExtension": "smooth tapered shoulder-to-elbow body under sleeve",
+      "overlap": "under sleeve at shoulder/cuff and under forearm at elbow",
+      "forbidden": [
+        "hair",
+        "shirt torso",
+        "background"
+      ]
+    },
+    {
+      "id": "forearm",
+      "visiblePixelOwnership": "source-traced skin between elbow and wrist",
+      "hiddenExtension": "smooth tapered elbow-to-wrist body through bracelet corridor",
+      "overlap": "over upper arm at elbow and under hand at wrist",
+      "forbidden": [
+        "shirt torso",
+        "background",
+        "palm"
+      ]
+    },
+    {
+      "id": "hand",
+      "visiblePixelOwnership": "source-traced palm, thumb, and finger silhouette without polygon simplification",
+      "hiddenExtension": "short tapered wrist root beneath bracelet/forearm",
+      "overlap": "over forearm at wrist",
+      "forbidden": [
+        "forearm shaft",
+        "shirt",
+        "skirt",
+        "background"
+      ]
+    }
+  ],
+  "stop": "no texture, PSD, Cubism, mesh, Physics, or Runtime before user visual approval"
+}

@@ -1,0 +1,410 @@
+{
+  "source": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\qa\\16f\\idle-16-alpha-v2.png",
+  "frameCount": 16,
+  "cellWidth": 192,
+  "cellHeight": 208,
+  "scale": 1.35,
+  "bottomMargin": 8,
+  "frames": [
+    {
+      "frame": 0,
+      "source_segment": [
+        0,
+        136
+      ],
+      "crop_bbox": [
+        16,
+        320,
+        136,
+        409
+      ],
+      "crop_size": [
+        120,
+        89
+      ],
+      "scaled_size": [
+        162,
+        120
+      ],
+      "placement": [
+        15,
+        80
+      ]
+    },
+    {
+      "frame": 1,
+      "source_segment": [
+        136,
+        272
+      ],
+      "crop_bbox": [
+        136,
+        318,
+        272,
+        409
+      ],
+      "crop_size": [
+        136,
+        91
+      ],
+      "scaled_size": [
+        184,
+        123
+      ],
+      "placement": [
+        196,
+        77
+      ]
+    },
+    {
+      "frame": 2,
+      "source_segment": [
+        272,
+        407
+      ],
+      "crop_bbox": [
+        272,
+        323,
+        407,
+        409
+      ],
+      "crop_size": [
+        135,
+        86
+      ],
+      "scaled_size": [
+        182,
+        116
+      ],
+      "placement": [
+        389,
+        84
+      ]
+    },
+    {
+      "frame": 3,
+      "source_segment": [
+        407,
+        543
+      ],
+      "crop_bbox": [
+        407,
+        320,
+        543,
+        409
+      ],
+      "crop_size": [
+        136,
+        89
+      ],
+      "scaled_size": [
+        184,
+        120
+      ],
+      "placement": [
+        580,
+        80
+      ]
+    },
+    {
+      "frame": 4,
+      "source_segment": [
+        543,
+        679
+      ],
+      "crop_bbox": [
+        543,
+        321,
+        679,
+        409
+      ],
+      "crop_size": [
+        136,
+        88
+      ],
+      "scaled_size": [
+        184,
+        119
+      ],
+      "placement": [
+        772,
+        81
+      ]
+    },
+    {
+      "frame": 5,
+      "source_segment": [
+        679,
+        814
+      ],
+      "crop_bbox": [
+        679,
+        323,
+        814,
+        409
+      ],
+      "crop_size": [
+        135,
+        86
+      ],
+      "scaled_size": [
+        182,
+        116
+      ],
+      "placement": [
+        965,
+        84
+      ]
+    },
+    {
+      "frame": 6,
+      "source_segment": [
+        814,
+        950
+      ],
+      "crop_bbox": [
+        814,
+        319,
+        950,
+        409
+      ],
+      "crop_size": [
+        136,
+        90
+      ],
+      "scaled_size": [
+        184,
+        122
+      ],
+      "placement": [
+        1156,
+        78
+      ]
+    },
+    {
+      "frame": 7,
+      "source_segment": [
+        950,
+        1086
+      ],
+      "crop_bbox": [
+        950,
+        322,
+        1086,
+        409
+      ],
+      "crop_size": [
+        136,
+        87
+      ],
+      "scaled_size": [
+        184,
+        117
+      ],
+      "placement": [
+        1348,
+        83
+      ]
+    },
+    {
+      "frame": 8,
+      "source_segment": [
+        1086,
+        1222
+      ],
+      "crop_bbox": [
+        1086,
+        319,
+        1222,
+        409
+      ],
+      "crop_size": [
+        136,
+        90
+      ],
+      "scaled_size": [
+        184,
+        122
+      ],
+      "placement": [
+        1540,
+        78
+      ]
+    },
+    {
+      "frame": 9,
+      "source_segment": [
+        1222,
+        1358
+      ],
+      "crop_bbox": [
+        1222,
+        318,
+        1358,
+        409
+      ],
+      "crop_size": [
+        136,
+        91
+      ],
+      "scaled_size": [
+        184,
+        123
+      ],
+      "placement": [
+        1732,
+        77
+      ]
+    },
+    {
+      "frame": 10,
+      "source_segment": [
+        1358,
+        1493
+      ],
+      "crop_bbox": [
+        1358,
+        318,
+        1493,
+        409
+      ],
+      "crop_size": [
+        135,
+        91
+      ],
+      "scaled_size": [
+        182,
+        123
+      ],
+      "placement": [
+        1925,
+        77
+      ]
+    },
+    {
+      "frame": 11,
+      "source_segment": [
+        1493,
+        1629
+      ],
+      "crop_bbox": [
+        1493,
+        318,
+        1629,
+        409
+      ],
+      "crop_size": [
+        136,
+        91
+      ],
+      "scaled_size": [
+        184,
+        123
+      ],
+      "placement": [
+        2116,
+        77
+      ]
+    },
+    {
+      "frame": 12,
+      "source_segment": [
+        1629,
+        1765
+      ],
+      "crop_bbox": [
+        1629,
+        318,
+        1765,
+        409
+      ],
+      "crop_size": [
+        136,
+        91
+      ],
+      "scaled_size": [
+        184,
+        123
+      ],
+      "placement": [
+        2308,
+        77
+      ]
+    },
+    {
+      "frame": 13,
+      "source_segment": [
+        1765,
+        1900
+      ],
+      "crop_bbox": [
+        1765,
+        318,
+        1900,
+        409
+      ],
+      "crop_size": [
+        135,
+        91
+      ],
+      "scaled_size": [
+        182,
+        123
+      ],
+      "placement": [
+        2501,
+        77
+      ]
+    },
+    {
+      "frame": 14,
+      "source_segment": [
+        1900,
+        2036
+      ],
+      "crop_bbox": [
+        1900,
+        318,
+        2036,
+        409
+      ],
+      "crop_size": [
+        136,
+        91
+      ],
+      "scaled_size": [
+        184,
+        123
+      ],
+      "placement": [
+        2692,
+        77
+      ]
+    },
+    {
+      "frame": 15,
+      "source_segment": [
+        2036,
+        2172
+      ],
+      "crop_bbox": [
+        2036,
+        324,
+        2154,
+        408
+      ],
+      "crop_size": [
+        118,
+        84
+      ],
+      "scaled_size": [
+        159,
+        113
+      ],
+      "placement": [
+        2896,
+        87
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "stage": "reset-source-fidelity",
+  "status": "passed",
+  "crop": [
+    34,
+    0,
+    546,
+    1086
+  ],
+  "outputSize": [
+    512,
+    1086
+  ],
+  "operations": [
+    "integer crop only",
+    "PNG encode",
+    "no resize",
+    "no redraw",
+    "no generation"
+  ],
+  "line": {
+    "source": "source\\xiaoxing-three-view-line.png",
+    "exactCopy": "source\\masters\\front-line-source-exact-after-reset.png",
+    "oldCropDifferenceBox": null,
+    "sha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f"
+  },
+  "color": {
+    "source": "source\\xiaoxing-three-view-color.png",
+    "exactCopy": "source\\masters\\front-color-source-exact-after-reset.png",
+    "oldCropDifferenceBox": null,
+    "sha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5"
+  },
+  "conclusion": "缺失起因不在正面源裁切，而在后续语义遮罩、独立材料与隐藏补全。",
+  "notProven": [
+    "语义线稿母版正确",
+    "任何独立材料完整",
+    "头发或眼睛分层可用",
+    "PSD 或 Cubism 工程可用"
+  ]
+}

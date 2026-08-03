@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "status": "pass_psd_structure",
+  "canvas": [
+    512,
+    1086
+  ],
+  "layerCount": 4,
+  "layerOrderFrontToBack": [
+    "01_sleeve_screen_left",
+    "03_forearm_bracelet_screen_left",
+    "04_whole_hand_screen_left",
+    "02_upper_arm_screen_left"
+  ],
+  "sourceInputs": [
+    "validation/arm-chain-screen-left-v14-complete-textures/materials/sleeve.png",
+    "validation/arm-chain-screen-left-v14-complete-textures/materials/forearm_bracelet.png",
+    "validation/arm-chain-screen-left-v14-complete-textures/materials/whole_hand.png",
+    "validation/arm-chain-screen-left-v14-complete-textures/materials/upper_arm.png"
+  ],
+  "output": "validation/arm-chain-screen-left-v16-node-stage/psd/xiaoxing-arm-chain-screen-left-v16-import.psd",
+  "integerRegistrationChanged": false,
+  "resampled": false,
+  "translated": false,
+  "scaled": false,
+  "privacy": {
+    "absolutePathsWritten": false,
+    "sourceFilesUploaded": false,
+    "cloudServicesUsed": false
+  }
+}

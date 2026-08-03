@@ -20,6 +20,7 @@ export type CareReminderState = {
   deliveredKeys: string[];
   settings: CareReminderSettings;
   systemPopupNoticeDismissed: boolean;
+  nextWellnessTime?: number;
 };
 
 export type CareReminderStorage = Pick<Storage, "getItem" | "setItem">;
@@ -46,6 +47,12 @@ export type CareReminderSchedule = {
   nextWellnessTime: number;
   timedSnoozedUntil?: number;
   settings?: CareReminderSettings;
+};
+
+export type CareReminderWakeSchedule = {
+  id: string;
+  scheduledAt: string;
+  wakeKind: CareReminderKind;
 };
 
 type LegacyWellnessSetting = {
@@ -137,6 +144,61 @@ function minutesSince(now: number, target: number): number {
   return (now - target + 24 * 60) % (24 * 60);
 }
 
+function nextLocalTime(now: Date, value: string): Date {
+  const [hour, minute] = value.split(":").map(Number);
+  const candidate = new Date(now);
+  candidate.setHours(hour, minute, 0, 0);
+  if (candidate.getTime() <= now.getTime()) {
+    candidate.setDate(candidate.getDate() + 1);
+  }
+  return candidate;
+}
+
+export function getNextCareReminderWakeSchedules(
+  now: Date,
+  settings: CareReminderSettings,
+  nextWellnessTime: number,
+): CareReminderWakeSchedule[] {
+  const schedules: CareReminderWakeSchedule[] = [];
+
+  if (
+    settings.wellness.enabled &&
+    Number.isFinite(nextWellnessTime) &&
+    nextWellnessTime > now.getTime()
+  ) {
+    schedules.push({
+      id: "care-wellness",
+      scheduledAt: new Date(nextWellnessTime).toISOString(),
+      wakeKind: "wellness",
+    });
+  }
+
+  if (settings.meal.enabled) {
+    const mealSlots = [
+      ["breakfast", settings.meal.breakfastTime],
+      ["lunch", settings.meal.lunchTime],
+      ["dinner", settings.meal.dinnerTime],
+    ] as const;
+    for (const [slot, time] of mealSlots) {
+      schedules.push({
+        id: `care-meal-${slot}`,
+        scheduledAt: nextLocalTime(now, time).toISOString(),
+        wakeKind: "meal",
+      });
+    }
+  }
+
+  if (settings.sleep.enabled) {
+    schedules.push({
+      id: "care-sleep",
+      scheduledAt: nextLocalTime(now, settings.sleep.bedtime).toISOString(),
+      wakeKind: "sleep",
+    });
+  }
+
+  return schedules;
+}
+
 export function selectTimedCareReminder(
   date: Date,
   deliveredKeys: string[],
@@ -222,6 +284,12 @@ export function readCareReminderState(
       };
     }
 
+    const nextWellnessTime =
+      typeof value?.nextWellnessTime === "number" &&
+      Number.isFinite(value.nextWellnessTime)
+        ? value.nextWellnessTime
+        : undefined;
+
     return {
       defaultsVersion: CARE_REMINDER_DEFAULTS_VERSION,
       deliveredKeys: Array.isArray(value?.deliveredKeys)
@@ -235,6 +303,7 @@ export function readCareReminderState(
         : [],
       settings,
       systemPopupNoticeDismissed: value?.systemPopupNoticeDismissed === true,
+      ...(nextWellnessTime === undefined ? {} : { nextWellnessTime }),
     };
   } catch {
     return { defaultsVersion: CARE_REMINDER_DEFAULTS_VERSION, deliveredKeys: [], settings: normalizeCareReminderSettings(undefined), systemPopupNoticeDismissed: false };

@@ -1,0 +1,2483 @@
+{
+  "schemaVersion": 1,
+  "primary41": [
+    {
+      "theta1": 81.505624,
+      "theta2": -9.355943,
+      "phiWristLocal": 0.0,
+      "elbow": [
+        355.0000005407451,
+        414.99999975353677
+      ],
+      "wrist": [
+        393.0000020579813,
+        532.9999995396668
+      ],
+      "deltaUpper": 0.0,
+      "deltaForearm": 3.552713678800501e-15,
+      "index": 0,
+      "progress": 0.0
+    },
+    {
+      "theta1": 81.45637736238055,
+      "theta2": -9.41750129702431,
+      "phiWristLocal": 0.06155829702431115,
+      "elbow": [
+        355.1323574880944,
+        414.98017400304036
+      ],
+      "wrist": [
+        393.36048929303655,
+        532.9064645558285
+      ],
+      "deltaUpper": -0.04924663761944714,
+      "deltaForearm": -0.11080493464376318,
+      "index": 1,
+      "progress": 0.006155829702431115
+    },
+    {
+      "theta1": 81.30985006518061,
+      "theta2": -9.600660418524232,
+      "phiWristLocal": 0.24471741852423234,
+      "elbow": [
+        355.5260678131018,
+        414.9205122204865
+      ],
+      "wrist": [
+        394.432124273079,
+        532.6248827237508
+      ],
+      "deltaUpper": -0.19577393481938543,
+      "deltaForearm": -0.44049135334361367,
+      "index": 2,
+      "progress": 0.024471741852423234
+    },
+    {
+      "theta1": 81.06965009675346,
+      "theta2": -9.90091037905816,
+      "phiWristLocal": 0.5449673790581605,
+      "elbow": [
+        356.17113711844775,
+        414.82053204746364
+      ],
+      "wrist": [
+        396.18570816230636,
+        532.1526852238741
+      ],
+      "deltaUpper": -0.4359739032465342,
+      "deltaForearm": -0.9809412823046948,
+      "index": 3,
+      "progress": 0.05449673790581605
+    },
+    {
+      "theta1": 80.74169197749978,
+      "theta2": -10.310858028125264,
+      "phiWristLocal": 0.9549150281252627,
+      "elbow": [
+        357.05119722405203,
+        414.6796585973734
+      ],
+      "wrist": [
+        398.5735153526942,
+        531.4867523976237
+      ],
+      "deltaUpper": -0.7639320225002137,
+      "deltaForearm": -1.718847050625481,
+      "index": 4,
+      "progress": 0.09549150281252627
+    },
+    {
+      "theta1": 80.33405112474618,
+      "theta2": -10.820409094067262,
+      "phiWristLocal": 1.4644660940672622,
+      "elbow": [
+        358.14393480636596,
+        414.4975394649832
+      ],
+      "wrist": [
+        401.530703163768,
+        530.625005623243
+      ],
+      "deltaUpper": -1.1715728752538155,
+      "deltaForearm": -2.636038969321074,
+      "index": 5,
+      "progress": 0.1464466094067262
+    },
+    {
+      "theta1": 79.85676500916989,
+      "theta2": -11.417016738537633,
+      "phiWristLocal": 2.061073738537634,
+      "elbow": [
+        359.42168030877593,
+        414.2744316512277
+      ],
+      "wrist": [
+        404.9772755807616,
+        529.5683508501676
+      ],
+      "deltaUpper": -1.6488589908301066,
+      "deltaForearm": -3.7099327293677327,
+      "index": 6,
+      "progress": 0.20610737385376343
+    },
+    {
+      "theta1": 79.32158599895818,
+      "theta2": -12.085990501302266,
+      "phiWristLocal": 2.7300475013022663,
+      "elbow": [
+        360.8521439088477,
+        414.01161309138183
+      ],
+      "wrist": [
+        408.82056709713936,
+        528.3227255943472
+      ],
+      "deltaUpper": -2.184038001041813,
+      "deltaForearm": -4.914085502344076,
+      "index": 7,
+      "progress": 0.2730047501302266
+    },
+    {
+      "theta1": 78.74169197749978,
+      "theta2": -12.810858028125264,
+      "phiWristLocal": 3.4549150281252627,
+      "elbow": [
+        362.3992794500243,
+        413.7117669267268
+      ],
+      "wrist": [
+        412.95817708341417,
+        526.9009799062906
+      ],
+      "deltaUpper": -2.7639320225002137,
+      "deltaForearm": -6.218847050625481,
+      "index": 8,
+      "progress": 0.3454915028125263
+    },
+    {
+      "theta1": 78.13136186016092,
+      "theta2": -13.573770674798844,
+      "phiWristLocal": 4.217827674798845,
+      "elbow": [
+        364.0242509704224,
+        413.3792876303961
+      ],
+      "wrist": [
+        417.28124253742374,
+        525.3243317997071
+      ],
+      "deltaUpper": -3.3742621398390753,
+      "deltaForearm": -7.5920898146379265,
+      "index": 9,
+      "progress": 0.4217827674798845
+    },
+    {
+      "theta1": 77.505624,
+      "theta2": -14.355943,
+      "phiWristLocal": 4.999999999999999,
+      "elbow": [
+        365.6864706348067,
+        413.02046456031474
+      ],
+      "wrist": [
+        421.6778959172691,
+        523.6231786304273
+      ],
+      "deltaUpper": -4.0,
+      "deltaForearm": -8.999999999999996,
+      "index": 10,
+      "progress": 0.49999999999999994
+    },
+    {
+      "theta1": 76.87988613983907,
+      "theta2": -15.138115325201152,
+      "phiWristLocal": 5.782172325201152,
+      "elbow": [
+        367.3446724762346,
+        412.64350983972673
+      ],
+      "wrist": [
+        426.0367246553004,
+        521.83711347953
+      ],
+      "deltaUpper": -4.625737860160925,
+      "deltaForearm": -10.40791018536208,
+      "index": 11,
+      "progress": 0.5782172325201153
+    },
+    {
+      "theta1": 76.26955602250021,
+      "theta2": -15.901027971874736,
+      "phiWristLocal": 6.545084971874737,
+      "elbow": [
+        368.9579842724981,
+        412.2584124849834
+      ],
+      "wrist": [
+        430.25003843844274,
+        520.0140812962137
+      ],
+      "deltaUpper": -5.236067977499786,
+      "deltaForearm": -11.781152949374526,
+      "index": 12,
+      "progress": 0.6545084971874737
+    },
+    {
+      "theta1": 75.68966200104181,
+      "theta2": -16.625895498697734,
+      "phiWristLocal": 7.269952498697734,
+      "elbow": [
+        370.4869607073065,
+        411.8766178189246
+      ],
+      "wrist": [
+        434.21676458809486,
+        518.2087021686301
+      ],
+      "deltaUpper": -5.815961998958187,
+      "deltaForearm": -13.085914497655917,
+      "index": 13,
+      "progress": 0.7269952498697734
+    },
+    {
+      "theta1": 75.1544829908301,
+      "theta2": -17.294869261462367,
+      "phiWristLocal": 7.938926261462365,
+      "elbow": [
+        371.89454482190575,
+        411.5105486084499
+      ],
+      "wrist": [
+        437.844831165162,
+        516.4798764908326
+      ],
+      "deltaUpper": -6.351141009169893,
+      "deltaForearm": -14.29006727063226,
+      "index": 14,
+      "progress": 0.7938926261462365
+    },
+    {
+      "theta1": 74.67719687525381,
+      "theta2": -17.891476905932738,
+      "phiWristLocal": 8.535533905932738,
+      "elbow": [
+        373.1469312468403,
+        411.1730002295066
+      ],
+      "wrist": [
+        441.0529568065095,
+        514.8878581695636
+      ],
+      "deltaUpper": -6.8284271247461845,
+      "deltaForearm": -15.363961030678919,
+      "index": 15,
+      "progress": 0.8535533905932737
+    },
+    {
+      "theta1": 74.26955602250021,
+      "theta2": -18.401027971874736,
+      "phiWristLocal": 9.045084971874736,
+      "elbow": [
+        374.2143129347958,
+        410.87645489671394
+      ],
+      "wrist": [
+        443.7718364874141,
+        513.4910297974735
+      ],
+      "deltaUpper": -7.236067977499786,
+      "deltaForearm": -16.281152949374526,
+      "index": 16,
+      "progress": 0.9045084971874737
+    },
+    {
+      "theta1": 73.94159790324653,
+      "theta2": -18.81097562094184,
+      "phiWristLocal": 9.45503262094184,
+      "elbow": [
+        375.071501888436,
+        410.632368403491
+      ],
+      "wrist": [
+        445.9447817170733,
+        512.3426347052184
+      ],
+      "deltaUpper": -7.564026096753466,
+      "deltaForearm": -17.019058717695305,
+      "index": 17,
+      "progress": 0.9455032620941839
+    },
+    {
+      "theta1": 73.70139793481938,
+      "theta2": -19.111225581475768,
+      "phiWristLocal": 9.755282581475768,
+      "elbow": [
+        375.69842238819655,
+        410.4504862144863
+      ],
+      "wrist": [
+        447.5279304359018,
+        511.48771617681894
+      ],
+      "deltaUpper": -7.804226065180615,
+      "deltaForearm": -17.55950864665638,
+      "index": 18,
+      "progress": 0.9755282581475768
+    },
+    {
+      "theta1": 73.55487063761944,
+      "theta2": -19.29438470297569,
+      "phiWristLocal": 9.93844170297569,
+      "elbow": [
+        376.0804813225778,
+        410.33824398101603
+      ],
+      "wrist": [
+        448.490176723695,
+        510.9604884240519
+      ],
+      "deltaUpper": -7.950753362380553,
+      "deltaForearm": -17.889195065356244,
+      "index": 19,
+      "progress": 0.9938441702975689
+    },
+    {
+      "theta1": 73.505624,
+      "theta2": -19.355943,
+      "phiWristLocal": 10.0,
+      "elbow": [
+        376.20882363008775,
+        410.3003009447985
+      ],
+      "wrist": [
+        448.81297796243535,
+        510.7823234091244
+      ],
+      "deltaUpper": -8.0,
+      "deltaForearm": -17.999999999999996,
+      "index": 20,
+      "progress": 1.0
+    },
+    {
+      "theta1": 73.55487063761944,
+      "theta2": -19.29438470297569,
+      "phiWristLocal": 9.93844170297569,
+      "elbow": [
+        376.0804813225778,
+        410.33824398101603
+      ],
+      "wrist": [
+        448.490176723695,
+        510.9604884240519
+      ],
+      "deltaUpper": -7.950753362380553,
+      "deltaForearm": -17.889195065356244,
+      "index": 21,
+      "progress": 0.9938441702975689
+    },
+    {
+      "theta1": 73.70139793481938,
+      "theta2": -19.111225581475768,
+      "phiWristLocal": 9.755282581475768,
+      "elbow": [
+        375.69842238819655,
+        410.4504862144863
+      ],
+      "wrist": [
+        447.5279304359018,
+        511.48771617681894
+      ],
+      "deltaUpper": -7.804226065180615,
+      "deltaForearm": -17.55950864665638,
+      "index": 22,
+      "progress": 0.9755282581475768
+    },
+    {
+      "theta1": 73.94159790324653,
+      "theta2": -18.81097562094184,
+      "phiWristLocal": 9.45503262094184,
+      "elbow": [
+        375.071501888436,
+        410.632368403491
+      ],
+      "wrist": [
+        445.9447817170733,
+        512.3426347052184
+      ],
+      "deltaUpper": -7.564026096753466,
+      "deltaForearm": -17.019058717695305,
+      "index": 23,
+      "progress": 0.9455032620941839
+    },
+    {
+      "theta1": 74.26955602250021,
+      "theta2": -18.401027971874736,
+      "phiWristLocal": 9.045084971874736,
+      "elbow": [
+        374.2143129347958,
+        410.87645489671394
+      ],
+      "wrist": [
+        443.7718364874141,
+        513.4910297974735
+      ],
+      "deltaUpper": -7.236067977499786,
+      "deltaForearm": -16.281152949374526,
+      "index": 24,
+      "progress": 0.9045084971874737
+    },
+    {
+      "theta1": 74.67719687525381,
+      "theta2": -17.891476905932738,
+      "phiWristLocal": 8.535533905932738,
+      "elbow": [
+        373.1469312468403,
+        411.1730002295066
+      ],
+      "wrist": [
+        441.0529568065095,
+        514.8878581695636
+      ],
+      "deltaUpper": -6.8284271247461845,
+      "deltaForearm": -15.363961030678919,
+      "index": 25,
+      "progress": 0.8535533905932737
+    },
+    {
+      "theta1": 75.1544829908301,
+      "theta2": -17.294869261462367,
+      "phiWristLocal": 7.938926261462365,
+      "elbow": [
+        371.89454482190575,
+        411.5105486084499
+      ],
+      "wrist": [
+        437.844831165162,
+        516.4798764908326
+      ],
+      "deltaUpper": -6.351141009169893,
+      "deltaForearm": -14.29006727063226,
+      "index": 26,
+      "progress": 0.7938926261462365
+    },
+    {
+      "theta1": 75.68966200104181,
+      "theta2": -16.625895498697734,
+      "phiWristLocal": 7.269952498697734,
+      "elbow": [
+        370.4869607073065,
+        411.8766178189246
+      ],
+      "wrist": [
+        434.21676458809486,
+        518.2087021686301
+      ],
+      "deltaUpper": -5.815961998958187,
+      "deltaForearm": -13.085914497655917,
+      "index": 27,
+      "progress": 0.7269952498697734
+    },
+    {
+      "theta1": 76.26955602250021,
+      "theta2": -15.901027971874736,
+      "phiWristLocal": 6.545084971874737,
+      "elbow": [
+        368.9579842724981,
+        412.2584124849834
+      ],
+      "wrist": [
+        430.25003843844274,
+        520.0140812962137
+      ],
+      "deltaUpper": -5.236067977499786,
+      "deltaForearm": -11.781152949374526,
+      "index": 28,
+      "progress": 0.6545084971874737
+    },
+    {
+      "theta1": 76.87988613983907,
+      "theta2": -15.138115325201152,
+      "phiWristLocal": 5.782172325201152,
+      "elbow": [
+        367.3446724762346,
+        412.64350983972673
+      ],
+      "wrist": [
+        426.0367246553004,
+        521.83711347953
+      ],
+      "deltaUpper": -4.625737860160925,
+      "deltaForearm": -10.40791018536208,
+      "index": 29,
+      "progress": 0.5782172325201153
+    },
+    {
+      "theta1": 77.505624,
+      "theta2": -14.355943,
+      "phiWristLocal": 4.999999999999999,
+      "elbow": [
+        365.6864706348067,
+        413.02046456031474
+      ],
+      "wrist": [
+        421.6778959172691,
+        523.6231786304273
+      ],
+      "deltaUpper": -4.0,
+      "deltaForearm": -8.999999999999996,
+      "index": 30,
+      "progress": 0.49999999999999994
+    },
+    {
+      "theta1": 78.13136186016092,
+      "theta2": -13.573770674798844,
+      "phiWristLocal": 4.217827674798845,
+      "elbow": [
+        364.0242509704224,
+        413.3792876303961
+      ],
+      "wrist": [
+        417.28124253742374,
+        525.3243317997071
+      ],
+      "deltaUpper": -3.3742621398390753,
+      "deltaForearm": -7.5920898146379265,
+      "index": 31,
+      "progress": 0.4217827674798845
+    },
+    {
+      "theta1": 78.74169197749978,
+      "theta2": -12.810858028125264,
+      "phiWristLocal": 3.4549150281252627,
+      "elbow": [
+        362.3992794500243,
+        413.7117669267268
+      ],
+      "wrist": [
+        412.95817708341417,
+        526.9009799062906
+      ],
+      "deltaUpper": -2.7639320225002137,
+      "deltaForearm": -6.218847050625481,
+      "index": 32,
+      "progress": 0.3454915028125263
+    },
+    {
+      "theta1": 79.32158599895818,
+      "theta2": -12.085990501302266,
+      "phiWristLocal": 2.7300475013022663,
+      "elbow": [
+        360.8521439088477,
+        414.01161309138183
+      ],
+      "wrist": [
+        408.82056709713936,
+        528.3227255943472
+      ],
+      "deltaUpper": -2.184038001041813,
+      "deltaForearm": -4.914085502344076,
+      "index": 33,
+      "progress": 0.2730047501302266
+    },
+    {
+      "theta1": 79.85676500916989,
+      "theta2": -11.417016738537633,
+      "phiWristLocal": 2.061073738537634,
+      "elbow": [
+        359.42168030877593,
+        414.2744316512277
+      ],
+      "wrist": [
+        404.9772755807616,
+        529.5683508501676
+      ],
+      "deltaUpper": -1.6488589908301066,
+      "deltaForearm": -3.7099327293677327,
+      "index": 34,
+      "progress": 0.20610737385376343
+    },
+    {
+      "theta1": 80.33405112474618,
+      "theta2": -10.820409094067262,
+      "phiWristLocal": 1.4644660940672622,
+      "elbow": [
+        358.14393480636596,
+        414.4975394649832
+      ],
+      "wrist": [
+        401.530703163768,
+        530.625005623243
+      ],
+      "deltaUpper": -1.1715728752538155,
+      "deltaForearm": -2.636038969321074,
+      "index": 35,
+      "progress": 0.1464466094067262
+    },
+    {
+      "theta1": 80.74169197749978,
+      "theta2": -10.310858028125264,
+      "phiWristLocal": 0.9549150281252627,
+      "elbow": [
+        357.05119722405203,
+        414.6796585973734
+      ],
+      "wrist": [
+        398.5735153526942,
+        531.4867523976237
+      ],
+      "deltaUpper": -0.7639320225002137,
+      "deltaForearm": -1.718847050625481,
+      "index": 36,
+      "progress": 0.09549150281252627
+    },
+    {
+      "theta1": 81.06965009675346,
+      "theta2": -9.90091037905816,
+      "phiWristLocal": 0.5449673790581605,
+      "elbow": [
+        356.17113711844775,
+        414.82053204746364
+      ],
+      "wrist": [
+        396.18570816230636,
+        532.1526852238741
+      ],
+      "deltaUpper": -0.4359739032465342,
+      "deltaForearm": -0.9809412823046948,
+      "index": 37,
+      "progress": 0.05449673790581605
+    },
+    {
+      "theta1": 81.30985006518061,
+      "theta2": -9.600660418524232,
+      "phiWristLocal": 0.24471741852423234,
+      "elbow": [
+        355.5260678131018,
+        414.9205122204865
+      ],
+      "wrist": [
+        394.432124273079,
+        532.6248827237508
+      ],
+      "deltaUpper": -0.19577393481938543,
+      "deltaForearm": -0.44049135334361367,
+      "index": 38,
+      "progress": 0.024471741852423234
+    },
+    {
+      "theta1": 81.45637736238055,
+      "theta2": -9.41750129702431,
+      "phiWristLocal": 0.06155829702431115,
+      "elbow": [
+        355.1323574880944,
+        414.98017400304036
+      ],
+      "wrist": [
+        393.36048929303655,
+        532.9064645558285
+      ],
+      "deltaUpper": -0.04924663761944714,
+      "deltaForearm": -0.11080493464376318,
+      "index": 39,
+      "progress": 0.006155829702431115
+    },
+    {
+      "theta1": 81.505624,
+      "theta2": -9.355943,
+      "phiWristLocal": 0.0,
+      "elbow": [
+        355.0000005407451,
+        414.99999975353677
+      ],
+      "wrist": [
+        393.0000020579813,
+        532.9999995396668
+      ],
+      "deltaUpper": 0.0,
+      "deltaForearm": 3.552713678800501e-15,
+      "index": 40,
+      "progress": 0.0
+    }
+  ],
+  "sixCombinationExtremes": [
+    {
+      "theta1": 73.505624,
+      "theta2": -27.355943,
+      "phiWristLocal": 0.0,
+      "elbow": [
+        376.20882363008775,
+        410.3003009447985
+      ],
+      "wrist": [
+        462.09079398049573,
+        499.6998939727776
+      ],
+      "deltaUpper": -8.0,
+      "deltaForearm": -25.999999999999996
+    },
+    {
+      "theta1": 73.505624,
+      "theta2": -3.355943,
+      "phiWristLocal": 0.0,
+      "elbow": [
+        376.20882363008775,
+        410.3003009447985
+      ],
+      "wrist": [
+        418.30381717655655,
+        526.9022373916663
+      ],
+      "deltaUpper": -8.0,
+      "deltaForearm": -1.9999999999999964
+    },
+    {
+      "theta1": 89.505624,
+      "theta2": -27.355943,
+      "phiWristLocal": 0.0,
+      "elbow": [
+        333.3435086029897,
+        416.7022637394758
+      ],
+      "wrist": [
+        391.2566896391993,
+        526.3109473694869
+      ],
+      "deltaUpper": 8.0,
+      "deltaForearm": -9.999999999999996
+    },
+    {
+      "theta1": 89.505624,
+      "theta2": -3.355943,
+      "phiWristLocal": 0.0,
+      "elbow": [
+        333.3435086029897,
+        416.7022637394758
+      ],
+      "wrist": [
+        341.66796404462445,
+        540.3901916323664
+      ],
+      "deltaUpper": 8.0,
+      "deltaForearm": 14.000000000000004
+    },
+    {
+      "theta1": 73.505624,
+      "theta2": -19.355943,
+      "phiWristLocal": -8.0,
+      "elbow": [
+        376.20882363008775,
+        410.3003009447985
+      ],
+      "wrist": [
+        448.81297796243535,
+        510.7823234091244
+      ],
+      "deltaUpper": -8.0,
+      "deltaForearm": -17.999999999999996
+    },
+    {
+      "theta1": 73.505624,
+      "theta2": -19.355943,
+      "phiWristLocal": 12.0,
+      "elbow": [
+        376.20882363008775,
+        410.3003009447985
+      ],
+      "wrist": [
+        448.81297796243535,
+        510.7823234091244
+      ],
+      "deltaUpper": -8.0,
+      "deltaForearm": -17.999999999999996
+    }
+  ],
+  "denseTheta2Scan": [
+    {
+      "theta2": -27.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -27.255943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -27.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -27.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.955943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.755943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.455943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.255943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -26.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.955943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.755943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.455943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.255943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -25.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.955943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.755943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.455943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.255943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -24.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.955943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.755943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.455943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.255943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -23.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.955942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.755943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.455942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.255943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -22.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.955942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.755943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.455942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.255943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -21.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.955942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.755943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.455942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.255943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -20.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.955942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.755943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.455942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.255943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -19.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.955942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.755943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.455942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.255943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -18.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.955942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.755943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.455942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.255943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -17.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.955942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.755943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.455942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.255943000000002,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -16.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.955943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.755943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.455943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.255943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -15.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.955943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.755943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.455943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.255943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -14.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.955943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.755943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.455943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.255943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -13.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.955943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.755943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.455943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.255943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -12.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.955943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.755943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.455943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.255942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -11.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.955943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.755942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.455943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.255942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -10.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.955943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.755942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.455943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.255942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -9.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.955943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.755942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.655943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.555943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.455943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.255942999999998,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.155943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -8.055943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.955943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.7559429999999985,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.655943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.555942999999999,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.455943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.2559429999999985,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.155943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -7.055942999999999,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.955943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.7559429999999985,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.655943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.555942999999999,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.455943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.2559429999999985,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.155943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -6.055942999999999,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.955943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.7559429999999985,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.655943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.555942999999999,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.455943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.2559429999999985,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.155943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -5.055942999999999,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.955943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.7559429999999985,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.655943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.555942999999999,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.455943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.2559429999999985,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.155943000000001,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -4.055942999999999,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -3.9559430000000013,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -3.855943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -3.7559429999999985,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -3.6559430000000006,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -3.555942999999999,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -3.4559430000000013,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    },
+    {
+      "theta2": -3.355943,
+      "missingResponsibilityPixelsAt4x": 0,
+      "overlapPixelsAt4x": 4181,
+      "connectedByOverlap": true,
+      "innerBendExposedUpperPixelsAt4x": 0
+    }
+  ]
+}

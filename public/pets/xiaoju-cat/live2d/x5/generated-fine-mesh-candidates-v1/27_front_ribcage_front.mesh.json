@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "layerId": "ribcage_front",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/27_front_ribcage_front.png",
+  "primaryController": "BodyRoot",
+  "parent": "BodyRoot",
+  "actionSubject": "BodyRoot",
+  "deformationRole": "parent-transform-rigid-surface",
+  "densityProfile": "inherited-rigid-sparse",
+  "pivotName": "rib",
+  "pivotPoint": [
+    80.0,
+    94.0
+  ],
+  "points": [
+    [
+      142.0,
+      187.5
+    ],
+    [
+      0.5,
+      184.0
+    ],
+    [
+      7.5,
+      64.0
+    ],
+    [
+      33.0,
+      0.5
+    ],
+    [
+      128.0,
+      0.5
+    ],
+    [
+      136.5,
+      11.0
+    ],
+    [
+      157.5,
+      93.0
+    ],
+    [
+      160.5,
+      182.0
+    ],
+    [
+      103.964,
+      28.648
+    ],
+    [
+      137.419,
+      138.227
+    ],
+    [
+      71.25,
+      185.75
+    ],
+    [
+      93.612,
+      91.705
+    ],
+    [
+      126.117,
+      64.663
+    ],
+    [
+      88.699,
+      140.218
+    ],
+    [
+      4.0,
+      124.0
+    ],
+    [
+      58.377,
+      53.542
+    ],
+    [
+      46.067,
+      100.254
+    ],
+    [
+      43.14,
+      148.868
+    ]
+  ],
+  "triangles": [
+    [
+      4,
+      8,
+      3
+    ],
+    [
+      0,
+      10,
+      13
+    ],
+    [
+      15,
+      11,
+      16
+    ],
+    [
+      5,
+      12,
+      8
+    ],
+    [
+      8,
+      4,
+      5
+    ],
+    [
+      13,
+      17,
+      16
+    ],
+    [
+      7,
+      9,
+      6
+    ],
+    [
+      12,
+      11,
+      8
+    ],
+    [
+      11,
+      6,
+      9
+    ],
+    [
+      0,
+      9,
+      7
+    ],
+    [
+      10,
+      17,
+      13
+    ],
+    [
+      3,
+      8,
+      15
+    ],
+    [
+      13,
+      11,
+      9
+    ],
+    [
+      6,
+      12,
+      5
+    ],
+    [
+      6,
+      11,
+      12
+    ],
+    [
+      0,
+      13,
+      9
+    ],
+    [
+      13,
+      16,
+      11
+    ],
+    [
+      17,
+      1,
+      14
+    ],
+    [
+      16,
+      2,
+      15
+    ],
+    [
+      3,
+      15,
+      2
+    ],
+    [
+      8,
+      11,
+      15
+    ],
+    [
+      2,
+      16,
+      14
+    ],
+    [
+      1,
+      17,
+      10
+    ],
+    [
+      16,
+      17,
+      14
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.92,
+      0.92
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.72
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      1.0
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 18,
+    "triangleCount": 24,
+    "minimumTriangleAngleDegrees": 21.03,
+    "medianTriangleAngleDegrees": 44.337
+  },
+  "candidateOnly": true
+}

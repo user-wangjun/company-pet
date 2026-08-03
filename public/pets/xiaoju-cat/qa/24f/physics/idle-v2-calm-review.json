@@ -1,0 +1,62 @@
+{
+  "method": "idle-v2-calm-no-morph",
+  "source": "public/pets/xiaoju-cat/spritesheet-scruff.png",
+  "excluded_source_frames": [
+    {
+      "frame": 4,
+      "reason": "opens eyes/raises face, breaks sleepy idle continuity"
+    }
+  ],
+  "sequence_source_frames_1_based": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    2,
+    2,
+    1,
+    1,
+    6,
+    6,
+    5,
+    5,
+    6,
+    6,
+    1,
+    1,
+    2,
+    2,
+    3,
+    2,
+    1,
+    6
+  ],
+  "outputs": {
+    "strip": "public/pets/xiaoju-cat/qa/24f/physics/idle-24-physics-v2-calm-strip.png",
+    "preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/idle-v2-calm.gif",
+    "sample_sheet": "public/pets/xiaoju-cat/qa/24f/physics/idle-v2-calm-sample-sheet.png",
+    "v1_vs_v2_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/compare/idle-physics-v1-vs-v2-calm.gif",
+    "original_vs_v2_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/compare/idle-original-vs-v2-calm.gif"
+  },
+  "metrics": {
+    "frames": 24,
+    "width_range": [
+      182,
+      182
+    ],
+    "height_range": [
+      118,
+      121
+    ],
+    "bottom_range": [
+      164,
+      164
+    ],
+    "center_x_range": [
+      96.0,
+      96.0
+    ]
+  }
+}

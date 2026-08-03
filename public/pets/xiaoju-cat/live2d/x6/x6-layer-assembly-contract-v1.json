@@ -1,0 +1,2230 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-mask-layer-reconstruction-precondition",
+  "status": "candidate-for-user-visual-review",
+  "evidenceClassification": "mask-derived rest-pose reconstruction QA",
+  "productionLayerAssemblyComplete": false,
+  "fine63BodySpaceAssemblyComplete": false,
+  "source": "live2d/x5/qa/x5-actual-xiaoju-spread-pose-three-view.png",
+  "sourceLayerContract": "live2d/x5/x5-actual-xiaoju-layer-split-contract.json",
+  "method": [
+    "place every source-mask layer at its recorded X5 bounds",
+    "measure visible source pixels not owned by any layer",
+    "assign each seam pixel to the nearest existing semantic layer",
+    "recompose strictly by drawOrder from transparent PNG layers"
+  ],
+  "counts": {
+    "visibleCoordinateAlignedLayers": 113,
+    "hiddenFillPlaceholdersExcludedFromVisibleReconstruction": 4
+  },
+  "coverageByView": {
+    "front": {
+      "visiblePixels": 196124,
+      "strictCoveredPixels": 182002,
+      "strictCoverage": 0.927995,
+      "seamPixelsAssigned": 14122,
+      "assembledCoveredPixels": 196124,
+      "assembledCoverage": 1.0
+    },
+    "side": {
+      "visiblePixels": 163688,
+      "strictCoveredPixels": 154549,
+      "strictCoverage": 0.944168,
+      "seamPixelsAssigned": 9139,
+      "assembledCoveredPixels": 163688,
+      "assembledCoverage": 1.0
+    },
+    "back": {
+      "visiblePixels": 195554,
+      "strictCoveredPixels": 179350,
+      "strictCoverage": 0.917138,
+      "seamPixelsAssigned": 16204,
+      "assembledCoveredPixels": 195554,
+      "assembledCoverage": 1.0
+    }
+  },
+  "originAndCompositionProof": {
+    "proofImage": "live2d/x6/qa/x6-mask-layer-origin-and-knockout-proof-v1.png",
+    "compositionInputCount": 113,
+    "compositionReadsOnlyLayerPngs": true,
+    "sourceImageUsedDuringComposition": false,
+    "sourceImageUsedAfterCompositionForAudit": true,
+    "visibleBodyRgbExactMatchRatio": 1.0,
+    "visibleBodyAlphaCoverageRatio": 1.0,
+    "knockoutLayers": [
+      "front:forearm_L",
+      "front:head_base",
+      "front:tail_mid"
+    ],
+    "fileSha256": {
+      "front:tail_root_socket": "be2b79b9148b29fe25b56c0baf16be50e0c94c5c140f08b9d1947b84b7ae6a26",
+      "front:tail_mid": "56d41017a7b936a91183f196808901911e591a380a64414378bae474e29127e1",
+      "front:tail_tip": "5861e1efa300b6a497bf062bbd16c3d0a4676926ecf42d7841b30eb1412e0008",
+      "front:hind_thigh_L": "4553b0c3d17c94dc5859138c30407322d045d130bc124efb03648b561f334a61",
+      "front:hind_shin_L": "4a18ddde851bd73c69ced81b54f232683549bf6564155321b999712e4510f0a8",
+      "front:hind_thigh_R": "b74e4bf38cc0a874ce4f31d11010c445725e87bb930f0732152e3b340843ec31",
+      "front:hind_shin_R": "4e864dcdd39befdb69a0085f15206ede52274b7095fc1d8868b3dba77638e953",
+      "front:pelvis": "e268401eb8e84c3b9a71afe4ce623f6bf9cf3a27206a2fe893f7942d644ee90e",
+      "front:abdomen": "62729fa6a94a7049b082fc0803b38d0f7ff29536871e98f246d736185b46b10d",
+      "front:ribcage": "3a717e70c9796f3d8cc9ed95e916b374f81969eb9dd0377dee1e2d8cef981a8f",
+      "front:neck_fill": "04fc8ad3211ce094b8fd5c791261d76f2d37f5dc38f828b6a45e0b60b35e53e2",
+      "front:chest_fur": "4300c708812b1f9916937e9b9d8eac451f71f1412d7e0a8519de38422ff27760",
+      "front:scapula_fur_L": "96afdf93cfba94cc5d6cdd237a5e51f5778a1859868b7ebf88fcc9e21547c1a1",
+      "front:upper_arm_L": "36d4cf4d2ce0d3f58e6abddf1a216be4ef8310014a7aa621a35da202ffc0f408",
+      "front:forearm_L": "a799eea9deb5e1584677d7689aeb73a0790498531376da22a66b063fe4b2a41a",
+      "front:wrist_fur_L": "db463d77f85668553d4652e5836d723751f1f5bb716852aa4180d8afa2f3d259",
+      "front:fore_paw_L": "b009799df910af880d5615f8234c03808300b61797e03cbd559e65821112db02",
+      "front:scapula_fur_R": "17296e08057d35487ce93eb1c396ae2b03af9cd7c38d4b3ace110e1aad9d66de",
+      "front:upper_arm_R": "2e198f3f58d6492575cbc07762008e44c7c36857d22ab0528932f939bc6b2c6b",
+      "front:forearm_R": "cf8026ad0ea503d86741cf0a4996b5881b4ee62cbaa67ae08c4cf0ddf1b4d5bd",
+      "front:wrist_fur_R": "cc1df1d5b4100fcb99036be9b004fb700fa2bf9668649ca6f7cafdc6d54df1a2",
+      "front:fore_paw_R": "b81f4c7451c8c1087abb492ffebad9b7094c0c196525eec33999eba0e17cef73",
+      "front:head_base": "57f97ecf8fad2780945b247fade18fd6359e775b625e344fbd5a51b9347f08c9",
+      "front:ear_root_L": "fb75f3a093e5f75a68755843ff1ca50911a1b84f4e2fcfcaea662dd23efdffec",
+      "front:ear_face_L": "d4256f51b881c63722e4ffd63c98746e3e4755fadc9bd70e9bccb08ac04acfdb",
+      "front:ear_tip_L": "b7eb2bb2bb629db26bcd660b192bd19c0090ee88b0cc769d70060619575934df",
+      "front:ear_root_R": "6f26920d829d9e98a17f975fc9422500ec6d2bc61f826dc2e3f488aee73ef5ac",
+      "front:ear_face_R": "1d020b52ed3ad9e6e951ff1f3f0383231a4fd8a9c5aa10bed5708965ab49808e",
+      "front:ear_tip_R": "70ba3964438ae6b071b7e49e6ede872ea086691ab6808aecf2085834f5f95e6c",
+      "front:muzzle_base": "804d42d341173d40c7719b595def4bd56d04abad61f23a06e770b2d75ca2246b",
+      "front:jaw_line": "c7bca34dddbf9cd3a6453efab8142f2ddd98eea97d151e1c34261a700dec57ef",
+      "front:cheek_fur_L": "586325771729ede0afc2cb7c8cd9711419c76286edec5c2d189d46eba02d60ab",
+      "front:cheek_fur_R": "935ee78af8773178da68377fe73dc67b34a2d0807dad85954bf3d3262ccda016",
+      "front:eye_socket_L": "2d983d84e4746bed94a8f56d86f61877efdce5237de3469e1ce20590ef000cae",
+      "front:iris_L": "a3fbb0d3a9a5684dba5bdd2c651b3f7579974b1157aa0c93c80bfeda49cca03a",
+      "front:pupil_L": "6e5a7f5752b497d9194c98b276ca3bf91504396572e8085ea1a6457504eca18c",
+      "front:highlight_L": "7ea1bf4c73fd960e1b7e5baa992b01aabdbe73f1846fe183088942d525d105e2",
+      "front:upper_lid_L": "689fdc76279e7b02d3102bf48c7078e17320a4247466685cc21c30b52b431065",
+      "front:lower_lid_L": "8b6227c66178b91cb06e91de1c81dcadf55bd03342eacdbca7a026d8dbacc911",
+      "front:eye_socket_R": "1183c8fa7f79b79c5183518447c49a46dbedb51e3549ae0009141efef8d78145",
+      "front:iris_R": "11f63bdcff1944ea0b52520d2927ff892a10caca8de5acbbb432da886132fdd0",
+      "front:pupil_R": "0e8619d6dfc17b0fd0fdf255cc91d91b679f34bf24864d9fadc8caa9eae3f235",
+      "front:highlight_R": "311b7fefd39d923ac2d84a9a26856b2c03022c51448d4694b2bf8e5d0f83c936",
+      "front:upper_lid_R": "8a559e8aee70c5432cbe51a47b54ab615df341eed17ebbd0e395c0156b3b7f7f",
+      "front:lower_lid_R": "b27044d418cf9044152e16493c57a8a92c317b8467d5830ba405075fd68b6774",
+      "front:whisker_L": "6510af7e8600ac84f1ef72a7c362c7f5c72d842e03aac1b676c6aa4506662017",
+      "front:whisker_R": "884282242c9b3667b6105340b714bddc2634f51cc0255be9bdf8c29461120678",
+      "side:tail_mid": "114b285074ad215f3cf6525f7b327511edfd746bfdc58073bb8afd2d510928c1",
+      "side:tail_tip": "309e73d448ed72a4655320ae3ba79ba3a4ffb545aa0c1641afa3d61e24eee0fc",
+      "side:hind_thigh_L": "1a4cf4b2bd7dc617639047f26be0890a6eb5537d8d9a13130267d3492c612556",
+      "side:hind_shin_L": "e292cb596e76593a629b2737ac983a3893908c4be05299e863f45d53e6356569",
+      "side:hind_paw_L": "6c5cbd317fb8276c4caf041d245c302fc3559024cd41c769c7a0aba0f49de8f6",
+      "side:hind_shin_R": "5b6d064bb2756785fde09580be9ae5e6cbb3271fb50dceaddc53397e3327aed2",
+      "side:hind_paw_R": "2b2da8356eead7935ad0ea1e4cf5776abb3a4e6f5398180b9eaf28b5812bd869",
+      "side:pelvis": "fd725f6268cb90a35effbe50d9e3c8fc51843198b1ce477c54b9140d57f0d70b",
+      "side:abdomen": "4fabd98fbc29c3b33ba087bb2a3952525fd7faecc7d94fb22db454d3b739b807",
+      "side:ribcage": "7b0382caa7faeed3a0bad76f08a8711656537ae00fcda43253a4a3c09f307f96",
+      "side:chest_fur": "c88c7d7cd100b71127ed8ccb5e52427035df5dae2e126f942d7a69cf12f70c38",
+      "side:forearm_L": "94a15166e19094c8b844dcc1105686bb7a193fd47ac035706caccbe234d20d7d",
+      "side:wrist_fur_L": "cfccbaab87882df45309ad051ead224e752121d006bc8884250b5d67c23a45b3",
+      "side:fore_paw_L": "d22b3ae19d0dddb42a1ed95b1362304f1523896a8ceefe5d610f7e0b85976951",
+      "side:scapula_fur_R": "4df6fe3985b206a8e2f584bb46e49e8b301f6396f013b400c5949079dd0d62a2",
+      "side:upper_arm_R": "1068f9d48ac1f266d28dc7eeb25e59e46ca084cb37116a1cd259ed7a105cc6f6",
+      "side:forearm_R": "70479d77dbaf3c1b88ec82a7ccf73476581e41bee749ec429930f7395e4a4f20",
+      "side:wrist_fur_R": "a5f303356913bbd7835d6e6f5e2f91b6f369011978be14cf7188034b06e35e50",
+      "side:fore_paw_R": "9bb1128b8ec00579932fb483d1d3a2bdf3e86fd6945080dc597fb47a6e75f4da",
+      "side:head_base": "adf344cfa57b878afb500a7b8097b099717d9243b30c2524ee4fb437e66dd73f",
+      "side:ear_root_L": "f421cf00e16609c1d5781548d2c69a6c1387d1d06534aef476ff291bd92a7db1",
+      "side:ear_face_L": "2dfe8d2373f01472861841499389f61ec65e1a3fc2cb847debbad9983edaded2",
+      "side:ear_tip_L": "c6f51df1bb5032889923f6fcbe1ceafc8e74edd6efde578d36a3aadd3de1759c",
+      "side:ear_root_R": "35f9de5464e4dc2b7719ad78b60f31562a30f16df31f98515ae9c561934d186e",
+      "side:ear_face_R": "10e74a9b0ea1609d39c5e190d9da2a9801664981cfb5302b90654e6576628999",
+      "side:ear_tip_R": "f19ceb3865652a9500e19af53a3d243fb2bdcf5ecce84512d18a8b090464596c",
+      "side:muzzle_base": "8cdbc5fbf4fabb87f7b94b29712cf8e24d6a61debc9e2693369c74ca2fd680bb",
+      "side:cheek_fur_L": "89ed2793cbd6a815ea5b6cfb7ec8d1f3386720bb1b4cc1e378759780c5572ff7",
+      "side:cheek_fur_R": "7d9912c068ab21569f36d7e59c590e53da55418d932570c21503326de04038db",
+      "side:eye_socket_L": "dc4734f6a8b441064e0a2fcd5faced1b7a904d4f3e495cc1dc937d11fc3ca0b5",
+      "side:iris_L": "1db006ac44e8b783eb124e23f2b0dabbed0e85fabe61a5e9a1a74ece0c4c41a1",
+      "side:pupil_L": "f6b2d30c87d3d7b4116014db6b5288c11e8682d02ec64cb672b82dd8ec5ca8c3",
+      "side:highlight_L": "c601858c60f1b7f1d054ba4bc3c3b6f08a80dc9e6cf4b93649064e199cf5c932",
+      "side:upper_lid_L": "8e9b5914435c07cd4db8fe69254fd6159f9e3765d2a44310b10e8222437ac450",
+      "side:lower_lid_L": "9fb74dd6f496258bd3469882713138b0dcf81fe33f43d87171a4857f131e53b3",
+      "side:whisker_L": "f79516b30e8032598882e0c3cc575fbe86447f38cac4c4f6477b7c29718539ca",
+      "back:tail_mid": "f844d32e639c1c293a059ed2b968f744c8fa73bb275e12d9b4158969ca8a422d",
+      "back:tail_tip": "b4c0a60923cd5584282711de54ef422f59f3bbcd06f4f15d26ebd0050c1fb98e",
+      "back:hind_thigh_L": "3e20bdc45099ac5a36f8fbafed9429578d56aa991d9730e3e0e5135a097cb849",
+      "back:hind_shin_L": "1b9d71156311eca47e4abe5cfd1a54ac4516b6bb9c6f612cc38a59c9948df067",
+      "back:hind_paw_L": "da8d44ec97ccca9c4856a6134b7ca91f3f811eb5614f2541ff9c8d5badef2fa4",
+      "back:hind_thigh_R": "848975801fb723203452801705a9f078f9daa71fc71f66dc3c156bcb4e184342",
+      "back:hind_shin_R": "995c0e41cd213d57f9d68e078792eeb222c83cf163cf3231db743614013b5419",
+      "back:hind_paw_R": "6ce132a0e986d27030cf70a550e3c5af8c116ed12dedbfe70b0a4e48284cf4d9",
+      "back:pelvis": "ab12a7d35693aea49ddfe8daccecb078ade2f319fc8e63e6b97d43f46781a3e2",
+      "back:abdomen": "0fe257cbe6c591a6573e5774be41f1beadd758a83a38400019a0aa84f9e2b51f",
+      "back:ribcage": "5721bb908f212459563d6e38b9c49ad9a5c742ec4aa3bc03efd52ca454d0cedc",
+      "back:neck_fill": "fb422e388d1e9a804657960df3635081deec4117849cce1e80f449302aa4e796",
+      "back:chest_fur": "9789c3cffee8799f848e3606bd514b46126068dac17127da5bea52b2c18408fc",
+      "back:scapula_fur_L": "53f24fa967d2b000b7a18d205f549a58ee46d4d0ac42a2c91f8e62b307a974ba",
+      "back:upper_arm_L": "c103002b4cb4fc69d2de91d09a0c64d7672e09a0806689e290d64657952d8181",
+      "back:forearm_L": "71c95cf7f9bbf5be35019d133271d34e4e4d5ed08541b1e95017fd0818b89af9",
+      "back:wrist_fur_L": "271c461d6dd1baa469d82208fc0538d6ff86b48950924d84cc37348bbea1cc90",
+      "back:fore_paw_L": "469c4a67bd967ac8c1565db04bffe7fd58620eb47efa88b7dd5acecd4c95990d",
+      "back:scapula_fur_R": "9a8e13ad024c2b1a018a97ff7ab8fe6ac995d7781c2beec61f9110be66b3e2c4",
+      "back:upper_arm_R": "9ba79cd775e90addc74a0d9c6fddf2370d49064a717ec01bc21c7bd3dc322628",
+      "back:forearm_R": "ed9f0a65a4e31b72e4e1ac275a84ecd3cdeb28d88db7ba25d99a97bb4c249a3e",
+      "back:wrist_fur_R": "e3c9fec1d405966332c18597633cd0005076500119f80376ec64632d7babb137",
+      "back:fore_paw_R": "341b12407014043f5cbe9666565ebd60548864ad21bd1b433c167e61858f5adb",
+      "back:head_base": "a984df1cd15c78ef0c956bb498501cd624284dc342c35cfb3ccf23fb913948da",
+      "back:ear_root_L": "e084fb96d77bbb8d4537cd470b6215d941deb4b8353098f636b7eb9cd27fb315",
+      "back:ear_face_L": "9aa6f490988719f28c8ceb12c1a2c29ddbb933ec06a2224a41814a970e1227be",
+      "back:ear_tip_L": "a997d538e8b0b08d5d9c6c6018b884bf99d0c0289a00b5c0fd9e25452762477f",
+      "back:ear_root_R": "a3c325e7045cf5e1f5640119ec94f944e26c52ea1c44253d995a3f27cf48196a",
+      "back:ear_face_R": "e9807a4321f007bb23e1587a13e4a9b4f36dccdec99c7faba2e44a2e0141dc5f",
+      "back:ear_tip_R": "d5887e938ec209f6a42ae9cd5cd5ca2efe750ff81ddd1cd57e018361412f1497"
+    }
+  },
+  "layers": [
+    {
+      "view": "front",
+      "id": "tail_root_socket",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_tail_root_socket.png",
+      "bounds": [
+        295,
+        730,
+        299,
+        744
+      ],
+      "drawOrder": 88,
+      "parent": "Pelvis",
+      "pivot": "tail_root",
+      "sourceAlphaPixels": 7027,
+      "assembledAlphaPixels": 34,
+      "seamFillPixels": 32,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "tail_mid",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_tail_mid.png",
+      "bounds": [
+        297,
+        732,
+        379,
+        792
+      ],
+      "drawOrder": 95,
+      "parent": "TailMid",
+      "pivot": "tail_mid",
+      "sourceAlphaPixels": 10569,
+      "assembledAlphaPixels": 3571,
+      "seamFillPixels": 688,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "tail_tip",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_tail_tip.png",
+      "bounds": [
+        311,
+        780,
+        387,
+        849
+      ],
+      "drawOrder": 100,
+      "parent": "TailTip",
+      "pivot": "tail_tip",
+      "sourceAlphaPixels": 3303,
+      "assembledAlphaPixels": 3552,
+      "seamFillPixels": 249,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "hind_thigh_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_hind_thigh_L.png",
+      "bounds": [
+        450,
+        602,
+        517,
+        688
+      ],
+      "drawOrder": 145,
+      "parent": "Hip_L",
+      "pivot": "hip_L",
+      "sourceAlphaPixels": 7903,
+      "assembledAlphaPixels": 1817,
+      "seamFillPixels": 442,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "hind_shin_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_hind_shin_L.png",
+      "bounds": [
+        450,
+        654,
+        569,
+        724
+      ],
+      "drawOrder": 146,
+      "parent": "Knee_L",
+      "pivot": "knee_L",
+      "sourceAlphaPixels": 2453,
+      "assembledAlphaPixels": 4981,
+      "seamFillPixels": 2528,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "hind_thigh_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_hind_thigh_R.png",
+      "bounds": [
+        139,
+        601,
+        219,
+        687
+      ],
+      "drawOrder": 155,
+      "parent": "Hip_R",
+      "pivot": "hip_R",
+      "sourceAlphaPixels": 7633,
+      "assembledAlphaPixels": 2046,
+      "seamFillPixels": 627,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "hind_shin_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_hind_shin_R.png",
+      "bounds": [
+        98,
+        654,
+        218,
+        723
+      ],
+      "drawOrder": 156,
+      "parent": "Knee_R",
+      "pivot": "knee_R",
+      "sourceAlphaPixels": 2174,
+      "assembledAlphaPixels": 5073,
+      "seamFillPixels": 2899,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "pelvis",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_pelvis.png",
+      "bounds": [
+        165,
+        571,
+        504,
+        742
+      ],
+      "drawOrder": 210,
+      "parent": "BodyRoot",
+      "pivot": "pelvis",
+      "sourceAlphaPixels": 47785,
+      "assembledAlphaPixels": 13006,
+      "seamFillPixels": 1653,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "abdomen",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_abdomen.png",
+      "bounds": [
+        170,
+        501,
+        500,
+        676
+      ],
+      "drawOrder": 220,
+      "parent": "BodyRoot",
+      "pivot": "abd",
+      "sourceAlphaPixels": 68314,
+      "assembledAlphaPixels": 28897,
+      "seamFillPixels": 1097,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "ribcage",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_ribcage.png",
+      "bounds": [
+        164,
+        374,
+        513,
+        565
+      ],
+      "drawOrder": 230,
+      "parent": "BodyRoot",
+      "pivot": "rib",
+      "sourceAlphaPixels": 75862,
+      "assembledAlphaPixels": 22306,
+      "seamFillPixels": 351,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "neck_fill",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_neck_fill.png",
+      "bounds": [
+        311,
+        384,
+        360,
+        389
+      ],
+      "drawOrder": 310,
+      "parent": "Neck",
+      "pivot": "neck",
+      "sourceAlphaPixels": 17413,
+      "assembledAlphaPixels": 107,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "chest_fur",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_chest_fur.png",
+      "bounds": [
+        245,
+        371,
+        426,
+        527
+      ],
+      "drawOrder": 300,
+      "parent": "Ribcage",
+      "pivot": "neck",
+      "sourceAlphaPixels": 33545,
+      "assembledAlphaPixels": 18510,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "scapula_fur_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_scapula_fur_L.png",
+      "bounds": [
+        404,
+        305,
+        482,
+        376
+      ],
+      "drawOrder": 340,
+      "parent": "Scapula_L",
+      "pivot": "shoulder_L",
+      "sourceAlphaPixels": 8309,
+      "assembledAlphaPixels": 311,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "upper_arm_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_upper_arm_L.png",
+      "bounds": [
+        418,
+        310,
+        496,
+        384
+      ],
+      "drawOrder": 350,
+      "parent": "Shoulder_L",
+      "pivot": "shoulder_L",
+      "sourceAlphaPixels": 4043,
+      "assembledAlphaPixels": 2660,
+      "seamFillPixels": 12,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "forearm_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_forearm_L.png",
+      "bounds": [
+        473,
+        328,
+        534,
+        423
+      ],
+      "drawOrder": 360,
+      "parent": "Elbow_L",
+      "pivot": "elbow_L",
+      "sourceAlphaPixels": 3112,
+      "assembledAlphaPixels": 2450,
+      "seamFillPixels": 511,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "wrist_fur_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_wrist_fur_L.png",
+      "bounds": [
+        511,
+        354,
+        548,
+        402
+      ],
+      "drawOrder": 370,
+      "parent": "Wrist_L",
+      "pivot": "wrist_L",
+      "sourceAlphaPixels": 1698,
+      "assembledAlphaPixels": 1046,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "fore_paw_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_fore_paw_L.png",
+      "bounds": [
+        516,
+        372,
+        682,
+        469
+      ],
+      "drawOrder": 380,
+      "parent": "Wrist_L",
+      "pivot": "forepaw_L",
+      "sourceAlphaPixels": 2307,
+      "assembledAlphaPixels": 4188,
+      "seamFillPixels": 1881,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "scapula_fur_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_scapula_fur_R.png",
+      "bounds": [
+        195,
+        307,
+        267,
+        376
+      ],
+      "drawOrder": 341,
+      "parent": "Scapula_R",
+      "pivot": "shoulder_R",
+      "sourceAlphaPixels": 8255,
+      "assembledAlphaPixels": 321,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "upper_arm_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_upper_arm_R.png",
+      "bounds": [
+        176,
+        309,
+        253,
+        383
+      ],
+      "drawOrder": 351,
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R",
+      "sourceAlphaPixels": 4023,
+      "assembledAlphaPixels": 2532,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "forearm_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_forearm_R.png",
+      "bounds": [
+        134,
+        326,
+        199,
+        412
+      ],
+      "drawOrder": 361,
+      "parent": "Elbow_R",
+      "pivot": "elbow_R",
+      "sourceAlphaPixels": 3489,
+      "assembledAlphaPixels": 2490,
+      "seamFillPixels": 314,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "wrist_fur_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_wrist_fur_R.png",
+      "bounds": [
+        120,
+        352,
+        160,
+        400
+      ],
+      "drawOrder": 371,
+      "parent": "Wrist_R",
+      "pivot": "wrist_R",
+      "sourceAlphaPixels": 2196,
+      "assembledAlphaPixels": 1022,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "fore_paw_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_fore_paw_R.png",
+      "bounds": [
+        69,
+        365,
+        154,
+        459
+      ],
+      "drawOrder": 381,
+      "parent": "Wrist_R",
+      "pivot": "forepaw_R",
+      "sourceAlphaPixels": 3750,
+      "assembledAlphaPixels": 4615,
+      "seamFillPixels": 865,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "head_base",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_head_base.png",
+      "bounds": [
+        196,
+        48,
+        476,
+        386
+      ],
+      "drawOrder": 500,
+      "parent": "Neck",
+      "pivot": "skull",
+      "sourceAlphaPixels": 69779,
+      "assembledAlphaPixels": 27159,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "ear_root_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_ear_root_L.png",
+      "bounds": [
+        373,
+        69,
+        441,
+        140
+      ],
+      "drawOrder": 610,
+      "parent": "Head",
+      "pivot": "ear_L_base",
+      "sourceAlphaPixels": 4653,
+      "assembledAlphaPixels": 1692,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "ear_face_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_ear_face_L.png",
+      "bounds": [
+        377,
+        66,
+        461,
+        132
+      ],
+      "drawOrder": 620,
+      "parent": "EarRoot_L",
+      "pivot": "ear_L_base",
+      "sourceAlphaPixels": 3881,
+      "assembledAlphaPixels": 3301,
+      "seamFillPixels": 5,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "ear_tip_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_ear_tip_L.png",
+      "bounds": [
+        425,
+        42,
+        461,
+        77
+      ],
+      "drawOrder": 630,
+      "parent": "EarRoot_L",
+      "pivot": "ear_L_tip",
+      "sourceAlphaPixels": 844,
+      "assembledAlphaPixels": 845,
+      "seamFillPixels": 1,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "ear_root_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_ear_root_R.png",
+      "bounds": [
+        230,
+        69,
+        298,
+        140
+      ],
+      "drawOrder": 611,
+      "parent": "Head",
+      "pivot": "ear_R_base",
+      "sourceAlphaPixels": 4268,
+      "assembledAlphaPixels": 1685,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "ear_face_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_ear_face_R.png",
+      "bounds": [
+        223,
+        66,
+        294,
+        132
+      ],
+      "drawOrder": 621,
+      "parent": "EarRoot_R",
+      "pivot": "ear_R_base",
+      "sourceAlphaPixels": 2933,
+      "assembledAlphaPixels": 2669,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "ear_tip_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_ear_tip_R.png",
+      "bounds": [
+        224,
+        40,
+        253,
+        75
+      ],
+      "drawOrder": 631,
+      "parent": "EarRoot_R",
+      "pivot": "ear_R_tip",
+      "sourceAlphaPixels": 627,
+      "assembledAlphaPixels": 628,
+      "seamFillPixels": 1,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "muzzle_base",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_muzzle_base.png",
+      "bounds": [
+        312,
+        204,
+        359,
+        297
+      ],
+      "drawOrder": 530,
+      "parent": "Head",
+      "pivot": "muzzle",
+      "sourceAlphaPixels": 9409,
+      "assembledAlphaPixels": 1685,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "jaw_line",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_jaw_line.png",
+      "bounds": [
+        321,
+        279,
+        350,
+        294
+      ],
+      "drawOrder": 540,
+      "parent": "Muzzle",
+      "pivot": "muzzle",
+      "sourceAlphaPixels": 846,
+      "assembledAlphaPixels": 272,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "cheek_fur_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_cheek_fur_L.png",
+      "bounds": [
+        340,
+        188,
+        469,
+        319
+      ],
+      "drawOrder": 560,
+      "parent": "Head",
+      "pivot": "skull",
+      "sourceAlphaPixels": 12204,
+      "assembledAlphaPixels": 10252,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "cheek_fur_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_cheek_fur_R.png",
+      "bounds": [
+        205,
+        188,
+        331,
+        319
+      ],
+      "drawOrder": 561,
+      "parent": "Head",
+      "pivot": "skull",
+      "sourceAlphaPixels": 11589,
+      "assembledAlphaPixels": 9701,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "eye_socket_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_eye_socket_L.png",
+      "bounds": [
+        348,
+        135,
+        417,
+        220
+      ],
+      "drawOrder": 690,
+      "parent": "Head",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 4597,
+      "assembledAlphaPixels": 1538,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "iris_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_iris_L.png",
+      "bounds": [
+        360,
+        152,
+        405,
+        204
+      ],
+      "drawOrder": 700,
+      "parent": "EyeSocket_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 2013,
+      "assembledAlphaPixels": 1102,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "pupil_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_pupil_L.png",
+      "bounds": [
+        372,
+        159,
+        393,
+        196
+      ],
+      "drawOrder": 705,
+      "parent": "Iris_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 609,
+      "assembledAlphaPixels": 537,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "highlight_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_highlight_L.png",
+      "bounds": [
+        367,
+        157,
+        382,
+        172
+      ],
+      "drawOrder": 710,
+      "parent": "Iris_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 177,
+      "assembledAlphaPixels": 177,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "upper_lid_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_upper_lid_L.png",
+      "bounds": [
+        347,
+        140,
+        418,
+        165
+      ],
+      "drawOrder": 720,
+      "parent": "EyeSocket_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 868,
+      "assembledAlphaPixels": 868,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "lower_lid_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_lower_lid_L.png",
+      "bounds": [
+        352,
+        194,
+        413,
+        212
+      ],
+      "drawOrder": 721,
+      "parent": "EyeSocket_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 471,
+      "assembledAlphaPixels": 471,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "eye_socket_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_eye_socket_R.png",
+      "bounds": [
+        254,
+        135,
+        323,
+        220
+      ],
+      "drawOrder": 691,
+      "parent": "Head",
+      "pivot": "eye_R",
+      "sourceAlphaPixels": 4597,
+      "assembledAlphaPixels": 1538,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "iris_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_iris_R.png",
+      "bounds": [
+        266,
+        152,
+        311,
+        204
+      ],
+      "drawOrder": 701,
+      "parent": "EyeSocket_R",
+      "pivot": "eye_R",
+      "sourceAlphaPixels": 2013,
+      "assembledAlphaPixels": 1102,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "pupil_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_pupil_R.png",
+      "bounds": [
+        278,
+        159,
+        299,
+        196
+      ],
+      "drawOrder": 706,
+      "parent": "Iris_R",
+      "pivot": "eye_R",
+      "sourceAlphaPixels": 609,
+      "assembledAlphaPixels": 537,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "highlight_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_highlight_R.png",
+      "bounds": [
+        273,
+        157,
+        288,
+        172
+      ],
+      "drawOrder": 711,
+      "parent": "Iris_R",
+      "pivot": "eye_R",
+      "sourceAlphaPixels": 177,
+      "assembledAlphaPixels": 177,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "upper_lid_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_upper_lid_R.png",
+      "bounds": [
+        253,
+        140,
+        324,
+        165
+      ],
+      "drawOrder": 722,
+      "parent": "EyeSocket_R",
+      "pivot": "eye_R",
+      "sourceAlphaPixels": 868,
+      "assembledAlphaPixels": 868,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "lower_lid_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_lower_lid_R.png",
+      "bounds": [
+        258,
+        194,
+        319,
+        212
+      ],
+      "drawOrder": 723,
+      "parent": "EyeSocket_R",
+      "pivot": "eye_R",
+      "sourceAlphaPixels": 471,
+      "assembledAlphaPixels": 471,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "whisker_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_whisker_L.png",
+      "bounds": [
+        353,
+        230,
+        462,
+        279
+      ],
+      "drawOrder": 760,
+      "parent": "Muzzle",
+      "pivot": "muzzle",
+      "sourceAlphaPixels": 824,
+      "assembledAlphaPixels": 824,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "front",
+      "id": "whisker_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/front_whisker_R.png",
+      "bounds": [
+        214,
+        231,
+        318,
+        277
+      ],
+      "drawOrder": 761,
+      "parent": "Muzzle",
+      "pivot": "muzzle",
+      "sourceAlphaPixels": 760,
+      "assembledAlphaPixels": 760,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "tail_mid",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_tail_mid.png",
+      "bounds": [
+        979,
+        708,
+        1066,
+        769
+      ],
+      "drawOrder": 95,
+      "parent": "TailMid",
+      "pivot": "tail_mid",
+      "sourceAlphaPixels": 9844,
+      "assembledAlphaPixels": 3498,
+      "seamFillPixels": 1188,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "tail_tip",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_tail_tip.png",
+      "bounds": [
+        963,
+        755,
+        1058,
+        848
+      ],
+      "drawOrder": 100,
+      "parent": "TailTip",
+      "pivot": "tail_tip",
+      "sourceAlphaPixels": 5085,
+      "assembledAlphaPixels": 5642,
+      "seamFillPixels": 557,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "hind_thigh_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_hind_thigh_L.png",
+      "bounds": [
+        779,
+        630,
+        831,
+        650
+      ],
+      "drawOrder": 145,
+      "parent": "Hip_L",
+      "pivot": "hip_L",
+      "sourceAlphaPixels": 8177,
+      "assembledAlphaPixels": 427,
+      "seamFillPixels": 357,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "hind_shin_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_hind_shin_L.png",
+      "bounds": [
+        744,
+        639,
+        846,
+        730
+      ],
+      "drawOrder": 146,
+      "parent": "Knee_L",
+      "pivot": "knee_L",
+      "sourceAlphaPixels": 5233,
+      "assembledAlphaPixels": 5101,
+      "seamFillPixels": 1918,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "hind_paw_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_hind_paw_L.png",
+      "bounds": [
+        702,
+        665,
+        805,
+        728
+      ],
+      "drawOrder": 147,
+      "parent": "Hock_L",
+      "pivot": "hindpaw_L",
+      "sourceAlphaPixels": 2205,
+      "assembledAlphaPixels": 2704,
+      "seamFillPixels": 1518,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "hind_shin_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_hind_shin_R.png",
+      "bounds": [
+        812,
+        673,
+        882,
+        738
+      ],
+      "drawOrder": 156,
+      "parent": "Knee_R",
+      "pivot": "knee_R",
+      "sourceAlphaPixels": 3419,
+      "assembledAlphaPixels": 2357,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "hind_paw_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_hind_paw_R.png",
+      "bounds": [
+        781,
+        727,
+        850,
+        776
+      ],
+      "drawOrder": 157,
+      "parent": "Hock_R",
+      "pivot": "hindpaw_R",
+      "sourceAlphaPixels": 2362,
+      "assembledAlphaPixels": 2362,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "pelvis",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_pelvis.png",
+      "bounds": [
+        831,
+        610,
+        1068,
+        724
+      ],
+      "drawOrder": 210,
+      "parent": "BodyRoot",
+      "pivot": "pelvis",
+      "sourceAlphaPixels": 40562,
+      "assembledAlphaPixels": 6883,
+      "seamFillPixels": 423,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "abdomen",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_abdomen.png",
+      "bounds": [
+        780,
+        503,
+        1052,
+        683
+      ],
+      "drawOrder": 220,
+      "parent": "BodyRoot",
+      "pivot": "abd",
+      "sourceAlphaPixels": 62348,
+      "assembledAlphaPixels": 21262,
+      "seamFillPixels": 702,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "ribcage",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_ribcage.png",
+      "bounds": [
+        710,
+        264,
+        1032,
+        587
+      ],
+      "drawOrder": 230,
+      "parent": "BodyRoot",
+      "pivot": "rib",
+      "sourceAlphaPixels": 71438,
+      "assembledAlphaPixels": 28696,
+      "seamFillPixels": 825,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "chest_fur",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_chest_fur.png",
+      "bounds": [
+        816,
+        360,
+        981,
+        549
+      ],
+      "drawOrder": 300,
+      "parent": "Ribcage",
+      "pivot": "neck",
+      "sourceAlphaPixels": 34924,
+      "assembledAlphaPixels": 16378,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "forearm_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_forearm_L.png",
+      "bounds": [
+        736,
+        378,
+        793,
+        400
+      ],
+      "drawOrder": 360,
+      "parent": "Elbow_L",
+      "pivot": "elbow_L",
+      "sourceAlphaPixels": 2530,
+      "assembledAlphaPixels": 589,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "wrist_fur_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_wrist_fur_L.png",
+      "bounds": [
+        714,
+        390,
+        783,
+        415
+      ],
+      "drawOrder": 370,
+      "parent": "Wrist_L",
+      "pivot": "wrist_L",
+      "sourceAlphaPixels": 1226,
+      "assembledAlphaPixels": 875,
+      "seamFillPixels": 146,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "fore_paw_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_fore_paw_L.png",
+      "bounds": [
+        667,
+        383,
+        752,
+        456
+      ],
+      "drawOrder": 380,
+      "parent": "Wrist_L",
+      "pivot": "forepaw_L",
+      "sourceAlphaPixels": 2719,
+      "assembledAlphaPixels": 2354,
+      "seamFillPixels": 778,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "scapula_fur_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_scapula_fur_R.png",
+      "bounds": [
+        874,
+        334,
+        934,
+        404
+      ],
+      "drawOrder": 341,
+      "parent": "Scapula_R",
+      "pivot": "shoulder_R",
+      "sourceAlphaPixels": 8351,
+      "assembledAlphaPixels": 2018,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "upper_arm_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_upper_arm_R.png",
+      "bounds": [
+        821,
+        366,
+        898,
+        423
+      ],
+      "drawOrder": 351,
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R",
+      "sourceAlphaPixels": 4216,
+      "assembledAlphaPixels": 2029,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "forearm_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_forearm_R.png",
+      "bounds": [
+        777,
+        385,
+        849,
+        447
+      ],
+      "drawOrder": 361,
+      "parent": "Elbow_R",
+      "pivot": "elbow_R",
+      "sourceAlphaPixels": 2748,
+      "assembledAlphaPixels": 1754,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "wrist_fur_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_wrist_fur_R.png",
+      "bounds": [
+        796,
+        408,
+        820,
+        446
+      ],
+      "drawOrder": 371,
+      "parent": "Wrist_R",
+      "pivot": "wrist_R",
+      "sourceAlphaPixels": 743,
+      "assembledAlphaPixels": 539,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "fore_paw_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_fore_paw_R.png",
+      "bounds": [
+        680,
+        420,
+        823,
+        499
+      ],
+      "drawOrder": 381,
+      "parent": "Wrist_R",
+      "pivot": "forepaw_R",
+      "sourceAlphaPixels": 2071,
+      "assembledAlphaPixels": 2071,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "head_base",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_head_base.png",
+      "bounds": [
+        704,
+        58,
+        985,
+        386
+      ],
+      "drawOrder": 500,
+      "parent": "Neck",
+      "pivot": "skull",
+      "sourceAlphaPixels": 55609,
+      "assembledAlphaPixels": 28290,
+      "seamFillPixels": 693,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "ear_root_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_ear_root_L.png",
+      "bounds": [
+        798,
+        70,
+        863,
+        141
+      ],
+      "drawOrder": 610,
+      "parent": "Head",
+      "pivot": "ear_L_base",
+      "sourceAlphaPixels": 4731,
+      "assembledAlphaPixels": 611,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "ear_face_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_ear_face_L.png",
+      "bounds": [
+        802,
+        72,
+        859,
+        132
+      ],
+      "drawOrder": 620,
+      "parent": "EarRoot_L",
+      "pivot": "ear_L_base",
+      "sourceAlphaPixels": 3828,
+      "assembledAlphaPixels": 2306,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "ear_tip_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_ear_tip_L.png",
+      "bounds": [
+        788,
+        41,
+        848,
+        81
+      ],
+      "drawOrder": 630,
+      "parent": "EarRoot_L",
+      "pivot": "ear_L_tip",
+      "sourceAlphaPixels": 1509,
+      "assembledAlphaPixels": 1509,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "ear_root_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_ear_root_R.png",
+      "bounds": [
+        851,
+        78,
+        923,
+        146
+      ],
+      "drawOrder": 611,
+      "parent": "Head",
+      "pivot": "ear_R_base",
+      "sourceAlphaPixels": 4531,
+      "assembledAlphaPixels": 944,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "ear_face_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_ear_face_R.png",
+      "bounds": [
+        832,
+        82,
+        919,
+        139
+      ],
+      "drawOrder": 621,
+      "parent": "EarRoot_R",
+      "pivot": "ear_R_base",
+      "sourceAlphaPixels": 3328,
+      "assembledAlphaPixels": 3093,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "ear_tip_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_ear_tip_R.png",
+      "bounds": [
+        855,
+        63,
+        901,
+        89
+      ],
+      "drawOrder": 631,
+      "parent": "EarRoot_R",
+      "pivot": "ear_R_tip",
+      "sourceAlphaPixels": 361,
+      "assembledAlphaPixels": 361,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "muzzle_base",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_muzzle_base.png",
+      "bounds": [
+        783,
+        210,
+        810,
+        273
+      ],
+      "drawOrder": 530,
+      "parent": "Head",
+      "pivot": "muzzle",
+      "sourceAlphaPixels": 2320,
+      "assembledAlphaPixels": 393,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "cheek_fur_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_cheek_fur_L.png",
+      "bounds": [
+        810,
+        188,
+        951,
+        319
+      ],
+      "drawOrder": 560,
+      "parent": "Head",
+      "pivot": "skull",
+      "sourceAlphaPixels": 14491,
+      "assembledAlphaPixels": 13664,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "cheek_fur_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_cheek_fur_R.png",
+      "bounds": [
+        749,
+        211,
+        801,
+        292
+      ],
+      "drawOrder": 561,
+      "parent": "Head",
+      "pivot": "skull",
+      "sourceAlphaPixels": 2088,
+      "assembledAlphaPixels": 1233,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "eye_socket_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_eye_socket_L.png",
+      "bounds": [
+        746,
+        136,
+        795,
+        221
+      ],
+      "drawOrder": 690,
+      "parent": "Head",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 2803,
+      "assembledAlphaPixels": 882,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "iris_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_iris_L.png",
+      "bounds": [
+        747,
+        153,
+        783,
+        205
+      ],
+      "drawOrder": 700,
+      "parent": "EyeSocket_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 1290,
+      "assembledAlphaPixels": 732,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "pupil_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_pupil_L.png",
+      "bounds": [
+        753,
+        160,
+        771,
+        197
+      ],
+      "drawOrder": 705,
+      "parent": "Iris_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 409,
+      "assembledAlphaPixels": 404,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "highlight_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_highlight_L.png",
+      "bounds": [
+        759,
+        163,
+        760,
+        168
+      ],
+      "drawOrder": 710,
+      "parent": "Iris_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 5,
+      "assembledAlphaPixels": 5,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "upper_lid_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_upper_lid_L.png",
+      "bounds": [
+        756,
+        141,
+        796,
+        166
+      ],
+      "drawOrder": 720,
+      "parent": "EyeSocket_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 477,
+      "assembledAlphaPixels": 477,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "lower_lid_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_lower_lid_L.png",
+      "bounds": [
+        746,
+        195,
+        791,
+        213
+      ],
+      "drawOrder": 721,
+      "parent": "EyeSocket_L",
+      "pivot": "eye_L",
+      "sourceAlphaPixels": 351,
+      "assembledAlphaPixels": 351,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "side",
+      "id": "whisker_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/side_whisker_L.png",
+      "bounds": [
+        769,
+        226,
+        907,
+        287
+      ],
+      "drawOrder": 760,
+      "parent": "Muzzle",
+      "pivot": "muzzle",
+      "sourceAlphaPixels": 1047,
+      "assembledAlphaPixels": 1047,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "tail_mid",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_tail_mid.png",
+      "bounds": [
+        1371,
+        728,
+        1452,
+        777
+      ],
+      "drawOrder": 95,
+      "parent": "TailMid",
+      "pivot": "tail_mid",
+      "sourceAlphaPixels": 9585,
+      "assembledAlphaPixels": 2058,
+      "seamFillPixels": 569,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "tail_tip",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_tail_tip.png",
+      "bounds": [
+        1354,
+        757,
+        1447,
+        849
+      ],
+      "drawOrder": 100,
+      "parent": "TailTip",
+      "pivot": "tail_tip",
+      "sourceAlphaPixels": 5041,
+      "assembledAlphaPixels": 5455,
+      "seamFillPixels": 414,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "hind_thigh_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_hind_thigh_L.png",
+      "bounds": [
+        1562,
+        600,
+        1608,
+        685
+      ],
+      "drawOrder": 145,
+      "parent": "Hip_L",
+      "pivot": "hip_L",
+      "sourceAlphaPixels": 6010,
+      "assembledAlphaPixels": 816,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "hind_shin_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_hind_shin_L.png",
+      "bounds": [
+        1589,
+        653,
+        1644,
+        679
+      ],
+      "drawOrder": 146,
+      "parent": "Knee_L",
+      "pivot": "knee_L",
+      "sourceAlphaPixels": 2522,
+      "assembledAlphaPixels": 615,
+      "seamFillPixels": 3,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "hind_paw_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_hind_paw_L.png",
+      "bounds": [
+        1556,
+        673,
+        1651,
+        723
+      ],
+      "drawOrder": 147,
+      "parent": "Hock_L",
+      "pivot": "hindpaw_L",
+      "sourceAlphaPixels": 3292,
+      "assembledAlphaPixels": 3287,
+      "seamFillPixels": 2,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "hind_thigh_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_hind_thigh_R.png",
+      "bounds": [
+        1237,
+        578,
+        1308,
+        678
+      ],
+      "drawOrder": 155,
+      "parent": "Hip_R",
+      "pivot": "hip_R",
+      "sourceAlphaPixels": 4387,
+      "assembledAlphaPixels": 3639,
+      "seamFillPixels": 2066,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "hind_shin_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_hind_shin_R.png",
+      "bounds": [
+        1222,
+        644,
+        1296,
+        692
+      ],
+      "drawOrder": 156,
+      "parent": "Knee_R",
+      "pivot": "knee_R",
+      "sourceAlphaPixels": 2148,
+      "assembledAlphaPixels": 2070,
+      "seamFillPixels": 556,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "hind_paw_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_hind_paw_R.png",
+      "bounds": [
+        1180,
+        653,
+        1274,
+        723
+      ],
+      "drawOrder": 157,
+      "parent": "Hock_R",
+      "pivot": "hindpaw_R",
+      "sourceAlphaPixels": 3256,
+      "assembledAlphaPixels": 3720,
+      "seamFillPixels": 464,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "pelvis",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_pelvis.png",
+      "bounds": [
+        1266,
+        581,
+        1587,
+        764
+      ],
+      "drawOrder": 210,
+      "parent": "BodyRoot",
+      "pivot": "pelvis",
+      "sourceAlphaPixels": 46086,
+      "assembledAlphaPixels": 9308,
+      "seamFillPixels": 606,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "abdomen",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_abdomen.png",
+      "bounds": [
+        1248,
+        491,
+        1585,
+        691
+      ],
+      "drawOrder": 220,
+      "parent": "BodyRoot",
+      "pivot": "abd",
+      "sourceAlphaPixels": 66012,
+      "assembledAlphaPixels": 27021,
+      "seamFillPixels": 2721,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "ribcage",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_ribcage.png",
+      "bounds": [
+        1290,
+        407,
+        1596,
+        587
+      ],
+      "drawOrder": 230,
+      "parent": "BodyRoot",
+      "pivot": "rib",
+      "sourceAlphaPixels": 75479,
+      "assembledAlphaPixels": 20360,
+      "seamFillPixels": 43,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "neck_fill",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_neck_fill.png",
+      "bounds": [
+        1398,
+        380,
+        1483,
+        395
+      ],
+      "drawOrder": 310,
+      "parent": "Neck",
+      "pivot": "neck",
+      "sourceAlphaPixels": 17413,
+      "assembledAlphaPixels": 535,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "chest_fur",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_chest_fur.png",
+      "bounds": [
+        1350,
+        378,
+        1531,
+        549
+      ],
+      "drawOrder": 300,
+      "parent": "Ribcage",
+      "pivot": "neck",
+      "sourceAlphaPixels": 36104,
+      "assembledAlphaPixels": 20348,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "scapula_fur_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_scapula_fur_L.png",
+      "bounds": [
+        1492,
+        325,
+        1616,
+        407
+      ],
+      "drawOrder": 340,
+      "parent": "Scapula_L",
+      "pivot": "shoulder_L",
+      "sourceAlphaPixels": 7528,
+      "assembledAlphaPixels": 2378,
+      "seamFillPixels": 62,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "upper_arm_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_upper_arm_L.png",
+      "bounds": [
+        1529,
+        339,
+        1632,
+        425
+      ],
+      "drawOrder": 350,
+      "parent": "Shoulder_L",
+      "pivot": "shoulder_L",
+      "sourceAlphaPixels": 4025,
+      "assembledAlphaPixels": 4150,
+      "seamFillPixels": 189,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "forearm_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_forearm_L.png",
+      "bounds": [
+        1591,
+        385,
+        1657,
+        428
+      ],
+      "drawOrder": 360,
+      "parent": "Elbow_L",
+      "pivot": "elbow_L",
+      "sourceAlphaPixels": 3355,
+      "assembledAlphaPixels": 1413,
+      "seamFillPixels": 86,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "wrist_fur_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_wrist_fur_L.png",
+      "bounds": [
+        1638,
+        419,
+        1663,
+        428
+      ],
+      "drawOrder": 370,
+      "parent": "Wrist_L",
+      "pivot": "wrist_L",
+      "sourceAlphaPixels": 1855,
+      "assembledAlphaPixels": 106,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "fore_paw_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_fore_paw_L.png",
+      "bounds": [
+        1594,
+        422,
+        1667,
+        467
+      ],
+      "drawOrder": 380,
+      "parent": "Wrist_L",
+      "pivot": "forepaw_L",
+      "sourceAlphaPixels": 2370,
+      "assembledAlphaPixels": 2370,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "scapula_fur_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_scapula_fur_R.png",
+      "bounds": [
+        1231,
+        312,
+        1389,
+        411
+      ],
+      "drawOrder": 341,
+      "parent": "Scapula_R",
+      "pivot": "shoulder_R",
+      "sourceAlphaPixels": 8249,
+      "assembledAlphaPixels": 4757,
+      "seamFillPixels": 2003,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "upper_arm_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_upper_arm_R.png",
+      "bounds": [
+        1215,
+        338,
+        1355,
+        437
+      ],
+      "drawOrder": 351,
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R",
+      "sourceAlphaPixels": 4371,
+      "assembledAlphaPixels": 5513,
+      "seamFillPixels": 1190,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "forearm_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_forearm_R.png",
+      "bounds": [
+        1195,
+        359,
+        1297,
+        439
+      ],
+      "drawOrder": 361,
+      "parent": "Elbow_R",
+      "pivot": "elbow_R",
+      "sourceAlphaPixels": 962,
+      "assembledAlphaPixels": 2685,
+      "seamFillPixels": 1937,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "wrist_fur_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_wrist_fur_R.png",
+      "bounds": [
+        1211,
+        419,
+        1235,
+        428
+      ],
+      "drawOrder": 371,
+      "parent": "Wrist_R",
+      "pivot": "wrist_R",
+      "sourceAlphaPixels": 878,
+      "assembledAlphaPixels": 125,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "fore_paw_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_fore_paw_R.png",
+      "bounds": [
+        1155,
+        380,
+        1229,
+        468
+      ],
+      "drawOrder": 381,
+      "parent": "Wrist_R",
+      "pivot": "forepaw_R",
+      "sourceAlphaPixels": 2428,
+      "assembledAlphaPixels": 3450,
+      "seamFillPixels": 1022,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "head_base",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_head_base.png",
+      "bounds": [
+        1268,
+        41,
+        1567,
+        386
+      ],
+      "drawOrder": 500,
+      "parent": "Neck",
+      "pivot": "skull",
+      "sourceAlphaPixels": 67308,
+      "assembledAlphaPixels": 55717,
+      "seamFillPixels": 2271,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "ear_root_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_ear_root_L.png",
+      "bounds": [
+        1454,
+        114,
+        1521,
+        172
+      ],
+      "drawOrder": 610,
+      "parent": "Head",
+      "pivot": "ear_L_base",
+      "sourceAlphaPixels": 3852,
+      "assembledAlphaPixels": 822,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "ear_face_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_ear_face_L.png",
+      "bounds": [
+        1458,
+        120,
+        1521,
+        164
+      ],
+      "drawOrder": 620,
+      "parent": "EarRoot_L",
+      "pivot": "ear_L_base",
+      "sourceAlphaPixels": 2724,
+      "assembledAlphaPixels": 1929,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "ear_tip_L",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_ear_tip_L.png",
+      "bounds": [
+        1453,
+        52,
+        1523,
+        129
+      ],
+      "drawOrder": 630,
+      "parent": "EarRoot_L",
+      "pivot": "ear_L_tip",
+      "sourceAlphaPixels": 3980,
+      "assembledAlphaPixels": 3980,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "ear_root_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_ear_root_R.png",
+      "bounds": [
+        1342,
+        107,
+        1427,
+        172
+      ],
+      "drawOrder": 611,
+      "parent": "Head",
+      "pivot": "ear_R_base",
+      "sourceAlphaPixels": 4731,
+      "assembledAlphaPixels": 1372,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "ear_face_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_ear_face_R.png",
+      "bounds": [
+        1336,
+        120,
+        1423,
+        165
+      ],
+      "drawOrder": 621,
+      "parent": "EarRoot_R",
+      "pivot": "ear_R_base",
+      "sourceAlphaPixels": 3173,
+      "assembledAlphaPixels": 2378,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    },
+    {
+      "view": "back",
+      "id": "ear_tip_R",
+      "file": "live2d/x6/assembled-layer-candidates-v1/back_ear_tip_R.png",
+      "bounds": [
+        1357,
+        69,
+        1428,
+        129
+      ],
+      "drawOrder": 631,
+      "parent": "EarRoot_R",
+      "pivot": "ear_R_tip",
+      "sourceAlphaPixels": 3381,
+      "assembledAlphaPixels": 3381,
+      "seamFillPixels": 0,
+      "seamFillMethod": "nearest existing semantic layer within the same visible source body"
+    }
+  ],
+  "qa": {
+    "assembledThreeView": "live2d/x6/qa/x6-assembled-xiaoju-three-view-v1.png",
+    "front": "live2d/x6/qa/x6-assembled-xiaoju-front-v1.png",
+    "side": "live2d/x6/qa/x6-assembled-xiaoju-side-v1.png",
+    "back": "live2d/x6/qa/x6-assembled-xiaoju-back-v1.png",
+    "review": "live2d/x6/qa/x6-layer-assembly-review-v1.png",
+    "originAndKnockoutProof": "live2d/x6/qa/x6-mask-layer-origin-and-knockout-proof-v1.png"
+  },
+  "gateBoundary": {
+    "currentGate": "x6-parameter-action-tracer",
+    "notCubism": true,
+    "notRuntime": true,
+    "x7Authorized": false
+  },
+  "knownLimits": [
+    "Seam assignment repairs visible rest-pose ownership; it does not paint hidden anatomy behind moving joints.",
+    "The 63 generated fine layers remain detail references because their atlas cells do not yet carry body-space placement coordinates.",
+    "Final Cubism proof still requires ArtMesh/deformer screenshots after X6 approval."
+  ]
+}

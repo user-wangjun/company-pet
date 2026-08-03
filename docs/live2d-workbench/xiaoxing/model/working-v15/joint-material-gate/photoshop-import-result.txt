@@ -1,0 +1,5 @@
+PSD=D:\CodeWorkspace\电脑桌宠\docs\live2d-workbench\xiaoxing\model\xiaoxing-material-master-v15.psd
+defaultLayers=21
+hiddenEyeMaterials=16
+canvas=512x1086
+status=saved

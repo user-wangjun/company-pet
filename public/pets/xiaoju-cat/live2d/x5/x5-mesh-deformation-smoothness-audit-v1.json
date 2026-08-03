@@ -1,0 +1,615 @@
+{
+  "schemaVersion": 1,
+  "stage": "X5-mesh-deformation-smoothness-audit",
+  "status": "candidate-for-user-review",
+  "test": {
+    "parentRotationDegrees": [
+      -15.0,
+      -7.5,
+      7.5,
+      15.0
+    ],
+    "elasticLag": "22% of vertexElasticWeight multiplied by inverse resistance decay",
+    "thresholds": {
+      "triangleFlips": 0,
+      "areaRatio": [
+        0.8,
+        1.2
+      ],
+      "edgeLengthRatio": [
+        0.9,
+        1.1
+      ]
+    },
+    "boundary": "topology stress test only; no X6 parameters, keyforms, motion curves, or Action Tracer"
+  },
+  "counts": {
+    "layers": 63,
+    "passing": 63,
+    "failing": 0
+  },
+  "global": {
+    "triangleFlips": 0,
+    "minimumAreaRatio": 0.967791,
+    "maximumAreaRatio": 1.032294,
+    "minimumEdgeLengthRatio": 0.968284,
+    "maximumEdgeLengthRatio": 1.031577
+  },
+  "layers": [
+    {
+      "layerId": "highlight_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.967791,
+      "maximumAreaRatio": 1.032294,
+      "minimumEdgeLengthRatio": 0.968284,
+      "maximumEdgeLengthRatio": 1.031577,
+      "passes": true
+    },
+    {
+      "layerId": "cheek_fur_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.974003,
+      "maximumAreaRatio": 1.025203,
+      "minimumEdgeLengthRatio": 0.980055,
+      "maximumEdgeLengthRatio": 1.020598,
+      "passes": true
+    },
+    {
+      "layerId": "cheek_fur_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.982625,
+      "maximumAreaRatio": 1.016872,
+      "minimumEdgeLengthRatio": 0.981141,
+      "maximumEdgeLengthRatio": 1.020107,
+      "passes": true
+    },
+    {
+      "layerId": "forearm_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.984627,
+      "maximumAreaRatio": 1.015143,
+      "minimumEdgeLengthRatio": 0.975165,
+      "maximumEdgeLengthRatio": 1.025426,
+      "passes": true
+    },
+    {
+      "layerId": "tail_tip_long",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.985835,
+      "maximumAreaRatio": 1.01423,
+      "minimumEdgeLengthRatio": 0.977906,
+      "maximumEdgeLengthRatio": 1.022352,
+      "passes": true
+    },
+    {
+      "layerId": "fore_paw_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.986069,
+      "maximumAreaRatio": 1.013744,
+      "minimumEdgeLengthRatio": 0.987012,
+      "maximumEdgeLengthRatio": 1.01304,
+      "passes": true
+    },
+    {
+      "layerId": "highlight_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.987577,
+      "maximumAreaRatio": 1.012371,
+      "minimumEdgeLengthRatio": 0.991754,
+      "maximumEdgeLengthRatio": 1.008241,
+      "passes": true
+    },
+    {
+      "layerId": "ear_tip_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.988883,
+      "maximumAreaRatio": 1.011211,
+      "minimumEdgeLengthRatio": 0.982914,
+      "maximumEdgeLengthRatio": 1.017218,
+      "passes": true
+    },
+    {
+      "layerId": "ear_tip_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.988955,
+      "maximumAreaRatio": 1.011003,
+      "minimumEdgeLengthRatio": 0.984801,
+      "maximumEdgeLengthRatio": 1.015221,
+      "passes": true
+    },
+    {
+      "layerId": "tail_tip",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.989407,
+      "maximumAreaRatio": 1.010452,
+      "minimumEdgeLengthRatio": 0.981442,
+      "maximumEdgeLengthRatio": 1.01863,
+      "passes": true
+    },
+    {
+      "layerId": "tail_root_socket",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.99039,
+      "maximumAreaRatio": 1.009311,
+      "minimumEdgeLengthRatio": 0.987982,
+      "maximumEdgeLengthRatio": 1.012168,
+      "passes": true
+    },
+    {
+      "layerId": "hind_thigh_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.99054,
+      "maximumAreaRatio": 1.009322,
+      "minimumEdgeLengthRatio": 0.975589,
+      "maximumEdgeLengthRatio": 1.025097,
+      "passes": true
+    },
+    {
+      "layerId": "lower_lid_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.991003,
+      "maximumAreaRatio": 1.008974,
+      "minimumEdgeLengthRatio": 0.996352,
+      "maximumEdgeLengthRatio": 1.003667,
+      "passes": true
+    },
+    {
+      "layerId": "lower_lid_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.991543,
+      "maximumAreaRatio": 1.008447,
+      "minimumEdgeLengthRatio": 0.99465,
+      "maximumEdgeLengthRatio": 1.005404,
+      "passes": true
+    },
+    {
+      "layerId": "abdomen_front",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.992172,
+      "maximumAreaRatio": 1.007578,
+      "minimumEdgeLengthRatio": 0.984658,
+      "maximumEdgeLengthRatio": 1.015583,
+      "passes": true
+    },
+    {
+      "layerId": "tail_mid_long",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.992395,
+      "maximumAreaRatio": 1.007462,
+      "minimumEdgeLengthRatio": 0.983695,
+      "maximumEdgeLengthRatio": 1.016628,
+      "passes": true
+    },
+    {
+      "layerId": "forearm_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.992413,
+      "maximumAreaRatio": 1.007514,
+      "minimumEdgeLengthRatio": 0.97838,
+      "maximumEdgeLengthRatio": 1.022351,
+      "passes": true
+    },
+    {
+      "layerId": "chest_fur",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.993053,
+      "maximumAreaRatio": 1.007147,
+      "minimumEdgeLengthRatio": 0.976709,
+      "maximumEdgeLengthRatio": 1.02367,
+      "passes": true
+    },
+    {
+      "layerId": "back_torso_2",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.993085,
+      "maximumAreaRatio": 1.006733,
+      "minimumEdgeLengthRatio": 0.986654,
+      "maximumEdgeLengthRatio": 1.01354,
+      "passes": true
+    },
+    {
+      "layerId": "fore_paw_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.994326,
+      "maximumAreaRatio": 1.005737,
+      "minimumEdgeLengthRatio": 0.985786,
+      "maximumEdgeLengthRatio": 1.014574,
+      "passes": true
+    },
+    {
+      "layerId": "whisker_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.994557,
+      "maximumAreaRatio": 1.005768,
+      "minimumEdgeLengthRatio": 0.97636,
+      "maximumEdgeLengthRatio": 1.024438,
+      "passes": true
+    },
+    {
+      "layerId": "upper_lid_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.994735,
+      "maximumAreaRatio": 1.005274,
+      "minimumEdgeLengthRatio": 0.995471,
+      "maximumEdgeLengthRatio": 1.004541,
+      "passes": true
+    },
+    {
+      "layerId": "tail_curve",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.994813,
+      "maximumAreaRatio": 1.00499,
+      "minimumEdgeLengthRatio": 0.984462,
+      "maximumEdgeLengthRatio": 1.015891,
+      "passes": true
+    },
+    {
+      "layerId": "hind_thigh_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.994951,
+      "maximumAreaRatio": 1.004938,
+      "minimumEdgeLengthRatio": 0.975274,
+      "maximumEdgeLengthRatio": 1.025297,
+      "passes": true
+    },
+    {
+      "layerId": "paw_contact_alt",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.9956,
+      "maximumAreaRatio": 1.004321,
+      "minimumEdgeLengthRatio": 0.984753,
+      "maximumEdgeLengthRatio": 1.01534,
+      "passes": true
+    },
+    {
+      "layerId": "whisker_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.995711,
+      "maximumAreaRatio": 1.004055,
+      "minimumEdgeLengthRatio": 0.975208,
+      "maximumEdgeLengthRatio": 1.025362,
+      "passes": true
+    },
+    {
+      "layerId": "tail_mid_short",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.996411,
+      "maximumAreaRatio": 1.003623,
+      "minimumEdgeLengthRatio": 0.984396,
+      "maximumEdgeLengthRatio": 1.015787,
+      "passes": true
+    },
+    {
+      "layerId": "upper_lid_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.997982,
+      "maximumAreaRatio": 1.001987,
+      "minimumEdgeLengthRatio": 0.995824,
+      "maximumEdgeLengthRatio": 1.004238,
+      "passes": true
+    },
+    {
+      "layerId": "tail_base",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.998181,
+      "maximumAreaRatio": 1.001808,
+      "minimumEdgeLengthRatio": 0.994654,
+      "maximumEdgeLengthRatio": 1.005379,
+      "passes": true
+    },
+    {
+      "layerId": "iris_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.998899,
+      "maximumAreaRatio": 1.001102,
+      "minimumEdgeLengthRatio": 0.998967,
+      "maximumEdgeLengthRatio": 1.001033,
+      "passes": true
+    },
+    {
+      "layerId": "iris_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 0.998994,
+      "maximumAreaRatio": 1.001006,
+      "minimumEdgeLengthRatio": 0.999087,
+      "maximumEdgeLengthRatio": 1.000913,
+      "passes": true
+    },
+    {
+      "layerId": "head_base_front",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "muzzle_base",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "head_base_side",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "ear_face_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "ear_face_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "head_ear_back",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "eye_socket_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "eye_socket_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "pupil_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "pupil_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "neck_fill",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "ribcage_front",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "pelvis_front",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "torso_side",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "upper_arm_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "upper_arm_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "hind_shin_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "hind_shin_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "hind_leg_side_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "hind_leg_side_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "head_back_base",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "head_profile_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "head_profile_R",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "back_neck_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "back_ribcage_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "back_pelvis_L",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "back_limb_fill_1",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "back_limb_fill_2",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "back_limb_fill_3",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "back_torso_1",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "back_torso_3",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    },
+    {
+      "layerId": "back_torso_4",
+      "triangleFlips": 0,
+      "minimumAreaRatio": 1.0,
+      "maximumAreaRatio": 1.0,
+      "minimumEdgeLengthRatio": 1.0,
+      "maximumEdgeLengthRatio": 1.0,
+      "passes": true
+    }
+  ],
+  "qa": {
+    "preview": "live2d/x5/qa/x5-mesh-deformation-smoothness-preview-v1.png"
+  },
+  "gateBoundary": {
+    "currentGate": "x5-layer-mesh-node-torque",
+    "gate5Approved": false,
+    "x6Authorized": false
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-A evidence manifest",
+  "status": "blocked_by_neutral_footprint_contract_conflict",
+  "artifacts": [
+    {
+      "path": "audit/V7-A-OWNERSHIP-AND-NEUTRAL-FOOTPRINT.zh-CN.md",
+      "sha256": "75c415d8ebb9017a101c8e373d5e6870fbceab25d385ec1599369a94cdd9dc3d"
+    },
+    {
+      "path": "audit/V7-A-USER-REVIEW-CHECKLIST.zh-CN.md",
+      "sha256": "c1e22109f9fbf809a49e836ebbea1e5265307f91d48554040e946ce16e17e2a7"
+    },
+    {
+      "path": "audit/v7a-contract-contradiction-proof.json",
+      "sha256": "a199dba8f5c8fd2e3b00a0ff62431a009a2e2d06b7a002342c7cb49509b1b0e0"
+    },
+    {
+      "path": "audit/v7a-input-integrity.json",
+      "sha256": "7d58a145501324ea95be051c0bb83afa296eacf2512ee3241e29de6dccf9adea"
+    },
+    {
+      "path": "audit/v7a-neutral-footprint-compatibility.json",
+      "sha256": "2e366261d7a97f34a77f4b5902215ad467932a5f79178b98ec9ad4448db281e1"
+    },
+    {
+      "path": "audit/v7a-ownership-gate.json",
+      "sha256": "c45d2398e2d8cd55752c7b433bcbe1bd7f7916ba33bf6525d181b5a09b8fc68f"
+    },
+    {
+      "path": "audit/v7a-user-visual-decision-2026-07-26.json",
+      "sha256": "c383ed2cfbe352f61c78014784ed411cf7a20c338612e111a000f76450662ac4"
+    },
+    {
+      "path": "audit/v7a-visible-forearm-pixel-copy.json",
+      "sha256": "e72d67d63a03828bbcd8b2e2490003a15a6116eed971abbc66ffc49b6e721b44"
+    },
+    {
+      "path": "audit/v7a-wrist-neutral-responsibility.json",
+      "sha256": "7c764bf8a50ce599d6d408ffec8a0a527211aa44ae4d0f99e88d38a9c3f7a27e"
+    },
+    {
+      "path": "masks/bracelet-core-reference.png",
+      "sha256": "58d94dab66267aec3c0395010e7bcdeffeae868ff4a8c35f5104dbfd3436a2d3"
+    },
+    {
+      "path": "masks/bracelet-ownership-candidate.png",
+      "sha256": "411a3974a1a1ff6c1d7fadd6135e34a01efb41dca9bdc6a4d44753b85aa6c719"
+    },
+    {
+      "path": "masks/elbow-ownership-line-candidate.png",
+      "sha256": "a9d00f52c3a24fe18e0fd82abad5362bce0db57e1b83f3b517ecd13eb9fcdf51"
+    },
+    {
+      "path": "masks/forearm-no-bracelet-qa-geometry.png",
+      "sha256": "a903e4c915ab514d7dce2a53870aa9cfd7ee5a6099d9be30e8aab8eb73676faa"
+    },
+    {
+      "path": "masks/source-arm-neutral-outline-candidate.png",
+      "sha256": "6d8eced8522cbb6e78dc69739db9e1110ee6ec6c24e89df6b5e779185d2ee838"
+    },
+    {
+      "path": "masks/v6-envelope-locked-upper-arm-ownership-conflict.png",
+      "sha256": "ea0bdf8565ef7dc60bcf7d29214e583f17e02ab23887c422b89e49e50ef5ce47"
+    },
+    {
+      "path": "masks/v6-envelope-outside-source-outline.png",
+      "sha256": "156ba86742b460b21f8fcc18a054c4f2139de10e19d754f5f059a927c1f8e6dc"
+    },
+    {
+      "path": "masks/v6-minimum-envelope-neutral-footprint.png",
+      "sha256": "66aedca3c0e3a7e304a8f49a93aa34119e80407a03cb2b8f46e0af012afdbbeb"
+    },
+    {
+      "path": "masks/visible-forearm-locked.png",
+      "sha256": "87933c37e8765be3d468c366277a7a0e12c1cbd2ccc28b4172af852c45a1e7ab"
+    },
+    {
+      "path": "masks/visible-forearm-skin-subregion.png",
+      "sha256": "eedd8059e0dfaa89bcfe76a6c651e861db77f1936f5262bb09f60bf0b7799635"
+    },
+    {
+      "path": "masks/wrist-aa-mixed-band-candidate.png",
+      "sha256": "fbaa939f661ac3a5e8dd1b6fa7f8a75bf6d77948a6723fab60d843906441bb0b"
+    },
+    {
+      "path": "masks/wrist-hand-root-neutral-seed-candidate.png",
+      "sha256": "5448ba31a192d5d84d4b16c3e5b13e9c43e09ce0364e1cc842f2ca99ac7e8783"
+    },
+    {
+      "path": "masks/wrist-ownership-line-candidate.png",
+      "sha256": "30e1d0980bb406867e9b145cf9039092e9bc88e90a39a055319c9d759b7a7431"
+    },
+    {
+      "path": "masks/wrist-source-responsibility-candidate.png",
+      "sha256": "6afa37f159e15f92a46865d014334e79f156268587dfb64c27a2b403454b89e2"
+    },
+    {
+      "path": "qa/V7-A-USER-REVIEW-BOARD.png",
+      "sha256": "368109b202dfa7cf2a2fdab71c5ced1cf956e0d1a04dd7887aba7e903db6c117"
+    },
+    {
+      "path": "qa/v7a-bracelet-merged-no-runtime-layer-800.png",
+      "sha256": "fe5ccc8169b27eac3983a3bdbdd5c05576d522d16b2a33eedf1c6cda59f1c050"
+    },
+    {
+      "path": "qa/v7a-bracelet-ownership-800.png",
+      "sha256": "09473dbd9538113bec3a450a58cd0753c945a7bc42f257e82f41cae12ce4115c"
+    },
+    {
+      "path": "qa/v7a-contract-contradiction-proof-800.png",
+      "sha256": "621dfe97a49d86d78c54ab22535034a8a25d4825b10a1096de8853658198d1be"
+    },
+    {
+      "path": "qa/v7a-neutral-footprint-compatibility-800.png",
+      "sha256": "750f04d55652c2c1756e6f4fec065cdc6133b1985dd15d935dec7728508fe8b3"
+    },
+    {
+      "path": "qa/v7a-neutral-footprint-conflict-800.png",
+      "sha256": "7c6fccea40a08cb15f7f68ed91645220da1d48dcd7a27e71511f6b6b7e4b5f9c"
+    },
+    {
+      "path": "qa/v7a-ownership-line-color-mask-800.png",
+      "sha256": "f06320188d983b50ae1eadabc59e65afc347e9be0e8fe36ba093f4e04baa7573"
+    },
+    {
+      "path": "qa/v7a-visible-forearm-checkerboard-800.png",
+      "sha256": "aec9aadfb2c8f50abb0bd97f7b91eba38c42d42a4779fb766ec82388fc515c04"
+    },
+    {
+      "path": "qa/v7a-wrist-gap-risk-and-responsibility-800.png",
+      "sha256": "0ef6748e6fe7903265c6fe013c793b0454ad8f7df25f688e25cad367800439d7"
+    },
+    {
+      "path": "qa/visible-forearm-source-pixels-reference.png",
+      "sha256": "ddf33226142530a68fb0810bd9e62a1fce99d344a88a61ee2c190f91c27e770d"
+    }
+  ],
+  "downstreamArtifactsCreated": false
+}

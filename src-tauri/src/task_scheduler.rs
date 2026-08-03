@@ -5,6 +5,7 @@ use serde::Deserialize;
 pub struct TaskSchedule {
     instance_id: String,
     scheduled_at: String,
+    wake_kind: Option<String>,
 }
 
 #[cfg(target_os = "windows")]
@@ -28,17 +29,21 @@ fn xml_escape(value: &str) -> String {
 }
 
 #[cfg(target_os = "windows")]
-fn task_xml(executable: &std::path::Path, start_boundary: &str) -> String {
+fn task_xml(executable: &std::path::Path, start_boundary: &str, wake_kind: Option<&str>) -> String {
+    let arguments = wake_kind
+        .map(|kind| format!("--task-reminder-wakeup --care-kind {kind}"))
+        .unwrap_or_else(|| "--task-reminder-wakeup".into());
     format!(
         r#"<?xml version="1.0" encoding="UTF-8"?>
 <Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <Triggers><TimeTrigger><StartBoundary>{}</StartBoundary><Enabled>true</Enabled></TimeTrigger></Triggers>
   <Principals><Principal id="Author"><LogonType>InteractiveToken</LogonType><RunLevel>LeastPrivilege</RunLevel></Principal></Principals>
   <Settings><MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy><DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries><StopIfGoingOnBatteries>false</StopIfGoingOnBatteries><StartWhenAvailable>true</StartWhenAvailable><WakeToRun>true</WakeToRun><ExecutionTimeLimit>PT0S</ExecutionTimeLimit><DeleteExpiredTaskAfter>PT1H</DeleteExpiredTaskAfter><Enabled>true</Enabled></Settings>
-  <Actions Context="Author"><Exec><Command>{}</Command><Arguments>--task-reminder-wakeup</Arguments></Exec></Actions>
+  <Actions Context="Author"><Exec><Command>{}</Command><Arguments>{}</Arguments></Exec></Actions>
 </Task>"#,
         xml_escape(start_boundary),
-        xml_escape(&executable.display().to_string())
+        xml_escape(&executable.display().to_string()),
+        xml_escape(&arguments),
     )
 }
 
@@ -82,16 +87,22 @@ pub fn sync_task_schedules(
             .and_then(|text| serde_json::from_str(&text).ok())
             .unwrap_or_default();
         let now = Local::now();
-        let future: Vec<(String, DateTime<Local>)> = schedules
+        let future: Vec<(String, DateTime<Local>, Option<String>)> = schedules
             .into_iter()
             .filter_map(|schedule| {
                 let date = DateTime::parse_from_rfc3339(&schedule.scheduled_at)
                     .ok()?
                     .with_timezone(&Local);
-                (date > now).then(|| (schedule_name(&schedule.instance_id), date))
+                (date > now).then(|| {
+                    (
+                        schedule_name(&schedule.instance_id),
+                        date,
+                        schedule.wake_kind,
+                    )
+                })
             })
             .collect();
-        let desired: HashSet<&str> = future.iter().map(|(name, _)| name.as_str()).collect();
+        let desired: HashSet<&str> = future.iter().map(|(name, _, _)| name.as_str()).collect();
         for name in previous
             .iter()
             .filter(|name| !desired.contains(name.as_str()))
@@ -102,11 +113,14 @@ pub fn sync_task_schedules(
 
         let executable = std::env::current_exe().map_err(|error| error.to_string())?;
         let mut created = Vec::new();
-        for (name, date) in future {
+        for (name, date, wake_kind) in future {
             let start_boundary = date.format("%Y-%m-%dT%H:%M:%S").to_string();
             let xml_path = data_dir.join(format!("{name}.xml"));
-            fs::write(&xml_path, task_xml(&executable, &start_boundary))
-                .map_err(|error| error.to_string())?;
+            fs::write(
+                &xml_path,
+                task_xml(&executable, &start_boundary, wake_kind.as_deref()),
+            )
+            .map_err(|error| error.to_string())?;
             let status = std::process::Command::new("schtasks.exe")
                 .args([
                     "/Create",
@@ -137,9 +151,20 @@ pub fn is_task_scheduler_wakeup() -> bool {
     std::env::args().any(|argument| argument == "--task-reminder-wakeup")
 }
 
+pub fn task_scheduler_wakeup_kind_from_args(args: &[String]) -> Option<String> {
+    args.windows(2)
+        .find(|pair| pair[0] == "--care-kind")
+        .map(|pair| pair[1].clone())
+}
+
+#[tauri::command]
+pub fn get_task_scheduler_wakeup_kind() -> Option<String> {
+    task_scheduler_wakeup_kind_from_args(&std::env::args().collect::<Vec<_>>())
+}
+
 #[cfg(all(test, target_os = "windows"))]
 mod tests {
-    use super::{schedule_name, task_xml};
+    use super::{schedule_name, task_scheduler_wakeup_kind_from_args, task_xml};
 
     #[test]
     fn builds_safe_windows_task_names() {
@@ -154,6 +179,7 @@ mod tests {
         let xml = task_xml(
             std::path::Path::new(r#"C:\Apps\Yuxin & Pet.exe"#),
             "2026-07-13T10:30:00",
+            None,
         );
         assert!(xml.contains("<StartWhenAvailable>true</StartWhenAvailable>"));
         assert!(xml.contains("<WakeToRun>true</WakeToRun>"));
@@ -161,5 +187,29 @@ mod tests {
         assert!(xml.contains("<DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>"));
         assert!(xml.contains("<StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>"));
         assert!(xml.contains("Yuxin &amp; Pet.exe"));
+    }
+
+    #[test]
+    fn adds_care_kind_to_scheduler_arguments() {
+        let xml = task_xml(
+            std::path::Path::new(r#"C:\Apps\Yuxin.exe"#),
+            "2026-07-13T10:30:00",
+            Some("wellness"),
+        );
+        assert!(xml.contains("--task-reminder-wakeup --care-kind wellness"));
+    }
+
+    #[test]
+    fn parses_care_kind_from_scheduler_arguments() {
+        let args = vec![
+            "yuxin-desktop-pet.exe".into(),
+            "--task-reminder-wakeup".into(),
+            "--care-kind".into(),
+            "meal".into(),
+        ];
+        assert_eq!(
+            task_scheduler_wakeup_kind_from_args(&args).as_deref(),
+            Some("meal")
+        );
     }
 }

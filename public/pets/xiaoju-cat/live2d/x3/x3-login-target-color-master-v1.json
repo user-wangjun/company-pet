@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "status": "candidate-for-user-visual-review",
+  "gate": "x3-target-color",
+  "artifact": "qa/x3-login-target-color-master-v1.png",
+  "fullBodyArtifact": "qa/x3-login-full-body-master-v1.png",
+  "purpose": "paired actual-login visible target and de-occluded complete-body master before line-mask layering",
+  "authoritativeReferences": [
+    "../../three-view-preview.png",
+    "../../preview-earth-xiaoju.png",
+    "../gate3/qa/gate3-v7-connected-scene-B.png"
+  ],
+  "referenceRoles": {
+    "../../three-view-preview.png": "Xiaoju identity, face, markings, fur, and kitten proportions",
+    "../../preview-earth-xiaoju.png": "login-page composition, planet, star field, and visible rest-state intent",
+    "../gate3/qa/gate3-v7-connected-scene-B.png": "connected body and planet-contact guidance only"
+  },
+  "requiredUserReview": [
+    "This is unmistakably the existing Xiaoju",
+    "The image is the intended login-page visible target rather than a turnaround or layer atlas",
+    "The second image contains the complete connected Xiaoju body hidden by the planet in the first image",
+    "Visible head, shoulder, foreleg, paw, and tail placement can be registered consistently between the pair",
+    "Head size, face, foreleg length, paw placement, torso connection, and tail connection are acceptable",
+    "The two foreleg chains can plausibly move from rest to covering the eyes",
+    "Planet scale, diagonal rim, star-field balance, and negative space fit the login layout"
+  ],
+  "approvals": {
+    "targetColorApprovedByUser": false,
+    "fullBodyMasterApprovedByUser": false,
+    "targetPairRegistrationApprovedByUser": false,
+    "productionLineMaskAuthorized": false,
+    "materialLayeringAuthorized": false
+  },
+  "discardedAttempt": {
+    "description": "A spread-pose three-view sheet was generated immediately before this candidate after misunderstanding the requested target-image role.",
+    "productionUse": "prohibited",
+    "copiedIntoPetPackage": false
+  }
+}

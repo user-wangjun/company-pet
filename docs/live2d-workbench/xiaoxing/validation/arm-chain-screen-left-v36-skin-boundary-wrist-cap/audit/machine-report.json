@@ -1,0 +1,102 @@
+{
+  "status": "candidate_pending_user_visual_approval",
+  "scope": "screen-left hand final upper boundary from user blue annotation",
+  "authorization": "user explicitly allowed reopening V34 hand-root and forearm wrist-cap freeze",
+  "unchangedFrozenAreas": [
+    "sleeve",
+    "upperArm",
+    "bracelet",
+    "visibleHandAndFiveFingerContour",
+    "visibleForearmAboveBracelet",
+    "skeletonAndPivots"
+  ],
+  "sourceHashes": {
+    "userBlueAnnotation": "c0ee8d8bf6e67b9bc5d3831487ed3b1b0ccd3ba868de6c29cb3b17c84d173726",
+    "v34Hand": "5b5f35a44c8e05e99898faca6909b85e4c0020be00771f2acb8e58008545ec83",
+    "v34SlimForearm": "1cd18d89cde216dfde1b04b237e784e065526d47482338029a9f04505806bcac",
+    "v34SlimCap": "8d8035a2c2db315d967380cf6c9dff2a7630828deeddf3fb018485473dc74447",
+    "v31Bracelet": "4f8a5dfac8bfaa64f8b0b032ae4768526a0805b7d64d81006df582241fd4c850"
+  },
+  "geometry": {
+    "handBoundaryMethod": "directly exclude the registered-blue-line upper component; blue line and source skin below define the complete hand",
+    "sourceToAnnotationAffine": [
+      [
+        4.281918048858643,
+        -0.00390210235491395,
+        -191.4186248779297
+      ],
+      [
+        0.00390210235491395,
+        4.281918048858643,
+        -2025.9757080078125
+      ]
+    ],
+    "registeredBlueBoundaryPx": 150,
+    "excludedAboveBluePx": 234,
+    "handPixelsAboveBluePx": 0,
+    "slimForearmCapHandOverlapPx": 261,
+    "forearmSkinConnectedComponents": 1,
+    "completeHandMatchesSourceHandPx": 234,
+    "textureAlphaMismatchPx": 0,
+    "texturedRecompositionChannelMismatchCount": 0,
+    "oldHiddenHandPx": 247,
+    "newHiddenHandPx": 0,
+    "wristStress": {
+      "anglesDeg": [
+        -12,
+        -8,
+        -4,
+        0,
+        4,
+        8,
+        12
+      ],
+      "minimumOverlapPx": 234,
+      "disconnectCount": 0,
+      "samples": [
+        {
+          "angleDeg": -12,
+          "overlapPx": 261,
+          "disconnected": false
+        },
+        {
+          "angleDeg": -8,
+          "overlapPx": 261,
+          "disconnected": false
+        },
+        {
+          "angleDeg": -4,
+          "overlapPx": 262,
+          "disconnected": false
+        },
+        {
+          "angleDeg": 0,
+          "overlapPx": 261,
+          "disconnected": false
+        },
+        {
+          "angleDeg": 4,
+          "overlapPx": 255,
+          "disconnected": false
+        },
+        {
+          "angleDeg": 8,
+          "overlapPx": 246,
+          "disconnected": false
+        },
+        {
+          "angleDeg": 12,
+          "overlapPx": 234,
+          "disconnected": false
+        }
+      ]
+    }
+  },
+  "outputs": {
+    "review": "qa/V36-手部色块与实际纹理效果-冻结审查图.png",
+    "fullArm": "qa/screen-left-full-arm-recomposition.png",
+    "wristStress": "qa/wrist-stress-samples.png",
+    "texturedHand": "materials/hand-textured-from-reset.png",
+    "texturedResetRecomposition": "qa/textured-hand-reset-recomposition.png"
+  }
+}

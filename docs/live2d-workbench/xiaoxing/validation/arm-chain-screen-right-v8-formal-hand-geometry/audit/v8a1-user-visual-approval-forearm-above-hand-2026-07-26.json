@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "v8a1_forearm_above_whole_hand_user_visual_approved",
+  "decisionDate": "2026-07-26",
+  "decisionOwner": "user",
+  "status": "user_visual_approved",
+  "actualUserStatement": "批准",
+  "approvedScope": [
+    "forearm including bracelet above the whole hand",
+    "neutral draw-order appearance",
+    "wrist slow-scan appearance",
+    "bracelet-hidden skin-seam appearance",
+    "elbow-by-wrist 3x3 visual continuity"
+  ],
+  "approvedEngineeringEvidence": {
+    "wristSamples": "201+11+81",
+    "elbowByWristGrid": "9x9",
+    "maximumGapPixelsAt4x": 0,
+    "brokenAdjacencySamples": 0,
+    "braceletOccludedByHandPixels": 0,
+    "deterministicReturnDifferencePixels": 0
+  },
+  "nextAuthorizedGate": "resume V8-A exact visible hand ownership",
+  "explicitlyNotApproved": [
+    "formal complete hand geometry",
+    "hand texture",
+    "PSD",
+    "ArtMesh",
+    "Cubism",
+    "Physics",
+    "Runtime"
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 2,
+  "checkpoint": "V10 single screen-right arm Cubism engineering rough rig",
+  "decisionDate": "2026-07-27",
+  "decisionOwner": "user",
+  "decision": "approved",
+  "decisionText": "批准整个 V10 工程粗绑",
+  "postSaveRebindAuthorization": "The user identified the 37/38 mismatch and explicitly instructed that, after a passing minimal GUI recheck of the current CMO3, the audits, approval record, freeze manifest, and all 38 artifact checks be regenerated in dependency order.",
+  "approvalScope": [
+    "the current saved V10 CMO3 engineering rough rig",
+    "four ArtMeshes and their current topology",
+    "shoulder-elbow-wrist Deformer hierarchy and parameter keyforms",
+    "the final static elbow-root contour correction",
+    "the visible local ParamV7ForearmRootTaper keyform",
+    "fixed Draw Order 100/200/300/400",
+    "the current engineering material-color correction"
+  ],
+  "approvedCmo3": {
+    "path": "cubism/xiaoxing-arm-chain-v10-rough-rig.cmo3",
+    "sha256": "6b3c6d5682eec1a019dc7f14c6ebe185bb1cdeca24f3fcd3d93b502e8aa60bf0",
+    "bytes": 80794,
+    "openedAndRecheckedInRealCubismGui": true,
+    "savedDuringCurrentRecheck": false,
+    "sha256StableAfterCurrentRecheck": true
+  },
+  "hashDriftResolution": {
+    "previousFrozenSha256": "7d94374ea02981ec2c706a453a88c30bc09c104ffcb5eb034384502f052fb429",
+    "currentSha256": "6b3c6d5682eec1a019dc7f14c6ebe185bb1cdeca24f3fcd3d93b502e8aa60bf0",
+    "sameByteLength": true,
+    "causeInferred": false,
+    "previousFreezeInvalidated": true
+  },
+  "currentMinimalGuiReview": {
+    "result": "pass",
+    "sequences": [
+      "ParamArmShoulder default -> maximum -> default",
+      "ParamArmElbow default -> maximum -> default",
+      "ParamArmWrist 0 -> maximum -> 0",
+      "ParamV7ForearmRootTaper 0 -> 1 -> 0"
+    ],
+    "transparentSeam": false,
+    "detachment": false,
+    "contourJump": false,
+    "visibleFoldover": false,
+    "taperVisible": true,
+    "returnChangedPixels": 0,
+    "maximumChannelDifference": 0
+  },
+  "currentVisualEvidence": [
+    {
+      "role": "current default baseline",
+      "path": "qa/cubism-39-final-default-clean.png",
+      "sha256": "96263fce45471dc4e9a534341d6a4ca9886f2d2812f3ee4c3dd68a40df8cc5fc"
+    },
+    {
+      "role": "current shoulder maximum",
+      "path": "qa/cubism-41-shoulder-max.png",
+      "sha256": "6d95c7ca64dea0f34e1ec2a04e00b105393f37a26bf84b3d038c692cc6a6bfe5"
+    },
+    {
+      "role": "current elbow maximum",
+      "path": "qa/cubism-43-elbow-max.png",
+      "sha256": "2eb124401e5ae4ba5b458a8719f8cbc1c98ca49679e704d4bfa3d4e129300fcb"
+    },
+    {
+      "role": "current wrist maximum",
+      "path": "qa/cubism-45-wrist-max.png",
+      "sha256": "38517d48af709e7b9a9eeffc3b0afb68c30025eb27a1600ec6cc9b7dcd9d5966"
+    },
+    {
+      "role": "current taper maximum",
+      "path": "qa/cubism-32-taper-100-clean.png",
+      "sha256": "884db8d3fc58fbb975bc5d09d7c0208155d2662b35ef9ca5804ff12ee347e3eb"
+    },
+    {
+      "role": "current deterministic return",
+      "path": "qa/cubism-38-taper-reset-clean.png",
+      "sha256": "afbdf4be8156c229e313005d8c3cbd1d84699aec3f4dd6e6f8afd049f1affd45"
+    }
+  ],
+  "priorReviewedVisualEvidence": [
+    {
+      "role": "Chinese whole-V10 visual review board",
+      "path": "qa/V10-FINAL-USER-REVIEW.zh-CN.png",
+      "sha256": "795b7bb95446840521653441caae3ae53a34700e30c1289ffdb3ec347734afe1"
+    },
+    {
+      "role": "Chinese engineering and isolation board",
+      "path": "qa/V10-FINAL-ENGINEERING-QA.zh-CN.png",
+      "sha256": "20179463e26b7c65cc08ed5129f398c5e905c8ac8c626bb665f1dd2b82916aac"
+    },
+    {
+      "role": "prior genuine continuous shoulder-elbow-wrist-taper recording",
+      "path": "qa/V10-FINAL-CONTINUOUS-MOTION.mp4",
+      "sha256": "e65849dd03975f5516a03257719bd6379cb4138437fa59ca94e079e76409d02d",
+      "currentCmo3Proof": false
+    }
+  ],
+  "engineeringEvidence": [
+    {
+      "path": "audit/v10-cubism-validation-report.md",
+      "sha256": "ff758411cb8fb411a91fed0ead8a2eb807fd6afa9e39a7aefa306ef777b7494f"
+    },
+    {
+      "path": "audit/v10-cubism-rough-rig-evidence-manifest.json",
+      "sha256": "b1833d1aba3b3ced40e3b0769c651206cded4856c91743a8eea4db0ad4ad2734"
+    },
+    {
+      "path": "audit/v10-cubism-return-determinism.json",
+      "sha256": "8884049c0897f64324dd11e51888436ead73c60f9600f3f92e4d125815d9433b"
+    },
+    {
+      "path": "audit/v10-final-closeout-audit.json",
+      "sha256": "597b346f427e4fb0b2b172e859f225cf0c7c8f39586c51d8d3b5757ddfa88a2d"
+    }
+  ],
+  "engineeringResultsAcknowledged": {
+    "maximumStaticBoundaryDisplacementPx": 4.27,
+    "maximumDynamicTaperDisplacementPx": 4.202,
+    "maximumInfluenceRangePx": 20.66129,
+    "limitMaximumDisplacementPx": 4.373770766592578,
+    "limitInfluenceRangePx": 22.0,
+    "returnChangedPixels": 0
+  },
+  "freezeAuthorization": true,
+  "explicitlyNotApproved": [
+    "formal production textures",
+    "formal production PSD",
+    "complete character Cubism model",
+    "Physics",
+    "Runtime integration",
+    "platform or pet-package changes",
+    "the complete two-arm or full-body character"
+  ]
+}

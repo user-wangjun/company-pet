@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "stage": "X5-actual-xiaoju-spread-pose-three-view",
+  "status": "candidate-for-user-review",
+  "sourceImage": "three-view-preview.png",
+  "sourcePath": "public/pets/xiaoju-cat/three-view-preview.png",
+  "outputImage": "live2d/x5/qa/x5-actual-xiaoju-spread-pose-three-view.png",
+  "purpose": "Actual-Xiaoju identity-preserving spread-pose three-view preview for X5 layer separation, triangulation-density, moment-anchor, link-anchor, and elastic-region visual review.",
+  "generationMode": "built-in imagegen with authoritative Xiaoju three-view as reference",
+  "userCorrection": "The preview must look like the actual Xiaoju reference and include a spread-pose / large-character three-view, because rough abstract blockouts are insufficient for layer judgment.",
+  "usageBoundary": {
+    "currentGate": "x5-layer-mesh-node-torque",
+    "candidateOnly": true,
+    "mayInformLayerAndMeshReview": true,
+    "mayBecomeFinalPSDSourceOnlyAfterUserApprovalAndLaterGate": false,
+    "x6Authorized": false,
+    "forbidden": [
+      "PSD import",
+      "Cubism editing",
+      "X6 parameter/keyform finalization",
+      "runtime replacement",
+      "treating AI preview as approved final master without user visual gate"
+    ]
+  },
+  "visualSelfReview": {
+    "identity": "Preserves orange tabby kitten, cream muzzle/chest/belly/paws, triangular ears, large amber eyes and plush fur from the authoritative Xiaoju source.",
+    "pose": "Uses a relaxed spread reference with diagonal forelegs and hind legs rather than a sitting pose.",
+    "knownRisks": [
+      "Generated side/back views are reference-quality and still require user visual approval before any downstream final layer use.",
+      "Generated fur and exact anatomical landmarks must be rechecked against the authoritative sitting three-view before final mesh placement.",
+      "This preview is not a Cubism ArtMesh, PSD, or runtime asset."
+    ]
+  }
+}

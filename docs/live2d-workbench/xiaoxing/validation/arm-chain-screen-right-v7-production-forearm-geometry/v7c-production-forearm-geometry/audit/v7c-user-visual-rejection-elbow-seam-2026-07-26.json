@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-C production forearm visual review",
+  "status": "user_visual_rejected_elbow_seam_local_protrusion",
+  "decisionOwner": "user",
+  "sourceStatement": "突出了一点，可以圆滑的链接",
+  "observedIssue": "a small cyan forearm-root protrusion interrupts the smooth orange-to-cyan elbow contour",
+  "invalidatedClaims": [
+    "V7-C final visual approval",
+    "freeze readiness",
+    "the current elbow seam is visually smooth"
+  ],
+  "stillValid": [
+    "V7-A ownership evidence",
+    "V7-B2 continuous outer-root taper concept",
+    "V7-C wrist F4 engineering evidence unless the elbow repair changes distal geometry",
+    "frozen V4, complete sleeve, and V6 integrity"
+  ],
+  "requiredRepair": "local continuous elbow-seam fairing followed by full elbow, wrist, combined-domain, deterministic, privacy, and visual reruns",
+  "freezeAuthorized": false
+}

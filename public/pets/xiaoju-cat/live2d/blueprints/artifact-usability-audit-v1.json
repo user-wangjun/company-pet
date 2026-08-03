@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-19",
+  "status": "x3-target-line-mask-regression-audit",
+  "policy": "retain-history-but-block-invalid-production-inputs",
+  "currentGate": "x3-target-color-and-line-mask-master",
+  "categories": {
+    "authoritative": [
+      "three-view-preview.png",
+      "live2d/planet-scene-source/",
+      "live2d/x1/x1-canonical-body-contract.json",
+      "live2d/x1/x1-canonical-body-report.md",
+      "live2d/x2/x2-pose-solve-contract.json",
+      "live2d/x2/x2-cover-roundtrip-samples.json",
+      "live2d/x2/x2-length-triangle-diagnostic.json"
+    ],
+    "reusableMethodOnly": [
+      "live2d/x3/",
+      "live2d/x4/x4-layer-separation-contract.json",
+      "live2d/x5/audit_x5_mesh_alpha_coverage.py",
+      "live2d/x5/audit_x5_mesh_deformation_smoothness.py",
+      "live2d/x5/x5-layer-mesh-node-torque-contract.json",
+      "live2d/x5/x5-article-node-elastic-audit-v1.json",
+      "live2d/x6/x6-front-hidden-completion-audit-v9.json",
+      "live2d/x6/build_x6_generated_complete_layers_v15.py",
+      "live2d/x6/build_x6_generated_layer_assembly_v16.py",
+      "live2d/x6/build_x6_parameter_action_tracer.py"
+    ],
+    "conditionalReferenceOnly": [
+      "live2d/x5/qa/x5-actual-xiaoju-spread-pose-three-view.png",
+      "live2d/x5/qa/x5-actual-xiaoju-spread-pose-moment-elastic.png",
+      "live2d/x5/qa/x5-layer-anchor-only-atlas-v1.png",
+      "live2d/x5/qa/x5-layer-anchor-only-head-v1.png",
+      "live2d/x6/qa/x6-user-defined-segmentation-preview-v7.png"
+    ],
+    "rejectedProductionInputs": [
+      "live2d/x4/qa/",
+      "live2d/x5/actual-layer-candidates/",
+      "live2d/x5/generated-layer-materials/",
+      "live2d/x5/generated-fine-layer-candidates-v1/",
+      "live2d/x5/generated-fine-mesh-candidates-v1/",
+      "live2d/x6/assembled-layer-candidates-v1/",
+      "live2d/x6/fine-body-space-instances-v1/",
+      "live2d/x6/fine-body-space-underpaint-v2/",
+      "live2d/x6/coarse-motion-bundles-v3/",
+      "live2d/x6/joint-safe-motion-bundles-v4/",
+      "live2d/x6/front-user-segmentation-v8/",
+      "live2d/x6/front-complete-overlap-layers-v10/",
+      "live2d/x6/front-head-hidden-texture-v11/",
+      "live2d/x6/front-all-layers-v14/",
+      "live2d/x6/generated-complete-layer-materials-v15/",
+      "live2d/x6/generated-complete-layer-candidates-v15/",
+      "live2d/x6/generated-layer-assembly-v16/"
+    ],
+    "rejectedContractsAndReviews": [
+      "live2d/x5/x5-actual-xiaoju-layer-split-contract.json",
+      "live2d/x5/x5-generated-fine-layer-candidates-contract-v1.json",
+      "live2d/x5/x5-generated-fine-mesh-contract-v1.json",
+      "live2d/x5/x5-mesh-alpha-coverage-audit-v1.json",
+      "live2d/x5/x5-mesh-deformation-smoothness-audit-v1.json",
+      "live2d/x6/x6-layer-assembly-contract-v1.json",
+      "live2d/x6/x6-production-layer-stack-contract-v2.json",
+      "live2d/x6/x6-coarse-motion-bundle-contract-v3.json",
+      "live2d/x6/x6-joint-safe-motion-bundle-contract-v4.json",
+      "live2d/x6/x6-front-actual-segmentation-contract-v8.json",
+      "live2d/x6/x6-front-complete-overlap-contract-v10.json",
+      "live2d/x6/x6-head-hidden-texture-contract-v11.json",
+      "live2d/x6/x6-front-all-layer-contract-v14.json",
+      "live2d/x6/x6-generated-complete-layer-contract-v15.json",
+      "live2d/x6/x6-generated-layer-assembly-contract-v16.json"
+    ]
+  },
+  "failureEvidence": {
+    "userFinding": "v16 assembly is visibly different from the previous Xiaoju",
+    "identityDrift": true,
+    "semanticContaminationObserved": [
+      "side head base baked one ear",
+      "back head base baked two ears"
+    ],
+    "misleadingPassingMetrics": {
+      "independentTransparentLayerCount": 48,
+      "auditedJointCount": 30,
+      "minimumOverlapPixels": 524
+    }
+  },
+  "gateState": {
+    "x1Approved": true,
+    "x2Approved": true,
+    "gate3Approved": false,
+    "x4Authorized": false,
+    "gate4Approved": false,
+    "x5Authorized": false,
+    "gate5Approved": false,
+    "x6Authorized": false,
+    "gate6Approved": false,
+    "x7Authorized": false
+  },
+  "deletionPerformed": false,
+  "newGenerationAuthorized": false
+}

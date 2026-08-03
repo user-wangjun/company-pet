@@ -1,0 +1,33 @@
+{
+  "stage": "v14-hair-subgroups",
+  "source": "source\\masters\\gate3-color-target-v1.png",
+  "lineReference": "source\\masters\\gate3-line-master-candidate-v1.png",
+  "pixelCounts": {
+    "backVisible": 4986,
+    "backHidden": 19533,
+    "bangs": 5023,
+    "leftSideLock": 9569,
+    "rightSideLock": 9719
+  },
+  "pullOffsets": {
+    "bangs": [
+      0,
+      -6
+    ],
+    "leftSideLock": [
+      -8,
+      2
+    ],
+    "rightSideLock": [
+      8,
+      2
+    ]
+  },
+  "defaultCompositeMae": 0.0,
+  "defaultCompositeMaxError": 0,
+  "visiblePixelsRepainted": false,
+  "hiddenFillVisibleInDefault": false,
+  "psdImport": false,
+  "cubismImport": false,
+  "next": "visual-review_then-final-material-joint-gate"
+}

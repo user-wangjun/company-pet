@@ -9,6 +9,8 @@ export type TaskKind = "single" | "long_term" | "milestone";
 export type SchedulePrecision = "date" | "datetime";
 export type RepeatType = "none" | "daily" | "weekly" | "custom";
 export type NotificationSoundMode = "system" | "gentle" | "pet" | "custom" | "off";
+
+export type InterfaceFontSize = "standard" | "large" | "extraLarge";
 export type ReminderStatus = "active" | "completed" | "dismissed" | "cancelled";
 export type ReminderInstanceStatus =
   | "scheduled"
@@ -43,6 +45,11 @@ export type Task = {
   archiveReason: "parent_completed" | null;
   version: number;
   sourceDeviceId: string;
+  /** Optional provenance for tasks created from companion chat. */
+  sourceMessageId?: string | null;
+  evidence?: string | null;
+  /** The pet that surfaced the task; the task itself remains user-scoped. */
+  createdByPetId?: string | null;
 };
 
 export type RepeatRule = {
@@ -91,6 +98,7 @@ export type TaskHistoryEntry = {
 
 export type TaskSettings = {
   notificationSound: NotificationSoundMode;
+  interfaceFontSize: InterfaceFontSize;
   customNotificationSoundName: string | null;
   customNotificationSoundDataUrl: string | null;
   customNotificationSoundDurationMs: number | null;
@@ -135,6 +143,9 @@ export type TaskDraft = {
   repeatRule?: RepeatRule | null;
   includeToday?: boolean;
   attachmentRefs?: string[];
+  sourceMessageId?: string | null;
+  evidence?: string | null;
+  createdByPetId?: string | null;
 };
 
 export type TaskUpdate = Partial<TaskDraft>;

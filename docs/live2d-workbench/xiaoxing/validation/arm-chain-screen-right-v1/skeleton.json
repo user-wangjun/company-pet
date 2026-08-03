@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "status": "design_candidate_requires_user_visual_approval",
+  "scope": {
+    "view": "front",
+    "screenSide": "right",
+    "characterSide": "left",
+    "chain": ["sleeve", "upper_arm", "forearm", "hand"],
+    "canvas": {
+      "width": 512,
+      "height": 1086,
+      "origin": "top_left",
+      "xAxis": "right",
+      "yAxis": "down"
+    }
+  },
+  "landmarks": {
+    "shoulder": {
+      "x": 332.0,
+      "y": 261.0,
+      "evidence": "inferred anatomical pivot under sleeve from exact front line and approved three-view proportion reference",
+      "confidence": "inferred"
+    },
+    "elbow": {
+      "x": 368.0,
+      "y": 425.0,
+      "evidence": "estimated joint center from visible arm contour and three-view proportion reference",
+      "confidence": "estimated"
+    },
+    "wrist": {
+      "x": 393.0,
+      "y": 533.0,
+      "evidence": "estimated joint center beneath bracelet occlusion",
+      "confidence": "estimated_occluded"
+    }
+  },
+  "boneLengthsPx": {
+    "L1ShoulderToElbow": 167.904735,
+    "L2ElbowToWrist": 110.855762,
+    "lockedForStageAAfterApproval": true,
+    "analyticTolerancePx": 0.01,
+    "renderedEndpointTolerancePx": 0.25
+  },
+  "angleConvention": {
+    "unit": "degrees",
+    "theta1": "atan2(elbow.y-shoulder.y, elbow.x-shoulder.x) in y-down canvas coordinates",
+    "theta2": "forearm global angle minus theta1",
+    "fk": [
+      "p_e = p_s + L1 * [cos(theta1), sin(theta1)]",
+      "p_w = p_e + L2 * [cos(theta1+theta2), sin(theta1+theta2)]"
+    ]
+  },
+  "restAnglesDeg": {
+    "theta1": 77.619243,
+    "theta2": -0.652599
+  },
+  "allowedRangesDeg": {
+    "theta1": {
+      "min": 69.619243,
+      "max": 85.619243,
+      "reason": "rest plus or minus 8 degrees; large enough to expose sleeve and shoulder coverage"
+    },
+    "theta2": {
+      "min": -0.652599,
+      "max": 23.347401,
+      "preferredBendBranch": "increasing_theta2_from_near_straight_rest",
+      "reason": "one bend branch only; no elbow branch flip or hyperextension beyond the source rest"
+    }
+  },
+  "primaryMotion": {
+    "name": "quiet_outward_arm_shift",
+    "rest": {
+      "theta1": 77.619243,
+      "theta2": -0.652599
+    },
+    "target": {
+      "theta1": 69.619243,
+      "theta2": 17.347401
+    },
+    "sampleCount": 41,
+    "path": "0_to_1_to_0",
+    "progressFunction": "for i=0..20: 0.5*(1-cos(pi*i/20)); for i=21..40 use i'=40-i",
+    "physics": false,
+    "deterministicReturnRequired": true
+  },
+  "requiredCombinationExtremes": [
+    {"theta1": 69.619243, "theta2": -0.652599},
+    {"theta1": 69.619243, "theta2": 23.347401},
+    {"theta1": 85.619243, "theta2": -0.652599},
+    {"theta1": 85.619243, "theta2": 23.347401}
+  ],
+  "localHalfWidthsPx": {
+    "sleeve": {
+      "nearShoulder": 38.0,
+      "atHem": 32.0,
+      "status": "geometry_design_estimate"
+    },
+    "upper_arm": {
+      "underSleeve": 13.5,
+      "atElbow": 12.0,
+      "status": "geometry_design_estimate"
+    },
+    "forearm": {
+      "atElbow": 12.0,
+      "atWrist": 8.5,
+      "status": "geometry_design_estimate"
+    },
+    "hand": {
+      "atWrist": 10.5,
+      "palmMaximum": 15.0,
+      "status": "geometry_design_estimate"
+    }
+  },
+  "jointDisksPx": {
+    "shoulderRadius": 18.0,
+    "elbowRadius": 14.0,
+    "wristRadius": 11.0,
+    "note": "coverage geometry only; never valid as visible flat-color or textured material by itself"
+  },
+  "transformHierarchy": [
+    {
+      "id": "shoulder_rotation",
+      "parent": "torso_anchor_out_of_scope",
+      "pivot": "shoulder"
+    },
+    {
+      "id": "sleeve",
+      "parent": "shoulder_rotation"
+    },
+    {
+      "id": "upper_arm",
+      "parent": "shoulder_rotation"
+    },
+    {
+      "id": "elbow_rotation",
+      "parent": "shoulder_rotation",
+      "pivot": "elbow"
+    },
+    {
+      "id": "forearm",
+      "parent": "elbow_rotation"
+    },
+    {
+      "id": "wrist_rotation",
+      "parent": "elbow_rotation",
+      "pivot": "wrist"
+    },
+    {
+      "id": "hand",
+      "parent": "wrist_rotation"
+    }
+  ],
+  "drawOrderBackToFront": [
+    {"id": "upper_arm", "order": 10},
+    {"id": "forearm", "order": 20},
+    {"id": "hand", "order": 30},
+    {"id": "sleeve", "order": 40}
+  ],
+  "knownRisks": [
+    "shoulder pivot is hidden by the oversized sleeve",
+    "wrist pivot is partially hidden by the bracelet",
+    "rest elbow is nearly straight, so the positive bend branch must be locked explicitly",
+    "historical Gate 2A L/R field names conflict with its own character-side convention"
+  ]
+}
+

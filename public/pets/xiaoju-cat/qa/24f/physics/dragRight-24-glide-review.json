@@ -1,0 +1,47 @@
+{
+  "method": "glide-hold-repeat-v1",
+  "direction": "dragRight",
+  "duration_ms": 95,
+  "lock": {
+    "target_cx": 95.5,
+    "target_bottom": 203
+  },
+  "offsets_first_last": [
+    [
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      8
+    ]
+  ],
+  "metrics": {
+    "frames": 24,
+    "width_range": [
+      145,
+      169
+    ],
+    "height_range": [
+      198,
+      198
+    ],
+    "bottom_range": [
+      202,
+      204
+    ],
+    "center_x_range": [
+      95.5,
+      100.0
+    ]
+  },
+  "outputs": {
+    "strip": "public/pets/xiaoju-cat/qa/24f/physics/dragRight-24-glide-strip.png",
+    "preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/dragRight-24-glide.gif",
+    "counter_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/dragRight-24-glide-counter.gif",
+    "sample_sheet": "public/pets/xiaoju-cat/qa/24f/physics/dragRight-24-glide-sample-sheet.png",
+    "compare_preview": "public/pets/xiaoju-cat/qa/24f/physics/previews/compare/dragRight-original-vs-glide.gif"
+  }
+}

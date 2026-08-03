@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "status": "engineering_pass_pending_user_visual_review",
+  "scope": "shoulder-side hidden upper-arm texture proof only",
+  "frozenInputIntegrity": {
+    "status": "pass",
+    "groups": [
+      {
+        "group": "V6 direct references",
+        "checked": 9,
+        "passed": 9,
+        "failed": 0,
+        "firstFailure": null
+      },
+      {
+        "group": "V6 supplemental keyed hashes",
+        "checked": 13,
+        "passed": 13,
+        "failed": 0,
+        "firstFailure": null
+      },
+      {
+        "group": "complete sleeve",
+        "checked": 16,
+        "passed": 16,
+        "failed": 0,
+        "firstFailure": null
+      },
+      {
+        "group": "V8-B1/V8-C",
+        "checked": 38,
+        "passed": 38,
+        "failed": 0,
+        "firstFailure": null
+      }
+    ],
+    "masters": [
+      {
+        "role": "authoritative line master",
+        "width": 512,
+        "height": 1086,
+        "sha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+        "expectedSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+        "pass": true
+      },
+      {
+        "role": "authoritative color master",
+        "width": 512,
+        "height": 1086,
+        "sha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+        "expectedSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+        "pass": true
+      }
+    ],
+    "failed": 0
+  },
+  "regionDefinition": {
+    "formula": "R_shoulder_hidden = (M_upper \\\\ V_upper) intersect boneLocalS < 136.54078",
+    "mUpperPixels": 5358,
+    "vUpperPixels": 544,
+    "hUpperAllPixels": 4814,
+    "rShoulderHiddenPixels": 4465,
+    "otherHiddenNotInScopePixels": 349,
+    "subsetOfHUpperAll": true,
+    "elbowSidePixelsIncluded": 0
+  },
+  "method": {
+    "type": "local deterministic constrained color-field extension",
+    "steps": [
+      "fit bounded low-order RGB field in frozen upper-arm bone coordinates from write-protected visible skin",
+      "continue the fitted normal-axis shading into R_shoulder_hidden",
+      "add low-amplitude deterministic nonperiodic texture only inside R_shoulder_hidden",
+      "continue the frozen-geometry edge with a line color estimated from visible source boundary pixels",
+      "copy V_upper from the authoritative color master byte-for-byte"
+    ],
+    "fit": {
+      "sampleCount": 485,
+      "meanFitRgbError": 14.2227,
+      "maxFitRgbError": 113.3466,
+      "axisCoefficientsRgb": [
+        32.23577,
+        47.50444,
+        51.59416
+      ],
+      "normalLinearCoefficientsRgb": [
+        -5.6118,
+        -11.32611,
+        -12.80199
+      ],
+      "normalQuadraticCoefficientsRgb": [
+        -8.80744,
+        -11.07792,
+        -11.56825
+      ]
+    },
+    "estimatedLineRgb": [
+      170,
+      134,
+      122
+    ],
+    "seamProfileAnchorMethod": "12-neighbor weighted visible-skin statistics, hidden side only",
+    "seamProfilePixelCount": 528,
+    "cloudOrExternalGenerationUsed": false,
+    "offlineInpaintUsed": false
+  },
+  "numericChecks": {
+    "vUpperCoordinateDifferencePixels": 0,
+    "vUpperRgbDifferencePixels": 0,
+    "vUpperAlphaDifferencePixels": 0,
+    "vUpperCoordinateFingerprintSha256": "e6344ef13d6bf7b2b7cda1ea328a79166eb687008f900efdab1cd6d8ee075783",
+    "vUpperCoordinateAndRgbFingerprintSha256": "d440e352770b76705124c53da8a07ddb95c17561f146bbddebcd9ef833050ab3",
+    "mUpperGeometryDifferencePixels": 0,
+    "paintedPixelsOutsideRShoulderHidden": 0,
+    "alphaPixelsOutsideFrozenMUpper": 0,
+    "defaultRecompositionLockedSourcePixelDifference": 0,
+    "sleeveOcclusionRelationDifferencePixels": 0,
+    "deterministicRegenerationDifferencePixels": 0
+  },
+  "candidatesGenerated": [
+    {
+      "id": "B",
+      "relativePath": "materials/upper-arm-shoulder-hidden-candidate-b.png",
+      "metrics": {
+        "seamAdjacentPairCount": 7,
+        "seamRgbJumpMean": 11.3483,
+        "seamRgbJumpMax": 20.2237,
+        "gradientDirectionJumpMeanDeg": 59.6268,
+        "gradientDirectionJumpMaxDeg": 136.2819,
+        "interiorLuminanceStdDev": 5.3383,
+        "maximumNonperiodicAutocorrelation": 0.03636,
+        "visibleDarkCoverageByInwardPixelDepth": [
+          0.875,
+          0.82857,
+          0.72973
+        ],
+        "hiddenDarkCoverageByInwardPixelDepth": [
+          1.0,
+          0.51361,
+          0.41924
+        ],
+        "visibleLineDarkThreshold": 209,
+        "hiddenLineDarkThreshold": 177,
+        "estimatedVisibleLineWidthPx": 2.4333,
+        "estimatedHiddenLineWidthPx": 1.93285,
+        "lineWidthDifferencePx": 0.50045,
+        "geometryPixelCount": 5358,
+        "score": 25.28637
+      },
+      "selectedForUserReview": true
+    },
+    {
+      "id": "A",
+      "relativePath": "materials/upper-arm-shoulder-hidden-candidate-a.png",
+      "metrics": {
+        "seamAdjacentPairCount": 7,
+        "seamRgbJumpMean": 11.5236,
+        "seamRgbJumpMax": 20.2237,
+        "gradientDirectionJumpMeanDeg": 60.4204,
+        "gradientDirectionJumpMaxDeg": 136.2819,
+        "interiorLuminanceStdDev": 5.2206,
+        "maximumNonperiodicAutocorrelation": 0.04063,
+        "visibleDarkCoverageByInwardPixelDepth": [
+          0.875,
+          0.82857,
+          0.72973
+        ],
+        "hiddenDarkCoverageByInwardPixelDepth": [
+          1.0,
+          0.5102,
+          0.41924
+        ],
+        "visibleLineDarkThreshold": 209,
+        "hiddenLineDarkThreshold": 176,
+        "estimatedVisibleLineWidthPx": 2.4333,
+        "estimatedHiddenLineWidthPx": 1.92945,
+        "lineWidthDifferencePx": 0.50385,
+        "geometryPixelCount": 5358,
+        "score": 25.58151
+      },
+      "selectedForUserReview": true
+    },
+    {
+      "id": "C",
+      "relativePath": "materials/upper-arm-shoulder-hidden-candidate-c.png",
+      "metrics": {
+        "seamAdjacentPairCount": 7,
+        "seamRgbJumpMean": 11.3855,
+        "seamRgbJumpMax": 20.2237,
+        "gradientDirectionJumpMeanDeg": 64.871,
+        "gradientDirectionJumpMaxDeg": 137.2237,
+        "interiorLuminanceStdDev": 5.1445,
+        "maximumNonperiodicAutocorrelation": 0.03387,
+        "visibleDarkCoverageByInwardPixelDepth": [
+          0.875,
+          0.82857,
+          0.72973
+        ],
+        "hiddenDarkCoverageByInwardPixelDepth": [
+          1.0,
+          0.51361,
+          0.41581
+        ],
+        "visibleLineDarkThreshold": 209,
+        "hiddenLineDarkThreshold": 176,
+        "estimatedVisibleLineWidthPx": 2.4333,
+        "estimatedHiddenLineWidthPx": 1.92941,
+        "lineWidthDifferencePx": 0.50389,
+        "geometryPixelCount": 5358,
+        "score": 25.76848
+      },
+      "selectedForUserReview": false
+    }
+  ],
+  "selectedCandidates": [
+    "B",
+    "A"
+  ],
+  "recommendedCandidate": "B",
+  "outlineTangentCheck": {
+    "sides": {
+      "negativeNormal": {
+        "hiddenTangentDeg": 1.875,
+        "visibleTangentDeg": -4.3018,
+        "differenceDeg": 6.1769
+      },
+      "positiveNormal": {
+        "hiddenTangentDeg": 0.4257,
+        "visibleTangentDeg": 1.8674,
+        "differenceDeg": 1.4417
+      }
+    },
+    "meanDifferenceDeg": 3.8093,
+    "maximumDifferenceDeg": 6.1769,
+    "note": "frozen M_upper boundary; candidate line follows it without geometry change"
+  },
+  "motion": {
+    "sampleCount": 41,
+    "firstLastPixelDifference": 0,
+    "actionRangeTheta1Deg": [
+      73.505624,
+      81.505624
+    ],
+    "actionRangeTheta2Deg": [
+      -19.355943,
+      -9.355943
+    ]
+  },
+  "visualApproval": {
+    "status": "pending_user_review",
+    "freezeAuthorized": false,
+    "cubismAuthorized": false
+  },
+  "earliestFailurePoint": null
+}

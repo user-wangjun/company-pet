@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "status": "pass_engineering_material_color_correction",
+  "scope": "V10-derived material RGB only; frozen geometry and upstream files unchanged",
+  "upperArm": {
+    "material": "inputs/02_upper_arm_engineering.png",
+    "authorityMask": "validation/arm-chain-screen-right-v9-upper-arm-hidden-texture-proof/masks/H_upper-not-in-scope.png",
+    "qaIdentity": "H_upper-not-in-scope; engineering QA placeholder, not production texture",
+    "maskPixels": 349,
+    "changedPixels": 349,
+    "beforeRgba": [
+      72,
+      116,
+      202,
+      255
+    ],
+    "afterRgba": [
+      219,
+      185,
+      174,
+      255
+    ],
+    "samplingRule": "Mode RGBA of the 8-connected, opaque, approved V9 candidate-B pixels immediately outside H_upper; frequency descending then RGBA ascending",
+    "samplingRingPixels": 107,
+    "alphaDifferencePixels": 0,
+    "changedOutsideAuthorityMaskPixels": 0,
+    "frozenCandidateBOutsideMaskDifferencePixels": 0
+  },
+  "forearmWrist": {
+    "material": "inputs/03_forearm_including_bracelet.png",
+    "authorityMask": "validation/arm-chain-screen-right-v7-production-forearm-geometry/v7c1-elbow-seam-fairing/masks/F4-wrist-hidden-extension.png",
+    "f5QaResponsibilityMask": "validation/arm-chain-screen-right-v7-production-forearm-geometry/v7c1-elbow-seam-fairing/masks/F5-wrist-responsibility-not-material.png",
+    "h3FrozenColorAuthorityMask": "validation/arm-chain-screen-right-v8-formal-hand-geometry/v8b1-complete-hand-geometry/masks/H3-parameterized-hidden-wrist-margin.png",
+    "f4MaskPixels": 186,
+    "f4EngineeringSkinPixels": 134,
+    "f4FrozenVisiblePixelsRetained": 52,
+    "changedPixels": 134,
+    "beforeRgba": [
+      244,
+      190,
+      173,
+      255
+    ],
+    "afterRgba": [
+      244,
+      222,
+      216,
+      255
+    ],
+    "h3UniqueRgba": [
+      [
+        244,
+        222,
+        216,
+        255
+      ]
+    ],
+    "changedOutsideAllowedF4SkinPixels": 0,
+    "changedBraceletOwnershipPixels": 0,
+    "changedFrozenVisibleForearmPixels": 0,
+    "alphaDifferencePixels": 0,
+    "separateWristMaterialCreated": false
+  },
+  "frozenGeometry": {
+    "canvas": [
+      512,
+      1086
+    ],
+    "integerRegistrationChanged": false,
+    "resampled": false,
+    "translated": false,
+    "scaled": false
+  },
+  "privacy": {
+    "absolutePathsWritten": false,
+    "sourceFilesUploaded": false,
+    "cloudServicesUsed": false
+  }
+}

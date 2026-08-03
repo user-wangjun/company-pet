@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "status": "user_visual_approved_ready_to_freeze",
+  "layers": [
+    {
+      "id": "upper_arm",
+      "screenSide": "left",
+      "characterSide": "right",
+      "parentCandidate": "shoulder",
+      "drawOrder": 100,
+      "visibleMask": "masks/visible/upper_arm.png",
+      "completeMask": "masks/complete/upper_arm.png",
+      "hiddenMask": "masks/hidden/upper_arm.png",
+      "braceletOwner": false
+    },
+    {
+      "id": "whole_hand",
+      "screenSide": "left",
+      "characterSide": "right",
+      "parentCandidate": "wrist",
+      "drawOrder": 200,
+      "visibleMask": "masks/visible/whole_hand.png",
+      "completeMask": "masks/complete/whole_hand.png",
+      "hiddenMask": "masks/hidden/whole_hand.png",
+      "braceletOwner": false
+    },
+    {
+      "id": "forearm_bracelet",
+      "screenSide": "left",
+      "characterSide": "right",
+      "parentCandidate": "elbow",
+      "drawOrder": 300,
+      "visibleMask": "masks/visible/forearm_bracelet.png",
+      "completeMask": "masks/complete/forearm_bracelet.png",
+      "hiddenMask": "masks/hidden/forearm_bracelet.png",
+      "braceletOwner": true
+    },
+    {
+      "id": "sleeve",
+      "screenSide": "left",
+      "characterSide": "right",
+      "parentCandidate": "shoulder",
+      "drawOrder": 400,
+      "visibleMask": "masks/visible/sleeve.png",
+      "completeMask": "masks/complete/sleeve.png",
+      "hiddenMask": "masks/hidden/sleeve.png",
+      "braceletOwner": false
+    }
+  ],
+  "approvalRequiredBeforeTexture": false,
+  "approvalStatus": "user_visual_approved"
+}

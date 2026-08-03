@@ -1,0 +1,37 @@
+{
+  "scope": "screen-left frozen full arm recomposition review",
+  "mutatesFrozenGeometry": false,
+  "drawOrderBackToFront": [
+    "upperArm",
+    "hand",
+    "forearm",
+    "sleeve",
+    "bracelet"
+  ],
+  "sources": {
+    "sleeve": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/materials/sleeve.png",
+      "sha256": "65f6e6df3c4b2ab76c6e69be790a7aa48559fa4cd3dcb69043ab5180d2257cc2"
+    },
+    "upperArm": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/materials/upper_arm.png",
+      "sha256": "7287b78c0d6d4096f808627e442381c5d1533ed4d07ec861a99976a5a4fb27e9"
+    },
+    "forearm": {
+      "path": "validation/arm-chain-screen-left-v34-hand-root-from-frozen-ucap/materials/forearm-slim.png",
+      "sha256": "1cd18d89cde216dfde1b04b237e784e065526d47482338029a9f04505806bcac"
+    },
+    "hand": {
+      "path": "validation/arm-chain-screen-left-v34-hand-root-from-frozen-ucap/materials/hand.png",
+      "sha256": "5b5f35a44c8e05e99898faca6909b85e4c0020be00771f2acb8e58008545ec83"
+    },
+    "braceletMask": {
+      "path": "validation/arm-chain-screen-left-v31-arm-materials-from-frozen-sleeve/masks/visible/bracelet-owned-by-forearm.png",
+      "sha256": "4f8a5dfac8bfaa64f8b0b032ae4768526a0805b7d64d81006df582241fd4c850"
+    }
+  },
+  "outputs": {
+    "transparentRecomposition": "qa/screen-left-frozen-arm-recomposition.png",
+    "reviewBoard": "qa/V35-screen-left冻结手臂完整拼合审查图.png"
+  }
+}

@@ -1,0 +1,81 @@
+document=xiaoju-planet-login-gate3-working.psd
+width=1370
+height=1148
+[V] GATE3_RIG_PARTS | LayerSet
+  [V] 06_FOREGROUND_OVERLAY | LayerSet
+    [V] Planet_FrontRim | ArtLayer
+    [ ] TODO_HIDDEN_Planet_ContactShadow | ArtLayer
+    [V] Planet_Highlight | ArtLayer
+  [V] 05_FORELIMBS_JOINTED | LayerSet
+    [V] Shoulder_Fill_R | ArtLayer
+    [V] Paw_R | ArtLayer
+    [V] Wrist_Fur_R | ArtLayer
+    [V] Forearm_R | ArtLayer
+    [V] Elbow_Fur_R | ArtLayer
+    [V] UpperArm_R | ArtLayer
+    [V] Shoulder_Fill_L | ArtLayer
+    [V] Paw_L | ArtLayer
+    [V] Wrist_Fur_L | ArtLayer
+    [V] Forearm_L | ArtLayer
+    [V] Elbow_Fur_L | ArtLayer
+    [V] UpperArm_L | ArtLayer
+  [V] 04_EYES_GAZE | LayerSet
+    [ ] TODO_HIDDEN_LowerLid_R | ArtLayer
+    [ ] TODO_HIDDEN_LowerLid_L | ArtLayer
+    [ ] TODO_HIDDEN_EyeSocket_Fur_R | ArtLayer
+    [ ] TODO_HIDDEN_EyeSocket_Fur_L | ArtLayer
+    [V] UpperLid_R | ArtLayer
+    [V] Highlight_R | ArtLayer
+    [V] Pupil_R | ArtLayer
+    [V] Iris_R_Clean | ArtLayer
+    [ ] Eye_R_Underpaint_LOCKED | ArtLayer
+    [V] UpperLid_L | ArtLayer
+    [V] Highlight_L | ArtLayer
+    [V] Pupil_L | ArtLayer
+    [V] Iris_L_Clean | ArtLayer
+    [ ] Eye_L_Underpaint_LOCKED | ArtLayer
+  [V] 03_HEAD_FACE_EARS | LayerSet
+    [V] Whisker_R | ArtLayer
+    [V] Whisker_L | ArtLayer
+    [V] Chin_Fur | ArtLayer
+    [V] Mouth_Inside | ArtLayer
+    [V] Mouth_Line | ArtLayer
+    [V] Nose | ArtLayer
+    [V] Muzzle | ArtLayer
+    [V] Cheek_R | ArtLayer
+    [V] Cheek_L | ArtLayer
+    [V] Ear_R_Base | ArtLayer
+    [V] Ear_L_Base | ArtLayer
+    [V] Head_Base | ArtLayer
+  [V] 02_BODY_REAR | LayerSet
+    [ ] TODO_HIDDEN_HindPaw_R | ArtLayer
+    [ ] TODO_HIDDEN_HindPaw_L | ArtLayer
+    [ ] TODO_HIDDEN_HindLeg_R | ArtLayer
+    [ ] TODO_HIDDEN_HindLeg_L | ArtLayer
+    [ ] TODO_HIDDEN_Hip_R | ArtLayer
+    [ ] TODO_HIDDEN_Hip_L | ArtLayer
+    [ ] TODO_HIDDEN_Neck_Fill | ArtLayer
+    [ ] TODO_HIDDEN_Belly_Fill | ArtLayer
+    [V] Tail_Tip | ArtLayer
+    [V] Tail_Mid | ArtLayer
+    [V] Tail_Base | ArtLayer
+    [V] RearBody_Base | ArtLayer
+    [V] Chest_Fur | ArtLayer
+    [V] Body_Base | ArtLayer
+  [V] 01_SCENE_PLANET | LayerSet
+    [ ] TODO_HIDDEN_Planet_SurfaceDetail | ArtLayer
+    [ ] TODO_HIDDEN_Planet_BackGlow | ArtLayer
+    [V] Planet_Base | ArtLayer
+    [V] BG_Stars | ArtLayer
+[V] SRC_Shoulder_Occluder_R | ArtLayer
+[V] SRC_Shoulder_Occluder_L | ArtLayer
+[V] SRC_Planet_Foreground | ArtLayer
+[V] SRC_Foreleg_R_Complete | ArtLayer
+[V] SRC_Foreleg_L_Complete | ArtLayer
+[V] SRC_Eyelid_R | ArtLayer
+[V] SRC_Eyelid_L | ArtLayer
+[V] SRC_Eye_R_Whole | ArtLayer
+[V] SRC_Eye_L_Whole | ArtLayer
+[V] SRC_Cat_Body_Base | ArtLayer
+[V] SRC_Stars_Background | ArtLayer
+[V] Í¼²ã 1 | ArtLayer

@@ -83,6 +83,29 @@ describe("pet companion chat packages", () => {
     expect(warn).toHaveBeenCalled();
   });
 
+  test("keeps optional style hints for a remote provider", async () => {
+    const result = await loadPetCompanionChatPackage(
+      manifest,
+      async () => ({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          ...config,
+          style: { tone: "quiet-companion", maxReplyLength: 36 },
+          systemPrompt: "请保留原有的陪伴设定。",
+        }),
+      }),
+    );
+
+    expect(result).toMatchObject({
+      status: "loaded",
+      config: {
+        style: { tone: "quiet-companion", maxReplyLength: 36 },
+        systemPrompt: "请保留原有的陪伴设定。",
+      },
+    });
+  });
+
   test("chooses weighted opener cues deterministically", () => {
     expect(chooseCompanionChatCue(config.openers, () => 0).text).toBe("喵？");
     expect(chooseCompanionChatCue(config.openers, () => 0.66).text).toBe("喵？");

@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-07-25",
+  "status": "engineering_pass_user_visual_approved",
+  "scope": "exact visible upper arm and sleeve-hem occluder ownership",
+  "coordinateSystem": {
+    "canvas": [
+      512,
+      1086
+    ],
+    "origin": "top_left",
+    "integerCoordinates": true,
+    "reviewCropExclusive": [
+      328,
+      372,
+      380,
+      424
+    ]
+  },
+  "authority": {
+    "line": "source/masters/front-line-source-exact-after-reset.png",
+    "color": "source/masters/front-color-source-exact-after-reset.png",
+    "lineSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+    "colorSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5"
+  },
+  "v4Candidates": {
+    "sourceArchive": "validation/arm-chain-screen-right-v4-wrist-motion/archive/stage-a-v4-approved-2026-07-24.zip",
+    "visibleSleeveSha256": "e74af04796b12d7ae63c3151046cc1cbb283e1fd5a79900080593d960bc06d33",
+    "visibleUpperArmSha256": "43808a8abbee3362be753fc627798e124f97d302567b3897f6d245f3335366ea",
+    "treatment": "Reference candidates only. The V4 upper-arm start at y=383 was rejected because it enters the sleeve region."
+  },
+  "ownership": {
+    "sleeveHemCenterline": [
+      [
+        336,
+        398
+      ],
+      [
+        340,
+        397
+      ],
+      [
+        345,
+        397
+      ],
+      [
+        350,
+        395
+      ],
+      [
+        355,
+        394
+      ],
+      [
+        360,
+        392
+      ],
+      [
+        365,
+        391
+      ],
+      [
+        370,
+        389
+      ],
+      [
+        375,
+        387
+      ],
+      [
+        380,
+        384
+      ],
+      [
+        385,
+        381
+      ],
+      [
+        390,
+        378
+      ],
+      [
+        395,
+        374
+      ]
+    ],
+    "mixedBandWidthPx": 2,
+    "mixedBandTotalStrokeWidthPx": 5,
+    "mixedBandOwner": "sleeve",
+    "visibleUpperArmEnvelope": [
+      [
+        336,
+        398
+      ],
+      [
+        340,
+        397
+      ],
+      [
+        345,
+        397
+      ],
+      [
+        350,
+        395
+      ],
+      [
+        355,
+        394
+      ],
+      [
+        360,
+        392
+      ],
+      [
+        363,
+        390
+      ],
+      [
+        364,
+        393
+      ],
+      [
+        365,
+        397
+      ],
+      [
+        366,
+        400
+      ],
+      [
+        367,
+        404
+      ],
+      [
+        368,
+        408
+      ],
+      [
+        370,
+        412
+      ],
+      [
+        371,
+        416
+      ],
+      [
+        371,
+        418
+      ],
+      [
+        340,
+        418
+      ],
+      [
+        339,
+        413
+      ],
+      [
+        338,
+        406
+      ]
+    ],
+    "visibleUpperArmPixelCount": 544,
+    "sleeveCorePixelCount": 8565,
+    "mixedBandPixelCount": 311,
+    "visibleUpperArmBoundingBoxExclusive": [
+      338,
+      394,
+      371,
+      417
+    ],
+    "excludedOwners": [
+      "sleeve",
+      "forearm",
+      "bracelet",
+      "shirt_body",
+      "hair",
+      "background"
+    ]
+  },
+  "flatSourceLimitation": "The authoritative masters are RGB, not layered RGBA. Fractional source alpha is not recoverable. The emitted sleeve alpha is a locked ownership alpha for the flattened composite, with the mixed band assigned to the sleeve; it is not claimed to be original layer alpha.",
+  "predeclaredMotionFringeTolerance": {
+    "defaultAtOneToOne": "zero changed source pixels",
+    "movingAtOneHundredPercent": "at most one continuous source-pixel fringe; no detached dark halo, no crawling, and no intermittent gap",
+    "movingAtTwoHundredPercent": "at most two nearest-neighbor display pixels, corresponding to one source pixel",
+    "failureAction": "Stop and request original layered art or separate approval for controlled boundary reconstruction."
+  },
+  "pixelCopyAudit": {
+    "schemaVersion": 1,
+    "auditDate": "2026-07-25",
+    "status": "pass_user_visual_approved",
+    "source": "source/masters/front-color-source-exact-after-reset.png",
+    "visibleMask": "validation/arm-chain-screen-right-v5-hidden-upper-arm/masks/visible-upper-arm-locked.png",
+    "visiblePixelCount": 544,
+    "boundingBoxExclusive": [
+      338,
+      394,
+      371,
+      417
+    ],
+    "differingRgbPixelCount": 0,
+    "maximumRgbChannelDifference": 0,
+    "pixelExactCopy": true,
+    "visiblePixelsRescaled": false,
+    "visiblePixelsRedrawn": false,
+    "note": "The visible-pixel copy is locked by explicit user approval."
+  },
+  "userApproval": "audit/ownership-gate-user-approval-2026-07-25.json",
+  "nextGate": "Compute H_total, define H_test and prove the continuous-domain coverage lower bound."
+}

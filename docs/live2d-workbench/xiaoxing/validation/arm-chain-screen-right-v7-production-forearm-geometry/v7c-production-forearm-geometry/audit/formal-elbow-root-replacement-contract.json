@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "contract": "V7 production forearm active elbow-root replacement",
+  "status": "engineering_pass_pending_final_user_contract_approval",
+  "reopensButDoesNotModify": "the frozen V6 temporary forearm minimum-envelope dependency",
+  "contradictionEvidence": {
+    "oldProxyMissingFromProductionForearmPixels": 555,
+    "staticOldProxyContainmentClaimed": false,
+    "reason": "the old proxy cannot simultaneously remain inside the approved neutral source ownership and preserve the approved elbow silhouette"
+  },
+  "replacementEnvelope": {
+    "mask": "masks/F1-elbow-active-root.png",
+    "sha256": "d18949fe5337f15d62c0755db8e5e0aaa40ad3c96b72130711f7646b997f2830",
+    "pixelCount": 718,
+    "continuousLocalDefinition": "approved source-backed production forearm pixels with local 0<=s<=22, deformed by the user-approved V7-B2 continuous positive-normal compression",
+    "neutralSourceCoordinatesChanged": 0,
+    "neutralSourceRgbChanged": 0
+  },
+  "outcomeProof": {
+    "primarySamples": 41,
+    "combinationExtremes": 6,
+    "denseTheta2Samples": 241,
+    "maximumMissingResponsibilityPixelsAt4x": 0,
+    "brokenAdjacencyEvaluations": 0,
+    "deterministicReturnDifferencePixelsAt4x": 0,
+    "boneLengthErrorPx": 0.0
+  },
+  "drawOrder": "production forearm above complete upper arm",
+  "automaticInvalidation": [
+    "frozen elbow or forearm local coordinates change",
+    "theta2 range changes",
+    "V7-B2 deformation rule changes",
+    "production forearm geometry changes",
+    "final user rejects the contract replacement",
+    "Cubism binding is introduced without rerunning the full domain"
+  ]
+}

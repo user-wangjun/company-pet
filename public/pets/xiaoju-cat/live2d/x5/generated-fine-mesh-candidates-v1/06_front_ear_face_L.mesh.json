@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "layerId": "ear_face_L",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/06_front_ear_face_L.png",
+  "primaryController": "EarRoot_L",
+  "parent": "EarRoot_L",
+  "actionSubject": "EarRoot_L",
+  "deformationRole": "ear-hinge-local",
+  "densityProfile": "hinge-coarse",
+  "pivotName": "ear_base_L",
+  "pivotPoint": [
+    51.0,
+    102.0
+  ],
+  "points": [
+    [
+      55.0,
+      108.5
+    ],
+    [
+      41.5,
+      74.0
+    ],
+    [
+      4.0,
+      54.5
+    ],
+    [
+      -0.5,
+      41.0
+    ],
+    [
+      35.0,
+      6.5
+    ],
+    [
+      61.0,
+      0.5
+    ],
+    [
+      71.5,
+      20.0
+    ],
+    [
+      74.5,
+      57.0
+    ],
+    [
+      67.5,
+      98.0
+    ],
+    [
+      31.074,
+      37.975
+    ]
+  ],
+  "triangles": [
+    [
+      4,
+      9,
+      3
+    ],
+    [
+      6,
+      9,
+      4
+    ],
+    [
+      2,
+      3,
+      9
+    ],
+    [
+      7,
+      9,
+      6
+    ],
+    [
+      1,
+      2,
+      9
+    ],
+    [
+      7,
+      1,
+      9
+    ],
+    [
+      1,
+      8,
+      0
+    ],
+    [
+      1,
+      7,
+      8
+    ],
+    [
+      4,
+      5,
+      6
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.92,
+      0.92
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.72
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      1.0
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 10,
+    "triangleCount": 9,
+    "minimumTriangleAngleDegrees": 25.92,
+    "medianTriangleAngleDegrees": 44.27
+  },
+  "candidateOnly": true
+}

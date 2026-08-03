@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "layerId": "head_back_base",
+  "sourceLayer": "live2d/x5/generated-fine-layer-candidates-v1/51_back_head_back_base.png",
+  "primaryController": "Neck",
+  "parent": "Neck",
+  "actionSubject": "Neck",
+  "deformationRole": "parent-transform-rigid-surface",
+  "densityProfile": "inherited-rigid-sparse",
+  "pivotName": "skull",
+  "pivotPoint": [
+    87.0,
+    76.0
+  ],
+  "points": [
+    [
+      94.0,
+      152.5
+    ],
+    [
+      34.0,
+      141.5
+    ],
+    [
+      7.5,
+      115.0
+    ],
+    [
+      -0.5,
+      75.0
+    ],
+    [
+      7.0,
+      0.5
+    ],
+    [
+      58.0,
+      27.5
+    ],
+    [
+      119.0,
+      27.5
+    ],
+    [
+      170.5,
+      3.0
+    ],
+    [
+      165.5,
+      112.0
+    ],
+    [
+      139.0,
+      140.5
+    ],
+    [
+      61.283,
+      87.717
+    ],
+    [
+      115.257,
+      91.853
+    ],
+    [
+      19.083,
+      39.344
+    ],
+    [
+      167.567,
+      66.933
+    ],
+    [
+      88.5,
+      56.036
+    ]
+  ],
+  "triangles": [
+    [
+      4,
+      5,
+      12
+    ],
+    [
+      14,
+      10,
+      5
+    ],
+    [
+      3,
+      12,
+      10
+    ],
+    [
+      10,
+      2,
+      3
+    ],
+    [
+      13,
+      11,
+      6
+    ],
+    [
+      14,
+      11,
+      10
+    ],
+    [
+      10,
+      1,
+      2
+    ],
+    [
+      13,
+      8,
+      11
+    ],
+    [
+      0,
+      1,
+      10
+    ],
+    [
+      0,
+      10,
+      11
+    ],
+    [
+      9,
+      0,
+      11
+    ],
+    [
+      5,
+      6,
+      14
+    ],
+    [
+      3,
+      4,
+      12
+    ],
+    [
+      6,
+      7,
+      13
+    ],
+    [
+      8,
+      9,
+      11
+    ],
+    [
+      11,
+      14,
+      6
+    ],
+    [
+      10,
+      12,
+      5
+    ]
+  ],
+  "vertexElasticWeights": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "vertexResistanceDecay": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "springRelation": {
+    "model": "tau = k(targetAngle-angle) - c*angularVelocity",
+    "stiffnessRange": [
+      0.92,
+      0.92
+    ],
+    "dampingRangeNearToFar": [
+      0.72,
+      0.72
+    ],
+    "resistanceDecayNearToFar": [
+      1.0,
+      1.0
+    ],
+    "anatomicalPivotWeight": 0.0
+  },
+  "quality": {
+    "pointCount": 15,
+    "triangleCount": 17,
+    "minimumTriangleAngleDegrees": 23.027,
+    "medianTriangleAngleDegrees": 43.786
+  },
+  "candidateOnly": true
+}

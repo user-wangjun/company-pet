@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "decisionDate": "2026-07-26",
+  "decisionOwner": "user",
+  "decision": "rejected",
+  "status": "split_hidden_root_probe_visually_rejected",
+  "sourceStatement": "这里没有接好，会突出一部分，主要是粗细不对版",
+  "rejectedScope": [
+    "split H_root probe",
+    "moving root protrusion at the upper-arm and forearm connection",
+    "current upper-arm terminal versus forearm-root thickness transition"
+  ],
+  "notInferred": [
+    "the user did not approve the single-drawable baseline",
+    "the user did not authorize changing the wrist line",
+    "the user did not authorize modifying frozen V4, complete sleeve, or V6 files",
+    "the user did not approve a replacement elbow-root geometry"
+  ],
+  "requiredReturn": "reopen the elbow root-width compatibility gate before any contract rewrite or complete production forearm geometry"
+}

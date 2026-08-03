@@ -1,3 +1,5 @@
+import { containsSensitiveCompanionText } from "./companionPrivacy";
+
 export const COMPANION_PREFERENCES_STORAGE_KEY =
   "yuxin-companion-preferences-v1";
 
@@ -27,17 +29,41 @@ export const EMPTY_COMPANION_PREFERENCES: CompanionPreferencesState = {
   recentPreferenceId: null,
 };
 
-function sensitive(text: string): boolean {
-  return /身份证|银行卡|密码|住址|地址|账号|检查报告|诊断|病史|吃药|用药/.test(text);
+export function isCompanionPreferenceSafe(
+  preference: CompanionPreference,
+): boolean {
+  return [
+    preference.id,
+    preference.scope,
+    preference.category,
+    preference.key,
+    preference.value,
+    preference.source,
+  ].every((value) => !containsSensitiveCompanionText(value));
+}
+
+export function isCompanionPreferencesStateSafe(
+  state: CompanionPreferencesState,
+): boolean {
+  return (
+    !state.recentPreferenceId ||
+    !containsSensitiveCompanionText(state.recentPreferenceId)
+  ) && state.preferences.every(isCompanionPreferenceSafe);
 }
 
 export function extractCompanionPreference(
   text: string,
 ): CompanionPreferenceExtraction | null {
   const input = text.trim();
-  if (!input || sensitive(input)) return null;
+  const genericEyeCareRequest = /眼睛|盯屏|看屏幕/u.test(input)
+    && /提醒|休息|少/u.test(input);
+  // A health detail may route to a generic screen-rest preference, but the
+  // detail itself must never be copied into the saved key/value or feedback.
+  if (!input || (containsSensitiveCompanionText(input) && !genericEyeCareRequest)) return null;
 
-  const nickname = input.match(/(?:以后|之后)?叫我([^，。！？!\s]{1,12})/)?.[1];
+  const nickname = input.match(
+    /^(?:以后|之后)\s*叫我\s*([^，。！？!\s]{1,12})[。！？!?]?$/u,
+  )?.[1];
   if (nickname) {
     return {
       preference: {
@@ -98,7 +124,11 @@ export function extractCompanionPreference(
 }
 
 export function isForgetRecentPreferenceRequest(text: string): boolean {
-  return /忘掉这个|别记这个|不要记这个|删掉刚才/.test(text.trim());
+  if (containsSensitiveCompanionText(text)) return false;
+  const normalized = text.trim().replace(/[。！？!?]+$/u, "");
+  return /(?:忘掉|忘了|忘记|删掉|删除)(?:刚才|最近)?(?:这|那)?(?:个|条|项|件事)?|(?:别记|不要记)(?:这|那)?(?:个|条|项|件事)?/u.test(
+    normalized,
+  );
 }
 
 export function parseCompanionPreferences(value: string | null): CompanionPreferencesState {
@@ -108,18 +138,25 @@ export function parseCompanionPreferences(value: string | null): CompanionPrefer
     const parsed = JSON.parse(value) as Partial<CompanionPreferencesState>;
     if (!Array.isArray(parsed.preferences)) return EMPTY_COMPANION_PREFERENCES;
 
+    const recentPreferenceId =
+      typeof parsed.recentPreferenceId === "string" &&
+      !containsSensitiveCompanionText(parsed.recentPreferenceId)
+        ? parsed.recentPreferenceId
+        : null;
     return {
       preferences: parsed.preferences.filter(
         (item): item is CompanionPreference =>
           typeof item === "object" &&
           item !== null &&
           typeof (item as CompanionPreference).id === "string" &&
-          typeof (item as CompanionPreference).value === "string",
+          typeof (item as CompanionPreference).scope === "string" &&
+          typeof (item as CompanionPreference).category === "string" &&
+          typeof (item as CompanionPreference).key === "string" &&
+          typeof (item as CompanionPreference).value === "string" &&
+          typeof (item as CompanionPreference).source === "string" &&
+          isCompanionPreferenceSafe(item as CompanionPreference),
       ),
-      recentPreferenceId:
-        typeof parsed.recentPreferenceId === "string"
-          ? parsed.recentPreferenceId
-          : null,
+      recentPreferenceId,
     };
   } catch {
     return EMPTY_COMPANION_PREFERENCES;
@@ -145,6 +182,10 @@ export function writeCompanionPreferences(
   storage: StorageLike = window.localStorage,
   warn: (message: string, error?: unknown) => void = console.warn,
 ): boolean {
+  if (!isCompanionPreferencesStateSafe(state)) {
+    warn("[companion-preferences] Rejected sensitive preference state");
+    return false;
+  }
   try {
     storage.setItem(COMPANION_PREFERENCES_STORAGE_KEY, JSON.stringify(state));
     return true;
@@ -158,6 +199,7 @@ export function upsertCompanionPreference(
   state: CompanionPreferencesState,
   preference: CompanionPreference,
 ): CompanionPreferencesState {
+  if (!isCompanionPreferenceSafe(preference)) return state;
   return {
     preferences: [
       ...state.preferences.filter((item) => item.id !== preference.id),

@@ -1,0 +1,139 @@
+{
+  "status": "color_candidate_only_no_motion",
+  "canvas": [
+    512,
+    1086
+  ],
+  "palette": {
+    "sclera": [
+      247,
+      231,
+      224,
+      255
+    ],
+    "iris": [
+      94,
+      72,
+      68,
+      255
+    ],
+    "pupil": [
+      28,
+      24,
+      23,
+      255
+    ],
+    "highlight": [
+      252,
+      246,
+      242,
+      255
+    ],
+    "upper_lid": [
+      48,
+      38,
+      36,
+      255
+    ],
+    "lower_lid": [
+      151,
+      116,
+      108,
+      230
+    ]
+  },
+  "paletteSource": "source/masters/gate3-color-target-v1.png (color sampling only)",
+  "geometrySource": "blueprints/v2-eye-lineart-boundary-contract.json",
+  "entries": [
+    {
+      "id": "eye_R_sclera",
+      "side": "R",
+      "role": "sclera",
+      "path": "qa/v2-eye-color-candidates/eye_R_sclera.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_R_iris",
+      "side": "R",
+      "role": "iris",
+      "path": "qa/v2-eye-color-candidates/eye_R_iris.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_R_pupil",
+      "side": "R",
+      "role": "pupil",
+      "path": "qa/v2-eye-color-candidates/eye_R_pupil.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_R_highlight",
+      "side": "R",
+      "role": "highlight",
+      "path": "qa/v2-eye-color-candidates/eye_R_highlight.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_R_upper_lid",
+      "side": "R",
+      "role": "upper_lid",
+      "path": "qa/v2-eye-color-candidates/eye_R_upper_lid.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_R_lower_lid",
+      "side": "R",
+      "role": "lower_lid",
+      "path": "qa/v2-eye-color-candidates/eye_R_lower_lid.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_L_sclera",
+      "side": "L",
+      "role": "sclera",
+      "path": "qa/v2-eye-color-candidates/eye_L_sclera.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_L_iris",
+      "side": "L",
+      "role": "iris",
+      "path": "qa/v2-eye-color-candidates/eye_L_iris.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_L_pupil",
+      "side": "L",
+      "role": "pupil",
+      "path": "qa/v2-eye-color-candidates/eye_L_pupil.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_L_highlight",
+      "side": "L",
+      "role": "highlight",
+      "path": "qa/v2-eye-color-candidates/eye_L_highlight.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_L_upper_lid",
+      "side": "L",
+      "role": "upper_lid",
+      "path": "qa/v2-eye-color-candidates/eye_L_upper_lid.png",
+      "status": "color_candidate_only"
+    },
+    {
+      "id": "eye_L_lower_lid",
+      "side": "L",
+      "role": "lower_lid",
+      "path": "qa/v2-eye-color-candidates/eye_L_lower_lid.png",
+      "status": "color_candidate_only"
+    }
+  ],
+  "missingByDesign": [
+    "eyelash_refinement",
+    "iris_gradient",
+    "closed_eye_keyform",
+    "gaze_parameter"
+  ]
+}

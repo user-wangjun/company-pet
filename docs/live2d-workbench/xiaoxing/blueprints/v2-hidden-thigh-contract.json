@@ -1,0 +1,37 @@
+{
+  "stage": "v2-hidden-thigh-lineart-preflight",
+  "status": "hidden_volume_candidate_no_rgba",
+  "frontSource": "source/masters/gate3-line-master-candidate-v1.png",
+  "threeViewSource": "source/xiaoxing-three-view-line.png",
+  "frontCanvas": [512, 1086],
+  "frontReviewCrop": [125, 548, 380, 900],
+  "sideReviewCrop": [590, 535, 820, 905],
+  "frontHiddenCandidates": [
+    {
+      "id": "leg_screen_left_hidden_thigh",
+      "polygon": [[164,585],[218,585],[218,642],[164,642]],
+      "connectsTo": "leg_screen_left",
+      "coveredBy": "skirt",
+      "status": "candidate"
+    },
+    {
+      "id": "leg_screen_right_hidden_thigh",
+      "polygon": [[273,585],[327,585],[327,642],[273,642]],
+      "connectsTo": "leg_screen_right",
+      "coveredBy": "skirt",
+      "status": "candidate"
+    }
+  ],
+  "sideEvidence": {
+    "frontContourCandidate": [[661,637],[665,589]],
+    "backContourCandidate": [[738,637],[739,589]],
+    "purpose": "只验证大腿在裙内继续向上，不从侧视图复制像素到正面"
+  },
+  "rules": [
+    "正面隐藏补全与正面腿层使用同一 512×1086 坐标",
+    "侧视图只证明体积连续与前后厚度，不直接粘贴到正面",
+    "隐藏补全必须位于裙层下方且与可见腿重叠",
+    "不使用圆形补丁、径向填充或克隆纹理",
+    "用户视觉门禁前不导出正式 RGBA"
+  ]
+}

@@ -2,6 +2,7 @@ import { describe, expect, test, vi } from "vitest";
 import {
   CARE_REMINDER_STORAGE_KEY,
   DEFAULT_CARE_REMINDER_SETTINGS,
+  getNextCareReminderWakeSchedules,
   markCareReminderDelivered,
   readCareReminderState,
   selectDueCareReminder,
@@ -120,6 +121,25 @@ describe("care reminder persistence", () => {
       deliveredKey: "2026-06-23:sleep",
       source: "timed",
     });
+  });
+
+  test("builds the next Windows wake schedules for enabled care popups", () => {
+    const now = new Date(2026, 5, 23, 11, 30).getTime();
+    const schedules = getNextCareReminderWakeSchedules(
+      new Date(now),
+      DEFAULT_CARE_REMINDER_SETTINGS,
+      now + 40 * 60 * 1000,
+    );
+
+    expect(schedules.map(({ id, wakeKind }) => ({ id, wakeKind }))).toEqual([
+      { id: "care-meal-breakfast", wakeKind: "meal" },
+      { id: "care-meal-lunch", wakeKind: "meal" },
+      { id: "care-meal-dinner", wakeKind: "meal" },
+      { id: "care-sleep", wakeKind: "sleep" },
+    ]);
+    expect(schedules.find(({ id }) => id === "care-meal-lunch")?.scheduledAt).toBe(
+      new Date(2026, 5, 23, 12, 0).toISOString(),
+    );
   });
 
   test("confirms and snoozes sleep prompts without duplicating the delivered key", () => {

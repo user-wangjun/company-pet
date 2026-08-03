@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "method": "rigid forward-kinematics material stress test; not final Cubism deformation",
+  "poses": [
+    {
+      "pose": "rest",
+      "chains": {
+        "ViewL": {
+          "sourceLengthsPx": [
+            162.788,
+            181.177,
+            90.139
+          ],
+          "targetLengthsPx": [
+            162.788,
+            181.177,
+            90.139
+          ],
+          "maxLengthDriftPx": 0.0,
+          "adjacentAlphaOverlapPixels": [
+            48031,
+            30830,
+            22153
+          ],
+          "hasDisconnectedJoint": false,
+          "joints": [
+            [
+              650.0,
+              700.0
+            ],
+            [
+              760.0,
+              820.0
+            ],
+            [
+              875.0,
+              960.0
+            ],
+            [
+              950.0,
+              1010.0
+            ]
+          ]
+        },
+        "ViewR": {
+          "sourceLengthsPx": [
+            132.004,
+            122.984,
+            60.415
+          ],
+          "targetLengthsPx": [
+            132.004,
+            122.984,
+            60.415
+          ],
+          "maxLengthDriftPx": 0.0,
+          "adjacentAlphaOverlapPixels": [
+            38553,
+            23385,
+            15155
+          ],
+          "hasDisconnectedJoint": false,
+          "joints": [
+            [
+              1000.0,
+              685.0
+            ],
+            [
+              1080.0,
+              790.0
+            ],
+            [
+              1135.0,
+              900.0
+            ],
+            [
+              1190.0,
+              925.0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "pose": "expanded",
+      "chains": {
+        "ViewL": {
+          "sourceLengthsPx": [
+            162.788,
+            181.177,
+            90.139
+          ],
+          "targetLengthsPx": [
+            162.788,
+            181.177,
+            90.139
+          ],
+          "maxLengthDriftPx": 0.0,
+          "adjacentAlphaOverlapPixels": [
+            30466,
+            30630,
+            21924
+          ],
+          "hasDisconnectedJoint": false,
+          "joints": [
+            [
+              650.0,
+              700.0
+            ],
+            [
+              497.029,
+              755.677
+            ],
+            [
+              348.618,
+              651.758
+            ],
+            [
+              263.915,
+              620.929
+            ]
+          ]
+        },
+        "ViewR": {
+          "sourceLengthsPx": [
+            132.004,
+            122.984,
+            60.415
+          ],
+          "targetLengthsPx": [
+            132.004,
+            122.984,
+            60.415
+          ],
+          "maxLengthDriftPx": 0.0,
+          "adjacentAlphaOverlapPixels": [
+            27245,
+            21831,
+            14968
+          ],
+          "hasDisconnectedJoint": false,
+          "joints": [
+            [
+              1000.0,
+              685.0
+            ],
+            [
+              1124.043,
+              639.852
+            ],
+            [
+              1218.254,
+              560.8
+            ],
+            [
+              1273.009,
+              535.267
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "pose": "cover",
+      "chains": {
+        "ViewL": {
+          "sourceLengthsPx": [
+            162.788,
+            181.177,
+            90.139
+          ],
+          "targetLengthsPx": [
+            162.788,
+            181.177,
+            90.139
+          ],
+          "maxLengthDriftPx": 0.0,
+          "adjacentAlphaOverlapPixels": [
+            29464,
+            42221,
+            25470
+          ],
+          "hasDisconnectedJoint": false,
+          "joints": [
+            [
+              650.0,
+              700.0
+            ],
+            [
+              489.685,
+              728.268
+            ],
+            [
+              606.143,
+              589.478
+            ],
+            [
+              629.473,
+              676.546
+            ]
+          ]
+        },
+        "ViewR": {
+          "sourceLengthsPx": [
+            132.004,
+            122.984,
+            60.415
+          ],
+          "targetLengthsPx": [
+            132.004,
+            122.984,
+            60.415
+          ],
+          "maxLengthDriftPx": 0.0,
+          "adjacentAlphaOverlapPixels": [
+            31413,
+            24969,
+            15724
+          ],
+          "hasDisconnectedJoint": false,
+          "joints": [
+            [
+              1000.0,
+              685.0
+            ],
+            [
+              1129.998,
+              707.922
+            ],
+            [
+              1068.506,
+              601.415
+            ],
+            [
+              1052.87,
+              659.772
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "maxBoneLengthDriftPx": 0.0,
+  "disconnectedJointCount": 0,
+  "technicalPass": true,
+  "visualPass": false,
+  "visualStatus": "requires_review_of_paw_orbit_contact_occlusion_and_fur_seams",
+  "pass": false
+}

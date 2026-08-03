@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "status": "body_geometry_user_visual_approved_ready_to_freeze",
+  "authoritativeInputs": [
+    {
+      "role": "identity and three-view color source",
+      "path": "source/xiaoxing-three-view-color.png",
+      "sha256": "2d1b9c71c4e6c17ea503800b05f44bf7bfe127799a5e156886c191b97d350154",
+      "bytes": 1571864
+    },
+    {
+      "role": "exact registered front color source",
+      "path": "source/masters/front-color-source-exact-after-reset.png",
+      "sha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "bytes": 581346
+    },
+    {
+      "role": "exact registered front line source",
+      "path": "source/masters/front-line-source-exact-after-reset.png",
+      "sha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+      "bytes": 460239
+    },
+    {
+      "role": "approved whole-body landmark contract",
+      "path": "blueprints/gate2a-canonical-body-contract.json",
+      "sha256": "eaf1c70ea6e51f36930694fe7330146230ba506b64409e82ee37cf2b9064f8e2",
+      "bytes": 7532
+    },
+    {
+      "role": "frozen screen-right arm tolerance and bone-length reference",
+      "path": "validation/arm-chain-screen-right-v10-minimal-cubism-rough-rig/contracts/v10-minimal-cubism-rig-contract.json",
+      "sha256": "ca5589cf68d8bcd3b30f75ac9927c7c91b2c30c1c8edcb4633915799d9340acd",
+      "bytes": 3214
+    }
+  ],
+  "registration": {
+    "frontMasterExactCropOffsetsFound": [
+      34
+    ],
+    "expectedUniqueOffsetX": 34,
+    "pass": true
+  },
+  "frozenBoundaryReadOnlyVerification": {
+    "v10": {
+      "manifest": "validation/arm-chain-screen-right-v10-minimal-cubism-rough-rig/audit/v10-freeze-manifest-2026-07-27.json",
+      "manifestSha256": "6a5ff7c38b709efb7ff6991901a46f136b6b97c412f5dfcd36e04c1a549f5db7",
+      "artifactCount": 38,
+      "matchedArtifacts": 38,
+      "pass": true
+    },
+    "v11": {
+      "manifest": "validation/arm-chain-screen-right-v11-automation-prototype/audit/v11-freeze-manifest-2026-07-27.json",
+      "manifestSha256": "1f530904431be0945778d029af4c620490bbb4c7250f9114015acc35cc40e378",
+      "artifactCount": 13,
+      "matchedArtifacts": 13,
+      "pass": true
+    },
+    "pass": true
+  },
+  "currentSecondArmMaterialInventory": {
+    "approvedCompleteProductionMaterials": [],
+    "sourceVisibleRegions": [
+      "screen-left sleeve",
+      "screen-left continuous visible arm skin",
+      "screen-left bracelet",
+      "screen-left whole hand and fingers"
+    ],
+    "historicalRejectedArtifactsPresentButProhibited": [
+      "model/working-v8/body-original-pixel/03_sleeve_screen_left.png",
+      "model/working-v8/body-original-pixel/05_arm_screen_left_forearm.png",
+      "model/working-v8/body-original-pixel/07_hand_screen_left.png",
+      "model/working-v11/joint-overlaps/画面左袖子_原像素.png",
+      "model/working-v11/joint-overlaps/画面左前臂手链整手_含袖内补全.png"
+    ],
+    "materialGap": "no currently approved complete independent screen-left sleeve, upper-arm, forearm, bracelet-ownership, or whole-hand material set with hidden continuations"
+  },
+  "geometry": {
+    "schemaVersion": 1,
+    "checkpoint": "V12 screen-left arm body geometry only",
+    "status": "engineering_candidate_pending_user_visual_approval",
+    "scope": "screen-left arm, character anatomical right; shoulder-elbow-wrist geometry only",
+    "canvas": {
+      "width": 512,
+      "height": 1086,
+      "origin": "top_left"
+    },
+    "identity": {
+      "screenSide": "left",
+      "characterSide": "right",
+      "namingRule": "screen side first; character anatomical side written explicitly",
+      "legacyBodyContractCaution": "The legacy landmark keys place shoulder_L/elbow_L/wrist_L on screen-left despite its prose saying L/R is anatomical. Coordinates are retained only as a legacy candidate, not as side identity authority."
+    },
+    "candidateA": {
+      "status": "rejected_by_user_directional_feedback",
+      "userFeedback": "整体偏向右下一点",
+      "shoulderPx": [
+        180.0,
+        261.0
+      ],
+      "elbowPx": [
+        157.0,
+        415.0
+      ],
+      "wristPx": [
+        119.0,
+        533.0
+      ]
+    },
+    "candidateB": {
+      "status": "user_visual_approved",
+      "derivation": "bilateral equal-length geometry reflected about registered front center x=256; no image material was mirrored",
+      "revision": "translate the complete shoulder-elbow-wrist chain 4 px left and 4 px up in source-master coordinates",
+      "shoulderPx": [
+        176.0,
+        257.0
+      ],
+      "elbowPx": [
+        153.0,
+        411.0
+      ],
+      "wristPx": [
+        115.0,
+        529.0
+      ],
+      "L1Px": 155.7080601638849,
+      "L2Px": 123.96773773849388,
+      "matchesFrozenV10BoneLengths": {
+        "L1ErrorPx": 1.6388491985708242e-07,
+        "L2ErrorPx": 2.61506116316923e-07,
+        "pass": true
+      }
+    },
+    "legacyGate2ACandidate": {
+      "shoulderPx": [
+        180.0,
+        261.0
+      ],
+      "elbowPx": [
+        137.0,
+        425.0
+      ],
+      "wristPx": [
+        115.0,
+        533.0
+      ],
+      "L1Px": 169.54350474140847,
+      "L2Px": 110.21796586763884,
+      "reasonNotSelected": "does not preserve the current frozen single-arm bone lengths and places the inferred elbow about 20 px farther outward"
+    },
+    "occlusionAndHiddenRegions": [
+      "shoulder root and upper arm are hidden beneath the screen-left sleeve",
+      "no visible elbow line exists in the source; the elbow is an internal articulated boundary",
+      "wrist root is hidden beneath the screen-left bracelet",
+      "the hand and finger silhouette is side-specific and must remain source-registered"
+    ],
+    "prohibitions": [
+      "do not mirror screen-right arm pixels as formal material",
+      "do not reuse rejected V5-V15 masks or material layers",
+      "do not start material separation before user approval of this geometry",
+      "do not create mesh, nodes, parameter motion, Physics, or Runtime at this checkpoint"
+    ],
+    "approvalRequired": "satisfied: user confirmed candidate B is suitable"
+  },
+  "nextGate": {
+    "gate": "complete material separation",
+    "reason": "body geometry candidate B is user-approved; no current complete production materials exist for the screen-left arm",
+    "reviewArtifact": "validation/arm-chain-screen-left-v12-body-geometry/qa/V12-SCREEN-LEFT-BODY-GEOMETRY-REVIEW.zh-CN.png",
+    "bodyGeometryStopCleared": true
+  }
+}

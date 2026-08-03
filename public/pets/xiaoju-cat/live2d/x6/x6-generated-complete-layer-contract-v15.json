@@ -1,0 +1,832 @@
+{
+  "schemaVersion": 1,
+  "version": "v15",
+  "status": "generated-complete-three-view-layer-review-candidate",
+  "generationMethod": "built-in-imagegen-from-xiaoju-three-view-and-spread-pose-references",
+  "notVisiblePixelCutouts": true,
+  "sourceReferences": [
+    "../../three-view-preview.png",
+    "../x5/qa/x5-actual-xiaoju-spread-pose-three-view.png",
+    "../x5/generated-layer-materials/x5-xiaoju-fine-layer-source-atlas-alpha-v1.png"
+  ],
+  "sourceBoards": {
+    "front": "generated-complete-layer-materials-v15/front-layer-board-alpha.png",
+    "side": "generated-complete-layer-materials-v15/side-layer-board-alpha.png",
+    "back": "generated-complete-layer-materials-v15/back-layer-board-alpha.png"
+  },
+  "generatedCorrections": {
+    "side:head_base": "generated-complete-layer-materials-v15/side-head-base-earless-alpha.png",
+    "back:head_base": "generated-complete-layer-materials-v15/back-head-base-earless-alpha.png"
+  },
+  "layerCounts": {
+    "front": 16,
+    "side": 16,
+    "back": 16,
+    "total": 48
+  },
+  "overlapPolicy": {
+    "targetJointOverlapRatio": [
+      0.2,
+      0.3
+    ],
+    "rules": {
+      "head_base": "neck root extends under body by 20-30%",
+      "ear": "ear root extends under head by 20-25%",
+      "arm": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "leg": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "tail": "tail root extends under pelvis by 20-30%",
+      "muzzle": "muzzle perimeter extends under head fur by 12-18%",
+      "eye": "eye-only layer; eyelid and surrounding fur remain on head material",
+      "fill": "hidden bridge material is fully occluded at rest",
+      "body": "continuous torso parent material with neck, shoulder, hip, and tail-root receiving zones"
+    },
+    "rejectionConditions": [
+      "flat visible cut at a moving joint",
+      "detached bone segment during pull test",
+      "hard circular patch or local bulge",
+      "radial or cloned hidden texture",
+      "identity drift from Xiaoju references"
+    ]
+  },
+  "qa": {
+    "frontAtlas": "qa/x6-generated-complete-front-layer-atlas-v15.png",
+    "sideAtlas": "qa/x6-generated-complete-side-layer-atlas-v15.png",
+    "backAtlas": "qa/x6-generated-complete-back-layer-atlas-v15.png",
+    "primaryReview": "qa/x6-generated-complete-three-view-layer-review-v15.png"
+  },
+  "layers": [
+    {
+      "id": "front:body_base",
+      "view": "front",
+      "gridCell": {
+        "row": 1,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/front/01_front_body_base.png",
+      "pixelSize": [
+        247,
+        295
+      ],
+      "nonTransparentPixels": 54414,
+      "hiddenOverlapRole": "continuous torso parent material with neck, shoulder, hip, and tail-root receiving zones",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:head_base",
+      "view": "front",
+      "gridCell": {
+        "row": 1,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/front/02_front_head_base.png",
+      "pixelSize": [
+        269,
+        261
+      ],
+      "nonTransparentPixels": 51341,
+      "hiddenOverlapRole": "neck root extends under body by 20-30%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:muzzle_mouth",
+      "view": "front",
+      "gridCell": {
+        "row": 1,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/front/03_front_muzzle_mouth.png",
+      "pixelSize": [
+        250,
+        123
+      ],
+      "nonTransparentPixels": 20097,
+      "hiddenOverlapRole": "muzzle perimeter extends under head fur by 12-18%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:tail",
+      "view": "front",
+      "gridCell": {
+        "row": 1,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/front/04_front_tail.png",
+      "pixelSize": [
+        253,
+        304
+      ],
+      "nonTransparentPixels": 33697,
+      "hiddenOverlapRole": "tail root extends under pelvis by 20-30%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:ear_L",
+      "view": "front",
+      "gridCell": {
+        "row": 2,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/front/05_front_ear_L.png",
+      "pixelSize": [
+        168,
+        236
+      ],
+      "nonTransparentPixels": 20598,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:ear_R",
+      "view": "front",
+      "gridCell": {
+        "row": 2,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/front/06_front_ear_R.png",
+      "pixelSize": [
+        167,
+        236
+      ],
+      "nonTransparentPixels": 20456,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:eye_L",
+      "view": "front",
+      "gridCell": {
+        "row": 2,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/front/07_front_eye_L.png",
+      "pixelSize": [
+        126,
+        125
+      ],
+      "nonTransparentPixels": 9545,
+      "hiddenOverlapRole": "eye-only layer; eyelid and surrounding fur remain on head material",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:eye_R",
+      "view": "front",
+      "gridCell": {
+        "row": 2,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/front/08_front_eye_R.png",
+      "pixelSize": [
+        126,
+        125
+      ],
+      "nonTransparentPixels": 9602,
+      "hiddenOverlapRole": "eye-only layer; eyelid and surrounding fur remain on head material",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:arm_L_upper",
+      "view": "front",
+      "gridCell": {
+        "row": 3,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/front/09_front_arm_L_upper.png",
+      "pixelSize": [
+        189,
+        271
+      ],
+      "nonTransparentPixels": 34048,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:arm_L_lower_paw",
+      "view": "front",
+      "gridCell": {
+        "row": 3,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/front/10_front_arm_L_lower_paw.png",
+      "pixelSize": [
+        192,
+        262
+      ],
+      "nonTransparentPixels": 24370,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:arm_R_upper",
+      "view": "front",
+      "gridCell": {
+        "row": 3,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/front/11_front_arm_R_upper.png",
+      "pixelSize": [
+        174,
+        274
+      ],
+      "nonTransparentPixels": 32807,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:arm_R_lower_paw",
+      "view": "front",
+      "gridCell": {
+        "row": 3,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/front/12_front_arm_R_lower_paw.png",
+      "pixelSize": [
+        183,
+        263
+      ],
+      "nonTransparentPixels": 24218,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:leg_L_upper",
+      "view": "front",
+      "gridCell": {
+        "row": 4,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/front/13_front_leg_L_upper.png",
+      "pixelSize": [
+        202,
+        299
+      ],
+      "nonTransparentPixels": 38938,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:leg_L_lower_paw",
+      "view": "front",
+      "gridCell": {
+        "row": 4,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/front/14_front_leg_L_lower_paw.png",
+      "pixelSize": [
+        188,
+        288
+      ],
+      "nonTransparentPixels": 25652,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:leg_R_upper",
+      "view": "front",
+      "gridCell": {
+        "row": 4,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/front/15_front_leg_R_upper.png",
+      "pixelSize": [
+        190,
+        299
+      ],
+      "nonTransparentPixels": 36753,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "front:leg_R_lower_paw",
+      "view": "front",
+      "gridCell": {
+        "row": 4,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/front/16_front_leg_R_lower_paw.png",
+      "pixelSize": [
+        188,
+        289
+      ],
+      "nonTransparentPixels": 25791,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:body_base",
+      "view": "side",
+      "gridCell": {
+        "row": 1,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/side/01_side_body_base.png",
+      "pixelSize": [
+        276,
+        339
+      ],
+      "nonTransparentPixels": 66027,
+      "hiddenOverlapRole": "continuous torso parent material with neck, shoulder, hip, and tail-root receiving zones",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:head_base",
+      "view": "side",
+      "gridCell": {
+        "row": 1,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/side/02_side_head_base.png",
+      "pixelSize": [
+        956,
+        1045
+      ],
+      "nonTransparentPixels": 697862,
+      "hiddenOverlapRole": "neck root extends under body by 20-30%",
+      "sourceMethod": "imagegen-complete-earless-head-correction"
+    },
+    {
+      "id": "side:muzzle_mouth",
+      "view": "side",
+      "gridCell": {
+        "row": 1,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/side/03_side_muzzle_mouth.png",
+      "pixelSize": [
+        207,
+        121
+      ],
+      "nonTransparentPixels": 15740,
+      "hiddenOverlapRole": "muzzle perimeter extends under head fur by 12-18%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:tail",
+      "view": "side",
+      "gridCell": {
+        "row": 1,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/side/04_side_tail.png",
+      "pixelSize": [
+        229,
+        301
+      ],
+      "nonTransparentPixels": 26378,
+      "hiddenOverlapRole": "tail root extends under pelvis by 20-30%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:ear_near",
+      "view": "side",
+      "gridCell": {
+        "row": 2,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/side/05_side_ear_near.png",
+      "pixelSize": [
+        206,
+        252
+      ],
+      "nonTransparentPixels": 30462,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:ear_far",
+      "view": "side",
+      "gridCell": {
+        "row": 2,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/side/06_side_ear_far.png",
+      "pixelSize": [
+        189,
+        244
+      ],
+      "nonTransparentPixels": 27024,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:eye_near",
+      "view": "side",
+      "gridCell": {
+        "row": 2,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/side/07_side_eye_near.png",
+      "pixelSize": [
+        130,
+        134
+      ],
+      "nonTransparentPixels": 10641,
+      "hiddenOverlapRole": "eye-only layer; eyelid and surrounding fur remain on head material",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:eye_far",
+      "view": "side",
+      "gridCell": {
+        "row": 2,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/side/08_side_eye_far.png",
+      "pixelSize": [
+        73,
+        131
+      ],
+      "nonTransparentPixels": 5131,
+      "hiddenOverlapRole": "eye-only layer; eyelid and surrounding fur remain on head material",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:arm_near_upper",
+      "view": "side",
+      "gridCell": {
+        "row": 3,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/side/09_side_arm_near_upper.png",
+      "pixelSize": [
+        169,
+        276
+      ],
+      "nonTransparentPixels": 28038,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:arm_near_lower_paw",
+      "view": "side",
+      "gridCell": {
+        "row": 3,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/side/10_side_arm_near_lower_paw.png",
+      "pixelSize": [
+        158,
+        284
+      ],
+      "nonTransparentPixels": 23225,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:arm_far_upper",
+      "view": "side",
+      "gridCell": {
+        "row": 3,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/side/11_side_arm_far_upper.png",
+      "pixelSize": [
+        169,
+        276
+      ],
+      "nonTransparentPixels": 27226,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:arm_far_lower_paw",
+      "view": "side",
+      "gridCell": {
+        "row": 3,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/side/12_side_arm_far_lower_paw.png",
+      "pixelSize": [
+        154,
+        275
+      ],
+      "nonTransparentPixels": 22746,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:leg_near_upper",
+      "view": "side",
+      "gridCell": {
+        "row": 4,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/side/13_side_leg_near_upper.png",
+      "pixelSize": [
+        189,
+        308
+      ],
+      "nonTransparentPixels": 31399,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:leg_near_lower_paw",
+      "view": "side",
+      "gridCell": {
+        "row": 4,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/side/14_side_leg_near_lower_paw.png",
+      "pixelSize": [
+        156,
+        300
+      ],
+      "nonTransparentPixels": 25804,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:leg_far_upper",
+      "view": "side",
+      "gridCell": {
+        "row": 4,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/side/15_side_leg_far_upper.png",
+      "pixelSize": [
+        188,
+        308
+      ],
+      "nonTransparentPixels": 31411,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "side:leg_far_lower_paw",
+      "view": "side",
+      "gridCell": {
+        "row": 4,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/side/16_side_leg_far_lower_paw.png",
+      "pixelSize": [
+        157,
+        297
+      ],
+      "nonTransparentPixels": 25439,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:body_base",
+      "view": "back",
+      "gridCell": {
+        "row": 1,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/back/01_back_body_base.png",
+      "pixelSize": [
+        287,
+        389
+      ],
+      "nonTransparentPixels": 72551,
+      "hiddenOverlapRole": "continuous torso parent material with neck, shoulder, hip, and tail-root receiving zones",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:head_base",
+      "view": "back",
+      "gridCell": {
+        "row": 1,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/back/02_back_head_base.png",
+      "pixelSize": [
+        846,
+        1009
+      ],
+      "nonTransparentPixels": 691835,
+      "hiddenOverlapRole": "neck root extends under body by 20-30%",
+      "sourceMethod": "imagegen-complete-earless-head-correction"
+    },
+    {
+      "id": "back:ear_L",
+      "view": "back",
+      "gridCell": {
+        "row": 1,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/back/03_back_ear_L.png",
+      "pixelSize": [
+        153,
+        240
+      ],
+      "nonTransparentPixels": 22331,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:ear_R",
+      "view": "back",
+      "gridCell": {
+        "row": 1,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/back/04_back_ear_R.png",
+      "pixelSize": [
+        152,
+        240
+      ],
+      "nonTransparentPixels": 22216,
+      "hiddenOverlapRole": "ear root extends under head by 20-25%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:tail",
+      "view": "back",
+      "gridCell": {
+        "row": 2,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/back/05_back_tail.png",
+      "pixelSize": [
+        227,
+        267
+      ],
+      "nonTransparentPixels": 27898,
+      "hiddenOverlapRole": "tail root extends under pelvis by 20-30%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:arm_L_upper",
+      "view": "back",
+      "gridCell": {
+        "row": 2,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/back/06_back_arm_L_upper.png",
+      "pixelSize": [
+        192,
+        280
+      ],
+      "nonTransparentPixels": 23087,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:arm_L_lower_paw",
+      "view": "back",
+      "gridCell": {
+        "row": 2,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/back/07_back_arm_L_lower_paw.png",
+      "pixelSize": [
+        167,
+        280
+      ],
+      "nonTransparentPixels": 23739,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:arm_R_upper",
+      "view": "back",
+      "gridCell": {
+        "row": 2,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/back/08_back_arm_R_upper.png",
+      "pixelSize": [
+        230,
+        277
+      ],
+      "nonTransparentPixels": 29210,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:arm_R_lower_paw",
+      "view": "back",
+      "gridCell": {
+        "row": 3,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/back/09_back_arm_R_lower_paw.png",
+      "pixelSize": [
+        182,
+        267
+      ],
+      "nonTransparentPixels": 21147,
+      "hiddenOverlapRole": "shoulder root and elbow sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:leg_L_upper",
+      "view": "back",
+      "gridCell": {
+        "row": 3,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/back/10_back_leg_L_upper.png",
+      "pixelSize": [
+        188,
+        274
+      ],
+      "nonTransparentPixels": 32532,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:leg_L_lower_paw",
+      "view": "back",
+      "gridCell": {
+        "row": 3,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/back/11_back_leg_L_lower_paw.png",
+      "pixelSize": [
+        162,
+        268
+      ],
+      "nonTransparentPixels": 23319,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:leg_R_upper",
+      "view": "back",
+      "gridCell": {
+        "row": 3,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/back/12_back_leg_R_upper.png",
+      "pixelSize": [
+        190,
+        263
+      ],
+      "nonTransparentPixels": 31764,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:leg_R_lower_paw",
+      "view": "back",
+      "gridCell": {
+        "row": 4,
+        "column": 1
+      },
+      "file": "generated-complete-layer-candidates-v15/back/13_back_leg_R_lower_paw.png",
+      "pixelSize": [
+        162,
+        266
+      ],
+      "nonTransparentPixels": 22020,
+      "hiddenOverlapRole": "hip root and knee sleeve each retain 20-30% hidden overlap",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:scapula_fill_L",
+      "view": "back",
+      "gridCell": {
+        "row": 4,
+        "column": 2
+      },
+      "file": "generated-complete-layer-candidates-v15/back/14_back_scapula_fill_L.png",
+      "pixelSize": [
+        259,
+        209
+      ],
+      "nonTransparentPixels": 30600,
+      "hiddenOverlapRole": "hidden bridge material is fully occluded at rest",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:scapula_fill_R",
+      "view": "back",
+      "gridCell": {
+        "row": 4,
+        "column": 3
+      },
+      "file": "generated-complete-layer-candidates-v15/back/15_back_scapula_fill_R.png",
+      "pixelSize": [
+        258,
+        211
+      ],
+      "nonTransparentPixels": 30639,
+      "hiddenOverlapRole": "hidden bridge material is fully occluded at rest",
+      "sourceMethod": "imagegen-complete-independent-material"
+    },
+    {
+      "id": "back:pelvis_tailroot_fill",
+      "view": "back",
+      "gridCell": {
+        "row": 4,
+        "column": 4
+      },
+      "file": "generated-complete-layer-candidates-v15/back/16_back_pelvis_tailroot_fill.png",
+      "pixelSize": [
+        236,
+        209
+      ],
+      "nonTransparentPixels": 33958,
+      "hiddenOverlapRole": "tail root extends under pelvis by 20-30%",
+      "sourceMethod": "imagegen-complete-independent-material"
+    }
+  ],
+  "frontAllGeneratedLayersAuthorizedByUser": true,
+  "sideBackGeneratedLayersAuthorizedByUser": true,
+  "generatedLayerMaterialsApprovedByUser": false,
+  "gate6Approved": false,
+  "x7Authorized": false
+}

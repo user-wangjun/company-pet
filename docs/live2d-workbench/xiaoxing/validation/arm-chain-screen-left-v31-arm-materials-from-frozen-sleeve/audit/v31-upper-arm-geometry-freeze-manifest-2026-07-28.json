@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "v31_screen_left_complete_upper_arm_flat_geometry_frozen",
+  "freezeDate": "2026-07-28",
+  "decisionOwner": "user",
+  "status": "frozen_engineering_and_user_visual_pass",
+  "scope": "screen-left complete upper-arm Stage A flat geometry only",
+  "checksumAlgorithm": "SHA-256",
+  "skeleton": {
+    "shoulder": [170.0, 251.0],
+    "elbow": [147.0, 405.0],
+    "mayChange": false
+  },
+  "lockedGeometry": [
+    {
+      "path": "masks/complete/upper_arm.png",
+      "sha256": "6ff9fac95336e8a8797d1281a5f4a7e8e05cbb618c055b417b7a46d3c6c8cc28"
+    },
+    {
+      "path": "masks/visible/upper_arm.png",
+      "sha256": "49a9701e1f780d8a3305f2b4f6063abb58402a1ebb58120d7bb84a3f23520ad7"
+    },
+    {
+      "path": "masks/hidden/upper_arm.png",
+      "sha256": "4930a48d498081103bc12708d25eda2e11617f75e048aae72605e5e511f78fd9"
+    },
+    {
+      "path": "materials/upper_arm.png",
+      "sha256": "7287b78c0d6d4096f808627e442381c5d1533ed4d07ec861a99976a5a4fb27e9"
+    },
+    {
+      "path": "qa/upper-arm-anatomy-before-after.png",
+      "sha256": "23cd136c10f8fe0ff2657868447b4eb67b425bef97565cae7c99237d905cfee5"
+    }
+  ],
+  "userApproval": {
+    "path": "audit/user-visual-approval-upper-arm-geometry-2026-07-28.json",
+    "sha256": "4581ef45a1b923a5c5237d87463d797416d19dbf97d57550381ccd73cbc28288"
+  },
+  "invalidationRule": "Any byte change to a locked geometry artifact reopens the upper-arm visual gate.",
+  "nextGate": "screen-left forearm Stage A flat geometry",
+  "stop": "Do not advance beyond Stage A until forearm and hand receive separate user visual approval."
+}

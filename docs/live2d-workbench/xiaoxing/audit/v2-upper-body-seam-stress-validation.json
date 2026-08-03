@@ -1,0 +1,20 @@
+{
+  "status": "self_review_passed_stress_setup",
+  "testedOffsets": {
+    "forearms": [
+      -3,
+      3
+    ],
+    "hands": [
+      -3,
+      3
+    ]
+  },
+  "errors": [],
+  "rules": {
+    "candidate_layers_only": true,
+    "no_mesh_or_physics": true,
+    "visual_contact_sheet_required": true,
+    "complete_hand_per_side": true
+  }
+}

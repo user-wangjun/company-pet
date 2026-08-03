@@ -1,0 +1,786 @@
+{
+  "schemaVersion": 1,
+  "version": "v16",
+  "status": "generated-layer-assembly-review-candidate",
+  "sourceLayerContract": "x6-generated-complete-layer-contract-v15.json",
+  "usesIndependentGeneratedPngLayers": true,
+  "usesWholeCatFallback": false,
+  "views": {
+    "front": {
+      "rest": "generated-layer-assembly-v16/front-rest.png",
+      "jointPull": "generated-layer-assembly-v16/front-joint-pull.png",
+      "drawOrder": [
+        "tail",
+        "leg_L_lower_paw",
+        "leg_R_lower_paw",
+        "leg_L_upper",
+        "leg_R_upper",
+        "arm_L_lower_paw",
+        "arm_R_lower_paw",
+        "arm_L_upper",
+        "arm_R_upper",
+        "ear_L",
+        "ear_R",
+        "head_base",
+        "body_base",
+        "eye_L",
+        "eye_R",
+        "muzzle_mouth"
+      ],
+      "placements": {
+        "tail": {
+          "center": [
+            310,
+            686
+          ],
+          "height": 268,
+          "angle": 0
+        },
+        "leg_L_lower_paw": {
+          "center": [
+            137,
+            674
+          ],
+          "height": 184,
+          "angle": -48
+        },
+        "leg_R_lower_paw": {
+          "center": [
+            483,
+            674
+          ],
+          "height": 184,
+          "angle": 48
+        },
+        "leg_L_upper": {
+          "center": [
+            219,
+            574
+          ],
+          "height": 196,
+          "angle": -30
+        },
+        "leg_R_upper": {
+          "center": [
+            401,
+            574
+          ],
+          "height": 196,
+          "angle": 30
+        },
+        "arm_L_lower_paw": {
+          "center": [
+            104,
+            408
+          ],
+          "height": 178,
+          "angle": -57
+        },
+        "arm_R_lower_paw": {
+          "center": [
+            516,
+            408
+          ],
+          "height": 178,
+          "angle": 57
+        },
+        "arm_L_upper": {
+          "center": [
+            193,
+            337
+          ],
+          "height": 178,
+          "angle": -48
+        },
+        "arm_R_upper": {
+          "center": [
+            427,
+            337
+          ],
+          "height": 178,
+          "angle": 48
+        },
+        "body_base": {
+          "center": [
+            310,
+            478
+          ],
+          "height": 450,
+          "angle": 0
+        },
+        "ear_L": {
+          "center": [
+            224,
+            104
+          ],
+          "height": 152,
+          "angle": -7
+        },
+        "ear_R": {
+          "center": [
+            396,
+            104
+          ],
+          "height": 152,
+          "angle": 7
+        },
+        "head_base": {
+          "center": [
+            310,
+            206
+          ],
+          "height": 230,
+          "angle": 0
+        },
+        "eye_L": {
+          "center": [
+            268,
+            203
+          ],
+          "height": 59,
+          "angle": 0
+        },
+        "eye_R": {
+          "center": [
+            352,
+            203
+          ],
+          "height": 59,
+          "angle": 0
+        },
+        "muzzle_mouth": {
+          "center": [
+            310,
+            258
+          ],
+          "height": 72,
+          "angle": 0
+        }
+      },
+      "pullOffsets": {
+        "arm_L_upper": [
+          -8,
+          4
+        ],
+        "arm_L_lower_paw": [
+          -15,
+          10
+        ],
+        "leg_L_upper": [
+          -6,
+          4
+        ],
+        "leg_L_lower_paw": [
+          -13,
+          9
+        ],
+        "tail": [
+          0,
+          9
+        ]
+      }
+    },
+    "side": {
+      "rest": "generated-layer-assembly-v16/side-rest.png",
+      "jointPull": "generated-layer-assembly-v16/side-joint-pull.png",
+      "drawOrder": [
+        "tail",
+        "leg_far_lower_paw",
+        "leg_far_upper",
+        "arm_far_lower_paw",
+        "arm_far_upper",
+        "leg_near_lower_paw",
+        "leg_near_upper",
+        "arm_near_lower_paw",
+        "arm_near_upper",
+        "ear_far",
+        "ear_near",
+        "eye_far",
+        "head_base",
+        "body_base",
+        "eye_near",
+        "muzzle_mouth"
+      ],
+      "placements": {
+        "tail": {
+          "center": [
+            438,
+            660
+          ],
+          "height": 278,
+          "angle": 7
+        },
+        "leg_far_lower_paw": {
+          "center": [
+            193,
+            685
+          ],
+          "height": 178,
+          "angle": -55
+        },
+        "leg_far_upper": {
+          "center": [
+            283,
+            585
+          ],
+          "height": 194,
+          "angle": -31
+        },
+        "arm_far_lower_paw": {
+          "center": [
+            116,
+            437
+          ],
+          "height": 166,
+          "angle": -63
+        },
+        "arm_far_upper": {
+          "center": [
+            213,
+            363
+          ],
+          "height": 170,
+          "angle": -52
+        },
+        "leg_near_lower_paw": {
+          "center": [
+            143,
+            666
+          ],
+          "height": 184,
+          "angle": -58
+        },
+        "leg_near_upper": {
+          "center": [
+            270,
+            565
+          ],
+          "height": 205,
+          "angle": -33
+        },
+        "arm_near_lower_paw": {
+          "center": [
+            93,
+            411
+          ],
+          "height": 176,
+          "angle": -66
+        },
+        "arm_near_upper": {
+          "center": [
+            201,
+            337
+          ],
+          "height": 182,
+          "angle": -54
+        },
+        "body_base": {
+          "center": [
+            340,
+            476
+          ],
+          "height": 500,
+          "angle": 0
+        },
+        "ear_far": {
+          "center": [
+            290,
+            105
+          ],
+          "height": 128,
+          "angle": 2
+        },
+        "ear_near": {
+          "center": [
+            239,
+            102
+          ],
+          "height": 154,
+          "angle": -5
+        },
+        "head_base": {
+          "center": [
+            256,
+            205
+          ],
+          "height": 235,
+          "angle": 0
+        },
+        "eye_far": {
+          "center": [
+            257,
+            205
+          ],
+          "height": 45,
+          "angle": 0
+        },
+        "eye_near": {
+          "center": [
+            208,
+            204
+          ],
+          "height": 56,
+          "angle": 0
+        },
+        "muzzle_mouth": {
+          "center": [
+            169,
+            258
+          ],
+          "height": 66,
+          "angle": 0
+        }
+      },
+      "pullOffsets": {
+        "arm_near_upper": [
+          -8,
+          4
+        ],
+        "arm_near_lower_paw": [
+          -15,
+          9
+        ],
+        "leg_near_upper": [
+          -7,
+          4
+        ],
+        "leg_near_lower_paw": [
+          -14,
+          9
+        ],
+        "tail": [
+          5,
+          8
+        ]
+      }
+    },
+    "back": {
+      "rest": "generated-layer-assembly-v16/back-rest.png",
+      "jointPull": "generated-layer-assembly-v16/back-joint-pull.png",
+      "drawOrder": [
+        "tail",
+        "leg_L_lower_paw",
+        "leg_R_lower_paw",
+        "leg_L_upper",
+        "leg_R_upper",
+        "arm_L_lower_paw",
+        "arm_R_lower_paw",
+        "arm_L_upper",
+        "arm_R_upper",
+        "pelvis_tailroot_fill",
+        "scapula_fill_L",
+        "scapula_fill_R",
+        "ear_L",
+        "ear_R",
+        "head_base",
+        "body_base"
+      ],
+      "placements": {
+        "tail": {
+          "center": [
+            310,
+            684
+          ],
+          "height": 275,
+          "angle": 0
+        },
+        "leg_L_lower_paw": {
+          "center": [
+            139,
+            674
+          ],
+          "height": 184,
+          "angle": -48
+        },
+        "leg_R_lower_paw": {
+          "center": [
+            481,
+            674
+          ],
+          "height": 184,
+          "angle": 48,
+          "mirror": true
+        },
+        "leg_L_upper": {
+          "center": [
+            220,
+            574
+          ],
+          "height": 196,
+          "angle": -30
+        },
+        "leg_R_upper": {
+          "center": [
+            400,
+            574
+          ],
+          "height": 196,
+          "angle": 30
+        },
+        "arm_L_lower_paw": {
+          "center": [
+            105,
+            409
+          ],
+          "height": 178,
+          "angle": -57
+        },
+        "arm_R_lower_paw": {
+          "center": [
+            515,
+            409
+          ],
+          "height": 178,
+          "angle": 57
+        },
+        "arm_L_upper": {
+          "center": [
+            194,
+            338
+          ],
+          "height": 178,
+          "angle": -48
+        },
+        "arm_R_upper": {
+          "center": [
+            426,
+            338
+          ],
+          "height": 178,
+          "angle": 48
+        },
+        "pelvis_tailroot_fill": {
+          "center": [
+            310,
+            572
+          ],
+          "height": 125,
+          "angle": 0
+        },
+        "scapula_fill_L": {
+          "center": [
+            240,
+            350
+          ],
+          "height": 118,
+          "angle": -8
+        },
+        "scapula_fill_R": {
+          "center": [
+            380,
+            350
+          ],
+          "height": 118,
+          "angle": 8
+        },
+        "body_base": {
+          "center": [
+            310,
+            478
+          ],
+          "height": 452,
+          "angle": 0
+        },
+        "ear_L": {
+          "center": [
+            224,
+            102
+          ],
+          "height": 150,
+          "angle": -7
+        },
+        "ear_R": {
+          "center": [
+            396,
+            102
+          ],
+          "height": 150,
+          "angle": 7
+        },
+        "head_base": {
+          "center": [
+            310,
+            205
+          ],
+          "height": 232,
+          "angle": 0
+        }
+      },
+      "pullOffsets": {
+        "arm_R_upper": [
+          8,
+          4
+        ],
+        "arm_R_lower_paw": [
+          15,
+          10
+        ],
+        "leg_R_upper": [
+          6,
+          4
+        ],
+        "leg_R_lower_paw": [
+          13,
+          9
+        ],
+        "tail": [
+          0,
+          9
+        ]
+      }
+    }
+  },
+  "overlapAudit": {
+    "jointCount": 30,
+    "minimumRestOverlapPixels": 524,
+    "minimumPullOverlapPixels": 524,
+    "allRestNonZero": true,
+    "allPullNonZero": true,
+    "joints": [
+      {
+        "view": "front",
+        "joint": "neck",
+        "parent": "body_base",
+        "child": "head_base",
+        "restOverlapPixels": 6798,
+        "pullOverlapPixels": 6798
+      },
+      {
+        "view": "front",
+        "joint": "shoulder_L",
+        "parent": "body_base",
+        "child": "arm_L_upper",
+        "restOverlapPixels": 7952,
+        "pullOverlapPixels": 7070
+      },
+      {
+        "view": "front",
+        "joint": "elbow_L",
+        "parent": "arm_L_upper",
+        "child": "arm_L_lower_paw",
+        "restOverlapPixels": 3099,
+        "pullOverlapPixels": 2459
+      },
+      {
+        "view": "front",
+        "joint": "shoulder_R",
+        "parent": "body_base",
+        "child": "arm_R_upper",
+        "restOverlapPixels": 7479,
+        "pullOverlapPixels": 7479
+      },
+      {
+        "view": "front",
+        "joint": "elbow_R",
+        "parent": "arm_R_upper",
+        "child": "arm_R_lower_paw",
+        "restOverlapPixels": 2919,
+        "pullOverlapPixels": 2919
+      },
+      {
+        "view": "front",
+        "joint": "hip_L",
+        "parent": "body_base",
+        "child": "leg_L_upper",
+        "restOverlapPixels": 16604,
+        "pullOverlapPixels": 16604
+      },
+      {
+        "view": "front",
+        "joint": "knee_L",
+        "parent": "leg_L_upper",
+        "child": "leg_L_lower_paw",
+        "restOverlapPixels": 1876,
+        "pullOverlapPixels": 1273
+      },
+      {
+        "view": "front",
+        "joint": "hip_R",
+        "parent": "body_base",
+        "child": "leg_R_upper",
+        "restOverlapPixels": 15792,
+        "pullOverlapPixels": 15792
+      },
+      {
+        "view": "front",
+        "joint": "knee_R",
+        "parent": "leg_R_upper",
+        "child": "leg_R_lower_paw",
+        "restOverlapPixels": 1892,
+        "pullOverlapPixels": 1892
+      },
+      {
+        "view": "front",
+        "joint": "tail_root",
+        "parent": "body_base",
+        "child": "tail",
+        "restOverlapPixels": 10124,
+        "pullOverlapPixels": 9293
+      },
+      {
+        "view": "side",
+        "joint": "neck",
+        "parent": "body_base",
+        "child": "head_base",
+        "restOverlapPixels": 9131,
+        "pullOverlapPixels": 9131
+      },
+      {
+        "view": "side",
+        "joint": "shoulder_near",
+        "parent": "body_base",
+        "child": "arm_near_upper",
+        "restOverlapPixels": 8759,
+        "pullOverlapPixels": 8001
+      },
+      {
+        "view": "side",
+        "joint": "elbow_near",
+        "parent": "arm_near_upper",
+        "child": "arm_near_lower_paw",
+        "restOverlapPixels": 1647,
+        "pullOverlapPixels": 1170
+      },
+      {
+        "view": "side",
+        "joint": "shoulder_far",
+        "parent": "body_base",
+        "child": "arm_far_upper",
+        "restOverlapPixels": 10191,
+        "pullOverlapPixels": 10191
+      },
+      {
+        "view": "side",
+        "joint": "elbow_far",
+        "parent": "arm_far_upper",
+        "child": "arm_far_lower_paw",
+        "restOverlapPixels": 1349,
+        "pullOverlapPixels": 1349
+      },
+      {
+        "view": "side",
+        "joint": "hip_near",
+        "parent": "body_base",
+        "child": "leg_near_upper",
+        "restOverlapPixels": 13870,
+        "pullOverlapPixels": 13709
+      },
+      {
+        "view": "side",
+        "joint": "knee_near",
+        "parent": "leg_near_upper",
+        "child": "leg_near_lower_paw",
+        "restOverlapPixels": 1095,
+        "pullOverlapPixels": 698
+      },
+      {
+        "view": "side",
+        "joint": "hip_far",
+        "parent": "body_base",
+        "child": "leg_far_upper",
+        "restOverlapPixels": 12423,
+        "pullOverlapPixels": 12423
+      },
+      {
+        "view": "side",
+        "joint": "knee_far",
+        "parent": "leg_far_upper",
+        "child": "leg_far_lower_paw",
+        "restOverlapPixels": 524,
+        "pullOverlapPixels": 524
+      },
+      {
+        "view": "side",
+        "joint": "tail_root",
+        "parent": "body_base",
+        "child": "tail",
+        "restOverlapPixels": 14333,
+        "pullOverlapPixels": 13637
+      },
+      {
+        "view": "back",
+        "joint": "neck",
+        "parent": "body_base",
+        "child": "head_base",
+        "restOverlapPixels": 7276,
+        "pullOverlapPixels": 7276
+      },
+      {
+        "view": "back",
+        "joint": "shoulder_L",
+        "parent": "body_base",
+        "child": "arm_L_upper",
+        "restOverlapPixels": 988,
+        "pullOverlapPixels": 988
+      },
+      {
+        "view": "back",
+        "joint": "elbow_L",
+        "parent": "arm_L_upper",
+        "child": "arm_L_lower_paw",
+        "restOverlapPixels": 727,
+        "pullOverlapPixels": 727
+      },
+      {
+        "view": "back",
+        "joint": "shoulder_R",
+        "parent": "body_base",
+        "child": "arm_R_upper",
+        "restOverlapPixels": 4252,
+        "pullOverlapPixels": 3681
+      },
+      {
+        "view": "back",
+        "joint": "elbow_R",
+        "parent": "arm_R_upper",
+        "child": "arm_R_lower_paw",
+        "restOverlapPixels": 1728,
+        "pullOverlapPixels": 1329
+      },
+      {
+        "view": "back",
+        "joint": "hip_L",
+        "parent": "body_base",
+        "child": "leg_L_upper",
+        "restOverlapPixels": 16178,
+        "pullOverlapPixels": 16178
+      },
+      {
+        "view": "back",
+        "joint": "knee_L",
+        "parent": "leg_L_upper",
+        "child": "leg_L_lower_paw",
+        "restOverlapPixels": 2121,
+        "pullOverlapPixels": 2121
+      },
+      {
+        "view": "back",
+        "joint": "hip_R",
+        "parent": "body_base",
+        "child": "leg_R_upper",
+        "restOverlapPixels": 17127,
+        "pullOverlapPixels": 16837
+      },
+      {
+        "view": "back",
+        "joint": "knee_R",
+        "parent": "leg_R_upper",
+        "child": "leg_R_lower_paw",
+        "restOverlapPixels": 2030,
+        "pullOverlapPixels": 1409
+      },
+      {
+        "view": "back",
+        "joint": "tail_root",
+        "parent": "body_base",
+        "child": "tail",
+        "restOverlapPixels": 18286,
+        "pullOverlapPixels": 16491
+      }
+    ]
+  },
+  "primaryReview": "qa/x6-generated-layer-assembly-review-v16.png",
+  "assemblyApprovedByUser": false,
+  "gate6Approved": false,
+  "x7Authorized": false
+}

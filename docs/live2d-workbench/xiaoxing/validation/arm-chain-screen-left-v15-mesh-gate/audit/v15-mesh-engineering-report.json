@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V15 screen-left arm ArtMesh mesh gate",
+  "status": "engineering_pass_pending_user_visual_approval",
+  "decisionOwner": "user",
+  "scope": "four ArtMesh topology candidates on frozen V14 complete materials",
+  "inputIntegrity": {
+    "v14Freeze": {
+      "path": "validation/arm-chain-screen-left-v14-complete-textures/audit/v14-complete-texture-freeze-manifest-2026-07-28.json",
+      "sha256": "4b7220c0ede94711029f4dcc667a12b988e2a621a2192e0e8e75d726effb4c56",
+      "matchedArtifacts": 24,
+      "artifactCount": 24,
+      "pass": true
+    },
+    "v14FrozenFilesModified": false
+  },
+  "meshes": {
+    "sleeve": {
+      "inputMaskPixels": 9301,
+      "vertexCount": 86,
+      "triangleCount": 107,
+      "boundaryPointCount": 443,
+      "coveredBoundaryPointCount": 431,
+      "boundaryCoverageRatio": 0.9729119638826185,
+      "outsideTriangleCount": 0,
+      "rejectedOutsideTriangleCount": 43,
+      "degenerateTriangleCount": 0,
+      "maxTriangleAspectRatio": 3.7651654131306493,
+      "uvOutOfBoundsCount": 0,
+      "triangleSignedAreaMinimumPx2": 2.5,
+      "holeBoundaryPreservedBySampling": true
+    },
+    "upper_arm": {
+      "inputMaskPixels": 5260,
+      "vertexCount": 79,
+      "triangleCount": 88,
+      "boundaryPointCount": 423,
+      "coveredBoundaryPointCount": 423,
+      "boundaryCoverageRatio": 1.0,
+      "outsideTriangleCount": 0,
+      "rejectedOutsideTriangleCount": 38,
+      "degenerateTriangleCount": 0,
+      "maxTriangleAspectRatio": 5.021951811795888,
+      "uvOutOfBoundsCount": 0,
+      "triangleSignedAreaMinimumPx2": 3.5,
+      "holeBoundaryPreservedBySampling": true
+    },
+    "forearm_bracelet": {
+      "inputMaskPixels": 4785,
+      "vertexCount": 82,
+      "triangleCount": 103,
+      "boundaryPointCount": 348,
+      "coveredBoundaryPointCount": 348,
+      "boundaryCoverageRatio": 1.0,
+      "outsideTriangleCount": 0,
+      "rejectedOutsideTriangleCount": 42,
+      "degenerateTriangleCount": 0,
+      "maxTriangleAspectRatio": 2.8388067087090953,
+      "uvOutOfBoundsCount": 0,
+      "triangleSignedAreaMinimumPx2": 10.0,
+      "holeBoundaryPreservedBySampling": true
+    },
+    "whole_hand": {
+      "inputMaskPixels": 3103,
+      "vertexCount": 95,
+      "triangleCount": 121,
+      "boundaryPointCount": 295,
+      "coveredBoundaryPointCount": 290,
+      "boundaryCoverageRatio": 0.9830508474576272,
+      "outsideTriangleCount": 0,
+      "rejectedOutsideTriangleCount": 49,
+      "degenerateTriangleCount": 0,
+      "maxTriangleAspectRatio": 2.4698178070456938,
+      "uvOutOfBoundsCount": 0,
+      "triangleSignedAreaMinimumPx2": 1.0,
+      "holeBoundaryPreservedBySampling": true
+    }
+  },
+  "engineeringPass": true,
+  "nodeContract": "contracts/v15-layer-mesh-node-contract.json",
+  "userVisualApproval": {
+    "status": "pending",
+    "reviewBoard": "qa/V15-MESH-USER-REVIEW.zh-CN.png",
+    "numericChecksDoNotReplaceVisualApproval": true
+  },
+  "explicitlyNotPerformed": [
+    "actual Cubism node creation",
+    "active parameter keyforms",
+    "continuous motion",
+    "Physics",
+    "Runtime",
+    "upstream frozen-file modification"
+  ],
+  "nextGateIfApproved": "node hierarchy and parent-only cascade proof"
+}

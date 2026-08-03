@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "status": "engineering_fail_stop_stage_a",
+  "scope": "screen-left sleeve bilateral calibration and dual-anchor motion preflight",
+  "skeleton": {
+    "unchanged": true
+  },
+  "bilateral": {
+    "mirroredRightUsedAsReferenceOnly": true,
+    "rightMaterialModified": false,
+    "visibleMaskIoU": 0.795550968925582,
+    "alignedFrozenCompleteRightUsedForComparisonOnly": true,
+    "completeMaskIoU": 0.7699056990569906,
+    "referenceAuthorityPass": false,
+    "failure": "V29 geometry was calibrated from a source-extracted visible right silhouette, not the frozen approved complete right sleeve"
+  },
+  "geometry": {
+    "hiddenAddedPixels": 2362,
+    "defaultVisibleDifferencePixels": 0,
+    "v28HiddenPixels": 5055
+  },
+  "motion": {
+    "samples": 41,
+    "allFramesPass": true,
+    "returnConsistency": true,
+    "minimumOverlapPixels": 4776,
+    "maximumSleeveHoles": 0,
+    "minimumTorsoAttachmentCoverageRatio": 0.947502116850127,
+    "maximumTorsoAnchorDriftPx": 0.2824690929036015,
+    "minimumMeshEdgeStrainRatio": 0.9280658049695928,
+    "maximumMeshEdgeStrainRatio": 1.0252279996171882,
+    "hiddenExposure": {
+      "defaultPixels": 0,
+      "peakPixels": 761,
+      "returnPixels": 0,
+      "symmetricReturn": true,
+      "pass": true
+    }
+  },
+  "visualGate": {
+    "status": "failed_wrong_reference",
+    "review": "qa/V29-LEFT-RIGHT-DUAL-ANCHOR-USER-REVIEW.zh-CN.png",
+    "completeSleeveReview": "qa/V29-COMPLETE-SLEEVE-MATERIAL-REVIEW.zh-CN.png",
+    "bilateralComparisonReview": "qa/V29-LEFT-RIGHT-SLEEVE-DIRECT-COMPARISON.zh-CN.png",
+    "earliestFailurePoint": "right sleeve reference selection before hidden geometry construction"
+  },
+  "stop": "remain at Stage A"
+}

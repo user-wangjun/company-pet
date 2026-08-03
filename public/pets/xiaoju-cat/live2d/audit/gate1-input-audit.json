@@ -1,0 +1,2280 @@
+{
+  "schema_version": 1,
+  "root": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat",
+  "gate": 1,
+  "gate_status": "review_required",
+  "summary": {
+    "images": 73,
+    "json_files": 8,
+    "binary_models": 5,
+    "other_files": 17,
+    "exact_duplicate_groups": 7,
+    "near_duplicate_pairs": 18,
+    "opaque_images": 24,
+    "full_canvas_alpha_images": 5,
+    "missing_model_references": 0,
+    "image_errors": 0,
+    "json_errors": 0,
+    "psd_layer_inventory_available": true
+  },
+  "findings": {
+    "exact_duplicate_groups": [
+      [
+        "live2d/model/xiaoju-planet-login.2048/texture_00.png",
+        "live2d/runtime/xiaoju-planet-login/xiaoju-planet-login.2048/texture_00.png"
+      ],
+      [
+        "live2d/planet-scene-source/planet-scene-v2-layered-preview.png",
+        "live2d/planet-scene-source/pose-keys-v3/00-rest.png"
+      ],
+      [
+        "live2d/planet-scene-source/layers/00_Stars_Background.png",
+        "live2d/planet-scene-source/layers-v2/00_Stars_Background.png"
+      ],
+      [
+        "live2d/planet-scene-source/layers/10_Cat_Body_Base.png",
+        "live2d/planet-scene-source/layers-v2/10_Cat_Body_Base.png"
+      ],
+      [
+        "live2d/planet-scene-source/layers/50_Planet_Foreground.png",
+        "live2d/planet-scene-source/layers-v2/50_Planet_Foreground.png"
+      ],
+      [
+        "live2d/planet-scene-source/layers-v2/60_Foreleg_L_Complete.png",
+        "live2d/planet-scene-source/layers-v2/70_Cover_Foreleg_L.png"
+      ],
+      [
+        "live2d/planet-scene-source/layers-v2/61_Foreleg_R_Complete.png",
+        "live2d/planet-scene-source/layers-v2/71_Cover_Foreleg_R.png"
+      ]
+    ],
+    "near_duplicate_pairs": [
+      {
+        "left": "login-password-cover-early-v1.png",
+        "right": "login-password-cover-mid-v1.png",
+        "dhash_distance": 2
+      },
+      {
+        "left": "login-password-cover-early-v1.png",
+        "right": "login-password-cover-v1.png",
+        "dhash_distance": 3
+      },
+      {
+        "left": "login-password-cover-mid-v1.png",
+        "right": "login-password-cover-v1.png",
+        "dhash_distance": 1
+      },
+      {
+        "left": "live2d/planet-cat-body-no-paws-v1.png",
+        "right": "live2d/planet-cat-cutout-grid.png",
+        "dhash_distance": 3
+      },
+      {
+        "left": "live2d/planet-cat-body-no-paws-v1.png",
+        "right": "live2d/planet-cat-cutout-v1.png",
+        "dhash_distance": 3
+      },
+      {
+        "left": "live2d/planet-cat-cutout-grid.png",
+        "right": "live2d/planet-cat-cutout-v1.png",
+        "dhash_distance": 0
+      },
+      {
+        "left": "live2d/planet-scene-source/planet-scene-layered-preview.png",
+        "right": "live2d/planet-scene-source/planet-scene-v2-layered-preview.png",
+        "dhash_distance": 0
+      },
+      {
+        "left": "live2d/planet-scene-source/planet-scene-layered-preview.png",
+        "right": "live2d/planet-scene-source/pose-keys-v3/00-rest.png",
+        "dhash_distance": 0
+      },
+      {
+        "left": "live2d/planet-scene-source/xiaoju-planet-login-live2d-source.psd",
+        "right": "live2d/planet-scene-source/xiaoju-planet-login-live2d-v2-source.psd",
+        "dhash_distance": 0
+      },
+      {
+        "left": "live2d/planet-scene-source/xiaoju-planet-login-live2d-v3-source.psd",
+        "right": "live2d/planet-scene-source/layers-v3/qa-cover-composite.jpg",
+        "dhash_distance": 1
+      },
+      {
+        "left": "live2d/planet-scene-source/xiaoju-planet-login-live2d-v3-source.psd",
+        "right": "live2d/planet-scene-source/pose-keys-v3/02-halfway.png",
+        "dhash_distance": 3
+      },
+      {
+        "left": "live2d/planet-scene-source/layers/40_Eyelid_L.png",
+        "right": "live2d/planet-scene-source/layers-v2/40_Eyelid_L.png",
+        "dhash_distance": 0
+      },
+      {
+        "left": "live2d/planet-scene-source/layers/41_Eyelid_R.png",
+        "right": "live2d/planet-scene-source/layers-v2/41_Eyelid_R.png",
+        "dhash_distance": 0
+      },
+      {
+        "left": "live2d/planet-scene-source/layers/60_Paw_L.png",
+        "right": "live2d/planet-scene-source/layers-v2/60_Rest_Paw_L.png",
+        "dhash_distance": 0
+      },
+      {
+        "left": "live2d/planet-scene-source/layers/61_Paw_R.png",
+        "right": "live2d/planet-scene-source/layers-v2/61_Rest_Paw_R.png",
+        "dhash_distance": 0
+      },
+      {
+        "left": "live2d/planet-scene-source/pose-keys-v3/03-three-quarter.png",
+        "right": "live2d/planet-scene-source/pose-keys-v3/04-cover.png",
+        "dhash_distance": 3
+      },
+      {
+        "left": "live2d/source/layered-preview-open.png",
+        "right": "live2d/source/xiaoju-login-live2d-source.psd",
+        "dhash_distance": 0
+      },
+      {
+        "left": "live2d/source/layers/30_Eyelid_L.png",
+        "right": "live2d/source/layers/31_Eyelid_R.png",
+        "dhash_distance": 0
+      }
+    ],
+    "opaque_images": [
+      "login-email-focus-mid-v1.png",
+      "login-email-focus-v1.png",
+      "login-password-cover-early-v1.png",
+      "login-password-cover-mid-v1.png",
+      "login-password-cover-v1.png",
+      "preview-earth-xiaoju-no-sprout.png",
+      "preview-earth-xiaoju.png",
+      "three-view-preview.png",
+      "live2d/planet-background-v1.png",
+      "live2d/planet-cat-body-no-paws-v1.png",
+      "live2d/planet-cat-cutout-grid.png",
+      "live2d/planet-cat-cutout-v1.png",
+      "live2d/planet-scene-source/forelegs-v2-chroma.png",
+      "live2d/planet-scene-source/xiaoju-planet-login-live2d-source.psd",
+      "live2d/planet-scene-source/xiaoju-planet-login-live2d-v2-source.psd",
+      "live2d/planet-scene-source/xiaoju-planet-login-live2d-v3-source.psd",
+      "live2d/planet-scene-source/layers-v3/forelegs-chroma.png",
+      "live2d/planet-scene-source/layers-v3/forelegs-open-root-chroma.png",
+      "live2d/planet-scene-source/layers-v3/qa-cover-composite.jpg",
+      "live2d/planet-scene-source/pose-keys-v3/01-quarter.png",
+      "live2d/planet-scene-source/pose-keys-v3/02-halfway.png",
+      "live2d/planet-scene-source/pose-keys-v3/03-three-quarter.png",
+      "live2d/planet-scene-source/pose-keys-v3/04-cover.png",
+      "live2d/source/front-master.png"
+    ],
+    "full_canvas_alpha_images": [
+      "live2d/planet-scene-source/planet-scene-layered-preview.png",
+      "live2d/planet-scene-source/planet-scene-v2-layered-preview.png",
+      "live2d/planet-scene-source/layers/00_Stars_Background.png",
+      "live2d/planet-scene-source/layers-v2/00_Stars_Background.png",
+      "live2d/planet-scene-source/pose-keys-v3/00-rest.png"
+    ],
+    "missing_model_references": [],
+    "image_errors": [],
+    "json_errors": []
+  },
+  "images": [
+    {
+      "path": "icon-hug.png",
+      "extension": ".png",
+      "bytes": 284688,
+      "sha256": "8f7af6f2a390b06be95c7f027a3cedba39dfd683338918642b5d086850e43db7",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1152,
+      "height": 208,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        14,
+        7,
+        1143,
+        205
+      ],
+      "alpha_coverage": 0.42725,
+      "dhash": "69696d6d12dbd212"
+    },
+    {
+      "path": "login-email-focus-mid-v1.png",
+      "extension": ".png",
+      "bytes": 1980216,
+      "sha256": "828e577acb2adac25876a355cfeeee4dceb3cbf1834b36e11877816c5728207c",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "19e2870a444b12b4"
+    },
+    {
+      "path": "login-email-focus-v1.png",
+      "extension": ".png",
+      "bytes": 2146292,
+      "sha256": "d7adf2de331996dd9ff1ce6277a4b3223dfb24369b0fa4f381b100ae8e0c9d07",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "19e6868a404b12b4"
+    },
+    {
+      "path": "login-password-cover-early-v1.png",
+      "extension": ".png",
+      "bytes": 2107423,
+      "sha256": "a0f9d49b7c2e1d4c208722c33e0f975b5cda67d8e0a6413f9c2adfbd6ebc675a",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "1da2860a4c5312b0"
+    },
+    {
+      "path": "login-password-cover-mid-v1.png",
+      "extension": ".png",
+      "bytes": 2074943,
+      "sha256": "ea54aa4ec9965ffea0b7e9be8be679cc6fb3a00e51c5da0d196d1e49a470fdab",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "5da2870a4c5312b0"
+    },
+    {
+      "path": "login-password-cover-v1.png",
+      "extension": ".png",
+      "bytes": 2136162,
+      "sha256": "5cb92aea1bcc0fb013419d691c674fb14d29fdddfe58e8400e7dfb41eeb78bdf",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "59a2870a4c5312b0"
+    },
+    {
+      "path": "preview-earth-xiaoju-no-sprout.png",
+      "extension": ".png",
+      "bytes": 2189818,
+      "sha256": "3ca20350836611637575db0f6b489d036b907220d57e0f1a729e9704abfc408f",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "5da2860a444b12b0"
+    },
+    {
+      "path": "preview-earth-xiaoju.png",
+      "extension": ".png",
+      "bytes": 2042518,
+      "sha256": "e7cf8580b776708307e9c8c313b102d94c466709e3d265156e54eccf4a50a1f1",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "16a6860a454b12b0"
+    },
+    {
+      "path": "spritesheet-scruff.png",
+      "extension": ".png",
+      "bytes": 2531660,
+      "sha256": "e57127209a3fbd42e7c5e688f2282b4be297f36aeedea48873647f8cc80a76b7",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1536,
+      "height": 1872,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        5,
+        43,
+        1514,
+        1867
+      ],
+      "alpha_coverage": 0.329342,
+      "dhash": "991925a071212030"
+    },
+    {
+      "path": "three-view-preview.png",
+      "extension": ".png",
+      "bytes": 1641991,
+      "sha256": "98814ca7f91b596cd12805b1be8cb65ce26bb01239ea249af3c55979abdbf157",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1774,
+      "height": 887,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "09b6b6b696929224"
+    },
+    {
+      "path": "live2d/planet-background-v1.png",
+      "extension": ".png",
+      "bytes": 1885089,
+      "sha256": "ca296bf754f6da6fe84b06df306e260d5680a0e5371564360f406c6af0928723",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "4580820c11030a90"
+    },
+    {
+      "path": "live2d/planet-cat-body-no-paws-v1.png",
+      "extension": ".png",
+      "bytes": 1594370,
+      "sha256": "1dc234637fa4a448e0b7919269e42ca5376054e10fc95354df9246932fc9f146",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "04787874b0a3cc48"
+    },
+    {
+      "path": "live2d/planet-cat-cutout-grid.png",
+      "extension": ".png",
+      "bytes": 1624331,
+      "sha256": "e195414b2fffe993ff0380e220a8b4a88888a9957be7d77601a16b60674aa0ce",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "04787874e0a1cc48"
+    },
+    {
+      "path": "live2d/planet-cat-cutout-v1.png",
+      "extension": ".png",
+      "bytes": 1630292,
+      "sha256": "f1af64e5743218f35fd018ac789a590ad5c6e6741128c50e6a01c7af3b670f91",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "04787874e0a1cc48"
+    },
+    {
+      "path": "live2d/model/xiaoju-planet-login.2048/texture_00.png",
+      "extension": ".png",
+      "bytes": 4727116,
+      "sha256": "8936b3f899ce1cc67ff75161329cebe5335257e3cec075da7d76b305e6d347b6",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 2048,
+      "height": 2048,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        32,
+        48,
+        1890,
+        1987
+      ],
+      "alpha_coverage": 0.458283,
+      "dhash": "90a0861269c5c480"
+    },
+    {
+      "path": "live2d/planet-scene-source/forelegs-v2-chroma.png",
+      "extension": ".png",
+      "bytes": 1696354,
+      "sha256": "914dbed5bd0bab6386328523c87bd35e5e5d0ce38697d494af6362a353800555",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "b233636323333b29"
+    },
+    {
+      "path": "live2d/planet-scene-source/forelegs-v2-transparent.png",
+      "extension": ".png",
+      "bytes": 1077513,
+      "sha256": "a410801ed494e4fb33b4e3b24f5bc188a2ce0e510d891a596cc6c9da36e6b9e9",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        205,
+        104,
+        1171,
+        1036
+      ],
+      "alpha_coverage": 0.25219,
+      "dhash": "cece969696929697"
+    },
+    {
+      "path": "live2d/planet-scene-source/planet-scene-layered-preview.png",
+      "extension": ".png",
+      "bytes": 2659893,
+      "sha256": "5aaa42b483b3d2db17f88952a65fc045a2b99493adfad2caecb28ccb94d0af51",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1370,
+        1148
+      ],
+      "alpha_coverage": 1.0,
+      "dhash": "63839b95474b1290"
+    },
+    {
+      "path": "live2d/planet-scene-source/planet-scene-v2-layered-preview.png",
+      "extension": ".png",
+      "bytes": 2659829,
+      "sha256": "8c79da44b8f0e05acc83509c0159e117756e1eda18b6ceb73b6019f089f6b83d",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1370,
+        1148
+      ],
+      "alpha_coverage": 1.0,
+      "dhash": "63839b95474b1290"
+    },
+    {
+      "path": "live2d/planet-scene-source/xiaoju-planet-login-live2d-source.psd",
+      "extension": ".psd",
+      "bytes": 15206225,
+      "sha256": "5ede5eb8aeb5ce3817adfc5b6df98cb99a5f186827560b412d7d2a4bfaee83f5",
+      "format": "PSD",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 12,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "63839b95474b1290",
+      "psd_layers": {
+        "available": true,
+        "layer_count": 12,
+        "layers": [
+          {
+            "path": "图层 1",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "path": "Stars_Background",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              0,
+              0,
+              1370,
+              1148
+            ]
+          },
+          {
+            "path": "Cat_Body_Base",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              98,
+              14,
+              1367,
+              1148
+            ]
+          },
+          {
+            "path": "Eye_L_Base",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              639,
+              487,
+              779,
+              614
+            ]
+          },
+          {
+            "path": "Eye_R_Base",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              867,
+              417,
+              994,
+              549
+            ]
+          },
+          {
+            "path": "Pupil_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              674,
+              506,
+              743,
+              598
+            ]
+          },
+          {
+            "path": "Pupil_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              897,
+              436,
+              964,
+              533
+            ]
+          },
+          {
+            "path": "Eyelid_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              652,
+              546,
+              766,
+              567
+            ]
+          },
+          {
+            "path": "Eyelid_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              880,
+              478,
+              981,
+              499
+            ]
+          },
+          {
+            "path": "Planet_Foreground",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              297,
+              477,
+              1370,
+              1148
+            ]
+          },
+          {
+            "path": "Paw_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              557,
+              647,
+              799,
+              833
+            ]
+          },
+          {
+            "path": "Paw_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              1032,
+              443,
+              1242,
+              634
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "live2d/planet-scene-source/xiaoju-planet-login-live2d-v2-source.psd",
+      "extension": ".psd",
+      "bytes": 15212817,
+      "sha256": "080a8f02faf3775c8a639560149dfd38b390b77ce15ddac6c7620760ab3637bd",
+      "format": "PSD",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 12,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "63839b95474b1290",
+      "psd_layers": {
+        "available": true,
+        "layer_count": 12,
+        "layers": [
+          {
+            "path": "图层 1",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "path": "Stars_Background",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              0,
+              0,
+              1370,
+              1148
+            ]
+          },
+          {
+            "path": "Cat_Body_Base",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              98,
+              14,
+              1367,
+              1148
+            ]
+          },
+          {
+            "path": "Eye_L_Whole",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              639,
+              487,
+              779,
+              614
+            ]
+          },
+          {
+            "path": "Eye_R_Whole",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              867,
+              417,
+              994,
+              549
+            ]
+          },
+          {
+            "path": "Eyelid_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              652,
+              546,
+              766,
+              567
+            ]
+          },
+          {
+            "path": "Eyelid_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              880,
+              478,
+              981,
+              499
+            ]
+          },
+          {
+            "path": "Planet_Foreground",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              297,
+              477,
+              1370,
+              1148
+            ]
+          },
+          {
+            "path": "Rest_Paw_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              557,
+              647,
+              799,
+              833
+            ]
+          },
+          {
+            "path": "Rest_Paw_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              1032,
+              443,
+              1242,
+              634
+            ]
+          },
+          {
+            "path": "Cover_Foreleg_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              597,
+              654,
+              666,
+              822
+            ]
+          },
+          {
+            "path": "Cover_Foreleg_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              988,
+              554,
+              1141,
+              613
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "live2d/planet-scene-source/xiaoju-planet-login-live2d-v3-source.psd",
+      "extension": ".psd",
+      "bytes": 15897838,
+      "sha256": "a4ac0a0aea7cc2bd97fe783cf1ba6e1f4758d880295f56cac4877ef06b0897af",
+      "format": "PSD",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 12,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "63839b9654430290",
+      "psd_layers": {
+        "available": true,
+        "layer_count": 12,
+        "layers": [
+          {
+            "path": "图层 1",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "path": "Stars_Background",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              0,
+              0,
+              1370,
+              1148
+            ]
+          },
+          {
+            "path": "Cat_Body_Base",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              98,
+              14,
+              1367,
+              1148
+            ]
+          },
+          {
+            "path": "Eye_L_Whole",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              639,
+              487,
+              779,
+              614
+            ]
+          },
+          {
+            "path": "Eye_R_Whole",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              867,
+              417,
+              994,
+              549
+            ]
+          },
+          {
+            "path": "Eyelid_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              652,
+              546,
+              766,
+              567
+            ]
+          },
+          {
+            "path": "Eyelid_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              880,
+              478,
+              981,
+              499
+            ]
+          },
+          {
+            "path": "Foreleg_L_Complete",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              430,
+              345,
+              719,
+              933
+            ]
+          },
+          {
+            "path": "Foreleg_R_Complete",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              835,
+              355,
+              1101,
+              878
+            ]
+          },
+          {
+            "path": "Planet_Foreground",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              297,
+              477,
+              1370,
+              1148
+            ]
+          },
+          {
+            "path": "Shoulder_Occluder_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              366,
+              655,
+              671,
+              1050
+            ]
+          },
+          {
+            "path": "Shoulder_Occluder_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              985,
+              476,
+              1127,
+              701
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/00_Stars_Background.png",
+      "extension": ".png",
+      "bytes": 2168291,
+      "sha256": "28894fb444942ceeb9868d68d5bd06835824d2da9ab9852564d1bfcf73ca8b9e",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1370,
+        1148
+      ],
+      "alpha_coverage": 1.0,
+      "dhash": "4580820c11030a90"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/10_Cat_Body_Base.png",
+      "extension": ".png",
+      "bytes": 1837159,
+      "sha256": "d6e7e0a4abe97b4d78b371883b9505ec5579420e7072df91e2d4a5941afe4eea",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        98,
+        14,
+        1367,
+        1148
+      ],
+      "alpha_coverage": 0.309782,
+      "dhash": "0cf870646060c4d0"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/20_Eye_L_Base.png",
+      "extension": ".png",
+      "bytes": 1804233,
+      "sha256": "f3e9ff7f7c0f994e84c7c13e6158f1aa96f6d7620bfcc021cc23f55ba588b258",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        639,
+        487,
+        779,
+        614
+      ],
+      "alpha_coverage": 0.00886,
+      "dhash": "71c8a8e2aec9e0f0"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/21_Eye_R_Base.png",
+      "extension": ".png",
+      "bytes": 1804124,
+      "sha256": "40cec12cfd153cc2e25b4d055ce3226a1913f50f7543ff01f8732d0e4e1b1189",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        867,
+        417,
+        994,
+        549
+      ],
+      "alpha_coverage": 0.00832,
+      "dhash": "71e4cae2aacccc58"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/30_Pupil_L.png",
+      "extension": ".png",
+      "bytes": 1804862,
+      "sha256": "90ad9e5a8666207ab9d9d403fe4a31f1286524fb2d986934367a4ea81fb33e67",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        674,
+        506,
+        743,
+        598
+      ],
+      "alpha_coverage": 0.003186,
+      "dhash": "69cca2b4e0b2dc60"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/31_Pupil_R.png",
+      "extension": ".png",
+      "bytes": 1804863,
+      "sha256": "85795405da82a7e333348708811ec9599ecacf4c77560e245a140843dbb00115",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        897,
+        436,
+        964,
+        533
+      ],
+      "alpha_coverage": 0.003243,
+      "dhash": "71989ca4e0c2dc60"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/40_Eyelid_L.png",
+      "extension": ".png",
+      "bytes": 6799,
+      "sha256": "365a8730103c55ead85ef006f6fa9d38b87d2fa4bf9facdce611ceb8a1c88f6e",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        652,
+        546,
+        766,
+        567
+      ],
+      "alpha_coverage": 0.000593,
+      "dhash": "45450bb28eccf071"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/41_Eyelid_R.png",
+      "extension": ".png",
+      "bytes": 6831,
+      "sha256": "42769eeb3875c924f665dec0ef54829b4fb66bf2ff3f90db6e4d90d9c7cd19a0",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        880,
+        478,
+        981,
+        499
+      ],
+      "alpha_coverage": 0.000538,
+      "dhash": "01052bb28eccf071"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/50_Planet_Foreground.png",
+      "extension": ".png",
+      "bytes": 2184119,
+      "sha256": "fdc7e6335f58a7c4a1f40957b5ec9c05ce1a6101311221c6ca2d0d3ec7f4a1f5",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        297,
+        477,
+        1370,
+        1148
+      ],
+      "alpha_coverage": 0.268615,
+      "dhash": "09275fbb77e4c0c1"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/60_Paw_L.png",
+      "extension": ".png",
+      "bytes": 1848905,
+      "sha256": "d85f951971c01b866eeb51b435ee3d6d2e436bf8e232f17d51de6084f6b754af",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        557,
+        647,
+        799,
+        833
+      ],
+      "alpha_coverage": 0.020731,
+      "dhash": "71c4962b8694d8c0"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers/61_Paw_R.png",
+      "extension": ".png",
+      "bytes": 1847666,
+      "sha256": "570458e4169f9b4cbc6bc03a660148610daff63c3fa053b4997a790416ed416d",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        1032,
+        443,
+        1242,
+        634
+      ],
+      "alpha_coverage": 0.018074,
+      "dhash": "60c890a22aae84e0"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/00_Stars_Background.png",
+      "extension": ".png",
+      "bytes": 2168291,
+      "sha256": "28894fb444942ceeb9868d68d5bd06835824d2da9ab9852564d1bfcf73ca8b9e",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1370,
+        1148
+      ],
+      "alpha_coverage": 1.0,
+      "dhash": "4580820c11030a90"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/10_Cat_Body_Base.png",
+      "extension": ".png",
+      "bytes": 1837159,
+      "sha256": "d6e7e0a4abe97b4d78b371883b9505ec5579420e7072df91e2d4a5941afe4eea",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        98,
+        14,
+        1367,
+        1148
+      ],
+      "alpha_coverage": 0.309782,
+      "dhash": "0cf870646060c4d0"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/20_Eye_L_Whole.png",
+      "extension": ".png",
+      "bytes": 1806242,
+      "sha256": "b3e61ce648fa029c0e27d69c516180e1be050c614f559d7dc6333339d7f3a2b4",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        639,
+        487,
+        779,
+        614
+      ],
+      "alpha_coverage": 0.008926,
+      "dhash": "71c8a8e2b2d1e0f0"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/21_Eye_R_Whole.png",
+      "extension": ".png",
+      "bytes": 1806151,
+      "sha256": "5d7cab1381619ebc283cf3e420de8d447fa50bdacdaa8ba62099250d4a9190d6",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        867,
+        417,
+        994,
+        549
+      ],
+      "alpha_coverage": 0.008388,
+      "dhash": "71e4dae2b2c4d858"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/40_Eyelid_L.png",
+      "extension": ".png",
+      "bytes": 6807,
+      "sha256": "57a0b044c13e6924d291dc7176c17fdc74a4f5d30bbbbd39cdcc1e4f9845fd66",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        652,
+        546,
+        766,
+        567
+      ],
+      "alpha_coverage": 0.000593,
+      "dhash": "45450bb28eccf071"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/41_Eyelid_R.png",
+      "extension": ".png",
+      "bytes": 6836,
+      "sha256": "8fd17d6bdd0482308b163c876f1b4cdffc133397baa7b44c3e5d06d47ac12153",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        880,
+        478,
+        981,
+        499
+      ],
+      "alpha_coverage": 0.000538,
+      "dhash": "01052bb28eccf071"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/50_Planet_Foreground.png",
+      "extension": ".png",
+      "bytes": 2184119,
+      "sha256": "fdc7e6335f58a7c4a1f40957b5ec9c05ce1a6101311221c6ca2d0d3ec7f4a1f5",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        297,
+        477,
+        1370,
+        1148
+      ],
+      "alpha_coverage": 0.268615,
+      "dhash": "09275fbb77e4c0c1"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/60_Foreleg_L_Complete.png",
+      "extension": ".png",
+      "bytes": 28467,
+      "sha256": "201730713c3620a51e72a8d1db45d6200f407b5bf730aae3d10541b2b77d550b",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        597,
+        654,
+        666,
+        822
+      ],
+      "alpha_coverage": 0.00434,
+      "dhash": "f8d9b1b2f97cbc5e"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/60_Rest_Paw_L.png",
+      "extension": ".png",
+      "bytes": 1848904,
+      "sha256": "0caf5dfbaddda18b70a1025baa686fa681bf3799bda3d4fd841ac75891018c7c",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        557,
+        647,
+        799,
+        833
+      ],
+      "alpha_coverage": 0.020731,
+      "dhash": "71c4962b8694d8c0"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/61_Foreleg_R_Complete.png",
+      "extension": ".png",
+      "bytes": 23108,
+      "sha256": "41232e7fd5768a63e6c41a15aa22bbb068348351d487728e486015a2c8ed1cd0",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        988,
+        554,
+        1141,
+        613
+      ],
+      "alpha_coverage": 0.003413,
+      "dhash": "c4e2f0ece4941e62"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/61_Rest_Paw_R.png",
+      "extension": ".png",
+      "bytes": 1847666,
+      "sha256": "9b88f2c78ade8013ccb7a345c670375aeb706c5116cf7ec0434bc3650ab73e83",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        1032,
+        443,
+        1242,
+        634
+      ],
+      "alpha_coverage": 0.018074,
+      "dhash": "60c890a22aae84e0"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/70_Cover_Foreleg_L.png",
+      "extension": ".png",
+      "bytes": 28467,
+      "sha256": "201730713c3620a51e72a8d1db45d6200f407b5bf730aae3d10541b2b77d550b",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        597,
+        654,
+        666,
+        822
+      ],
+      "alpha_coverage": 0.00434,
+      "dhash": "f8d9b1b2f97cbc5e"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v2/71_Cover_Foreleg_R.png",
+      "extension": ".png",
+      "bytes": 23108,
+      "sha256": "41232e7fd5768a63e6c41a15aa22bbb068348351d487728e486015a2c8ed1cd0",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        988,
+        554,
+        1141,
+        613
+      ],
+      "alpha_coverage": 0.003413,
+      "dhash": "c4e2f0ece4941e62"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v3/30_Shoulder_Occluder_L.png",
+      "extension": ".png",
+      "bytes": 1825023,
+      "sha256": "4c0ef1bac14b53042605a2c08a3c6d71c67fb7fb599f23517ccb7024de81e5a3",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        366,
+        655,
+        671,
+        1050
+      ],
+      "alpha_coverage": 0.050093,
+      "dhash": "70f8dcec98d1e264"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v3/31_Shoulder_Occluder_R.png",
+      "extension": ".png",
+      "bytes": 1815419,
+      "sha256": "c4124b051f247e01af0353e0bd2b8b0e1d0928fabf2f6bd5ad1f79066a266138",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        985,
+        476,
+        1127,
+        701
+      ],
+      "alpha_coverage": 0.009626,
+      "dhash": "063c7cf8e0c08820"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v3/60_Foreleg_L_Complete.png",
+      "extension": ".png",
+      "bytes": 252663,
+      "sha256": "2f71b8cfadf6448f4852b0e0c758db23649ade296021b42749be1b20b9a76a11",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        430,
+        345,
+        719,
+        933
+      ],
+      "alpha_coverage": 0.054247,
+      "dhash": "5cb870c1a2e0e0e2"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v3/61_Foreleg_R_Complete.png",
+      "extension": ".png",
+      "bytes": 204923,
+      "sha256": "957b46a45caa0fa75deec513c92c35bac6fc591f58ae08973371a8ef46d5862c",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        835,
+        355,
+        1101,
+        878
+      ],
+      "alpha_coverage": 0.043688,
+      "dhash": "c4c2e17098583838"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v3/forelegs-chroma.png",
+      "extension": ".png",
+      "bytes": 1503053,
+      "sha256": "1f8a03d8ca4a6ef89c9cea4878b64392d9c144b1053d11ac892a2a7dcd5cf612",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "8669496b33969648"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v3/forelegs-open-root-chroma.png",
+      "extension": ".png",
+      "bytes": 1687078,
+      "sha256": "d1513d52979352d29ab7c941e9f6612d7974fa3caa37781a64241df8b4892d21",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "6969497333969668"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v3/forelegs-open-root-transparent.png",
+      "extension": ".png",
+      "bytes": 1053932,
+      "sha256": "011534417c4e6b49205a9a3614132a423e84562e9da4af32a3858313081e3abc",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        138,
+        12,
+        1246,
+        917
+      ],
+      "alpha_coverage": 0.252222,
+      "dhash": "9696969696c6cccc"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v3/forelegs-transparent.png",
+      "extension": ".png",
+      "bytes": 786012,
+      "sha256": "97bc5fd7012a24beb37e464c3343ad3d932d942508acca70a22a6fcff93adff2",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        118,
+        202,
+        1253,
+        909
+      ],
+      "alpha_coverage": 0.178206,
+      "dhash": "abab839696cccccc"
+    },
+    {
+      "path": "live2d/planet-scene-source/layers-v3/qa-cover-composite.jpg",
+      "extension": ".jpg",
+      "bytes": 438761,
+      "sha256": "7dbe3c99d65c8311ef81998d32b510ed454df4604629fd89ba30234a49511365",
+      "format": "JPEG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "63839b9644430290"
+    },
+    {
+      "path": "live2d/planet-scene-source/pose-keys-v3/00-rest.png",
+      "extension": ".png",
+      "bytes": 2659829,
+      "sha256": "8c79da44b8f0e05acc83509c0159e117756e1eda18b6ceb73b6019f089f6b83d",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1370,
+        1148
+      ],
+      "alpha_coverage": 1.0,
+      "dhash": "63839b95474b1290"
+    },
+    {
+      "path": "live2d/planet-scene-source/pose-keys-v3/01-quarter.png",
+      "extension": ".png",
+      "bytes": 2176497,
+      "sha256": "56fe8e2258b5ac404966f7e69db5705314c7427cc16dfd0bb5070479cc6a420f",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1371,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "63839b9243531290"
+    },
+    {
+      "path": "live2d/planet-scene-source/pose-keys-v3/02-halfway.png",
+      "extension": ".png",
+      "bytes": 2200917,
+      "sha256": "fae4d0b8668db84299c0947eb2527c9b68c951e703c5d8d9dcb49bc1a0930142",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "63839b9354530290"
+    },
+    {
+      "path": "live2d/planet-scene-source/pose-keys-v3/03-three-quarter.png",
+      "extension": ".png",
+      "bytes": 2153533,
+      "sha256": "4cd02ab63db0e544b1f8bd96507b69634a7102affc3a100b02b69697ce9008f0",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "63839b8a44531290"
+    },
+    {
+      "path": "live2d/planet-scene-source/pose-keys-v3/04-cover.png",
+      "extension": ".png",
+      "bytes": 2240285,
+      "sha256": "8ffdbd5378e640a7590b1766a89c78960fb8d196e7bfcf68641173c69807c4ba",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 1370,
+      "height": 1148,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "6383938e54531290"
+    },
+    {
+      "path": "live2d/runtime/xiaoju-planet-login/xiaoju-planet-login.2048/texture_00.png",
+      "extension": ".png",
+      "bytes": 4727116,
+      "sha256": "8936b3f899ce1cc67ff75161329cebe5335257e3cec075da7d76b305e6d347b6",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 2048,
+      "height": 2048,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        32,
+        48,
+        1890,
+        1987
+      ],
+      "alpha_coverage": 0.458283,
+      "dhash": "90a0861269c5c480"
+    },
+    {
+      "path": "live2d/source/front-master.png",
+      "extension": ".png",
+      "bytes": 678435,
+      "sha256": "99662d432bb1c96a98f944027c490ca9edbca288a87d29cca6dc43651b5ab568",
+      "format": "PNG",
+      "mode": "RGB",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": false,
+      "alpha_bbox": null,
+      "alpha_coverage": null,
+      "dhash": "84d4e9c9c9ccf4e8"
+    },
+    {
+      "path": "live2d/source/layered-preview-open.png",
+      "extension": ".png",
+      "bytes": 480015,
+      "sha256": "f81b91e4854b7c6b6b5231360bad7b5645c903a7d7024fab019960f4bc76b294",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        78,
+        76,
+        511,
+        724
+      ],
+      "alpha_coverage": 0.480479,
+      "dhash": "24e4d8a9989ca6a4"
+    },
+    {
+      "path": "live2d/source/xiaoju-login-live2d-source.psd",
+      "extension": ".psd",
+      "bytes": 1794669,
+      "sha256": "b39e4200c68de63b438362f5a583771fa4d7a02f5577cdecd1a11f506e4f3220",
+      "format": "PSD",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 10,
+      "has_alpha": true,
+      "alpha_bbox": [
+        78,
+        76,
+        511,
+        724
+      ],
+      "alpha_coverage": 0.480479,
+      "dhash": "24e4d8a9989ca6a4",
+      "psd_layers": {
+        "available": true,
+        "layer_count": 10,
+        "layers": [
+          {
+            "path": "图层 1",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "path": "Body_Base",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              78,
+              76,
+              511,
+              724
+            ]
+          },
+          {
+            "path": "Eye_L_Base",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              169,
+              239,
+              238,
+              313
+            ]
+          },
+          {
+            "path": "Eye_R_Base",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              284,
+              239,
+              353,
+              313
+            ]
+          },
+          {
+            "path": "Pupil_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              188,
+              252,
+              219,
+              298
+            ]
+          },
+          {
+            "path": "Pupil_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              303,
+              252,
+              334,
+              298
+            ]
+          },
+          {
+            "path": "Eyelid_L",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              179,
+              273,
+              228,
+              287
+            ]
+          },
+          {
+            "path": "Eyelid_R",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              294,
+              273,
+              343,
+              287
+            ]
+          },
+          {
+            "path": "Arm_L_Cover",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              91,
+              390,
+              245,
+              722
+            ]
+          },
+          {
+            "path": "Arm_R_Cover",
+            "visible": true,
+            "is_group": false,
+            "bbox": [
+              311,
+              390,
+              465,
+              719
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "live2d/source/layers/00_Body_Base.png",
+      "extension": ".png",
+      "bytes": 590124,
+      "sha256": "29ade3e6ef77d847e4731bf5c2494d5836187019dfe90351a0a2c6c3ef30868d",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        78,
+        76,
+        511,
+        724
+      ],
+      "alpha_coverage": 0.480479,
+      "dhash": "24e4aca9989ca6a4"
+    },
+    {
+      "path": "live2d/source/layers/10_Eye_L_Base.png",
+      "extension": ".png",
+      "bytes": 578616,
+      "sha256": "e4045bdc9c01662df5a6019521a444039bfbc1ab41b0dd8490722c3c069f5161",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        169,
+        239,
+        238,
+        313
+      ],
+      "alpha_coverage": 0.009407,
+      "dhash": "70e0ecac9edee030"
+    },
+    {
+      "path": "live2d/source/layers/11_Eye_R_Base.png",
+      "extension": ".png",
+      "bytes": 578589,
+      "sha256": "a1a74aa32eee148fea6472c34659f40ee0399feab55e0bdeaba7bf9125fd551c",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        284,
+        239,
+        353,
+        313
+      ],
+      "alpha_coverage": 0.009407,
+      "dhash": "51f8ccca8eccf830"
+    },
+    {
+      "path": "live2d/source/layers/20_Pupil_L.png",
+      "extension": ".png",
+      "bytes": 578471,
+      "sha256": "8e58a2bc69309f0e5fd52b75b1ee2fcad998b8d03d768342a3dca3ef65fe6658",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        188,
+        252,
+        219,
+        298
+      ],
+      "alpha_coverage": 0.002655,
+      "dhash": "71e0c6c6d0c4f071"
+    },
+    {
+      "path": "live2d/source/layers/21_Pupil_R.png",
+      "extension": ".png",
+      "bytes": 578451,
+      "sha256": "61aa561c80570c539fdb34a3f12b9d5ca0561fc96102f2c27d6198e89cc9ecfc",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        303,
+        252,
+        334,
+        298
+      ],
+      "alpha_coverage": 0.002655,
+      "dhash": "71e88c9cc2ccf071"
+    },
+    {
+      "path": "live2d/source/layers/30_Eyelid_L.png",
+      "extension": ".png",
+      "bytes": 2145,
+      "sha256": "8331e2cc49195216aa8a3fde5d852d6af83e2c8f253f2dce6d6fdf04d76cfa5a",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        179,
+        273,
+        228,
+        287
+      ],
+      "alpha_coverage": 0.000679,
+      "dhash": "030b2b968ecc71b2"
+    },
+    {
+      "path": "live2d/source/layers/31_Eyelid_R.png",
+      "extension": ".png",
+      "bytes": 2144,
+      "sha256": "8635dcf3f217ec8ba994f5cb5d132688261c631518b0f7859b8e9c574ff8346c",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        294,
+        273,
+        343,
+        287
+      ],
+      "alpha_coverage": 0.000679,
+      "dhash": "030b2b968ecc71b2"
+    },
+    {
+      "path": "live2d/source/layers/40_Arm_L_Cover.png",
+      "extension": ".png",
+      "bytes": 582328,
+      "sha256": "49fefb0b72b85062b6f3768b6910a2608cf734c4cf5af4a63495c3df1a339c97",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        91,
+        390,
+        245,
+        722
+      ],
+      "alpha_coverage": 0.095737,
+      "dhash": "e0c0c0b89edaceb0"
+    },
+    {
+      "path": "live2d/source/layers/41_Arm_R_Cover.png",
+      "extension": ".png",
+      "bytes": 582748,
+      "sha256": "8f466655d95cda819bcfea26a9f58b5418ed74be1a0fe7917d934db49da01234",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 555,
+      "height": 775,
+      "frames": 1,
+      "has_alpha": true,
+      "alpha_bbox": [
+        311,
+        390,
+        465,
+        719
+      ],
+      "alpha_coverage": 0.083976,
+      "dhash": "70f0e0889ab6a4f0"
+    }
+  ],
+  "json": [
+    {
+      "path": "companion-chat.json",
+      "bytes": 302,
+      "sha256": "5b3f3521aac556501f653a3b60739fd13e8f4997e37405a50e94d32946c8845d",
+      "top_level_keys": [
+        "localReplies",
+        "openers",
+        "style"
+      ],
+      "kind": "json"
+    },
+    {
+      "path": "dialogues.json",
+      "bytes": 396,
+      "sha256": "038ed8223f96958581d7fd26be24e7bad0c7d3191fa55a9018d304f999831ad9",
+      "top_level_keys": [
+        "doubleClick",
+        "eyeCare",
+        "idle",
+        "meal",
+        "singleClick",
+        "sleep",
+        "water"
+      ],
+      "kind": "json"
+    },
+    {
+      "path": "pet.json",
+      "bytes": 7026,
+      "sha256": "8926953a0b96242dd703f9aa3550f253400cc92b29124f9f8adf3d135419a928",
+      "top_level_keys": [
+        "animationScales",
+        "animations",
+        "companionChatPath",
+        "description",
+        "dialoguesPath",
+        "displayName",
+        "iconHugSpritesheetPath",
+        "id",
+        "interactions",
+        "sounds",
+        "spritesheetPath",
+        "taskFeedbackPath",
+        "threeViewPreviewPath"
+      ],
+      "kind": "json"
+    },
+    {
+      "path": "task-feedback.json",
+      "bytes": 1831,
+      "sha256": "1a743c8678698e181f313a15cab7997cd6923a46ea41f4ca2dfb0d05cd5a6f2e",
+      "top_level_keys": [
+        "scenes",
+        "version"
+      ],
+      "kind": "json"
+    },
+    {
+      "path": "live2d/model/xiaoju-planet-login.cdi3.json",
+      "bytes": 2198,
+      "sha256": "8869283efc9f60d57a1e2faccf8c8a8fb91db5ef1981e0bf80410d09f5298c64",
+      "top_level_keys": [
+        "ParameterGroups",
+        "Parameters",
+        "Parts",
+        "Version"
+      ],
+      "kind": "cdi3",
+      "parameter_ids": [
+        "ParamAngleX",
+        "ParamAngleY",
+        "ParamAngleZ",
+        "ParamEyeLOpen",
+        "ParamEyeLSmile",
+        "ParamEyeROpen",
+        "ParamEyeRSmile",
+        "ParamEyeBallX",
+        "ParamEyeBallY",
+        "ParamBrowLY",
+        "ParamBrowRY",
+        "ParamBrowLX",
+        "ParamBrowRX",
+        "ParamBrowLAngle",
+        "ParamBrowRAngle",
+        "ParamBrowLForm",
+        "ParamBrowRForm",
+        "ParamMouthForm",
+        "ParamMouthOpenY",
+        "ParamCheek",
+        "ParamBodyAngleX",
+        "ParamBodyAngleY",
+        "ParamBodyAngleZ",
+        "ParamBreath",
+        "ParamHairFront",
+        "ParamHairSide",
+        "ParamHairBack"
+      ]
+    },
+    {
+      "path": "live2d/model/xiaoju-planet-login.model3.json",
+      "bytes": 194,
+      "sha256": "40f77cfef8bcc97a5628da2cf887b5c00cfedac4383e7b6cbcb7310da637f3e3",
+      "top_level_keys": [
+        "FileReferences",
+        "Version"
+      ],
+      "kind": "model3",
+      "references": [
+        {
+          "value": "xiaoju-planet-login.moc3",
+          "exists": true
+        },
+        {
+          "value": "xiaoju-planet-login.2048/texture_00.png",
+          "exists": true
+        },
+        {
+          "value": "xiaoju-planet-login.cdi3.json",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "path": "live2d/runtime/xiaoju-planet-login/xiaoju-planet-login.cdi3.json",
+      "bytes": 2198,
+      "sha256": "8869283efc9f60d57a1e2faccf8c8a8fb91db5ef1981e0bf80410d09f5298c64",
+      "top_level_keys": [
+        "ParameterGroups",
+        "Parameters",
+        "Parts",
+        "Version"
+      ],
+      "kind": "cdi3",
+      "parameter_ids": [
+        "ParamAngleX",
+        "ParamAngleY",
+        "ParamAngleZ",
+        "ParamEyeLOpen",
+        "ParamEyeLSmile",
+        "ParamEyeROpen",
+        "ParamEyeRSmile",
+        "ParamEyeBallX",
+        "ParamEyeBallY",
+        "ParamBrowLY",
+        "ParamBrowRY",
+        "ParamBrowLX",
+        "ParamBrowRX",
+        "ParamBrowLAngle",
+        "ParamBrowRAngle",
+        "ParamBrowLForm",
+        "ParamBrowRForm",
+        "ParamMouthForm",
+        "ParamMouthOpenY",
+        "ParamCheek",
+        "ParamBodyAngleX",
+        "ParamBodyAngleY",
+        "ParamBodyAngleZ",
+        "ParamBreath",
+        "ParamHairFront",
+        "ParamHairSide",
+        "ParamHairBack"
+      ]
+    },
+    {
+      "path": "live2d/runtime/xiaoju-planet-login/xiaoju-planet-login.model3.json",
+      "bytes": 194,
+      "sha256": "40f77cfef8bcc97a5628da2cf887b5c00cfedac4383e7b6cbcb7310da637f3e3",
+      "top_level_keys": [
+        "FileReferences",
+        "Version"
+      ],
+      "kind": "model3",
+      "references": [
+        {
+          "value": "xiaoju-planet-login.moc3",
+          "exists": true
+        },
+        {
+          "value": "xiaoju-planet-login.2048/texture_00.png",
+          "exists": true
+        },
+        {
+          "value": "xiaoju-planet-login.cdi3.json",
+          "exists": true
+        }
+      ]
+    }
+  ],
+  "binary_models": [
+    {
+      "path": "live2d/model/xiaoju-login.cmo3",
+      "extension": ".cmo3",
+      "bytes": 1094935,
+      "sha256": "0752bc89ff5c5308a8a55a90f8334275407bd3b05d736fa46ccd476f60c3aade"
+    },
+    {
+      "path": "live2d/model/xiaoju-planet-login-v2.cmo3",
+      "extension": ".cmo3",
+      "bytes": 7491216,
+      "sha256": "732a0a9c897e599afc16a0eea3ef6c021bd7f0c86288653eb042a8c599cd3e9b"
+    },
+    {
+      "path": "live2d/model/xiaoju-planet-login.cmo3",
+      "extension": ".cmo3",
+      "bytes": 12197240,
+      "sha256": "e93542aa897ef51a7926fc5eb333f6eda8d8701f1042c6834a6b02e35310bf0e"
+    },
+    {
+      "path": "live2d/model/xiaoju-planet-login.moc3",
+      "extension": ".moc3",
+      "bytes": 21632,
+      "sha256": "29cfa4a9c040f44a50818c1589c85ec1cf0c4bbe6e0d07ba73a248d1b294d3f5"
+    },
+    {
+      "path": "live2d/runtime/xiaoju-planet-login/xiaoju-planet-login.moc3",
+      "extension": ".moc3",
+      "bytes": 21632,
+      "sha256": "29cfa4a9c040f44a50818c1589c85ec1cf0c4bbe6e0d07ba73a248d1b294d3f5"
+    }
+  ],
+  "review_required": [
+    "Visually inspect every exact and near duplicate candidate.",
+    "Confirm which opaque images are references versus invalid part layers.",
+    "Open representative PSDs and verify real layer contents and unique names.",
+    "Choose one identity reference and one default-composition reference.",
+    "Do not pass Gate 1 until a human records the classifications."
+  ]
+}

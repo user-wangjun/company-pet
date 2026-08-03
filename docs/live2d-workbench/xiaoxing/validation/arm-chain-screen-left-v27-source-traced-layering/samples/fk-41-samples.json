@@ -1,0 +1,617 @@
+[
+  {
+    "index": 0,
+    "progress": 0.0,
+    "theta1Deg": 98.494375789809,
+    "theta2Deg": 5.975918310256901,
+    "wristLocalDeg": 0.0,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 5376,
+      "upperForearm": 476,
+      "forearmHand": 545
+    },
+    "pass": true
+  },
+  {
+    "index": 1,
+    "progress": 0.006155829702431115,
+    "theta1Deg": 98.53131076802359,
+    "theta2Deg": 6.019009118173919,
+    "wristLocalDeg": 0.015389574256077787,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 5287,
+      "upperForearm": 447,
+      "forearmHand": 499
+    },
+    "pass": true
+  },
+  {
+    "index": 2,
+    "progress": 0.024471741852423234,
+    "theta1Deg": 98.64120624092354,
+    "theta2Deg": 6.147220503223863,
+    "wristLocalDeg": 0.061179354631058086,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 5088,
+      "upperForearm": 423,
+      "forearmHand": 503
+    },
+    "pass": true
+  },
+  {
+    "index": 3,
+    "progress": 0.05449673790581605,
+    "theta1Deg": 98.82135621724389,
+    "theta2Deg": 6.357395475597613,
+    "wristLocalDeg": 0.13624184476454013,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4978,
+      "upperForearm": 411,
+      "forearmHand": 452
+    },
+    "pass": true
+  },
+  {
+    "index": 4,
+    "progress": 0.09549150281252627,
+    "theta1Deg": 99.06732480668416,
+    "theta2Deg": 6.644358829944585,
+    "wristLocalDeg": 0.23872875703131569,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 5017,
+      "upperForearm": 379,
+      "forearmHand": 503
+    },
+    "pass": true
+  },
+  {
+    "index": 5,
+    "progress": 0.1464466094067262,
+    "theta1Deg": 99.37305544624935,
+    "theta2Deg": 7.001044576103984,
+    "wristLocalDeg": 0.36611652351681556,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 5010,
+      "upperForearm": 379,
+      "forearmHand": 478
+    },
+    "pass": true
+  },
+  {
+    "index": 6,
+    "progress": 0.20610737385376343,
+    "theta1Deg": 99.73102003293158,
+    "theta2Deg": 7.418669927233245,
+    "wristLocalDeg": 0.5152684346344085,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 4990,
+      "upperForearm": 387,
+      "forearmHand": 471
+    },
+    "pass": true
+  },
+  {
+    "index": 7,
+    "progress": 0.2730047501302266,
+    "theta1Deg": 100.13240429059036,
+    "theta2Deg": 7.8869515611684875,
+    "wristLocalDeg": 0.6825118753255666,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4980,
+      "upperForearm": 385,
+      "forearmHand": 483
+    },
+    "pass": true
+  },
+  {
+    "index": 8,
+    "progress": 0.3454915028125263,
+    "theta1Deg": 100.56732480668416,
+    "theta2Deg": 8.394358829944585,
+    "wristLocalDeg": 0.8637287570313157,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 4988,
+      "upperForearm": 391,
+      "forearmHand": 477
+    },
+    "pass": true
+  },
+  {
+    "index": 9,
+    "progress": 0.4217827674798845,
+    "theta1Deg": 101.02507239468831,
+    "theta2Deg": 8.928397682616094,
+    "wristLocalDeg": 1.0544569186997113,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4985,
+      "upperForearm": 389,
+      "forearmHand": 481
+    },
+    "pass": true
+  },
+  {
+    "index": 10,
+    "progress": 0.49999999999999994,
+    "theta1Deg": 101.494375789809,
+    "theta2Deg": 9.475918310256901,
+    "wristLocalDeg": 1.2499999999999998,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4992,
+      "upperForearm": 386,
+      "forearmHand": 486
+    },
+    "pass": true
+  },
+  {
+    "index": 11,
+    "progress": 0.5782172325201153,
+    "theta1Deg": 101.96367918492969,
+    "theta2Deg": 10.023438937897708,
+    "wristLocalDeg": 1.445543081300288,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4982,
+      "upperForearm": 391,
+      "forearmHand": 479
+    },
+    "pass": true
+  },
+  {
+    "index": 12,
+    "progress": 0.6545084971874737,
+    "theta1Deg": 102.42142677293384,
+    "theta2Deg": 10.557477790569218,
+    "wristLocalDeg": 1.6362712429686843,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 4967,
+      "upperForearm": 387,
+      "forearmHand": 474
+    },
+    "pass": true
+  },
+  {
+    "index": 13,
+    "progress": 0.7269952498697734,
+    "theta1Deg": 102.85634728902764,
+    "theta2Deg": 11.064885059345315,
+    "wristLocalDeg": 1.8174881246744334,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4963,
+      "upperForearm": 379,
+      "forearmHand": 479
+    },
+    "pass": true
+  },
+  {
+    "index": 14,
+    "progress": 0.7938926261462365,
+    "theta1Deg": 103.25773154668641,
+    "theta2Deg": 11.533166693280556,
+    "wristLocalDeg": 1.9847315653655913,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4971,
+      "upperForearm": 387,
+      "forearmHand": 476
+    },
+    "pass": true
+  },
+  {
+    "index": 15,
+    "progress": 0.8535533905932737,
+    "theta1Deg": 103.61569613336864,
+    "theta2Deg": 11.950792044409816,
+    "wristLocalDeg": 2.1338834764831844,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4978,
+      "upperForearm": 382,
+      "forearmHand": 479
+    },
+    "pass": true
+  },
+  {
+    "index": 16,
+    "progress": 0.9045084971874737,
+    "theta1Deg": 103.92142677293384,
+    "theta2Deg": 12.307477790569218,
+    "wristLocalDeg": 2.261271242968684,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4974,
+      "upperForearm": 378,
+      "forearmHand": 475
+    },
+    "pass": true
+  },
+  {
+    "index": 17,
+    "progress": 0.9455032620941839,
+    "theta1Deg": 104.1673953623741,
+    "theta2Deg": 12.594441144916189,
+    "wristLocalDeg": 2.36375815523546,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4977,
+      "upperForearm": 381,
+      "forearmHand": 478
+    },
+    "pass": true
+  },
+  {
+    "index": 18,
+    "progress": 0.9755282581475768,
+    "theta1Deg": 104.34754533869446,
+    "theta2Deg": 12.804616117289939,
+    "wristLocalDeg": 2.438820645368942,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 4979,
+      "upperForearm": 389,
+      "forearmHand": 478
+    },
+    "pass": true
+  },
+  {
+    "index": 19,
+    "progress": 0.9938441702975689,
+    "theta1Deg": 104.45744081159441,
+    "theta2Deg": 12.932827502339883,
+    "wristLocalDeg": 2.4846104257439223,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4969,
+      "upperForearm": 387,
+      "forearmHand": 480
+    },
+    "pass": true
+  },
+  {
+    "index": 20,
+    "progress": 1.0,
+    "theta1Deg": 104.494375789809,
+    "theta2Deg": 12.975918310256901,
+    "wristLocalDeg": 2.5,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 4969,
+      "upperForearm": 386,
+      "forearmHand": 484
+    },
+    "pass": true
+  },
+  {
+    "index": 21,
+    "progress": 0.9938441702975689,
+    "theta1Deg": 104.45744081159441,
+    "theta2Deg": 12.932827502339883,
+    "wristLocalDeg": 2.4846104257439223,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4969,
+      "upperForearm": 387,
+      "forearmHand": 480
+    },
+    "pass": true
+  },
+  {
+    "index": 22,
+    "progress": 0.9755282581475768,
+    "theta1Deg": 104.34754533869446,
+    "theta2Deg": 12.804616117289939,
+    "wristLocalDeg": 2.438820645368942,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 4979,
+      "upperForearm": 389,
+      "forearmHand": 478
+    },
+    "pass": true
+  },
+  {
+    "index": 23,
+    "progress": 0.9455032620941839,
+    "theta1Deg": 104.1673953623741,
+    "theta2Deg": 12.594441144916189,
+    "wristLocalDeg": 2.36375815523546,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4977,
+      "upperForearm": 381,
+      "forearmHand": 478
+    },
+    "pass": true
+  },
+  {
+    "index": 24,
+    "progress": 0.9045084971874737,
+    "theta1Deg": 103.92142677293384,
+    "theta2Deg": 12.307477790569218,
+    "wristLocalDeg": 2.261271242968684,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4974,
+      "upperForearm": 378,
+      "forearmHand": 475
+    },
+    "pass": true
+  },
+  {
+    "index": 25,
+    "progress": 0.8535533905932737,
+    "theta1Deg": 103.61569613336864,
+    "theta2Deg": 11.950792044409816,
+    "wristLocalDeg": 2.1338834764831844,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4978,
+      "upperForearm": 382,
+      "forearmHand": 479
+    },
+    "pass": true
+  },
+  {
+    "index": 26,
+    "progress": 0.7938926261462365,
+    "theta1Deg": 103.25773154668641,
+    "theta2Deg": 11.533166693280556,
+    "wristLocalDeg": 1.9847315653655913,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4971,
+      "upperForearm": 387,
+      "forearmHand": 476
+    },
+    "pass": true
+  },
+  {
+    "index": 27,
+    "progress": 0.7269952498697734,
+    "theta1Deg": 102.85634728902764,
+    "theta2Deg": 11.064885059345315,
+    "wristLocalDeg": 1.8174881246744334,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4963,
+      "upperForearm": 379,
+      "forearmHand": 479
+    },
+    "pass": true
+  },
+  {
+    "index": 28,
+    "progress": 0.6545084971874737,
+    "theta1Deg": 102.42142677293384,
+    "theta2Deg": 10.557477790569218,
+    "wristLocalDeg": 1.6362712429686843,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 4967,
+      "upperForearm": 387,
+      "forearmHand": 474
+    },
+    "pass": true
+  },
+  {
+    "index": 29,
+    "progress": 0.5782172325201153,
+    "theta1Deg": 101.96367918492969,
+    "theta2Deg": 10.023438937897708,
+    "wristLocalDeg": 1.445543081300288,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4982,
+      "upperForearm": 391,
+      "forearmHand": 479
+    },
+    "pass": true
+  },
+  {
+    "index": 30,
+    "progress": 0.49999999999999994,
+    "theta1Deg": 101.494375789809,
+    "theta2Deg": 9.475918310256901,
+    "wristLocalDeg": 1.2499999999999998,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4992,
+      "upperForearm": 386,
+      "forearmHand": 486
+    },
+    "pass": true
+  },
+  {
+    "index": 31,
+    "progress": 0.4217827674798845,
+    "theta1Deg": 101.02507239468831,
+    "theta2Deg": 8.928397682616094,
+    "wristLocalDeg": 1.0544569186997113,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4985,
+      "upperForearm": 389,
+      "forearmHand": 481
+    },
+    "pass": true
+  },
+  {
+    "index": 32,
+    "progress": 0.3454915028125263,
+    "theta1Deg": 100.56732480668416,
+    "theta2Deg": 8.394358829944585,
+    "wristLocalDeg": 0.8637287570313157,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 4988,
+      "upperForearm": 391,
+      "forearmHand": 477
+    },
+    "pass": true
+  },
+  {
+    "index": 33,
+    "progress": 0.2730047501302266,
+    "theta1Deg": 100.13240429059036,
+    "theta2Deg": 7.8869515611684875,
+    "wristLocalDeg": 0.6825118753255666,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4980,
+      "upperForearm": 385,
+      "forearmHand": 483
+    },
+    "pass": true
+  },
+  {
+    "index": 34,
+    "progress": 0.20610737385376343,
+    "theta1Deg": 99.73102003293158,
+    "theta2Deg": 7.418669927233245,
+    "wristLocalDeg": 0.5152684346344085,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 4990,
+      "upperForearm": 387,
+      "forearmHand": 471
+    },
+    "pass": true
+  },
+  {
+    "index": 35,
+    "progress": 0.1464466094067262,
+    "theta1Deg": 99.37305544624935,
+    "theta2Deg": 7.001044576103984,
+    "wristLocalDeg": 0.36611652351681556,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 5010,
+      "upperForearm": 379,
+      "forearmHand": 478
+    },
+    "pass": true
+  },
+  {
+    "index": 36,
+    "progress": 0.09549150281252627,
+    "theta1Deg": 99.06732480668416,
+    "theta2Deg": 6.644358829944585,
+    "wristLocalDeg": 0.23872875703131569,
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 5017,
+      "upperForearm": 379,
+      "forearmHand": 503
+    },
+    "pass": true
+  },
+  {
+    "index": 37,
+    "progress": 0.05449673790581605,
+    "theta1Deg": 98.82135621724389,
+    "theta2Deg": 6.357395475597613,
+    "wristLocalDeg": 0.13624184476454013,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 4978,
+      "upperForearm": 411,
+      "forearmHand": 452
+    },
+    "pass": true
+  },
+  {
+    "index": 38,
+    "progress": 0.024471741852423234,
+    "theta1Deg": 98.64120624092354,
+    "theta2Deg": 6.147220503223863,
+    "wristLocalDeg": 0.061179354631058086,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 5088,
+      "upperForearm": 423,
+      "forearmHand": 503
+    },
+    "pass": true
+  },
+  {
+    "index": 39,
+    "progress": 0.006155829702431115,
+    "theta1Deg": 98.53131076802359,
+    "theta2Deg": 6.019009118173919,
+    "wristLocalDeg": 0.015389574256077787,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "overlapPixels": {
+      "sleeveUpper": 5287,
+      "upperForearm": 447,
+      "forearmHand": 499
+    },
+    "pass": true
+  },
+  {
+    "index": 40,
+    "progress": 0.0,
+    "theta1Deg": 98.494375789809,
+    "theta2Deg": 5.975918310256901,
+    "wristLocalDeg": 0.0,
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "overlapPixels": {
+      "sleeveUpper": 5376,
+      "upperForearm": 476,
+      "forearmHand": 545
+    },
+    "pass": true
+  }
+]

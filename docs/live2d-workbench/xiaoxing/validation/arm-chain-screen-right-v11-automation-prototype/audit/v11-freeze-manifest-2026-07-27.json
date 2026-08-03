@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "V11 single screen-right arm automation verification prototype, transactional publication repair",
+  "freezeDate": "2026-07-27",
+  "decisionOwner": "user",
+  "status": "frozen_v11_transactional_publication_repair_user_approved",
+  "scope": "automation verification and deterministic replay of the frozen single screen-right arm, with candidate-finalized transactional publication and rollback protection",
+  "supersedesFreezeManifestSha256": "4414d4956bd66c19a685d72016c61f36a86fee70e699a3ec1c86d3388be06321",
+  "userApproval": {
+    "path": "audit/v11-user-approval-and-freeze-authorization-2026-07-27.json",
+    "sha256": "74d7372bc6a56074396955f85a3cf327ff3bf226b2ed5e8137b18630061eaebd",
+    "decisionText": "批准当前 V11 发布事务修复候选重新冻结"
+  },
+  "upstreamFreeze": {
+    "path": "../arm-chain-screen-right-v10-minimal-cubism-rough-rig/audit/v10-freeze-manifest-2026-07-27.json",
+    "sha256": "6a5ff7c38b709efb7ff6991901a46f136b6b97c412f5dfcd36e04c1a549f5db7",
+    "matchedArtifacts": 38,
+    "artifactCount": 38
+  },
+  "finalResults": {
+    "status": "pass",
+    "dualRunCount": 2,
+    "independentCleanDirectories": true,
+    "dualRunComparedFiles": 7,
+    "dualRunMatchedFiles": 7,
+    "firstDifference": null,
+    "fkSampleCount": 41,
+    "combinationExtremeCount": 6,
+    "evaluatedPoseCount": 47,
+    "maximumBoneLengthErrorPx": 9.76e-10,
+    "seamFailureCount": 0,
+    "detachmentFailureCount": 0,
+    "returnChangedPixels": 0,
+    "v10MatchedBeforeAndDuringPublish": "38/38",
+    "candidateFinalizedBeforePublish": true,
+    "candidateValidatedBeforeAndAfterSwap": true,
+    "publishedOutputModifiedAfterSwap": false,
+    "publicationMode": "rollback-protected transactional directory swap",
+    "strictSingleOperationDirectoryAtomicityClaimed": false,
+    "failureInjectionCoverage": [
+      "candidate validation failure restores old output",
+      "candidate directory move failure restores old output",
+      "backup cleanup failure preserves recoverable backup and reports a warning"
+    ]
+  },
+  "lockedArtifacts": [
+    {
+      "role": "user approval and freeze authorization",
+      "path": "audit/v11-user-approval-and-freeze-authorization-2026-07-27.json",
+      "sha256": "74d7372bc6a56074396955f85a3cf327ff3bf226b2ed5e8137b18630061eaebd",
+      "bytes": 2482
+    },
+    {
+      "role": "unified workflow configuration",
+      "path": "config.json",
+      "sha256": "762a185535d96ebed751e576d4595ade915f888f23667e92a54f7fad373e9e97",
+      "bytes": 2518
+    },
+    {
+      "role": "unified automation entrypoint with transactional publication repair",
+      "path": "run_v11.py",
+      "sha256": "55667f03b51988f71050bcc987facf1197024b5528ddd74aae79f1f0ca5960d0",
+      "bytes": 43205
+    },
+    {
+      "role": "operator instructions and scope boundary",
+      "path": "README.md",
+      "sha256": "e517a3253d568d79a3d9e3ca38e9a63e885c1e58238eeb909e2c0808abb7b212",
+      "bytes": 2682
+    },
+    {
+      "role": "deterministic sleeve replay output",
+      "path": "output/materials/01_sleeve.png",
+      "sha256": "d470c8b192c043457860528adc25d250bb43a5e56ebd1ab46dcda947773b5cc7",
+      "bytes": 22116
+    },
+    {
+      "role": "deterministic upper-arm replay output",
+      "path": "output/materials/02_upper_arm.png",
+      "sha256": "50121b34ccf7a1fd3afd3b977dbaab9abe9f2414704211421adc79bd273ef5cf",
+      "bytes": 7963
+    },
+    {
+      "role": "deterministic forearm replay output",
+      "path": "output/materials/03_forearm.png",
+      "sha256": "f749aa8812985d1113fceedf3fa212109753e3d2ed78c520ce77c34cc2ba6e61",
+      "bytes": 13749
+    },
+    {
+      "role": "deterministic hand replay output",
+      "path": "output/materials/04_hand.png",
+      "sha256": "c21891511545d272bfdaff3188d9ad018821e81c09c0000d62b2764676737936",
+      "bytes": 12667
+    },
+    {
+      "role": "deterministic import PSD replay output",
+      "path": "output/psd/xiaoxing-arm-chain-v11-import.psd",
+      "sha256": "5efed7934dbe5157c6d9f34120141dc8aa71b8b78a8f2652c86b1e1ea48f6369",
+      "bytes": 198241
+    },
+    {
+      "role": "deterministic FK and extrema samples",
+      "path": "output/samples/fk-41-and-combination-extremes.json",
+      "sha256": "6244c38b69cb1706447e6876ad8614c9332110bea56c29185bef17d15cdb1b98",
+      "bytes": 23877
+    },
+    {
+      "role": "minimal visual review board",
+      "path": "output/qa/v11-minimal-review-board.png",
+      "sha256": "b0aaf54ca01bdff24739eeb01e4c729dfd5381f0c638fe22dfefa968fd77a1b8",
+      "bytes": 82671
+    },
+    {
+      "role": "machine-readable automation result",
+      "path": "output/audit/v11-result.json",
+      "sha256": "4b676382d6a475bc8960b7c9a35d4768261d8e6c74c738cf7e90005141973f3b",
+      "bytes": 27047
+    },
+    {
+      "role": "Chinese automation report",
+      "path": "output/audit/V11-AUTOMATION-REPORT.zh-CN.md",
+      "sha256": "7eee9bf0ad800edd09874ec3ee000022e56ee004c23e3ded3984c398e7b260f4",
+      "bytes": 2341
+    }
+  ],
+  "artifactCount": 13,
+  "invalidationRules": [
+    "Any byte change to a locked V11 artifact reopens V11.",
+    "Any mismatch in the referenced V10 freeze manifest or its 38 locked artifacts invalidates the V11 replay result.",
+    "Any dual-run mismatch, non-zero seam or detachment failure, non-zero return difference, or bone-length error above the configured tolerance invalidates V11.",
+    "Any final aggregate write after the published output swap, loss of old-output rollback on candidate validation or directory-swap failure, or silent deletion of a recoverable backup invalidates V11.",
+    "Replacing deterministic copies with newly generated material or PSD content requires a separate downstream gate.",
+    "This freeze does not authorize Cubism GUI editing, another arm, a complete character, Physics, Runtime, or platform changes."
+  ],
+  "explicitlyNotApproved": [
+    "strict single-operation atomic replacement of a non-empty directory",
+    "automatic generation of new source materials",
+    "formal production textures",
+    "another arm or a complete character",
+    "fresh Cubism GUI binding",
+    "fresh CMO3 vertex extraction",
+    "Physics",
+    "Runtime integration",
+    "platform or pet-package changes"
+  ],
+  "nextGate": "separately authorized selection between applying the verified workflow to a second bounded anatomy sample or beginning a runtime feasibility spike"
+}

@@ -1,0 +1,36 @@
+{
+  "version": "v22-direction-fixed",
+  "frame_count": 56,
+  "pickup_frames": 12,
+  "slide_frames": 32,
+  "landing_frames": 12,
+  "method": "right drag starts from right-facing grounded crouch key3; sleeping/left-facing start frames removed; left uses per-key mirror; no scale/warp",
+  "pickup_seq": [
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5
+  ],
+  "landing_seq": [
+    5,
+    5,
+    5,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    2,
+    2,
+    2
+  ]
+}

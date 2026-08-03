@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type {
   CSSProperties,
   MouseEvent as ReactMouseEvent,
@@ -13,7 +13,8 @@ import {
   PhysicalPosition,
   type Monitor,
 } from "@tauri-apps/api/window";
-import { listen } from "@tauri-apps/api/event";
+import { emit, listen } from "@tauri-apps/api/event";
+import { getAllWebviewWindows } from "@tauri-apps/api/webviewWindow";
 import {
   isPermissionGranted as isNativeNotificationPermissionGranted,
   removeActive as removeActiveNotifications,
@@ -54,6 +55,7 @@ import type {
 } from "./pet-core/interaction";
 import {
   HOVER_EAT_DELAY_MS,
+  SECONDARY_DOUBLE_CLICK_MS,
   findDesktopIconTarget,
   getDesktopIconBumpWindowPosition,
   formatDesktopIconBubbleText,
@@ -62,6 +64,7 @@ import {
   getDraggedWindowPosition,
   isPrimaryButtonPressed,
   isPointerCancellation,
+  registerSecondaryClick,
   resolveDragAnimationName,
   shouldStartDrag,
   shouldTriggerHoverEat,
@@ -76,11 +79,11 @@ import {
   type DragDirectionState,
 } from "./pet-core/dragDirection";
 import {
+  getPetCanvasPosition,
   getPetAnimationTransform,
   PET_BUBBLE_BOTTOM_PX,
 } from "./pet-core/visual";
 import {
-  APP_DISPLAY_NAME,
   clampWindowPositionToWorkArea,
   getPhysicalPetAnchor,
   getInitialPetWindowPosition,
@@ -109,6 +112,8 @@ import {
   type PetDialogueEvent,
   type PetDialoguePackage,
 } from "./pet-core/dialogue";
+import { assembleCompanionContext } from "./pet-core/companionContext";
+import { resolveCompanionChatPipelineRoute } from "./pet-core/companionChatPipeline";
 import {
   createPetSoundPlayer,
   type PetSoundPlayer,
@@ -120,26 +125,74 @@ import {
   type CompanionChatPackage,
 } from "./pet-core/companionChat";
 import {
+  CompanionChatProviderError,
+  createCompanionChatProvider,
+} from "./pet-core/companionChatProvider";
+import {
   INACTIVE_COMPANION_CHAT,
-  createLocalCompanionChatProvider,
-  exitCompanionChat,
+  LOCAL_COMPANION_CHAT_PROVIDER_INFO,
+  createLocalCompanionChatFallbackProvider,
   receiveCompanionReply,
+  enterCompanionChat,
   sendCompanionMessage,
-  shouldAutoExitCompanionChat,
   stopCompanionReply,
   updateCompanionDraft,
+  type CompanionChatProvider,
+  type CompanionChatProviderInfo,
   type CompanionChatState,
 } from "./pet-core/companionChatRuntime";
 import {
-  deleteRecentPreference,
-  extractCompanionPreference,
-  isForgetRecentPreferenceRequest,
   readCompanionPreferences,
   upsertCompanionPreference,
   writeCompanionPreferences,
   type CompanionPreferencesState,
 } from "./pet-core/companionPreferences";
+import { forgetRecentCompanionData } from "./pet-core/companionForget";
 import {
+  createCompanionMemoryRepository,
+  saveCompanionMemoryCandidate,
+  searchCompanionMemorySafely,
+  type MemoryRepository,
+} from "./pet-core/companionMemory";
+import {
+  loadPetSoulPackage,
+  type PetSoulPackage,
+} from "./pet-core/petSoul";
+import {
+  canAutoCreateTask,
+  findDuplicateTask,
+  findTaskReference,
+  getPendingTaskCandidateForPet,
+  resolveTaskCandidateConfirmation,
+  taskDraftFromCandidate,
+  type PendingTaskCandidate,
+  type TaskCandidate,
+  type TaskOperationCandidate,
+} from "./pet-core/companionTaskExtractor";
+import {
+  applyCompanionTaskOperationToDatabase,
+} from "./pet-core/companionTaskOperations";
+import {
+  autoExitCompanionTaskChat,
+  exitCompanionTaskChat,
+} from "./pet-core/companionTaskSession";
+import {
+  createProactiveTaskCandidate,
+  createProactiveTriggerEngine,
+  selectProactiveTaskCandidates,
+  type ProactiveTaskCandidate,
+  type ProactiveTriggerDecision,
+} from "./pet-core/proactiveTriggerEngine";
+import {
+  canRenderProactiveTaskDelivery,
+  planProactiveTaskDeliveryRoute,
+  resolveProactiveTaskDelivery,
+  type ProactiveTaskDelivery,
+} from "./pet-core/proactiveDelivery";
+import { resolveProactiveTaskControlTarget } from "./pet-core/proactiveTaskControl";
+import {
+  CARE_REMINDER_STORAGE_KEY,
+  getNextCareReminderWakeSchedules,
   markCareReminderDelivered,
   readCareReminderState,
   selectDueCareReminder,
@@ -156,6 +209,14 @@ import {
   shouldResizeReminderWindow,
   shouldUseExpandedReminderWindow,
 } from "./pet-core/careReminderWindow";
+import {
+  DEFAULT_PET_VISIBLE_BOUNDS,
+  measurePetVisibleBounds,
+} from "./pet-core/petVisibleBounds";
+import {
+  buildPetWindowLayout,
+  type PetBubbleSize,
+} from "./pet-core/petWindowLayout";
 import {
   PLATFORM_FEEDBACK_BUBBLE_MS,
   expireBubbleText,
@@ -188,6 +249,11 @@ import {
 } from "./pet-core/taskFeedback";
 import { QuickCreateTask } from "./task-core/QuickCreateTask";
 import { TaskContextMenu } from "./task-core/TaskContextMenu";
+import {
+  buildTaskMenuLayout,
+  chooseTaskMenuPlacement,
+  type TaskMenuPlacement,
+} from "./task-core/taskMenuLayout";
 import { TaskReminderStack } from "./task-core/TaskReminderStack";
 import { TaskWorkspace } from "./task-core/TaskWorkspace";
 import {
@@ -202,24 +268,33 @@ import {
   reconcileTaskTimezone,
   recordTaskMetric,
   snoozeReminderInstance,
+  TASK_DATABASE_STORAGE_KEY,
   triggerDueReminders,
   writeTaskDatabase,
   updateTaskSettings,
 } from "./task-core/taskStore";
 import { selectTasks, type TaskListView } from "./task-core/taskQueries";
-import type { TaskDatabase, TaskDraft, TriggeredReminder } from "./task-core/types";
+import type {
+  InterfaceFontSize,
+  Task,
+  TaskDatabase,
+  TaskDraft,
+  TriggeredReminder,
+} from "./task-core/types";
+import { createLocalRepository } from "./storage/localRepository";
 import "./task-core/task-ui.css";
 const CURRENT_PET_STORAGE_KEY = "desktop-pet.currentPetId";
+const LOCAL_SETTINGS_REPOSITORY = createLocalRepository();
 const PET_WINDOW_SIZE = { width: 165, height: 215 };
 const PET_REMINDER_WINDOW_SIZE = { width: 240, height: 450 };
 const PLATFORM_PANEL_WIDTH = 860;
-const PLATFORM_PET_RAIL_WIDTH = PET_WINDOW_SIZE.width + 12;
 const PLATFORM_PET_INSET_PX = 6;
 const PLATFORM_WINDOW_SIZE = {
-  width: PLATFORM_PANEL_WIDTH + PLATFORM_PET_RAIL_WIDTH,
+  width: PLATFORM_PANEL_WIDTH,
   height: 590,
 };
 const QUICK_CREATE_WINDOW_SIZE = { width: 390, height: 290 };
+const STARTUP_WINDOW_REVEAL_FALLBACK_MS = 8_000;
 
 type PetIndex = {
   pets: string[];
@@ -236,11 +311,13 @@ type AnimationName = string;
 type AvailableUpdate = Extract<UpdateCheckResult, { status: "available" }>;
 type PressSource = "pointer" | "mouse";
 type TauriWindow = ReturnType<typeof getCurrentWindow>;
-type WindowMode = "platform" | "pet" | "quick-create";
+type WindowMode = "platform" | "pet" | "quick-create" | "task-menu";
+type PlatformSection = "home" | "tasks" | "pets";
 type AppliedWindowLayout = {
   mode: WindowMode;
   logicalSize: WindowSize;
   position: WindowPosition;
+  petViewport: PetViewport;
 };
 type PhysicalPetPlacement = {
   anchor: PhysicalPetAnchor;
@@ -249,6 +326,17 @@ type PhysicalPetPlacement = {
 };
 type OpenPlatformPayload = {
   resetPetPosition?: boolean;
+};
+type PlatformNavigationPayload = {
+  section: PlatformSection | "quick-create";
+  view?: TaskListView;
+  taskId?: string | null;
+};
+type PetSelectedPayload = {
+  petId: string;
+};
+type TaskSchedulerWakeupPayload = {
+  careKind?: string | null;
 };
 type ActiveCareReminderPrompt =
   | {
@@ -261,6 +349,11 @@ type ActiveCareReminderPrompt =
       kind: Extract<CareReminderKind, "wellness">;
       expiresAt: number;
     };
+type QueuedProactiveDelivery = {
+  key: string;
+  decision: ProactiveTriggerDecision;
+  candidates: ProactiveTaskCandidate[];
+};
 
 const CARE_REMINDER_SNOOZE_MS = 10 * 60 * 1000;
 const RANDOM_REMINDER_PROMPT_MS = 2 * 60 * 1000;
@@ -268,7 +361,10 @@ const RANDOM_REMINDER_PROMPT_MS = 2 * 60 * 1000;
 function getPetViewportForLayout(
   mode: WindowMode,
   logicalSize: WindowSize,
+  petViewportOverride: PetViewport | null = null,
 ): PetViewport {
+  if (petViewportOverride) return petViewportOverride;
+
   if (mode === "platform") {
     return {
       x: logicalSize.width - PLATFORM_PET_INSET_PX - PET_WINDOW_SIZE.width,
@@ -308,6 +404,15 @@ function isSameWindowSize(left: WindowSize, right: WindowSize): boolean {
   return left.width === right.width && left.height === right.height;
 }
 
+function isSamePetViewport(left: PetViewport, right: PetViewport): boolean {
+  return (
+    left.x === right.x &&
+    left.y === right.y &&
+    left.width === right.width &&
+    left.height === right.height
+  );
+}
+
 function isTauriRuntime(): boolean {
   return (
     typeof window !== "undefined" &&
@@ -326,19 +431,11 @@ async function loadPetManifest(petId = DEFAULT_PET_ID): Promise<PetManifest> {
 }
 
 function readSavedPetId(): string | null {
-  try {
-    return window.localStorage.getItem(CURRENT_PET_STORAGE_KEY);
-  } catch {
-    return null;
-  }
+  return LOCAL_SETTINGS_REPOSITORY.readValue(CURRENT_PET_STORAGE_KEY)?.trim() || null;
 }
 
 function saveSelectedPetId(petId: string): void {
-  try {
-    window.localStorage.setItem(CURRENT_PET_STORAGE_KEY, petId);
-  } catch {
-    // Persisting the choice is best effort; the active in-memory pet still changes.
-  }
+  LOCAL_SETTINGS_REPOSITORY.writeValue(CURRENT_PET_STORAGE_KEY, petId);
 }
 
 function getOptionalCurrentWindow(): TauriWindow | null {
@@ -351,6 +448,23 @@ function getOptionalCurrentWindow(): TauriWindow | null {
   }
 }
 
+function isDedicatedPlatformWindow(): boolean {
+  if (getOptionalCurrentWindow()?.label === "platform") return true;
+  if (isTauriRuntime() || typeof window === "undefined") return false;
+  return new URLSearchParams(window.location.search).get("window") === "platform";
+}
+
+async function revealDedicatedPlatformWindow(): Promise<void> {
+  if (!isTauriRuntime()) return;
+  const windows = await getAllWebviewWindows();
+  const platformWindow = windows.find((candidate) => candidate.label === "platform");
+  if (!platformWindow) throw new Error("platform window is unavailable");
+
+  await platformWindow.show();
+  await platformWindow.unminimize();
+  await platformWindow.setFocus();
+}
+
 function recordInteraction(event: string): Promise<unknown> {
   return invoke("record_interaction", { event }).catch(() => {});
 }
@@ -358,6 +472,38 @@ function recordInteraction(event: string): Promise<unknown> {
 function localDateKey(date = new Date()): string {
   const pad = (value: number) => String(value).padStart(2, "0");
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+function getPlatformGreeting(date = new Date()): string {
+  const hour = date.getHours();
+  if (hour < 6) return "夜深了";
+  if (hour < 11) return "早上好";
+  if (hour < 14) return "中午好";
+  if (hour < 18) return "下午好";
+  return "晚上好";
+}
+
+function formatPlatformDate(date = new Date()): string {
+  return new Intl.DateTimeFormat("zh-CN", {
+    month: "long",
+    day: "numeric",
+    weekday: "long",
+  }).format(date);
+}
+
+function formatHomeTaskSchedule(task: Task): string {
+  if (!task.dueAt) return "随时";
+  if (task.schedulePrecision === "date") {
+    return localDateKey(new Date()) === task.dueAt ? "今天" : task.dueAt.slice(5).replace("-", "/");
+  }
+
+  const dueAt = new Date(task.dueAt);
+  if (Number.isNaN(dueAt.getTime())) return "待安排";
+  const isToday = localDateKey(dueAt) === localDateKey();
+  return new Intl.DateTimeFormat("zh-CN", isToday
+    ? { hour: "2-digit", minute: "2-digit" }
+    : { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }
+  ).format(dueAt);
 }
 
 function notificationIdForInstance(instanceId: string): number {
@@ -419,7 +565,13 @@ async function setWindowPosition(
 }
 
 function DesktopPetApp() {
+  const isPlatformWindow = isDedicatedPlatformWindow();
+  const shellRef = useRef<HTMLElement>(null);
   const pixiHost = useRef<HTMLDivElement>(null);
+  const startupPetReady = useRef(false);
+  const startupLayoutReady = useRef(false);
+  const startupWindowRevealed = useRef(false);
+  const startupRevealTimer = useRef<number | null>(null);
   const spriteRef = useRef<AnimatedSprite | null>(null);
   const animationsRef = useRef<Record<AnimationName, Texture[]> | null>(null);
   const animationSpecsRef = useRef<Record<AnimationName, PetAnimationSpec> | null>(null);
@@ -465,10 +617,17 @@ function DesktopPetApp() {
   const lastPointerEventAt = useRef(0);
   const clickCount = useRef(0);
   const clickTimer = useRef<number | null>(null);
-  const careReminderState = useRef<CareReminderState>(readCareReminderState());
+  const lastSecondaryClickAt = useRef<number | null>(null);
+  const secondaryClickResetTimer = useRef<number | null>(null);
+  const initialCareReminderState = readCareReminderState();
+  const careReminderState = useRef<CareReminderState>(initialCareReminderState);
   const [careReminderSettings, setCareReminderSettings] = useState(careReminderState.current.settings);
   const [careReminderNoticeDismissed, setCareReminderNoticeDismissed] = useState(careReminderState.current.systemPopupNoticeDismissed);
-  const nextWellnessTime = useRef(Date.now() + careReminderState.current.settings.wellness.intervalMinutes * 60 * 1000);
+  const nextWellnessTime = useRef(
+    initialCareReminderState.nextWellnessTime ??
+      Date.now() + careReminderState.current.settings.wellness.intervalMinutes * 60 * 1000,
+  );
+  const [careReminderScheduleRevision, setCareReminderScheduleRevision] = useState(0);
   const timedCareSnoozedUntil = useRef(0);
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
@@ -478,10 +637,15 @@ function DesktopPetApp() {
   const careReminderPromptRef = useRef<ActiveCareReminderPrompt | null>(null);
   const [careReminderPrompt, setCareReminderPrompt] =
     useState<ActiveCareReminderPrompt | null>(null);
-  const [isPlatformOpen, setIsPlatformOpen] = useState(PLATFORM_START_OPEN);
+  const [isPlatformOpen, setIsPlatformOpen] = useState(
+    isTauriRuntime() ? isPlatformWindow : PLATFORM_START_OPEN,
+  );
   const [isTaskMenuOpen, setIsTaskMenuOpen] = useState(false);
   const [isQuickCreateOpen, setIsQuickCreateOpen] = useState(false);
-  const [platformSection, setPlatformSection] = useState<"tasks" | "pets">(PLATFORM_START_SECTION);
+  const [isPlatformMaximized, setIsPlatformMaximized] = useState(false);
+  const [platformSection, setPlatformSection] = useState<PlatformSection>(
+    PLATFORM_START_SECTION,
+  );
   const [taskListView, setTaskListView] = useState<TaskListView>("today");
   const [taskDetailId, setTaskDetailId] = useState<string | null>(null);
   const [hiddenTaskReminderIds, setHiddenTaskReminderIds] = useState<Set<string>>(() => new Set());
@@ -489,8 +653,8 @@ function DesktopPetApp() {
     const stored = readTaskDatabase();
     const timezoneAdjusted = reconcileTaskTimezone(stored);
     const purged = purgeExpiredTrash(timezoneAdjusted);
-    if (purged !== stored) writeTaskDatabase(purged);
-    return purged;
+    if (purged === stored) return stored;
+    return writeTaskDatabase(purged) ? purged : stored;
   });
   const [availablePetIds, setAvailablePetIds] = useState<string[]>([
     DEFAULT_PET_ID,
@@ -504,19 +668,51 @@ function DesktopPetApp() {
   const [petCompanionChatsById, setPetCompanionChatsById] = useState<
     Record<string, CompanionChatPackage>
   >({});
+  const [petSoulsById, setPetSoulsById] = useState<
+    Record<string, PetSoulPackage>
+  >({});
   const [petTaskFeedbackById, setPetTaskFeedbackById] = useState<
     Record<string, TaskFeedbackPackage>
   >({});
+  const [petVisibleBounds, setPetVisibleBounds] = useState(DEFAULT_PET_VISIBLE_BOUNDS);
+  const [petBubbleSize, setPetBubbleSize] = useState<PetBubbleSize | null>(null);
+  const [taskMenuPlacement, setTaskMenuPlacement] = useState<TaskMenuPlacement>("right");
   const [companionChatState, setCompanionChatState] =
     useState<CompanionChatState>(INACTIVE_COMPANION_CHAT);
+  const [companionChatProviderInfo, setCompanionChatProviderInfo] =
+    useState<CompanionChatProviderInfo>(LOCAL_COMPANION_CHAT_PROVIDER_INFO);
   const companionChatStateRef = useRef<CompanionChatState>(INACTIVE_COMPANION_CHAT);
+  const companionChatProviderRef = useRef<CompanionChatProvider | null>(null);
   const companionPreferencesRef = useRef<CompanionPreferencesState>(
     readCompanionPreferences(),
   );
+  const [companionMemoryRepository] = useState<MemoryRepository>(() =>
+    createCompanionMemoryRepository(),
+  );
+  const recentCompanionMemoryIdRef = useRef<string | null>(null);
+  const pendingCompanionTaskRef = useRef<PendingTaskCandidate | null>(null);
+  const proactiveDeliveryOutcomeRef = useRef(new Map<string, string>());
+  const pendingProactiveDeliveriesRef = useRef<QueuedProactiveDelivery[]>([]);
+  const pendingProactiveDeliveryKeysRef = useRef(new Set<string>());
   const [activePetId, setActivePetId] = useState(DEFAULT_PET_ID);
+  const activePetIdRef = useRef(DEFAULT_PET_ID);
+  const proactiveTriggerEngine = useMemo(
+    () => createProactiveTriggerEngine({
+      activePetId,
+      availablePetIds,
+    }),
+    [activePetId, availablePetIds],
+  );
+  const petWindowLayout = useMemo(
+    () => buildPetWindowLayout(petVisibleBounds, petBubbleSize),
+    [petBubbleSize, petVisibleBounds],
+  );
   const windowMode = useRef<WindowMode>(isPlatformOpen ? "platform" : "pet");
   const appliedWindowLayout = useRef<AppliedWindowLayout | null>(null);
   const physicalPetPlacement = useRef<PhysicalPetPlacement | null>(null);
+  const petViewportRef = useRef<PetViewport>(
+    petWindowLayout.petViewport,
+  );
   const windowLayoutScheduler = useRef(createLatestWindowLayoutScheduler());
   const resetPetPositionOnNextOpen = useRef(true);
   const mailboxButtonRef = useRef<HTMLButtonElement>(null);
@@ -539,6 +735,46 @@ function DesktopPetApp() {
   const [pendingUpdate, setPendingUpdate] = useState<AvailableUpdate | null>(null);
   const [, setIsCheckingUpdate] = useState(false);
   const updateCheckInFlight = useRef(false);
+
+  const revealStartupWindow = (reason: string) => {
+    if (startupWindowRevealed.current) return;
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) return;
+
+    startupWindowRevealed.current = true;
+    if (startupRevealTimer.current !== null) {
+      window.clearTimeout(startupRevealTimer.current);
+      startupRevealTimer.current = null;
+    }
+    void appWindow.show()
+      .then(() => recordInteraction(reason))
+      .catch(() => {
+        startupWindowRevealed.current = false;
+        recordInteraction("startup_window_reveal_failed");
+      });
+  };
+
+  const revealStartupWindowIfReady = () => {
+    if (!startupPetReady.current || !startupLayoutReady.current) return;
+    revealStartupWindow("startup_window_revealed_with_pet");
+  };
+
+  const refreshCareReminderState = (next = readCareReminderState()) => {
+    careReminderState.current = next;
+    setCareReminderSettings(next.settings);
+    setCareReminderNoticeDismissed(next.systemPopupNoticeDismissed);
+    nextWellnessTime.current =
+      next.nextWellnessTime ??
+      Date.now() + next.settings.wellness.intervalMinutes * 60 * 1000;
+    setCareReminderScheduleRevision((revision) => revision + 1);
+  };
+
+  const broadcastCareReminderState = () => {
+    if (isTauriRuntime()) {
+      void emit("care-reminder-state-updated", {}).catch(() => {});
+    }
+  };
+
   const petCatalog = useMemo(
     () => createPetCatalog(availablePetIds, petManifestsById, activePetId),
     [activePetId, availablePetIds, petManifestsById],
@@ -554,6 +790,22 @@ function DesktopPetApp() {
     [activePetId, petTaskFeedbackById],
   );
   const visibleUnreadCount = getUnreadCount(BUILT_IN_LETTERS, mailboxState);
+  const homeTodayTasks = useMemo(
+    () => selectTasks(taskDatabase, "today"),
+    [taskDatabase],
+  );
+  const homeCompletedCount = useMemo(
+    () => taskDatabase.history.filter(
+      (entry) =>
+        entry.type === "completed"
+        && localDateKey(new Date(entry.createdAt)) === localDateKey(),
+    ).length,
+    [taskDatabase.history],
+  );
+  const homeTaskPreview = homeTodayTasks.slice(0, 3);
+  const homePetMessage = homeTodayTasks.length > 0
+    ? `今天有 ${homeTodayTasks.length} 件事，我会在桌面上陪着你慢慢完成。`
+    : "今天还很轻盈。想做什么时，先从一件小事开始就好。";
   const activeLetter =
     BUILT_IN_LETTERS.find((letter) => letter.id === activeLetterId) ?? null;
   const activeTaskReminders = useMemo(
@@ -572,8 +824,13 @@ function DesktopPetApp() {
     visibleTaskReminders.length,
     careReminderPrompt !== null,
   );
+  const taskMenuLayout = useMemo(
+    () => buildTaskMenuLayout(petVisibleBounds, taskMenuPlacement),
+    [petVisibleBounds, taskMenuPlacement],
+  );
 
   useEffect(() => {
+    if (isPlatformWindow) return;
     const activeIds = new Set(taskDatabase.reminderInstances
       .filter((instance) => ["triggered", "missed"].includes(instance.status))
       .map((instance) => instance.id));
@@ -592,9 +849,11 @@ function DesktopPetApp() {
       void invoke("clear_task_notification", { instanceId }).catch(() => {});
       customTaskNotifications.current.delete(instanceId);
     }
-  }, [taskDatabase]);
+  }, [isPlatformWindow, taskDatabase]);
 
-  const commitTaskDatabase = (next: TaskDatabase, feedback?: string) => {
+  const TASK_DATABASE_WRITE_FAILURE_FEEDBACK = "我暂时没能保存这次待办变更，再试一次好吗？";
+
+  const commitTaskDatabase = (next: TaskDatabase, feedback?: string): boolean => {
     const completedDelta = next.history.filter((entry) => entry.type === "completed").length
       - taskDatabase.history.filter((entry) => entry.type === "completed").length;
     const postponedDelta = next.history.filter((entry) => entry.type === "postponed").length
@@ -603,17 +862,20 @@ function DesktopPetApp() {
     const nextActiveInstanceIds = new Set(next.reminderInstances
       .filter((instance) => ["triggered", "missed"].includes(instance.status))
       .map((instance) => instance.id));
+    if (!writeTaskDatabase(next)) {
+      showTransientBubbleText(TASK_DATABASE_WRITE_FAILURE_FEEDBACK);
+      return false;
+    }
     for (const instance of taskDatabase.reminderInstances) {
       if (!["triggered", "missed"].includes(instance.status) || nextActiveInstanceIds.has(instance.id)) continue;
       systemTaskNotifications.current.get(instance.id)?.close();
       if (isTauriRuntime()) void invoke("clear_task_notification", { instanceId: instance.id }).catch(() => {});
       customTaskNotifications.current.delete(instance.id);
     }
-    writeTaskDatabase(next);
     setTaskDatabase(next);
     if (feedback) showTransientBubbleText(feedback);
     const resolved = getActiveInteractionManifest();
-    if (!resolved) return;
+    if (!resolved) return true;
     if (completedDelta > 0) {
       const now = Date.now();
       recentTaskCompletion.current = {
@@ -633,6 +895,92 @@ function DesktopPetApp() {
     } else if (postponedDelta > 0) {
       playTaskFeedback("taskRescheduled", feedback ?? "时间已经重新安排好。", resolved.idle);
     }
+    return true;
+  };
+
+  const formatCompanionTaskSchedule = (candidate: Pick<TaskCandidate, "dueAt" | "schedulePrecision">) => {
+    if (!candidate.dueAt) return "具体日期和时间";
+    if (candidate.schedulePrecision === "date") return candidate.dueAt;
+    const date = new Date(candidate.dueAt);
+    return Number.isNaN(date.getTime())
+      ? candidate.dueAt
+      : new Intl.DateTimeFormat("zh-CN", {
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        }).format(date);
+  };
+
+  const isSameCompanionTaskSchedule = (task: Task, candidate: TaskCandidate) => {
+    if (!task.dueAt || !candidate.dueAt || task.schedulePrecision !== candidate.schedulePrecision) return false;
+    if (candidate.schedulePrecision === "date") return task.dueAt.slice(0, 10) === candidate.dueAt.slice(0, 10);
+    return Date.parse(task.dueAt) === Date.parse(candidate.dueAt);
+  };
+
+  const commitCompanionTaskCandidate = (
+    candidate: TaskCandidate,
+    petId: string,
+    confirmed = false,
+  ): string => {
+    if (!confirmed && !canAutoCreateTask(candidate)) {
+      return candidate.reminderRequested && !candidate.remindAt
+        ? "提醒时间还不明确，告诉我具体时间后我再记下。"
+        : `要把「${candidate.title}」安排在${formatCompanionTaskSchedule(candidate)}吗？回复“确认”我再记下。`;
+    }
+    if (!candidate.dueAt) return "还缺一个具体日期，我不会把没有日期的事项默认为今天。";
+    if (candidate.reminderRequested && !candidate.remindAt) {
+      return "提醒时间还不明确，告诉我具体时间后我再记下。";
+    }
+
+    const current = readTaskDatabase();
+    const duplicate = findDuplicateTask(current, candidate);
+    if (duplicate) return `「${duplicate.title}」已经在待办里啦，我不重复添加。`;
+
+    const terminalMatch = findTaskReference(current, candidate.title, true).task;
+    if (
+      terminalMatch
+      && ["completed", "cancelled"].includes(terminalMatch.status)
+      && isSameCompanionTaskSchedule(terminalMatch, candidate)
+      && !/重新|再安排|恢复|再提醒/u.test(candidate.evidence)
+    ) {
+      return `「${terminalMatch.title}」已经${terminalMatch.status === "completed" ? "完成" : "取消"}，我没有重新激活它。`;
+    }
+
+    try {
+      const created = createTask(
+        current,
+        taskDraftFromCandidate(candidate, petId),
+      );
+      const feedback = `好，已记下「${created.task.title}」，时间是${formatCompanionTaskSchedule(candidate)}。`;
+      return commitTaskDatabase(created.database, feedback)
+        ? feedback
+        : TASK_DATABASE_WRITE_FAILURE_FEEDBACK;
+    } catch (error) {
+      console.warn("[companion-task] Failed to create task", error);
+      return "我暂时没能把这件事写入待办，再试一次好吗？";
+    }
+  };
+
+  const applyCompanionTaskOperation = (operation: TaskOperationCandidate): string => {
+    const changesSchedule = operation.operation === "postpone" || operation.operation === "reschedule";
+    if (changesSchedule && (operation.needsConfirmation || !operation.dueAt)) {
+      return "新时间还不明确，告诉我具体日期和时间后我再修改。";
+    }
+    const current = readTaskDatabase();
+    const result = applyCompanionTaskOperationToDatabase(current, operation);
+    if (result.status === "needs_schedule") return "新时间还不明确，告诉我具体日期和时间后我再修改。";
+    if (result.status === "not_found") return `我没找到「${operation.targetTitle}」这件待办。`;
+    if (result.status === "ambiguous") return "我找到不止一件相近待办，请说得更具体一点。";
+    if (result.status === "unchanged") return "这件待办现在不能再执行这个操作啦。";
+    const feedback = operation.operation === "complete"
+      ? `好，「${result.task.title}」完成啦。`
+      : operation.operation === "cancel"
+        ? `好，已取消「${result.task.title}」。`
+        : `好，「${result.task.title}」已经改到${formatCompanionTaskSchedule(operation)}。`;
+    return commitTaskDatabase(result.database, feedback)
+      ? feedback
+      : TASK_DATABASE_WRITE_FAILURE_FEEDBACK;
   };
 
   if (soundPlayerRef.current === null) {
@@ -699,9 +1047,21 @@ function DesktopPetApp() {
     companionChatStateRef.current = companionChatState;
   }, [companionChatState]);
   useEffect(() => {
+    activePetIdRef.current = activePetId;
+    companionChatProviderRef.current = null;
+    setCompanionChatProviderInfo(LOCAL_COMPANION_CHAT_PROVIDER_INFO);
+    const exited = exitCompanionTaskChat(
+      companionChatStateRef.current,
+      pendingCompanionTaskRef.current,
+    );
+    pendingCompanionTaskRef.current = exited.pending;
+    setCompanionChatState(exited.state);
+  }, [activePetId]);
+  useEffect(() => {
     let soundEnabled = false;
 
     const unlistenUpdatePromise = listenToAppEvent("check-update", () => {
+      if (isPlatformWindow) return;
       void checkForUpdates(true);
     });
     const unlistenPlatformPromise = listenToAppEvent<OpenPlatformPayload>(
@@ -710,8 +1070,40 @@ function DesktopPetApp() {
         if (payload?.resetPetPosition) {
           resetPetPositionOnNextOpen.current = true;
         }
-        setIsPlatformOpen(true);
+        if (isPlatformWindow) {
+          setIsQuickCreateOpen(false);
+          setIsPlatformOpen(true);
+        } else {
+          void revealDedicatedPlatformWindow().catch(() => {
+            recordInteraction("platform_window_show_failed");
+          });
+        }
         recordInteraction("platform_open_from_tray");
+      },
+    );
+    const unlistenPlatformNavigationPromise =
+      listenToAppEvent<PlatformNavigationPayload>(
+        "platform-navigation",
+        (payload) => {
+          if (!isPlatformWindow) return;
+          if (payload.section === "quick-create") {
+            setIsPlatformOpen(false);
+            setIsQuickCreateOpen(true);
+            return;
+          }
+          setTaskListView(payload.view ?? "today");
+          setTaskDetailId(payload.taskId ?? null);
+          setPlatformSection(payload.section);
+          setIsQuickCreateOpen(false);
+          setIsPlatformOpen(true);
+        },
+      );
+    const unlistenPetSelectedPromise = listenToAppEvent<PetSelectedPayload>(
+      "pet-selected",
+      ({ petId }) => {
+        saveSelectedPetId(petId);
+        activePetIdRef.current = petId;
+        setActivePetId(petId);
       },
     );
     const unlistenSoundPromise = listenToAppEvent("toggle-sound", () => {
@@ -728,19 +1120,28 @@ function DesktopPetApp() {
     const unlistenTaskRemindersPromise = listenToAppEvent("open-task-reminders", () => {
       openTaskPlatform("upcoming");
     });
-    const unlistenTaskWakeupPromise = listenToAppEvent("task-scheduler-wakeup", () => {
-      window.dispatchEvent(new Event("task-scheduler-wakeup"));
+    const unlistenTaskWakeupPromise = listenToAppEvent<TaskSchedulerWakeupPayload>("task-scheduler-wakeup", (payload) => {
+      if (isPlatformWindow) return;
+      if (payload?.careKind === "wellness") {
+        nextWellnessTime.current = Date.now();
+      }
+      window.dispatchEvent(new CustomEvent("task-scheduler-wakeup", { detail: payload }));
     });
+    const unlistenCareReminderStatePromise = listenToAppEvent(
+      "care-reminder-state-updated",
+      () => refreshCareReminderState(),
+    );
     const handleTaskNotificationAction = ({ instanceId, action }: { instanceId: string; action: string }) => {
+        if (isPlatformWindow) return;
         if (action === "summary-detail") {
           openTaskPlatform("today");
           return;
         }
         if (action === "summary-close") {
-          void invoke("clear_task_notification", { instanceId }).catch(() => {});
           const next = closeMissedReminderSummary(readTaskDatabase());
-          writeTaskDatabase(next);
+          if (!writeTaskDatabase(next)) return;
           setTaskDatabase(next);
+          void invoke("clear_task_notification", { instanceId }).catch(() => {});
           return;
         }
         if (action === "detail") {
@@ -757,7 +1158,7 @@ function DesktopPetApp() {
         if (action === "dismiss") next = dismissReminderInstance(current, instanceId);
         if (next === current) return;
         next = recordTaskMetric(next, "system_notification_action");
-        writeTaskDatabase(next);
+        if (!writeTaskDatabase(next)) return;
         setTaskDatabase(next);
         customTaskNotifications.current.delete(instanceId);
       };
@@ -766,7 +1167,7 @@ function DesktopPetApp() {
       handleTaskNotificationAction,
     );
 
-    if (isTauriRuntime()) {
+    if (isTauriRuntime() && !isPlatformWindow) {
       void invoke<Array<{ instanceId: string; action: string }>>("get_initial_task_notification_actions")
         .then((actions) => actions.forEach(handleTaskNotificationAction))
         .catch(() => {});
@@ -774,31 +1175,127 @@ function DesktopPetApp() {
         if (!isWakeup) return;
         setIsPlatformOpen(false);
         setIsQuickCreateOpen(false);
-        window.dispatchEvent(new Event("task-scheduler-wakeup"));
+        void invoke<string | null>("get_task_scheduler_wakeup_kind")
+          .catch(() => null)
+          .then((careKind) => {
+            if (careKind === "wellness") {
+              nextWellnessTime.current = Date.now();
+            }
+            window.dispatchEvent(new CustomEvent("task-scheduler-wakeup", { detail: { careKind } }));
+          });
       }).catch(() => {});
     }
 
     return () => {
       void unlistenUpdatePromise.then((unlisten) => unlisten());
       void unlistenPlatformPromise.then((unlisten) => unlisten());
+      void unlistenPlatformNavigationPromise.then((unlisten) => unlisten());
+      void unlistenPetSelectedPromise.then((unlisten) => unlisten());
       void unlistenSoundPromise.then((unlisten) => unlisten());
       void unlistenQuickTaskPromise.then((unlisten) => unlisten());
       void unlistenTodayTasksPromise.then((unlisten) => unlisten());
       void unlistenTaskRemindersPromise.then((unlisten) => unlisten());
       void unlistenTaskWakeupPromise.then((unlisten) => unlisten());
+      void unlistenCareReminderStatePromise.then((unlisten) => unlisten());
       void unlistenTaskNotificationActionPromise.then((unlisten) => unlisten());
     };
+  }, [isPlatformWindow]);
+
+  useEffect(() => {
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === TASK_DATABASE_STORAGE_KEY) {
+        setTaskDatabase(readTaskDatabase());
+      }
+      if (event.key === CURRENT_PET_STORAGE_KEY) {
+        const nextPetId = readSavedPetId() ?? DEFAULT_PET_ID;
+        activePetIdRef.current = nextPetId;
+        setActivePetId(nextPetId);
+      }
+      if (event.key === CARE_REMINDER_STORAGE_KEY) {
+        refreshCareReminderState();
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   useEffect(() => {
-    if (!isTauriRuntime()) return;
-    const schedules = (taskDatabase.settings.backgroundReminders ? taskDatabase.reminderInstances : [])
+    if (!isPlatformWindow) return;
+
+    const unlistenPetReady = listenToAppEvent("startup-pet-ready", () => {
+      startupPetReady.current = true;
+      revealStartupWindowIfReady();
+    });
+
+    return () => {
+      void unlistenPetReady.then((unlisten) => unlisten());
+    };
+  }, [isPlatformWindow]);
+
+  useEffect(() => {
+    if (!isPlatformWindow) return;
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) return;
+
+    let disposed = false;
+    const syncMaximizedState = () => {
+      void appWindow.isMaximized()
+        .then((maximized) => {
+          if (!disposed) setIsPlatformMaximized(maximized);
+        })
+        .catch(() => {});
+    };
+
+    syncMaximizedState();
+    const unlistenResize = appWindow.onResized(syncMaximizedState);
+
+    return () => {
+      disposed = true;
+      void unlistenResize.then((unlisten) => unlisten()).catch(() => {});
+    };
+  }, [isPlatformWindow]);
+
+  useEffect(() => {
+    if (!isTauriRuntime() || isPlatformWindow) return;
+    const taskSchedules = (taskDatabase.settings.backgroundReminders ? taskDatabase.reminderInstances : [])
       .filter((instance) => instance.status === "scheduled")
       .map((instance) => ({ instanceId: instance.id, scheduledAt: instance.scheduledAt }));
+    const careSchedules = getNextCareReminderWakeSchedules(
+      new Date(),
+      careReminderSettings,
+      nextWellnessTime.current,
+    ).map(({ id, scheduledAt, wakeKind }) => ({
+      instanceId: id,
+      scheduledAt,
+      wakeKind,
+    }));
+    const schedules = [...taskSchedules, ...careSchedules];
     void invoke("sync_task_schedules", { schedules }).catch(() => {
       recordInteraction("task_schedule_sync_failed");
     });
-  }, [taskDatabase.reminderInstances, taskDatabase.settings.backgroundReminders]);
+  }, [
+    isPlatformWindow,
+    taskDatabase.reminderInstances,
+    taskDatabase.settings.backgroundReminders,
+    careReminderSettings,
+    careReminderScheduleRevision,
+  ]);
+
+  useEffect(() => {
+    if (!isTauriRuntime()) return;
+
+    startupRevealTimer.current = window.setTimeout(() => {
+      revealStartupWindow("startup_window_reveal_fallback");
+    }, STARTUP_WINDOW_REVEAL_FALLBACK_MS);
+
+    return () => {
+      if (startupRevealTimer.current !== null) {
+        window.clearTimeout(startupRevealTimer.current);
+        startupRevealTimer.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     let disposed = false;
@@ -832,6 +1329,12 @@ function DesktopPetApp() {
               [petId, await loadPetCompanionChatPackage(manifest)] as const,
           ),
         );
+        const soulEntries = await Promise.all(
+          manifestEntries.map(
+            async ([petId, manifest]) =>
+              [petId, await loadPetSoulPackage(manifest)] as const,
+          ),
+        );
         const taskFeedbackEntries = await Promise.all(
           manifestEntries.map(
             async ([petId, manifest]) =>
@@ -845,6 +1348,7 @@ function DesktopPetApp() {
         setPetManifestsById(manifests);
         setPetDialoguesById(Object.fromEntries(dialogueEntries));
         setPetCompanionChatsById(Object.fromEntries(companionChatEntries));
+        setPetSoulsById(Object.fromEntries(soulEntries));
         setPetTaskFeedbackById(Object.fromEntries(taskFeedbackEntries));
         setActivePetId(initialPetId);
       } catch {
@@ -856,12 +1360,14 @@ function DesktopPetApp() {
         const fallbackDialogues = await loadPetDialoguePackage(fallbackManifest);
         const fallbackCompanionChat =
           await loadPetCompanionChatPackage(fallbackManifest);
+        const fallbackSoul = await loadPetSoulPackage(fallbackManifest);
         const fallbackTaskFeedback = await loadTaskFeedbackPackage(fallbackManifest);
         if (disposed) return;
         setAvailablePetIds([DEFAULT_PET_ID]);
         setPetManifestsById({ [DEFAULT_PET_ID]: fallbackManifest });
         setPetDialoguesById({ [DEFAULT_PET_ID]: fallbackDialogues });
         setPetCompanionChatsById({ [DEFAULT_PET_ID]: fallbackCompanionChat });
+        setPetSoulsById({ [DEFAULT_PET_ID]: fallbackSoul });
         setPetTaskFeedbackById({ [DEFAULT_PET_ID]: fallbackTaskFeedback });
         setActivePetId(DEFAULT_PET_ID);
       }
@@ -883,13 +1389,85 @@ function DesktopPetApp() {
   }, [activePetId, activePetManifest]);
 
   useEffect(() => {
+    if (!activePetManifest) {
+      setPetVisibleBounds(DEFAULT_PET_VISIBLE_BOUNDS);
+      return undefined;
+    }
+
+    let cancelled = false;
+    void measurePetVisibleBounds(activePetManifest).then((bounds) => {
+      if (!cancelled) setPetVisibleBounds(bounds);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activePetManifest]);
+
+  useLayoutEffect(() => {
+    const shell = shellRef.current;
+    if (!shell || isPlatformWindow) return undefined;
+
+    const bubbleElement = shell.querySelector<HTMLElement>(
+      ".companion-chat, .bubble",
+    );
+    if (!bubbleElement) {
+      setPetBubbleSize(null);
+      return undefined;
+    }
+
+    const hasTail = bubbleElement.classList.contains("bubble");
+    const updateBubbleSize = () => {
+      const rect = bubbleElement.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) {
+        setPetBubbleSize(null);
+        return;
+      }
+
+      const next: PetBubbleSize = {
+        width: Math.ceil(rect.width),
+        height: Math.ceil(rect.height),
+        tailHeight: hasTail ? 8 : 0,
+      };
+      setPetBubbleSize((current) =>
+        current &&
+        current.width === next.width &&
+        current.height === next.height &&
+        current.tailHeight === next.tailHeight
+          ? current
+          : next,
+      );
+    };
+
+    updateBubbleSize();
+    if (typeof ResizeObserver === "undefined") return undefined;
+
+    const observer = new ResizeObserver(updateBubbleSize);
+    observer.observe(bubbleElement);
+    return () => observer.disconnect();
+  }, [
+    activePetId,
+    bubbleText,
+    careReminderPrompt,
+    companionChatState.mode === "active" ? companionChatState.draft : "",
+    companionChatState.mode === "active" ? companionChatState.messages.length : 0,
+    companionChatState.mode,
+    isPlatformOpen,
+    isQuickCreateOpen,
+    isReminderWindowExpanded,
+    isTaskMenuOpen,
+    isPlatformWindow,
+  ]);
+
+  useEffect(() => {
+    if (isPlatformWindow) return;
     if (isPlatformOpen || isQuickCreateOpen) return;
     const today = localDateKey();
     if (taskDatabase.settings.lastOverduePromptDate === today) return;
     const overdue = selectTasks(taskDatabase, "overdue");
     if (overdue.length === 0) return;
     const next = updateTaskSettings(taskDatabase, { lastOverduePromptDate: today });
-    writeTaskDatabase(next);
+    if (!writeTaskDatabase(next)) return;
     setTaskDatabase(next);
     const resolved = getActiveInteractionManifest();
     if (resolved) playTaskFeedback(
@@ -897,7 +1475,7 @@ function DesktopPetApp() {
       overdue.length === 1 ? `还有「${overdue[0].title}」在等你，有空时看看就好。` : `今天有 ${overdue.length} 件过期事项，有空时慢慢看看。`,
       resolved.reminders.eyeCare,
     );
-  }, [activePetId, isPlatformOpen, isQuickCreateOpen, taskDatabase]);
+  }, [activePetId, isPlatformOpen, isPlatformWindow, isQuickCreateOpen, taskDatabase]);
 
   useEffect(() => {
     clearDefaultBubbleText();
@@ -908,13 +1486,13 @@ function DesktopPetApp() {
   ): PhysicalPetPlacement => {
     const initialPosition = getInitialPetWindowPosition(
       monitor.workArea,
-      getPhysicalWindowSize(PET_WINDOW_SIZE, monitor),
+      getPhysicalWindowSize(petWindowLayout.windowSize, monitor),
     );
 
     return {
       anchor: getPhysicalPetAnchor(
         initialPosition,
-        getPetViewportForLayout("pet", PET_WINDOW_SIZE),
+        petWindowLayout.petViewport,
         monitor.scaleFactor,
       ),
       scaleFactor: monitor.scaleFactor,
@@ -927,11 +1505,18 @@ function DesktopPetApp() {
     mode: WindowMode,
     logicalSize: WindowSize,
     shouldResetPetAnchor: boolean,
+    petViewportOverride: PetViewport | null = null,
   ) => {
+    const petViewport = getPetViewportForLayout(
+      mode,
+      logicalSize,
+      petViewportOverride,
+    );
     const previousLayout = appliedWindowLayout.current;
     if (
       previousLayout?.mode === mode &&
       isSameWindowSize(previousLayout.logicalSize, logicalSize) &&
+      isSamePetViewport(previousLayout.petViewport, petViewport) &&
       !shouldResetPetAnchor
     ) {
       return;
@@ -948,7 +1533,7 @@ function DesktopPetApp() {
         physicalPetPlacement.current = {
           anchor: getPhysicalPetAnchor(
             currentPosition,
-            getPetViewportForLayout("pet", previousLayout.logicalSize),
+            previousLayout.petViewport,
             monitor.scaleFactor,
           ),
           scaleFactor: monitor.scaleFactor,
@@ -962,6 +1547,7 @@ function DesktopPetApp() {
     }
 
     await setWindowSize(appWindow, logicalSize);
+    petViewportRef.current = petViewport;
 
     const placement = physicalPetPlacement.current;
     if (!placement) {
@@ -970,6 +1556,7 @@ function DesktopPetApp() {
           mode,
           logicalSize,
           position: currentPosition,
+          petViewport,
         };
       }
       return;
@@ -977,7 +1564,7 @@ function DesktopPetApp() {
 
     const anchoredPosition = getWindowPositionForPhysicalPetAnchor(
       placement.anchor,
-      getPetViewportForLayout(mode, logicalSize),
+      petViewport,
       placement.scaleFactor,
     );
     const shouldKeepEntireWindowInWorkArea =
@@ -1001,6 +1588,7 @@ function DesktopPetApp() {
       mode,
       logicalSize,
       position: appliedPosition,
+      petViewport,
     };
   };
 
@@ -1008,11 +1596,20 @@ function DesktopPetApp() {
     const appWindow = getOptionalCurrentWindow();
     if (!appWindow) return;
 
+    if (isPlatformWindow) {
+      windowMode.current = "platform";
+      startupLayoutReady.current = true;
+      revealStartupWindowIfReady();
+      return;
+    }
+
     const nextMode: WindowMode = isPlatformOpen
       ? "platform"
       : isQuickCreateOpen
         ? "quick-create"
-        : "pet";
+        : isTaskMenuOpen
+          ? "task-menu"
+          : "pet";
     windowMode.current = nextMode;
 
     const shouldResetPetAnchor = resetPetPositionOnNextOpen.current;
@@ -1020,32 +1617,53 @@ function DesktopPetApp() {
       ? PLATFORM_WINDOW_SIZE
       : nextMode === "quick-create"
         ? QUICK_CREATE_WINDOW_SIZE
-        : isReminderWindowExpanded
-          ? PET_REMINDER_WINDOW_SIZE
-          : PET_WINDOW_SIZE;
+        : nextMode === "task-menu"
+          ? taskMenuLayout.windowSize
+          : isReminderWindowExpanded
+            ? PET_REMINDER_WINDOW_SIZE
+            : petWindowLayout.windowSize;
     const failureEvent = nextMode === "platform"
       ? "platform_layout_failed"
       : nextMode === "quick-create"
         ? "quick_create_layout_failed"
-        : "pet_layout_failed";
+        : nextMode === "task-menu"
+          ? "task_menu_layout_failed"
+          : "pet_layout_failed";
+    const petViewportOverride = nextMode === "task-menu"
+      ? taskMenuLayout.petViewport
+      : nextMode === "pet" && !isReminderWindowExpanded
+        ? petWindowLayout.petViewport
+        : null;
 
-    void windowLayoutScheduler.current.schedule(async () => {
-      await applyAnchoredWindowLayout(
-        appWindow,
-        nextMode,
-        desiredSize,
-        shouldResetPetAnchor,
-      );
-      if (shouldResetPetAnchor) {
-        resetPetPositionOnNextOpen.current = false;
-      }
-    }).catch(() => {
-      recordInteraction(failureEvent);
-    });
+    void windowLayoutScheduler.current
+      .schedule(async () => {
+        await applyAnchoredWindowLayout(
+          appWindow,
+          nextMode,
+          desiredSize,
+          shouldResetPetAnchor,
+          petViewportOverride,
+        );
+        if (shouldResetPetAnchor) {
+          resetPetPositionOnNextOpen.current = false;
+        }
+      })
+      .then((applied) => {
+        if (!applied) return;
+        startupLayoutReady.current = true;
+        revealStartupWindowIfReady();
+      })
+      .catch(() => {
+        recordInteraction(failureEvent);
+      });
   }, [
     careReminderPrompt,
     isPlatformOpen,
+    isPlatformWindow,
     isQuickCreateOpen,
+    isTaskMenuOpen,
+    petWindowLayout,
+    taskMenuLayout,
     visibleTaskReminders.length,
   ]);
 
@@ -1067,16 +1685,77 @@ function DesktopPetApp() {
     void appWindow.startDragging().catch(() => {});
   };
 
+  const minimizePlatformWindow = (
+    event: ReactMouseEvent<HTMLButtonElement>,
+  ) => {
+    event.stopPropagation();
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow || !isPlatformWindow) return;
+
+    void appWindow.minimize().then(
+      () => recordInteraction("platform_window_minimized"),
+      () => recordInteraction("platform_window_minimize_failed"),
+    );
+  };
+
+  const togglePlatformWindowMaximize = (
+    event: ReactMouseEvent<HTMLButtonElement>,
+  ) => {
+    event.stopPropagation();
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow || !isPlatformWindow) return;
+
+    void appWindow.toggleMaximize()
+      .then(() => appWindow.isMaximized())
+      .then((maximized) => {
+        setIsPlatformMaximized(maximized);
+        recordInteraction(
+          maximized
+            ? "platform_window_maximized"
+            : "platform_window_restored",
+        );
+      })
+      .catch(() => {
+        recordInteraction("platform_window_maximize_failed");
+      });
+  };
+
+  const requestPlatformNavigation = (
+    payload: PlatformNavigationPayload,
+  ) => {
+    void revealDedicatedPlatformWindow()
+      .then(() => emit("platform-navigation", payload))
+      .catch(() => {
+        recordInteraction("platform_window_show_failed");
+      });
+  };
+
   const closePlatform = (
     event: ReactMouseEvent<HTMLButtonElement> | ReactPointerEvent<HTMLButtonElement>,
   ) => {
     event.stopPropagation();
     clearDefaultBubbleText();
+    if (isPlatformWindow) {
+      void getOptionalCurrentWindow()?.hide().catch(() => {
+        recordInteraction("platform_window_hide_failed");
+      });
+      recordInteraction("platform_close");
+      return;
+    }
     setIsPlatformOpen(false);
     recordInteraction("platform_close");
   };
 
   const openTaskPlatform = (view: TaskListView = "today", taskId: string | null = null) => {
+    if (!isPlatformWindow && isTauriRuntime()) {
+      requestPlatformNavigation({
+        section: "tasks",
+        view,
+        taskId,
+      });
+      recordInteraction(`task_platform_open_${view}`);
+      return;
+    }
     setTaskListView(view);
     setTaskDetailId(taskId);
     setPlatformSection("tasks");
@@ -1085,23 +1764,74 @@ function DesktopPetApp() {
     recordInteraction(`task_platform_open_${view}`);
   };
 
-  const openPetPlatform = () => {
-    setPlatformSection("pets");
-    setIsQuickCreateOpen(false);
-    setIsPlatformOpen(true);
+  const createHomeTask = (draft: TaskDraft) => {
+    const created = createTask(taskDatabase, draft);
+    if (!commitTaskDatabase(
+      recordTaskMetric(created.database, "quick_create_used"),
+      `已记下「${created.task.title}」`,
+    )) return;
+    recordInteraction("platform_home_task_created");
+  };
+
+  const openTaskMenu = () => {
+    const placement = chooseTaskMenuPlacement(
+      petVisibleBounds,
+      physicalPetPlacement.current,
+      "right",
+    );
+    setTaskMenuPlacement(placement);
+    setIsTaskMenuOpen(true);
+    recordInteraction("task_context_menu_open");
+  };
+
+  const closeTaskMenu = () => {
+    lastSecondaryClickAt.current = null;
+    if (secondaryClickResetTimer.current !== null) {
+      window.clearTimeout(secondaryClickResetTimer.current);
+      secondaryClickResetTimer.current = null;
+    }
+    setIsTaskMenuOpen(false);
+  };
+
+  const hidePetTemporarily = () => {
+    setIsTaskMenuOpen(false);
+    const appWindow = getOptionalCurrentWindow();
+    if (!appWindow) {
+      recordInteraction("pet_temporary_hide_noop");
+      return;
+    }
+
+    void appWindow.hide().then(
+      () => recordInteraction("pet_temporary_hidden"),
+      () => recordInteraction("pet_temporary_hide_failed"),
+    );
   };
 
   const openQuickTaskCreate = () => {
     setIsTaskMenuOpen(false);
+    if (!isPlatformWindow && isTauriRuntime()) {
+      requestPlatformNavigation({ section: "quick-create" });
+      recordInteraction("task_quick_create_open");
+      return;
+    }
     setIsPlatformOpen(false);
     setIsQuickCreateOpen(true);
     recordInteraction("task_quick_create_open");
   };
 
+  const closeQuickTaskCreate = () => {
+    setIsQuickCreateOpen(false);
+    if (isPlatformWindow) {
+      void getOptionalCurrentWindow()?.hide().catch(() => {
+        recordInteraction("platform_window_hide_failed");
+      });
+    }
+  };
+
   const createQuickTask = (draft: TaskDraft) => {
     const created = createTask(taskDatabase, draft);
-    commitTaskDatabase(recordTaskMetric(created.database, "quick_create_used"));
-    setIsQuickCreateOpen(false);
+    if (!commitTaskDatabase(recordTaskMetric(created.database, "quick_create_used"))) return;
+    closeQuickTaskCreate();
     recordInteraction("task_quick_created");
   };
 
@@ -1183,20 +1913,56 @@ function DesktopPetApp() {
       sleep: { title: "睡眠提醒", body: "到你计划的入睡时间啦。" },
     };
     if (isTauriRuntime()) {
+      const shownByCustomBridge = await invoke("show_care_notification", {
+        kind,
+        title: copy[kind].title,
+        body: copy[kind].body,
+      }).then(() => true).catch(() => false);
+      if (shownByCustomBridge) {
+        void recordInteraction("care_system_notification_shown");
+        return;
+      }
       let granted = await isNativeNotificationPermissionGranted().catch(() => false);
       if (!granted) granted = (await requestNativeNotificationPermission().catch(() => "denied")) === "granted";
-      if (granted) sendNativeNotification({ ...copy[kind], autoCancel: true });
+      if (!granted) {
+        void recordInteraction("care_system_notification_permission_denied");
+        return;
+      }
+      let sent = false;
+      try {
+        sendNativeNotification({
+          id: notificationIdForInstance(`care-${kind}`),
+          ...copy[kind],
+          autoCancel: true,
+        });
+        sent = true;
+      } catch {
+        sent = false;
+      }
+      void recordInteraction(sent ? "care_system_notification_shown" : "care_system_notification_failed");
       return;
     }
-    if ("Notification" in window && Notification.permission === "granted") {
-      new Notification(copy[kind].title, { body: copy[kind].body, tag: `care-${kind}` });
+    if (!("Notification" in window)) return;
+    let permission = Notification.permission;
+    if (permission === "default") {
+      permission = await Notification.requestPermission().catch(() => "denied" as NotificationPermission);
     }
+    if (permission !== "granted") return;
+    new Notification(copy[kind].title, { body: copy[kind].body, tag: `care-${kind}` });
   };
 
-  const completeTaskReminder = (_taskId: string, instanceId: string) => {
+  const markProactiveTaskEngaged = (taskId: string) => {
+    for (const [deliveryKey, deliveredTaskId] of proactiveDeliveryOutcomeRef.current) {
+      if (deliveredTaskId === taskId) proactiveDeliveryOutcomeRef.current.delete(deliveryKey);
+    }
+    proactiveTriggerEngine.recordEngaged(taskId);
+  };
+
+  const completeTaskReminder = (taskId: string, instanceId: string) => {
     const next = completeReminderInstance(taskDatabase, instanceId);
     if (next === taskDatabase) return;
-    commitTaskDatabase(next);
+    if (!commitTaskDatabase(next)) return;
+    markProactiveTaskEngaged(taskId);
     systemTaskNotifications.current.get(instanceId)?.close();
     const nativeId = nativeTaskNotifications.current.get(instanceId);
     if (nativeId !== undefined) {
@@ -1209,7 +1975,9 @@ function DesktopPetApp() {
   const snoozeTaskReminder = (instanceId: string) => {
     const next = snoozeReminderInstance(taskDatabase, instanceId, 10);
     if (next === taskDatabase) return;
-    commitTaskDatabase(next);
+    const taskId = taskDatabase.reminderInstances.find((instance) => instance.id === instanceId)?.taskId;
+    if (!commitTaskDatabase(next)) return;
+    if (taskId) markProactiveTaskEngaged(taskId);
     systemTaskNotifications.current.get(instanceId)?.close();
     const nativeId = nativeTaskNotifications.current.get(instanceId);
     if (nativeId !== undefined) {
@@ -1281,9 +2049,18 @@ function DesktopPetApp() {
   const selectPet = (pet: PetCatalogItem) => {
     if (pet.id === activePetId) return;
 
-    setCompanionChatState((current) => exitCompanionChat(current));
+    const exited = exitCompanionTaskChat(
+      companionChatStateRef.current,
+      pendingCompanionTaskRef.current,
+    );
+    pendingCompanionTaskRef.current = exited.pending;
+    setCompanionChatState(exited.state);
+    activePetIdRef.current = pet.id;
     saveSelectedPetId(pet.id);
     setActivePetId(pet.id);
+    if (isTauriRuntime()) {
+      void emit("pet-selected", { petId: pet.id });
+    }
     clearDefaultBubbleText();
     recordInteraction("platform_pet_selected");
   };
@@ -1328,6 +2105,34 @@ function DesktopPetApp() {
       : { status: "not-configured", petId };
   };
 
+  const prepareCompanionChatProvider = (petId: string) => {
+    const config = resolveCompanionChatPackage(getCompanionChatPackageForPet(petId));
+    const provider = createCompanionChatProvider(config);
+    companionChatProviderRef.current = provider;
+    setCompanionChatProviderInfo(provider.info);
+    return { config, provider };
+  };
+
+  const openCompanionChat = () => {
+    const { config } = prepareCompanionChatProvider(activePetId);
+    lastSecondaryClickAt.current = null;
+    if (secondaryClickResetTimer.current !== null) {
+      window.clearTimeout(secondaryClickResetTimer.current);
+      secondaryClickResetTimer.current = null;
+    }
+    pendingCompanionTaskRef.current = null;
+    setIsTaskMenuOpen(false);
+    setCompanionChatState(enterCompanionChat(config));
+    recordInteraction("companion_chat_open");
+  };
+
+  useEffect(() => {
+    if (companionChatState.mode !== "active") return;
+    prepareCompanionChatProvider(activePetId);
+  // The loaded package object is the configuration-change boundary for the
+  // currently active pet. The provider is resolved before the next send.
+  }, [activePetId, companionChatState.mode, petCompanionChatsById[activePetId]]);
+
   const stopCompanionChatReply = () => {
     setCompanionChatState((current) => stopCompanionReply(current));
     recordInteraction("companion_chat_stop");
@@ -1338,9 +2143,14 @@ function DesktopPetApp() {
   };
 
   const sendCompanionChatMessage = () => {
-    const config = resolveCompanionChatPackage(
-      getCompanionChatPackageForPet(activePetId),
-    );
+    const petId = activePetId;
+    const prepared = companionChatProviderRef.current
+      ? {
+          config: resolveCompanionChatPackage(getCompanionChatPackageForPet(petId)),
+          provider: companionChatProviderRef.current,
+        }
+      : prepareCompanionChatProvider(petId);
+    const { config, provider } = prepared;
     const sent = sendCompanionMessage(companionChatStateRef.current);
     setCompanionChatState(sent);
     if (sent.mode !== "active" || !sent.pendingUserMessage) return;
@@ -1348,55 +2158,255 @@ function DesktopPetApp() {
     const { id, text } = sent.pendingUserMessage;
     window.setTimeout(() => {
       if (
+        activePetIdRef.current !== petId ||
         companionChatStateRef.current.mode !== "active" ||
         companionChatStateRef.current.pendingRequestId !== id
       ) {
         return;
       }
 
-      if (isForgetRecentPreferenceRequest(text)) {
-        const nextPreferences = deleteRecentPreference(
-          companionPreferencesRef.current,
-        );
-        companionPreferencesRef.current = nextPreferences;
-        writeCompanionPreferences(nextPreferences);
+      const taskDatabaseSnapshot = readTaskDatabase();
+      const taskExtractorOptions = {
+        now: new Date(),
+        timezoneOffsetMinutes: taskDatabaseSnapshot.settings.timezoneOffsetMinutes,
+      };
+      const pendingTaskCandidate = getPendingTaskCandidateForPet(
+        pendingCompanionTaskRef.current,
+        petId,
+      );
+      if (pendingTaskCandidate) {
+        const confirmation = resolveTaskCandidateConfirmation(text);
+        if (confirmation === "confirm") {
+          pendingCompanionTaskRef.current = null;
+          const feedback = commitCompanionTaskCandidate(pendingTaskCandidate, petId, true);
+          setCompanionChatState((current) => receiveCompanionReply(current, feedback));
+          return;
+        }
+        if (confirmation === "cancel") {
+          pendingCompanionTaskRef.current = null;
+          setCompanionChatState((current) => receiveCompanionReply(current, "好，我不记这条。"));
+          return;
+        }
         setCompanionChatState((current) =>
-          receiveCompanionReply(current, "好，我忘掉刚才那条。"),
+          receiveCompanionReply(current, "你可以回复“确认”记下，或回复“取消”丢掉这条。"),
         );
         return;
       }
 
-      const extraction = extractCompanionPreference(text);
-      if (extraction) {
+      const route = resolveCompanionChatPipelineRoute({
+        text,
+        sourceMessageId: id,
+        petId,
+        taskOptions: taskExtractorOptions,
+      });
+      if (route.kind === "proactive") {
+        const preferenceCommand = route.command;
+        const preferenceTarget = resolveProactiveTaskControlTarget(
+          preferenceCommand,
+          taskDatabaseSnapshot,
+          proactiveTriggerEngine.getLastDeliveryContext(),
+        );
+        if (preferenceTarget.status === "needs-title") {
+          setCompanionChatState((current) =>
+            receiveCompanionReply(current, "告诉我具体是哪件待办，我就按你的选择调整提醒。"),
+          );
+          return;
+        }
+        if (preferenceTarget.status === "not-found") {
+          setCompanionChatState((current) =>
+            receiveCompanionReply(current, `我没找到「${preferenceTarget.targetTitle}」这件待办。`),
+          );
+          return;
+        }
+        if (preferenceTarget.status === "ambiguous") {
+          setCompanionChatState((current) =>
+            receiveCompanionReply(current, "我找到不止一件相近待办，请说得更具体一点。"),
+          );
+          return;
+        }
+        const preferenceTask = preferenceTarget.task;
+        if (preferenceCommand.action === "mute") {
+          proactiveTriggerEngine.setTaskPreference(preferenceTask.id, { mode: "muted" });
+          setCompanionChatState((current) =>
+            receiveCompanionReply(current, `好，我不再主动提醒「${preferenceTask.title}」了。`),
+          );
+          recordInteraction("task_proactive_muted");
+          return;
+        }
+        if (preferenceCommand.action === "reduce") {
+          proactiveTriggerEngine.setTaskPreference(preferenceTask.id, { mode: "reduced" });
+          setCompanionChatState((current) =>
+            receiveCompanionReply(current, `好，我会少提醒一点「${preferenceTask.title}」。`),
+          );
+          recordInteraction("task_proactive_reduced");
+          return;
+        }
+        const nextPetId = availablePetIds.find((candidatePetId) => candidatePetId !== activePetId);
+        if (!nextPetId) {
+          setCompanionChatState((current) =>
+            receiveCompanionReply(current, "现在还没有另一只可替换的宠物，我先不改变这件事。"),
+          );
+          return;
+        }
+        proactiveTriggerEngine.setTaskPreference(preferenceTask.id, { preferredPetId: nextPetId });
+        setCompanionChatState((current) =>
+          receiveCompanionReply(current, `好，之后由另一只宠物提醒「${preferenceTask.title}」，任务本身不变。`),
+        );
+        recordInteraction("task_proactive_pet_changed");
+        return;
+      }
+
+      if (route.kind === "task-operation") {
+        const feedback = applyCompanionTaskOperation(route.operation);
+        setCompanionChatState((current) => receiveCompanionReply(current, feedback));
+        return;
+      }
+
+      if (route.kind === "task-candidate") {
+        const taskCandidate = route.candidate;
+        if (taskCandidate.needsConfirmation) {
+          if (!taskCandidate.dueAt) {
+            setCompanionChatState((current) =>
+              receiveCompanionReply(current, "还缺一个具体日期，我不会把没有日期的事项默认为今天。"),
+            );
+            return;
+          }
+          if (taskCandidate.reminderRequested && !taskCandidate.remindAt) {
+            setCompanionChatState((current) =>
+              receiveCompanionReply(current, "提醒时间还不明确，告诉我具体时间后我再记下。"),
+            );
+            return;
+          }
+          pendingCompanionTaskRef.current = { petId, candidate: taskCandidate };
+          setCompanionChatState((current) =>
+            receiveCompanionReply(
+              current,
+              `要把「${taskCandidate.title}」安排在${formatCompanionTaskSchedule(taskCandidate)}吗？回复“确认”我再记下。`,
+            ),
+          );
+          return;
+        }
+        const feedback = commitCompanionTaskCandidate(taskCandidate, petId);
+        setCompanionChatState((current) => receiveCompanionReply(current, feedback));
+        return;
+      }
+
+      if (route.kind === "forget") {
+        const result = forgetRecentCompanionData({
+          preferences: companionPreferencesRef.current,
+          memoryRepository: companionMemoryRepository,
+          recentMemoryId: recentCompanionMemoryIdRef.current,
+          petId,
+          persistPreferences: writeCompanionPreferences,
+        });
+        companionPreferencesRef.current = result.preferences;
+        recentCompanionMemoryIdRef.current = result.recentMemoryId;
+        setCompanionChatState((current) =>
+          receiveCompanionReply(current, result.feedback),
+        );
+        return;
+      }
+
+      if (route.kind === "preference") {
+        const { extraction } = route;
         const nextPreferences = upsertCompanionPreference(
           companionPreferencesRef.current,
           extraction.preference,
         );
-        companionPreferencesRef.current = nextPreferences;
-        writeCompanionPreferences(nextPreferences);
+        const saved = writeCompanionPreferences(nextPreferences);
+        if (saved) companionPreferencesRef.current = nextPreferences;
         setCompanionChatState((current) =>
-          receiveCompanionReply(current, extraction.feedback),
+          receiveCompanionReply(
+            current,
+            saved ? extraction.feedback : "我暂时没能保存这个偏好，再试一次好吗？",
+          ),
         );
         return;
       }
 
-      void createLocalCompanionChatProvider(config)
-        .send({
-          text,
-          preferences: companionPreferencesRef.current.preferences,
-        })
+      const memoryCandidate = route.kind === "memory" ? route.candidate : null;
+      const savedMemory = memoryCandidate
+        ? saveCompanionMemoryCandidate(companionMemoryRepository, memoryCandidate)
+        : null;
+      if (savedMemory) recentCompanionMemoryIdRef.current = savedMemory.id;
+
+      if (memoryCandidate) {
+        setCompanionChatState((current) =>
+          receiveCompanionReply(
+            current,
+            savedMemory ? "好呀，我记住啦。" : "我暂时没能把这条 Memory 保存下来。",
+          ),
+        );
+        return;
+      }
+
+      const history = sent.messages.slice(0, -1);
+      const memories = searchCompanionMemorySafely(
+        companionMemoryRepository,
+        text,
+        { petId, limit: 3 },
+      );
+      const context = assembleCompanionContext({
+        petId,
+        soul: petSoulsById[petId],
+        preferences: companionPreferencesRef.current.preferences,
+        memories,
+        history,
+        userInput: text,
+        systemPrompt: config.systemPrompt,
+        style: config.style,
+      });
+
+      const providerInput = {
+        text,
+        petId,
+        history,
+        preferences: companionPreferencesRef.current.preferences,
+        memories,
+        context,
+      };
+      const receiveReplyIfPending = (replyText: string) => {
+        setCompanionChatState((current) =>
+          activePetIdRef.current === petId &&
+          current.mode === "active" &&
+          current.pendingRequestId === id
+            ? receiveCompanionReply(current, replyText)
+            : current,
+        );
+      };
+      void provider
+        .send(providerInput)
         .then((reply) => {
-          setCompanionChatState((current) =>
-            current.mode === "active" && current.pendingRequestId === id
-              ? receiveCompanionReply(current, reply.text)
-              : current,
-          );
+          receiveReplyIfPending(reply.text);
+        })
+        .catch((error: unknown) => {
+          if (provider.info.kind === "remote") {
+            const localFallback = createLocalCompanionChatFallbackProvider(config);
+            companionChatProviderRef.current = localFallback;
+            setCompanionChatProviderInfo(localFallback.info);
+            void localFallback.send(providerInput)
+              .then((reply) => receiveReplyIfPending(reply.text))
+              .catch(() => receiveReplyIfPending("我先用本地方式陪着你，慢慢说就好。"));
+            return;
+          }
+          const message =
+            error instanceof CompanionChatProviderError
+              ? error.userMessage
+              : "聊天服务暂时没接上，稍后再试。";
+          receiveReplyIfPending(message);
         });
     }, 240);
   };
 
   const exitActiveCompanionChat = () => {
-    setCompanionChatState((current) => exitCompanionChat(current));
+    const exited = exitCompanionTaskChat(
+      companionChatStateRef.current,
+      pendingCompanionTaskRef.current,
+    );
+    pendingCompanionTaskRef.current = exited.pending;
+    setCompanionChatState(exited.state);
+    companionChatProviderRef.current = null;
+    setCompanionChatProviderInfo(LOCAL_COMPANION_CHAT_PROVIDER_INFO);
     clearDefaultBubbleText();
   };
 
@@ -1456,10 +2466,17 @@ function DesktopPetApp() {
     if (!isTaskMenuOpen) return undefined;
     const close = (event: PointerEvent) => {
       const target = event.target instanceof Element ? event.target : null;
-      if (!target?.closest(".pet-task-menu")) setIsTaskMenuOpen(false);
+      if (!target?.closest(".pet-task-menu")) closeTaskMenu();
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeTaskMenu();
     };
     window.addEventListener("pointerdown", close);
-    return () => window.removeEventListener("pointerdown", close);
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      window.removeEventListener("pointerdown", close);
+      window.removeEventListener("keydown", closeOnEscape);
+    };
   }, [isTaskMenuOpen]);
 
   useEffect(() => {
@@ -1479,9 +2496,13 @@ function DesktopPetApp() {
     if (companionChatState.mode !== "active") return undefined;
 
     const timer = window.setInterval(() => {
-      setCompanionChatState((current) =>
-        shouldAutoExitCompanionChat(current) ? exitCompanionChat(current) : current,
+      const exited = autoExitCompanionTaskChat(
+        companionChatStateRef.current,
+        pendingCompanionTaskRef.current,
       );
+      if (!exited.exited) return;
+      pendingCompanionTaskRef.current = exited.pending;
+      setCompanionChatState(exited.state);
     }, 1000);
 
     return () => window.clearInterval(timer);
@@ -1501,6 +2522,8 @@ function DesktopPetApp() {
     );
     careReminderState.current = { ...careReminderState.current, deliveredKeys: nextDeliveredKeys };
     writeCareReminderState(careReminderState.current);
+    broadcastCareReminderState();
+    setCareReminderScheduleRevision((revision) => revision + 1);
   };
 
   const reopenTimedCareReminder = (deliveredKey: string) => {
@@ -1510,14 +2533,22 @@ function DesktopPetApp() {
     );
     careReminderState.current = { ...careReminderState.current, deliveredKeys: nextDeliveredKeys };
     writeCareReminderState(careReminderState.current);
+    broadcastCareReminderState();
+    setCareReminderScheduleRevision((revision) => revision + 1);
   };
 
   const saveCareReminderSettings = (settings: CareReminderSettingsValue) => {
-    careReminderState.current = { ...careReminderState.current, settings };
+    const now = Date.now();
+    careReminderState.current = {
+      ...careReminderState.current,
+      settings,
+      nextWellnessTime: now + settings.wellness.intervalMinutes * 60 * 1000,
+    };
     writeCareReminderState(careReminderState.current);
     setCareReminderSettings(settings);
-    const now = Date.now();
     nextWellnessTime.current = now + settings.wellness.intervalMinutes * 60 * 1000;
+    setCareReminderScheduleRevision((revision) => revision + 1);
+    broadcastCareReminderState();
     recordInteraction("care_reminder_settings_updated");
   };
 
@@ -1526,6 +2557,7 @@ function DesktopPetApp() {
     writeCareReminderState(careReminderState.current);
     setCareReminderNoticeDismissed(true);
     commitMailboxState((state) => receiveLetter(state, CARE_REMINDER_LETTER_ID));
+    broadcastCareReminderState();
     recordInteraction("care_reminder_disable_notice_dismissed");
   };
 
@@ -1749,6 +2781,76 @@ function DesktopPetApp() {
           }
         : { ...fallbackAction, dialogueEvent: undefined, bubbleText: feedback.text };
     playManifestAction(action, false);
+  };
+
+  const queueProactiveDelivery = (
+    decision: ProactiveTriggerDecision,
+    candidates: ProactiveTaskCandidate[],
+  ) => {
+    const taskIds = decision.aggregatedTaskIds ?? [decision.taskId];
+    const key = `${decision.candidateKey}:${taskIds.join("|")}`;
+    if (pendingProactiveDeliveryKeysRef.current.has(key)) return;
+    pendingProactiveDeliveryKeysRef.current.add(key);
+    pendingProactiveDeliveriesRef.current.push({ key, decision, candidates });
+  };
+
+  const recordProactiveDeliveryOutcome = (
+    deliveryKey: string,
+    delivery: ProactiveTaskDelivery,
+  ) => {
+    for (const taskId of delivery.taskIds) {
+      const outcomeKey = `${deliveryKey}:${taskId}`;
+      proactiveDeliveryOutcomeRef.current.set(outcomeKey, taskId);
+      window.setTimeout(() => {
+        if (proactiveDeliveryOutcomeRef.current.get(outcomeKey) !== taskId) return;
+        proactiveDeliveryOutcomeRef.current.delete(outcomeKey);
+        proactiveTriggerEngine.recordIgnored(taskId);
+      }, delivery.durationMs);
+    }
+  };
+
+  const flushProactiveDeliveries = () => {
+    if (isPlatformWindow || isPlatformOpen || isQuickCreateOpen || isTaskMenuOpen) return;
+
+    while (pendingProactiveDeliveriesRef.current.length > 0) {
+      const queued = pendingProactiveDeliveriesRef.current[0];
+      const route = planProactiveTaskDeliveryRoute(
+        queued.decision,
+        activePetId,
+        availablePetIds,
+      );
+      if (route.status === "unavailable") {
+        pendingProactiveDeliveriesRef.current.shift();
+        pendingProactiveDeliveryKeysRef.current.delete(queued.key);
+        recordInteraction("task_proactive_delivery_unavailable");
+        continue;
+      }
+      if (route.status === "switch") {
+        const targetPet = petCatalog.find((pet) => pet.id === route.targetPetId);
+        if (!targetPet) return;
+        selectPet(targetPet);
+        recordInteraction("task_proactive_pet_switch");
+        return;
+      }
+
+      const resolved = getActiveInteractionManifest();
+      if (!resolved || !animationsRef.current) return;
+      const resolvedDelivery = resolveProactiveTaskDelivery(
+        queued.decision,
+        queued.candidates,
+        petTaskFeedbackById[route.targetPetId],
+      );
+      if (!canRenderProactiveTaskDelivery(resolvedDelivery, activePetId)) return;
+
+      pendingProactiveDeliveriesRef.current.shift();
+      pendingProactiveDeliveryKeysRef.current.delete(queued.key);
+      playTaskFeedback(
+        resolvedDelivery.scene,
+        resolvedDelivery.text,
+        resolved.reminders.eyeCare,
+      );
+      recordProactiveDeliveryOutcome(queued.key, resolvedDelivery);
+    }
   };
 
   const handleClicks = () => {
@@ -2157,6 +3259,7 @@ function DesktopPetApp() {
       pointerState.current?.source === "pointer" &&
       !isPrimaryButtonPressed(event.buttons)
     ) {
+      finishPress("pointer");
       return;
     }
     movePress(event.clientX, event.clientY, event.screenX, event.screenY);
@@ -2195,17 +3298,33 @@ function DesktopPetApp() {
   };
 
   const handleMouseMove = (event: ReactMouseEvent<HTMLElement>) => {
-    if (!shouldUseMouseFallback() && pointerState.current?.source === "pointer") return;
+    if (pointerState.current?.source === "pointer") {
+      if (!isPrimaryButtonPressed(event.buttons)) {
+        finishPress("pointer");
+        return;
+      }
+
+      if (!shouldUseMouseFallback()) return;
+      movePress(event.clientX, event.clientY, event.screenX, event.screenY);
+      return;
+    }
+
     if (
       pointerState.current?.source === "mouse" &&
       !isPrimaryButtonPressed(event.buttons)
     ) {
+      finishPress("mouse");
       return;
     }
     movePress(event.clientX, event.clientY, event.screenX, event.screenY);
   };
 
   const handleMouseUp = () => {
+    if (pointerState.current?.source === "pointer") {
+      if (shouldUseMouseFallback()) finishPress("pointer");
+      return;
+    }
+
     if (!shouldUseMouseFallback() && pointerState.current?.source !== "mouse") return;
     finishPress("mouse");
   };
@@ -2213,8 +3332,27 @@ function DesktopPetApp() {
   const handleContextMenu = (event: ReactMouseEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    setIsTaskMenuOpen(true);
-    recordInteraction("task_context_menu_open");
+    if (companionChatStateRef.current.mode === "active") return;
+
+    const secondaryClick = registerSecondaryClick(
+      lastSecondaryClickAt.current,
+      Date.now(),
+    );
+    if (secondaryClickResetTimer.current !== null) {
+      window.clearTimeout(secondaryClickResetTimer.current);
+      secondaryClickResetTimer.current = null;
+    }
+    if (secondaryClick.triggered) {
+      lastSecondaryClickAt.current = null;
+      openCompanionChat();
+      return;
+    }
+    lastSecondaryClickAt.current = secondaryClick.lastClickAt;
+    secondaryClickResetTimer.current = window.setTimeout(() => {
+      lastSecondaryClickAt.current = null;
+      secondaryClickResetTimer.current = null;
+    }, SECONDARY_DOUBLE_CLICK_MS);
+    openTaskMenu();
   };
 
   const handlePointerEnter = () => {
@@ -2246,9 +3384,24 @@ function DesktopPetApp() {
     playIdleAnimation();
   };
 
+  const handleLostPointerCapture = () => {
+    markPointerEvent();
+    if (pointerState.current?.source !== "pointer") return;
+
+    finishPress("pointer");
+  };
+
   const scheduleNextRandomCareReminder = (nowTimestamp: number) => {
     const setting = careReminderState.current.settings.wellness;
-    nextWellnessTime.current = nowTimestamp + setting.intervalMinutes * 60 * 1000;
+    const nextTime = nowTimestamp + setting.intervalMinutes * 60 * 1000;
+    nextWellnessTime.current = nextTime;
+    careReminderState.current = {
+      ...careReminderState.current,
+      nextWellnessTime: nextTime,
+    };
+    writeCareReminderState(careReminderState.current);
+    broadcastCareReminderState();
+    setCareReminderScheduleRevision((revision) => revision + 1);
   };
 
   const postponeOverdueRandomCareReminders = (nowTimestamp: number) => {
@@ -2283,19 +3436,33 @@ function DesktopPetApp() {
   };
 
   useEffect(() => {
+    if (isPlatformWindow) return;
     const scan = () => {
       const stored = readTaskDatabase();
       const timezoneAdjusted = reconcileTaskTimezone(stored);
       const aged = markUnattendedReminders(timezoneAdjusted, new Date(), timezoneAdjusted.settings.bubbleDurationMinutes * 60 * 1000);
       const result = triggerDueReminders(aged);
-      if (result.triggered.length === 0) {
-        if (aged !== stored) {
-          writeTaskDatabase(aged);
-          setTaskDatabase(aged);
+      const deliverProactiveCandidates = (candidates: ReturnType<typeof createProactiveTaskCandidate>[]) => {
+        if (isPlatformOpen || isQuickCreateOpen || candidates.length === 0 || !activePetManifest) return;
+        // Formal task reminders keep their existing native/stack delivery below.
+        // The engine owns only the additional proactive pet expression channel.
+        const proactive = proactiveTriggerEngine.evaluate(candidates);
+        for (const delivery of proactive.deliveries) {
+          queueProactiveDelivery(delivery.decision, delivery.candidates);
         }
+        flushProactiveDeliveries();
+      };
+      if (result.triggered.length === 0) {
+        let persisted = true;
+        if (aged !== stored) {
+          persisted = writeTaskDatabase(aged);
+          if (persisted) setTaskDatabase(aged);
+        }
+        if (!persisted) return;
+        deliverProactiveCandidates(selectProactiveTaskCandidates(aged));
         return;
       }
-      writeTaskDatabase(result.database);
+      if (!writeTaskDatabase(result.database)) return;
       setTaskDatabase(result.database);
 
       const shouldSummarize = result.triggered.length > 1
@@ -2306,19 +3473,7 @@ function DesktopPetApp() {
         for (const due of result.triggered) void showSystemTaskNotification(due);
       }
       playTaskNotificationSound();
-      if (!isPlatformOpen && !isQuickCreateOpen) {
-        const resolved = getActiveInteractionManifest();
-        if (resolved) {
-          const multiple = result.triggered.length > 1;
-          playTaskFeedback(
-            multiple ? "taskBurst" : "taskDue",
-            multiple
-              ? `你有 ${result.triggered.length} 条提醒，我们一件一件来。`
-              : `该做「${result.triggered[0]?.task.title ?? "这件事"}」啦。`,
-            resolved.reminders.eyeCare,
-          );
-        }
-      }
+      deliverProactiveCandidates(result.triggered.map((due) => createProactiveTaskCandidate(due)));
       recordInteraction("task_reminder_triggered");
     };
 
@@ -2334,7 +3489,11 @@ function DesktopPetApp() {
       window.removeEventListener("task-scheduler-wakeup", rescan);
       document.removeEventListener("visibilitychange", rescan);
     };
-  }, [activePetId, isPlatformOpen, isQuickCreateOpen, petTaskFeedbackById, taskDatabase.settings.notificationSound, taskDatabase.settings.customNotificationSoundDataUrl]);
+  }, [activePetId, activePetManifest, isPlatformOpen, isPlatformWindow, isQuickCreateOpen, petTaskFeedbackById, proactiveTriggerEngine, taskDatabase.settings.notificationSound, taskDatabase.settings.customNotificationSoundDataUrl]);
+
+  useEffect(() => {
+    flushProactiveDeliveries();
+  }, [activePetId, availablePetIds, isPlatformOpen, isPlatformWindow, isQuickCreateOpen, isTaskMenuOpen, petTaskFeedbackById]);
 
   const playDesktopIconAction = (
     action: PetActionSpec,
@@ -2566,13 +3725,19 @@ function DesktopPetApp() {
   };
 
   useEffect(() => {
+    if (isPlatformWindow) return;
     const host = pixiHost.current;
-    if (!host) return;
+    const manifest = activePetManifest;
+    if (!host || !manifest) return;
 
     let disposed = false;
     let initialized = false;
     let destroyed = false;
     const app = new Application();
+    const getCanvasOrigin = (petViewport: PetViewport): WindowPosition =>
+      isTauriRuntime()
+        ? { x: host.offsetLeft, y: host.offsetTop }
+        : { x: petViewport.x, y: petViewport.y };
 
     const destroyApp = () => {
       if (!initialized || destroyed) return;
@@ -2598,8 +3763,7 @@ function DesktopPetApp() {
 
         host.appendChild(app.canvas);
 
-        const petId = activePetId;
-        const manifest = await loadPetManifest(petId);
+        const petId = manifest.id;
         const resolvedInteractions = resolvePetInteractionManifest(manifest);
         const textureCache = new Map<string, Texture>();
         const loadTexture = async (path: string) => {
@@ -2680,9 +3844,18 @@ function DesktopPetApp() {
         spriteRef.current = sprite;
         sprite.anchor.set(0.5, 1);
         applySpriteVisual(sprite, idleAnimationName);
-        sprite.x = app.screen.width / 2;
-        sprite.y = app.screen.height - 6;
+        const initialSpritePosition = getPetCanvasPosition(
+          petViewportRef.current,
+          getCanvasOrigin(petViewportRef.current),
+        );
+        sprite.position.set(initialSpritePosition.x, initialSpritePosition.y);
         app.stage.addChild(sprite);
+        app.renderer.render(app.stage);
+        startupPetReady.current = true;
+        revealStartupWindowIfReady();
+        if (isTauriRuntime()) {
+          void emit("startup-pet-ready");
+        }
 
         host.dataset.petLoaded = "true";
         host.dataset.petId = manifest.id;
@@ -2690,6 +3863,7 @@ function DesktopPetApp() {
         host.dataset.animationCount = String(animationEntries.length);
         host.dataset.desktopIconEnabled = String(resolvedInteractions.desktopIcon.enabled);
         recordInteraction("app_ready");
+        window.setTimeout(flushProactiveDeliveries, 0);
         desktopIconProbeTimer.current = window.setInterval(
           probeDesktopIconInteraction,
           1200,
@@ -2704,12 +3878,18 @@ function DesktopPetApp() {
                 getAnimationDirectionMode(currentAnimation.current),
               )
             : { offsetX: 0, offsetY: 0 };
-          sprite.x = app.screen.width / 2 + transform.offsetX;
-          sprite.y = app.screen.height - 6 + transform.offsetY;
+          const petViewport = petViewportRef.current;
+          const spritePosition = getPetCanvasPosition(
+            petViewport,
+            getCanvasOrigin(petViewport),
+            { x: transform.offsetX, y: transform.offsetY },
+          );
+          sprite.position.set(spritePosition.x, spritePosition.y);
         });
       })
       .catch(() => {
         recordInteraction("app_init_failed");
+        revealStartupWindow("startup_window_revealed_after_pet_failure");
       });
 
     return () => {
@@ -2731,46 +3911,82 @@ function DesktopPetApp() {
       interactionManifestRef.current = null;
       destroyApp();
     };
-  }, [activePetId]);
+  }, [activePetId, activePetManifest, isPlatformWindow]);
+
+  const isPetInteractionLocked =
+    isPlatformOpen || isQuickCreateOpen || isTaskMenuOpen;
+  const usesDynamicPetWindow =
+    isTauriRuntime() &&
+    !isPlatformWindow &&
+    !isPlatformOpen &&
+    !isQuickCreateOpen &&
+    !isTaskMenuOpen &&
+    !isReminderWindowExpanded;
+  const shellStyle = {
+    "--pet-bubble-bottom": `${usesDynamicPetWindow ? petWindowLayout.bubbleBottom : PET_BUBBLE_BOTTOM_PX}px`,
+    "--pet-bubble-center-x": usesDynamicPetWindow
+      ? `${petWindowLayout.bubbleCenterX}px`
+      : "50%",
+    "--pet-hit-left": usesDynamicPetWindow
+      ? `${petWindowLayout.petHitArea.x}px`
+      : "24px",
+    "--pet-hit-top": usesDynamicPetWindow
+      ? `${petWindowLayout.petHitArea.y}px`
+      : "118px",
+    "--pet-hit-width": usesDynamicPetWindow
+      ? `${petWindowLayout.petHitArea.width}px`
+      : "117px",
+    "--pet-hit-height": usesDynamicPetWindow
+      ? `${petWindowLayout.petHitArea.height}px`
+      : "91px",
+    "--platform-pet-inset": `${PLATFORM_PET_INSET_PX}px`,
+  } as CSSProperties;
 
   return (
     <main
-      className={`pet-shell${isPlatformOpen ? " platform-open" : ""}${isQuickCreateOpen ? " quick-create-open" : ""}${!isPlatformOpen && !isQuickCreateOpen && isReminderWindowExpanded ? " reminder-open" : ""}`}
-      style={
-        {
-          "--pet-bubble-bottom": `${PET_BUBBLE_BOTTOM_PX}px`,
-          "--platform-pet-inset": `${PLATFORM_PET_INSET_PX}px`,
-        } as CSSProperties
-      }
-      onContextMenu={isPlatformOpen || isQuickCreateOpen ? undefined : handleContextMenu}
-      onMouseDown={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseDown}
-      onMouseEnter={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseEnter}
-      onMouseLeave={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseLeave}
-      onMouseMove={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseMove}
-      onMouseUp={isPlatformOpen || isQuickCreateOpen ? undefined : handleMouseUp}
-      onPointerDown={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerDown}
-      onPointerEnter={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerEnter}
-      onPointerLeave={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerLeave}
-      onPointerMove={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerMove}
-      onPointerCancel={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerInterruption}
-      onLostPointerCapture={
-        isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerInterruption
-      }
-      onPointerUp={isPlatformOpen || isQuickCreateOpen ? undefined : handlePointerUp}
+      ref={shellRef}
+      className={`pet-shell${isPlatformWindow ? " platform-window" : ""}${isPlatformOpen ? " platform-open" : ""}${isQuickCreateOpen ? " quick-create-open" : ""}${isTaskMenuOpen ? " task-menu-open" : ""}${!isPlatformOpen && !isQuickCreateOpen && !isTaskMenuOpen && isReminderWindowExpanded ? " reminder-open" : ""}`}
+      data-ui-font-size={taskDatabase.settings.interfaceFontSize as InterfaceFontSize}
+      style={shellStyle}
     >
-      <div className="pet-hit-area" aria-hidden="true" />
-      <div ref={pixiHost} className="pet-canvas" />
-      {companionChatState.mode === "active" && (
+      {!isPlatformWindow && (
+        <>
+          <div
+            className="pet-hit-area"
+            aria-hidden="true"
+            onContextMenu={isPetInteractionLocked ? undefined : handleContextMenu}
+            onMouseDown={isPetInteractionLocked ? undefined : handleMouseDown}
+            onMouseEnter={isPetInteractionLocked ? undefined : handleMouseEnter}
+            onMouseLeave={isPetInteractionLocked ? undefined : handleMouseLeave}
+            onMouseMove={isPetInteractionLocked ? undefined : handleMouseMove}
+            onMouseUp={isPetInteractionLocked ? undefined : handleMouseUp}
+            onPointerDown={isPetInteractionLocked ? undefined : handlePointerDown}
+            onPointerEnter={isPetInteractionLocked ? undefined : handlePointerEnter}
+            onPointerLeave={isPetInteractionLocked ? undefined : handlePointerLeave}
+            onPointerMove={isPetInteractionLocked ? undefined : handlePointerMove}
+            onPointerCancel={
+              isPetInteractionLocked ? undefined : handlePointerInterruption
+            }
+            onLostPointerCapture={
+              isPetInteractionLocked ? undefined : handleLostPointerCapture
+            }
+            onPointerUp={isPetInteractionLocked ? undefined : handlePointerUp}
+          />
+          <div ref={pixiHost} className="pet-canvas" />
+        </>
+      )}
+      {!isTaskMenuOpen && companionChatState.mode === "active" && (
         <CompanionChatBubble
           draft={companionChatState.draft}
           isWaiting={companionChatState.pendingRequestId !== null}
           messages={companionChatState.messages}
+          providerInfo={companionChatProviderInfo}
           onDraftChange={updateCompanionDraftText}
           onSend={sendCompanionChatMessage}
           onStop={stopCompanionChatReply}
         />
       )}
-      {companionChatState.mode !== "active" && bubbleText && (
+      {!isTaskMenuOpen && companionChatState.mode !== "active" && bubbleText && (
         <div
           className={`bubble${careReminderPrompt ? " has-actions" : ""}`}
           onClick={careReminderPrompt ? stopPlatformEvent : undefined}
@@ -2802,11 +4018,14 @@ function DesktopPetApp() {
           )}
         </div>
       )}
-      {!isPlatformOpen && !isQuickCreateOpen && companionChatState.mode !== "active" && (
+      {!isPlatformOpen && !isQuickCreateOpen && !isTaskMenuOpen && companionChatState.mode !== "active" && (
         <TaskReminderStack
           reminders={visibleTaskReminders}
           onComplete={completeTaskReminder}
-          onOpen={(taskId) => openTaskPlatform("today", taskId)}
+          onOpen={(taskId) => {
+            markProactiveTaskEngaged(taskId);
+            openTaskPlatform("today", taskId);
+          }}
           onOpenAll={() => {
             openTaskPlatform("today");
             const summaryId = missedSummaryNotificationId.current;
@@ -2814,8 +4033,8 @@ function DesktopPetApp() {
             missedSummaryNotificationId.current = null;
           }}
           onCloseSummary={(instanceIds) => {
+            if (!commitTaskDatabase(closeMissedReminderSummary(readTaskDatabase()))) return;
             setHiddenTaskReminderIds((current) => new Set([...current, ...instanceIds]));
-            commitTaskDatabase(closeMissedReminderSummary(readTaskDatabase()));
             const summaryId = missedSummaryNotificationId.current;
             if (summaryId) void invoke("clear_task_notification", { instanceId: summaryId }).catch(() => {});
             missedSummaryNotificationId.current = null;
@@ -2826,23 +4045,29 @@ function DesktopPetApp() {
       )}
       {!isPlatformOpen && !isQuickCreateOpen && isTaskMenuOpen && (
         <TaskContextMenu
-          onClose={() => setIsTaskMenuOpen(false)}
-          onOpenPlatform={() => openTaskPlatform("all")}
+          onClose={closeTaskMenu}
+          placement={taskMenuLayout.placement}
+          style={{
+            left: taskMenuLayout.menuPosition.x,
+            top: taskMenuLayout.menuPosition.y,
+          }}
           onOpenReminders={() => openTaskPlatform("upcoming")}
           onOpenToday={() => openTaskPlatform("today")}
-          onOpenSettings={openPetPlatform}
+          onOpenSettings={() => openTaskPlatform("settings")}
+          onOpenChat={openCompanionChat}
           onQuickCreate={openQuickTaskCreate}
+          onHidePet={hidePetTemporarily}
         />
       )}
       {isQuickCreateOpen && (
         <section className="quick-task-overlay" onPointerDown={stopPlatformEvent}>
           <div className="quick-task-panel">
-            <header><div><small>快速记录</small><h2>新建待办</h2></div><button type="button" aria-label="关闭" onClick={() => setIsQuickCreateOpen(false)}>×</button></header>
-            <QuickCreateTask compact onCancel={() => setIsQuickCreateOpen(false)} onCreate={createQuickTask} />
+            <header><div><small>快速记录</small><h2>新建待办</h2></div><button type="button" aria-label="关闭" onClick={closeQuickTaskCreate}>×</button></header>
+            <QuickCreateTask compact onCancel={closeQuickTaskCreate} onCreate={createQuickTask} />
           </div>
         </section>
       )}
-      {isPlatformOpen && (
+      {isPlatformOpen && (!isTauriRuntime() || isPlatformWindow) && (
         <section
           className="platform-panel"
           aria-label="桌宠平台"
@@ -2850,15 +4075,60 @@ function DesktopPetApp() {
           onPointerDown={stopPlatformEvent}
         >
           <header className="platform-header" onPointerDown={startPlatformWindowDrag}>
-            <div>
-              <p className="platform-kicker">Desktop Pet Platform</p>
-              <h1>{APP_DISPLAY_NAME}</h1>
-            </div>
-            <div className="platform-header-actions">
-              <div className="platform-section-switch" onPointerDown={stopPlatformEvent}>
-                <button className={platformSection === "tasks" ? "is-active" : ""} type="button" onClick={() => setPlatformSection("tasks")}>待办</button>
-                <button className={platformSection === "pets" ? "is-active" : ""} type="button" onClick={() => setPlatformSection("pets")}>桌宠</button>
+            <div className="platform-brand">
+              <span className="platform-brand-mark" aria-hidden="true">愈</span>
+              <div>
+                <h1>愈心</h1>
+                <p>{activePet?.displayName ?? "小伙伴"}正在桌面陪伴</p>
               </div>
+            </div>
+            <nav
+              className="platform-navigation"
+              aria-label="主功能"
+              onPointerDown={stopPlatformEvent}
+            >
+              <button
+                aria-current={platformSection === "home" ? "page" : undefined}
+                className={platformSection === "home" ? "is-active" : ""}
+                type="button"
+                onClick={() => setPlatformSection("home")}
+              >
+                陪伴
+              </button>
+              <button
+                aria-current={platformSection === "tasks" ? "page" : undefined}
+                className={platformSection === "tasks" ? "is-active" : ""}
+                type="button"
+                onClick={() => setPlatformSection("tasks")}
+              >
+                待办
+              </button>
+              <button
+                aria-current={platformSection === "pets" ? "page" : undefined}
+                className={platformSection === "pets" ? "is-active" : ""}
+                type="button"
+                onClick={() => setPlatformSection("pets")}
+              >
+                桌宠
+              </button>
+            </nav>
+            <div className="platform-header-actions">
+              <button
+                className="platform-companion-chip"
+                type="button"
+                onClick={() => setPlatformSection("pets")}
+                onPointerDown={stopPlatformEvent}
+              >
+                <span
+                  className={`platform-companion-avatar is-${activePet?.previewKind ?? "image"}`}
+                  aria-hidden="true"
+                  style={activePet ? { backgroundImage: `url(${activePet.previewUrl})` } : undefined}
+                />
+                <span>
+                  <strong>{activePet?.displayName ?? "伙伴"}</strong>
+                  <small>陪伴中</small>
+                </span>
+              </button>
               <button
                 className={`platform-mailbox-button${
                   isMailboxReceiving ? " is-receiving" : ""
@@ -2869,26 +4139,181 @@ function DesktopPetApp() {
                 onClick={openMailbox}
                 onPointerDown={stopPlatformEvent}
               >
-                <span aria-hidden="true">✉</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M3.5 5.5h13v9h-13z" />
+                  <path d="m4.3 6.3 5.7 4.4 5.7-4.4" />
+                </svg>
                 {visibleUnreadCount > 0 && (
                   <span className="platform-mailbox-badge">
                     {visibleUnreadCount}
                   </span>
                 )}
               </button>
-              <button
-                className="platform-close"
-                type="button"
-                aria-label="关闭桌宠平台"
-                onClick={closePlatform}
-                onPointerDown={stopPlatformEvent}
-              >
-                ×
-              </button>
+              <div className="platform-window-controls" onPointerDown={stopPlatformEvent}>
+                {isPlatformWindow && (
+                  <>
+                    <button
+                      className="platform-window-control"
+                      type="button"
+                      aria-label="最小化窗口"
+                      title="最小化"
+                      onClick={minimizePlatformWindow}
+                    >
+                      <svg viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M3 8.5h10" />
+                      </svg>
+                    </button>
+                    <button
+                      className="platform-window-control"
+                      type="button"
+                      aria-label={isPlatformMaximized ? "还原窗口" : "最大化窗口"}
+                      title={isPlatformMaximized ? "还原" : "最大化"}
+                      onClick={togglePlatformWindowMaximize}
+                    >
+                      <svg viewBox="0 0 16 16" aria-hidden="true">
+                        {isPlatformMaximized ? (
+                          <>
+                            <path d="M5.5 3.5h7v7" />
+                            <rect x="3.5" y="5.5" width="7" height="7" rx="0.8" />
+                          </>
+                        ) : (
+                          <rect x="3.5" y="3.5" width="9" height="9" rx="0.8" />
+                        )}
+                      </svg>
+                    </button>
+                  </>
+                )}
+                <button
+                  className="platform-window-control platform-close"
+                  type="button"
+                  aria-label="关闭桌宠平台"
+                  title="关闭"
+                  onClick={closePlatform}
+                >
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="m4 4 8 8M12 4l-8 8" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </header>
 
-          {platformSection === "tasks" ? (
+          {platformSection === "home" ? (
+            <section className="platform-home" aria-label="陪伴首页">
+              <header className="platform-home-intro">
+                <div>
+                  <span>{formatPlatformDate()}</span>
+                  <h2>{getPlatformGreeting()}，今天也慢慢来</h2>
+                  <p>把要做的事安稳放在这里，桌面上的小伙伴会继续陪着你。</p>
+                </div>
+                <button type="button" onClick={() => setPlatformSection("pets")}>
+                  <i aria-hidden="true" />
+                  <span>
+                    <strong>{activePet?.displayName ?? "小伙伴"}</strong>
+                    <small>正在桌面陪伴</small>
+                  </span>
+                </button>
+              </header>
+
+              <div className="platform-home-grid">
+                <section className="platform-home-main-card">
+                  <div className="platform-home-quick">
+                    <div>
+                      <span>快速记录</span>
+                      <strong>先记下一件小事</strong>
+                    </div>
+                    <QuickCreateTask compact onCreate={createHomeTask} />
+                  </div>
+
+                  <div className="platform-home-agenda">
+                    <header>
+                      <div>
+                        <span>今日安排</span>
+                        <strong>
+                          {homeTodayTasks.length > 0
+                            ? `${homeTodayTasks.length} 件事在等你`
+                            : "今天还很轻盈"}
+                        </strong>
+                      </div>
+                      <button type="button" onClick={() => openTaskPlatform("today")}>
+                        查看全部
+                      </button>
+                    </header>
+                    {homeTaskPreview.length > 0 ? (
+                      <div className="platform-home-task-list">
+                        {homeTaskPreview.map((task) => (
+                          <button
+                            className={`is-${task.priority}`}
+                            key={task.id}
+                            type="button"
+                            onClick={() => openTaskPlatform("today", task.id)}
+                          >
+                            <span aria-hidden="true" />
+                            <strong>{task.title}</strong>
+                            <small>{formatHomeTaskSchedule(task)}</small>
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="platform-home-empty">
+                        <span aria-hidden="true">✓</span>
+                        <div>
+                          <strong>没有必须赶着完成的事</strong>
+                          <p>给自己留一点空白，也是一种安排。</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </section>
+
+                <aside className="platform-home-companion-card">
+                  <div className="platform-home-note">
+                    <div>
+                      <span
+                        className={`platform-home-note-avatar is-${activePet?.previewKind ?? "image"}`}
+                        aria-hidden="true"
+                        style={activePet ? { backgroundImage: `url(${activePet.previewUrl})` } : undefined}
+                      />
+                      <span>
+                        <small>{activePet?.displayName ?? "小伙伴"}的话</small>
+                        <strong>我在桌面上呢</strong>
+                      </span>
+                    </div>
+                    <blockquote>“{homePetMessage}”</blockquote>
+                  </div>
+
+                  <div className="platform-home-stats" aria-label="今日进度">
+                    <div>
+                      <strong>{homeCompletedCount}</strong>
+                      <span>今日完成</span>
+                    </div>
+                    <div>
+                      <strong>{homeTodayTasks.length}</strong>
+                      <span>仍待安排</span>
+                    </div>
+                  </div>
+
+                  <button
+                    className="platform-home-mail"
+                    type="button"
+                    onClick={openMailbox}
+                  >
+                    <span aria-hidden="true">
+                      <svg viewBox="0 0 20 20">
+                        <path d="M3.5 5.5h13v9h-13z" />
+                        <path d="m4.3 6.3 5.7 4.4 5.7-4.4" />
+                      </svg>
+                    </span>
+                    <span>
+                      <strong>{visibleUnreadCount > 0 ? `${visibleUnreadCount} 封信还没读` : "信箱很安静"}</strong>
+                      <small>{visibleUnreadCount > 0 ? "去看看伙伴带来的消息" : "新的消息会轻轻出现在这里"}</small>
+                    </span>
+                    <b aria-hidden="true">›</b>
+                  </button>
+                </aside>
+              </div>
+            </section>
+          ) : platformSection === "tasks" ? (
             <TaskWorkspace
               database={taskDatabase}
               initialView={taskListView}
@@ -2901,45 +4326,69 @@ function DesktopPetApp() {
               reviewSpeakerName={activePet?.displayName ?? activePetId}
               reviewSpeakerTexts={dailyReviewSpeakerTexts}
               onPreviewPetNotificationSound={() => playPetSound("taskDue")}
+              companionMemoryRepository={companionMemoryRepository}
+              companionMemoryPetId={activePetId}
             />
           ) : (
-            <>
-              <div className="platform-status">
-                <span>当前显示</span>
-                <strong>{activePet?.displayName ?? activePetId}</strong>
-                <span>{petCatalog.length} 个桌宠包</span>
-              </div>
+            <section className="platform-pets" aria-label="伙伴选择">
+              <header className="platform-page-heading">
+                <div>
+                  <span>我的伙伴</span>
+                  <h2>选择陪在桌面上的小伙伴</h2>
+                </div>
+                <p>{petCatalog.length} 位伙伴已经来到这里</p>
+              </header>
 
-              <div className="pet-grid">
-                {petCatalog.map((pet) => (
-                  <article
-                    className={`pet-card${pet.isActive ? " is-active" : ""}`}
-                    key={pet.id}
-                  >
-                    <div
-                      className={`pet-card-preview is-${pet.previewKind}`}
-                      aria-hidden="true"
-                      style={{ backgroundImage: `url(${pet.previewUrl})` }}
-                    />
-                    <div className="pet-card-body">
-                      <div className="pet-card-title-row">
-                        <h2>{pet.displayName}</h2>
-                        <span>{pet.id}</span>
+              <div className="platform-pet-library">
+                <header>
+                  <strong>全部伙伴</strong>
+                  <span>当前伙伴排在第一位，更换后会自动轮换</span>
+                </header>
+                <div className="pet-grid">
+                  {[
+                    ...petCatalog.filter((pet) => pet.isActive),
+                    ...petCatalog.filter((pet) => !pet.isActive),
+                  ].map((pet) => (
+                    <article
+                      aria-current={pet.isActive ? "true" : undefined}
+                      className={`pet-card${pet.isActive ? " is-active" : ""}`}
+                      key={pet.id}
+                    >
+                      <div
+                        className={`pet-card-preview is-${pet.previewKind}`}
+                        aria-hidden="true"
+                        style={{ backgroundImage: `url(${pet.previewUrl})` }}
+                      />
+                      <div className="pet-card-body">
+                        <div className="pet-card-title-row">
+                          <h2>{pet.displayName}</h2>
+                          {pet.isActive && <span>当前伙伴</span>}
+                        </div>
+                        <p>{pet.description}</p>
+                        <div className="pet-card-footer">
+                          {pet.isActive ? (
+                            <span className="pet-card-status"><i /> 陪伴中</span>
+                          ) : (
+                            <button
+                              className="pet-card-action"
+                              type="button"
+                              onClick={() => selectPet(pet)}
+                            >
+                              换成它
+                            </button>
+                          )}
+                        </div>
                       </div>
-                      <p>{pet.description}</p>
-                      <button
-                        className="pet-card-action"
-                        type="button"
-                        disabled={pet.isActive}
-                        onClick={() => selectPet(pet)}
-                      >
-                        {pet.isActive ? "使用中" : "启用"}
-                      </button>
+                    </article>
+                  ))}
+                  {petCatalog.length === 0 && (
+                    <div className="platform-pet-empty">
+                      新伙伴来到这里后，会出现在这张名单中。
                     </div>
-                  </article>
-                ))}
+                  )}
+                </div>
               </div>
-            </>
+            </section>
           )}
 
           {isMailboxOpen && (

@@ -1,0 +1,74 @@
+{
+  "stage": "reset-v1-head-visible-line-ownership",
+  "status": "visual_review_required",
+  "canvas": [
+    512,
+    1086
+  ],
+  "source": "source\\masters\\front-line-source-exact-after-reset.png",
+  "colorGeometryReference": "source\\masters\\front-color-source-exact-after-reset.png",
+  "layerCount": 10,
+  "allLayersFullCanvas": true,
+  "headUnresolvedInkPixels": 4771,
+  "roundtripDifferenceBox": null,
+  "rules": {
+    "sourcePixelsOnly": true,
+    "noCropAsLayer": true,
+    "noResize": true,
+    "noRedraw": true,
+    "noHiddenFillYet": true,
+    "notPsdOrCubismReady": true
+  },
+  "layers": [
+    {
+      "name": "01_画面左眼_原线稿像素",
+      "path": "model\\reset-v1\\head-line-ownership\\01_画面左眼_原线稿像素.png",
+      "ownedInkPixels": 761
+    },
+    {
+      "name": "02_画面右眼_原线稿像素",
+      "path": "model\\reset-v1\\head-line-ownership\\02_画面右眼_原线稿像素.png",
+      "ownedInkPixels": 1003
+    },
+    {
+      "name": "03_鼻口_原线稿像素",
+      "path": "model\\reset-v1\\head-line-ownership\\03_鼻口_原线稿像素.png",
+      "ownedInkPixels": 439
+    },
+    {
+      "name": "04_中央刘海_原线稿像素",
+      "path": "model\\reset-v1\\head-line-ownership\\04_中央刘海_原线稿像素.png",
+      "ownedInkPixels": 5049
+    },
+    {
+      "name": "05_画面左侧发_原线稿像素",
+      "path": "model\\reset-v1\\head-line-ownership\\05_画面左侧发_原线稿像素.png",
+      "ownedInkPixels": 5742
+    },
+    {
+      "name": "06_画面右侧发_原线稿像素",
+      "path": "model\\reset-v1\\head-line-ownership\\06_画面右侧发_原线稿像素.png",
+      "ownedInkPixels": 3812
+    },
+    {
+      "name": "07_脸轮廓与耳_原线稿像素",
+      "path": "model\\reset-v1\\head-line-ownership\\07_脸轮廓与耳_原线稿像素.png",
+      "ownedInkPixels": 2216
+    },
+    {
+      "name": "08_后发_原线稿像素",
+      "path": "model\\reset-v1\\head-line-ownership\\08_后发_原线稿像素.png",
+      "ownedInkPixels": 1705
+    },
+    {
+      "name": "09_头部待判定像素_必须清零",
+      "path": "model\\reset-v1\\head-line-ownership\\09_头部待判定像素_必须清零.png",
+      "ownedInkPixels": 4771
+    },
+    {
+      "name": "10_身体锁定参考_非本轮材料",
+      "path": "model\\reset-v1\\head-line-ownership\\10_身体锁定参考_非本轮材料.png",
+      "ownedInkPixels": 28582
+    }
+  ]
+}

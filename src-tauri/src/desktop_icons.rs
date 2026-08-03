@@ -103,11 +103,15 @@ mod windows_desktop_sensing {
                             }
 
                             let mut class_name = [0u16; 256];
-                            let len = GetClassNameW(hwnd, class_name.as_mut_ptr(), class_name.len() as i32);
+                            let len = GetClassNameW(
+                                hwnd,
+                                class_name.as_mut_ptr(),
+                                class_name.len() as i32,
+                            );
                             if len > 0 {
                                 let name = String::from_utf16_lossy(&class_name[..len as usize]);
                                 let lower_name = name.to_lowercase();
-                                
+
                                 // Skip known system-level transparent helper/overlay windows
                                 if lower_name.contains("helper")
                                     || lower_name.contains("dummy")
@@ -125,7 +129,8 @@ mod windows_desktop_sensing {
                                     continue;
                                 }
 
-                                if name == "Progman" || name == "WorkerW" || name == "Shell_TrayWnd" {
+                                if name == "Progman" || name == "WorkerW" || name == "Shell_TrayWnd"
+                                {
                                     return true;
                                 }
                             }
@@ -142,7 +147,6 @@ mod windows_desktop_sensing {
         true
     }
 }
-
 
 fn read_fixture_icons() -> Result<Option<Vec<DesktopIcon>>, String> {
     if let Ok(json) = std::env::var("XIAOJU_DESKTOP_ICON_FIXTURE") {
@@ -184,9 +188,7 @@ mod windows_desktop_icons {
                     VirtualAllocEx, VirtualFreeEx, MEM_COMMIT, MEM_RELEASE, MEM_RESERVE,
                     PAGE_READWRITE,
                 },
-                Threading::{
-                    OpenProcess, PROCESS_VM_OPERATION, PROCESS_VM_READ, PROCESS_VM_WRITE,
-                },
+                Threading::{OpenProcess, PROCESS_VM_OPERATION, PROCESS_VM_READ, PROCESS_VM_WRITE},
             },
             UI::{
                 Controls::{
@@ -345,7 +347,10 @@ mod windows_desktop_icons {
 
         let mut buffer = [0u16; MAX_ICON_TEXT_CHARS];
         read_remote_slice(process, remote_text.ptr, &mut buffer)?;
-        let end = buffer.iter().position(|code| *code == 0).unwrap_or(buffer.len());
+        let end = buffer
+            .iter()
+            .position(|code| *code == 0)
+            .unwrap_or(buffer.len());
 
         Ok(String::from_utf16_lossy(&buffer[..end]))
     }
@@ -475,7 +480,10 @@ mod windows_desktop_icons {
         }
 
         let mut found: HWND = std::ptr::null_mut();
-        EnumWindows(Some(enum_desktop_windows), &mut found as *mut HWND as LPARAM);
+        EnumWindows(
+            Some(enum_desktop_windows),
+            &mut found as *mut HWND as LPARAM,
+        );
         found
     }
 
@@ -498,7 +506,12 @@ mod windows_desktop_icons {
 
         let shell_view = {
             let class_name = wide_null("SHELLDLL_DefView");
-            FindWindowExW(parent, std::ptr::null_mut(), class_name.as_ptr(), null_pcwstr())
+            FindWindowExW(
+                parent,
+                std::ptr::null_mut(),
+                class_name.as_ptr(),
+                null_pcwstr(),
+            )
         };
 
         if shell_view.is_null() {

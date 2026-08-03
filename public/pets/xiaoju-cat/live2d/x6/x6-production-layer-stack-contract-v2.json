@@ -1,0 +1,3121 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-production-layer-stack-candidate",
+  "status": "candidate-for-user-visual-review",
+  "strategy": "coordinate-aligned-visible-source-layers-plus-body-space-fine-underpaint",
+  "productionLayerAssemblyComplete": false,
+  "fine63BodySpacePlacementComplete": true,
+  "fine63PlacementApprovedByUser": false,
+  "visibleRestPoseUsesWholeSourceImage": false,
+  "visibleRestPoseUsesCoordinateAlignedLayerPngs": true,
+  "fineMaterialsReplaceVisibleIdentityPixels": false,
+  "counts": {
+    "visibleLayers": 113,
+    "fineMaterials": 63,
+    "finePlacements": 111,
+    "unmapped": 0,
+    "coverageRequired": 76,
+    "coveragePassed": 76,
+    "coverageExempt": 2,
+    "minimumRequiredCoverage": 1.0,
+    "averageRequiredCoverage": 1.0,
+    "movingLayersRequired": 32,
+    "movingLayersMapped": 32
+  },
+  "disabledForKnockoutProof": [
+    "back:pelvis",
+    "back:upper_arm_R",
+    "front:forearm_L",
+    "front:hind_thigh_R",
+    "front:upper_arm_L",
+    "side:ribcage"
+  ],
+  "materialSha256": {
+    "1": "43383361542453dee94446a7d2f7c94bb3cfb69cbf021c214a8b82c485a193f6",
+    "2": "cbe78c18935ad2d5c2b51e6314465bd8e6d5b8d8a5cde54b3103bfd997d9597d",
+    "3": "c987c2a6a98cacf9e39bf62c1a41f2658c906d5c0a5287ab16372a652d5a0e0b",
+    "4": "f7904dd4717bf357dd364f6af144524122e2e8efa0d03a572ad580424b983ad1",
+    "5": "9eb8f31e69616443470cd2ec84677a3036a9570f70dab1e0d55690b23a4f70bf",
+    "6": "fb618154df654e7e5c162ebad0340dca6104d35b4eedf129292f22044609de25",
+    "7": "3b1c285eb7205cb98dc5c58ae9eec427de56c973d17a283d0fffad64f605409a",
+    "8": "48e847c07ead95cfc041cc0b21a953629b958386838898052bcae83c1281b626",
+    "9": "15edca4281907639166020fcb6078cd53dfeb738fb25462b767f12fa2a59c74f",
+    "10": "2194ae8d5c0e74dcdeecf55337fca66cc828fd2b12a065c89cfc976113addccb",
+    "11": "b27353df24b1087da69ccaff573c8a34299b452e9ecd33bacec924f08ba04b86",
+    "12": "2ba4758f47da02c200e74b80cccd7662fd574427b736a148e9c71d25e64559a9",
+    "13": "7299b4cd8fecb59107cc87848850c95d9660381b9c6cc7d227d2410d6f1cfb02",
+    "14": "dd41e9441e884b8115eb14794d94a74b62a00911be6845445b614b3c52bacfab",
+    "15": "66ddbd9b32ea67dc7df23bd2f68cce7bef6b98466f35cc3cb9c7ca730f06add6",
+    "16": "5e4436a11fd59a26bc8c0863afe7ea5f6ef3f835b7461c919df97307f0a6079e",
+    "17": "134236353dd4a0d1266ee0a20376d645d518d8acbce044e8cc25241accd0b32e",
+    "18": "86da195ac741e53d25981b0a62194616eefeef8d95fce5dad69162eaa5fb4f87",
+    "19": "c4cac71ac1e69b618f1ad997be3475ecdeded0848b863965b92438f275c68f09",
+    "20": "73a5af43bfee1c0be5285dffaa38de0bdf25f3d73c877d1af91097a1c60dac92",
+    "21": "a9594fff6712ec5a56a591aaff75526023e3ed307df1efc965ba23d42bd9c70a",
+    "22": "390143d5bb36db20e3b2050d8ab86d7e48be525fdd5d0c9f0bf82a8a7995013f",
+    "23": "c0958499a1c6acc6c14f2ae7edff6f3f0bf65828601649e2062af6ed459cd248",
+    "24": "77e6c70cdf4eab16993015a5515012dab86f66d33a71b1a94df38cdbabc5e56e",
+    "25": "71fd0b68cbd5231f6adfe99b674e9b20e26b508891761f93b183e6f7f499919c",
+    "26": "d8a21d186505fc48abc3cbcf4c34443d6d18939317a654ea058019fbfc4fba92",
+    "27": "a9273ec63baa964ad49f5a700620072b7e7666092cb305068cbe6bc54adb76f5",
+    "28": "ee4e6592b8272929b0149cf20f0a739f44afb811323b66809fc83ade3c0d5d18",
+    "29": "a5cdcaecdde0007365a167c8c592c3b473dbbeedda197ef818551220b154cba9",
+    "30": "a188f5a1e7ef5e81c419f2c17c7c374a734b9eb4b8cb41aefbd859c3e904e54d",
+    "31": "6485f3aa3072c32a76d63b4ee38599e31ac7625d3c11984c5dc222c7b32b1ef6",
+    "32": "c7d75c6ec7f7541a9ad22e7ecae577e29531521890fc357de4d34e2db0cf0bef",
+    "33": "33c9efcd0893121c900e3ca9741250a337ba9eb516ce35680eaff58820155c1f",
+    "34": "3012270afd98b91a77a9d3050a4c152a75aea83f57e0dde59a448172f0797321",
+    "35": "8e6390c6c54f5ccccaff735ff80f83de01d8567281338d69c3d171d615310d8e",
+    "36": "8ef89f77d6cf8076e8fe151572f434c6491acd1dd35da1a2429e1c44db9c53e2",
+    "37": "20bd2a2e30352b230ae4f7b2de0e63ff150677186c34fc0c8323fe02a5b27392",
+    "38": "455e585c561c5f559098fe2e7147a17fb26e58a7921b8a86302d4a97b23e565e",
+    "39": "66604e055a60cd055bfa6e3ab596d8ad1d3141d64b026e817d0a17165dd63a11",
+    "40": "402b114c60d8261db3487c8aa6256923b1a3e7938d2dca005cd7ec4a8c4eb334",
+    "41": "21b01aa950c70310ea846e9cabd69196aa194db0a97e446776586ed4eb6b7bfc",
+    "42": "2b25b641cc3d2c1df03d4aa6d0931edc9aaa5e12cc285d9252a61d73a762ec56",
+    "43": "32b7cfd03e1d927ec8166bd7c15135e1f9fd651e2ec6d5dd4b38d485d0a0c60b",
+    "44": "f5fdb29d58322e502e9f9fc19f759b1928de4148cae01e11358e1c34e71eed9d",
+    "45": "1583ae9c10426eb06879ff7177c327cebcc4ce0392d1ed8fac08f28d9310047e",
+    "46": "86034a56944564999770ff67dc8f21f60c2c16eb3697678fe4cc1025d9d07d5d",
+    "47": "6a2523f273934707becb921be0841889ceb318a5f4f55703bdd274e8c88b46d7",
+    "48": "24e09dbf211153e841b34a69ac1d10772a9423080160d38a872b6dd2d92efd5d",
+    "49": "c4b6b704462a4742c9cb687ac8e7698721ab8b1b122484241a5b498273a47ce0",
+    "50": "bfaf7c94bf9c8192bf32fdeed1c674f78f80fd20f931648fa01a38f66adc386c",
+    "51": "b335b40bbc4f6ef974f793ef2e2b6164e24bd0dd45db933884b2fd4d668b8086",
+    "52": "8096f8061c63249a006ee461a37b716b5a7d518e2437803bb2b4e6b9203b4850",
+    "53": "b024e53399e0e135bcacdde2629631bb4b0ddac4b81538c779fb76a3cea25e63",
+    "54": "304143f81f2ffd311b0d4fa0559c18ee985fb3306c152a2c3bb0b378d7d9d910",
+    "55": "ef13001d9cb8da64b742dc50c3a977671600f638d0411930fb352bc12256de79",
+    "56": "32c4350f03f1096df1ac9eca2aa8a1f3a4f0a97184dd69cd95c1bd1012c97fa2",
+    "57": "9772bace77d24c59328b042b9efd3949aa26f7665f3af200d0cec6df6ef1f5ca",
+    "58": "5af9429360aa79dbfbd400d7b4685fd761626fea1c8393c39eb3c0f080319d36",
+    "59": "87d404fedfc17a832d8cc513784c55806e802ed48e41a894a3d3616e62250e07",
+    "60": "1e86f4ef4cf95f035c228b984e706484740c29fafb6e8b3d1893fada1c6dcc7c",
+    "61": "331ed43b26ef829e1bae8a8d943b0ccd57e132474e27c988a1e0bb6e5be02d96",
+    "62": "e8dd3c10bef32f4cf3beeb6ecf156ba9e1938e98b21dc7c67d2a4d4985fe5622",
+    "63": "f6a874502447d8fbb79633f76e9051a7f99fe08b15dfa57438f650966131b1dc"
+  },
+  "placements": [
+    {
+      "fineIndex": 1,
+      "fineId": "head_base_front",
+      "view": "front",
+      "targetVisibleLayers": [
+        "head_base"
+      ],
+      "targetBounds": [
+        196,
+        48,
+        476,
+        386
+      ],
+      "bounds": [
+        186,
+        38,
+        486,
+        396
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/01_front_head_base_front_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "skull"
+    },
+    {
+      "fineIndex": 2,
+      "fineId": "cheek_fur_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "cheek_fur_L"
+      ],
+      "targetBounds": [
+        340,
+        188,
+        469,
+        319
+      ],
+      "bounds": [
+        334,
+        182,
+        475,
+        325
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/02_front_cheek_fur_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Head",
+      "pivot": "jaw_L"
+    },
+    {
+      "fineIndex": 3,
+      "fineId": "muzzle_base",
+      "view": "front",
+      "targetVisibleLayers": [
+        "muzzle_base"
+      ],
+      "targetBounds": [
+        312,
+        204,
+        359,
+        297
+      ],
+      "bounds": [
+        306,
+        198,
+        365,
+        303
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/03_front_muzzle_base_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Head",
+      "pivot": "muzzle"
+    },
+    {
+      "fineIndex": 4,
+      "fineId": "cheek_fur_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "cheek_fur_R"
+      ],
+      "targetBounds": [
+        205,
+        188,
+        331,
+        319
+      ],
+      "bounds": [
+        199,
+        182,
+        337,
+        325
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/04_front_cheek_fur_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Head",
+      "pivot": "jaw_R"
+    },
+    {
+      "fineIndex": 5,
+      "fineId": "head_base_side",
+      "view": "side",
+      "targetVisibleLayers": [
+        "head_base"
+      ],
+      "targetBounds": [
+        704,
+        58,
+        985,
+        386
+      ],
+      "bounds": [
+        694,
+        48,
+        995,
+        396
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/05_side_head_base_side_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "skull"
+    },
+    {
+      "fineIndex": 6,
+      "fineId": "ear_face_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "ear_face_L"
+      ],
+      "targetBounds": [
+        377,
+        66,
+        461,
+        132
+      ],
+      "bounds": [
+        371,
+        60,
+        467,
+        138
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/06_front_ear_face_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EarRoot_L",
+      "pivot": "ear_base_L"
+    },
+    {
+      "fineIndex": 7,
+      "fineId": "ear_tip_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "ear_tip_L"
+      ],
+      "targetBounds": [
+        425,
+        42,
+        461,
+        77
+      ],
+      "bounds": [
+        419,
+        36,
+        467,
+        83
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/07_front_ear_tip_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EarRoot_L",
+      "pivot": "ear_tip_L"
+    },
+    {
+      "fineIndex": 8,
+      "fineId": "ear_face_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "ear_face_R"
+      ],
+      "targetBounds": [
+        223,
+        66,
+        294,
+        132
+      ],
+      "bounds": [
+        217,
+        60,
+        300,
+        138
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/08_front_ear_face_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EarRoot_R",
+      "pivot": "ear_base_R"
+    },
+    {
+      "fineIndex": 9,
+      "fineId": "head_ear_back",
+      "view": "back",
+      "targetVisibleLayers": [
+        "ear_face_L"
+      ],
+      "targetBounds": [
+        1458,
+        120,
+        1521,
+        164
+      ],
+      "bounds": [
+        1452,
+        114,
+        1527,
+        170
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/09_back_head_ear_back_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "skull"
+    },
+    {
+      "fineIndex": 9,
+      "fineId": "head_ear_back",
+      "view": "back",
+      "targetVisibleLayers": [
+        "ear_face_R"
+      ],
+      "targetBounds": [
+        1336,
+        120,
+        1423,
+        165
+      ],
+      "bounds": [
+        1330,
+        114,
+        1429,
+        171
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/09_back_head_ear_back_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "skull"
+    },
+    {
+      "fineIndex": 10,
+      "fineId": "ear_tip_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "ear_tip_R"
+      ],
+      "targetBounds": [
+        224,
+        40,
+        253,
+        75
+      ],
+      "bounds": [
+        218,
+        34,
+        259,
+        81
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/10_front_ear_tip_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EarRoot_R",
+      "pivot": "ear_tip_R"
+    },
+    {
+      "fineIndex": 11,
+      "fineId": "eye_socket_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "eye_socket_L"
+      ],
+      "targetBounds": [
+        348,
+        135,
+        417,
+        220
+      ],
+      "bounds": [
+        345,
+        132,
+        420,
+        223
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/11_front_eye_socket_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Head",
+      "pivot": "eye_L"
+    },
+    {
+      "fineIndex": 12,
+      "fineId": "eye_socket_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "eye_socket_R"
+      ],
+      "targetBounds": [
+        254,
+        135,
+        323,
+        220
+      ],
+      "bounds": [
+        251,
+        132,
+        326,
+        223
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/12_front_eye_socket_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Head",
+      "pivot": "eye_R"
+    },
+    {
+      "fineIndex": 13,
+      "fineId": "iris_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "iris_L"
+      ],
+      "targetBounds": [
+        360,
+        152,
+        405,
+        204
+      ],
+      "bounds": [
+        357,
+        149,
+        408,
+        207
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/13_front_iris_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EyeSocket_L",
+      "pivot": "eye_L"
+    },
+    {
+      "fineIndex": 14,
+      "fineId": "iris_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "iris_R"
+      ],
+      "targetBounds": [
+        266,
+        152,
+        311,
+        204
+      ],
+      "bounds": [
+        263,
+        149,
+        314,
+        207
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/14_front_iris_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EyeSocket_R",
+      "pivot": "eye_R"
+    },
+    {
+      "fineIndex": 15,
+      "fineId": "pupil_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "pupil_L"
+      ],
+      "targetBounds": [
+        372,
+        159,
+        393,
+        196
+      ],
+      "bounds": [
+        369,
+        156,
+        396,
+        199
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/15_front_pupil_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Iris_L",
+      "pivot": "eye_L"
+    },
+    {
+      "fineIndex": 16,
+      "fineId": "pupil_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "pupil_R"
+      ],
+      "targetBounds": [
+        278,
+        159,
+        299,
+        196
+      ],
+      "bounds": [
+        275,
+        156,
+        302,
+        199
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/16_front_pupil_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Iris_R",
+      "pivot": "eye_R"
+    },
+    {
+      "fineIndex": 17,
+      "fineId": "highlight_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "highlight_L"
+      ],
+      "targetBounds": [
+        367,
+        157,
+        382,
+        172
+      ],
+      "bounds": [
+        364,
+        154,
+        385,
+        175
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/17_front_highlight_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Iris_L",
+      "pivot": "eye_L"
+    },
+    {
+      "fineIndex": 18,
+      "fineId": "highlight_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "highlight_R"
+      ],
+      "targetBounds": [
+        273,
+        157,
+        288,
+        172
+      ],
+      "bounds": [
+        270,
+        154,
+        291,
+        175
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/18_front_highlight_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Iris_R",
+      "pivot": "eye_R"
+    },
+    {
+      "fineIndex": 19,
+      "fineId": "upper_lid_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "upper_lid_L"
+      ],
+      "targetBounds": [
+        347,
+        140,
+        418,
+        165
+      ],
+      "bounds": [
+        344,
+        137,
+        421,
+        168
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/19_front_upper_lid_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EyeSocket_L",
+      "pivot": "eye_L"
+    },
+    {
+      "fineIndex": 20,
+      "fineId": "upper_lid_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "upper_lid_R"
+      ],
+      "targetBounds": [
+        253,
+        140,
+        324,
+        165
+      ],
+      "bounds": [
+        250,
+        137,
+        327,
+        168
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/20_front_upper_lid_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EyeSocket_R",
+      "pivot": "eye_R"
+    },
+    {
+      "fineIndex": 21,
+      "fineId": "lower_lid_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "lower_lid_L"
+      ],
+      "targetBounds": [
+        352,
+        194,
+        413,
+        212
+      ],
+      "bounds": [
+        349,
+        191,
+        416,
+        215
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/21_front_lower_lid_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EyeSocket_L",
+      "pivot": "eye_L"
+    },
+    {
+      "fineIndex": 22,
+      "fineId": "lower_lid_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "lower_lid_R"
+      ],
+      "targetBounds": [
+        258,
+        194,
+        319,
+        212
+      ],
+      "bounds": [
+        255,
+        191,
+        322,
+        215
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/22_front_lower_lid_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "EyeSocket_R",
+      "pivot": "eye_R"
+    },
+    {
+      "fineIndex": 23,
+      "fineId": "whisker_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "whisker_L"
+      ],
+      "targetBounds": [
+        353,
+        230,
+        462,
+        279
+      ],
+      "bounds": [
+        350,
+        227,
+        465,
+        282
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/23_front_whisker_L_1.png",
+      "defaultVisibility": "reference-only",
+      "role": "hairline-reference-no-area-underpaint",
+      "parent": "Muzzle",
+      "pivot": "whisker_root_L"
+    },
+    {
+      "fineIndex": 24,
+      "fineId": "whisker_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "whisker_R"
+      ],
+      "targetBounds": [
+        214,
+        231,
+        318,
+        277
+      ],
+      "bounds": [
+        211,
+        228,
+        321,
+        280
+      ],
+      "paddingPixels": 3,
+      "maskDilationPixels": 3,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/24_front_whisker_R_1.png",
+      "defaultVisibility": "reference-only",
+      "role": "hairline-reference-no-area-underpaint",
+      "parent": "Muzzle",
+      "pivot": "whisker_root_R"
+    },
+    {
+      "fineIndex": 25,
+      "fineId": "neck_fill",
+      "view": "front",
+      "targetVisibleLayers": [
+        "neck_fill"
+      ],
+      "targetBounds": [
+        311,
+        384,
+        360,
+        389
+      ],
+      "bounds": [
+        301,
+        374,
+        370,
+        399
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/25_front_neck_fill_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "neck"
+    },
+    {
+      "fineIndex": 25,
+      "fineId": "neck_fill",
+      "view": "side",
+      "targetVisibleLayers": [
+        "chest_fur"
+      ],
+      "targetBounds": [
+        816,
+        360,
+        981,
+        549
+      ],
+      "bounds": [
+        806,
+        350,
+        991,
+        559
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/25_side_neck_fill_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "neck"
+    },
+    {
+      "fineIndex": 25,
+      "fineId": "neck_fill",
+      "view": "back",
+      "targetVisibleLayers": [
+        "neck_fill"
+      ],
+      "targetBounds": [
+        1398,
+        380,
+        1483,
+        395
+      ],
+      "bounds": [
+        1388,
+        370,
+        1493,
+        405
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/25_back_neck_fill_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "neck"
+    },
+    {
+      "fineIndex": 26,
+      "fineId": "chest_fur",
+      "view": "front",
+      "targetVisibleLayers": [
+        "chest_fur"
+      ],
+      "targetBounds": [
+        245,
+        371,
+        426,
+        527
+      ],
+      "bounds": [
+        235,
+        361,
+        436,
+        537
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/26_front_chest_fur_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Ribcage",
+      "pivot": "neck"
+    },
+    {
+      "fineIndex": 27,
+      "fineId": "ribcage_front",
+      "view": "front",
+      "targetVisibleLayers": [
+        "ribcage"
+      ],
+      "targetBounds": [
+        164,
+        374,
+        513,
+        565
+      ],
+      "bounds": [
+        154,
+        364,
+        523,
+        575
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/27_front_ribcage_front_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "rib"
+    },
+    {
+      "fineIndex": 28,
+      "fineId": "abdomen_front",
+      "view": "front",
+      "targetVisibleLayers": [
+        "abdomen"
+      ],
+      "targetBounds": [
+        170,
+        501,
+        500,
+        676
+      ],
+      "bounds": [
+        160,
+        491,
+        510,
+        686
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/28_front_abdomen_front_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "abdomen"
+    },
+    {
+      "fineIndex": 29,
+      "fineId": "pelvis_front",
+      "view": "front",
+      "targetVisibleLayers": [
+        "pelvis"
+      ],
+      "targetBounds": [
+        165,
+        571,
+        504,
+        742
+      ],
+      "bounds": [
+        155,
+        561,
+        514,
+        752
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/29_front_pelvis_front_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "pelvis"
+    },
+    {
+      "fineIndex": 30,
+      "fineId": "torso_side",
+      "view": "side",
+      "targetVisibleLayers": [
+        "ribcage"
+      ],
+      "targetBounds": [
+        710,
+        264,
+        1032,
+        587
+      ],
+      "bounds": [
+        700,
+        254,
+        1042,
+        597
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/30_side_torso_side_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "rib"
+    },
+    {
+      "fineIndex": 30,
+      "fineId": "torso_side",
+      "view": "side",
+      "targetVisibleLayers": [
+        "abdomen"
+      ],
+      "targetBounds": [
+        780,
+        503,
+        1052,
+        683
+      ],
+      "bounds": [
+        770,
+        493,
+        1062,
+        693
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/30_side_torso_side_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "rib"
+    },
+    {
+      "fineIndex": 30,
+      "fineId": "torso_side",
+      "view": "side",
+      "targetVisibleLayers": [
+        "pelvis"
+      ],
+      "targetBounds": [
+        831,
+        610,
+        1068,
+        724
+      ],
+      "bounds": [
+        821,
+        600,
+        1078,
+        734
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/30_side_torso_side_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "rib"
+    },
+    {
+      "fineIndex": 31,
+      "fineId": "upper_arm_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "upper_arm_L"
+      ],
+      "targetBounds": [
+        418,
+        310,
+        496,
+        384
+      ],
+      "bounds": [
+        384,
+        276,
+        530,
+        418
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/31_front_upper_arm_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_L",
+      "pivot": "shoulder_L"
+    },
+    {
+      "fineIndex": 31,
+      "fineId": "upper_arm_L",
+      "view": "back",
+      "targetVisibleLayers": [
+        "upper_arm_L"
+      ],
+      "targetBounds": [
+        1529,
+        339,
+        1632,
+        425
+      ],
+      "bounds": [
+        1495,
+        305,
+        1666,
+        459
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/31_back_upper_arm_L_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_L",
+      "pivot": "shoulder_L"
+    },
+    {
+      "fineIndex": 32,
+      "fineId": "fore_paw_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "fore_paw_L"
+      ],
+      "targetBounds": [
+        516,
+        372,
+        682,
+        469
+      ],
+      "bounds": [
+        482,
+        338,
+        716,
+        503
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/32_front_fore_paw_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Wrist_L",
+      "pivot": "forepaw_L"
+    },
+    {
+      "fineIndex": 32,
+      "fineId": "fore_paw_L",
+      "view": "side",
+      "targetVisibleLayers": [
+        "fore_paw_L"
+      ],
+      "targetBounds": [
+        667,
+        383,
+        752,
+        456
+      ],
+      "bounds": [
+        633,
+        349,
+        786,
+        490
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/32_side_fore_paw_L_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Wrist_L",
+      "pivot": "forepaw_L"
+    },
+    {
+      "fineIndex": 32,
+      "fineId": "fore_paw_L",
+      "view": "back",
+      "targetVisibleLayers": [
+        "fore_paw_L"
+      ],
+      "targetBounds": [
+        1594,
+        422,
+        1667,
+        467
+      ],
+      "bounds": [
+        1560,
+        388,
+        1701,
+        501
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/32_back_fore_paw_L_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Wrist_L",
+      "pivot": "forepaw_L"
+    },
+    {
+      "fineIndex": 33,
+      "fineId": "forearm_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "forearm_L"
+      ],
+      "targetBounds": [
+        473,
+        328,
+        534,
+        423
+      ],
+      "bounds": [
+        439,
+        294,
+        568,
+        457
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/33_front_forearm_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Elbow_L",
+      "pivot": "elbow_L"
+    },
+    {
+      "fineIndex": 33,
+      "fineId": "forearm_L",
+      "view": "side",
+      "targetVisibleLayers": [
+        "forearm_L"
+      ],
+      "targetBounds": [
+        736,
+        378,
+        793,
+        400
+      ],
+      "bounds": [
+        702,
+        344,
+        827,
+        434
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/33_side_forearm_L_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Elbow_L",
+      "pivot": "elbow_L"
+    },
+    {
+      "fineIndex": 33,
+      "fineId": "forearm_L",
+      "view": "back",
+      "targetVisibleLayers": [
+        "forearm_L"
+      ],
+      "targetBounds": [
+        1591,
+        385,
+        1657,
+        428
+      ],
+      "bounds": [
+        1557,
+        351,
+        1691,
+        462
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/33_back_forearm_L_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Elbow_L",
+      "pivot": "elbow_L"
+    },
+    {
+      "fineIndex": 34,
+      "fineId": "upper_arm_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "upper_arm_R"
+      ],
+      "targetBounds": [
+        176,
+        309,
+        253,
+        383
+      ],
+      "bounds": [
+        142,
+        275,
+        287,
+        417
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/34_front_upper_arm_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R"
+    },
+    {
+      "fineIndex": 34,
+      "fineId": "upper_arm_R",
+      "view": "side",
+      "targetVisibleLayers": [
+        "upper_arm_R"
+      ],
+      "targetBounds": [
+        821,
+        366,
+        898,
+        423
+      ],
+      "bounds": [
+        787,
+        332,
+        932,
+        457
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/34_side_upper_arm_R_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R"
+    },
+    {
+      "fineIndex": 34,
+      "fineId": "upper_arm_R",
+      "view": "back",
+      "targetVisibleLayers": [
+        "upper_arm_R"
+      ],
+      "targetBounds": [
+        1215,
+        338,
+        1355,
+        437
+      ],
+      "bounds": [
+        1181,
+        304,
+        1389,
+        471
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/34_back_upper_arm_R_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R"
+    },
+    {
+      "fineIndex": 35,
+      "fineId": "forearm_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "forearm_R"
+      ],
+      "targetBounds": [
+        134,
+        326,
+        199,
+        412
+      ],
+      "bounds": [
+        100,
+        292,
+        233,
+        446
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/35_front_forearm_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Elbow_R",
+      "pivot": "elbow_R"
+    },
+    {
+      "fineIndex": 35,
+      "fineId": "forearm_R",
+      "view": "side",
+      "targetVisibleLayers": [
+        "forearm_R"
+      ],
+      "targetBounds": [
+        777,
+        385,
+        849,
+        447
+      ],
+      "bounds": [
+        743,
+        351,
+        883,
+        481
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/35_side_forearm_R_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Elbow_R",
+      "pivot": "elbow_R"
+    },
+    {
+      "fineIndex": 35,
+      "fineId": "forearm_R",
+      "view": "back",
+      "targetVisibleLayers": [
+        "forearm_R"
+      ],
+      "targetBounds": [
+        1195,
+        359,
+        1297,
+        439
+      ],
+      "bounds": [
+        1161,
+        325,
+        1331,
+        473
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/35_back_forearm_R_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Elbow_R",
+      "pivot": "elbow_R"
+    },
+    {
+      "fineIndex": 36,
+      "fineId": "fore_paw_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "fore_paw_R"
+      ],
+      "targetBounds": [
+        69,
+        365,
+        154,
+        459
+      ],
+      "bounds": [
+        35,
+        331,
+        188,
+        493
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/36_front_fore_paw_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Wrist_R",
+      "pivot": "forepaw_R"
+    },
+    {
+      "fineIndex": 36,
+      "fineId": "fore_paw_R",
+      "view": "side",
+      "targetVisibleLayers": [
+        "fore_paw_R"
+      ],
+      "targetBounds": [
+        680,
+        420,
+        823,
+        499
+      ],
+      "bounds": [
+        646,
+        386,
+        857,
+        533
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/36_side_fore_paw_R_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Wrist_R",
+      "pivot": "forepaw_R"
+    },
+    {
+      "fineIndex": 36,
+      "fineId": "fore_paw_R",
+      "view": "back",
+      "targetVisibleLayers": [
+        "fore_paw_R"
+      ],
+      "targetBounds": [
+        1155,
+        380,
+        1229,
+        468
+      ],
+      "bounds": [
+        1121,
+        346,
+        1263,
+        502
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/36_back_fore_paw_R_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Wrist_R",
+      "pivot": "forepaw_R"
+    },
+    {
+      "fineIndex": 37,
+      "fineId": "paw_contact_alt",
+      "view": "side",
+      "targetVisibleLayers": [
+        "fore_paw_L"
+      ],
+      "targetBounds": [
+        667,
+        383,
+        752,
+        456
+      ],
+      "bounds": [
+        633,
+        349,
+        786,
+        490
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/37_side_paw_contact_alt_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Wrist_L",
+      "pivot": "forepaw_L"
+    },
+    {
+      "fineIndex": 38,
+      "fineId": "hind_thigh_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "hind_thigh_L"
+      ],
+      "targetBounds": [
+        450,
+        602,
+        517,
+        688
+      ],
+      "bounds": [
+        416,
+        568,
+        551,
+        722
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/38_front_hind_thigh_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 38,
+      "fineId": "hind_thigh_L",
+      "view": "side",
+      "targetVisibleLayers": [
+        "hind_thigh_L"
+      ],
+      "targetBounds": [
+        779,
+        630,
+        831,
+        650
+      ],
+      "bounds": [
+        745,
+        596,
+        865,
+        684
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/38_side_hind_thigh_L_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 38,
+      "fineId": "hind_thigh_L",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_thigh_L"
+      ],
+      "targetBounds": [
+        1562,
+        600,
+        1608,
+        685
+      ],
+      "bounds": [
+        1528,
+        566,
+        1642,
+        719
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/38_back_hind_thigh_L_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 39,
+      "fineId": "hind_shin_L",
+      "view": "front",
+      "targetVisibleLayers": [
+        "hind_shin_L"
+      ],
+      "targetBounds": [
+        450,
+        654,
+        569,
+        724
+      ],
+      "bounds": [
+        416,
+        620,
+        603,
+        758
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/39_front_hind_shin_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Knee_L",
+      "pivot": "knee_L"
+    },
+    {
+      "fineIndex": 39,
+      "fineId": "hind_shin_L",
+      "view": "side",
+      "targetVisibleLayers": [
+        "hind_shin_L"
+      ],
+      "targetBounds": [
+        744,
+        639,
+        846,
+        730
+      ],
+      "bounds": [
+        710,
+        605,
+        880,
+        764
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/39_side_hind_shin_L_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Knee_L",
+      "pivot": "knee_L"
+    },
+    {
+      "fineIndex": 39,
+      "fineId": "hind_shin_L",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_shin_L"
+      ],
+      "targetBounds": [
+        1589,
+        653,
+        1644,
+        679
+      ],
+      "bounds": [
+        1555,
+        619,
+        1678,
+        713
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/39_back_hind_shin_L_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Knee_L",
+      "pivot": "knee_L"
+    },
+    {
+      "fineIndex": 40,
+      "fineId": "hind_thigh_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "hind_thigh_R"
+      ],
+      "targetBounds": [
+        139,
+        601,
+        219,
+        687
+      ],
+      "bounds": [
+        105,
+        567,
+        253,
+        721
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/40_front_hind_thigh_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_R",
+      "pivot": "hip_R"
+    },
+    {
+      "fineIndex": 40,
+      "fineId": "hind_thigh_R",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_thigh_R"
+      ],
+      "targetBounds": [
+        1237,
+        578,
+        1308,
+        678
+      ],
+      "bounds": [
+        1203,
+        544,
+        1342,
+        712
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/40_back_hind_thigh_R_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_R",
+      "pivot": "hip_R"
+    },
+    {
+      "fineIndex": 41,
+      "fineId": "hind_shin_R",
+      "view": "front",
+      "targetVisibleLayers": [
+        "hind_shin_R"
+      ],
+      "targetBounds": [
+        98,
+        654,
+        218,
+        723
+      ],
+      "bounds": [
+        64,
+        620,
+        252,
+        757
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/41_front_hind_shin_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Knee_R",
+      "pivot": "knee_R"
+    },
+    {
+      "fineIndex": 41,
+      "fineId": "hind_shin_R",
+      "view": "side",
+      "targetVisibleLayers": [
+        "hind_shin_R"
+      ],
+      "targetBounds": [
+        812,
+        673,
+        882,
+        738
+      ],
+      "bounds": [
+        778,
+        639,
+        916,
+        772
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/41_side_hind_shin_R_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Knee_R",
+      "pivot": "knee_R"
+    },
+    {
+      "fineIndex": 41,
+      "fineId": "hind_shin_R",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_shin_R"
+      ],
+      "targetBounds": [
+        1222,
+        644,
+        1296,
+        692
+      ],
+      "bounds": [
+        1188,
+        610,
+        1330,
+        726
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/41_back_hind_shin_R_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Knee_R",
+      "pivot": "knee_R"
+    },
+    {
+      "fineIndex": 42,
+      "fineId": "hind_leg_side_L",
+      "view": "side",
+      "targetVisibleLayers": [
+        "hind_thigh_L"
+      ],
+      "targetBounds": [
+        779,
+        630,
+        831,
+        650
+      ],
+      "bounds": [
+        745,
+        596,
+        865,
+        684
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/42_side_hind_leg_side_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 42,
+      "fineId": "hind_leg_side_L",
+      "view": "side",
+      "targetVisibleLayers": [
+        "hind_shin_L"
+      ],
+      "targetBounds": [
+        744,
+        639,
+        846,
+        730
+      ],
+      "bounds": [
+        710,
+        605,
+        880,
+        764
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/42_side_hind_leg_side_L_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 42,
+      "fineId": "hind_leg_side_L",
+      "view": "side",
+      "targetVisibleLayers": [
+        "hind_paw_L"
+      ],
+      "targetBounds": [
+        702,
+        665,
+        805,
+        728
+      ],
+      "bounds": [
+        668,
+        631,
+        839,
+        762
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/42_side_hind_leg_side_L_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 43,
+      "fineId": "hind_leg_side_R",
+      "view": "side",
+      "targetVisibleLayers": [
+        "hind_shin_R"
+      ],
+      "targetBounds": [
+        812,
+        673,
+        882,
+        738
+      ],
+      "bounds": [
+        778,
+        639,
+        916,
+        772
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/43_side_hind_leg_side_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_R",
+      "pivot": "hip_R"
+    },
+    {
+      "fineIndex": 43,
+      "fineId": "hind_leg_side_R",
+      "view": "side",
+      "targetVisibleLayers": [
+        "hind_paw_R"
+      ],
+      "targetBounds": [
+        781,
+        727,
+        850,
+        776
+      ],
+      "bounds": [
+        747,
+        693,
+        884,
+        810
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/43_side_hind_leg_side_R_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_R",
+      "pivot": "hip_R"
+    },
+    {
+      "fineIndex": 44,
+      "fineId": "tail_root_socket",
+      "view": "front",
+      "targetVisibleLayers": [
+        "tail_root_socket"
+      ],
+      "targetBounds": [
+        295,
+        730,
+        299,
+        744
+      ],
+      "bounds": [
+        289,
+        724,
+        305,
+        750
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/44_front_tail_root_socket_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Pelvis",
+      "pivot": "tail_root"
+    },
+    {
+      "fineIndex": 44,
+      "fineId": "tail_root_socket",
+      "view": "side",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        979,
+        708,
+        1066,
+        769
+      ],
+      "bounds": [
+        973,
+        702,
+        1072,
+        775
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/44_side_tail_root_socket_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Pelvis",
+      "pivot": "tail_root"
+    },
+    {
+      "fineIndex": 44,
+      "fineId": "tail_root_socket",
+      "view": "back",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        1371,
+        728,
+        1452,
+        777
+      ],
+      "bounds": [
+        1365,
+        722,
+        1458,
+        783
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/44_back_tail_root_socket_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Pelvis",
+      "pivot": "tail_root"
+    },
+    {
+      "fineIndex": 45,
+      "fineId": "tail_base",
+      "view": "front",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        297,
+        732,
+        379,
+        792
+      ],
+      "bounds": [
+        291,
+        726,
+        385,
+        798
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/45_front_tail_base_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailRoot",
+      "pivot": "tail_root"
+    },
+    {
+      "fineIndex": 45,
+      "fineId": "tail_base",
+      "view": "side",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        979,
+        708,
+        1066,
+        769
+      ],
+      "bounds": [
+        973,
+        702,
+        1072,
+        775
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/45_side_tail_base_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailRoot",
+      "pivot": "tail_root"
+    },
+    {
+      "fineIndex": 45,
+      "fineId": "tail_base",
+      "view": "back",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        1371,
+        728,
+        1452,
+        777
+      ],
+      "bounds": [
+        1365,
+        722,
+        1458,
+        783
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/45_back_tail_base_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailRoot",
+      "pivot": "tail_root"
+    },
+    {
+      "fineIndex": 46,
+      "fineId": "tail_mid_short",
+      "view": "front",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        297,
+        732,
+        379,
+        792
+      ],
+      "bounds": [
+        291,
+        726,
+        385,
+        798
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/46_front_tail_mid_short_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailMid",
+      "pivot": "tail_mid"
+    },
+    {
+      "fineIndex": 46,
+      "fineId": "tail_mid_short",
+      "view": "side",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        979,
+        708,
+        1066,
+        769
+      ],
+      "bounds": [
+        973,
+        702,
+        1072,
+        775
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/46_side_tail_mid_short_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailMid",
+      "pivot": "tail_mid"
+    },
+    {
+      "fineIndex": 46,
+      "fineId": "tail_mid_short",
+      "view": "back",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        1371,
+        728,
+        1452,
+        777
+      ],
+      "bounds": [
+        1365,
+        722,
+        1458,
+        783
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/46_back_tail_mid_short_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailMid",
+      "pivot": "tail_mid"
+    },
+    {
+      "fineIndex": 47,
+      "fineId": "tail_curve",
+      "view": "side",
+      "targetVisibleLayers": [
+        "tail_mid",
+        "tail_tip"
+      ],
+      "targetBounds": [
+        963,
+        708,
+        1066,
+        848
+      ],
+      "bounds": [
+        957,
+        702,
+        1072,
+        854
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/47_side_tail_curve_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailMid",
+      "pivot": "tail_mid"
+    },
+    {
+      "fineIndex": 48,
+      "fineId": "tail_mid_long",
+      "view": "front",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        297,
+        732,
+        379,
+        792
+      ],
+      "bounds": [
+        291,
+        726,
+        385,
+        798
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/48_front_tail_mid_long_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailMid",
+      "pivot": "tail_mid"
+    },
+    {
+      "fineIndex": 48,
+      "fineId": "tail_mid_long",
+      "view": "side",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        979,
+        708,
+        1066,
+        769
+      ],
+      "bounds": [
+        973,
+        702,
+        1072,
+        775
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/48_side_tail_mid_long_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailMid",
+      "pivot": "tail_mid"
+    },
+    {
+      "fineIndex": 48,
+      "fineId": "tail_mid_long",
+      "view": "back",
+      "targetVisibleLayers": [
+        "tail_mid"
+      ],
+      "targetBounds": [
+        1371,
+        728,
+        1452,
+        777
+      ],
+      "bounds": [
+        1365,
+        722,
+        1458,
+        783
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/48_back_tail_mid_long_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailMid",
+      "pivot": "tail_mid"
+    },
+    {
+      "fineIndex": 49,
+      "fineId": "tail_tip_long",
+      "view": "front",
+      "targetVisibleLayers": [
+        "tail_tip"
+      ],
+      "targetBounds": [
+        311,
+        780,
+        387,
+        849
+      ],
+      "bounds": [
+        305,
+        774,
+        393,
+        855
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/49_front_tail_tip_long_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailTip",
+      "pivot": "tail_tip"
+    },
+    {
+      "fineIndex": 49,
+      "fineId": "tail_tip_long",
+      "view": "side",
+      "targetVisibleLayers": [
+        "tail_tip"
+      ],
+      "targetBounds": [
+        963,
+        755,
+        1058,
+        848
+      ],
+      "bounds": [
+        957,
+        749,
+        1064,
+        854
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/49_side_tail_tip_long_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailTip",
+      "pivot": "tail_tip"
+    },
+    {
+      "fineIndex": 49,
+      "fineId": "tail_tip_long",
+      "view": "back",
+      "targetVisibleLayers": [
+        "tail_tip"
+      ],
+      "targetBounds": [
+        1354,
+        757,
+        1447,
+        849
+      ],
+      "bounds": [
+        1348,
+        751,
+        1453,
+        855
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/49_back_tail_tip_long_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailTip",
+      "pivot": "tail_tip"
+    },
+    {
+      "fineIndex": 50,
+      "fineId": "tail_tip",
+      "view": "front",
+      "targetVisibleLayers": [
+        "tail_tip"
+      ],
+      "targetBounds": [
+        311,
+        780,
+        387,
+        849
+      ],
+      "bounds": [
+        305,
+        774,
+        393,
+        855
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/50_front_tail_tip_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailTip",
+      "pivot": "tail_tip"
+    },
+    {
+      "fineIndex": 50,
+      "fineId": "tail_tip",
+      "view": "side",
+      "targetVisibleLayers": [
+        "tail_tip"
+      ],
+      "targetBounds": [
+        963,
+        755,
+        1058,
+        848
+      ],
+      "bounds": [
+        957,
+        749,
+        1064,
+        854
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/50_side_tail_tip_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailTip",
+      "pivot": "tail_tip"
+    },
+    {
+      "fineIndex": 50,
+      "fineId": "tail_tip",
+      "view": "back",
+      "targetVisibleLayers": [
+        "tail_tip"
+      ],
+      "targetBounds": [
+        1354,
+        757,
+        1447,
+        849
+      ],
+      "bounds": [
+        1348,
+        751,
+        1453,
+        855
+      ],
+      "paddingPixels": 6,
+      "maskDilationPixels": 7,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/50_back_tail_tip_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "TailTip",
+      "pivot": "tail_tip"
+    },
+    {
+      "fineIndex": 51,
+      "fineId": "head_back_base",
+      "view": "back",
+      "targetVisibleLayers": [
+        "head_base"
+      ],
+      "targetBounds": [
+        1268,
+        41,
+        1567,
+        386
+      ],
+      "bounds": [
+        1258,
+        31,
+        1577,
+        396
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/51_back_head_back_base_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "skull"
+    },
+    {
+      "fineIndex": 52,
+      "fineId": "head_profile_L",
+      "view": "side",
+      "targetVisibleLayers": [
+        "head_base"
+      ],
+      "targetBounds": [
+        704,
+        58,
+        985,
+        386
+      ],
+      "bounds": [
+        694,
+        48,
+        995,
+        396
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/52_side_head_profile_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "skull"
+    },
+    {
+      "fineIndex": 53,
+      "fineId": "head_profile_R",
+      "view": "side",
+      "targetVisibleLayers": [
+        "head_base"
+      ],
+      "targetBounds": [
+        704,
+        58,
+        985,
+        386
+      ],
+      "bounds": [
+        694,
+        48,
+        995,
+        396
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/53_side_head_profile_R_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "skull"
+    },
+    {
+      "fineIndex": 54,
+      "fineId": "back_neck_L",
+      "view": "back",
+      "targetVisibleLayers": [
+        "neck_fill"
+      ],
+      "targetBounds": [
+        1398,
+        380,
+        1483,
+        395
+      ],
+      "bounds": [
+        1388,
+        370,
+        1493,
+        405
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/54_back_back_neck_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Neck",
+      "pivot": "neck"
+    },
+    {
+      "fineIndex": 55,
+      "fineId": "back_ribcage_L",
+      "view": "back",
+      "targetVisibleLayers": [
+        "ribcage"
+      ],
+      "targetBounds": [
+        1290,
+        407,
+        1596,
+        587
+      ],
+      "bounds": [
+        1280,
+        397,
+        1606,
+        597
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/55_back_back_ribcage_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "rib"
+    },
+    {
+      "fineIndex": 56,
+      "fineId": "back_pelvis_L",
+      "view": "back",
+      "targetVisibleLayers": [
+        "pelvis"
+      ],
+      "targetBounds": [
+        1266,
+        581,
+        1587,
+        764
+      ],
+      "bounds": [
+        1256,
+        571,
+        1597,
+        774
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/56_back_back_pelvis_L_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "pelvis"
+    },
+    {
+      "fineIndex": 57,
+      "fineId": "back_limb_fill_1",
+      "view": "back",
+      "targetVisibleLayers": [
+        "upper_arm_L"
+      ],
+      "targetBounds": [
+        1529,
+        339,
+        1632,
+        425
+      ],
+      "bounds": [
+        1495,
+        305,
+        1666,
+        459
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/57_back_back_limb_fill_1_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_L",
+      "pivot": "shoulder_L"
+    },
+    {
+      "fineIndex": 57,
+      "fineId": "back_limb_fill_1",
+      "view": "back",
+      "targetVisibleLayers": [
+        "forearm_L"
+      ],
+      "targetBounds": [
+        1591,
+        385,
+        1657,
+        428
+      ],
+      "bounds": [
+        1557,
+        351,
+        1691,
+        462
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/57_back_back_limb_fill_1_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_L",
+      "pivot": "shoulder_L"
+    },
+    {
+      "fineIndex": 57,
+      "fineId": "back_limb_fill_1",
+      "view": "back",
+      "targetVisibleLayers": [
+        "fore_paw_L"
+      ],
+      "targetBounds": [
+        1594,
+        422,
+        1667,
+        467
+      ],
+      "bounds": [
+        1560,
+        388,
+        1701,
+        501
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/57_back_back_limb_fill_1_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_L",
+      "pivot": "shoulder_L"
+    },
+    {
+      "fineIndex": 58,
+      "fineId": "back_limb_fill_2",
+      "view": "back",
+      "targetVisibleLayers": [
+        "upper_arm_R"
+      ],
+      "targetBounds": [
+        1215,
+        338,
+        1355,
+        437
+      ],
+      "bounds": [
+        1181,
+        304,
+        1389,
+        471
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/58_back_back_limb_fill_2_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R"
+    },
+    {
+      "fineIndex": 58,
+      "fineId": "back_limb_fill_2",
+      "view": "back",
+      "targetVisibleLayers": [
+        "forearm_R"
+      ],
+      "targetBounds": [
+        1195,
+        359,
+        1297,
+        439
+      ],
+      "bounds": [
+        1161,
+        325,
+        1331,
+        473
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/58_back_back_limb_fill_2_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R"
+    },
+    {
+      "fineIndex": 58,
+      "fineId": "back_limb_fill_2",
+      "view": "back",
+      "targetVisibleLayers": [
+        "fore_paw_R"
+      ],
+      "targetBounds": [
+        1155,
+        380,
+        1229,
+        468
+      ],
+      "bounds": [
+        1121,
+        346,
+        1263,
+        502
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/58_back_back_limb_fill_2_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R"
+    },
+    {
+      "fineIndex": 59,
+      "fineId": "back_limb_fill_3",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_thigh_L"
+      ],
+      "targetBounds": [
+        1562,
+        600,
+        1608,
+        685
+      ],
+      "bounds": [
+        1528,
+        566,
+        1642,
+        719
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 59,
+      "fineId": "back_limb_fill_3",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_shin_L"
+      ],
+      "targetBounds": [
+        1589,
+        653,
+        1644,
+        679
+      ],
+      "bounds": [
+        1555,
+        619,
+        1678,
+        713
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 59,
+      "fineId": "back_limb_fill_3",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_paw_L"
+      ],
+      "targetBounds": [
+        1556,
+        673,
+        1651,
+        723
+      ],
+      "bounds": [
+        1522,
+        639,
+        1685,
+        757
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_3.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 59,
+      "fineId": "back_limb_fill_3",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_thigh_R"
+      ],
+      "targetBounds": [
+        1237,
+        578,
+        1308,
+        678
+      ],
+      "bounds": [
+        1203,
+        544,
+        1342,
+        712
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_4.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 59,
+      "fineId": "back_limb_fill_3",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_shin_R"
+      ],
+      "targetBounds": [
+        1222,
+        644,
+        1296,
+        692
+      ],
+      "bounds": [
+        1188,
+        610,
+        1330,
+        726
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_5.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 59,
+      "fineId": "back_limb_fill_3",
+      "view": "back",
+      "targetVisibleLayers": [
+        "hind_paw_R"
+      ],
+      "targetBounds": [
+        1180,
+        653,
+        1274,
+        723
+      ],
+      "bounds": [
+        1146,
+        619,
+        1308,
+        757
+      ],
+      "paddingPixels": 34,
+      "maskDilationPixels": 51,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/59_back_back_limb_fill_3_6.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "Hip_L",
+      "pivot": "hip_L"
+    },
+    {
+      "fineIndex": 60,
+      "fineId": "back_torso_1",
+      "view": "back",
+      "targetVisibleLayers": [
+        "ribcage"
+      ],
+      "targetBounds": [
+        1290,
+        407,
+        1596,
+        587
+      ],
+      "bounds": [
+        1280,
+        397,
+        1606,
+        597
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/60_back_back_torso_1_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "rib"
+    },
+    {
+      "fineIndex": 61,
+      "fineId": "back_torso_2",
+      "view": "back",
+      "targetVisibleLayers": [
+        "abdomen"
+      ],
+      "targetBounds": [
+        1248,
+        491,
+        1585,
+        691
+      ],
+      "bounds": [
+        1238,
+        481,
+        1595,
+        701
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/61_back_back_torso_2_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "abdomen"
+    },
+    {
+      "fineIndex": 62,
+      "fineId": "back_torso_3",
+      "view": "back",
+      "targetVisibleLayers": [
+        "pelvis"
+      ],
+      "targetBounds": [
+        1266,
+        581,
+        1587,
+        764
+      ],
+      "bounds": [
+        1256,
+        571,
+        1597,
+        774
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/62_back_back_torso_3_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "pelvis"
+    },
+    {
+      "fineIndex": 63,
+      "fineId": "back_torso_4",
+      "view": "back",
+      "targetVisibleLayers": [
+        "pelvis"
+      ],
+      "targetBounds": [
+        1266,
+        581,
+        1587,
+        764
+      ],
+      "bounds": [
+        1256,
+        571,
+        1597,
+        774
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/63_back_back_torso_4_1.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "pelvis"
+    },
+    {
+      "fineIndex": 63,
+      "fineId": "back_torso_4",
+      "view": "back",
+      "targetVisibleLayers": [
+        "abdomen"
+      ],
+      "targetBounds": [
+        1248,
+        491,
+        1585,
+        691
+      ],
+      "bounds": [
+        1238,
+        481,
+        1595,
+        701
+      ],
+      "paddingPixels": 10,
+      "maskDilationPixels": 11,
+      "file": "live2d/x6/fine-body-space-underpaint-v2/63_back_back_torso_4_2.png",
+      "defaultVisibility": "behind-visible-source-layer",
+      "role": "hidden-underpaint-and-safe-overlap",
+      "parent": "BodyRoot",
+      "pivot": "pelvis"
+    }
+  ],
+  "qa": {
+    "rest": "live2d/x6/qa/x6-production-layer-stack-rest-v2.png",
+    "underpaintMap": "live2d/x6/qa/x6-production-layer-stack-underpaint-map-v2.png",
+    "underpaintUnclippedAudit": "live2d/x6/qa/x6-production-layer-stack-underpaint-unclipped-audit-v2.png",
+    "knockout": "live2d/x6/qa/x6-production-layer-stack-knockout-v2.png",
+    "review": "live2d/x6/qa/x6-production-layer-stack-review-v2.png",
+    "jointDetail": "live2d/x6/qa/x6-production-layer-stack-joint-detail-v2.png",
+    "coverageAudit": "live2d/x6/x6-production-layer-stack-coverage-audit-v2.json"
+  },
+  "gateBoundary": {
+    "currentGate": "x6-parameter-action-tracer",
+    "gate6Approved": false,
+    "x7Authorized": false,
+    "notPsd": true,
+    "notCubism": true,
+    "notPhysics": true,
+    "notRuntime": true
+  },
+  "knownLimits": [
+    "Fine materials are registered as hidden underpaint and overlap reserves; they do not replace approved visible source pixels at rest.",
+    "Body-space placement is a candidate until the user reviews the rest, underpaint map and knockout proof.",
+    "Actual hidden-area painting quality can only be accepted after joint-separated visual review at this gate."
+  ]
+}

@@ -1,0 +1,402 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-front-complete-overlap-layer-candidate",
+  "status": "rejected-user-identified-radial-hidden-texture-artifacts",
+  "strategy": "complete-independent-semantic-layers-with-real-parent-child-overlap",
+  "sourceRejectedCandidate": "live2d/x6/x6-front-actual-segmentation-contract-v8.json",
+  "canvas": {
+    "width": 650,
+    "height": 887
+  },
+  "layerCount": 16,
+  "structuralCompleteLayerCount": 11,
+  "drawOrderBackToFront": [
+    "tail",
+    "leg_L_lower_paw",
+    "leg_R_lower_paw",
+    "leg_L_upper",
+    "leg_R_upper",
+    "arm_L_lower_paw",
+    "arm_R_lower_paw",
+    "arm_L_upper",
+    "arm_R_upper",
+    "body",
+    "ear_L",
+    "ear_R",
+    "head",
+    "eye_L",
+    "eye_R",
+    "mouth"
+  ],
+  "layers": [
+    {
+      "id": "tail",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/01_tail.png",
+      "canvasBounds": [
+        295,
+        667,
+        387,
+        849
+      ],
+      "parentCoverLayers": [
+        "body"
+      ],
+      "sourceVisiblePixels": 7157,
+      "hiddenCompletionPixels": 4318,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "leg_L_lower_paw",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/02_leg_L_lower_paw.png",
+      "canvasBounds": [
+        450,
+        642,
+        569,
+        724
+      ],
+      "parentCoverLayers": [
+        "leg_L_upper"
+      ],
+      "sourceVisiblePixels": 4981,
+      "hiddenCompletionPixels": 1200,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "leg_R_lower_paw",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/03_leg_R_lower_paw.png",
+      "canvasBounds": [
+        98,
+        642,
+        218,
+        723
+      ],
+      "parentCoverLayers": [
+        "leg_R_upper"
+      ],
+      "sourceVisiblePixels": 5073,
+      "hiddenCompletionPixels": 1219,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "leg_L_upper",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/04_leg_L_upper.png",
+      "canvasBounds": [
+        409,
+        572,
+        517,
+        688
+      ],
+      "parentCoverLayers": [
+        "body"
+      ],
+      "sourceVisiblePixels": 1817,
+      "hiddenCompletionPixels": 6545,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "leg_R_upper",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/05_leg_R_upper.png",
+      "canvasBounds": [
+        139,
+        572,
+        262,
+        687
+      ],
+      "parentCoverLayers": [
+        "body"
+      ],
+      "sourceVisiblePixels": 2046,
+      "hiddenCompletionPixels": 6401,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "arm_L_lower_paw",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/06_arm_L_lower_paw.png",
+      "canvasBounds": [
+        451,
+        328,
+        594,
+        469
+      ],
+      "parentCoverLayers": [
+        "arm_L_upper"
+      ],
+      "sourceVisiblePixels": 7645,
+      "hiddenCompletionPixels": 1813,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "arm_R_lower_paw",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/07_arm_R_lower_paw.png",
+      "canvasBounds": [
+        69,
+        326,
+        220,
+        459
+      ],
+      "parentCoverLayers": [
+        "arm_R_upper"
+      ],
+      "sourceVisiblePixels": 8127,
+      "hiddenCompletionPixels": 1534,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "arm_L_upper",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/08_arm_L_upper.png",
+      "canvasBounds": [
+        378,
+        305,
+        507,
+        413
+      ],
+      "parentCoverLayers": [
+        "body"
+      ],
+      "sourceVisiblePixels": 2968,
+      "hiddenCompletionPixels": 3295,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "arm_R_upper",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/09_arm_R_upper.png",
+      "canvasBounds": [
+        164,
+        309,
+        293,
+        408
+      ],
+      "parentCoverLayers": [
+        "body"
+      ],
+      "sourceVisiblePixels": 2850,
+      "hiddenCompletionPixels": 3020,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "body",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/10_body.png",
+      "canvasBounds": [
+        164,
+        326,
+        513,
+        742
+      ],
+      "parentCoverLayers": [],
+      "sourceVisiblePixels": 82817,
+      "hiddenCompletionPixels": 9206,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "ear_L",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/11_ear_L.png",
+      "canvasBounds": [
+        373,
+        42,
+        461,
+        140
+      ],
+      "parentCoverLayers": [
+        "head"
+      ],
+      "sourceVisiblePixels": 5838,
+      "hiddenCompletionPixels": 0,
+      "completeStructuralLayer": false
+    },
+    {
+      "id": "ear_R",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/12_ear_R.png",
+      "canvasBounds": [
+        223,
+        40,
+        298,
+        140
+      ],
+      "parentCoverLayers": [
+        "head"
+      ],
+      "sourceVisiblePixels": 4982,
+      "hiddenCompletionPixels": 0,
+      "completeStructuralLayer": false
+    },
+    {
+      "id": "head",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/13_head.png",
+      "canvasBounds": [
+        196,
+        48,
+        476,
+        390
+      ],
+      "parentCoverLayers": [
+        "body"
+      ],
+      "sourceVisiblePixels": 47112,
+      "hiddenCompletionPixels": 22468,
+      "completeStructuralLayer": true
+    },
+    {
+      "id": "eye_L",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/14_eye_L.png",
+      "canvasBounds": [
+        347,
+        135,
+        418,
+        220
+      ],
+      "parentCoverLayers": [
+        "head"
+      ],
+      "sourceVisiblePixels": 4693,
+      "hiddenCompletionPixels": 0,
+      "completeStructuralLayer": false
+    },
+    {
+      "id": "eye_R",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/15_eye_R.png",
+      "canvasBounds": [
+        253,
+        135,
+        324,
+        220
+      ],
+      "parentCoverLayers": [
+        "head"
+      ],
+      "sourceVisiblePixels": 4693,
+      "hiddenCompletionPixels": 0,
+      "completeStructuralLayer": false
+    },
+    {
+      "id": "mouth",
+      "file": "live2d/x6/front-complete-overlap-layers-v10/16_mouth.png",
+      "canvasBounds": [
+        214,
+        204,
+        462,
+        297
+      ],
+      "parentCoverLayers": [
+        "head"
+      ],
+      "sourceVisiblePixels": 3541,
+      "hiddenCompletionPixels": 0,
+      "completeStructuralLayer": false
+    }
+  ],
+  "overlapAudit": {
+    "jointCount": 15,
+    "passCount": 15,
+    "minimumOverlapPixels": 1200,
+    "records": [
+      {
+        "child": "tail",
+        "parent": "body",
+        "overlapPixels": 4318,
+        "passes": true
+      },
+      {
+        "child": "leg_L_lower_paw",
+        "parent": "leg_L_upper",
+        "overlapPixels": 1200,
+        "passes": true
+      },
+      {
+        "child": "leg_R_lower_paw",
+        "parent": "leg_R_upper",
+        "overlapPixels": 1219,
+        "passes": true
+      },
+      {
+        "child": "leg_L_upper",
+        "parent": "body",
+        "overlapPixels": 6545,
+        "passes": true
+      },
+      {
+        "child": "leg_R_upper",
+        "parent": "body",
+        "overlapPixels": 6401,
+        "passes": true
+      },
+      {
+        "child": "arm_L_lower_paw",
+        "parent": "arm_L_upper",
+        "overlapPixels": 1813,
+        "passes": true
+      },
+      {
+        "child": "arm_R_lower_paw",
+        "parent": "arm_R_upper",
+        "overlapPixels": 1534,
+        "passes": true
+      },
+      {
+        "child": "arm_L_upper",
+        "parent": "body",
+        "overlapPixels": 3534,
+        "passes": true
+      },
+      {
+        "child": "arm_R_upper",
+        "parent": "body",
+        "overlapPixels": 3259,
+        "passes": true
+      },
+      {
+        "child": "ear_L",
+        "parent": "head",
+        "overlapPixels": 3293,
+        "passes": true
+      },
+      {
+        "child": "ear_R",
+        "parent": "head",
+        "overlapPixels": 3368,
+        "passes": true
+      },
+      {
+        "child": "head",
+        "parent": "body",
+        "overlapPixels": 11111,
+        "passes": true
+      },
+      {
+        "child": "eye_L",
+        "parent": "head",
+        "overlapPixels": 4693,
+        "passes": true
+      },
+      {
+        "child": "eye_R",
+        "parent": "head",
+        "overlapPixels": 4693,
+        "passes": true
+      },
+      {
+        "child": "mouth",
+        "parent": "head",
+        "overlapPixels": 3541,
+        "passes": true
+      }
+    ]
+  },
+  "restReconstructionAudit": {
+    "extraAlphaPixels": 0,
+    "missingAlphaPixels": 0,
+    "visibleRgbMeanAbsoluteError": 1.1993,
+    "status": "pass-candidate"
+  },
+  "qa": {
+    "review": "live2d/x6/qa/x6-front-complete-overlap-review-v10.png",
+    "reconstruction": "live2d/x6/front-complete-overlap-layers-v10/front-complete-reconstruction.png"
+  },
+  "gateBoundary": {
+    "frontCompleteLayersApprovedByUser": false,
+    "sideBackPropagationAuthorized": false,
+    "gate6Approved": false,
+    "x7Authorized": false
+  },
+  "knownLimit": "The complete shapes and overlap masks remain useful, but automatic radial texture diffusion produced unacceptable starburst fur in the head and cannot be propagated to other layers.",
+  "disposition": "retain-complete-shapes-and-overlap-masks-only; replace-hidden-textures-one-region-at-a-time"
+}

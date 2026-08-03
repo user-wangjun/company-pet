@@ -1,0 +1,505 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-parameter-motion-action-tracer",
+  "status": "candidate-for-user-visual-review",
+  "approvalBasis": {
+    "x5Approved": true,
+    "evidence": "User said: 可以了，继续下一步吧"
+  },
+  "sourceContracts": [
+    "live2d/x2/x2-cover-roundtrip-samples.json",
+    "live2d/x5/x5-generated-fine-layer-candidates-contract-v1.json",
+    "live2d/x5/x5-generated-fine-mesh-contract-v1.json",
+    "live2d/x6/x6-layer-assembly-contract-v1.json"
+  ],
+  "maskReconstructionSource": {
+    "contract": "live2d/x6/x6-layer-assembly-contract-v1.json",
+    "preview": "live2d/x6/qa/x6-assembled-xiaoju-three-view-v1.png",
+    "visibleLayerCount": 113,
+    "coverageRequired": 1.0,
+    "evidenceLevel": "rest-pose mask reconstruction only",
+    "productionFineLayerAssemblyComplete": false
+  },
+  "gateBoundary": {
+    "allowed": [
+      "parameter vocabulary",
+      "bounded Action Tracer map",
+      "keyform ranges",
+      "Cubism-ready Motion output definition"
+    ],
+    "forbidden": [
+      "Cubism authoring",
+      "final Physics tuning",
+      "X7 elastic motion",
+      "runtime integration"
+    ]
+  },
+  "inputPriority": [
+    "password-cover contact",
+    "explicit interaction target",
+    "current input field",
+    "pointer inside Xiaoju/login attention region",
+    "idle observation target"
+  ],
+  "actionTracerPipeline": [
+    "raw input or app state",
+    "target ownership and priority",
+    "model-local coordinates",
+    "safe ellipse and dead zone",
+    "velocity/acceleration limiting and smoothing",
+    "active parameter targets",
+    "Deformer cascade"
+  ],
+  "interruptionRule": "Preserve current value and velocity; blend ownership without resetting to rest.",
+  "gaze": {
+    "eyeSafeEllipse": {
+      "x": [
+        -0.65,
+        0.65
+      ],
+      "y": [
+        -0.45,
+        0.45
+      ],
+      "deadZoneRadius": 0.05
+    },
+    "saccadeMs": [
+      80,
+      180
+    ],
+    "smoothPursuitMs": [
+      120,
+      220
+    ],
+    "headDelayMs": [
+      120,
+      280
+    ],
+    "headRemainderGain": [
+      0.2,
+      0.35
+    ],
+    "bodyDelayAfterHead": true,
+    "bodyRemainderGain": [
+      0.05,
+      0.12
+    ],
+    "ninePointAudit": [
+      [
+        -0.65,
+        -0.45
+      ],
+      [
+        0.0,
+        -0.45
+      ],
+      [
+        0.65,
+        -0.45
+      ],
+      [
+        -0.65,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.65,
+        0.0
+      ],
+      [
+        -0.65,
+        0.45
+      ],
+      [
+        0.0,
+        0.45
+      ],
+      [
+        0.65,
+        0.45
+      ]
+    ]
+  },
+  "blink": {
+    "keyformValues": [
+      1.0,
+      0.75,
+      0.5,
+      0.25,
+      0.0
+    ],
+    "closeMs": [
+      60,
+      90
+    ],
+    "closedHoldMs": [
+      20,
+      70
+    ],
+    "openMs": [
+      100,
+      160
+    ],
+    "leftRightOffsetMs": [
+      10,
+      25
+    ],
+    "preserveGazeState": true
+  },
+  "eyeLayerOwnership": {
+    "left": {
+      "socketBase": "eye_socket_L",
+      "mask": "EyeMask_L (Cubism-ready definition; not authored in this gate)",
+      "iris": "iris_L",
+      "pupil": "pupil_L",
+      "highlight": "highlight_L",
+      "upperLid": "upper_lid_L",
+      "lowerLid": "lower_lid_L",
+      "furOccluder": "cheek_fur_L"
+    },
+    "right": {
+      "socketBase": "eye_socket_R",
+      "mask": "EyeMask_R (Cubism-ready definition; not authored in this gate)",
+      "iris": "iris_R",
+      "pupil": "pupil_R",
+      "highlight": "highlight_R",
+      "upperLid": "upper_lid_R",
+      "lowerLid": "lower_lid_R",
+      "furOccluder": "cheek_fur_R"
+    },
+    "hierarchy": "Head -> EyeSocket -> EyeMask / Iris -> Pupil + Highlight / UpperLid / LowerLid / EyeFurOccluder",
+    "reject": [
+      "baked duplicate pupil",
+      "duplicate highlight",
+      "iris outside mask",
+      "blink encoded as gaze"
+    ]
+  },
+  "eyeParameters": [
+    {
+      "parameter": "ParamEyeBallX",
+      "nominalRange": [
+        -1.0,
+        1.0
+      ],
+      "runtimeSafeRange": [
+        -0.65,
+        0.65
+      ],
+      "blend": "Override"
+    },
+    {
+      "parameter": "ParamEyeBallY",
+      "nominalRange": [
+        -1.0,
+        1.0
+      ],
+      "runtimeSafeRange": [
+        -0.45,
+        0.45
+      ],
+      "blend": "Override"
+    },
+    {
+      "parameter": "ParamEyeLOpen",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "blend": "Multiply(blink, state visibility)"
+    },
+    {
+      "parameter": "ParamEyeROpen",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "blend": "Multiply(blink, state visibility)"
+    },
+    {
+      "parameter": "ParamBlink",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "distribution": "bounded non-uniform 2.5-6.5 s"
+    },
+    {
+      "parameter": "ParamEyeConvergence",
+      "range": [
+        0.0,
+        0.08
+      ],
+      "nearTargetsOnly": true
+    },
+    {
+      "parameter": "ParamEyeLidFollowY",
+      "range": [
+        -0.09,
+        0.09
+      ],
+      "sourceGain": "10-20% of safe gaze Y"
+    },
+    {
+      "parameter": "ParamPupilScale",
+      "range": [
+        0.96,
+        1.04
+      ],
+      "mouseDistanceDriven": false
+    },
+    {
+      "parameter": "ParamEyeHighlightX",
+      "range": [
+        -0.42,
+        0.42
+      ],
+      "irisGain": 0.65
+    },
+    {
+      "parameter": "ParamEyeHighlightY",
+      "range": [
+        -0.29,
+        0.29
+      ],
+      "irisGain": 0.65
+    },
+    {
+      "parameter": "ParamGazeWeight",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "preserveVelocityOnOwnerChange": true
+    },
+    {
+      "parameter": "ParamEyeHeadCompX",
+      "range": [
+        -0.12,
+        0.12
+      ],
+      "shortCounterCompensation": true
+    },
+    {
+      "parameter": "ParamEyeHeadCompY",
+      "range": [
+        -0.08,
+        0.08
+      ],
+      "shortCounterCompensation": true
+    }
+  ],
+  "coverMotion": {
+    "durationSec": 1.6,
+    "sampleCount": 41,
+    "masterParameters": [
+      "ParamForelegCoverL",
+      "ParamForelegCoverR"
+    ],
+    "rightSideDelayMs": 24,
+    "leftProgressRange": [
+      0.0,
+      1.0
+    ],
+    "rightProgressRange": [
+      0.0,
+      0.9971
+    ],
+    "maxProgressVelocityPerSec": 1.87,
+    "maxProgressAccelerationPerSec2": 9.0,
+    "keyforms": [
+      {
+        "coverProgress": 0.0,
+        "sampleIndex": 0,
+        "bodyCompensation": [
+          0.0,
+          -0.0
+        ],
+        "leftAngleDeltaDeg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rightAngleDeltaDeg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pawFaceContact": false,
+        "segmentLengthDrift": 0.0
+      },
+      {
+        "coverProgress": 0.25,
+        "sampleIndex": 7,
+        "bodyCompensation": [
+          0.0,
+          -0.00225
+        ],
+        "leftAngleDeltaDeg": [
+          -28.045,
+          19.412,
+          -6.263
+        ],
+        "rightAngleDeltaDeg": [
+          28.045,
+          -19.412,
+          6.263
+        ],
+        "pawFaceContact": false,
+        "segmentLengthDrift": 0.0
+      },
+      {
+        "coverProgress": 0.5,
+        "sampleIndex": 10,
+        "bodyCompensation": [
+          0.0,
+          -0.004
+        ],
+        "leftAngleDeltaDeg": [
+          -72.5,
+          68.545,
+          -39.476
+        ],
+        "rightAngleDeltaDeg": [
+          72.5,
+          -68.545,
+          39.476
+        ],
+        "pawFaceContact": false,
+        "segmentLengthDrift": 0.0
+      },
+      {
+        "coverProgress": 0.75,
+        "sampleIndex": 13,
+        "bodyCompensation": [
+          0.0,
+          -0.00575
+        ],
+        "leftAngleDeltaDeg": [
+          -116.955,
+          122.306,
+          -81.175
+        ],
+        "rightAngleDeltaDeg": [
+          116.955,
+          -122.306,
+          81.175
+        ],
+        "pawFaceContact": false,
+        "segmentLengthDrift": 0.0
+      },
+      {
+        "coverProgress": 1.0,
+        "sampleIndex": 19,
+        "bodyCompensation": [
+          0.0,
+          -0.00794
+        ],
+        "leftAngleDeltaDeg": [
+          -144.977,
+          157.565,
+          -109.976
+        ],
+        "rightAngleDeltaDeg": [
+          144.977,
+          -157.565,
+          109.976
+        ],
+        "pawFaceContact": true,
+        "segmentLengthDrift": 0.0
+      }
+    ],
+    "activeJointChannels": [
+      {
+        "parameter": "ParamShoulderL",
+        "type": "active-rotation",
+        "source": "X2 approved 41-point roundtrip",
+        "rangeDeg": [
+          -145.0,
+          0.0
+        ],
+        "maxVelocityDegPerSec": 403.425,
+        "maxAccelerationDegPerSec2": 1758.125,
+        "blend": "Override within password-cover motion",
+        "physicsMayDrive": false
+      },
+      {
+        "parameter": "ParamElbowL",
+        "type": "active-rotation",
+        "source": "X2 approved 41-point roundtrip",
+        "rangeDeg": [
+          0.0,
+          157.595
+        ],
+        "maxVelocityDegPerSec": 479.1,
+        "maxAccelerationDegPerSec2": 2408.75,
+        "blend": "Override within password-cover motion",
+        "physicsMayDrive": false
+      },
+      {
+        "parameter": "ParamWristL",
+        "type": "active-rotation",
+        "source": "X2 approved 41-point roundtrip",
+        "rangeDeg": [
+          -110.0,
+          0.0
+        ],
+        "maxVelocityDegPerSec": 362.325,
+        "maxAccelerationDegPerSec2": 2180.625,
+        "blend": "Override within password-cover motion",
+        "physicsMayDrive": false
+      },
+      {
+        "parameter": "ParamShoulderR",
+        "type": "active-rotation",
+        "source": "X2 approved 41-point roundtrip",
+        "rangeDeg": [
+          0.0,
+          145.0
+        ],
+        "maxVelocityDegPerSec": 403.425,
+        "maxAccelerationDegPerSec2": 1758.125,
+        "blend": "Override within password-cover motion",
+        "physicsMayDrive": false
+      },
+      {
+        "parameter": "ParamElbowR",
+        "type": "active-rotation",
+        "source": "X2 approved 41-point roundtrip",
+        "rangeDeg": [
+          -157.595,
+          0.0
+        ],
+        "maxVelocityDegPerSec": 479.1,
+        "maxAccelerationDegPerSec2": 2408.75,
+        "blend": "Override within password-cover motion",
+        "physicsMayDrive": false
+      },
+      {
+        "parameter": "ParamWristR",
+        "type": "active-rotation",
+        "source": "X2 approved 41-point roundtrip",
+        "rangeDeg": [
+          0.0,
+          110.0
+        ],
+        "maxVelocityDegPerSec": 362.325,
+        "maxAccelerationDegPerSec2": 2180.625,
+        "blend": "Override within password-cover motion",
+        "physicsMayDrive": false
+      }
+    ],
+    "physicsMayDetermineCorePath": false
+  },
+  "loginStates": {
+    "idle": "bounded safe observations; blink and low drift remain active",
+    "email-focus": "eyes lead input target; head follows after delay",
+    "password-cover-enter": "stop new targets; center/down gaze; blink leads paw contact by 40-100 ms",
+    "password-cover-hold": "internal blink phase continues; visible gaze weight is zero",
+    "password-cover-exit": "open only after paws clear socket; reacquire without center reset"
+  },
+  "nextGate": "X7 only after explicit X6 user approval"
+}

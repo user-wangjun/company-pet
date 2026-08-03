@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1370" height="1148" viewBox="0 0 1370 1148">
+  <defs>
+    <style>
+      .box { fill: none; stroke: #ff3b30; stroke-width: 5; stroke-dasharray: 14 9; }
+      .hidden { fill: rgba(255, 204, 0, 0.16); stroke: #ffcc00; stroke-width: 5; stroke-dasharray: 10 8; }
+      .line { fill: none; stroke: #ffffff; stroke-width: 4; paint-order: stroke; }
+      .tag { fill: #111827; fill-opacity: .88; stroke: #ffffff; stroke-width: 2; }
+      .txt { fill: #ffffff; font: 700 24px 'Segoe UI', sans-serif; }
+      .small { fill: #ffffff; font: 600 19px 'Segoe UI', sans-serif; }
+    </style>
+  </defs>
+  <image href="../planet-scene-source/pose-keys-v3/00-rest.png" x="0" y="0" width="1370" height="1148"/>
+  <rect x="8" y="8" width="1354" height="1132" fill="none" stroke="#29b6f6" stroke-width="5"/>
+  <rect class="box" x="365" y="15" width="760" height="715"/>
+  <rect class="box" x="365" y="35" width="285" height="340"/>
+  <rect class="box" x="850" y="0" width="285" height="330"/>
+  <rect class="box" x="620" y="390" width="410" height="255"/>
+  <rect class="box" x="700" y="540" width="330" height="190"/>
+  <rect class="box" x="275" y="560" width="650" height="500"/>
+  <rect class="box" x="510" y="600" width="310" height="320"/>
+  <rect class="box" x="955" y="360" width="330" height="350"/>
+  <rect class="box" x="90" y="560" width="430" height="510"/>
+  <path class="hidden" d="M285 760 C520 650 850 650 1165 540 L1360 1138 L300 1138 Z"/>
+  <path class="box" d="M285 1138 C470 840 850 675 1365 455"/>
+
+  <g transform="translate(20 20)"><rect class="tag" width="320" height="42" rx="8"/><text class="txt" x="12" y="29">1 星空 / Scene Root</text></g>
+  <g transform="translate(1030 1085)"><rect class="tag" width="315" height="42" rx="8"/><text class="txt" x="12" y="29">2 星球完整 Rig</text></g>
+  <g transform="translate(650 30)"><rect class="tag" width="180" height="42" rx="8"/><text class="txt" x="12" y="29">3 头部</text></g>
+  <g transform="translate(370 385)"><rect class="tag" width="215" height="42" rx="8"/><text class="txt" x="12" y="29">4 左耳分层</text></g>
+  <g transform="translate(1040 300)"><rect class="tag" width="215" height="42" rx="8"/><text class="txt" x="12" y="29">5 右耳分层</text></g>
+  <g transform="translate(620 345)"><rect class="tag" width="245" height="42" rx="8"/><text class="txt" x="12" y="29">6 双眼/眼睑</text></g>
+  <g transform="translate(820 730)"><rect class="tag" width="250" height="42" rx="8"/><text class="txt" x="12" y="29">7 口鼻/胡须</text></g>
+  <g transform="translate(295 1065)"><rect class="tag" width="260" height="42" rx="8"/><text class="txt" x="12" y="29">8 躯干/胸腹</text></g>
+  <g transform="translate(520 930)"><rect class="tag" width="260" height="42" rx="8"/><text class="txt" x="12" y="29">9 左前肢全链</text></g>
+  <g transform="translate(1010 710)"><rect class="tag" width="275" height="42" rx="8"/><text class="txt" x="12" y="29">10 右前肢全链</text></g>
+  <g transform="translate(95 520)"><rect class="tag" width="250" height="42" rx="8"/><text class="txt" x="12" y="29">11 完整尾根</text></g>
+  <g transform="translate(555 1090)"><rect class="tag" width="460" height="42" rx="8"/><text class="small" x="12" y="28">黄色：星球后隐藏的腹部/后躯/后腿</text></g>
+</svg>

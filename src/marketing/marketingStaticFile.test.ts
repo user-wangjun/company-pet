@@ -53,7 +53,7 @@ describe("static marketing universe", () => {
 
     expect(html).toContain("https://discord.gg/AEQqraAtER");
     expect(html).toContain("下载客户端");
-    expect(html).toContain("0.3.0-windows-x64-setup.exe");
-    expect(WINDOWS_DOWNLOAD_URL).toContain("0.3.0");
+    expect(html).toContain("0.3.1-windows-x64-setup.exe");
+    expect(WINDOWS_DOWNLOAD_URL).toContain("0.3.1");
   });
 });

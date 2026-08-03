@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-A elbow dependency contract reopen evidence",
+  "status": "fail_no_static_source_compatible_candidate",
+  "checksumAlgorithm": "SHA-256",
+  "files": [
+    {
+      "path": "audit/V7-A-ELBOW-CONTRACT-REOPEN.zh-CN.md",
+      "sha256": "10e060822f341c45b824847588ca4819e7bb2f920dff6ad77c912e0a9e410a8d",
+      "bytes": 1847
+    },
+    {
+      "path": "audit/v7a-elbow-contract-reopen-dense-scans.json",
+      "sha256": "4946b8dc1325c17d37068d3074fa663ff031d440e199d2bdafe8186ba8f8e4d8",
+      "bytes": 212617
+    },
+    {
+      "path": "audit/v7a-elbow-contract-reopen-input-integrity.json",
+      "sha256": "561d381fadc7ad1f65285fb31501f5c2f3521d5229d65367bc0b24e5464202dc",
+      "bytes": 1007
+    },
+    {
+      "path": "audit/v7a-elbow-contract-reopen-proof.json",
+      "sha256": "65656e58a2a112e76af5eda8351beccbddb4eb34869e91227355ee803b6c3299",
+      "bytes": 6373
+    },
+    {
+      "path": "masks/approved-visible-plus-strict-root.png",
+      "sha256": "d2a86111c69cd3fa918f84b809dd6a1433adad8be2cac1576a3654d5372e6d62",
+      "bytes": 4917
+    },
+    {
+      "path": "masks/frozen-envelope-source-clipped.png",
+      "sha256": "546f2df3ab68e1e86e73bdd605699ec5d4e48bd53e271f9e1af996eb0434bdb5",
+      "bytes": 4712
+    },
+    {
+      "path": "masks/source-compatible-maximum-with-reassignment.png",
+      "sha256": "6d8eced8522cbb6e78dc69739db9e1110ee6ec6c24e89df6b5e779185d2ee838",
+      "bytes": 4920
+    },
+    {
+      "path": "masks/source-max-worst-angle-inner-bend-exposure-4x.png",
+      "sha256": "32249f202b7606b13ffdbf6ef7e0c00139ef7c45aaf844f39b347f596977c4d6",
+      "bytes": 1427
+    },
+    {
+      "path": "masks/strict-max-worst-angle-inner-bend-exposure-4x.png",
+      "sha256": "4a7c93359e9bc3058c55f4f29f58727abcf4e9df81afbc247900f431e1106268",
+      "bytes": 1656
+    },
+    {
+      "path": "masks/strict-source-and-unique-maximum.png",
+      "sha256": "b48d94f826ea56c94bb7fe24de7ba68913cf67d1f8685fd43857abcea8b87dd1",
+      "bytes": 4884
+    },
+    {
+      "path": "qa/V7-A-ELBOW-CONTRACT-REOPEN-BOARD.png",
+      "sha256": "36124bccae26b5a2e655c36f529cb5991f4eb05401fd0a3f5dd6e4733ca208cc",
+      "bytes": 103404
+    }
+  ]
+}

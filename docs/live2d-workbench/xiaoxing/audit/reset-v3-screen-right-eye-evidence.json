@@ -1,0 +1,33 @@
+{
+  "stage": "reset-v3-screen-right-eye-pixel-evidence",
+  "status": "visual_review_required",
+  "canvas": [
+    512,
+    1086
+  ],
+  "cropInclusive": {
+    "x": [
+      246,
+      311
+    ],
+    "y": [
+      110,
+      154
+    ]
+  },
+  "scale": 12,
+  "resampling": "nearest",
+  "lineSource": "source\\masters\\front-line-source-exact-after-reset.png",
+  "colorReference": "source\\masters\\front-color-source-exact-after-reset.png",
+  "reviewOnly": true,
+  "materialGenerated": false,
+  "iterationNotes": [
+    "第一版 x=268…329 截掉眼睛内侧，工作自审未通过。",
+    "第二版扩大为 x=246…311，并同时保留无叠加线稿和坐标网格。"
+  ],
+  "prohibited": [
+    "从阈值图直接生成眼睛遮罩",
+    "把局部裁切作为材料",
+    "在人工边界通过前生成 PSD 或 Cubism"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 2,
+  "status": "stage_a_design_candidate",
+  "materialEquation": "M_i = V_i union union_t(T_i(t)^-1(S_i(t))) union joint_disk_i",
+  "sampling": {
+    "primaryMotionSamples": 41,
+    "includeRequiredCombinationExtremes": true,
+    "coverageSearchStepPx": 0.25
+  },
+  "minimumOverlapSearch": {
+    "method": "increase overlap from zero until all sampled responsibility regions are covered in inverse-rest coordinates",
+    "seams": ["sleeve_to_upper_arm", "upper_arm_to_forearm", "forearm_to_hand"],
+    "postSearchMarginsPx": {"antialias": 2.0, "plannedMeshDeformation": 3.0}
+  },
+  "engineeringPassConditions": {
+    "transparentGapPixels": 0,
+    "maxAnalyticBoneLengthErrorPx": 0.01,
+    "maxRenderedEndpointErrorPx": 0.25,
+    "elbowBranch": "theta2 remains negative for every primary and extreme sample",
+    "detachedComponents": 0,
+    "flippedTriangles": 0,
+    "deterministicReturn": true
+  },
+  "prohibitions": [
+    "do not shorten L1 or L2",
+    "do not cross the straight elbow branch",
+    "do not reduce the approved motion to hide a seam",
+    "do not use bracelet occlusion as evidence",
+    "do not turn joint disks into visible material"
+  ]
+}
+

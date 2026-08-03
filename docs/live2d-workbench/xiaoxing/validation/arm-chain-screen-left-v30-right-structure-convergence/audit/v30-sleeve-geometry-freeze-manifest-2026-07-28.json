@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "status": "frozen_engineering_and_user_visual_pass",
+  "freezeDate": "2026-07-28",
+  "decisionOwner": "user",
+  "scope": "screen-left sleeve Stage A complete geometry and visible/hidden ownership only",
+  "approval": "audit/user-visual-approval-sleeve-2026-07-28.json",
+  "skeletonUnchanged": true,
+  "engineeringChecks": {
+    "visibleHiddenExactPartition": true,
+    "shoulderProtrusionPixelsAboveSource": 0,
+    "connectedComponents": 1,
+    "holes": 0,
+    "fkSamples": 41,
+    "allFramesPass": true,
+    "returnConsistency": true
+  },
+  "artifacts": [
+    {
+      "path": "skeleton-lock.json",
+      "sha256": "c17e863e9abc5896dbcc89240f46cde0b5cce294a11662ff98e4507804f4bd77"
+    },
+    {
+      "path": "sleeve-geometry-contract.json",
+      "sha256": "491eaf0089fbf82a1ff856f348e4d22d7f2fe0fd7931c7d2572e87d11233dfed"
+    },
+    {
+      "path": "masks/sleeve-complete-fresh.png",
+      "sha256": "e433826695bfbc6c58963da52f69dc60776b541fda6120c1c5ac8260fd53d8ef"
+    },
+    {
+      "path": "masks/sleeve-visible-owned.png",
+      "sha256": "f5832341bb0b9e9bf376f6349c528d4a1bffddb2d00e5c3fbfde98a8c71d0739"
+    },
+    {
+      "path": "masks/sleeve-hidden-fresh.png",
+      "sha256": "1e4edcf52fe4f896fcc172844c6b7cbc901b8e32d74bca4999b2ebd047f916f8"
+    },
+    {
+      "path": "masks/visible-hidden-partition-union.png",
+      "sha256": "e433826695bfbc6c58963da52f69dc60776b541fda6120c1c5ac8260fd53d8ef"
+    },
+    {
+      "path": "masks/right-complete-aligned-reference.png",
+      "sha256": "d2375b8512fdbfd0fce708f7a25d978145eb9cec6e359b4fbd3369055c851942"
+    },
+    {
+      "path": "materials/sleeve.png",
+      "sha256": "947d122034e6a4289c72407f7f79a351aca9e19e5ece138cd08fe42050e975a5"
+    },
+    {
+      "path": "samples/fk-41-samples.json",
+      "sha256": "dfc8a62bc779783e8e627be503c14bf23d407b64a5f654e81b94d77310b1e16d"
+    },
+    {
+      "path": "qa/V30-RIGHT-STRUCTURE-CONVERGENCE-USER-REVIEW.zh-CN.png",
+      "sha256": "99bad15206c73521e3d9e9918abb74bdf5efdf157ab88465cd2716034c432d90"
+    },
+    {
+      "path": "qa/fk-selected-contact-sheet.png",
+      "sha256": "7db5aa9e290e22dccba9bf31a2c9c2be2009781b957b6f2c1f0231b04704ae4d"
+    },
+    {
+      "path": "qa/fk-41-slow-preview.gif",
+      "sha256": "daa0aa44f826cc6351f67616fce936fb9826c4a2afc4cece4347deebd740ab11"
+    },
+    {
+      "path": "audit/machine-report.json",
+      "sha256": "d8fa81df829d874946db7c376372d6a56dc1cd59b78a8573369ee7b067a89731"
+    },
+    {
+      "path": "audit/user-visual-approval-sleeve-2026-07-28.json",
+      "sha256": "91988740f28c72e1ad8d62cb656996d38861b0bcf1622b9732525ff220c6ba21"
+    },
+    {
+      "path": "tools/build_v30_right_structure_convergence.py",
+      "sha256": "441f08cc38da360bf0a1ad01841b826de59ea57caf339da6a1612fd2fffa7b99"
+    },
+    {
+      "path": "tools/freeze_v30_sleeve_geometry.py",
+      "sha256": "4702858953a929e8209e146ecb56c9be1dd13f5f3d5c13ac0d386fed744a48a8"
+    }
+  ],
+  "invalidationRules": [
+    "any hash mismatch invalidates this sleeve freeze",
+    "changing the complete sleeve mask requires new user visual approval",
+    "changing visible or hidden ownership requires new user visual approval",
+    "changing the approved shoulder, elbow, or wrist skeleton invalidates this freeze"
+  ],
+  "explicitlyNotApproved": [
+    "upper-arm geometry",
+    "forearm geometry",
+    "hand geometry",
+    "whole-arm Stage A visual pass",
+    "texture",
+    "PSD",
+    "Cubism",
+    "Physics",
+    "Runtime",
+    "the other arm",
+    "full body"
+  ],
+  "nextGate": "remain at Stage A; review upper arm, forearm, hand, and whole-arm default regroup separately"
+}

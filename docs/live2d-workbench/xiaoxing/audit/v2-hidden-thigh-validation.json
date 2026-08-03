@@ -1,0 +1,12 @@
+{
+  "status": "self_review_passed_volume_candidate",
+  "candidateCount": 2,
+  "errors": [],
+  "rules": {
+    "front_native_canvas": true,
+    "side_reference_only": true,
+    "bridges_skirt_seam": true,
+    "no_rgba_export": true,
+    "no_radial_patch": true
+  }
+}

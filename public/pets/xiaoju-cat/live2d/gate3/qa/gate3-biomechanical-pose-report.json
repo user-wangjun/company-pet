@@ -1,0 +1,730 @@
+{
+  "source": "D:\\CodeWorkspace\\电脑桌宠\\public\\pets\\xiaoju-cat\\live2d\\gate3\\qa\\gate3-composite.png",
+  "invariants": {
+    "body_volume_scales": "all 1.0; contact compression is local only",
+    "segment_length_error_limit_pct": 3.0,
+    "elbow_flexion_range_deg": [
+      35.0,
+      140.0
+    ],
+    "scapula_slide_limit_px": 30.0,
+    "com_must_remain_inside_contact_x_hull": true,
+    "dense_max_joint_step_px": 16.83723351518054,
+    "dense_max_joint_step_limit_px": 35.0,
+    "dense_max_elbow_angle_step_deg": 3.3978884368483335,
+    "dense_max_elbow_angle_step_limit_deg": 8.0,
+    "scapula_slide_px": {
+      "view_l": 15.811388300841896,
+      "view_r": 11.180339887498949
+    },
+    "final_paw_face_contact_windows_ok": true
+  },
+  "frames": [
+    {
+      "progress": 0.0,
+      "head_counter_angle_deg": 0.0,
+      "volumes": {
+        "head": {
+          "center": [
+            775,
+            390
+          ],
+          "size": [
+            720,
+            650
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "ribcage": {
+          "center": [
+            705,
+            790
+          ],
+          "size": [
+            500,
+            430
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "pelvis": {
+          "center": [
+            500,
+            980
+          ],
+          "size": [
+            410,
+            260
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "body_com": [
+        640.0,
+        815.0
+      ],
+      "contacts": [
+        [
+          520,
+          860
+        ],
+        [
+          920,
+          735
+        ],
+        [
+          470,
+          1010
+        ]
+      ],
+      "com_inside_support_x": true,
+      "arms": {
+        "view_l": {
+          "shoulder": [
+            560.0,
+            720.0
+          ],
+          "elbow": [
+            527.3587113563868,
+            866.4054175079746
+          ],
+          "wrist": [
+            670.0,
+            820.0
+          ],
+          "paw": [
+            725.1607527524706,
+            776.903696727204
+          ],
+          "target_lengths": [
+            150,
+            150,
+            70
+          ],
+          "measured_lengths": [
+            150.00000000000006,
+            150.0,
+            69.99999999999999
+          ],
+          "max_length_error_pct": 3.7895612573872014e-14,
+          "elbow_flexion_angle_deg": 59.41015250484107,
+          "elbow_bend_cross": 19368.724790238517,
+          "gravity_torque_relative": {
+            "shoulder": 234.69354260729182,
+            "elbow": 404.4053946520299,
+            "wrist": 40.5845238376303
+          }
+        },
+        "view_r": {
+          "shoulder": [
+            900.0,
+            690.0
+          ],
+          "elbow": [
+            971.3240826002951,
+            816.2452978974911
+          ],
+          "wrist": [
+            1070.0,
+            710.0
+          ],
+          "paw": [
+            1120.5338481324627,
+            664.4991187675977
+          ],
+          "target_lengths": [
+            145,
+            145,
+            68
+          ],
+          "measured_lengths": [
+            145.0,
+            145.00000000000003,
+            67.9999999999999
+          ],
+          "max_length_error_pct": 1.4628821030355002e-13,
+          "elbow_flexion_angle_deg": 72.3494665334172,
+          "elbow_bend_cross": 20035.218990567588,
+          "gravity_torque_relative": {
+            "shoulder": 659.6983763468613,
+            "elbow": 288.86307368314664,
+            "wrist": 37.18027876345927
+          }
+        }
+      }
+    },
+    {
+      "progress": 0.25,
+      "head_counter_angle_deg": -0.25916022254842064,
+      "volumes": {
+        "head": {
+          "center": [
+            775,
+            390
+          ],
+          "size": [
+            720,
+            650
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "ribcage": {
+          "center": [
+            705,
+            790
+          ],
+          "size": [
+            500,
+            430
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "pelvis": {
+          "center": [
+            500,
+            980
+          ],
+          "size": [
+            410,
+            260
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "body_com": [
+        638.75,
+        815.625
+      ],
+      "contacts": [
+        [
+          520,
+          860
+        ],
+        [
+          920,
+          735
+        ],
+        [
+          470,
+          1010
+        ]
+      ],
+      "com_inside_support_x": true,
+      "arms": {
+        "view_l": {
+          "shoulder": [
+            559.0930257047752,
+            717.2790771143257
+          ],
+          "elbow": [
+            570.7866980307399,
+            866.8225758948911
+          ],
+          "wrist": [
+            676.2322443911746,
+            760.1396965151639
+          ],
+          "paw": [
+            728.8488593762969,
+            713.9716141691599
+          ],
+          "target_lengths": [
+            150,
+            150,
+            70
+          ],
+          "measured_lengths": [
+            150.0,
+            150.00000000000003,
+            70.0
+          ],
+          "max_length_error_pct": 1.8947806286936007e-14,
+          "elbow_flexion_angle_deg": 49.13699128922424,
+          "elbow_bend_cross": 17016.21056782467,
+          "gravity_torque_relative": {
+            "shoulder": 368.46099554661714,
+            "elbow": 307.6620850222286,
+            "wrist": 38.71267447530381
+          }
+        },
+        "view_r": {
+          "shoulder": [
+            900.4894095532208,
+            689.0211808935584
+          ],
+          "elbow": [
+            982.196237542537,
+            808.808468449143
+          ],
+          "wrist": [
+            1062.3501665951198,
+            687.9765701050653
+          ],
+          "paw": [
+            1111.1386275140312,
+            640.6090065075585
+          ],
+          "target_lengths": [
+            145,
+            145,
+            68
+          ],
+          "measured_lengths": [
+            145.0000000000001,
+            145.0,
+            67.99999999999993
+          ],
+          "max_length_error_pct": 1.0449157878825003e-13,
+          "elbow_flexion_angle_deg": 67.85620744632108,
+          "elbow_bend_cross": 19474.21288175377,
+          "gravity_torque_relative": {
+            "shoulder": 665.1550323274588,
+            "elbow": 240.3367215626067,
+            "wrist": 35.89611012108904
+          }
+        }
+      }
+    },
+    {
+      "progress": 0.5,
+      "head_counter_angle_deg": -0.5575482402107982,
+      "volumes": {
+        "head": {
+          "center": [
+            775,
+            390
+          ],
+          "size": [
+            720,
+            650
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "ribcage": {
+          "center": [
+            705,
+            790
+          ],
+          "size": [
+            500,
+            430
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "pelvis": {
+          "center": [
+            500,
+            980
+          ],
+          "size": [
+            410,
+            260
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "body_com": [
+        636.0,
+        817.0
+      ],
+      "contacts": [
+        [
+          520,
+          860
+        ],
+        [
+          920,
+          735
+        ],
+        [
+          470,
+          1010
+        ]
+      ],
+      "com_inside_support_x": true,
+      "arms": {
+        "view_l": {
+          "shoulder": [
+            557.1747349387688,
+            711.5242048163063
+          ],
+          "elbow": [
+            689.3117055580866,
+            782.5159014825331
+          ],
+          "wrist": [
+            671.8776051166736,
+            633.5325059587408
+          ],
+          "paw": [
+            718.5613260841027,
+            581.37284533259
+          ],
+          "target_lengths": [
+            150,
+            150,
+            70
+          ],
+          "measured_lengths": [
+            150.00000000000003,
+            150.00000000000003,
+            69.99999999999997
+          ],
+          "max_length_error_pct": 4.06024420434343e-14,
+          "elbow_flexion_angle_deg": 55.07829058854507,
+          "elbow_bend_cross": 18448.53818690823,
+          "gravity_torque_relative": {
+            "shoulder": 676.899882456937,
+            "elbow": -10.119868884081987,
+            "wrist": 34.34754770178593
+          }
+        },
+        "view_r": {
+          "shoulder": [
+            902.218274969945,
+            685.5634500601102
+          ],
+          "elbow": [
+            1029.420872477641,
+            755.1658867077957
+          ],
+          "wrist": [
+            1027.5757819274158,
+            610.1776263524778
+          ],
+          "paw": [
+            1069.6644674465128,
+            556.7684272265356
+          ],
+          "target_lengths": [
+            145,
+            145,
+            68
+          ],
+          "measured_lengths": [
+            145.0,
+            144.99999999999997,
+            67.99999999999994
+          ],
+          "max_length_error_pct": 8.359326303060002e-14,
+          "elbow_flexion_angle_deg": 60.584405595675044,
+          "elbow_bend_cross": 18314.460527187257,
+          "gravity_torque_relative": {
+            "shoulder": 687.625127635035,
+            "elbow": 26.260662413270918,
+            "wrist": 30.966750370675616
+          }
+        }
+      }
+    },
+    {
+      "progress": 0.75,
+      "head_counter_angle_deg": -0.7047304644270469,
+      "volumes": {
+        "head": {
+          "center": [
+            775,
+            390
+          ],
+          "size": [
+            720,
+            650
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "ribcage": {
+          "center": [
+            705,
+            790
+          ],
+          "size": [
+            500,
+            430
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "pelvis": {
+          "center": [
+            500,
+            980
+          ],
+          "size": [
+            410,
+            260
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "body_com": [
+        633.25,
+        818.375
+      ],
+      "contacts": [
+        [
+          520,
+          860
+        ],
+        [
+          920,
+          735
+        ],
+        [
+          470,
+          1010
+        ]
+      ],
+      "com_inside_support_x": true,
+      "arms": {
+        "view_l": {
+          "shoulder": [
+            555.4490758814827,
+            706.3472276444481
+          ],
+          "elbow": [
+            697.5724874662861,
+            658.3791561854397
+          ],
+          "wrist": [
+            640.5534438857914,
+            519.6390081778582
+          ],
+          "paw": [
+            681.3186130345614,
+            462.7338152314129
+          ],
+          "target_lengths": [
+            150,
+            150,
+            70
+          ],
+          "measured_lengths": [
+            149.99999999999991,
+            149.99999999999997,
+            69.99999999999997
+          ],
+          "max_length_error_pct": 5.684341886080802e-14,
+          "elbow_flexion_angle_deg": 86.30850579246378,
+          "elbow_bend_cross": 22453.31671561154,
+          "gravity_torque_relative": {
+            "shoulder": 623.502454497666,
+            "elbow": -115.43979935520235,
+            "wrist": 29.992973201207644
+          }
+        },
+        "view_r": {
+          "shoulder": [
+            904.1103142012812,
+            681.7793715974374
+          ],
+          "elbow": [
+            1044.7470461612525,
+            646.4762609183601
+          ],
+          "wrist": [
+            965.5180788976002,
+            525.0358609423428
+          ],
+          "paw": [
+            999.4302833823492,
+            466.09553190538736
+          ],
+          "target_lengths": [
+            145,
+            145,
+            68
+          ],
+          "measured_lengths": [
+            144.99999999999991,
+            144.9999999999999,
+            68.00000000000001
+          ],
+          "max_length_error_pct": 7.840471567008003e-14,
+          "elbow_flexion_angle_deg": 70.97057438244018,
+          "elbow_bend_cross": 19876.00998083656,
+          "gravity_torque_relative": {
+            "shoulder": 554.0820610264611,
+            "elbow": -177.13049945301745,
+            "wrist": 24.950904449654118
+          }
+        }
+      }
+    },
+    {
+      "progress": 1.0,
+      "head_counter_angle_deg": -0.5999999999999999,
+      "volumes": {
+        "head": {
+          "center": [
+            775,
+            390
+          ],
+          "size": [
+            720,
+            650
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "ribcage": {
+          "center": [
+            705,
+            790
+          ],
+          "size": [
+            500,
+            430
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        },
+        "pelvis": {
+          "center": [
+            500,
+            980
+          ],
+          "size": [
+            410,
+            260
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "body_com": [
+        632.0,
+        819.0
+      ],
+      "contacts": [
+        [
+          520,
+          860
+        ],
+        [
+          920,
+          735
+        ],
+        [
+          470,
+          1010
+        ]
+      ],
+      "com_inside_support_x": true,
+      "arms": {
+        "view_l": {
+          "shoulder": [
+            555.0,
+            705.0
+          ],
+          "elbow": [
+            684.71070767243,
+            629.666525932243
+          ],
+          "wrist": [
+            630.0,
+            490.0
+          ],
+          "paw": [
+            669.1435032429523,
+            431.9673699211471
+          ],
+          "target_lengths": [
+            150,
+            150,
+            70
+          ],
+          "measured_lengths": [
+            150.00000000000003,
+            149.99999999999994,
+            69.99999999999999
+          ],
+          "max_length_error_pct": 3.7895612573872014e-14,
+          "elbow_flexion_angle_deg": 98.75572961517128,
+          "elbow_bend_cross": 22237.791594490667,
+          "gravity_torque_relative": {
+            "shoulder": 563.6595839229677,
+            "elbow": -110.74529847829771,
+            "wrist": 28.799832511002077
+          }
+        },
+        "view_r": {
+          "shoulder": [
+            905.0,
+            680.0
+          ],
+          "elbow": [
+            1023.2296538462979,
+            596.0550838264485
+          ],
+          "wrist": [
+            930.0,
+            485.0
+          ],
+          "paw": [
+            959.8092379816572,
+            423.88200485165663
+          ],
+          "target_lengths": [
+            145,
+            145,
+            68
+          ],
+          "measured_lengths": [
+            145.00000000000003,
+            145.00000000000009,
+            68.0
+          ],
+          "max_length_error_pct": 5.880353675256002e-14,
+          "elbow_flexion_angle_deg": 85.36222256465005,
+          "elbow_bend_cross": 20956.1595956893,
+          "gravity_torque_relative": {
+            "shoulder": 398.8520309876934,
+            "elbow": -215.85940825536318,
+            "wrist": 21.932146845004237
+          }
+        }
+      }
+    }
+  ],
+  "pass": true
+}

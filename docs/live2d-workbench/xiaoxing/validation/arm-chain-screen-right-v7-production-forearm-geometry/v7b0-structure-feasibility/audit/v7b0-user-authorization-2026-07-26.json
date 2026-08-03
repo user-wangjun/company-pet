@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "decisionDate": "2026-07-26",
+  "decisionOwner": "user",
+  "status": "authorized_structure_feasibility_comparison_only",
+  "sourceStatement": "确认",
+  "authorized": [
+    "compare a single-drawable forearm structure against a split hidden-root structure",
+    "produce three-angle, slow-sweep, partition, and deterministic numeric evidence",
+    "use only V7-local probe artifacts"
+  ],
+  "notAuthorized": [
+    "modify the approved visible forearm ownership",
+    "modify the approved elbow or wrist line",
+    "modify frozen V4, complete sleeve, or V6 artifacts",
+    "approve either candidate automatically",
+    "rewrite the production contract",
+    "generate complete production forearm geometry",
+    "create texture, PSD, ArtMesh, Cubism, Physics, or Runtime artifacts"
+  ]
+}

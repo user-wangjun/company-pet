@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "gate": "stage_a_solid_geometry",
+  "status": "user_visual_approved",
+  "decisionDate": "2026-07-24",
+  "approvedScope": "screen_right sleeve to upper_arm to forearm to hand",
+  "decisionOwner": "user",
+  "approvalBasis": [
+    "corrected shoulder, elbow and wrist skeleton",
+    "four full-canvas solid geometry materials",
+    "default recomposition and displaced-part review",
+    "41-sample deterministic FK review",
+    "corrected shoulder, hand and sleeve-boundary close-ups"
+  ],
+  "artifactSha256": {
+    "skeleton.json": "8c3ff10ac190d8dbc69c3ac5dd2f1f966a1b94e632bd592422f05f9e04ce7e7c",
+    "materials/solid/sleeve.png": "8a0f9f65ecd3fbda839da71527e51e59d5d928a2f821bcb6a88113ab3ecbb6c7",
+    "materials/solid/upper_arm.png": "09c5861acda82defd9cb95b090e39e649c8acbf2075b364da3bc2e776ffafcaf",
+    "materials/solid/forearm.png": "9c5fef00203e2ddfc1f6a34bcdadcc8940e3b91ca8da93240092936fd8b14865",
+    "materials/solid/hand.png": "5ed5ba889b1b1e89da0ab354cb606ba7a2fd34c4097db90b996012e94c4d8d64",
+    "qa/default-recomposition.png": "1fc98cf5cbbf92ab6ee95d5c6842fa58fbf182adef9737523398602db400d225",
+    "qa/displaced-parts-review.png": "de4d99f2a5d89f7e2b4b6379926f3e07d406e776a1239cc47e7bd14d07de8d34",
+    "qa/fk-41-contact-sheet.png": "cdd894e5fd2a67070e91f3e12a6e36f7fb670b095c8ffd32c63f31923558c032",
+    "qa/revision-shoulder-hand-review.png": "e66e8a9494176c6548e04eae12889070ed14b4958a503edba1b5308dc9adc6cc",
+    "qa/sleeve-boundary-review.png": "c4318db153e6efd4b7290da8bef7249a8cae906cf0d669e58e027d018eb72f9b"
+  },
+  "invalidationRule": "Any change to an approved artifact invalidates this approval and requires a new visual review.",
+  "nextAllowedStep": "Stage B controlled reconstruction of only the upper-arm texture hidden beneath the sleeve."
+}

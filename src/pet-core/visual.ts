@@ -3,11 +3,33 @@ import type {
   PetDirectionMode,
   PetFacing,
 } from "./petInteractionManifest";
+import type { PetViewport, WindowPosition } from "./platform";
 
 export const PET_VISUAL_SCALE = 0.46;
 export const PET_WINDOW_WIDTH = 165;
 export const PET_WINDOW_HEIGHT = 215;
 export const PET_BUBBLE_BOTTOM_PX = 108;
+export const PET_BASELINE_INSET_PX = 6;
+
+export function getPetCanvasPosition(
+  petViewport: PetViewport,
+  canvasOrigin: WindowPosition,
+  offset: { x: number; y: number } = { x: 0, y: 0 },
+): WindowPosition {
+  return {
+    x:
+      petViewport.x -
+      canvasOrigin.x +
+      petViewport.width / 2 +
+      offset.x,
+    y:
+      petViewport.y -
+      canvasOrigin.y +
+      petViewport.height -
+      PET_BASELINE_INSET_PX +
+      offset.y,
+  };
+}
 
 export function getPetAnimationTransform(
   spec: PetAnimationSpec,

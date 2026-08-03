@@ -1,0 +1,248 @@
+{
+  "stage": "reset-v2-eye-closed-semantic-boundary",
+  "status": "visual_review_required",
+  "canvas": [
+    512,
+    1086
+  ],
+  "lineSource": "source\\masters\\front-line-source-exact-after-reset.png",
+  "colorReference": "source\\masters\\front-color-source-exact-after-reset.png",
+  "contracts": {
+    "画面左眼": {
+      "upperCubic": [
+        [
+          188,
+          132
+        ],
+        [
+          194,
+          124
+        ],
+        [
+          219,
+          123
+        ],
+        [
+          231,
+          132
+        ]
+      ],
+      "lowerCubic": [
+        [
+          231,
+          132
+        ],
+        [
+          226,
+          141
+        ],
+        [
+          195,
+          145
+        ],
+        [
+          188,
+          132
+        ]
+      ],
+      "outerOrInnerEndpoints": [
+        [
+          188.0,
+          132.0
+        ],
+        [
+          231.0,
+          132.0
+        ]
+      ],
+      "irisCenter": [
+        210.5,
+        133.5
+      ],
+      "irisRadius": [
+        12.5,
+        14.0
+      ],
+      "pupilCenter": [
+        210.5,
+        132.5
+      ],
+      "pupilRadius": [
+        6.2,
+        9.2
+      ]
+    },
+    "画面右眼": {
+      "upperCubic": [
+        [
+          276,
+          132
+        ],
+        [
+          284,
+          123
+        ],
+        [
+          310,
+          123
+        ],
+        [
+          322,
+          132
+        ]
+      ],
+      "lowerCubic": [
+        [
+          322,
+          132
+        ],
+        [
+          318,
+          142
+        ],
+        [
+          288,
+          145
+        ],
+        [
+          276,
+          132
+        ]
+      ],
+      "outerOrInnerEndpoints": [
+        [
+          276.0,
+          132.0
+        ],
+        [
+          322.0,
+          132.0
+        ]
+      ],
+      "irisCenter": [
+        299.5,
+        133.5
+      ],
+      "irisRadius": [
+        12.5,
+        14.0
+      ],
+      "pupilCenter": [
+        299.5,
+        132.5
+      ],
+      "pupilRadius": [
+        6.2,
+        9.2
+      ]
+    }
+  },
+  "layers": [
+    {
+      "name": "screen_left_01_完整眼白遮罩",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_left_01_完整眼白遮罩.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_left_02_完整虹膜遮罩",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_left_02_完整虹膜遮罩.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_left_03_完整瞳孔遮罩",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_left_03_完整瞳孔遮罩.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_left_04_高光遮罩",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_left_04_高光遮罩.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_left_05_上眼线曲线",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_left_05_上眼线曲线.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_left_06_下眼线曲线",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_left_06_下眼线曲线.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_right_01_完整眼白遮罩",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_right_01_完整眼白遮罩.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_right_02_完整虹膜遮罩",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_right_02_完整虹膜遮罩.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_right_03_完整瞳孔遮罩",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_right_03_完整瞳孔遮罩.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_right_04_高光遮罩",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_right_04_高光遮罩.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_right_05_上眼线曲线",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_right_05_上眼线曲线.png",
+      "size": [
+        512,
+        1086
+      ]
+    },
+    {
+      "name": "screen_right_06_下眼线曲线",
+      "path": "model\\reset-v2\\eye-blueprint\\screen_right_06_下眼线曲线.png",
+      "size": [
+        512,
+        1086
+      ]
+    }
+  ],
+  "rules": {
+    "fullCanvasLayers": true,
+    "closedGeometry": true,
+    "curvesActuallyDrawn": true,
+    "noCropAsMaterial": true,
+    "flatMasksOnly": true,
+    "noTexturePsdYet": true,
+    "noCubism": true
+  },
+  "closeupReviewOnly": "qa\\reset-v2-eye-closeup-review.png"
+}

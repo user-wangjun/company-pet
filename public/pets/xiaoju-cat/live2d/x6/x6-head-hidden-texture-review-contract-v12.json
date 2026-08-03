@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-front-head-hidden-texture-review",
+  "status": "candidate-for-user-visual-review",
+  "materialSourceContract": "live2d/x6/x6-head-hidden-texture-contract-v11.json",
+  "materialUnchangedFromV11": true,
+  "preview": "live2d/x6/qa/x6-head-hidden-texture-review-v12.png",
+  "reviewFocus": [
+    "eye-socket-hidden-fur",
+    "mouth-hidden-fur",
+    "ear-root-hidden-fur",
+    "rest-reconstruction"
+  ],
+  "gateBoundary": {
+    "headHiddenTextureApprovedByUser": false,
+    "remainingStructuralLayersAuthorizedForSameMethod": false,
+    "sideBackPropagationAuthorized": false,
+    "gate6Approved": false,
+    "x7Authorized": false
+  }
+}

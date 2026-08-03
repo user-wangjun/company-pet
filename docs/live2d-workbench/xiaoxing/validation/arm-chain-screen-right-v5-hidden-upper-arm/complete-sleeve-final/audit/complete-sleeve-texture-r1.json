@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-07-25",
+  "status": "user_visual_approved_complete_sleeve_texture",
+  "scope": "complete screen-right sleeve texture inside user-approved R9 geometry",
+  "geometryLock": {
+    "approval": "audit/user-visual-approval-geometry-2026-07-25.json",
+    "geometrySha256": "b2ea7d745578b2977bd19eb8b6e41c3da65efd388b5a78608c145a4ba458fe28",
+    "alphaChanged": false
+  },
+  "textureMethod": {
+    "description": "trusted local cloth polynomial fit, exact stable-boundary anchors, constrained harmonic continuation, low-amplitude nonrepeating texture, derived hidden hem lines, and local removal of the obsolete R3 outer edge",
+    "trainingPixelCount": 4368,
+    "anchorPixelCount": 252,
+    "harmonicIterations": 192,
+    "finalMaximumIterationChange": 0.0019894947050715928,
+    "channelMedianRgb": [
+      230.0,
+      230.0,
+      222.0
+    ],
+    "planeCoefficientsRgb": [
+      [
+        242.5943434508386,
+        -63.254648641879726,
+        35.140277338826266,
+        103.40322273134404,
+        -26.078744031129816,
+        -65.52946504283953
+      ],
+      [
+        242.27620719090868,
+        -65.42434312099499,
+        37.788309639298035,
+        100.513838033165,
+        -22.879504049735658,
+        -66.02291207271928
+      ],
+      [
+        233.86936342052746,
+        -62.51778446541161,
+        38.55936924373063,
+        95.23431497787377,
+        -21.98335635573332,
+        -64.27129956846217
+      ]
+    ],
+    "prohibitions": {
+      "uniformAverageFill": false,
+      "radialFill": false,
+      "mirroredClone": false,
+      "repeatedClone": false,
+      "externalGeneration": false,
+      "sourceUpload": false
+    }
+  },
+  "counts": {
+    "newHiddenMaskPixels": 1827,
+    "internalSeamRepairPixels": 1640,
+    "targetTexturePixels": 3467,
+    "uniqueHiddenRgbCount": 212,
+    "trustedSourceRgbDifferences": 0,
+    "outsideGeometryAlphaPixels": 0
+  },
+  "checks": {
+    "alphaMatchesLockedR9Exactly": true,
+    "alphaConnectedComponents": 1,
+    "trustedSourceRgbPreserved": true,
+    "newHiddenRegionFullyTextured": true,
+    "outsideGeometryTransparent": true,
+    "hiddenTextureHasVariation": true,
+    "seamDiscontinuity": {
+      "boundaryPairCount": 252,
+      "maximumNearestRgbChannelDifference": 57,
+      "meanNearestRgbChannelDifference": 2.3492063492063493,
+      "medianNearestRgbChannelDifference": 0.0
+    }
+  },
+  "artifacts": {
+    "material": "materials/sleeve-complete-textured-r1.png",
+    "hiddenMask": "masks/sleeve-new-hidden-texture-region-r1.png",
+    "seamRepairBand": "masks/sleeve-internal-seam-repair-band-r1.png",
+    "provenance": "masks/sleeve-texture-provenance-r1.png",
+    "isolatedGate": "qa/gate-1-complete-textured-sleeve-isolated.png",
+    "seamGate": "qa/gate-2-hidden-texture-seam-closeup.png",
+    "displacedGate": "qa/gate-3-complete-textured-sleeve-displaced.png"
+  },
+  "hashes": {
+    "materialSha256": "d470c8b192c043457860528adc25d250bb43a5e56ebd1ab46dcda947773b5cc7",
+    "hiddenMaskSha256": "65a5ad0608f9938615813e1584b411613176b5391d07c937f6635a440df1c356",
+    "seamRepairBandSha256": "c526ecb0fefeec863add3c40398d3d7ca09c1dbeff65491906d224d92e518599",
+    "provenanceSha256": "200c6a18f3f1f1449fda96e155707ef389f65da1c7dfb651f782a6fe39221f6b",
+    "isolatedGateSha256": "e85895cfcc361fb09728bb2b200575bc6a1adc8e1757d1c6c451db5cfb68731a",
+    "seamGateSha256": "ed6fb8ba93367db036890777d643619e6e3e64c4fc9ecd10b053834ac053ed5e",
+    "displacedGateSha256": "89092028563da40ce399104e1b0d2a6a939f83ea048aefa92e24f4d67be04941"
+  },
+  "visualGate": "approved_by_user_2026-07-25",
+  "doesNotClaim": [
+    "complete upper arm",
+    "PSD",
+    "Cubism",
+    "Physics",
+    "Runtime"
+  ]
+}

@@ -1,0 +1,2955 @@
+{
+  "cell": {
+    "width": 192,
+    "height": 208
+  },
+  "target_frames": 16,
+  "method": "source-pixel-preserving keyframes plus bbox-transform inbetweens; only tiny magenta artifacts removed",
+  "animations": [
+    {
+      "name": "idle",
+      "source": "spritesheet-scruff.png",
+      "source_row": 0,
+      "source_frames": 6,
+      "target_frames": 16,
+      "old_speed": 0.05,
+      "new_speed": 0.1333,
+      "loop": true,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/idle-16-spritesheet.png",
+      "removed_magenta_specks": [],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 0,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 5,
+          "to": 0,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 0,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            5,
+            45,
+            187,
+            163
+          ],
+          "w": 182,
+          "h": 118
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            5,
+            43,
+            187,
+            165
+          ],
+          "w": 182,
+          "h": 122
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            5,
+            43,
+            187,
+            164
+          ],
+          "w": 182,
+          "h": 121
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            5,
+            43,
+            187,
+            165
+          ],
+          "w": 182,
+          "h": 122
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            5,
+            43,
+            187,
+            164
+          ],
+          "w": 182,
+          "h": 121
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            5,
+            45,
+            187,
+            163
+          ],
+          "w": 182,
+          "h": 118
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            5,
+            44,
+            187,
+            163
+          ],
+          "w": 182,
+          "h": 119
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            5,
+            45,
+            187,
+            164
+          ],
+          "w": 182,
+          "h": 119
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            5,
+            46,
+            187,
+            162
+          ],
+          "w": 182,
+          "h": 116
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            5,
+            42,
+            187,
+            165
+          ],
+          "w": 182,
+          "h": 123
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            5,
+            43,
+            187,
+            164
+          ],
+          "w": 182,
+          "h": 121
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            5,
+            42,
+            187,
+            164
+          ],
+          "w": 182,
+          "h": 122
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            5,
+            43,
+            187,
+            165
+          ],
+          "w": 182,
+          "h": 122
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            5,
+            44,
+            187,
+            163
+          ],
+          "w": 182,
+          "h": 119
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            5,
+            44,
+            187,
+            163
+          ],
+          "w": 182,
+          "h": 119
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            5,
+            44,
+            187,
+            164
+          ],
+          "w": 182,
+          "h": 120
+        }
+      ]
+    },
+    {
+      "name": "dragRight",
+      "source": "spritesheet-scruff.png",
+      "source_row": 1,
+      "source_frames": 8,
+      "target_frames": 16,
+      "old_speed": 0.2,
+      "new_speed": 0.4,
+      "loop": true,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/drag-right-16-spritesheet.png",
+      "removed_magenta_specks": [],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 7,
+          "to": 0,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 7,
+          "to": 0,
+          "frac": 0.5,
+          "kind": "inbetween"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            11,
+            5,
+            180,
+            203
+          ],
+          "w": 169,
+          "h": 198
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            13,
+            5,
+            178,
+            203
+          ],
+          "w": 165,
+          "h": 198
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            17,
+            5,
+            174,
+            203
+          ],
+          "w": 157,
+          "h": 198
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            18,
+            5,
+            174,
+            203
+          ],
+          "w": 156,
+          "h": 198
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            20,
+            5,
+            172,
+            203
+          ],
+          "w": 152,
+          "h": 198
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            15,
+            5,
+            176,
+            203
+          ],
+          "w": 161,
+          "h": 198
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            15,
+            5,
+            176,
+            203
+          ],
+          "w": 161,
+          "h": 198
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            15,
+            5,
+            176,
+            203
+          ],
+          "w": 161,
+          "h": 198
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            17,
+            5,
+            174,
+            203
+          ],
+          "w": 157,
+          "h": 198
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            17,
+            5,
+            175,
+            203
+          ],
+          "w": 158,
+          "h": 198
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            18,
+            5,
+            174,
+            203
+          ],
+          "w": 156,
+          "h": 198
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            18,
+            5,
+            173,
+            203
+          ],
+          "w": 155,
+          "h": 198
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            20,
+            5,
+            171,
+            203
+          ],
+          "w": 151,
+          "h": 198
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            21,
+            5,
+            171,
+            203
+          ],
+          "w": 150,
+          "h": 198
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            23,
+            5,
+            168,
+            203
+          ],
+          "w": 145,
+          "h": 198
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            15,
+            5,
+            176,
+            203
+          ],
+          "w": 161,
+          "h": 198
+        }
+      ]
+    },
+    {
+      "name": "dragLeft",
+      "source": "spritesheet-scruff.png",
+      "source_row": 2,
+      "source_frames": 8,
+      "target_frames": 16,
+      "old_speed": 0.2,
+      "new_speed": 0.4,
+      "loop": true,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/drag-left-16-spritesheet.png",
+      "removed_magenta_specks": [],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 7,
+          "to": 0,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 7,
+          "to": 0,
+          "frac": 0.5,
+          "kind": "inbetween"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            24,
+            5,
+            168,
+            203
+          ],
+          "w": 144,
+          "h": 198
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            24,
+            5,
+            167,
+            203
+          ],
+          "w": 143,
+          "h": 198
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            26,
+            5,
+            165,
+            203
+          ],
+          "w": 139,
+          "h": 198
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            24,
+            5,
+            167,
+            203
+          ],
+          "w": 143,
+          "h": 198
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            25,
+            5,
+            167,
+            203
+          ],
+          "w": 142,
+          "h": 198
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            25,
+            5,
+            168,
+            203
+          ],
+          "w": 143,
+          "h": 198
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            26,
+            5,
+            166,
+            203
+          ],
+          "w": 140,
+          "h": 198
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            26,
+            5,
+            166,
+            203
+          ],
+          "w": 140,
+          "h": 198
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            27,
+            5,
+            164,
+            203
+          ],
+          "w": 137,
+          "h": 198
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            27,
+            5,
+            164,
+            203
+          ],
+          "w": 137,
+          "h": 198
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            27,
+            5,
+            164,
+            203
+          ],
+          "w": 137,
+          "h": 198
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            27,
+            5,
+            165,
+            203
+          ],
+          "w": 138,
+          "h": 198
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            28,
+            5,
+            164,
+            203
+          ],
+          "w": 136,
+          "h": 198
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            29,
+            5,
+            163,
+            203
+          ],
+          "w": 134,
+          "h": 198
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            31,
+            5,
+            160,
+            203
+          ],
+          "w": 129,
+          "h": 198
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            25,
+            5,
+            166,
+            203
+          ],
+          "w": 141,
+          "h": 198
+        }
+      ]
+    },
+    {
+      "name": "tickle",
+      "source": "spritesheet-scruff.png",
+      "source_row": 3,
+      "source_frames": 4,
+      "target_frames": 16,
+      "old_speed": 0.16,
+      "new_speed": 0.64,
+      "loop": false,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/tickle-16-spritesheet.png",
+      "removed_magenta_specks": [],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.2,
+          "kind": "inbetween"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.4,
+          "kind": "inbetween"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.6,
+          "kind": "inbetween"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.8,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.2,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.4,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.6,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.8,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.2,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.4,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.6,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.8,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 3,
+          "frac": 0,
+          "kind": "key-final"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            28,
+            5,
+            163,
+            203
+          ],
+          "w": 135,
+          "h": 198
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            28,
+            5,
+            164,
+            203
+          ],
+          "w": 136,
+          "h": 198
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            26,
+            5,
+            165,
+            203
+          ],
+          "w": 139,
+          "h": 198
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            26,
+            5,
+            165,
+            203
+          ],
+          "w": 139,
+          "h": 198
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            24,
+            5,
+            166,
+            203
+          ],
+          "w": 142,
+          "h": 198
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            26,
+            5,
+            165,
+            203
+          ],
+          "w": 139,
+          "h": 198
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            27,
+            5,
+            164,
+            203
+          ],
+          "w": 137,
+          "h": 198
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            28,
+            5,
+            163,
+            203
+          ],
+          "w": 135,
+          "h": 198
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            30,
+            5,
+            161,
+            203
+          ],
+          "w": 131,
+          "h": 198
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            32,
+            5,
+            159,
+            203
+          ],
+          "w": 127,
+          "h": 198
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            36,
+            5,
+            156,
+            203
+          ],
+          "w": 120,
+          "h": 198
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            33,
+            5,
+            160,
+            203
+          ],
+          "w": 127,
+          "h": 198
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            31,
+            5,
+            161,
+            203
+          ],
+          "w": 130,
+          "h": 198
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            30,
+            5,
+            163,
+            203
+          ],
+          "w": 133,
+          "h": 198
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            28,
+            5,
+            164,
+            203
+          ],
+          "w": 136,
+          "h": 198
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            29,
+            5,
+            163,
+            203
+          ],
+          "w": 134,
+          "h": 198
+        }
+      ]
+    },
+    {
+      "name": "crouchAlert",
+      "source": "spritesheet-scruff.png",
+      "source_row": 4,
+      "source_frames": 5,
+      "target_frames": 16,
+      "old_speed": 0.12,
+      "new_speed": 0.384,
+      "loop": false,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/crouch-alert-16-spritesheet.png",
+      "removed_magenta_specks": [],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.25,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.75,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.25,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.75,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.25,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.75,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 4,
+          "frac": 0,
+          "kind": "key-final"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            44,
+            89,
+            148,
+            203
+          ],
+          "w": 104,
+          "h": 114
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            44,
+            75,
+            148,
+            197
+          ],
+          "w": 104,
+          "h": 122
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            44,
+            60,
+            148,
+            188
+          ],
+          "w": 104,
+          "h": 128
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            44,
+            46,
+            148,
+            179
+          ],
+          "w": 104,
+          "h": 133
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            45,
+            36,
+            148,
+            168
+          ],
+          "w": 103,
+          "h": 132
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            45,
+            26,
+            147,
+            158
+          ],
+          "w": 102,
+          "h": 132
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            45,
+            15,
+            147,
+            146
+          ],
+          "w": 102,
+          "h": 131
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            46,
+            5,
+            146,
+            136
+          ],
+          "w": 100,
+          "h": 131
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            46,
+            18,
+            146,
+            149
+          ],
+          "w": 100,
+          "h": 131
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            46,
+            32,
+            146,
+            163
+          ],
+          "w": 100,
+          "h": 131
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            46,
+            46,
+            146,
+            177
+          ],
+          "w": 100,
+          "h": 131
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            46,
+            59,
+            146,
+            190
+          ],
+          "w": 100,
+          "h": 131
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            47,
+            62,
+            145,
+            193
+          ],
+          "w": 98,
+          "h": 131
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            47,
+            65,
+            145,
+            197
+          ],
+          "w": 98,
+          "h": 132
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            47,
+            68,
+            144,
+            200
+          ],
+          "w": 97,
+          "h": 132
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            49,
+            71,
+            142,
+            203
+          ],
+          "w": 93,
+          "h": 132
+        }
+      ]
+    },
+    {
+      "name": "hugFish",
+      "source": "spritesheet-scruff.png",
+      "source_row": 5,
+      "source_frames": 8,
+      "target_frames": 16,
+      "old_speed": 0.12,
+      "new_speed": 0.24,
+      "loop": true,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/hug-fish-16-spritesheet.png",
+      "removed_magenta_specks": [],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 7,
+          "to": 0,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 7,
+          "to": 0,
+          "frac": 0.5,
+          "kind": "inbetween"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            19,
+            5,
+            173,
+            203
+          ],
+          "w": 154,
+          "h": 198
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            14,
+            5,
+            177,
+            203
+          ],
+          "w": 163,
+          "h": 198
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            14,
+            5,
+            177,
+            203
+          ],
+          "w": 163,
+          "h": 198
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            7,
+            7,
+            184,
+            202
+          ],
+          "w": 177,
+          "h": 195
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            5,
+            10,
+            187,
+            198
+          ],
+          "w": 182,
+          "h": 188
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            5,
+            10,
+            187,
+            198
+          ],
+          "w": 182,
+          "h": 188
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            5,
+            10,
+            187,
+            198
+          ],
+          "w": 182,
+          "h": 188
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            5,
+            7,
+            187,
+            200
+          ],
+          "w": 182,
+          "h": 193
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            5,
+            7,
+            187,
+            201
+          ],
+          "w": 182,
+          "h": 194
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            5,
+            7,
+            187,
+            201
+          ],
+          "w": 182,
+          "h": 194
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            5,
+            8,
+            187,
+            199
+          ],
+          "w": 182,
+          "h": 191
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            12,
+            5,
+            180,
+            203
+          ],
+          "w": 168,
+          "h": 198
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            22,
+            5,
+            169,
+            203
+          ],
+          "w": 147,
+          "h": 198
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            22,
+            5,
+            170,
+            203
+          ],
+          "w": 148,
+          "h": 198
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            22,
+            5,
+            170,
+            203
+          ],
+          "w": 148,
+          "h": 198
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            18,
+            5,
+            173,
+            203
+          ],
+          "w": 155,
+          "h": 198
+        }
+      ]
+    },
+    {
+      "name": "gnawFish",
+      "source": "spritesheet-scruff.png",
+      "source_row": 6,
+      "source_frames": 6,
+      "target_frames": 16,
+      "old_speed": 0.14,
+      "new_speed": 0.3733,
+      "loop": false,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/gnaw-fish-16-spritesheet.png",
+      "removed_magenta_specks": [],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 5,
+          "frac": 0,
+          "kind": "key-final"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            10,
+            5,
+            181,
+            203
+          ],
+          "w": 171,
+          "h": 198
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            12,
+            5,
+            179,
+            203
+          ],
+          "w": 167,
+          "h": 198
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            16,
+            5,
+            175,
+            203
+          ],
+          "w": 159,
+          "h": 198
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            22,
+            5,
+            169,
+            203
+          ],
+          "w": 147,
+          "h": 198
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            22,
+            5,
+            168,
+            203
+          ],
+          "w": 146,
+          "h": 198
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            24,
+            5,
+            168,
+            203
+          ],
+          "w": 144,
+          "h": 198
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            26,
+            5,
+            165,
+            203
+          ],
+          "w": 139,
+          "h": 198
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            21,
+            5,
+            171,
+            203
+          ],
+          "w": 150,
+          "h": 198
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            18,
+            5,
+            174,
+            203
+          ],
+          "w": 156,
+          "h": 198
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            17,
+            5,
+            175,
+            203
+          ],
+          "w": 158,
+          "h": 198
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            19,
+            5,
+            174,
+            203
+          ],
+          "w": 155,
+          "h": 198
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            20,
+            5,
+            171,
+            203
+          ],
+          "w": 151,
+          "h": 198
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            25,
+            5,
+            167,
+            203
+          ],
+          "w": 142,
+          "h": 198
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            26,
+            5,
+            167,
+            203
+          ],
+          "w": 141,
+          "h": 198
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            26,
+            5,
+            165,
+            203
+          ],
+          "w": 139,
+          "h": 198
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            30,
+            5,
+            162,
+            203
+          ],
+          "w": 132,
+          "h": 198
+        }
+      ]
+    },
+    {
+      "name": "fishChase",
+      "source": "spritesheet-scruff.png",
+      "source_row": 7,
+      "source_frames": 6,
+      "target_frames": 16,
+      "old_speed": 0.18,
+      "new_speed": 0.48,
+      "loop": true,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/fish-chase-16-spritesheet.png",
+      "removed_magenta_specks": [
+        {
+          "area": 49,
+          "bbox": [
+            171,
+            148,
+            178,
+            156
+          ],
+          "avg_rgba": [
+            251.8,
+            162.0,
+            237.9,
+            175.6
+          ]
+        },
+        {
+          "area": 52,
+          "bbox": [
+            174,
+            147,
+            181,
+            156
+          ],
+          "avg_rgba": [
+            252.0,
+            164.4,
+            238.7,
+            167.3
+          ]
+        }
+      ],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.5,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.0,
+          "kind": "key",
+          "removed_magenta_specks": [
+            {
+              "area": 49,
+              "bbox": [
+                171,
+                148,
+                178,
+                156
+              ],
+              "avg_rgba": [
+                251.8,
+                162.0,
+                237.9,
+                175.6
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.5,
+          "kind": "inbetween",
+          "removed_magenta_specks": [
+            {
+              "area": 52,
+              "bbox": [
+                174,
+                147,
+                181,
+                156
+              ],
+              "avg_rgba": [
+                252.0,
+                164.4,
+                238.7,
+                167.3
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 0,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 5,
+          "to": 0,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 0,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            14,
+            32,
+            177,
+            172
+          ],
+          "w": 163,
+          "h": 140
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            13,
+            36,
+            179,
+            173
+          ],
+          "w": 166,
+          "h": 137
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            12,
+            39,
+            180,
+            173
+          ],
+          "w": 168,
+          "h": 134
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            12,
+            38,
+            179,
+            174
+          ],
+          "w": 167,
+          "h": 136
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            13,
+            36,
+            180,
+            174
+          ],
+          "w": 167,
+          "h": 138
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            13,
+            35,
+            179,
+            175
+          ],
+          "w": 166,
+          "h": 140
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            13,
+            34,
+            180,
+            174
+          ],
+          "w": 167,
+          "h": 140
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            12,
+            34,
+            179,
+            175
+          ],
+          "w": 167,
+          "h": 141
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            12,
+            33,
+            180,
+            174
+          ],
+          "w": 168,
+          "h": 141
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            8,
+            35,
+            183,
+            173
+          ],
+          "w": 175,
+          "h": 138
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            5,
+            38,
+            187,
+            171
+          ],
+          "w": 182,
+          "h": 133
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            8,
+            39,
+            183,
+            172
+          ],
+          "w": 175,
+          "h": 133
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            13,
+            41,
+            179,
+            173
+          ],
+          "w": 166,
+          "h": 132
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            18,
+            42,
+            174,
+            174
+          ],
+          "w": 156,
+          "h": 132
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            17,
+            39,
+            175,
+            174
+          ],
+          "w": 158,
+          "h": 135
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            15,
+            35,
+            176,
+            172
+          ],
+          "w": 161,
+          "h": 137
+        }
+      ]
+    },
+    {
+      "name": "fishEat",
+      "source": "spritesheet-scruff.png",
+      "source_row": 8,
+      "source_frames": 6,
+      "target_frames": 16,
+      "old_speed": 0.14,
+      "new_speed": 0.3733,
+      "loop": false,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/fish-eat-16-spritesheet.png",
+      "removed_magenta_specks": [],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 5,
+          "frac": 0,
+          "kind": "key-final"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            35,
+            5,
+            156,
+            203
+          ],
+          "w": 121,
+          "h": 198
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            35,
+            5,
+            158,
+            203
+          ],
+          "w": 123,
+          "h": 198
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            33,
+            5,
+            158,
+            203
+          ],
+          "w": 125,
+          "h": 198
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            34,
+            5,
+            158,
+            203
+          ],
+          "w": 124,
+          "h": 198
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            34,
+            5,
+            158,
+            203
+          ],
+          "w": 124,
+          "h": 198
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            34,
+            5,
+            157,
+            203
+          ],
+          "w": 123,
+          "h": 198
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            36,
+            5,
+            155,
+            203
+          ],
+          "w": 119,
+          "h": 198
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            30,
+            5,
+            161,
+            203
+          ],
+          "w": 131,
+          "h": 198
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            26,
+            5,
+            166,
+            203
+          ],
+          "w": 140,
+          "h": 198
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            24,
+            5,
+            167,
+            203
+          ],
+          "w": 143,
+          "h": 198
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            25,
+            5,
+            167,
+            203
+          ],
+          "w": 142,
+          "h": 198
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            25,
+            5,
+            165,
+            203
+          ],
+          "w": 140,
+          "h": 198
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            29,
+            5,
+            162,
+            203
+          ],
+          "w": 133,
+          "h": 198
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            30,
+            5,
+            160,
+            203
+          ],
+          "w": 130,
+          "h": 198
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            32,
+            5,
+            159,
+            203
+          ],
+          "w": 127,
+          "h": 198
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            36,
+            5,
+            155,
+            203
+          ],
+          "w": 119,
+          "h": 198
+        }
+      ]
+    },
+    {
+      "name": "iconHug",
+      "source": "icon-hug.png",
+      "source_row": 0,
+      "source_frames": 6,
+      "target_frames": 16,
+      "old_speed": 0.08,
+      "new_speed": 0.2133,
+      "loop": false,
+      "output": "public/pets/xiaoju-cat/qa/16f/baseline/icon-hug-16-spritesheet.png",
+      "removed_magenta_specks": [],
+      "plan": [
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.0,
+          "kind": "key"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.3333,
+          "kind": "inbetween"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "frac": 0.6667,
+          "kind": "inbetween"
+        },
+        {
+          "from": 5,
+          "to": 5,
+          "frac": 0,
+          "kind": "key-final"
+        }
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "bbox": [
+            14,
+            7,
+            178,
+            205
+          ],
+          "w": 164,
+          "h": 198
+        },
+        {
+          "frame": 1,
+          "bbox": [
+            14,
+            7,
+            179,
+            205
+          ],
+          "w": 165,
+          "h": 198
+        },
+        {
+          "frame": 2,
+          "bbox": [
+            13,
+            7,
+            178,
+            205
+          ],
+          "w": 165,
+          "h": 198
+        },
+        {
+          "frame": 3,
+          "bbox": [
+            13,
+            7,
+            179,
+            205
+          ],
+          "w": 166,
+          "h": 198
+        },
+        {
+          "frame": 4,
+          "bbox": [
+            13,
+            7,
+            179,
+            205
+          ],
+          "w": 166,
+          "h": 198
+        },
+        {
+          "frame": 5,
+          "bbox": [
+            13,
+            7,
+            179,
+            205
+          ],
+          "w": 166,
+          "h": 198
+        },
+        {
+          "frame": 6,
+          "bbox": [
+            13,
+            7,
+            179,
+            205
+          ],
+          "w": 166,
+          "h": 198
+        },
+        {
+          "frame": 7,
+          "bbox": [
+            13,
+            7,
+            179,
+            205
+          ],
+          "w": 166,
+          "h": 198
+        },
+        {
+          "frame": 8,
+          "bbox": [
+            13,
+            7,
+            179,
+            205
+          ],
+          "w": 166,
+          "h": 198
+        },
+        {
+          "frame": 9,
+          "bbox": [
+            13,
+            7,
+            179,
+            205
+          ],
+          "w": 166,
+          "h": 198
+        },
+        {
+          "frame": 10,
+          "bbox": [
+            12,
+            7,
+            179,
+            205
+          ],
+          "w": 167,
+          "h": 198
+        },
+        {
+          "frame": 11,
+          "bbox": [
+            11,
+            7,
+            182,
+            205
+          ],
+          "w": 171,
+          "h": 198
+        },
+        {
+          "frame": 12,
+          "bbox": [
+            11,
+            7,
+            181,
+            205
+          ],
+          "w": 170,
+          "h": 198
+        },
+        {
+          "frame": 13,
+          "bbox": [
+            10,
+            7,
+            181,
+            205
+          ],
+          "w": 171,
+          "h": 198
+        },
+        {
+          "frame": 14,
+          "bbox": [
+            9,
+            7,
+            184,
+            205
+          ],
+          "w": 175,
+          "h": 198
+        },
+        {
+          "frame": 15,
+          "bbox": [
+            9,
+            7,
+            183,
+            205
+          ],
+          "w": 174,
+          "h": 198
+        }
+      ]
+    }
+  ]
+}

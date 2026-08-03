@@ -1,0 +1,1113 @@
+{
+  "schemaVersion": 1,
+  "stage": "X5-layer-mesh-node-torque",
+  "status": "candidate-for-user-review",
+  "authorizationBasis": "User requested detailed layers plus triangulation, torque anchors, link anchors, and elasticity relationships after X4 preview.",
+  "sourceAuthority": [
+    "three-view-preview.png",
+    "live2d/x1/x1-canonical-body-contract.json",
+    "live2d/x2/x2-pose-solve-contract.json",
+    "live2d/x4/x4-layer-separation-contract.json"
+  ],
+  "gateBoundary": {
+    "x5MayPassOnlyWithUserApproval": true,
+    "cubismEditingAuthorized": false,
+    "allowed": [
+      "Layer-Mesh-Node contract",
+      "triangulation preview",
+      "moment/link/elastic preview"
+    ],
+    "forbidden": [
+      "PSD import",
+      "Cubism file editing",
+      "runtime replacement"
+    ]
+  },
+  "modelBoundary": [
+    {
+      "logicalModel": "Xiaoju",
+      "independentRoot": "XiaojuRoot",
+      "exportCandidate": "same package or separate model TBD in X8",
+      "requiredRenderPass": "between planet_back and planet_front",
+      "sharedContacts": [
+        "contact_shadow",
+        "planet_front"
+      ]
+    },
+    {
+      "logicalModel": "Planet",
+      "independentRoot": "PlanetRoot",
+      "exportCandidate": "same package or separate model TBD in X8",
+      "requiredRenderPass": "back/surface before Xiaoju, front after Xiaoju",
+      "sharedContacts": [
+        "chest-belly-planet-band"
+      ]
+    }
+  ],
+  "layerContract": [
+    {
+      "sourceLayer": "planet_back",
+      "artMeshId": "ArtMesh_planet_back",
+      "primaryController": "PlanetRoot",
+      "parent": "PlanetRoot",
+      "pivot": "planet_center",
+      "meshDensityZones": "low, rim points",
+      "hiddenOverlap": "behind Xiaoju",
+      "clipDrawOrder": 10,
+      "activeParameters": [],
+      "elasticOutputs": "none",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "planet_surface",
+      "artMeshId": "ArtMesh_planet_surface",
+      "primaryController": "PlanetBody",
+      "parent": "PlanetBody",
+      "pivot": "planet_center",
+      "meshDensityZones": "medium at contact band",
+      "hiddenOverlap": "under contact shadow",
+      "clipDrawOrder": 20,
+      "activeParameters": [],
+      "elasticOutputs": "low float",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "contact_shadow",
+      "artMeshId": "ArtMesh_contact_shadow",
+      "primaryController": "PlanetBody",
+      "parent": "PlanetBody",
+      "pivot": "contact_band",
+      "meshDensityZones": "soft contact strip",
+      "hiddenOverlap": "clips planet surface",
+      "clipDrawOrder": 840,
+      "activeParameters": [],
+      "elasticOutputs": "contact squash only",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "planet_front",
+      "artMeshId": "ArtMesh_planet_front",
+      "primaryController": "PlanetRoot",
+      "parent": "PlanetRoot",
+      "pivot": "planet_center",
+      "meshDensityZones": "rim/control corners",
+      "hiddenOverlap": "occludes paws/body only",
+      "clipDrawOrder": 900,
+      "activeParameters": [],
+      "elasticOutputs": "low float",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "tail_root_socket",
+      "artMeshId": "ArtMesh_tail_root_socket",
+      "primaryController": "Pelvis",
+      "parent": "Pelvis",
+      "pivot": "tail_root",
+      "meshDensityZones": "dense at socket",
+      "hiddenOverlap": "under tail_base",
+      "clipDrawOrder": 88,
+      "activeParameters": [
+        "ParamTailRoot",
+        "ParamTailFollow"
+      ],
+      "elasticOutputs": "soft socket",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "tail_base",
+      "artMeshId": "ArtMesh_tail_base",
+      "primaryController": "TailRoot",
+      "parent": "TailRoot",
+      "pivot": "tail_root",
+      "meshDensityZones": "bend fan",
+      "hiddenOverlap": "into pelvis and tail_mid",
+      "clipDrawOrder": 90,
+      "activeParameters": [
+        "ParamTailRoot",
+        "ParamTailFollow"
+      ],
+      "elasticOutputs": "root active",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "tail_mid",
+      "artMeshId": "ArtMesh_tail_mid",
+      "primaryController": "TailMid",
+      "parent": "TailMid",
+      "pivot": "tail_mid_1",
+      "meshDensityZones": "two bend bands",
+      "hiddenOverlap": "into tail_base/tip",
+      "clipDrawOrder": 95,
+      "activeParameters": [
+        "ParamTailRoot",
+        "ParamTailFollow"
+      ],
+      "elasticOutputs": "medium lag",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "tail_tip",
+      "artMeshId": "ArtMesh_tail_tip",
+      "primaryController": "TailTip",
+      "parent": "TailTip",
+      "pivot": "tail_mid_2",
+      "meshDensityZones": "tip fan",
+      "hiddenOverlap": "into tail_mid",
+      "clipDrawOrder": 100,
+      "activeParameters": [
+        "ParamTailRoot",
+        "ParamTailFollow"
+      ],
+      "elasticOutputs": "high lag",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "hind_thigh_L",
+      "artMeshId": "ArtMesh_hind_thigh_L",
+      "primaryController": "Hip_L",
+      "parent": "Hip_L",
+      "pivot": "hip_L",
+      "meshDensityZones": "hip and knee bands",
+      "hiddenOverlap": "under pelvis",
+      "clipDrawOrder": 145,
+      "activeParameters": [
+        "ParamBodySettle",
+        "ParamHindStabilize"
+      ],
+      "elasticOutputs": "soft thigh",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "hind_shin_L",
+      "artMeshId": "ArtMesh_hind_shin_L",
+      "primaryController": "Knee_L",
+      "parent": "Knee_L",
+      "pivot": "knee_L",
+      "meshDensityZones": "knee/hock dense",
+      "hiddenOverlap": "under thigh/paw",
+      "clipDrawOrder": 146,
+      "activeParameters": [
+        "ParamBodySettle",
+        "ParamHindStabilize"
+      ],
+      "elasticOutputs": "low",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "hind_paw_L",
+      "artMeshId": "ArtMesh_hind_paw_L",
+      "primaryController": "Hock_L",
+      "parent": "Hock_L",
+      "pivot": "hindpaw_L",
+      "meshDensityZones": "toe arcs",
+      "hiddenOverlap": "into shin",
+      "clipDrawOrder": 147,
+      "activeParameters": [
+        "ParamBodySettle",
+        "ParamHindStabilize"
+      ],
+      "elasticOutputs": "toe soft",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "hind_thigh_R",
+      "artMeshId": "ArtMesh_hind_thigh_R",
+      "primaryController": "Hip_R",
+      "parent": "Hip_R",
+      "pivot": "hip_R",
+      "meshDensityZones": "hip and knee bands",
+      "hiddenOverlap": "under pelvis",
+      "clipDrawOrder": 155,
+      "activeParameters": [
+        "ParamBodySettle",
+        "ParamHindStabilize"
+      ],
+      "elasticOutputs": "soft thigh",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "hind_shin_R",
+      "artMeshId": "ArtMesh_hind_shin_R",
+      "primaryController": "Knee_R",
+      "parent": "Knee_R",
+      "pivot": "knee_R",
+      "meshDensityZones": "knee/hock dense",
+      "hiddenOverlap": "under thigh/paw",
+      "clipDrawOrder": 156,
+      "activeParameters": [
+        "ParamBodySettle",
+        "ParamHindStabilize"
+      ],
+      "elasticOutputs": "low",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "hind_paw_R",
+      "artMeshId": "ArtMesh_hind_paw_R",
+      "primaryController": "Hock_R",
+      "parent": "Hock_R",
+      "pivot": "hindpaw_R",
+      "meshDensityZones": "toe arcs",
+      "hiddenOverlap": "into shin",
+      "clipDrawOrder": 157,
+      "activeParameters": [
+        "ParamBodySettle",
+        "ParamHindStabilize"
+      ],
+      "elasticOutputs": "toe soft",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "pelvis",
+      "artMeshId": "ArtMesh_pelvis",
+      "primaryController": "BodyRoot",
+      "parent": "BodyRoot",
+      "pivot": "pelvis_center",
+      "meshDensityZones": "medium oval",
+      "hiddenOverlap": "under abdomen/hips/tail",
+      "clipDrawOrder": 210,
+      "activeParameters": [],
+      "elasticOutputs": "stable mass",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "abdomen",
+      "artMeshId": "ArtMesh_abdomen",
+      "primaryController": "BodyRoot",
+      "parent": "BodyRoot",
+      "pivot": "abdomen_center",
+      "meshDensityZones": "breath grid",
+      "hiddenOverlap": "under ribcage/pelvis",
+      "clipDrawOrder": 220,
+      "activeParameters": [
+        "ParamBreath",
+        "ParamBodySettle"
+      ],
+      "elasticOutputs": "breath/settle",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "ribcage",
+      "artMeshId": "ArtMesh_ribcage",
+      "primaryController": "BodyRoot",
+      "parent": "BodyRoot",
+      "pivot": "ribcage_center",
+      "meshDensityZones": "shoulder/contact dense",
+      "hiddenOverlap": "under neck/forelimbs",
+      "clipDrawOrder": 230,
+      "activeParameters": [
+        "ParamBreath",
+        "ParamBodySettle"
+      ],
+      "elasticOutputs": "breath small",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "chest_fur",
+      "artMeshId": "ArtMesh_chest_fur",
+      "primaryController": "Ribcage",
+      "parent": "Ribcage",
+      "pivot": "neck_base",
+      "meshDensityZones": "fur tips dense",
+      "hiddenOverlap": "over chest/neck",
+      "clipDrawOrder": 300,
+      "activeParameters": [
+        "ParamBreath",
+        "ParamBodySettle"
+      ],
+      "elasticOutputs": "fur lag",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "neck_fill",
+      "artMeshId": "ArtMesh_neck_fill",
+      "primaryController": "Neck",
+      "parent": "Neck",
+      "pivot": "neck_base",
+      "meshDensityZones": "head-neck seam",
+      "hiddenOverlap": "under head",
+      "clipDrawOrder": 310,
+      "activeParameters": [],
+      "elasticOutputs": "low stretch",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "scapula_fur_L",
+      "artMeshId": "ArtMesh_scapula_fur_L",
+      "primaryController": "Scapula_L",
+      "parent": "Scapula_L",
+      "pivot": "scapula_L",
+      "meshDensityZones": "armpit seam",
+      "hiddenOverlap": "over ribcage/upper arm",
+      "clipDrawOrder": 340,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "armpit shear",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "upper_arm_L",
+      "artMeshId": "ArtMesh_upper_arm_L",
+      "primaryController": "Shoulder_L",
+      "parent": "Shoulder_L",
+      "pivot": "shoulder_L",
+      "meshDensityZones": "shoulder/elbow dense",
+      "hiddenOverlap": "under scapula/forearm",
+      "clipDrawOrder": 350,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "low",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "forearm_L",
+      "artMeshId": "ArtMesh_forearm_L",
+      "primaryController": "Elbow_L",
+      "parent": "Elbow_L",
+      "pivot": "elbow_L",
+      "meshDensityZones": "elbow/wrist dense",
+      "hiddenOverlap": "under upper_arm/paw",
+      "clipDrawOrder": 360,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "sleeve soft",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "wrist_fur_L",
+      "artMeshId": "ArtMesh_wrist_fur_L",
+      "primaryController": "Wrist_L",
+      "parent": "Wrist_L",
+      "pivot": "wrist_L",
+      "meshDensityZones": "small fan",
+      "hiddenOverlap": "over wrist seam",
+      "clipDrawOrder": 370,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "soft",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "fore_paw_L",
+      "artMeshId": "ArtMesh_fore_paw_L",
+      "primaryController": "Wrist_L",
+      "parent": "Wrist_L",
+      "pivot": "forepaw_L",
+      "meshDensityZones": "toe/contact arc",
+      "hiddenOverlap": "into wrist",
+      "clipDrawOrder": 380,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "toe soft",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "scapula_fur_R",
+      "artMeshId": "ArtMesh_scapula_fur_R",
+      "primaryController": "Scapula_R",
+      "parent": "Scapula_R",
+      "pivot": "scapula_R",
+      "meshDensityZones": "armpit seam",
+      "hiddenOverlap": "over ribcage/upper arm",
+      "clipDrawOrder": 341,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "armpit shear",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "upper_arm_R",
+      "artMeshId": "ArtMesh_upper_arm_R",
+      "primaryController": "Shoulder_R",
+      "parent": "Shoulder_R",
+      "pivot": "shoulder_R",
+      "meshDensityZones": "shoulder/elbow dense",
+      "hiddenOverlap": "under scapula/forearm",
+      "clipDrawOrder": 351,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "low",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "forearm_R",
+      "artMeshId": "ArtMesh_forearm_R",
+      "primaryController": "Elbow_R",
+      "parent": "Elbow_R",
+      "pivot": "elbow_R",
+      "meshDensityZones": "elbow/wrist dense",
+      "hiddenOverlap": "under upper_arm/paw",
+      "clipDrawOrder": 361,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "sleeve soft",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "wrist_fur_R",
+      "artMeshId": "ArtMesh_wrist_fur_R",
+      "primaryController": "Wrist_R",
+      "parent": "Wrist_R",
+      "pivot": "wrist_R",
+      "meshDensityZones": "small fan",
+      "hiddenOverlap": "over wrist seam",
+      "clipDrawOrder": 371,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "soft",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "fore_paw_R",
+      "artMeshId": "ArtMesh_fore_paw_R",
+      "primaryController": "Wrist_R",
+      "parent": "Wrist_R",
+      "pivot": "forepaw_R",
+      "meshDensityZones": "toe/contact arc",
+      "hiddenOverlap": "into wrist",
+      "clipDrawOrder": 381,
+      "activeParameters": [
+        "ParamPasswordCover",
+        "ParamForelimbL/R"
+      ],
+      "elasticOutputs": "toe soft",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "head_base",
+      "artMeshId": "ArtMesh_head_base",
+      "primaryController": "Neck",
+      "parent": "Neck",
+      "pivot": "skull_center",
+      "meshDensityZones": "face oval medium",
+      "hiddenOverlap": "under ears/eyes/muzzle",
+      "clipDrawOrder": 500,
+      "activeParameters": [],
+      "elasticOutputs": "stable mass",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "muzzle_base",
+      "artMeshId": "ArtMesh_muzzle_base",
+      "primaryController": "Head",
+      "parent": "Head",
+      "pivot": "jaw_center",
+      "meshDensityZones": "mouth curve dense",
+      "hiddenOverlap": "under whisker roots",
+      "clipDrawOrder": 530,
+      "activeParameters": [],
+      "elasticOutputs": "low expression",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "jaw_line",
+      "artMeshId": "ArtMesh_jaw_line",
+      "primaryController": "Muzzle",
+      "parent": "Muzzle",
+      "pivot": "jaw_center",
+      "meshDensityZones": "curve points",
+      "hiddenOverlap": "over muzzle",
+      "clipDrawOrder": 540,
+      "activeParameters": [],
+      "elasticOutputs": "none",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "cheek_fur_L",
+      "artMeshId": "ArtMesh_cheek_fur_L",
+      "primaryController": "Head",
+      "parent": "Head",
+      "pivot": "jaw_center",
+      "meshDensityZones": "fur tips dense",
+      "hiddenOverlap": "over head/neck",
+      "clipDrawOrder": 560,
+      "activeParameters": [],
+      "elasticOutputs": "fur lag",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "cheek_fur_R",
+      "artMeshId": "ArtMesh_cheek_fur_R",
+      "primaryController": "Head",
+      "parent": "Head",
+      "pivot": "jaw_center",
+      "meshDensityZones": "fur tips dense",
+      "hiddenOverlap": "over head/neck",
+      "clipDrawOrder": 561,
+      "activeParameters": [],
+      "elasticOutputs": "fur lag",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "ear_root_L",
+      "artMeshId": "ArtMesh_ear_root_L",
+      "primaryController": "Head",
+      "parent": "Head",
+      "pivot": "ear_base_L",
+      "meshDensityZones": "root wedge",
+      "hiddenOverlap": "under ear face/head fur",
+      "clipDrawOrder": 610,
+      "activeParameters": [
+        "ParamEarAttentionL/R",
+        "ParamHeadAngle"
+      ],
+      "elasticOutputs": "root active",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "ear_face_L",
+      "artMeshId": "ArtMesh_ear_face_L",
+      "primaryController": "EarRoot_L",
+      "parent": "EarRoot_L",
+      "pivot": "ear_base_L",
+      "meshDensityZones": "triangle surface",
+      "hiddenOverlap": "over root",
+      "clipDrawOrder": 620,
+      "activeParameters": [
+        "ParamEarAttentionL/R",
+        "ParamHeadAngle"
+      ],
+      "elasticOutputs": "low bend",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "ear_tip_L",
+      "artMeshId": "ArtMesh_ear_tip_L",
+      "primaryController": "EarRoot_L",
+      "parent": "EarRoot_L",
+      "pivot": "ear_tip_L",
+      "meshDensityZones": "tip dense",
+      "hiddenOverlap": "into ear face",
+      "clipDrawOrder": 630,
+      "activeParameters": [
+        "ParamEarAttentionL/R",
+        "ParamHeadAngle"
+      ],
+      "elasticOutputs": "tip high",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "ear_root_R",
+      "artMeshId": "ArtMesh_ear_root_R",
+      "primaryController": "Head",
+      "parent": "Head",
+      "pivot": "ear_base_R",
+      "meshDensityZones": "root wedge",
+      "hiddenOverlap": "under ear face/head fur",
+      "clipDrawOrder": 611,
+      "activeParameters": [
+        "ParamEarAttentionL/R",
+        "ParamHeadAngle"
+      ],
+      "elasticOutputs": "root active",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "ear_face_R",
+      "artMeshId": "ArtMesh_ear_face_R",
+      "primaryController": "EarRoot_R",
+      "parent": "EarRoot_R",
+      "pivot": "ear_base_R",
+      "meshDensityZones": "triangle surface",
+      "hiddenOverlap": "over root",
+      "clipDrawOrder": 621,
+      "activeParameters": [
+        "ParamEarAttentionL/R",
+        "ParamHeadAngle"
+      ],
+      "elasticOutputs": "low bend",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "ear_tip_R",
+      "artMeshId": "ArtMesh_ear_tip_R",
+      "primaryController": "EarRoot_R",
+      "parent": "EarRoot_R",
+      "pivot": "ear_tip_R",
+      "meshDensityZones": "tip dense",
+      "hiddenOverlap": "into ear face",
+      "clipDrawOrder": 631,
+      "activeParameters": [
+        "ParamEarAttentionL/R",
+        "ParamHeadAngle"
+      ],
+      "elasticOutputs": "tip high",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "eye_socket_L",
+      "artMeshId": "ArtMesh_eye_socket_L",
+      "primaryController": "Head",
+      "parent": "Head",
+      "pivot": "eye_socket_L",
+      "meshDensityZones": "socket ellipse dense",
+      "hiddenOverlap": "under iris/lids",
+      "clipDrawOrder": 690,
+      "activeParameters": [],
+      "elasticOutputs": "none",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "iris_L",
+      "artMeshId": "ArtMesh_iris_L",
+      "primaryController": "EyeSocket_L",
+      "parent": "EyeSocket_L",
+      "pivot": "eye_center_L",
+      "meshDensityZones": "round radial",
+      "hiddenOverlap": "clipped by socket",
+      "clipDrawOrder": 700,
+      "activeParameters": [
+        "ParamEyeBallX",
+        "ParamEyeBallY"
+      ],
+      "elasticOutputs": "gaze active",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "pupil_L",
+      "artMeshId": "ArtMesh_pupil_L",
+      "primaryController": "Iris_L",
+      "parent": "Iris_L",
+      "pivot": "eye_center_L",
+      "meshDensityZones": "round radial",
+      "hiddenOverlap": "inside iris",
+      "clipDrawOrder": 705,
+      "activeParameters": [
+        "ParamEyeBallX",
+        "ParamEyeBallY"
+      ],
+      "elasticOutputs": "pupil scale",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "highlight_L",
+      "artMeshId": "ArtMesh_highlight_L",
+      "primaryController": "Iris_L",
+      "parent": "Iris_L",
+      "pivot": "eye_center_L",
+      "meshDensityZones": "small quad",
+      "hiddenOverlap": "inside iris",
+      "clipDrawOrder": 710,
+      "activeParameters": [
+        "ParamEyeBallX",
+        "ParamEyeBallY"
+      ],
+      "elasticOutputs": "highlight parallax",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "upper_lid_L",
+      "artMeshId": "ArtMesh_upper_lid_L",
+      "primaryController": "EyeSocket_L",
+      "parent": "EyeSocket_L",
+      "pivot": "eye_socket_L",
+      "meshDensityZones": "lid arc dense",
+      "hiddenOverlap": "over iris",
+      "clipDrawOrder": 720,
+      "activeParameters": [
+        "ParamBlink",
+        "ParamEyeLOpen/ROpen",
+        "ParamEyeLidFollowY"
+      ],
+      "elasticOutputs": "blink active",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "lower_lid_L",
+      "artMeshId": "ArtMesh_lower_lid_L",
+      "primaryController": "EyeSocket_L",
+      "parent": "EyeSocket_L",
+      "pivot": "eye_socket_L",
+      "meshDensityZones": "lid arc dense",
+      "hiddenOverlap": "over iris",
+      "clipDrawOrder": 721,
+      "activeParameters": [
+        "ParamBlink",
+        "ParamEyeLOpen/ROpen",
+        "ParamEyeLidFollowY"
+      ],
+      "elasticOutputs": "blink small",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "eye_socket_R",
+      "artMeshId": "ArtMesh_eye_socket_R",
+      "primaryController": "Head",
+      "parent": "Head",
+      "pivot": "eye_socket_R",
+      "meshDensityZones": "socket ellipse dense",
+      "hiddenOverlap": "under iris/lids",
+      "clipDrawOrder": 691,
+      "activeParameters": [],
+      "elasticOutputs": "none",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "iris_R",
+      "artMeshId": "ArtMesh_iris_R",
+      "primaryController": "EyeSocket_R",
+      "parent": "EyeSocket_R",
+      "pivot": "eye_center_R",
+      "meshDensityZones": "round radial",
+      "hiddenOverlap": "clipped by socket",
+      "clipDrawOrder": 701,
+      "activeParameters": [
+        "ParamEyeBallX",
+        "ParamEyeBallY"
+      ],
+      "elasticOutputs": "gaze active",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "pupil_R",
+      "artMeshId": "ArtMesh_pupil_R",
+      "primaryController": "Iris_R",
+      "parent": "Iris_R",
+      "pivot": "eye_center_R",
+      "meshDensityZones": "round radial",
+      "hiddenOverlap": "inside iris",
+      "clipDrawOrder": 706,
+      "activeParameters": [
+        "ParamEyeBallX",
+        "ParamEyeBallY"
+      ],
+      "elasticOutputs": "pupil scale",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "highlight_R",
+      "artMeshId": "ArtMesh_highlight_R",
+      "primaryController": "Iris_R",
+      "parent": "Iris_R",
+      "pivot": "eye_center_R",
+      "meshDensityZones": "small quad",
+      "hiddenOverlap": "inside iris",
+      "clipDrawOrder": 711,
+      "activeParameters": [
+        "ParamEyeBallX",
+        "ParamEyeBallY"
+      ],
+      "elasticOutputs": "highlight parallax",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "upper_lid_R",
+      "artMeshId": "ArtMesh_upper_lid_R",
+      "primaryController": "EyeSocket_R",
+      "parent": "EyeSocket_R",
+      "pivot": "eye_socket_R",
+      "meshDensityZones": "lid arc dense",
+      "hiddenOverlap": "over iris",
+      "clipDrawOrder": 722,
+      "activeParameters": [
+        "ParamBlink",
+        "ParamEyeLOpen/ROpen",
+        "ParamEyeLidFollowY"
+      ],
+      "elasticOutputs": "blink active",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "lower_lid_R",
+      "artMeshId": "ArtMesh_lower_lid_R",
+      "primaryController": "EyeSocket_R",
+      "parent": "EyeSocket_R",
+      "pivot": "eye_socket_R",
+      "meshDensityZones": "lid arc dense",
+      "hiddenOverlap": "over iris",
+      "clipDrawOrder": 723,
+      "activeParameters": [
+        "ParamBlink",
+        "ParamEyeLOpen/ROpen",
+        "ParamEyeLidFollowY"
+      ],
+      "elasticOutputs": "blink small",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "whisker_L",
+      "artMeshId": "ArtMesh_whisker_L",
+      "primaryController": "Muzzle",
+      "parent": "Muzzle",
+      "pivot": "whisker_root_L",
+      "meshDensityZones": "spline endpoints",
+      "hiddenOverlap": "root under muzzle",
+      "clipDrawOrder": 760,
+      "activeParameters": [],
+      "elasticOutputs": "tip high",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    },
+    {
+      "sourceLayer": "whisker_R",
+      "artMeshId": "ArtMesh_whisker_R",
+      "primaryController": "Muzzle",
+      "parent": "Muzzle",
+      "pivot": "whisker_root_R",
+      "meshDensityZones": "spline endpoints",
+      "hiddenOverlap": "root under muzzle",
+      "clipDrawOrder": 761,
+      "activeParameters": [],
+      "elasticOutputs": "tip high",
+      "evidence": "live2d/x5/qa/x5-detailed-layer-atlas.png"
+    }
+  ],
+  "momentAnchors": [
+    {
+      "id": "M0_body_support",
+      "kind": "primary",
+      "pivot": "ribcage_center",
+      "force": "planet normal + gravity",
+      "drives": [
+        "ribcage",
+        "abdomen",
+        "contact_shadow"
+      ],
+      "note": "support reaction; keeps COM inside planet support"
+    },
+    {
+      "id": "M1_shoulder_L",
+      "kind": "primary",
+      "pivot": "shoulder_L",
+      "force": "forepaw lift/contact",
+      "drives": [
+        "upper_arm_L",
+        "forearm_L",
+        "fore_paw_L"
+      ],
+      "note": "tau = r x F / J^T F sign mirrors right"
+    },
+    {
+      "id": "M1_shoulder_R",
+      "kind": "primary",
+      "pivot": "shoulder_R",
+      "force": "forepaw lift/contact",
+      "drives": [
+        "upper_arm_R",
+        "forearm_R",
+        "fore_paw_R"
+      ],
+      "note": "mirror of left shoulder"
+    },
+    {
+      "id": "M2_elbow_L",
+      "kind": "primary",
+      "pivot": "elbow_L",
+      "force": "distal forearm/paw load",
+      "drives": [
+        "forearm_L",
+        "wrist_fur_L"
+      ],
+      "note": "large active cover bend"
+    },
+    {
+      "id": "M2_elbow_R",
+      "kind": "primary",
+      "pivot": "elbow_R",
+      "force": "distal forearm/paw load",
+      "drives": [
+        "forearm_R",
+        "wrist_fur_R"
+      ],
+      "note": "large active cover bend"
+    },
+    {
+      "id": "M3_wrist_L",
+      "kind": "primary",
+      "pivot": "wrist_L",
+      "force": "paw face contact",
+      "drives": [
+        "fore_paw_L"
+      ],
+      "note": "face contact clamp and paw orientation"
+    },
+    {
+      "id": "M3_wrist_R",
+      "kind": "primary",
+      "pivot": "wrist_R",
+      "force": "paw face contact",
+      "drives": [
+        "fore_paw_R"
+      ],
+      "note": "face contact clamp and paw orientation"
+    },
+    {
+      "id": "S1_neck_fur",
+      "kind": "secondary",
+      "pivot": "neck_base",
+      "force": "head velocity",
+      "drives": [
+        "neck_fill",
+        "chest_fur",
+        "cheek_fur_L",
+        "cheek_fur_R"
+      ],
+      "note": "spring-damper fur bridge"
+    },
+    {
+      "id": "S2_ear_L",
+      "kind": "secondary",
+      "pivot": "ear_base_L",
+      "force": "head angular velocity + attention",
+      "drives": [
+        "ear_face_L",
+        "ear_tip_L"
+      ],
+      "note": "ear tip higher elasticity"
+    },
+    {
+      "id": "S2_ear_R",
+      "kind": "secondary",
+      "pivot": "ear_base_R",
+      "force": "head angular velocity + attention",
+      "drives": [
+        "ear_face_R",
+        "ear_tip_R"
+      ],
+      "note": "ear tip higher elasticity"
+    },
+    {
+      "id": "S3_tail",
+      "kind": "secondary",
+      "pivot": "tail_root",
+      "force": "tail-root active target",
+      "drives": [
+        "tail_mid",
+        "tail_tip"
+      ],
+      "note": "root active, continuation elastic"
+    },
+    {
+      "id": "S4_whiskers",
+      "kind": "secondary",
+      "pivot": "whisker_root",
+      "force": "head/muzzle velocity",
+      "drives": [
+        "whisker_L",
+        "whisker_R"
+      ],
+      "note": "stable roots, light tips"
+    },
+    {
+      "id": "S5_belly",
+      "kind": "secondary",
+      "pivot": "abdomen_center",
+      "force": "breath + body settle",
+      "drives": [
+        "abdomen",
+        "chest_fur"
+      ],
+      "note": "no whole-body scale"
+    }
+  ],
+  "elasticChains": [
+    {
+      "chain": "EarTip_L/R",
+      "input": "ParamHeadAngle + ParamEarAttention",
+      "output": "ParamEarTipLagL/R",
+      "stiffness": 0.72,
+      "damping": 0.78,
+      "clamp": "±7 deg",
+      "settle": "180-260 ms"
+    },
+    {
+      "chain": "TailMid/Tip",
+      "input": "ParamTailRoot",
+      "output": "ParamTailFollow1/2",
+      "stiffness": 0.48,
+      "damping": 0.68,
+      "clamp": "±14 deg",
+      "settle": "360-520 ms"
+    },
+    {
+      "chain": "Cheek/ChestFur",
+      "input": "Head/Body velocity",
+      "output": "ParamFurLag",
+      "stiffness": 0.58,
+      "damping": 0.82,
+      "clamp": "±5 px",
+      "settle": "140-220 ms"
+    },
+    {
+      "chain": "WhiskerTips",
+      "input": "Muzzle velocity",
+      "output": "ParamWhiskerLag",
+      "stiffness": 0.42,
+      "damping": 0.74,
+      "clamp": "±9 px",
+      "settle": "220-340 ms"
+    },
+    {
+      "chain": "BellyBreath",
+      "input": "ParamBreath + settle",
+      "output": "ParamBellySoft",
+      "stiffness": 0.64,
+      "damping": 0.86,
+      "clamp": "±4 px",
+      "settle": "continuous"
+    },
+    {
+      "chain": "ForelimbSleeves",
+      "input": "ParamCover + joint velocity",
+      "output": "ParamSleeveShearL/R",
+      "stiffness": 0.78,
+      "damping": 0.9,
+      "clamp": "±6 px",
+      "settle": "120-180 ms"
+    }
+  ],
+  "actionTracerNotes": [
+    {
+      "input": "password focus/cover",
+      "priority": 100,
+      "target": [
+        "ParamPasswordCover",
+        "forelimb joint parameters"
+      ],
+      "rule": "active motion owns paw trajectory; Physics secondary only"
+    },
+    {
+      "input": "gaze target",
+      "priority": 60,
+      "target": [
+        "ParamEyeBallX/Y",
+        "ParamEyeHeadCompX/Y"
+      ],
+      "rule": "eyes lead head; no reset on blink"
+    },
+    {
+      "input": "idle",
+      "priority": 10,
+      "target": [
+        "ParamBreath",
+        "ParamTailRoot",
+        "ParamEarAttention"
+      ],
+      "rule": "preserve velocities across state changes"
+    }
+  ],
+  "qa": {
+    "detailedLayerAtlas": "live2d/x5/qa/x5-detailed-layer-atlas.png",
+    "triangulationMomentPreview": "live2d/x5/qa/x5-triangulation-moment-preview.png",
+    "linkElasticPreview": "live2d/x5/qa/x5-link-elastic-preview.png",
+    "selfReview": "live2d/x5/x5-self-review.json"
+  },
+  "nextGateIfApproved": "X6 parameters, Action Tracer keyforms, and Cubism-ready motion ranges"
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "objective": "V8-B1 formal complete hand flat-color geometry and V8-C real-hand wrist validation",
+  "status": "complete_ready_to_freeze",
+  "decisionOwner": "user",
+  "visualApprovalCharacterization": "qualified acceptance: acceptable to freeze, but not an unreserved premium-quality endorsement",
+  "requirements": [
+    {
+      "id": "scope-and-privacy",
+      "status": "pass",
+      "evidence": "all new artifacts are V8-B1-local, use relative paths, and outward privacy hits are 0"
+    },
+    {
+      "id": "frozen-input-integrity",
+      "status": "pass",
+      "evidence": "fresh preflight 145/145; V4, sleeve, V6, V7-C1, and V8-A frozen evidence remains intact"
+    },
+    {
+      "id": "formal-m-hand",
+      "status": "pass",
+      "evidence": "M_hand 2752 px; H1 2629, H2 81, H3 42; H1/H2/H3 intersections 0"
+    },
+    {
+      "id": "v-hand-lock",
+      "status": "pass",
+      "evidence": "H1 coordinate difference 0 and RGB difference 0"
+    },
+    {
+      "id": "envelope-containment",
+      "status": "pass",
+      "evidence": "all 389 frozen E_hand pixels are contained; missing 0"
+    },
+    {
+      "id": "topology-and-finger-gaps",
+      "status": "pass",
+      "evidence": "one connected component, zero holes, finger-gap misfill 0"
+    },
+    {
+      "id": "h3-locality-and-minimization",
+      "status": "pass",
+      "evidence": "H3 is 42 px, outside permitted wrist ROI 0; minimum under declared 1 px AA plus 1 px future-deformation margin"
+    },
+    {
+      "id": "neutral-recomposition",
+      "status": "pass",
+      "evidence": "locked visible coordinate difference 0 and new person-outline pixels 0"
+    },
+    {
+      "id": "real-hand-wrist-domain",
+      "status": "pass",
+      "evidence": "201 dense + 11 boundary + 81 adaptive samples; gap 0, broken adjacency 0, return difference 0"
+    },
+    {
+      "id": "bracelet-hidden-skin-coverage",
+      "status": "pass",
+      "evidence": "maximum skin responsibility gap 0 with bracelet excluded from coverage"
+    },
+    {
+      "id": "combined-domain",
+      "status": "pass",
+      "evidence": "elbow-by-wrist 9x9: gap 0, detachment 0, unapproved collisions 0, triangle flips 0"
+    },
+    {
+      "id": "bone-and-return",
+      "status": "pass",
+      "evidence": "maximum bone error within 0.01 px and slow 0-to-1-to-0 return difference 0"
+    },
+    {
+      "id": "deterministic-generation",
+      "status": "pass",
+      "evidence": "fresh pre-approval and post-approval regeneration difference files 0"
+    },
+    {
+      "id": "chinese-visual-evidence",
+      "status": "pass_user_approved_with_reservation",
+      "evidence": "14 Chinese review artifacts were accepted as sufficient for this gate"
+    },
+    {
+      "id": "user-freeze-authorization",
+      "status": "pass",
+      "evidence": "audit/v8b1-v8c-user-visual-approval-and-freeze-authorization-2026-07-26.json"
+    },
+    {
+      "id": "forbidden-downstream-work",
+      "status": "pass_none_created",
+      "evidence": "no texture, PSD, ArtMesh, Cubism, Physics, Runtime, finger split, clipping, or independent wrist layer was created"
+    }
+  ],
+  "summary": {
+    "passed": 16,
+    "failed": 0,
+    "missing": 0,
+    "forbiddenDownstreamWorkCreated": false
+  },
+  "finalGeometry": {
+    "h1Pixels": 2629,
+    "h2Pixels": 81,
+    "h3Pixels": 42,
+    "mHandPixels": 2752,
+    "connectedComponents": 1,
+    "holes": 0,
+    "fingerGapMisfillPixels": 0
+  },
+  "stageAArmMaterialGeometryChain": "complete",
+  "nextGate": "separately authorized texture planning; no texture work is authorized by this freeze"
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-07-25",
+  "status": "pass_user_visual_approved",
+  "source": "source/masters/front-color-source-exact-after-reset.png",
+  "visibleMask": "validation/arm-chain-screen-right-v5-hidden-upper-arm/masks/visible-upper-arm-locked.png",
+  "visiblePixelCount": 544,
+  "boundingBoxExclusive": [
+    338,
+    394,
+    371,
+    417
+  ],
+  "differingRgbPixelCount": 0,
+  "maximumRgbChannelDifference": 0,
+  "pixelExactCopy": true,
+  "visiblePixelsRescaled": false,
+  "visiblePixelsRedrawn": false,
+  "note": "The visible-pixel copy is locked by explicit user approval."
+}

@@ -1,0 +1,803 @@
+{
+  "schemaVersion": 1,
+  "stage": "X6-production-layer-stack-alpha-coverage-audit",
+  "status": "pass-candidate",
+  "threshold": 0.55,
+  "targetCount": 78,
+  "requiredTargetCount": 76,
+  "exemptTargetCount": 2,
+  "requiredPassCount": 76,
+  "minimumRequiredCoverage": 1.0,
+  "averageRequiredCoverage": 1.0,
+  "allRequiredTargetsPass": true,
+  "requiredMovingLayerCount": 32,
+  "mappedMovingLayerCount": 32,
+  "missingMovingLayers": [],
+  "allRequiredMovingLayersMapped": true,
+  "targets": [
+    {
+      "target": "front:tail_root_socket",
+      "targetAlphaPixels": 34,
+      "coveredAlphaPixels": 34,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:tail_mid",
+      "targetAlphaPixels": 3571,
+      "coveredAlphaPixels": 3571,
+      "coverage": 1.0,
+      "instanceCount": 3,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:tail_tip",
+      "targetAlphaPixels": 3552,
+      "coveredAlphaPixels": 3552,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:hind_thigh_L",
+      "targetAlphaPixels": 1817,
+      "coveredAlphaPixels": 1817,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:hind_shin_L",
+      "targetAlphaPixels": 4981,
+      "coveredAlphaPixels": 4981,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:hind_thigh_R",
+      "targetAlphaPixels": 2046,
+      "coveredAlphaPixels": 2046,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:hind_shin_R",
+      "targetAlphaPixels": 5073,
+      "coveredAlphaPixels": 5073,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:pelvis",
+      "targetAlphaPixels": 13006,
+      "coveredAlphaPixels": 13006,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:abdomen",
+      "targetAlphaPixels": 28897,
+      "coveredAlphaPixels": 28897,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:ribcage",
+      "targetAlphaPixels": 22306,
+      "coveredAlphaPixels": 22306,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:neck_fill",
+      "targetAlphaPixels": 107,
+      "coveredAlphaPixels": 107,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:chest_fur",
+      "targetAlphaPixels": 18510,
+      "coveredAlphaPixels": 18510,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:upper_arm_L",
+      "targetAlphaPixels": 2660,
+      "coveredAlphaPixels": 2660,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:forearm_L",
+      "targetAlphaPixels": 2450,
+      "coveredAlphaPixels": 2450,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:fore_paw_L",
+      "targetAlphaPixels": 4188,
+      "coveredAlphaPixels": 4188,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:upper_arm_R",
+      "targetAlphaPixels": 2532,
+      "coveredAlphaPixels": 2532,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:forearm_R",
+      "targetAlphaPixels": 2490,
+      "coveredAlphaPixels": 2490,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:fore_paw_R",
+      "targetAlphaPixels": 4615,
+      "coveredAlphaPixels": 4615,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:head_base",
+      "targetAlphaPixels": 27159,
+      "coveredAlphaPixels": 27159,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:ear_face_L",
+      "targetAlphaPixels": 3301,
+      "coveredAlphaPixels": 3301,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:ear_tip_L",
+      "targetAlphaPixels": 845,
+      "coveredAlphaPixels": 845,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:ear_face_R",
+      "targetAlphaPixels": 2669,
+      "coveredAlphaPixels": 2669,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:ear_tip_R",
+      "targetAlphaPixels": 628,
+      "coveredAlphaPixels": 628,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:muzzle_base",
+      "targetAlphaPixels": 1685,
+      "coveredAlphaPixels": 1685,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:cheek_fur_L",
+      "targetAlphaPixels": 10252,
+      "coveredAlphaPixels": 10252,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:cheek_fur_R",
+      "targetAlphaPixels": 9701,
+      "coveredAlphaPixels": 9701,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:eye_socket_L",
+      "targetAlphaPixels": 1538,
+      "coveredAlphaPixels": 1538,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:iris_L",
+      "targetAlphaPixels": 1102,
+      "coveredAlphaPixels": 1102,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:pupil_L",
+      "targetAlphaPixels": 537,
+      "coveredAlphaPixels": 537,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:highlight_L",
+      "targetAlphaPixels": 177,
+      "coveredAlphaPixels": 177,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:upper_lid_L",
+      "targetAlphaPixels": 868,
+      "coveredAlphaPixels": 868,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:lower_lid_L",
+      "targetAlphaPixels": 471,
+      "coveredAlphaPixels": 471,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:eye_socket_R",
+      "targetAlphaPixels": 1538,
+      "coveredAlphaPixels": 1538,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:iris_R",
+      "targetAlphaPixels": 1102,
+      "coveredAlphaPixels": 1102,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:pupil_R",
+      "targetAlphaPixels": 537,
+      "coveredAlphaPixels": 537,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:highlight_R",
+      "targetAlphaPixels": 177,
+      "coveredAlphaPixels": 177,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:upper_lid_R",
+      "targetAlphaPixels": 868,
+      "coveredAlphaPixels": 868,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:lower_lid_R",
+      "targetAlphaPixels": 471,
+      "coveredAlphaPixels": 471,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "front:whisker_L",
+      "targetAlphaPixels": 824,
+      "coveredAlphaPixels": 824,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": true,
+      "exemptionReason": "hairline layer; no area underpaint required",
+      "passes": true
+    },
+    {
+      "target": "front:whisker_R",
+      "targetAlphaPixels": 760,
+      "coveredAlphaPixels": 760,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": true,
+      "exemptionReason": "hairline layer; no area underpaint required",
+      "passes": true
+    },
+    {
+      "target": "side:tail_mid",
+      "targetAlphaPixels": 3498,
+      "coveredAlphaPixels": 3498,
+      "coverage": 1.0,
+      "instanceCount": 5,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:tail_tip",
+      "targetAlphaPixels": 5642,
+      "coveredAlphaPixels": 5642,
+      "coverage": 1.0,
+      "instanceCount": 3,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:hind_thigh_L",
+      "targetAlphaPixels": 427,
+      "coveredAlphaPixels": 427,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:hind_shin_L",
+      "targetAlphaPixels": 5101,
+      "coveredAlphaPixels": 5101,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:hind_paw_L",
+      "targetAlphaPixels": 2704,
+      "coveredAlphaPixels": 2704,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:hind_shin_R",
+      "targetAlphaPixels": 2357,
+      "coveredAlphaPixels": 2357,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:hind_paw_R",
+      "targetAlphaPixels": 2362,
+      "coveredAlphaPixels": 2362,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:pelvis",
+      "targetAlphaPixels": 6883,
+      "coveredAlphaPixels": 6883,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:abdomen",
+      "targetAlphaPixels": 21262,
+      "coveredAlphaPixels": 21262,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:ribcage",
+      "targetAlphaPixels": 28696,
+      "coveredAlphaPixels": 28696,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:chest_fur",
+      "targetAlphaPixels": 16378,
+      "coveredAlphaPixels": 16378,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:forearm_L",
+      "targetAlphaPixels": 589,
+      "coveredAlphaPixels": 589,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:fore_paw_L",
+      "targetAlphaPixels": 2354,
+      "coveredAlphaPixels": 2354,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:upper_arm_R",
+      "targetAlphaPixels": 2029,
+      "coveredAlphaPixels": 2029,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:forearm_R",
+      "targetAlphaPixels": 1754,
+      "coveredAlphaPixels": 1754,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:fore_paw_R",
+      "targetAlphaPixels": 2071,
+      "coveredAlphaPixels": 2071,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "side:head_base",
+      "targetAlphaPixels": 28290,
+      "coveredAlphaPixels": 28290,
+      "coverage": 1.0,
+      "instanceCount": 3,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:tail_mid",
+      "targetAlphaPixels": 2058,
+      "coveredAlphaPixels": 2058,
+      "coverage": 1.0,
+      "instanceCount": 4,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:tail_tip",
+      "targetAlphaPixels": 5455,
+      "coveredAlphaPixels": 5455,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:hind_thigh_L",
+      "targetAlphaPixels": 816,
+      "coveredAlphaPixels": 816,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:hind_shin_L",
+      "targetAlphaPixels": 615,
+      "coveredAlphaPixels": 615,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:hind_paw_L",
+      "targetAlphaPixels": 3287,
+      "coveredAlphaPixels": 3287,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:hind_thigh_R",
+      "targetAlphaPixels": 3639,
+      "coveredAlphaPixels": 3639,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:hind_shin_R",
+      "targetAlphaPixels": 2070,
+      "coveredAlphaPixels": 2070,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:hind_paw_R",
+      "targetAlphaPixels": 3720,
+      "coveredAlphaPixels": 3720,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:pelvis",
+      "targetAlphaPixels": 9308,
+      "coveredAlphaPixels": 9308,
+      "coverage": 1.0,
+      "instanceCount": 3,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:abdomen",
+      "targetAlphaPixels": 27021,
+      "coveredAlphaPixels": 27021,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:ribcage",
+      "targetAlphaPixels": 20360,
+      "coveredAlphaPixels": 20360,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:neck_fill",
+      "targetAlphaPixels": 535,
+      "coveredAlphaPixels": 535,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:upper_arm_L",
+      "targetAlphaPixels": 4150,
+      "coveredAlphaPixels": 4150,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:forearm_L",
+      "targetAlphaPixels": 1413,
+      "coveredAlphaPixels": 1413,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:fore_paw_L",
+      "targetAlphaPixels": 2370,
+      "coveredAlphaPixels": 2370,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:upper_arm_R",
+      "targetAlphaPixels": 5513,
+      "coveredAlphaPixels": 5513,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:forearm_R",
+      "targetAlphaPixels": 2685,
+      "coveredAlphaPixels": 2685,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:fore_paw_R",
+      "targetAlphaPixels": 3450,
+      "coveredAlphaPixels": 3450,
+      "coverage": 1.0,
+      "instanceCount": 2,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:head_base",
+      "targetAlphaPixels": 55717,
+      "coveredAlphaPixels": 55717,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:ear_face_L",
+      "targetAlphaPixels": 1929,
+      "coveredAlphaPixels": 1929,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    },
+    {
+      "target": "back:ear_face_R",
+      "targetAlphaPixels": 2378,
+      "coveredAlphaPixels": 2378,
+      "coverage": 1.0,
+      "instanceCount": 1,
+      "exempt": false,
+      "exemptionReason": null,
+      "passes": true
+    }
+  ],
+  "gateBoundary": {
+    "gate6Approved": false,
+    "x7Authorized": false
+  }
+}

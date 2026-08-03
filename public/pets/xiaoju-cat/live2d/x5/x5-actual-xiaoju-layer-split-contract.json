@@ -1,0 +1,3323 @@
+{
+  "schemaVersion": 1,
+  "stage": "X5-actual-xiaoju-transparent-layer-split-candidates",
+  "status": "candidate-for-user-review",
+  "revision": "layer-split-v2-reconstruction-coverage-qa",
+  "sourceImage": "live2d/x5/qa/x5-actual-xiaoju-spread-pose-three-view.png",
+  "articleProcessMapping": [
+    "independent transparent PNG layer candidates",
+    "one semantic visual unit per future ArtMesh",
+    "layer boundary first, then triangulation/helper mesh points",
+    "each layer owns one primary controller; helper points remain mesh vertices"
+  ],
+  "gateBoundary": {
+    "currentGate": "x5-layer-mesh-node-torque",
+    "candidateOnly": true,
+    "x5MayPassOnlyWithUserApproval": true,
+    "x6Authorized": false,
+    "notProduced": [
+      "PSD",
+      "Cubism ArtMesh",
+      "Deformer",
+      "Action Tracer",
+      "runtime replacement"
+    ]
+  },
+  "counts": {
+    "totalLayerPngs": 126,
+    "byView": {
+      "front": 50,
+      "side": 44,
+      "back": 32
+    }
+  },
+  "qa": {
+    "transparentLayerAtlas": "live2d/x5/qa/x5-actual-xiaoju-transparent-layer-atlas.png",
+    "boundaryPreview": "live2d/x5/qa/x5-actual-xiaoju-layer-boundary-preview.png",
+    "reconstructionCoverage": "live2d/x5/qa/x5-actual-xiaoju-layer-reconstruction-coverage.png",
+    "layerDirectory": "live2d/x5/actual-layer-candidates",
+    "coverageByView": {
+      "front": {
+        "visibleSourcePixels": 196124,
+        "coveredVisiblePixels": 182002,
+        "coverageRatio": 0.928
+      },
+      "side": {
+        "visibleSourcePixels": 163688,
+        "coveredVisiblePixels": 154549,
+        "coverageRatio": 0.9442
+      },
+      "back": {
+        "visibleSourcePixels": 195554,
+        "coveredVisiblePixels": 179350,
+        "coverageRatio": 0.9171
+      }
+    },
+    "hiddenFillPlaceholderCount": 4,
+    "tinySourceFragmentCount": 1
+  },
+  "layers": [
+    {
+      "view": "front",
+      "id": "tail_root_socket",
+      "name": "尾根隐藏插口毛皮",
+      "file": "live2d/x5/actual-layer-candidates/front_tail_root_socket.png",
+      "bounds": [
+        293,
+        638,
+        373,
+        732
+      ],
+      "size": [
+        80,
+        94
+      ],
+      "parent": "Pelvis",
+      "drawOrder": 88,
+      "pivot": "tail_root",
+      "hiddenOverlap": "under pelvis and tail_root, +18px safety",
+      "meshDensityZone": "tail-root high density",
+      "elastic": "socket soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 7027,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "tail_base",
+      "name": "尾根段",
+      "file": "live2d/x5/actual-layer-candidates/front_tail_base.png",
+      "bounds": [
+        301,
+        637,
+        372,
+        732
+      ],
+      "size": [
+        71,
+        95
+      ],
+      "parent": "TailRoot",
+      "drawOrder": 90,
+      "pivot": "tail_root",
+      "hiddenOverlap": "over tail_root_socket, under tail_mid",
+      "meshDensityZone": "bend fan",
+      "elastic": "root active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 6277,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "tail_mid",
+      "name": "尾中段",
+      "file": "live2d/x5/actual-layer-candidates/front_tail_mid.png",
+      "bounds": [
+        307,
+        637,
+        370,
+        826
+      ],
+      "size": [
+        63,
+        189
+      ],
+      "parent": "TailMid",
+      "drawOrder": 95,
+      "pivot": "tail_mid",
+      "hiddenOverlap": "over tail_base, under tail_tip",
+      "meshDensityZone": "two bend bands",
+      "elastic": "medium lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 10569,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "tail_tip",
+      "name": "尾尖段",
+      "file": "live2d/x5/actual-layer-candidates/front_tail_tip.png",
+      "bounds": [
+        311,
+        780,
+        383,
+        849
+      ],
+      "size": [
+        72,
+        69
+      ],
+      "parent": "TailTip",
+      "drawOrder": 100,
+      "pivot": "tail_tip",
+      "hiddenOverlap": "over tail_mid",
+      "meshDensityZone": "tip fan",
+      "elastic": "high lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3303,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "hind_thigh_L",
+      "name": "L 大腿/髋包络",
+      "file": "live2d/x5/actual-layer-candidates/front_hind_thigh_L.png",
+      "bounds": [
+        376,
+        569,
+        508,
+        691
+      ],
+      "size": [
+        132,
+        122
+      ],
+      "parent": "Hip_L",
+      "drawOrder": 145,
+      "pivot": "hip_L",
+      "hiddenOverlap": "under pelvis, +20px hip overlap",
+      "meshDensityZone": "hip/knee dense",
+      "elastic": "soft thigh",
+      "extraction": "source-mask",
+      "alphaPixelCount": 7903,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "hind_shin_L",
+      "name": "L 小腿/跗",
+      "file": "live2d/x5/actual-layer-candidates/front_hind_shin_L.png",
+      "bounds": [
+        450,
+        659,
+        538,
+        723
+      ],
+      "size": [
+        88,
+        64
+      ],
+      "parent": "Knee_L",
+      "drawOrder": 146,
+      "pivot": "knee_L",
+      "hiddenOverlap": "under thigh and paw",
+      "meshDensityZone": "knee/hock dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2453,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "hind_paw_L",
+      "name": "L 后爪",
+      "file": "live2d/x5/actual-layer-candidates/front_hind_paw_L.png",
+      "bounds": [],
+      "size": [
+        120,
+        90
+      ],
+      "parent": "Hock_L",
+      "drawOrder": 147,
+      "pivot": "hindpaw_L",
+      "hiddenOverlap": "into shin +14px",
+      "meshDensityZone": "toe arcs",
+      "elastic": "toe soft",
+      "extraction": "hidden-fill-placeholder",
+      "alphaPixelCount": 0,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "hind_thigh_R",
+      "name": "R 大腿/髋包络",
+      "file": "live2d/x5/actual-layer-candidates/front_hind_thigh_R.png",
+      "bounds": [
+        161,
+        569,
+        297,
+        690
+      ],
+      "size": [
+        136,
+        121
+      ],
+      "parent": "Hip_R",
+      "drawOrder": 155,
+      "pivot": "hip_R",
+      "hiddenOverlap": "under pelvis, +20px hip overlap",
+      "meshDensityZone": "hip/knee dense",
+      "elastic": "soft thigh",
+      "extraction": "source-mask",
+      "alphaPixelCount": 7633,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "hind_shin_R",
+      "name": "R 小腿/跗",
+      "file": "live2d/x5/actual-layer-candidates/front_hind_shin_R.png",
+      "bounds": [
+        134,
+        659,
+        218,
+        721
+      ],
+      "size": [
+        84,
+        62
+      ],
+      "parent": "Knee_R",
+      "drawOrder": 156,
+      "pivot": "knee_R",
+      "hiddenOverlap": "under thigh and paw",
+      "meshDensityZone": "knee/hock dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2174,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "hind_paw_R",
+      "name": "R 后爪",
+      "file": "live2d/x5/actual-layer-candidates/front_hind_paw_R.png",
+      "bounds": [],
+      "size": [
+        120,
+        90
+      ],
+      "parent": "Hock_R",
+      "drawOrder": 157,
+      "pivot": "hindpaw_R",
+      "hiddenOverlap": "into shin +14px",
+      "meshDensityZone": "toe arcs",
+      "elastic": "toe soft",
+      "extraction": "hidden-fill-placeholder",
+      "alphaPixelCount": 0,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "pelvis",
+      "name": "骨盆/臀部",
+      "file": "live2d/x5/actual-layer-candidates/front_pelvis.png",
+      "bounds": [
+        189,
+        486,
+        482,
+        735
+      ],
+      "size": [
+        293,
+        249
+      ],
+      "parent": "BodyRoot",
+      "drawOrder": 210,
+      "pivot": "pelvis",
+      "hiddenOverlap": "under abdomen, hips and tail",
+      "meshDensityZone": "medium oval",
+      "elastic": "stable mass",
+      "extraction": "source-mask",
+      "alphaPixelCount": 47785,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "abdomen",
+      "name": "腹部软层",
+      "file": "live2d/x5/actual-layer-candidates/front_abdomen.png",
+      "bounds": [
+        188,
+        355,
+        483,
+        676
+      ],
+      "size": [
+        295,
+        321
+      ],
+      "parent": "BodyRoot",
+      "drawOrder": 220,
+      "pivot": "abd",
+      "hiddenOverlap": "under ribcage and pelvis, +24px",
+      "meshDensityZone": "breath grid",
+      "elastic": "breath/settle",
+      "extraction": "source-mask",
+      "alphaPixelCount": 68314,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "ribcage",
+      "name": "胸腔/躯干",
+      "file": "live2d/x5/actual-layer-candidates/front_ribcage.png",
+      "bounds": [
+        177,
+        232,
+        494,
+        565
+      ],
+      "size": [
+        317,
+        333
+      ],
+      "parent": "BodyRoot",
+      "drawOrder": 230,
+      "pivot": "rib",
+      "hiddenOverlap": "under neck and forelimbs",
+      "meshDensityZone": "shoulder/contact dense",
+      "elastic": "small breath",
+      "extraction": "source-mask",
+      "alphaPixelCount": 75862,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "neck_fill",
+      "name": "颈部隐藏补全",
+      "file": "live2d/x5/actual-layer-candidates/front_neck_fill.png",
+      "bounds": [
+        263,
+        236,
+        408,
+        389
+      ],
+      "size": [
+        145,
+        153
+      ],
+      "parent": "Neck",
+      "drawOrder": 310,
+      "pivot": "neck",
+      "hiddenOverlap": "under head and chest fur",
+      "meshDensityZone": "head-neck seam",
+      "elastic": "low stretch",
+      "extraction": "source-mask",
+      "alphaPixelCount": 17413,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "chest_fur",
+      "name": "胸毛覆盖片",
+      "file": "live2d/x5/actual-layer-candidates/front_chest_fur.png",
+      "bounds": [
+        245,
+        282,
+        426,
+        527
+      ],
+      "size": [
+        181,
+        245
+      ],
+      "parent": "Ribcage",
+      "drawOrder": 300,
+      "pivot": "neck",
+      "hiddenOverlap": "over ribcage, under head/muzzle",
+      "meshDensityZone": "fur tips dense",
+      "elastic": "fur lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 33545,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "scapula_fur_L",
+      "name": "L 肩胛遮挡毛",
+      "file": "live2d/x5/actual-layer-candidates/front_scapula_fur_L.png",
+      "bounds": [
+        372,
+        285,
+        489,
+        376
+      ],
+      "size": [
+        117,
+        91
+      ],
+      "parent": "Scapula_L",
+      "drawOrder": 340,
+      "pivot": "shoulder_L",
+      "hiddenOverlap": "over ribcage and upper_arm",
+      "meshDensityZone": "armpit seam",
+      "elastic": "armpit shear",
+      "extraction": "source-mask",
+      "alphaPixelCount": 8309,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "upper_arm_L",
+      "name": "L 上臂",
+      "file": "live2d/x5/actual-layer-candidates/front_upper_arm_L.png",
+      "bounds": [
+        418,
+        298,
+        495,
+        384
+      ],
+      "size": [
+        77,
+        86
+      ],
+      "parent": "Shoulder_L",
+      "drawOrder": 350,
+      "pivot": "shoulder_L",
+      "hiddenOverlap": "under scapula, over forearm",
+      "meshDensityZone": "shoulder/elbow dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4043,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "forearm_L",
+      "name": "L 前臂",
+      "file": "live2d/x5/actual-layer-candidates/front_forearm_L.png",
+      "bounds": [
+        473,
+        329,
+        549,
+        406
+      ],
+      "size": [
+        76,
+        77
+      ],
+      "parent": "Elbow_L",
+      "drawOrder": 360,
+      "pivot": "elbow_L",
+      "hiddenOverlap": "under upper_arm and paw",
+      "meshDensityZone": "elbow/wrist dense",
+      "elastic": "sleeve soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3112,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "wrist_fur_L",
+      "name": "L 腕毛",
+      "file": "live2d/x5/actual-layer-candidates/front_wrist_fur_L.png",
+      "bounds": [
+        511,
+        354,
+        568,
+        404
+      ],
+      "size": [
+        57,
+        50
+      ],
+      "parent": "Wrist_L",
+      "drawOrder": 370,
+      "pivot": "wrist_L",
+      "hiddenOverlap": "over wrist seam",
+      "meshDensityZone": "small fan",
+      "elastic": "soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 1698,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "fore_paw_L",
+      "name": "L 前爪",
+      "file": "live2d/x5/actual-layer-candidates/front_fore_paw_L.png",
+      "bounds": [
+        534,
+        372,
+        676,
+        448
+      ],
+      "size": [
+        142,
+        76
+      ],
+      "parent": "Wrist_L",
+      "drawOrder": 380,
+      "pivot": "forepaw_L",
+      "hiddenOverlap": "into wrist +16px",
+      "meshDensityZone": "toe/contact arc",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2307,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "scapula_fur_R",
+      "name": "R 肩胛遮挡毛",
+      "file": "live2d/x5/actual-layer-candidates/front_scapula_fur_R.png",
+      "bounds": [
+        182,
+        285,
+        299,
+        376
+      ],
+      "size": [
+        117,
+        91
+      ],
+      "parent": "Scapula_R",
+      "drawOrder": 341,
+      "pivot": "shoulder_R",
+      "hiddenOverlap": "over ribcage and upper_arm",
+      "meshDensityZone": "armpit seam",
+      "elastic": "armpit shear",
+      "extraction": "source-mask",
+      "alphaPixelCount": 8255,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "upper_arm_R",
+      "name": "R 上臂",
+      "file": "live2d/x5/actual-layer-candidates/front_upper_arm_R.png",
+      "bounds": [
+        176,
+        297,
+        253,
+        383
+      ],
+      "size": [
+        77,
+        86
+      ],
+      "parent": "Shoulder_R",
+      "drawOrder": 351,
+      "pivot": "shoulder_R",
+      "hiddenOverlap": "under scapula, over forearm",
+      "meshDensityZone": "shoulder/elbow dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4023,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "forearm_R",
+      "name": "R 前臂",
+      "file": "live2d/x5/actual-layer-candidates/front_forearm_R.png",
+      "bounds": [
+        120,
+        326,
+        199,
+        405
+      ],
+      "size": [
+        79,
+        79
+      ],
+      "parent": "Elbow_R",
+      "drawOrder": 361,
+      "pivot": "elbow_R",
+      "hiddenOverlap": "under upper_arm and paw",
+      "meshDensityZone": "elbow/wrist dense",
+      "elastic": "sleeve soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3489,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "wrist_fur_R",
+      "name": "R 腕毛",
+      "file": "live2d/x5/actual-layer-candidates/front_wrist_fur_R.png",
+      "bounds": [
+        96,
+        352,
+        160,
+        404
+      ],
+      "size": [
+        64,
+        52
+      ],
+      "parent": "Wrist_R",
+      "drawOrder": 371,
+      "pivot": "wrist_R",
+      "hiddenOverlap": "over wrist seam",
+      "meshDensityZone": "small fan",
+      "elastic": "soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2196,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "fore_paw_R",
+      "name": "R 前爪",
+      "file": "live2d/x5/actual-layer-candidates/front_fore_paw_R.png",
+      "bounds": [
+        69,
+        365,
+        143,
+        449
+      ],
+      "size": [
+        74,
+        84
+      ],
+      "parent": "Wrist_R",
+      "drawOrder": 381,
+      "pivot": "forepaw_R",
+      "hiddenOverlap": "into wrist +16px",
+      "meshDensityZone": "toe/contact arc",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3750,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "head_base",
+      "name": "头骨/脸底",
+      "file": "live2d/x5/actual-layer-candidates/front_head_base.png",
+      "bounds": [
+        196,
+        48,
+        476,
+        386
+      ],
+      "size": [
+        280,
+        338
+      ],
+      "parent": "Neck",
+      "drawOrder": 500,
+      "pivot": "skull",
+      "hiddenOverlap": "under ears, eyes and muzzle",
+      "meshDensityZone": "face oval medium",
+      "elastic": "stable mass",
+      "extraction": "source-mask",
+      "alphaPixelCount": 69779,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "ear_root_L",
+      "name": "左耳根",
+      "file": "live2d/x5/actual-layer-candidates/front_ear_root_L.png",
+      "bounds": [
+        373,
+        69,
+        458,
+        140
+      ],
+      "size": [
+        85,
+        71
+      ],
+      "parent": "Head",
+      "drawOrder": 610,
+      "pivot": "ear_L_base",
+      "hiddenOverlap": "under ear face/head fur",
+      "meshDensityZone": "root wedge",
+      "elastic": "root active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4653,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "ear_face_L",
+      "name": "左耳面",
+      "file": "live2d/x5/actual-layer-candidates/front_ear_face_L.png",
+      "bounds": [
+        377,
+        42,
+        460,
+        132
+      ],
+      "size": [
+        83,
+        90
+      ],
+      "parent": "EarRoot_L",
+      "drawOrder": 620,
+      "pivot": "ear_L_base",
+      "hiddenOverlap": "over root",
+      "meshDensityZone": "triangle surface",
+      "elastic": "low bend",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3881,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "ear_tip_L",
+      "name": "左耳尖",
+      "file": "live2d/x5/actual-layer-candidates/front_ear_tip_L.png",
+      "bounds": [
+        425,
+        42,
+        461,
+        76
+      ],
+      "size": [
+        36,
+        34
+      ],
+      "parent": "EarRoot_L",
+      "drawOrder": 630,
+      "pivot": "ear_L_tip",
+      "hiddenOverlap": "into ear_face +12px",
+      "meshDensityZone": "tip dense",
+      "elastic": "tip high",
+      "extraction": "source-mask",
+      "alphaPixelCount": 844,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "ear_root_R",
+      "name": "右耳根",
+      "file": "live2d/x5/actual-layer-candidates/front_ear_root_R.png",
+      "bounds": [
+        224,
+        69,
+        298,
+        140
+      ],
+      "size": [
+        74,
+        71
+      ],
+      "parent": "Head",
+      "drawOrder": 611,
+      "pivot": "ear_R_base",
+      "hiddenOverlap": "under ear face/head fur",
+      "meshDensityZone": "root wedge",
+      "elastic": "root active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4268,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "ear_face_R",
+      "name": "右耳面",
+      "file": "live2d/x5/actual-layer-candidates/front_ear_face_R.png",
+      "bounds": [
+        223,
+        49,
+        294,
+        132
+      ],
+      "size": [
+        71,
+        83
+      ],
+      "parent": "EarRoot_R",
+      "drawOrder": 621,
+      "pivot": "ear_R_base",
+      "hiddenOverlap": "over root",
+      "meshDensityZone": "triangle surface",
+      "elastic": "low bend",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2933,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "ear_tip_R",
+      "name": "右耳尖",
+      "file": "live2d/x5/actual-layer-candidates/front_ear_tip_R.png",
+      "bounds": [
+        224,
+        40,
+        253,
+        75
+      ],
+      "size": [
+        29,
+        35
+      ],
+      "parent": "EarRoot_R",
+      "drawOrder": 631,
+      "pivot": "ear_R_tip",
+      "hiddenOverlap": "into ear_face +12px",
+      "meshDensityZone": "tip dense",
+      "elastic": "tip high",
+      "extraction": "source-mask",
+      "alphaPixelCount": 627,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "muzzle_base",
+      "name": "口鼻底",
+      "file": "live2d/x5/actual-layer-candidates/front_muzzle_base.png",
+      "bounds": [
+        271,
+        204,
+        400,
+        297
+      ],
+      "size": [
+        129,
+        93
+      ],
+      "parent": "Head",
+      "drawOrder": 530,
+      "pivot": "muzzle",
+      "hiddenOverlap": "under whisker roots and jaw",
+      "meshDensityZone": "mouth curve dense",
+      "elastic": "low expression",
+      "extraction": "source-mask",
+      "alphaPixelCount": 9409,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "jaw_line",
+      "name": "下颌/微笑线",
+      "file": "live2d/x5/actual-layer-candidates/front_jaw_line.png",
+      "bounds": [
+        295,
+        268,
+        376,
+        294
+      ],
+      "size": [
+        81,
+        26
+      ],
+      "parent": "Muzzle",
+      "drawOrder": 540,
+      "pivot": "muzzle",
+      "hiddenOverlap": "over muzzle",
+      "meshDensityZone": "curve points",
+      "elastic": "none",
+      "extraction": "source-mask",
+      "alphaPixelCount": 846,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "cheek_fur_L",
+      "name": "左脸颊毛",
+      "file": "live2d/x5/actual-layer-candidates/front_cheek_fur_L.png",
+      "bounds": [
+        340,
+        188,
+        469,
+        319
+      ],
+      "size": [
+        129,
+        131
+      ],
+      "parent": "Head",
+      "drawOrder": 560,
+      "pivot": "skull",
+      "hiddenOverlap": "over head/neck",
+      "meshDensityZone": "fur tips dense",
+      "elastic": "fur lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 12204,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "cheek_fur_R",
+      "name": "右脸颊毛",
+      "file": "live2d/x5/actual-layer-candidates/front_cheek_fur_R.png",
+      "bounds": [
+        205,
+        188,
+        331,
+        319
+      ],
+      "size": [
+        126,
+        131
+      ],
+      "parent": "Head",
+      "drawOrder": 561,
+      "pivot": "skull",
+      "hiddenOverlap": "over head/neck",
+      "meshDensityZone": "fur tips dense",
+      "elastic": "fur lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 11589,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "eye_socket_L",
+      "name": "L 眼眶底/遮罩",
+      "file": "live2d/x5/actual-layer-candidates/front_eye_socket_L.png",
+      "bounds": [
+        348,
+        135,
+        417,
+        220
+      ],
+      "size": [
+        69,
+        85
+      ],
+      "parent": "Head",
+      "drawOrder": 690,
+      "pivot": "eye_L",
+      "hiddenOverlap": "under iris and lids",
+      "meshDensityZone": "socket ellipse dense",
+      "elastic": "none",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4597,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "iris_L",
+      "name": "L 虹膜",
+      "file": "live2d/x5/actual-layer-candidates/front_iris_L.png",
+      "bounds": [
+        360,
+        149,
+        405,
+        206
+      ],
+      "size": [
+        45,
+        57
+      ],
+      "parent": "EyeSocket_L",
+      "drawOrder": 700,
+      "pivot": "eye_L",
+      "hiddenOverlap": "clipped by socket",
+      "meshDensityZone": "radial",
+      "elastic": "gaze active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2013,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "pupil_L",
+      "name": "L 瞳孔",
+      "file": "live2d/x5/actual-layer-candidates/front_pupil_L.png",
+      "bounds": [
+        372,
+        159,
+        393,
+        196
+      ],
+      "size": [
+        21,
+        37
+      ],
+      "parent": "Iris_L",
+      "drawOrder": 705,
+      "pivot": "eye_L",
+      "hiddenOverlap": "inside iris",
+      "meshDensityZone": "radial",
+      "elastic": "pupil scale",
+      "extraction": "source-mask",
+      "alphaPixelCount": 609,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "highlight_L",
+      "name": "L 高光",
+      "file": "live2d/x5/actual-layer-candidates/front_highlight_L.png",
+      "bounds": [
+        367,
+        157,
+        382,
+        172
+      ],
+      "size": [
+        15,
+        15
+      ],
+      "parent": "Iris_L",
+      "drawOrder": 710,
+      "pivot": "eye_L",
+      "hiddenOverlap": "inside iris",
+      "meshDensityZone": "small quad",
+      "elastic": "highlight parallax",
+      "extraction": "source-mask",
+      "alphaPixelCount": 177,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "upper_lid_L",
+      "name": "L 上眼睑",
+      "file": "live2d/x5/actual-layer-candidates/front_upper_lid_L.png",
+      "bounds": [
+        347,
+        140,
+        418,
+        165
+      ],
+      "size": [
+        71,
+        25
+      ],
+      "parent": "EyeSocket_L",
+      "drawOrder": 720,
+      "pivot": "eye_L",
+      "hiddenOverlap": "over iris",
+      "meshDensityZone": "lid arc dense",
+      "elastic": "blink active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 868,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "lower_lid_L",
+      "name": "L 下眼睑",
+      "file": "live2d/x5/actual-layer-candidates/front_lower_lid_L.png",
+      "bounds": [
+        352,
+        194,
+        413,
+        212
+      ],
+      "size": [
+        61,
+        18
+      ],
+      "parent": "EyeSocket_L",
+      "drawOrder": 721,
+      "pivot": "eye_L",
+      "hiddenOverlap": "over iris",
+      "meshDensityZone": "lid arc dense",
+      "elastic": "blink small",
+      "extraction": "source-mask",
+      "alphaPixelCount": 471,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "eye_socket_R",
+      "name": "R 眼眶底/遮罩",
+      "file": "live2d/x5/actual-layer-candidates/front_eye_socket_R.png",
+      "bounds": [
+        254,
+        135,
+        323,
+        220
+      ],
+      "size": [
+        69,
+        85
+      ],
+      "parent": "Head",
+      "drawOrder": 691,
+      "pivot": "eye_R",
+      "hiddenOverlap": "under iris and lids",
+      "meshDensityZone": "socket ellipse dense",
+      "elastic": "none",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4597,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "iris_R",
+      "name": "R 虹膜",
+      "file": "live2d/x5/actual-layer-candidates/front_iris_R.png",
+      "bounds": [
+        266,
+        149,
+        311,
+        206
+      ],
+      "size": [
+        45,
+        57
+      ],
+      "parent": "EyeSocket_R",
+      "drawOrder": 701,
+      "pivot": "eye_R",
+      "hiddenOverlap": "clipped by socket",
+      "meshDensityZone": "radial",
+      "elastic": "gaze active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2013,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "pupil_R",
+      "name": "R 瞳孔",
+      "file": "live2d/x5/actual-layer-candidates/front_pupil_R.png",
+      "bounds": [
+        278,
+        159,
+        299,
+        196
+      ],
+      "size": [
+        21,
+        37
+      ],
+      "parent": "Iris_R",
+      "drawOrder": 706,
+      "pivot": "eye_R",
+      "hiddenOverlap": "inside iris",
+      "meshDensityZone": "radial",
+      "elastic": "pupil scale",
+      "extraction": "source-mask",
+      "alphaPixelCount": 609,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "highlight_R",
+      "name": "R 高光",
+      "file": "live2d/x5/actual-layer-candidates/front_highlight_R.png",
+      "bounds": [
+        273,
+        157,
+        288,
+        172
+      ],
+      "size": [
+        15,
+        15
+      ],
+      "parent": "Iris_R",
+      "drawOrder": 711,
+      "pivot": "eye_R",
+      "hiddenOverlap": "inside iris",
+      "meshDensityZone": "small quad",
+      "elastic": "highlight parallax",
+      "extraction": "source-mask",
+      "alphaPixelCount": 177,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "upper_lid_R",
+      "name": "R 上眼睑",
+      "file": "live2d/x5/actual-layer-candidates/front_upper_lid_R.png",
+      "bounds": [
+        253,
+        140,
+        324,
+        165
+      ],
+      "size": [
+        71,
+        25
+      ],
+      "parent": "EyeSocket_R",
+      "drawOrder": 722,
+      "pivot": "eye_R",
+      "hiddenOverlap": "over iris",
+      "meshDensityZone": "lid arc dense",
+      "elastic": "blink active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 868,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "lower_lid_R",
+      "name": "R 下眼睑",
+      "file": "live2d/x5/actual-layer-candidates/front_lower_lid_R.png",
+      "bounds": [
+        258,
+        194,
+        319,
+        212
+      ],
+      "size": [
+        61,
+        18
+      ],
+      "parent": "EyeSocket_R",
+      "drawOrder": 723,
+      "pivot": "eye_R",
+      "hiddenOverlap": "over iris",
+      "meshDensityZone": "lid arc dense",
+      "elastic": "blink small",
+      "extraction": "source-mask",
+      "alphaPixelCount": 471,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "whisker_L",
+      "name": "左胡须束",
+      "file": "live2d/x5/actual-layer-candidates/front_whisker_L.png",
+      "bounds": [
+        353,
+        230,
+        462,
+        279
+      ],
+      "size": [
+        109,
+        49
+      ],
+      "parent": "Muzzle",
+      "drawOrder": 760,
+      "pivot": "muzzle",
+      "hiddenOverlap": "root under muzzle",
+      "meshDensityZone": "spline endpoints",
+      "elastic": "tip high",
+      "extraction": "source-mask",
+      "alphaPixelCount": 824,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "front",
+      "id": "whisker_R",
+      "name": "右胡须束",
+      "file": "live2d/x5/actual-layer-candidates/front_whisker_R.png",
+      "bounds": [
+        214,
+        231,
+        318,
+        277
+      ],
+      "size": [
+        104,
+        46
+      ],
+      "parent": "Muzzle",
+      "drawOrder": 761,
+      "pivot": "muzzle",
+      "hiddenOverlap": "root under muzzle",
+      "meshDensityZone": "spline endpoints",
+      "elastic": "tip high",
+      "extraction": "source-mask",
+      "alphaPixelCount": 760,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "tail_root_socket",
+      "name": "尾根隐藏插口毛皮",
+      "file": "live2d/x5/actual-layer-candidates/side_tail_root_socket.png",
+      "bounds": [
+        940,
+        602,
+        1052,
+        719
+      ],
+      "size": [
+        112,
+        117
+      ],
+      "parent": "Pelvis",
+      "drawOrder": 88,
+      "pivot": "tail_root",
+      "hiddenOverlap": "under pelvis and tail_root, +18px safety",
+      "meshDensityZone": "tail-root high density",
+      "elastic": "socket soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 6166,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "tail_base",
+      "name": "尾根段",
+      "file": "live2d/x5/actual-layer-candidates/side_tail_base.png",
+      "bounds": [
+        948,
+        605,
+        1044,
+        719
+      ],
+      "size": [
+        96,
+        114
+      ],
+      "parent": "TailRoot",
+      "drawOrder": 90,
+      "pivot": "tail_root",
+      "hiddenOverlap": "over tail_root_socket, under tail_mid",
+      "meshDensityZone": "bend fan",
+      "elastic": "root active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 5294,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "tail_mid",
+      "name": "尾中段",
+      "file": "live2d/x5/actual-layer-candidates/side_tail_mid.png",
+      "bounds": [
+        953,
+        607,
+        1040,
+        802
+      ],
+      "size": [
+        87,
+        195
+      ],
+      "parent": "TailMid",
+      "drawOrder": 95,
+      "pivot": "tail_mid",
+      "hiddenOverlap": "over tail_base, under tail_tip",
+      "meshDensityZone": "two bend bands",
+      "elastic": "medium lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 9844,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "tail_tip",
+      "name": "尾尖段",
+      "file": "live2d/x5/actual-layer-candidates/side_tail_tip.png",
+      "bounds": [
+        964,
+        755,
+        1047,
+        845
+      ],
+      "size": [
+        83,
+        90
+      ],
+      "parent": "TailTip",
+      "drawOrder": 100,
+      "pivot": "tail_tip",
+      "hiddenOverlap": "over tail_mid",
+      "meshDensityZone": "tip fan",
+      "elastic": "high lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 5085,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "hind_thigh_L",
+      "name": "L 大腿/髋包络",
+      "file": "live2d/x5/actual-layer-candidates/side_hind_thigh_L.png",
+      "bounds": [
+        809,
+        569,
+        938,
+        696
+      ],
+      "size": [
+        129,
+        127
+      ],
+      "parent": "Hip_L",
+      "drawOrder": 145,
+      "pivot": "hip_L",
+      "hiddenOverlap": "under pelvis, +20px hip overlap",
+      "meshDensityZone": "hip/knee dense",
+      "elastic": "soft thigh",
+      "extraction": "source-mask",
+      "alphaPixelCount": 8177,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "hind_shin_L",
+      "name": "L 小腿/跗",
+      "file": "live2d/x5/actual-layer-candidates/side_hind_shin_L.png",
+      "bounds": [
+        765,
+        640,
+        871,
+        746
+      ],
+      "size": [
+        106,
+        106
+      ],
+      "parent": "Knee_L",
+      "drawOrder": 146,
+      "pivot": "knee_L",
+      "hiddenOverlap": "under thigh and paw",
+      "meshDensityZone": "knee/hock dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 5233,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "hind_paw_L",
+      "name": "L 后爪",
+      "file": "live2d/x5/actual-layer-candidates/side_hind_paw_L.png",
+      "bounds": [
+        703,
+        701,
+        811,
+        773
+      ],
+      "size": [
+        108,
+        72
+      ],
+      "parent": "Hock_L",
+      "drawOrder": 147,
+      "pivot": "hindpaw_L",
+      "hiddenOverlap": "into shin +14px",
+      "meshDensityZone": "toe arcs",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2205,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "hind_thigh_R",
+      "name": "R 大腿/髋包络",
+      "file": "live2d/x5/actual-layer-candidates/side_hind_thigh_R.png",
+      "bounds": [
+        845,
+        584,
+        954,
+        687
+      ],
+      "size": [
+        109,
+        103
+      ],
+      "parent": "Hip_R",
+      "drawOrder": 155,
+      "pivot": "hip_R",
+      "hiddenOverlap": "under pelvis, +20px hip overlap",
+      "meshDensityZone": "hip/knee dense",
+      "elastic": "soft thigh",
+      "extraction": "source-mask",
+      "alphaPixelCount": 5276,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "hind_shin_R",
+      "name": "R 小腿/跗",
+      "file": "live2d/x5/actual-layer-candidates/side_hind_shin_R.png",
+      "bounds": [
+        812,
+        658,
+        896,
+        743
+      ],
+      "size": [
+        84,
+        85
+      ],
+      "parent": "Knee_R",
+      "drawOrder": 156,
+      "pivot": "knee_R",
+      "hiddenOverlap": "under thigh and paw",
+      "meshDensityZone": "knee/hock dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3419,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "hind_paw_R",
+      "name": "R 后爪",
+      "file": "live2d/x5/actual-layer-candidates/side_hind_paw_R.png",
+      "bounds": [
+        781,
+        727,
+        850,
+        776
+      ],
+      "size": [
+        69,
+        49
+      ],
+      "parent": "Hock_R",
+      "drawOrder": 157,
+      "pivot": "hindpaw_R",
+      "hiddenOverlap": "into shin +14px",
+      "meshDensityZone": "toe arcs",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2362,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "pelvis",
+      "name": "骨盆/臀部",
+      "file": "live2d/x5/actual-layer-candidates/side_pelvis.png",
+      "bounds": [
+        819,
+        476,
+        1068,
+        724
+      ],
+      "size": [
+        249,
+        248
+      ],
+      "parent": "BodyRoot",
+      "drawOrder": 210,
+      "pivot": "pelvis",
+      "hiddenOverlap": "under abdomen, hips and tail",
+      "meshDensityZone": "medium oval",
+      "elastic": "stable mass",
+      "extraction": "source-mask",
+      "alphaPixelCount": 40562,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "abdomen",
+      "name": "腹部软层",
+      "file": "live2d/x5/actual-layer-candidates/side_abdomen.png",
+      "bounds": [
+        787,
+        365,
+        1052,
+        683
+      ],
+      "size": [
+        265,
+        318
+      ],
+      "parent": "BodyRoot",
+      "drawOrder": 220,
+      "pivot": "abd",
+      "hiddenOverlap": "under ribcage and pelvis, +24px",
+      "meshDensityZone": "breath grid",
+      "elastic": "breath/settle",
+      "extraction": "source-mask",
+      "alphaPixelCount": 62348,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "ribcage",
+      "name": "胸腔/躯干",
+      "file": "live2d/x5/actual-layer-candidates/side_ribcage.png",
+      "bounds": [
+        732,
+        254,
+        1032,
+        587
+      ],
+      "size": [
+        300,
+        333
+      ],
+      "parent": "BodyRoot",
+      "drawOrder": 230,
+      "pivot": "rib",
+      "hiddenOverlap": "under neck and forelimbs",
+      "meshDensityZone": "shoulder/contact dense",
+      "elastic": "small breath",
+      "extraction": "source-mask",
+      "alphaPixelCount": 71438,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "neck_fill",
+      "name": "颈部隐藏补全",
+      "file": "live2d/x5/actual-layer-candidates/side_neck_fill.png",
+      "bounds": [
+        762,
+        242,
+        905,
+        395
+      ],
+      "size": [
+        143,
+        153
+      ],
+      "parent": "Neck",
+      "drawOrder": 310,
+      "pivot": "neck",
+      "hiddenOverlap": "under head and chest fur",
+      "meshDensityZone": "head-neck seam",
+      "elastic": "low stretch",
+      "extraction": "source-mask",
+      "alphaPixelCount": 15748,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "chest_fur",
+      "name": "胸毛覆盖片",
+      "file": "live2d/x5/actual-layer-candidates/side_chest_fur.png",
+      "bounds": [
+        772,
+        288,
+        981,
+        549
+      ],
+      "size": [
+        209,
+        261
+      ],
+      "parent": "Ribcage",
+      "drawOrder": 300,
+      "pivot": "neck",
+      "hiddenOverlap": "over ribcage, under head/muzzle",
+      "meshDensityZone": "fur tips dense",
+      "elastic": "fur lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 34924,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "scapula_fur_L",
+      "name": "L 肩胛遮挡毛",
+      "file": "live2d/x5/actual-layer-candidates/side_scapula_fur_L.png",
+      "bounds": [
+        792,
+        300,
+        909,
+        391
+      ],
+      "size": [
+        117,
+        91
+      ],
+      "parent": "Scapula_L",
+      "drawOrder": 340,
+      "pivot": "shoulder_L",
+      "hiddenOverlap": "over ribcage and upper_arm",
+      "meshDensityZone": "armpit seam",
+      "elastic": "armpit shear",
+      "extraction": "source-mask",
+      "alphaPixelCount": 8351,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "upper_arm_L",
+      "name": "L 上臂",
+      "file": "live2d/x5/actual-layer-candidates/side_upper_arm_L.png",
+      "bounds": [
+        780,
+        317,
+        872,
+        410
+      ],
+      "size": [
+        92,
+        93
+      ],
+      "parent": "Shoulder_L",
+      "drawOrder": 350,
+      "pivot": "shoulder_L",
+      "hiddenOverlap": "under scapula, over forearm",
+      "meshDensityZone": "shoulder/elbow dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4360,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "forearm_L",
+      "name": "L 前臂",
+      "file": "live2d/x5/actual-layer-candidates/side_forearm_L.png",
+      "bounds": [
+        736,
+        358,
+        821,
+        423
+      ],
+      "size": [
+        85,
+        65
+      ],
+      "parent": "Elbow_L",
+      "drawOrder": 360,
+      "pivot": "elbow_L",
+      "hiddenOverlap": "under upper_arm and paw",
+      "meshDensityZone": "elbow/wrist dense",
+      "elastic": "sleeve soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2530,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "wrist_fur_L",
+      "name": "L 腕毛",
+      "file": "live2d/x5/actual-layer-candidates/side_wrist_fur_L.png",
+      "bounds": [
+        721,
+        394,
+        783,
+        438
+      ],
+      "size": [
+        62,
+        44
+      ],
+      "parent": "Wrist_L",
+      "drawOrder": 370,
+      "pivot": "wrist_L",
+      "hiddenOverlap": "over wrist seam",
+      "meshDensityZone": "small fan",
+      "elastic": "soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 1226,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "fore_paw_L",
+      "name": "L 前爪",
+      "file": "live2d/x5/actual-layer-candidates/side_fore_paw_L.png",
+      "bounds": [
+        667,
+        410,
+        752,
+        459
+      ],
+      "size": [
+        85,
+        49
+      ],
+      "parent": "Wrist_L",
+      "drawOrder": 380,
+      "pivot": "forepaw_L",
+      "hiddenOverlap": "into wrist +16px",
+      "meshDensityZone": "toe/contact arc",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2719,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "scapula_fur_R",
+      "name": "R 肩胛遮挡毛",
+      "file": "live2d/x5/actual-layer-candidates/side_scapula_fur_R.png",
+      "bounds": [
+        817,
+        313,
+        934,
+        404
+      ],
+      "size": [
+        117,
+        91
+      ],
+      "parent": "Scapula_R",
+      "drawOrder": 341,
+      "pivot": "shoulder_R",
+      "hiddenOverlap": "over ribcage and upper_arm",
+      "meshDensityZone": "armpit seam",
+      "elastic": "armpit shear",
+      "extraction": "source-mask",
+      "alphaPixelCount": 8351,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "upper_arm_R",
+      "name": "R 上臂",
+      "file": "live2d/x5/actual-layer-candidates/side_upper_arm_R.png",
+      "bounds": [
+        807,
+        331,
+        898,
+        423
+      ],
+      "size": [
+        91,
+        92
+      ],
+      "parent": "Shoulder_R",
+      "drawOrder": 351,
+      "pivot": "shoulder_R",
+      "hiddenOverlap": "under scapula, over forearm",
+      "meshDensityZone": "shoulder/elbow dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4216,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "forearm_R",
+      "name": "R 前臂",
+      "file": "live2d/x5/actual-layer-candidates/side_forearm_R.png",
+      "bounds": [
+        767,
+        372,
+        849,
+        456
+      ],
+      "size": [
+        82,
+        84
+      ],
+      "parent": "Elbow_R",
+      "drawOrder": 361,
+      "pivot": "elbow_R",
+      "hiddenOverlap": "under upper_arm and paw",
+      "meshDensityZone": "elbow/wrist dense",
+      "elastic": "sleeve soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2748,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "wrist_fur_R",
+      "name": "R 腕毛",
+      "file": "live2d/x5/actual-layer-candidates/side_wrist_fur_R.png",
+      "bounds": [
+        796,
+        408,
+        820,
+        456
+      ],
+      "size": [
+        24,
+        48
+      ],
+      "parent": "Wrist_R",
+      "drawOrder": 371,
+      "pivot": "wrist_R",
+      "hiddenOverlap": "over wrist seam",
+      "meshDensityZone": "small fan",
+      "elastic": "soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 743,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "fore_paw_R",
+      "name": "R 前爪",
+      "file": "live2d/x5/actual-layer-candidates/side_fore_paw_R.png",
+      "bounds": [
+        680,
+        420,
+        823,
+        499
+      ],
+      "size": [
+        143,
+        79
+      ],
+      "parent": "Wrist_R",
+      "drawOrder": 381,
+      "pivot": "forepaw_R",
+      "hiddenOverlap": "into wrist +16px",
+      "meshDensityZone": "toe/contact arc",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2071,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "head_base",
+      "name": "头骨/脸底",
+      "file": "live2d/x5/actual-layer-candidates/side_head_base.png",
+      "bounds": [
+        724,
+        41,
+        973,
+        386
+      ],
+      "size": [
+        249,
+        345
+      ],
+      "parent": "Neck",
+      "drawOrder": 500,
+      "pivot": "skull",
+      "hiddenOverlap": "under ears, eyes and muzzle",
+      "meshDensityZone": "face oval medium",
+      "elastic": "stable mass",
+      "extraction": "source-mask",
+      "alphaPixelCount": 55609,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "ear_root_L",
+      "name": "左耳根",
+      "file": "live2d/x5/actual-layer-candidates/side_ear_root_L.png",
+      "bounds": [
+        798,
+        70,
+        883,
+        141
+      ],
+      "size": [
+        85,
+        71
+      ],
+      "parent": "Head",
+      "drawOrder": 610,
+      "pivot": "ear_L_base",
+      "hiddenOverlap": "under ear face/head fur",
+      "meshDensityZone": "root wedge",
+      "elastic": "root active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4731,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "ear_face_L",
+      "name": "左耳面",
+      "file": "live2d/x5/actual-layer-candidates/side_ear_face_L.png",
+      "bounds": [
+        802,
+        47,
+        889,
+        134
+      ],
+      "size": [
+        87,
+        87
+      ],
+      "parent": "EarRoot_L",
+      "drawOrder": 620,
+      "pivot": "ear_L_base",
+      "hiddenOverlap": "over root",
+      "meshDensityZone": "triangle surface",
+      "elastic": "low bend",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3828,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "ear_tip_L",
+      "name": "左耳尖",
+      "file": "live2d/x5/actual-layer-candidates/side_ear_tip_L.png",
+      "bounds": [
+        788,
+        41,
+        848,
+        81
+      ],
+      "size": [
+        60,
+        40
+      ],
+      "parent": "EarRoot_L",
+      "drawOrder": 630,
+      "pivot": "ear_L_tip",
+      "hiddenOverlap": "into ear_face +12px",
+      "meshDensityZone": "tip dense",
+      "elastic": "tip high",
+      "extraction": "source-mask",
+      "alphaPixelCount": 1509,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "ear_root_R",
+      "name": "右耳根",
+      "file": "live2d/x5/actual-layer-candidates/side_ear_root_R.png",
+      "bounds": [
+        838,
+        76,
+        923,
+        146
+      ],
+      "size": [
+        85,
+        70
+      ],
+      "parent": "Head",
+      "drawOrder": 611,
+      "pivot": "ear_R_base",
+      "hiddenOverlap": "under ear face/head fur",
+      "meshDensityZone": "root wedge",
+      "elastic": "root active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4531,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "ear_face_R",
+      "name": "右耳面",
+      "file": "live2d/x5/actual-layer-candidates/side_ear_face_R.png",
+      "bounds": [
+        832,
+        75,
+        919,
+        139
+      ],
+      "size": [
+        87,
+        64
+      ],
+      "parent": "EarRoot_R",
+      "drawOrder": 621,
+      "pivot": "ear_R_base",
+      "hiddenOverlap": "over root",
+      "meshDensityZone": "triangle surface",
+      "elastic": "low bend",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3328,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "ear_tip_R",
+      "name": "右耳尖",
+      "file": "live2d/x5/actual-layer-candidates/side_ear_tip_R.png",
+      "bounds": [
+        855,
+        63,
+        901,
+        89
+      ],
+      "size": [
+        46,
+        26
+      ],
+      "parent": "EarRoot_R",
+      "drawOrder": 631,
+      "pivot": "ear_R_tip",
+      "hiddenOverlap": "into ear_face +12px",
+      "meshDensityZone": "tip dense",
+      "elastic": "tip high",
+      "extraction": "source-mask",
+      "alphaPixelCount": 361,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "muzzle_base",
+      "name": "口鼻底",
+      "file": "live2d/x5/actual-layer-candidates/side_muzzle_base.png",
+      "bounds": [
+        746,
+        200,
+        810,
+        279
+      ],
+      "size": [
+        64,
+        79
+      ],
+      "parent": "Head",
+      "drawOrder": 530,
+      "pivot": "muzzle",
+      "hiddenOverlap": "under whisker roots and jaw",
+      "meshDensityZone": "mouth curve dense",
+      "elastic": "low expression",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2320,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "jaw_line",
+      "name": "下颌/微笑线",
+      "file": "live2d/x5/actual-layer-candidates/side_jaw_line.png",
+      "bounds": [],
+      "size": [
+        120,
+        90
+      ],
+      "parent": "Muzzle",
+      "drawOrder": 540,
+      "pivot": "muzzle",
+      "hiddenOverlap": "over muzzle",
+      "meshDensityZone": "curve points",
+      "elastic": "none",
+      "extraction": "hidden-fill-placeholder",
+      "alphaPixelCount": 0,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "cheek_fur_L",
+      "name": "左脸颊毛",
+      "file": "live2d/x5/actual-layer-candidates/side_cheek_fur_L.png",
+      "bounds": [
+        810,
+        188,
+        951,
+        319
+      ],
+      "size": [
+        141,
+        131
+      ],
+      "parent": "Head",
+      "drawOrder": 560,
+      "pivot": "skull",
+      "hiddenOverlap": "over head/neck",
+      "meshDensityZone": "fur tips dense",
+      "elastic": "fur lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 14491,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "cheek_fur_R",
+      "name": "右脸颊毛",
+      "file": "live2d/x5/actual-layer-candidates/side_cheek_fur_R.png",
+      "bounds": [
+        746,
+        191,
+        801,
+        292
+      ],
+      "size": [
+        55,
+        101
+      ],
+      "parent": "Head",
+      "drawOrder": 561,
+      "pivot": "skull",
+      "hiddenOverlap": "over head/neck",
+      "meshDensityZone": "fur tips dense",
+      "elastic": "fur lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2088,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "eye_socket_L",
+      "name": "L 眼眶底/遮罩",
+      "file": "live2d/x5/actual-layer-candidates/side_eye_socket_L.png",
+      "bounds": [
+        746,
+        136,
+        795,
+        221
+      ],
+      "size": [
+        49,
+        85
+      ],
+      "parent": "Head",
+      "drawOrder": 690,
+      "pivot": "eye_L",
+      "hiddenOverlap": "under iris and lids",
+      "meshDensityZone": "socket ellipse dense",
+      "elastic": "none",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2803,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "iris_L",
+      "name": "L 虹膜",
+      "file": "live2d/x5/actual-layer-candidates/side_iris_L.png",
+      "bounds": [
+        746,
+        150,
+        783,
+        207
+      ],
+      "size": [
+        37,
+        57
+      ],
+      "parent": "EyeSocket_L",
+      "drawOrder": 700,
+      "pivot": "eye_L",
+      "hiddenOverlap": "clipped by socket",
+      "meshDensityZone": "radial",
+      "elastic": "gaze active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 1290,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "pupil_L",
+      "name": "L 瞳孔",
+      "file": "live2d/x5/actual-layer-candidates/side_pupil_L.png",
+      "bounds": [
+        753,
+        160,
+        771,
+        197
+      ],
+      "size": [
+        18,
+        37
+      ],
+      "parent": "Iris_L",
+      "drawOrder": 705,
+      "pivot": "eye_L",
+      "hiddenOverlap": "inside iris",
+      "meshDensityZone": "radial",
+      "elastic": "pupil scale",
+      "extraction": "source-mask",
+      "alphaPixelCount": 409,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "highlight_L",
+      "name": "L 高光",
+      "file": "live2d/x5/actual-layer-candidates/side_highlight_L.png",
+      "bounds": [
+        759,
+        163,
+        760,
+        168
+      ],
+      "size": [
+        1,
+        5
+      ],
+      "parent": "Iris_L",
+      "drawOrder": 710,
+      "pivot": "eye_L",
+      "hiddenOverlap": "inside iris",
+      "meshDensityZone": "small quad",
+      "elastic": "highlight parallax",
+      "extraction": "source-mask",
+      "alphaPixelCount": 5,
+      "qaFlag": "tiny-source-fragment",
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "upper_lid_L",
+      "name": "L 上眼睑",
+      "file": "live2d/x5/actual-layer-candidates/side_upper_lid_L.png",
+      "bounds": [
+        756,
+        141,
+        796,
+        166
+      ],
+      "size": [
+        40,
+        25
+      ],
+      "parent": "EyeSocket_L",
+      "drawOrder": 720,
+      "pivot": "eye_L",
+      "hiddenOverlap": "over iris",
+      "meshDensityZone": "lid arc dense",
+      "elastic": "blink active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 477,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "lower_lid_L",
+      "name": "L 下眼睑",
+      "file": "live2d/x5/actual-layer-candidates/side_lower_lid_L.png",
+      "bounds": [
+        746,
+        195,
+        791,
+        213
+      ],
+      "size": [
+        45,
+        18
+      ],
+      "parent": "EyeSocket_L",
+      "drawOrder": 721,
+      "pivot": "eye_L",
+      "hiddenOverlap": "over iris",
+      "meshDensityZone": "lid arc dense",
+      "elastic": "blink small",
+      "extraction": "source-mask",
+      "alphaPixelCount": 351,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "whisker_L",
+      "name": "左胡须束",
+      "file": "live2d/x5/actual-layer-candidates/side_whisker_L.png",
+      "bounds": [
+        769,
+        226,
+        907,
+        287
+      ],
+      "size": [
+        138,
+        61
+      ],
+      "parent": "Muzzle",
+      "drawOrder": 760,
+      "pivot": "muzzle",
+      "hiddenOverlap": "root under muzzle",
+      "meshDensityZone": "spline endpoints",
+      "elastic": "tip high",
+      "extraction": "source-mask",
+      "alphaPixelCount": 1047,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "side",
+      "id": "whisker_R",
+      "name": "右胡须束",
+      "file": "live2d/x5/actual-layer-candidates/side_whisker_R.png",
+      "bounds": [],
+      "size": [
+        120,
+        90
+      ],
+      "parent": "Muzzle",
+      "drawOrder": 761,
+      "pivot": "muzzle",
+      "hiddenOverlap": "root under muzzle",
+      "meshDensityZone": "spline endpoints",
+      "elastic": "tip high",
+      "extraction": "hidden-fill-placeholder",
+      "alphaPixelCount": 0,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "tail_root_socket",
+      "name": "尾根隐藏插口毛皮",
+      "file": "live2d/x5/actual-layer-candidates/back_tail_root_socket.png",
+      "bounds": [
+        1377,
+        627,
+        1464,
+        736
+      ],
+      "size": [
+        87,
+        109
+      ],
+      "parent": "Pelvis",
+      "drawOrder": 88,
+      "pivot": "tail_root",
+      "hiddenOverlap": "under pelvis and tail_root, +18px safety",
+      "meshDensityZone": "tail-root high density",
+      "elastic": "socket soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 7236,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "tail_base",
+      "name": "尾根段",
+      "file": "live2d/x5/actual-layer-candidates/back_tail_base.png",
+      "bounds": [
+        1377,
+        629,
+        1463,
+        734
+      ],
+      "size": [
+        86,
+        105
+      ],
+      "parent": "TailRoot",
+      "drawOrder": 90,
+      "pivot": "tail_root",
+      "hiddenOverlap": "over tail_root_socket, under tail_mid",
+      "meshDensityZone": "bend fan",
+      "elastic": "root active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 6206,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "tail_mid",
+      "name": "尾中段",
+      "file": "live2d/x5/actual-layer-candidates/back_tail_mid.png",
+      "bounds": [
+        1361,
+        631,
+        1457,
+        809
+      ],
+      "size": [
+        96,
+        178
+      ],
+      "parent": "TailMid",
+      "drawOrder": 95,
+      "pivot": "tail_mid",
+      "hiddenOverlap": "over tail_base, under tail_tip",
+      "meshDensityZone": "two bend bands",
+      "elastic": "medium lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 9585,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "tail_tip",
+      "name": "尾尖段",
+      "file": "live2d/x5/actual-layer-candidates/back_tail_tip.png",
+      "bounds": [
+        1354,
+        757,
+        1431,
+        848
+      ],
+      "size": [
+        77,
+        91
+      ],
+      "parent": "TailTip",
+      "drawOrder": 100,
+      "pivot": "tail_tip",
+      "hiddenOverlap": "over tail_mid",
+      "meshDensityZone": "tip fan",
+      "elastic": "high lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 5041,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "hind_thigh_L",
+      "name": "L 大腿/髋包络",
+      "file": "live2d/x5/actual-layer-candidates/back_hind_thigh_L.png",
+      "bounds": [
+        1503,
+        585,
+        1612,
+        696
+      ],
+      "size": [
+        109,
+        111
+      ],
+      "parent": "Hip_L",
+      "drawOrder": 145,
+      "pivot": "hip_L",
+      "hiddenOverlap": "under pelvis, +20px hip overlap",
+      "meshDensityZone": "hip/knee dense",
+      "elastic": "soft thigh",
+      "extraction": "source-mask",
+      "alphaPixelCount": 6010,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "hind_shin_L",
+      "name": "L 小腿/跗",
+      "file": "live2d/x5/actual-layer-candidates/back_hind_shin_L.png",
+      "bounds": [
+        1568,
+        653,
+        1643,
+        719
+      ],
+      "size": [
+        75,
+        66
+      ],
+      "parent": "Knee_L",
+      "drawOrder": 146,
+      "pivot": "knee_L",
+      "hiddenOverlap": "under thigh and paw",
+      "meshDensityZone": "knee/hock dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2522,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "hind_paw_L",
+      "name": "L 后爪",
+      "file": "live2d/x5/actual-layer-candidates/back_hind_paw_L.png",
+      "bounds": [
+        1555,
+        673,
+        1651,
+        723
+      ],
+      "size": [
+        96,
+        50
+      ],
+      "parent": "Hock_L",
+      "drawOrder": 147,
+      "pivot": "hindpaw_L",
+      "hiddenOverlap": "into shin +14px",
+      "meshDensityZone": "toe arcs",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3292,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "hind_thigh_R",
+      "name": "R 大腿/髋包络",
+      "file": "live2d/x5/actual-layer-candidates/back_hind_thigh_R.png",
+      "bounds": [
+        1256,
+        585,
+        1379,
+        678
+      ],
+      "size": [
+        123,
+        93
+      ],
+      "parent": "Hip_R",
+      "drawOrder": 155,
+      "pivot": "hip_R",
+      "hiddenOverlap": "under pelvis, +20px hip overlap",
+      "meshDensityZone": "hip/knee dense",
+      "elastic": "soft thigh",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4387,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "hind_shin_R",
+      "name": "R 小腿/跗",
+      "file": "live2d/x5/actual-layer-candidates/back_hind_shin_R.png",
+      "bounds": [
+        1229,
+        644,
+        1296,
+        705
+      ],
+      "size": [
+        67,
+        61
+      ],
+      "parent": "Knee_R",
+      "drawOrder": 156,
+      "pivot": "knee_R",
+      "hiddenOverlap": "under thigh and paw",
+      "meshDensityZone": "knee/hock dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2148,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "hind_paw_R",
+      "name": "R 后爪",
+      "file": "live2d/x5/actual-layer-candidates/back_hind_paw_R.png",
+      "bounds": [
+        1180,
+        673,
+        1274,
+        723
+      ],
+      "size": [
+        94,
+        50
+      ],
+      "parent": "Hock_R",
+      "drawOrder": 157,
+      "pivot": "hindpaw_R",
+      "hiddenOverlap": "into shin +14px",
+      "meshDensityZone": "toe arcs",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3256,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "pelvis",
+      "name": "骨盆/臀部",
+      "file": "live2d/x5/actual-layer-candidates/back_pelvis.png",
+      "bounds": [
+        1294,
+        491,
+        1587,
+        740
+      ],
+      "size": [
+        293,
+        249
+      ],
+      "parent": "BodyRoot",
+      "drawOrder": 210,
+      "pivot": "pelvis",
+      "hiddenOverlap": "under abdomen, hips and tail",
+      "meshDensityZone": "medium oval",
+      "elastic": "stable mass",
+      "extraction": "source-mask",
+      "alphaPixelCount": 46086,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "abdomen",
+      "name": "腹部软层",
+      "file": "live2d/x5/actual-layer-candidates/back_abdomen.png",
+      "bounds": [
+        1292,
+        370,
+        1583,
+        691
+      ],
+      "size": [
+        291,
+        321
+      ],
+      "parent": "BodyRoot",
+      "drawOrder": 220,
+      "pivot": "abd",
+      "hiddenOverlap": "under ribcage and pelvis, +24px",
+      "meshDensityZone": "breath grid",
+      "elastic": "breath/settle",
+      "extraction": "source-mask",
+      "alphaPixelCount": 66012,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "ribcage",
+      "name": "胸腔/躯干",
+      "file": "live2d/x5/actual-layer-candidates/back_ribcage.png",
+      "bounds": [
+        1284,
+        254,
+        1599,
+        587
+      ],
+      "size": [
+        315,
+        333
+      ],
+      "parent": "BodyRoot",
+      "drawOrder": 230,
+      "pivot": "rib",
+      "hiddenOverlap": "under neck and forelimbs",
+      "meshDensityZone": "shoulder/contact dense",
+      "elastic": "small breath",
+      "extraction": "source-mask",
+      "alphaPixelCount": 75479,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "neck_fill",
+      "name": "颈部隐藏补全",
+      "file": "live2d/x5/actual-layer-candidates/back_neck_fill.png",
+      "bounds": [
+        1368,
+        242,
+        1513,
+        395
+      ],
+      "size": [
+        145,
+        153
+      ],
+      "parent": "Neck",
+      "drawOrder": 310,
+      "pivot": "neck",
+      "hiddenOverlap": "under head and chest fur",
+      "meshDensityZone": "head-neck seam",
+      "elastic": "low stretch",
+      "extraction": "source-mask",
+      "alphaPixelCount": 17413,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "chest_fur",
+      "name": "胸毛覆盖片",
+      "file": "live2d/x5/actual-layer-candidates/back_chest_fur.png",
+      "bounds": [
+        1350,
+        288,
+        1531,
+        549
+      ],
+      "size": [
+        181,
+        261
+      ],
+      "parent": "Ribcage",
+      "drawOrder": 300,
+      "pivot": "neck",
+      "hiddenOverlap": "over ribcage, under head/muzzle",
+      "meshDensityZone": "fur tips dense",
+      "elastic": "fur lag",
+      "extraction": "source-mask",
+      "alphaPixelCount": 36104,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "scapula_fur_L",
+      "name": "L 肩胛遮挡毛",
+      "file": "live2d/x5/actual-layer-candidates/back_scapula_fur_L.png",
+      "bounds": [
+        1490,
+        320,
+        1607,
+        408
+      ],
+      "size": [
+        117,
+        88
+      ],
+      "parent": "Scapula_L",
+      "drawOrder": 340,
+      "pivot": "shoulder_L",
+      "hiddenOverlap": "over ribcage and upper_arm",
+      "meshDensityZone": "armpit seam",
+      "elastic": "armpit shear",
+      "extraction": "source-mask",
+      "alphaPixelCount": 7528,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "upper_arm_L",
+      "name": "L 上臂",
+      "file": "live2d/x5/actual-layer-candidates/back_upper_arm_L.png",
+      "bounds": [
+        1529,
+        339,
+        1625,
+        425
+      ],
+      "size": [
+        96,
+        86
+      ],
+      "parent": "Shoulder_L",
+      "drawOrder": 350,
+      "pivot": "shoulder_L",
+      "hiddenOverlap": "under scapula, over forearm",
+      "meshDensityZone": "shoulder/elbow dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4025,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "forearm_L",
+      "name": "L 前臂",
+      "file": "live2d/x5/actual-layer-candidates/back_forearm_L.png",
+      "bounds": [
+        1591,
+        385,
+        1664,
+        466
+      ],
+      "size": [
+        73,
+        81
+      ],
+      "parent": "Elbow_L",
+      "drawOrder": 360,
+      "pivot": "elbow_L",
+      "hiddenOverlap": "under upper_arm and paw",
+      "meshDensityZone": "elbow/wrist dense",
+      "elastic": "sleeve soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3355,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "wrist_fur_L",
+      "name": "L 腕毛",
+      "file": "live2d/x5/actual-layer-candidates/back_wrist_fur_L.png",
+      "bounds": [
+        1618,
+        419,
+        1667,
+        467
+      ],
+      "size": [
+        49,
+        48
+      ],
+      "parent": "Wrist_L",
+      "drawOrder": 370,
+      "pivot": "wrist_L",
+      "hiddenOverlap": "over wrist seam",
+      "meshDensityZone": "small fan",
+      "elastic": "soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 1855,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "fore_paw_L",
+      "name": "L 前爪",
+      "file": "live2d/x5/actual-layer-candidates/back_fore_paw_L.png",
+      "bounds": [
+        1594,
+        422,
+        1667,
+        467
+      ],
+      "size": [
+        73,
+        45
+      ],
+      "parent": "Wrist_L",
+      "drawOrder": 380,
+      "pivot": "forepaw_L",
+      "hiddenOverlap": "into wrist +16px",
+      "meshDensityZone": "toe/contact arc",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2370,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "scapula_fur_R",
+      "name": "R 肩胛遮挡毛",
+      "file": "live2d/x5/actual-layer-candidates/back_scapula_fur_R.png",
+      "bounds": [
+        1274,
+        320,
+        1391,
+        411
+      ],
+      "size": [
+        117,
+        91
+      ],
+      "parent": "Scapula_R",
+      "drawOrder": 341,
+      "pivot": "shoulder_R",
+      "hiddenOverlap": "over ribcage and upper_arm",
+      "meshDensityZone": "armpit seam",
+      "elastic": "armpit shear",
+      "extraction": "source-mask",
+      "alphaPixelCount": 8249,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "upper_arm_R",
+      "name": "R 上臂",
+      "file": "live2d/x5/actual-layer-candidates/back_upper_arm_R.png",
+      "bounds": [
+        1256,
+        338,
+        1355,
+        437
+      ],
+      "size": [
+        99,
+        99
+      ],
+      "parent": "Shoulder_R",
+      "drawOrder": 351,
+      "pivot": "shoulder_R",
+      "hiddenOverlap": "under scapula, over forearm",
+      "meshDensityZone": "shoulder/elbow dense",
+      "elastic": "low",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4371,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "forearm_R",
+      "name": "R 前臂",
+      "file": "live2d/x5/actual-layer-candidates/back_forearm_R.png",
+      "bounds": [
+        1211,
+        385,
+        1297,
+        439
+      ],
+      "size": [
+        86,
+        54
+      ],
+      "parent": "Elbow_R",
+      "drawOrder": 361,
+      "pivot": "elbow_R",
+      "hiddenOverlap": "under upper_arm and paw",
+      "meshDensityZone": "elbow/wrist dense",
+      "elastic": "sleeve soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 962,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "wrist_fur_R",
+      "name": "R 腕毛",
+      "file": "live2d/x5/actual-layer-candidates/back_wrist_fur_R.png",
+      "bounds": [
+        1194,
+        419,
+        1235,
+        461
+      ],
+      "size": [
+        41,
+        42
+      ],
+      "parent": "Wrist_R",
+      "drawOrder": 371,
+      "pivot": "wrist_R",
+      "hiddenOverlap": "over wrist seam",
+      "meshDensityZone": "small fan",
+      "elastic": "soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 878,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "fore_paw_R",
+      "name": "R 前爪",
+      "file": "live2d/x5/actual-layer-candidates/back_fore_paw_R.png",
+      "bounds": [
+        1155,
+        422,
+        1229,
+        468
+      ],
+      "size": [
+        74,
+        46
+      ],
+      "parent": "Wrist_R",
+      "drawOrder": 381,
+      "pivot": "forepaw_R",
+      "hiddenOverlap": "into wrist +16px",
+      "meshDensityZone": "toe/contact arc",
+      "elastic": "toe soft",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2428,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "head_base",
+      "name": "头骨/脸底",
+      "file": "live2d/x5/actual-layer-candidates/back_head_base.png",
+      "bounds": [
+        1287,
+        42,
+        1567,
+        386
+      ],
+      "size": [
+        280,
+        344
+      ],
+      "parent": "Neck",
+      "drawOrder": 500,
+      "pivot": "skull",
+      "hiddenOverlap": "under ears, eyes and muzzle",
+      "meshDensityZone": "face oval medium",
+      "elastic": "stable mass",
+      "extraction": "source-mask",
+      "alphaPixelCount": 67308,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "ear_root_L",
+      "name": "左耳根",
+      "file": "live2d/x5/actual-layer-candidates/back_ear_root_L.png",
+      "bounds": [
+        1454,
+        101,
+        1521,
+        172
+      ],
+      "size": [
+        67,
+        71
+      ],
+      "parent": "Head",
+      "drawOrder": 610,
+      "pivot": "ear_L_base",
+      "hiddenOverlap": "under ear face/head fur",
+      "meshDensityZone": "root wedge",
+      "elastic": "root active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3852,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "ear_face_L",
+      "name": "左耳面",
+      "file": "live2d/x5/actual-layer-candidates/back_ear_face_L.png",
+      "bounds": [
+        1458,
+        90,
+        1521,
+        164
+      ],
+      "size": [
+        63,
+        74
+      ],
+      "parent": "EarRoot_L",
+      "drawOrder": 620,
+      "pivot": "ear_L_base",
+      "hiddenOverlap": "over root",
+      "meshDensityZone": "triangle surface",
+      "elastic": "low bend",
+      "extraction": "source-mask",
+      "alphaPixelCount": 2724,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "ear_tip_L",
+      "name": "左耳尖",
+      "file": "live2d/x5/actual-layer-candidates/back_ear_tip_L.png",
+      "bounds": [
+        1453,
+        52,
+        1523,
+        129
+      ],
+      "size": [
+        70,
+        77
+      ],
+      "parent": "EarRoot_L",
+      "drawOrder": 630,
+      "pivot": "ear_L_tip",
+      "hiddenOverlap": "into ear_face +12px",
+      "meshDensityZone": "tip dense",
+      "elastic": "tip high",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3980,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "ear_root_R",
+      "name": "右耳根",
+      "file": "live2d/x5/actual-layer-candidates/back_ear_root_R.png",
+      "bounds": [
+        1342,
+        101,
+        1427,
+        172
+      ],
+      "size": [
+        85,
+        71
+      ],
+      "parent": "Head",
+      "drawOrder": 611,
+      "pivot": "ear_R_base",
+      "hiddenOverlap": "under ear face/head fur",
+      "meshDensityZone": "root wedge",
+      "elastic": "root active",
+      "extraction": "source-mask",
+      "alphaPixelCount": 4731,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "ear_face_R",
+      "name": "右耳面",
+      "file": "live2d/x5/actual-layer-candidates/back_ear_face_R.png",
+      "bounds": [
+        1336,
+        90,
+        1423,
+        165
+      ],
+      "size": [
+        87,
+        75
+      ],
+      "parent": "EarRoot_R",
+      "drawOrder": 621,
+      "pivot": "ear_R_base",
+      "hiddenOverlap": "over root",
+      "meshDensityZone": "triangle surface",
+      "elastic": "low bend",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3173,
+      "qaFlag": null,
+      "candidateOnly": true
+    },
+    {
+      "view": "back",
+      "id": "ear_tip_R",
+      "name": "右耳尖",
+      "file": "live2d/x5/actual-layer-candidates/back_ear_tip_R.png",
+      "bounds": [
+        1357,
+        69,
+        1428,
+        129
+      ],
+      "size": [
+        71,
+        60
+      ],
+      "parent": "EarRoot_R",
+      "drawOrder": 631,
+      "pivot": "ear_R_tip",
+      "hiddenOverlap": "into ear_face +12px",
+      "meshDensityZone": "tip dense",
+      "elastic": "tip high",
+      "extraction": "source-mask",
+      "alphaPixelCount": 3381,
+      "qaFlag": null,
+      "candidateOnly": true
+    }
+  ],
+  "knownRisks": [
+    "Source is a generated spread-pose review image with a white background; alpha extraction is mask-based and must be repainted before final PSD.",
+    "Hidden texture under occluded joints is declared and previewed, but this script cannot create final paint-quality fur reconstruction.",
+    "Back-view face/eye layers are intentionally omitted because they are not visible in the back projection.",
+    "This refines X4/X5 layer candidates only and does not authorize X6."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "stage": "v12-eye-hidden-materials",
+  "source": "source\\masters\\gate3-color-target-v1.png",
+  "lineReference": "source\\masters\\gate3-line-master-candidate-v1.png",
+  "parts": {
+    "画面左眼": {
+      "aperturePixels": 646,
+      "visibleIrisPixels": 72,
+      "visiblePupilPixels": 84,
+      "highlightPixels": 13,
+      "upperLinePixels": 113,
+      "lowerLinePixels": 24
+    },
+    "画面右眼": {
+      "aperturePixels": 634,
+      "visibleIrisPixels": 111,
+      "visiblePupilPixels": 57,
+      "highlightPixels": 9,
+      "upperLinePixels": 147,
+      "lowerLinePixels": 34
+    }
+  },
+  "gazeStressPixels": 3,
+  "defaultCompositeMae": 0.0,
+  "defaultCompositeMaxError": 0,
+  "visiblePixelsRepainted": false,
+  "hiddenIrisFillVisibleInDefault": false,
+  "closedEyeUsedInDefault": false,
+  "psdImport": false,
+  "cubismImport": false,
+  "next": "visual-review_then-psd-import-if-approved"
+}

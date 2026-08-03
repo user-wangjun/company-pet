@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "status": "user_visual_rejected_superseded_in_place",
+  "decisionOwner": "user",
+  "decisionDate": "2026-07-29",
+  "userCorrection": "默认可见手不应一直宽到手链；可见归属线应下移到用户红线，红线上方由前臂覆盖",
+  "rejectedArtifactsBeforeCorrection": [
+    {
+      "path": "../qa/V34-完整手部纯色材料-正式审查图.png",
+      "sha256": "59e824948d57e5e02bfc141c643bfef105cc34366b38bbcd097dfc2aca33ec31"
+    },
+    {
+      "path": "../materials/hand.png",
+      "sha256": "5ce30c2525a0f331ff43b917b3e87940696349f6eda00e693302982c656d54e8"
+    },
+    {
+      "path": "../masks/visible/hand.png",
+      "sha256": "b0a9b6fc3f80c62ced10e73194f5e02614bf6fbba98aa9d22b38b97841683770"
+    },
+    {
+      "path": "../masks/complete/hand.png",
+      "sha256": "0239fc2c0ce123a1299bc9b14b359ad5d3e5f302499522a1f2d79f6e725b2645"
+    },
+    {
+      "path": "machine-report.json",
+      "sha256": "59221c8f257bff787fa173738e0ad357f2c4454a897839246c99ed9e4384346d"
+    }
+  ],
+  "cause": [
+    "the hidden hand root was presented as default-visible hand material",
+    "the review composite placed the hand above the forearm instead of keeping the forearm-owned wrist coverage on top"
+  ],
+  "requiredCorrection": [
+    "move the visible hand ownership boundary to the user-marked lower cap",
+    "keep the hidden hand root behind the forearm",
+    "draw the forearm above the hand and the bracelet above the forearm",
+    "preserve the frozen blue forearm U-cap"
+  ],
+  "frozenUpstreamAffected": false
+}

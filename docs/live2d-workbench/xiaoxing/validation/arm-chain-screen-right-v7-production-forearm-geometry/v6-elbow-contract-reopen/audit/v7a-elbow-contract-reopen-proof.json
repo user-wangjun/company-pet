@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "gate": "V7-A elbow dependency contract reopen",
+  "status": "fail_no_static_source_compatible_candidate",
+  "scope": "contract proof only; no production forearm geometry generated",
+  "frozenDomain": {
+    "elbow": [
+      355.0,
+      415.0
+    ],
+    "wrist": [
+      393.0,
+      533.0
+    ],
+    "L1Px": 155.70806,
+    "L2Px": 123.967738,
+    "theta2RangeDeg": [
+      -27.355943,
+      -3.355943
+    ],
+    "primarySampleCount": 41,
+    "combinationExtremeCount": 6,
+    "denseTheta2SampleCount": 241,
+    "supersampling": 4
+  },
+  "sets": {
+    "A_frozen_proxy": {
+      "pixelCount": 1177,
+      "outsideSourceSupportPixels": 132,
+      "overlapFrozenVisibleUpperPixels": 416
+    },
+    "S_source_support": {
+      "pixelCount": 4357,
+      "meaning": "maximum neutral footprint allowed by the approved source-arm outline"
+    },
+    "M_strict_maximum": {
+      "definition": "S minus frozen visible upper-arm ownership",
+      "pixelCount": 3813,
+      "meaning": "set-theoretic maximum under both source containment and unique ownership"
+    }
+  },
+  "candidateResults": {
+    "frozen_proxy": {
+      "name": "frozen_proxy",
+      "neutralPixelCount": 1177,
+      "neutralConnectedComponents": 1,
+      "neutralPixelsOutsideSourceSupport": 132,
+      "neutralPixelsOverlappingFrozenVisibleUpperOwnership": 416,
+      "forearmLocalSRangePx": [
+        -23.135051524856873,
+        21.989592209469958
+      ],
+      "samples": {
+        "primary41": 41,
+        "combinationExtremes": 6,
+        "denseTheta2": 241,
+        "denseIntervalDeg": 0.1,
+        "allEvaluationsIncludingRepeatedAngles": 288
+      },
+      "maximumMissingResponsibilityPixelsAt4x": 0,
+      "worstGapTheta2Deg": -27.355943,
+      "brokenAdjacencySamples": 0,
+      "maximumInnerBendExposedUpperPixelsAt4x": 0,
+      "worstInnerBendExposureTheta2Deg": -27.355943,
+      "denseSamplesWithInnerBendExposure": 0,
+      "passesCurrentReopenedContract": false
+    },
+    "source_clipped_frozen_proxy": {
+      "name": "source_clipped_frozen_proxy",
+      "neutralPixelCount": 1045,
+      "neutralConnectedComponents": 1,
+      "neutralPixelsOutsideSourceSupport": 0,
+      "neutralPixelsOverlappingFrozenVisibleUpperOwnership": 416,
+      "forearmLocalSRangePx": [
+        -17.423888177716474,
+        21.989592209469958
+      ],
+      "samples": {
+        "primary41": 41,
+        "combinationExtremes": 6,
+        "denseTheta2": 241,
+        "denseIntervalDeg": 0.1,
+        "allEvaluationsIncludingRepeatedAngles": 288
+      },
+      "maximumMissingResponsibilityPixelsAt4x": 0,
+      "worstGapTheta2Deg": -27.355943,
+      "brokenAdjacencySamples": 0,
+      "maximumInnerBendExposedUpperPixelsAt4x": 190,
+      "worstInnerBendExposureTheta2Deg": -4.055942999999999,
+      "denseSamplesWithInnerBendExposure": 241,
+      "passesCurrentReopenedContract": false
+    },
+    "strict_source_and_unique_maximum": {
+      "name": "strict_source_and_unique_maximum",
+      "neutralPixelCount": 3813,
+      "neutralConnectedComponents": 1,
+      "neutralPixelsOutsideSourceSupport": 0,
+      "neutralPixelsOverlappingFrozenVisibleUpperOwnership": 0,
+      "forearmLocalSRangePx": [
+        -3.9365080697803894,
+        144.45693957710492
+      ],
+      "samples": {
+        "primary41": 41,
+        "combinationExtremes": 6,
+        "denseTheta2": 241,
+        "denseIntervalDeg": 0.1,
+        "allEvaluationsIncludingRepeatedAngles": 288
+      },
+      "maximumMissingResponsibilityPixelsAt4x": 0,
+      "worstGapTheta2Deg": -27.355943,
+      "brokenAdjacencySamples": 0,
+      "maximumInnerBendExposedUpperPixelsAt4x": 4569,
+      "worstInnerBendExposureTheta2Deg": -27.355943,
+      "denseSamplesWithInnerBendExposure": 241,
+      "passesCurrentReopenedContract": false
+    },
+    "source_compatible_maximum_with_ownership_reassignment": {
+      "name": "source_compatible_maximum_with_ownership_reassignment",
+      "neutralPixelCount": 4357,
+      "neutralConnectedComponents": 1,
+      "neutralPixelsOutsideSourceSupport": 0,
+      "neutralPixelsOverlappingFrozenVisibleUpperOwnership": 544,
+      "forearmLocalSRangePx": [
+        -18.859745629398667,
+        144.45693957710492
+      ],
+      "samples": {
+        "primary41": 41,
+        "combinationExtremes": 6,
+        "denseTheta2": 241,
+        "denseIntervalDeg": 0.1,
+        "allEvaluationsIncludingRepeatedAngles": 288
+      },
+      "maximumMissingResponsibilityPixelsAt4x": 0,
+      "worstGapTheta2Deg": -27.355943,
+      "brokenAdjacencySamples": 0,
+      "maximumInnerBendExposedUpperPixelsAt4x": 190,
+      "worstInnerBendExposureTheta2Deg": -4.055942999999999,
+      "denseSamplesWithInnerBendExposure": 241,
+      "passesCurrentReopenedContract": false
+    }
+  },
+  "upperBoundProof": {
+    "premise1": "Every neutral source-compatible static forearm candidate P is a subset of S.",
+    "premise2": "For a fixed elbow rotation, rotating a subset preserves subset inclusion: R(P) is a subset of R(S).",
+    "premise3": "At the worst frozen theta2, even R(S), the largest admissible occluder, leaves frozen upper-arm pixels exposed in the V6 inner-bend responsibility zone.",
+    "sourceMaximumWorstTheta2Deg": -4.055942999999999,
+    "sourceMaximumInnerBendExposedUpperPixelsAt4x": 190,
+    "conclusion": "No static production forearm whose neutral footprint remains inside the approved source-arm outline can satisfy the frozen V6 zero-inner-bend-exposure condition over the full frozen theta2 domain."
+  },
+  "earliestInvalidGate": "neutral footprint versus full-domain elbow coverage contract",
+  "requiredScopeChangeBeforeAnyFurtherGeometry": [
+    "revise frozen V6 elbow/upper-arm geometry or ownership",
+    "revise the zero-inner-bend-exposure responsibility definition",
+    "allow an angle-dependent non-rigid elbow solution in a later Cubism gate",
+    "or change another currently frozen constraint such as draw order or motion range"
+  ],
+  "notAuthorizedAndNotPerformed": [
+    "no V4, sleeve, or V6 byte changed",
+    "no complete production forearm geometry",
+    "no texture, PSD, Cubism, Physics, or Runtime",
+    "no motion-range or bone-length reduction"
+  ],
+  "frozenV6ReportedMaximumInnerBendExposureAt4x": 0
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "stage": "X5-actual-xiaoju-overlays",
+  "status": "candidate-for-user-review",
+  "sourceImage": "three-view-preview.png",
+  "sourcePath": "public/pets/xiaoju-cat/three-view-preview.png",
+  "userCorrection": "Preview must be generated on the actual Xiaoju three-view image, not an abstract placeholder cat.",
+  "artifacts": {
+    "layerOverlay": "live2d/x5/qa/x5-actual-xiaoju-layer-overlay.png",
+    "triangulationMomentOverlay": "live2d/x5/qa/x5-actual-xiaoju-triangulation-moment-overlay.png",
+    "reviewComposite": "live2d/x5/qa/x5-actual-xiaoju-review-composite.png"
+  },
+  "gateBoundary": {
+    "currentGate": "x5-layer-mesh-node-torque",
+    "x5MayPassOnlyWithUserApproval": true,
+    "x6Authorized": false,
+    "forbidden": [
+      "PSD import",
+      "Cubism editing",
+      "X6 parameter/keyform finalization",
+      "runtime replacement"
+    ]
+  }
+}

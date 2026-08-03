@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "status": "pass_engineering_candidate_user_visual_approval_required",
+  "files": [
+    {
+      "path": "audit/machine-report.json",
+      "bytes": 2131,
+      "sha256": "335c1a102e4c60e7ff31d9bb95d57e6e5c021376fe96585ccc8a15873afaaba8"
+    },
+    {
+      "path": "candidate-skeleton.json",
+      "bytes": 2695,
+      "sha256": "98ad3196db9108f4b9739e1bf1a32b5a4fdcb819c122fbeb685194db6ec0f2d6"
+    },
+    {
+      "path": "qa/screen-left-shoulder-elbow-static-candidate-overlay.png",
+      "bytes": 490647,
+      "sha256": "9339946d75d68cf209cd646b60546a599e06845b5d4869977b1e710b1aeb4e08"
+    },
+    {
+      "path": "qa/V25-SCREEN-LEFT-SHOULDER-CORRECTION-REVIEW.zh-CN.png",
+      "bytes": 228756,
+      "sha256": "caa27aa0d78004429142ef4dca726738196f58ae0bd8c22921a57faf1c515ca1"
+    },
+    {
+      "path": "tools/build_v25_screen_left_shoulder_candidate.py",
+      "bytes": 12849,
+      "sha256": "e9736b747c597d6838e9450faeeab18336e478062c7d94f11fcd24c23da8d704"
+    }
+  ]
+}

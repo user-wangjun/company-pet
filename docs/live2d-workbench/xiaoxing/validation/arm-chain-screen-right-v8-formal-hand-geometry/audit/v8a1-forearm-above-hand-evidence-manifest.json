@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "v8a1_forearm_above_whole_hand_revalidation",
+  "fileCount": 13,
+  "files": [
+    {
+      "path": "audit/v8a1-user-approval-forearm-above-hand-2026-07-26.json",
+      "sha256": "0b0db16c973bc7e7081194072b5c9b0a9866f3432e15c7370021b97165b36be7",
+      "bytes": 1142
+    },
+    {
+      "path": "audit/v8a1-user-visual-approval-forearm-above-hand-2026-07-26.json",
+      "sha256": "d8d9e9c7af56d6159444ae7770b8c34f8ba42b34d1a3b2a7e2e439e177eedb70",
+      "bytes": 944
+    },
+    {
+      "path": "tools/build_v8a1_forearm_above_hand_revalidation.py",
+      "sha256": "904e071063c66e5ad86df590834f58f3d36dc14b2e44aea39c76f7ef316d684b",
+      "bytes": 31765
+    },
+    {
+      "path": "audit/v8a1-forearm-above-hand-revalidation.json",
+      "sha256": "1704d65a076d4a574f832b6928649e0862f105c164afc0bcd0d239bcf1a775fd",
+      "bytes": 4542
+    },
+    {
+      "path": "audit/v8a1-forearm-above-hand-domain-scans.json",
+      "sha256": "9103da0057ed4205c2d7b8f2388ea5bc7b76fec9757624744707ae58ec06ffdf",
+      "bytes": 120359
+    },
+    {
+      "path": "audit/v8a1-forearm-above-hand-contract.json",
+      "sha256": "13d9a1b74bcb9362ca644145276e1dfbac496a7684170a3104b1de2ee450bc48",
+      "bytes": 865
+    },
+    {
+      "path": "audit/V8-A1-FOREARM-ABOVE-HAND-REVALIDATION.zh-CN.md",
+      "sha256": "005e8260e516a3d5e7d7b8752deb19247cb234473ec4f3b9805dd6c32b3e2258",
+      "bytes": 1560
+    },
+    {
+      "path": "qa/V8-A1-NEUTRAL-DRAW-ORDER-COMPARISON.png",
+      "sha256": "ea53de868fb339b917451541ceed0d757770019c457852014ebdfdd063330dfa",
+      "bytes": 49713
+    },
+    {
+      "path": "qa/V8-A1-FOREARM-ABOVE-HAND-WRIST-THREE-ANGLES.png",
+      "sha256": "d45643497407691609b8b0e7d65bd1b7db13f694a090a41ea527363c64a83aa9",
+      "bytes": 16008
+    },
+    {
+      "path": "qa/V8-A1-BRACELET-HIDDEN-SKIN-SEAM-THREE-ANGLES.png",
+      "sha256": "d7fd8a2bbb43256da95cdc8e9e43d305196528247f9329723668225503213dcc",
+      "bytes": 16947
+    },
+    {
+      "path": "qa/V8-A1-FOREARM-ABOVE-HAND-WRIST-SLOW-SCAN.gif",
+      "sha256": "4dcaf2c308ee9f60279718ce7ad572530653afbfedf36cd833e6ed7c7d643b0f",
+      "bytes": 290370
+    },
+    {
+      "path": "qa/V8-A1-FOREARM-ABOVE-HAND-WRIST-SLOW-SCAN-SAMPLES.png",
+      "sha256": "aaacc246970b38b59118cc1d7d11d4b103ecc76d0e6f922928becaa76859e664",
+      "bytes": 50858
+    },
+    {
+      "path": "qa/V8-A1-FOREARM-ABOVE-HAND-FULL-CHAIN-3X3.png",
+      "sha256": "ce839fee928585523755edfccd15eb0860e65f7e1e30e51af54dc2d3fc254266",
+      "bytes": 25138
+    }
+  ]
+}

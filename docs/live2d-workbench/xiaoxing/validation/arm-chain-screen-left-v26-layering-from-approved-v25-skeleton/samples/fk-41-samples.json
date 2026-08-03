@@ -1,0 +1,945 @@
+[
+  {
+    "index": 0,
+    "progress": 0.0,
+    "theta1Deg": 98.494375789809,
+    "theta2Deg": 5.975918310256901,
+    "wristLocalDeg": 0.0,
+    "elbowPx": [
+      146.99999999999994,
+      405.0
+    ],
+    "wristPx": [
+      114.99999999999991,
+      529.0
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 899,
+      "elbow": 714,
+      "wrist": 471
+    },
+    "seamPass": true
+  },
+  {
+    "index": 1,
+    "progress": 0.006155829702431115,
+    "theta1Deg": 98.54362242742845,
+    "theta2Deg": 6.037476607281212,
+    "wristLocalDeg": 0.018467489107293344,
+    "elbowPx": [
+      146.8676430524386,
+      404.98017424996834
+    ],
+    "wristPx": [
+      114.62789808589616,
+      528.9180572579183
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 899,
+      "elbow": 717,
+      "wrist": 474
+    },
+    "seamPass": true
+  },
+  {
+    "index": 2,
+    "progress": 0.024471741852423234,
+    "theta1Deg": 98.69014972462838,
+    "theta2Deg": 6.220635728781134,
+    "wristLocalDeg": 0.0734152255572697,
+    "elbowPx": [
+      146.47393272679795,
+      404.92051246879595
+    ],
+    "wristPx": [
+      113.52157277383222,
+      528.6708335735518
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 898,
+      "elbow": 722,
+      "wrist": 476
+    },
+    "seamPass": true
+  },
+  {
+    "index": 3,
+    "progress": 0.05449673790581605,
+    "theta1Deg": 98.93034969305553,
+    "theta2Deg": 6.520885689315062,
+    "wristLocalDeg": 0.16349021371744815,
+    "elbowPx": [
+      145.82886342040632,
+      404.8205322980343
+    ],
+    "wristPx": [
+      111.71069564829051,
+      528.2545252978306
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 902,
+      "elbow": 721,
+      "wrist": 476
+    },
+    "seamPass": true
+  },
+  {
+    "index": 4,
+    "progress": 0.09549150281252627,
+    "theta1Deg": 99.25830781230921,
+    "theta2Deg": 6.930833338382164,
+    "wristLocalDeg": 0.2864745084375788,
+    "elbowPx": [
+      144.9488033133589,
+      404.6796588510243
+    ],
+    "wristPx": [
+      109.24381673538376,
+      527.6640234404574
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 905,
+      "elbow": 715,
+      "wrist": 473
+    },
+    "seamPass": true
+  },
+  {
+    "index": 5,
+    "progress": 0.1464466094067262,
+    "theta1Deg": 99.66594866506281,
+    "theta2Deg": 7.440384404324163,
+    "wristLocalDeg": 0.43933982822017864,
+    "elbowPx": [
+      143.85606572922674,
+      404.4975397224512
+    ],
+    "wristPx": [
+      106.18700192945713,
+      526.8946051793031
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 905,
+      "elbow": 722,
+      "wrist": 477
+    },
+    "seamPass": true
+  },
+  {
+    "index": 6,
+    "progress": 0.20610737385376343,
+    "theta1Deg": 100.1432347806391,
+    "theta2Deg": 8.036992048794534,
+    "wristLocalDeg": 0.6183221215612903,
+    "elbowPx": [
+      142.57832022465345,
+      404.27443191314836
+    ],
+    "wristPx": [
+      102.62192112046878,
+      525.944009748477
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 905,
+      "elbow": 722,
+      "wrist": 473
+    },
+    "seamPass": true
+  },
+  {
+    "index": 7,
+    "progress": 0.2730047501302266,
+    "theta1Deg": 100.67841379085081,
+    "theta2Deg": 8.705965811559167,
+    "wristLocalDeg": 0.8190142503906799,
+    "elbowPx": [
+      141.1478566221119,
+      404.0116133582735
+    ],
+    "wristPx": [
+      98.64340936822461,
+      524.8146429711169
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 905,
+      "elbow": 717,
+      "wrist": 475
+    },
+    "seamPass": true
+  },
+  {
+    "index": 8,
+    "progress": 0.3454915028125263,
+    "theta1Deg": 101.25830781230921,
+    "theta2Deg": 9.430833338382165,
+    "wristLocalDeg": 1.0364745084375788,
+    "elbowPx": [
+      139.60072107820693,
+      403.7117671989786
+    ],
+    "wristPx": [
+      94.35655902356433,
+      523.5156310764564
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 900,
+      "elbow": 712,
+      "wrist": 477
+    },
+    "seamPass": true
+  },
+  {
+    "index": 9,
+    "progress": 0.4217827674798845,
+    "theta1Deg": 101.86863792964807,
+    "theta2Deg": 10.193745985055745,
+    "wristLocalDeg": 1.2653483024396537,
+    "elbowPx": [
+      137.97574955487892,
+      403.37928790825924
+    ],
+    "wristPx": [
+      89.87344494538252,
+      522.0644524877265
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 906,
+      "elbow": 707,
+      "wrist": 471
+    },
+    "seamPass": true
+  },
+  {
+    "index": 10,
+    "progress": 0.49999999999999994,
+    "theta1Deg": 102.494375789809,
+    "theta2Deg": 10.975918310256901,
+    "wristLocalDeg": 1.4999999999999998,
+    "elbowPx": [
+      136.31352988742873,
+      403.020464843898
+    ],
+    "wristPx": [
+      85.30962932339565,
+      520.4879161964077
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 907,
+      "elbow": 710,
+      "wrist": 474
+    },
+    "seamPass": true
+  },
+  {
+    "index": 11,
+    "progress": 0.5782172325201153,
+    "theta1Deg": 103.12011364996992,
+    "theta2Deg": 11.758090635458053,
+    "wristLocalDeg": 1.7346516975603459,
+    "elbowPx": [
+      134.6553280428726,
+      402.64351012899647
+    ],
+    "wristPx": [
+      80.78062694732886,
+      518.8223230936064
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 908,
+      "elbow": 710,
+      "wrist": 476
+    },
+    "seamPass": true
+  },
+  {
+    "index": 12,
+    "progress": 0.6545084971874737,
+    "theta1Deg": 103.73044376730878,
+    "theta2Deg": 12.521003282131637,
+    "wristLocalDeg": 1.9635254915624212,
+    "elbowPx": [
+      133.04201624349838,
+      402.25841277976633
+    ],
+    "wristPx": [
+      76.39852684461428,
+      517.1127340250661
+    ],
+    "L1ErrorPx": 5.684341886080802e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 904,
+      "elbow": 701,
+      "wrist": 473
+    },
+    "seamPass": true
+  },
+  {
+    "index": 13,
+    "progress": 0.7269952498697734,
+    "theta1Deg": 104.31033778876719,
+    "theta2Deg": 13.245870808954635,
+    "wristLocalDeg": 2.18098574960932,
+    "elbowPx": [
+      131.51303980568014,
+      401.87661811891473
+    ],
+    "wristPx": [
+      72.2689561395201,
+      515.4113641245187
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 902,
+      "elbow": 700,
+      "wrist": 471
+    },
+    "seamPass": true
+  },
+  {
+    "index": 14,
+    "progress": 0.7938926261462365,
+    "theta1Deg": 104.84551679897889,
+    "theta2Deg": 13.914844571719266,
+    "wristLocalDeg": 2.381677878438709,
+    "elbowPx": [
+      130.10545568825643,
+      401.5105489132185
+    ],
+    "wristPx": [
+      68.48853585087106,
+      513.7752147246537
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 904,
+      "elbow": 697,
+      "wrist": 472
+    },
+    "seamPass": true
+  },
+  {
+    "index": 15,
+    "progress": 0.8535533905932737,
+    "theta1Deg": 105.32280291455518,
+    "theta2Deg": 14.511452216189639,
+    "wristLocalDeg": 2.560660171779821,
+    "elbowPx": [
+      128.85306926076535,
+      401.1730005385143
+    ],
+    "wristPx": [
+      65.14292069357151,
+      512.2631304760839
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 906,
+      "elbow": 699,
+      "wrist": 472
+    },
+    "seamPass": true
+  },
+  {
+    "index": 16,
+    "progress": 0.9045084971874737,
+    "theta1Deg": 105.73044376730878,
+    "theta2Deg": 15.021003282131637,
+    "wristLocalDeg": 2.713525491562421,
+    "elbowPx": [
+      127.78568757059855,
+      400.8764552093253
+    ],
+    "wristPx": [
+      62.3054449603807,
+      510.9325219558114
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 912,
+      "elbow": 696,
+      "wrist": 470
+    },
+    "seamPass": true
+  },
+  {
+    "index": 17,
+    "progress": 0.9455032620941839,
+    "theta1Deg": 106.05840188656246,
+    "theta2Deg": 15.43095093119874,
+    "wristLocalDeg": 2.8365097862825515,
+    "elbowPx": [
+      126.92849861516075,
+      400.63236871899005
+    ],
+    "wristPx": [
+      60.03632612305785,
+      509.8360191125861
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 908,
+      "elbow": 691,
+      "wrist": 470
+    },
+    "seamPass": true
+  },
+  {
+    "index": 18,
+    "progress": 0.9755282581475768,
+    "theta1Deg": 106.29860185498961,
+    "theta2Deg": 15.73120089173267,
+    "wristLocalDeg": 2.9265847744427305,
+    "elbowPx": [
+      126.3015781140731,
+      400.4504865320938
+    ],
+    "wristPx": [
+      58.382319018953055,
+      509.01831898706155
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 909,
+      "elbow": 690,
+      "wrist": 475
+    },
+    "seamPass": true
+  },
+  {
+    "index": 19,
+    "progress": 0.9938441702975689,
+    "theta1Deg": 106.44512915218955,
+    "theta2Deg": 15.91436001323259,
+    "wristLocalDeg": 2.9815325108927064,
+    "elbowPx": [
+      125.91951917887799,
+      400.338244299907
+    ],
+    "wristPx": [
+      57.376676294312375,
+      508.513466459613
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 908,
+      "elbow": 688,
+      "wrist": 470
+    },
+    "seamPass": true
+  },
+  {
+    "index": 20,
+    "progress": 1.0,
+    "theta1Deg": 106.494375789809,
+    "theta2Deg": 15.975918310256901,
+    "wristLocalDeg": 3.0,
+    "elbowPx": [
+      125.79117687109377,
+      400.3003012641203
+    ],
+    "wristPx": [
+      57.03926104715535,
+      508.342765464721
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 908,
+      "elbow": 692,
+      "wrist": 474
+    },
+    "seamPass": true
+  },
+  {
+    "index": 21,
+    "progress": 0.9938441702975689,
+    "theta1Deg": 106.44512915218955,
+    "theta2Deg": 15.91436001323259,
+    "wristLocalDeg": 2.9815325108927064,
+    "elbowPx": [
+      125.91951917887799,
+      400.338244299907
+    ],
+    "wristPx": [
+      57.376676294312375,
+      508.513466459613
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 908,
+      "elbow": 688,
+      "wrist": 470
+    },
+    "seamPass": true
+  },
+  {
+    "index": 22,
+    "progress": 0.9755282581475768,
+    "theta1Deg": 106.29860185498961,
+    "theta2Deg": 15.73120089173267,
+    "wristLocalDeg": 2.9265847744427305,
+    "elbowPx": [
+      126.3015781140731,
+      400.4504865320938
+    ],
+    "wristPx": [
+      58.382319018953055,
+      509.01831898706155
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 909,
+      "elbow": 690,
+      "wrist": 475
+    },
+    "seamPass": true
+  },
+  {
+    "index": 23,
+    "progress": 0.9455032620941839,
+    "theta1Deg": 106.05840188656246,
+    "theta2Deg": 15.43095093119874,
+    "wristLocalDeg": 2.8365097862825515,
+    "elbowPx": [
+      126.92849861516075,
+      400.63236871899005
+    ],
+    "wristPx": [
+      60.03632612305785,
+      509.8360191125861
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 908,
+      "elbow": 691,
+      "wrist": 470
+    },
+    "seamPass": true
+  },
+  {
+    "index": 24,
+    "progress": 0.9045084971874737,
+    "theta1Deg": 105.73044376730878,
+    "theta2Deg": 15.021003282131637,
+    "wristLocalDeg": 2.713525491562421,
+    "elbowPx": [
+      127.78568757059855,
+      400.8764552093253
+    ],
+    "wristPx": [
+      62.3054449603807,
+      510.9325219558114
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 912,
+      "elbow": 696,
+      "wrist": 470
+    },
+    "seamPass": true
+  },
+  {
+    "index": 25,
+    "progress": 0.8535533905932737,
+    "theta1Deg": 105.32280291455518,
+    "theta2Deg": 14.511452216189639,
+    "wristLocalDeg": 2.560660171779821,
+    "elbowPx": [
+      128.85306926076535,
+      401.1730005385143
+    ],
+    "wristPx": [
+      65.14292069357151,
+      512.2631304760839
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 906,
+      "elbow": 699,
+      "wrist": 472
+    },
+    "seamPass": true
+  },
+  {
+    "index": 26,
+    "progress": 0.7938926261462365,
+    "theta1Deg": 104.84551679897889,
+    "theta2Deg": 13.914844571719266,
+    "wristLocalDeg": 2.381677878438709,
+    "elbowPx": [
+      130.10545568825643,
+      401.5105489132185
+    ],
+    "wristPx": [
+      68.48853585087106,
+      513.7752147246537
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 904,
+      "elbow": 697,
+      "wrist": 472
+    },
+    "seamPass": true
+  },
+  {
+    "index": 27,
+    "progress": 0.7269952498697734,
+    "theta1Deg": 104.31033778876719,
+    "theta2Deg": 13.245870808954635,
+    "wristLocalDeg": 2.18098574960932,
+    "elbowPx": [
+      131.51303980568014,
+      401.87661811891473
+    ],
+    "wristPx": [
+      72.2689561395201,
+      515.4113641245187
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 902,
+      "elbow": 700,
+      "wrist": 471
+    },
+    "seamPass": true
+  },
+  {
+    "index": 28,
+    "progress": 0.6545084971874737,
+    "theta1Deg": 103.73044376730878,
+    "theta2Deg": 12.521003282131637,
+    "wristLocalDeg": 1.9635254915624212,
+    "elbowPx": [
+      133.04201624349838,
+      402.25841277976633
+    ],
+    "wristPx": [
+      76.39852684461428,
+      517.1127340250661
+    ],
+    "L1ErrorPx": 5.684341886080802e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 904,
+      "elbow": 701,
+      "wrist": 473
+    },
+    "seamPass": true
+  },
+  {
+    "index": 29,
+    "progress": 0.5782172325201153,
+    "theta1Deg": 103.12011364996992,
+    "theta2Deg": 11.758090635458053,
+    "wristLocalDeg": 1.7346516975603459,
+    "elbowPx": [
+      134.6553280428726,
+      402.64351012899647
+    ],
+    "wristPx": [
+      80.78062694732886,
+      518.8223230936064
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 908,
+      "elbow": 710,
+      "wrist": 476
+    },
+    "seamPass": true
+  },
+  {
+    "index": 30,
+    "progress": 0.49999999999999994,
+    "theta1Deg": 102.494375789809,
+    "theta2Deg": 10.975918310256901,
+    "wristLocalDeg": 1.4999999999999998,
+    "elbowPx": [
+      136.31352988742873,
+      403.020464843898
+    ],
+    "wristPx": [
+      85.30962932339565,
+      520.4879161964077
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 907,
+      "elbow": 710,
+      "wrist": 474
+    },
+    "seamPass": true
+  },
+  {
+    "index": 31,
+    "progress": 0.4217827674798845,
+    "theta1Deg": 101.86863792964807,
+    "theta2Deg": 10.193745985055745,
+    "wristLocalDeg": 1.2653483024396537,
+    "elbowPx": [
+      137.97574955487892,
+      403.37928790825924
+    ],
+    "wristPx": [
+      89.87344494538252,
+      522.0644524877265
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 906,
+      "elbow": 707,
+      "wrist": 471
+    },
+    "seamPass": true
+  },
+  {
+    "index": 32,
+    "progress": 0.3454915028125263,
+    "theta1Deg": 101.25830781230921,
+    "theta2Deg": 9.430833338382165,
+    "wristLocalDeg": 1.0364745084375788,
+    "elbowPx": [
+      139.60072107820693,
+      403.7117671989786
+    ],
+    "wristPx": [
+      94.35655902356433,
+      523.5156310764564
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 900,
+      "elbow": 712,
+      "wrist": 477
+    },
+    "seamPass": true
+  },
+  {
+    "index": 33,
+    "progress": 0.2730047501302266,
+    "theta1Deg": 100.67841379085081,
+    "theta2Deg": 8.705965811559167,
+    "wristLocalDeg": 0.8190142503906799,
+    "elbowPx": [
+      141.1478566221119,
+      404.0116133582735
+    ],
+    "wristPx": [
+      98.64340936822461,
+      524.8146429711169
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 905,
+      "elbow": 717,
+      "wrist": 475
+    },
+    "seamPass": true
+  },
+  {
+    "index": 34,
+    "progress": 0.20610737385376343,
+    "theta1Deg": 100.1432347806391,
+    "theta2Deg": 8.036992048794534,
+    "wristLocalDeg": 0.6183221215612903,
+    "elbowPx": [
+      142.57832022465345,
+      404.27443191314836
+    ],
+    "wristPx": [
+      102.62192112046878,
+      525.944009748477
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 905,
+      "elbow": 722,
+      "wrist": 473
+    },
+    "seamPass": true
+  },
+  {
+    "index": 35,
+    "progress": 0.1464466094067262,
+    "theta1Deg": 99.66594866506281,
+    "theta2Deg": 7.440384404324163,
+    "wristLocalDeg": 0.43933982822017864,
+    "elbowPx": [
+      143.85606572922674,
+      404.4975397224512
+    ],
+    "wristPx": [
+      106.18700192945713,
+      526.8946051793031
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 905,
+      "elbow": 722,
+      "wrist": 477
+    },
+    "seamPass": true
+  },
+  {
+    "index": 36,
+    "progress": 0.09549150281252627,
+    "theta1Deg": 99.25830781230921,
+    "theta2Deg": 6.930833338382164,
+    "wristLocalDeg": 0.2864745084375788,
+    "elbowPx": [
+      144.9488033133589,
+      404.6796588510243
+    ],
+    "wristPx": [
+      109.24381673538376,
+      527.6640234404574
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 5.684341886080802e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 905,
+      "elbow": 715,
+      "wrist": 473
+    },
+    "seamPass": true
+  },
+  {
+    "index": 37,
+    "progress": 0.05449673790581605,
+    "theta1Deg": 98.93034969305553,
+    "theta2Deg": 6.520885689315062,
+    "wristLocalDeg": 0.16349021371744815,
+    "elbowPx": [
+      145.82886342040632,
+      404.8205322980343
+    ],
+    "wristPx": [
+      111.71069564829051,
+      528.2545252978306
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 902,
+      "elbow": 721,
+      "wrist": 476
+    },
+    "seamPass": true
+  },
+  {
+    "index": 38,
+    "progress": 0.024471741852423234,
+    "theta1Deg": 98.69014972462838,
+    "theta2Deg": 6.220635728781134,
+    "wristLocalDeg": 0.0734152255572697,
+    "elbowPx": [
+      146.47393272679795,
+      404.92051246879595
+    ],
+    "wristPx": [
+      113.52157277383222,
+      528.6708335735518
+    ],
+    "L1ErrorPx": 2.842170943040401e-14,
+    "L2ErrorPx": 2.842170943040401e-14,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 898,
+      "elbow": 722,
+      "wrist": 476
+    },
+    "seamPass": true
+  },
+  {
+    "index": 39,
+    "progress": 0.006155829702431115,
+    "theta1Deg": 98.54362242742845,
+    "theta2Deg": 6.037476607281212,
+    "wristLocalDeg": 0.018467489107293344,
+    "elbowPx": [
+      146.8676430524386,
+      404.98017424996834
+    ],
+    "wristPx": [
+      114.62789808589616,
+      528.9180572579183
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 899,
+      "elbow": 717,
+      "wrist": 474
+    },
+    "seamPass": true
+  },
+  {
+    "index": 40,
+    "progress": 0.0,
+    "theta1Deg": 98.494375789809,
+    "theta2Deg": 5.975918310256901,
+    "wristLocalDeg": 0.0,
+    "elbowPx": [
+      146.99999999999994,
+      405.0
+    ],
+    "wristPx": [
+      114.99999999999991,
+      529.0
+    ],
+    "L1ErrorPx": 0.0,
+    "L2ErrorPx": 0.0,
+    "seamOverlapPixels": {
+      "shoulderSleeve": 899,
+      "elbow": 714,
+      "wrist": 471
+    },
+    "seamPass": true
+  }
+]

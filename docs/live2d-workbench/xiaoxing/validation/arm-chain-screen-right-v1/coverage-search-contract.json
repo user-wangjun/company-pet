@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "status": "stage_a_design_candidate",
+  "materialEquation": "M_i = V_i union union_t(T_i(t)^-1(S_i(t))) union joint_disk_i",
+  "prohibitions": [
+    "do not union transformed silhouettes into a large static blob",
+    "do not shrink L1 or L2",
+    "do not reduce the approved angle ranges to make a seam pass",
+    "do not treat joint disks as visible final shapes",
+    "do not use bracelet or sleeve default occlusion as pass evidence"
+  ],
+  "sampling": {
+    "primaryMotionSamples": 41,
+    "includeRequiredCombinationExtremes": true,
+    "coverageSearchStepPx": 0.25,
+    "binaryMaskThreshold": 128
+  },
+  "minimumOverlapSearch": {
+    "method": "increase overlap from zero until every sampled seam responsibility region is covered in inverse-rest coordinates",
+    "perSeam": [
+      "sleeve_to_upper_arm",
+      "upper_arm_to_forearm",
+      "forearm_to_hand"
+    ],
+    "postSearchMarginsPx": {
+      "antialias": 2.0,
+      "plannedMeshDeformation": 3.0
+    },
+    "recordRequired": [
+      "minimum searched overlap",
+      "added antialias margin",
+      "added mesh margin",
+      "worst sample index",
+      "worst combination extreme"
+    ]
+  },
+  "engineeringPassConditions": {
+    "transparentGapPixels": 0,
+    "maxAnalyticBoneLengthErrorPx": 0.01,
+    "maxRenderedEndpointErrorPx": 0.25,
+    "jointConnectivity": "shoulder, elbow, and wrist connected for every sample and combination extreme",
+    "deterministicReturn": "sample 40 equals sample 0 before raster quantization and within 0.25 px after rendering",
+    "detachedComponents": 0,
+    "flippedTriangles": 0
+  },
+  "visualPassConditions": [
+    "Chinese review image approved by the user",
+    "default pose does not alter the authoritative visible silhouette outside the declared bracelet exclusion mask",
+    "displaced-part views expose no hole or oversized circular patch",
+    "motion amplitude matches the approved design rather than a reduced fallback"
+  ],
+  "nextOutputsAfterDesignApproval": [
+    "materials/solid/sleeve.png",
+    "materials/solid/upper_arm.png",
+    "materials/solid/forearm.png",
+    "materials/solid/hand.png",
+    "samples/fk-41-samples.json",
+    "qa/default-recomposition.png",
+    "qa/displaced-parts-review.png",
+    "qa/fk-41-contact-sheet.png",
+    "qa/fk-41-slow-preview.gif",
+    "qa/combined-extremes-review.png",
+    "audit/stage-a-geometry-report.json",
+    "audit/stage-a-geometry-report.md"
+  ]
+}
+
