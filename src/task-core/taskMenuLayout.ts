@@ -73,6 +73,13 @@ function taskMenuLayoutFits(
   layout: TaskMenuLayout,
   context: TaskMenuPlacementContext,
 ): boolean {
+  return getTaskMenuHorizontalOverflow(layout, context) === 0;
+}
+
+function getTaskMenuHorizontalOverflow(
+  layout: TaskMenuLayout,
+  context: TaskMenuPlacementContext,
+): number {
   const position = getWindowPositionForPhysicalPetAnchor(
     context.anchor,
     layout.petViewport,
@@ -80,11 +87,10 @@ function taskMenuLayoutFits(
   );
   const width = Math.round(layout.windowSize.width * context.scaleFactor);
   const workAreaRight = context.workArea.position.x + context.workArea.size.width;
+  const leftOverflow = Math.max(0, context.workArea.position.x - position.x);
+  const rightOverflow = Math.max(0, position.x + width - workAreaRight);
 
-  return (
-    position.x >= context.workArea.position.x &&
-    position.x + width <= workAreaRight
-  );
+  return leftOverflow + rightOverflow;
 }
 
 export function chooseTaskMenuPlacement(
@@ -104,7 +110,13 @@ export function chooseTaskMenuPlacement(
     petVisibleBounds,
     alternatePlacement,
   );
-  return taskMenuLayoutFits(alternateLayout, context)
+  if (taskMenuLayoutFits(alternateLayout, context)) return alternatePlacement;
+
+  // When the pet is close to an edge, both expanded footprints may overflow
+  // slightly. Pick the side that needs the least clamping so the pet does not
+  // jump across the desktop just because the menu opened.
+  return getTaskMenuHorizontalOverflow(alternateLayout, context) <
+    getTaskMenuHorizontalOverflow(preferredLayout, context)
     ? alternatePlacement
     : preferredPlacement;
 }

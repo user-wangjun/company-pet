@@ -176,7 +176,7 @@ export function TaskWorkspace({ database, initialView = "today", initialSelected
       { id: "overdue", label: "过期事项", tasks: overdue },
       { id: "reminding", label: "当前与即将提醒", tasks: upcoming },
       { id: "today", label: "今日待办", tasks: today },
-      { id: "done", label: `今日已完成 · ${completions.length}`, tasks: [], completions, collapsed: true },
+      { id: "done", label: "今日已完成", tasks: [], completions, collapsed: true },
     ];
   }, [database, view]);
   const longTermProgress = useMemo(() => view === "today" ? selectActiveLongTermTasks(database) : [], [database, view]);
@@ -580,7 +580,7 @@ export function TaskWorkspace({ database, initialView = "today", initialSelected
                 return next;
               });
             }}>
-              <summary><span>{section.label}</span><b>{section.tasks.length}</b></summary>
+              <summary><span>{section.label}</span><b>{section.completions?.length ?? section.tasks.length}</b></summary>
               <div>{section.tasks.map(renderTaskCard)}{section.completions?.map(({ entry, task }) => <article className="task-completion-row" key={entry.id}><span>✓</span><div><strong>{task.title}</strong><small>{formatDate(entry.createdAt)} 完成</small></div></article>)}</div>
             </details>
           ))}

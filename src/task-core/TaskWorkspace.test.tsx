@@ -43,7 +43,8 @@ describe("TaskWorkspace", () => {
     const html = renderToStaticMarkup(
       <TaskWorkspace database={completed} onChange={vi.fn()} />,
     );
-    expect(html).toContain("今日已完成 · 1");
+    expect(html).toContain("<summary><span>今日已完成</span><b>1</b></summary>");
+    expect(html).not.toContain("今日已完成 · 1");
     expect(html).toContain("每日复盘");
   });
 
@@ -59,6 +60,7 @@ describe("TaskWorkspace", () => {
     expect(html).toContain("自定义");
     expect(html).toContain("后台提醒");
     expect(html).toContain("这些数据只保存在本机");
+    expect(html).not.toContain("聊天 Provider");
   });
 
   it("groups long-term milestones under their parent card", () => {

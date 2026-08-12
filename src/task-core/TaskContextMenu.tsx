@@ -112,7 +112,7 @@ export function TaskContextMenu(props: Props) {
       <span className="pet-task-menu-divider" role="presentation" />
       <button className="is-muted" role="menuitem" type="button" onClick={choose(props.onOpenSettings)}>
         <MenuIcon name="settings" />
-        <span>设置</span>
+        <span>提醒设置</span>
       </button>
       <button className="is-muted" role="menuitem" type="button" onClick={choose(props.onHidePet)}>
         <MenuIcon name="hide" />

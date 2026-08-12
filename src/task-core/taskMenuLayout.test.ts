@@ -54,4 +54,21 @@ describe("task context menu layout", () => {
       }),
     ).toBe("left");
   });
+
+  test("chooses the side with less edge overflow when neither footprint fully fits", () => {
+    const compactPetViewport = { x: -32, y: -100, width: 165, height: 215 };
+    const anchor = getPhysicalPetAnchor(
+      { x: 1795, y: 900 },
+      compactPetViewport,
+      1,
+    );
+
+    expect(
+      chooseTaskMenuPlacement(petVisibleBounds, {
+        anchor,
+        scaleFactor: 1,
+        workArea: { position: { x: 0, y: 0 }, size: { width: 1920, height: 1040 } },
+      }),
+    ).toBe("left");
+  });
 });

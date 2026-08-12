@@ -21,7 +21,7 @@ describe("TaskContextMenu", () => {
     expect(html).toContain("新建任务");
     expect(html).toContain("陪我聊聊");
     expect(html).toContain("快捷提醒");
-    expect(html).toContain("设置");
+    expect(html).toContain("提醒设置");
     expect(html).toContain("暂时隐藏桌宠");
   });
 });
