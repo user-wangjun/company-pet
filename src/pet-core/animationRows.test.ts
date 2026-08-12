@@ -19,4 +19,22 @@ describe("runtime animation row mapping", () => {
       { x: 576, y: 624, width: 192, height: 208 },
     ]);
   });
+
+  test("maps the xiaoju 24-frame production strips to row zero", () => {
+    const spec: PetAnimationSpec = {
+      row: 0,
+      frames: 24,
+      speed: 0.96,
+      loop: false,
+      visualClass: "ordinary",
+      scale: 0.84,
+      spritesheetPath: "tickle-24.png",
+    };
+
+    const rects = buildAnimationFrameRects(spec, 192, 208);
+
+    expect(rects).toHaveLength(24);
+    expect(rects[0]).toEqual({ x: 0, y: 0, width: 192, height: 208 });
+    expect(rects[23]).toEqual({ x: 4416, y: 0, width: 192, height: 208 });
+  });
 });

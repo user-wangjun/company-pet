@@ -15,14 +15,14 @@ describe("pet interaction playback plans", () => {
       {
         animation: "fishChase",
         startAfterMs: 0,
-        durationMs: 950,
+        durationMs: 2000,
         sound: "fishChase",
         dialogueEvent: "doubleClick",
       },
       {
         animation: "fishEat",
-        startAfterMs: 950,
-        durationMs: 1300,
+        startAfterMs: 2000,
+        durationMs: 2500,
         sound: "fishEat",
         dialogueEvent: "doubleClick",
       },

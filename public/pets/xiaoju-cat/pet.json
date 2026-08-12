@@ -10,15 +10,15 @@
   "taskFeedbackPath": "task-feedback.json",
   "threeViewPreviewPath": "three-view-preview.png",
   "animations": {
-    "idle": { "row": 0, "frames": 6, "speed": 0.05, "loop": true, "visualClass": "pose-change", "scale": 1 },
-    "dragRight": { "row": 1, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "ordinary", "scale": 0.83 },
-    "dragLeft": { "row": 2, "frames": 8, "speed": 0.2, "loop": true, "visualClass": "ordinary", "scale": 0.83 },
-    "tickle": { "row": 3, "frames": 4, "speed": 0.16, "loop": false, "visualClass": "ordinary", "scale": 0.84 },
-    "crouchAlert": { "row": 4, "frames": 5, "speed": 0.12, "loop": false, "visualClass": "pose-change", "scale": 1.08 },
+    "idle": { "row": 0, "frames": 24, "speed": 0.09, "loop": true, "visualClass": "pose-change", "scale": 1, "spritesheetPath": "idle-24.png" },
+    "dragRight": { "row": 0, "frames": 24, "speed": 0.175, "loop": true, "visualClass": "ordinary", "scale": 0.83, "spritesheetPath": "drag-right-24.png" },
+    "dragLeft": { "row": 0, "frames": 24, "speed": 0.175, "loop": true, "visualClass": "ordinary", "scale": 0.83, "spritesheetPath": "drag-left-24.png" },
+    "tickle": { "row": 0, "frames": 24, "speed": 0.96, "loop": false, "visualClass": "ordinary", "scale": 0.84, "spritesheetPath": "tickle-24.png" },
+    "crouchAlert": { "row": 0, "frames": 24, "speed": 0.576, "loop": false, "visualClass": "pose-change", "scale": 1.08, "spritesheetPath": "crouch-alert-24.png" },
     "hugFish": { "row": 5, "frames": 8, "speed": 0.12, "loop": true, "visualClass": "ordinary", "scale": 0.86 },
     "gnawFish": { "row": 6, "frames": 6, "speed": 0.14, "loop": false, "visualClass": "ordinary", "scale": 0.86 },
-    "fishChase": { "row": 7, "frames": 6, "speed": 0.18, "loop": true, "visualClass": "pose-change", "scale": 1 },
-    "fishEat": { "row": 8, "frames": 6, "speed": 0.14, "loop": false, "visualClass": "ordinary", "scale": 0.84 },
+    "fishChase": { "row": 0, "frames": 24, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1, "spritesheetPath": "fish-chase-24.png" },
+    "fishEat": { "row": 0, "frames": 24, "speed": 0.16, "loop": false, "visualClass": "ordinary", "scale": 0.84, "spritesheetPath": "fish-eat-24.png" },
     "iconHug": {
       "row": 0,
       "frames": 6,
@@ -34,17 +34,29 @@
     "singleClick": { "animation": "tickle", "durationMs": 1000, "sound": "tickle", "dialogueEvent": "singleClick" },
     "doubleClick": {
       "sequence": [
-        { "animation": "fishChase", "startAfterMs": 0, "durationMs": 950, "sound": "fishChase", "dialogueEvent": "doubleClick" },
-        { "animation": "fishEat", "startAfterMs": 950, "durationMs": 1300, "sound": "fishEat", "dialogueEvent": "doubleClick" }
+        { "animation": "fishChase", "startAfterMs": 0, "durationMs": 2000, "sound": "fishChase", "dialogueEvent": "doubleClick" },
+        { "animation": "fishEat", "startAfterMs": 2000, "durationMs": 2500, "sound": "fishEat", "dialogueEvent": "doubleClick" }
       ]
     },
-    "drag": { "directionMode": "rows", "right": "dragRight", "left": "dragLeft", "landingHoldMs": 900 },
+    "drag": {
+      "directionMode": "rows",
+      "right": "dragRight",
+      "left": "dragLeft",
+      "takeoffStartFrame": 0,
+      "takeoffFrameCount": 6,
+      "loopStartFrame": 6,
+      "loopFrameCount": 12,
+      "landingStartFrame": 18,
+      "landingFrameCount": 6,
+      "landingTransitionSpeed": 0.14,
+      "landingHoldMs": 900
+    },
     "hover": {
       "enabled": true,
       "action": {
         "sequence": [
-          { "animation": "fishChase", "startAfterMs": 0, "durationMs": 950, "sound": "fishChase" },
-          { "animation": "fishEat", "startAfterMs": 950, "durationMs": 1300, "sound": "fishEat" }
+          { "animation": "fishChase", "startAfterMs": 0, "durationMs": 2000, "sound": "fishChase" },
+          { "animation": "fishEat", "startAfterMs": 2000, "durationMs": 2500, "sound": "fishEat" }
         ]
       }
     },
@@ -64,7 +76,7 @@
       { "animation": "fishEat", "durationMs": 2500, "sound": "fishEat", "bubbleText": "（砸嘴）……梦见超大金枪鱼了喵 🐟" },
       { "animation": "tickle", "durationMs": 2000, "sound": "idle", "bubbleText": "（幸福地翻个身）~ 换个姿势继续睡喵…… 🐾" },
       { "animation": "tickle", "durationMs": 2000, "sound": "idle", "bubbleText": "（亲昵地蹭了蹭）……主人工作辛苦啦，小橘陪着你喵 💤" },
-      { "animation": "crouchAlert", "durationMs": 2500, "sound": "crouchAlert", "bubbleText": "（趴下警觉喵喵叫）~ 好像有大鱼的气味？🐾" },
+      { "animation": "crouchAlert", "durationMs": 2500, "sound": "idle", "bubbleText": "（抬耳探看）~ 小橘听见啦，慢慢来喵 🐾" },
       { "animation": "hugFish", "durationMs": 3000, "sound": "hugFish", "bubbleText": "（抱着小鱼撒娇）~ 嘿嘿，这只小鱼是橘橘的宝贝！🐟" },
       { "animation": "gnawFish", "durationMs": 2500, "sound": "gnawFish", "bubbleText": "（美滋滋地坐着嚼鱼）~ 金枪鱼味儿的玩具鱼，真香！🐾" }
     ]

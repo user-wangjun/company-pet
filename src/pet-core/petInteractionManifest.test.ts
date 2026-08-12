@@ -339,7 +339,9 @@ describe("pet interaction manifests", () => {
     [
       "takeoffFrame out of range",
       (drag: Record<string, unknown>) => {
-        drag.takeoffFrame = 8;
+        delete drag.takeoffStartFrame;
+        delete drag.takeoffFrameCount;
+        drag.takeoffFrame = 24;
       },
       "Frame index out of range at interactions.drag.takeoffFrame",
     ],
@@ -376,8 +378,8 @@ describe("pet interaction manifests", () => {
     [
       "loop lifecycle exceeds frames",
       (drag: Record<string, unknown>) => {
-        drag.loopStartFrame = 4;
-        drag.loopFrameCount = 5;
+        drag.loopStartFrame = 22;
+        drag.loopFrameCount = 3;
       },
       "Drag loop exceeds animation frames at interactions.drag.loopFrameCount",
     ],
@@ -564,8 +566,67 @@ describe("pet interaction manifests", () => {
   });
 
   test("declares effective frame counts instead of transparent cells", () => {
-    expect(resolve(xiaoju).animations.tickle.frames).toBe(4);
-    expect(resolve(xiaoju).animations.fishChase.frames).toBe(6);
+    const resolved = resolve(xiaoju);
+
+    expect(resolved.animations.idle).toMatchObject({
+      row: 0,
+      frames: 24,
+      speed: 0.09,
+      loop: true,
+      visualClass: "pose-change",
+      scale: 1,
+      spritesheetPath: "idle-24.png",
+    });
+    expect(resolved.animations.tickle).toMatchObject({
+      row: 0,
+      frames: 24,
+      speed: 0.96,
+      loop: false,
+      visualClass: "ordinary",
+      scale: 0.84,
+      spritesheetPath: "tickle-24.png",
+    });
+    expect(resolved.animations.crouchAlert).toMatchObject({
+      row: 0,
+      frames: 24,
+      speed: 0.576,
+      loop: false,
+      visualClass: "pose-change",
+      scale: 1.08,
+      spritesheetPath: "crouch-alert-24.png",
+    });
+    expect(resolved.singleClick).toMatchObject({
+      animation: "tickle",
+      durationMs: 1000,
+    });
+    expect(resolved.idleQuirks.filter((quirk) => quirk.animation === "tickle")).toHaveLength(2);
+    expect(resolved.idleQuirks.filter((quirk) => quirk.animation === "tickle").every((quirk) => quirk.durationMs === 2000)).toBe(true);
+    expect(resolved.idleQuirks.filter((quirk) => quirk.animation === "crouchAlert")).toHaveLength(1);
+    expect(resolved.idleQuirks.find((quirk) => quirk.animation === "crouchAlert")?.durationMs).toBe(2500);
+    expect(resolved.animations.fishChase.frames).toBe(24);
+    expect(resolved.animations.fishEat.frames).toBe(24);
+  });
+
+  test("declares xiaoju's 24-frame drag lifecycle", () => {
+    const resolved = resolve(xiaoju);
+
+    expect(resolved.animations.dragRight).toMatchObject({
+      frames: 24,
+      spritesheetPath: "drag-right-24.png",
+    });
+    expect(resolved.animations.dragLeft).toMatchObject({
+      frames: 24,
+      spritesheetPath: "drag-left-24.png",
+    });
+    expect(resolved.drag).toMatchObject({
+      takeoffStartFrame: 0,
+      takeoffFrameCount: 6,
+      loopStartFrame: 6,
+      loopFrameCount: 12,
+      landingStartFrame: 18,
+      landingFrameCount: 6,
+      landingTransitionSpeed: 0.14,
+    });
   });
 
   test("declares real left and right drag rows where available", () => {
@@ -608,7 +669,7 @@ describe("pet interaction manifests", () => {
       "（砸嘴）……梦见超大金枪鱼了喵 🐟",
       "（幸福地翻个身）~ 换个姿势继续睡喵…… 🐾",
       "（亲昵地蹭了蹭）……主人工作辛苦啦，小橘陪着你喵 💤",
-      "（趴下警觉喵喵叫）~ 好像有大鱼的气味？🐾",
+      "（抬耳探看）~ 小橘听见啦，慢慢来喵 🐾",
       "（抱着小鱼撒娇）~ 嘿嘿，这只小鱼是橘橘的宝贝！🐟",
       "（美滋滋地坐着嚼鱼）~ 金枪鱼味儿的玩具鱼，真香！🐾",
     ]);

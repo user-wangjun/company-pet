@@ -2913,34 +2913,54 @@ function DesktopPetApp() {
     const frames = animations[animationName];
     if (!frames) return null;
 
-    const hasPlan =
-      drag.takeoffFrame !== undefined &&
-      drag.loopStartFrame !== undefined &&
-      drag.loopFrameCount !== undefined &&
+    const hasTakeoffRange =
+      drag.takeoffStartFrame !== undefined &&
+      drag.takeoffFrameCount !== undefined;
+    const hasTakeoffFrame = drag.takeoffFrame !== undefined;
+    const hasLandingRange =
+      drag.landingStartFrame !== undefined &&
+      drag.landingFrameCount !== undefined;
+    const hasLandingFrames =
       drag.landingApproachFrame !== undefined &&
       drag.landingFrame !== undefined;
+    const hasPlan =
+      (hasTakeoffRange || hasTakeoffFrame) &&
+      drag.loopStartFrame !== undefined &&
+      drag.loopFrameCount !== undefined &&
+      (hasLandingRange || hasLandingFrames);
     if (!hasPlan) return null;
 
-    const takeoffFrame = frames[drag.takeoffFrame!];
+    const takeoffFrames = hasTakeoffRange
+      ? frames.slice(
+          drag.takeoffStartFrame!,
+          drag.takeoffStartFrame! + drag.takeoffFrameCount!,
+        )
+      : [frames[drag.takeoffFrame!]];
     const loopFrames = frames.slice(
       drag.loopStartFrame!,
       drag.loopStartFrame! + drag.loopFrameCount!,
     );
-    const landingFrames = [
-      frames[drag.landingApproachFrame!],
-      frames[drag.landingFrame!],
-    ];
+    const landingFrames = hasLandingRange
+      ? frames.slice(
+          drag.landingStartFrame!,
+          drag.landingStartFrame! + drag.landingFrameCount!,
+        )
+      : [
+          frames[drag.landingApproachFrame!],
+          frames[drag.landingFrame!],
+        ];
 
     if (
-      !takeoffFrame ||
+      takeoffFrames.some((frame) => frame === undefined) ||
       loopFrames.length !== drag.loopFrameCount ||
+      landingFrames.length === 0 ||
       landingFrames.some((frame) => frame === undefined)
     ) {
       return null;
     }
 
     return {
-      takeoffFrame,
+      takeoffFrames: takeoffFrames as Texture[],
       loopFrames,
       frames,
       landingFrames: landingFrames as Texture[],
@@ -2965,7 +2985,7 @@ function DesktopPetApp() {
     markAnimationState(animationName);
     sprite.onComplete = undefined;
     sprite.textures = includeTakeoff
-      ? [plan.takeoffFrame, ...plan.loopFrames]
+      ? [...plan.takeoffFrames, ...plan.loopFrames]
       : plan.loopFrames;
     sprite.animationSpeed = spec.speed;
     sprite.loop = !includeTakeoff;

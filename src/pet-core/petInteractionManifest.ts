@@ -41,10 +41,14 @@ export type PetDragSpec = {
   right: string;
   left: string;
   takeoffFrame?: number;
+  takeoffStartFrame?: number;
+  takeoffFrameCount?: number;
   loopStartFrame?: number;
   loopFrameCount?: number;
   landingApproachFrame?: number;
   landingFrame?: number;
+  landingStartFrame?: number;
+  landingFrameCount?: number;
   landingTransitionSpeed?: number;
   landingHoldMs?: number;
 };
@@ -589,6 +593,76 @@ function parseDrag(
     | "landingFrame"
   >;
 
+  const takeoffStartFrame = parseOptionalNumber(
+    source.takeoffStartFrame,
+    "interactions.drag.takeoffStartFrame",
+    requireNonNegativeInteger,
+  );
+  const takeoffFrameCount = parseOptionalNumber(
+    source.takeoffFrameCount,
+    "interactions.drag.takeoffFrameCount",
+    requirePositiveInteger,
+  );
+  const landingStartFrame = parseOptionalNumber(
+    source.landingStartFrame,
+    "interactions.drag.landingStartFrame",
+    requireNonNegativeInteger,
+  );
+  const landingFrameCount = parseOptionalNumber(
+    source.landingFrameCount,
+    "interactions.drag.landingFrameCount",
+    requirePositiveInteger,
+  );
+
+  if (
+    (takeoffStartFrame === undefined) !==
+    (takeoffFrameCount === undefined)
+  ) {
+    throw new Error(
+      "Expected both interactions.drag.takeoffStartFrame and interactions.drag.takeoffFrameCount",
+    );
+  }
+  if (
+    takeoffStartFrame !== undefined &&
+    takeoffFrameCount !== undefined &&
+    takeoffStartFrame + takeoffFrameCount > frameCount
+  ) {
+    throw new Error(
+      "Drag takeoff range exceeds animation frames at interactions.drag.takeoffFrameCount",
+    );
+  }
+  if (takeoffStartFrame !== undefined && frames.takeoffFrame !== undefined) {
+    throw new Error(
+      "Cannot combine interactions.drag.takeoffFrame with takeoffStartFrame/takeoffFrameCount",
+    );
+  }
+
+  if (
+    (landingStartFrame === undefined) !==
+    (landingFrameCount === undefined)
+  ) {
+    throw new Error(
+      "Expected both interactions.drag.landingStartFrame and interactions.drag.landingFrameCount",
+    );
+  }
+  if (
+    landingStartFrame !== undefined &&
+    landingFrameCount !== undefined &&
+    landingStartFrame + landingFrameCount > frameCount
+  ) {
+    throw new Error(
+      "Drag landing range exceeds animation frames at interactions.drag.landingFrameCount",
+    );
+  }
+  if (
+    landingStartFrame !== undefined &&
+    (frames.landingApproachFrame !== undefined || frames.landingFrame !== undefined)
+  ) {
+    throw new Error(
+      "Cannot combine landingApproachFrame/landingFrame with landingStartFrame/landingFrameCount",
+    );
+  }
+
   const loopFrameCount =
     source.loopFrameCount === undefined
       ? undefined
@@ -622,7 +696,11 @@ function parseDrag(
     right,
     left,
     ...frames,
+    takeoffStartFrame,
+    takeoffFrameCount,
     loopFrameCount,
+    landingStartFrame,
+    landingFrameCount,
     landingTransitionSpeed: parseOptionalNumber(
       source.landingTransitionSpeed,
       "interactions.drag.landingTransitionSpeed",
