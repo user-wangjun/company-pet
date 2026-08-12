@@ -56,7 +56,7 @@ describe("createLatestWindowLayoutScheduler", () => {
     });
     finishFirst();
 
-    await expect(first).resolves.toBe(true);
+    await expect(first).resolves.toBe(false);
     await expect(stale).resolves.toBe(false);
     await expect(latest).resolves.toBe(true);
     expect(calls).toEqual(["first:start", "first:end", "latest"]);
@@ -71,6 +71,34 @@ describe("createLatestWindowLayoutScheduler", () => {
       }),
     ).rejects.toThrow("resize failed");
     await expect(scheduler.schedule(async () => {})).resolves.toBe(true);
+  });
+
+  it("marks an in-flight layout stale when a newer request is scheduled", async () => {
+    let finishFirst = () => {};
+    let announceFirstStarted = () => {};
+    const firstStarted = new Promise<void>((resolve) => {
+      announceFirstStarted = resolve;
+    });
+    const calls: string[] = [];
+    const scheduler = createLatestWindowLayoutScheduler();
+    const first = scheduler.schedule(async (isLatest) => {
+      calls.push("first:start");
+      announceFirstStarted();
+      await new Promise<void>((resolve) => {
+        finishFirst = resolve;
+      });
+      calls.push(isLatest() ? "first:latest" : "first:stale");
+    });
+
+    await firstStarted;
+    const latest = scheduler.schedule(async (isLatest) => {
+      calls.push(isLatest() ? "latest" : "latest:stale");
+    });
+    finishFirst();
+
+    await expect(first).resolves.toBe(false);
+    await expect(latest).resolves.toBe(true);
+    expect(calls).toEqual(["first:start", "first:stale", "latest"]);
   });
 });
 

@@ -1,14 +1,14 @@
-# Agent Memory / Soul / Task To-do
+# 陪伴型桌宠 Agent / Memory / Task To-do
 
-> 状态：阶段 0.1--6 的本地边界已实现并重验；聊天入口已接入，内置 App 固定本地 Provider；云端同步和远程 Key 配置仍未接入
+> 状态：阶段 0.1--7 的本地边界已实现并重验；原阶段 8--11 路线已于 2026-08-11 被 [Companion Harness V1 TODO](companion-harness-todo.md) 整体替代
 >
 > 研究依据：`D:\Users\Downloads\deep-research-report.md`
 >
-> 目标：把 Memory、Soul、Search、Task 和主动陪伴拆成可独立验收的阶段，避免一次性引入云端数据库、向量库、多 Agent 和复杂调度系统。
+> 目标：把当前桌宠升级成由单个活跃宠物承载的陪伴型 Agent。它可以对话、记住用户明确允许的低风险信息、协助管理任务并克制地主动陪伴；Provider 只是可替换的模型能力层，不能与 Gemini 或任何单一厂商绑定。
 
 ## 进度快照
 
-验收日期：2026-08-03
+验收日期：2026-08-10
 
 | 阶段 | 状态 | 证据 / 说明 |
 |---|---|---|
@@ -20,14 +20,28 @@
 | 阶段 4：主动触发与多宠物交付 | ✅ 已验收 | 无标题控制语句已绑定最近主动投递上下文；非当前宠物目标采用显式切换，相关测试和全量验证通过 |
 | 阶段 5：本地持久化与云端迁移准备 | ✅ 本地范围已验收 | Task 与 Memory 已迁移到 Provider 无关本地 Repository；Outbox、Tombstone、删除优先守卫、损坏 journal 和写入失败恢复已验证；云端能力未实现 |
 | 阶段 6：规模化进入条件与同步契约硬化 | ✅ 本地范围评估完成 | `docs/agent-memory-scale-readiness.md`；fixture 性能/恢复证据通过；云端、向量库和队列 No-Go |
+| 阶段 7：Provider 中立化 | ✅ 已验收 | Provider Profile、协议和 Adapter 已拆开；Gemini 只是 `gemini-native` Adapter，当前不实现 Harness；完整测试、构建、Rust 检查和真实设置 UI 验证通过 |
+| 原阶段 8：单 Agent Harness | ↪ 已被替代 | 历史方案；当前唯一实施入口见 [Companion Harness V1 TODO](companion-harness-todo.md) |
+| 原阶段 9：陪伴工具与权限 | ↪ 已被替代 | 历史方案；V1 不实施 Tool Registry / Tool Loop，当前清单见 [Companion Harness V1 TODO](companion-harness-todo.md) |
+| 原阶段 10：桌宠体验接入 | ↪ 已被替代 | 历史方案；App 接线与旧分支收敛改由 [Companion Harness V1 TODO](companion-harness-todo.md) 定义 |
+| 原阶段 11：端到端验收 | ↪ 已被替代 | 历史方案；V1 评测与发布门禁改由 [Companion Harness V1 TODO](companion-harness-todo.md) 定义 |
 
-## 2026-08-03 审计修复记录
+## 2026-08-10 当前审计结论
+
+- 已有可复用底座：聊天状态机、Soul/Context、Preference、Memory、Task、主动提醒规则、Provider 接口、本地 Repository 和隐私过滤。
+- 当前聊天仍是“本地固定路由执行领域操作，普通文本再交给 Provider”；模型没有获得工具清单，也没有 `tool call -> tool result -> 下一步/final` 的运行循环，因此还不能称为 Agent Harness。
+- 当前工作区已经加入 Provider 设置 UI、连接测试、失败回退和 Tauri Keyring 安全存储；阶段 7 已在这些未提交改动上原地收敛，并保留旧配置/凭据读取。
+- 阶段 7 将 `CompanionProviderId` 变为可校验的稳定字符串，Profile 再单独持有 `protocol`、`endpoint`、`model` 和 `credentialRef`；Gemini、OpenAI-compatible、本地模型或未来其他协议都只是 Adapter。
+- 2026-08-10 阶段 7 最终验证：`npm test -- --reporter=dot` 为 63 个测试文件、588/588 通过；`npm run build`、`cargo test --manifest-path src-tauri/Cargo.toml`（12/12）、`cargo check --manifest-path src-tauri/Cargo.toml` 和 `git diff --check` 均通过；本地应用设置页已完成普通尺寸与 2× 显示尺寸真实截图验证。
+- 下一实施入口固定为 [Companion Harness V1 TODO](companion-harness-todo.md) Phase 1；本文件原阶段 8--11 仅保留历史背景，不再领取任务。不得把阶段 7 的 Provider 合同扩展成 Harness 领域合同、Tool Registry 或 Tool Call 循环。
+
+## 2026-08-03 历史审计修复记录
 
 - 敏感边界补齐无标签的健康自述、用药、中文/英文地址形状，并保留密码策略、医疗科普等无具体数据讨论的误报回归测试；当前输入、历史、Preference、Memory、Task、Soul、平台策略和 Outbox 继续共用 fail-closed 规则。
 - Repository 增加最小删除守卫。主记录、Outbox、同步计数器、journal 清理中断、损坏 journal 和回滚再次失败时，Memory/Task 均不会把已删除事实或提醒重新暴露。
 - `writeTaskDatabase` 现在返回真实成功结果；App 和 TaskWorkspace 只在写入成功后更新 UI、显示成功反馈、关闭提醒或清理动作。失败只显示通用重试提示。
 - `ignoredStreak` 不再在每次投递时清零；已用真实的“投递 → 忽略 → 投递 → 忽略 → 评估”序列验证退避。
-- 聊天入口为现有右键任务菜单中的“陪我聊聊”，并支持 650ms 内右键双击快捷打开；左键点击、双击和拖拽路径不承担聊天入口职责。打开时先解析 Provider 信息；内置 App 无 Key，固定本地，不做云端同步或远程持久化。远程 Provider 失败时允许一次本地降级并披露状态。
+- 聊天入口为现有右键任务菜单中的“陪我聊聊”，并支持 650ms 内右键双击快捷打开；左键点击、双击和拖拽路径不承担聊天入口职责。当前设置可主动选择本地或远程 Profile；不做云端同步或远程持久化。远程 Provider 失败时允许一次本地降级并披露状态。
 
 ## 2026-08-03 当前完整验证
 
@@ -51,7 +65,7 @@
 | 能力 | 当前代码线索 | 处理方式 |
 |---|---|---|
 | 气泡聊天状态机 | `src/pet-core/companionChatRuntime.ts` | 在其上扩展，不重写交互状态机 |
-| 本地 / Gemini Provider | `src/pet-core/companionChatProvider.ts` | 保持 Provider 接口，Memory 不绑定某个模型供应商 |
+| Provider 适配层（当前本地 / Gemini 实现） | `src/pet-core/companionChatProvider.ts` | 迁移到供应商中立合同；Gemini 仅作为 Adapter，Memory/Task/Soul 不绑定模型供应商 |
 | 宠物聊天配置 | `src/pet-core/companionChat.ts`、`public/pets/<pet-id>/companion-chat.json` | 沿用宠物包边界，增加 Soul 时使用相对路径 |
 | 用户偏好 | `src/pet-core/companionPreferences.ts` | 与长期 Memory 区分；先兼容现有偏好行为 |
 | 宠物资源解析 | `src/pet-core/petAssets.ts` | 不在组件内硬编码 `/pets/<pet-id>` |
@@ -261,7 +275,68 @@
 - 相关测试命令和完整结果记录在 `docs/agent-memory-scale-readiness.md`；这些是当前边界样本证据，不是生产容量承诺。
 - 当前结论：✅ Go 留在本地；❌ No-Go 引入云端同步、PostgreSQL/pgvector、独立向量库、Kafka、Temporal 或远程上传。
 
-## 每阶段通用完成标准
+## 陪伴型 Agent 产品边界
+
+### 它应该是什么
+
+- 当前活跃宠物就是当前会话唯一的 Agent 身份；`SOUL.md` 决定称呼、语气、陪伴方式和明确禁区。
+- 先回应人的状态，再在确有需要时调用工具。普通闲聊不为了展示能力而强行查 Memory 或创建 Task。
+- 只记住用户明确要求或确认后的低风险内容；“我今天好累”这类情绪表达只用于当前会话，不自动沉淀为长期事实。
+- 把任务陪伴做成核心能力：帮用户记下、澄清、完成、延期和降低提醒频率，并诚实反馈执行是否成功。
+- 主动陪伴由现有 Scheduler 和 Proactive Gate 决定是否允许出现；Agent 负责结合 Soul、Task 和安全上下文生成合适表达，不能自行绕过安静时段、频率和用户关闭设置。
+- 无网络、Provider 缺少某项能力或远程调用失败时，桌宠仍能以本地能力正常陪伴，并明确披露降级状态。
+
+### 第一版明确不做
+
+- 不做多个 Agent 互相分工、辩论或自动委派；同一时刻只有一个活跃宠物 Agent。
+- 不监听任意屏幕、文件、麦克风或剪贴板，不把桌面环境默认当作可采集上下文。
+- 不允许模型直接执行命令、安装软件、删除文件、发消息、购买、支付或调用未注册的外部能力。
+- 不允许无限循环、后台自由思考、模型自行增加权限，或在没有用户输入/合法 Scheduler 事件时持续请求远程 Provider。
+- 不把完整原始聊天、完整 Prompt、API Key 或未脱敏 Tool 参数写入长期日志。
+
+## 阶段 7：Provider 中立化
+
+Provider 的职责是把当前最小统一聊天输入转换成某种协议并返回统一回复；本阶段不实现 Agent Harness、事件流、工具循环或模型自治。现有 App 继续负责 Context 过滤和确定性意图路由，产品核心不得通过 Provider 名称推断 Memory、Task、Soul 或宠物能力。
+
+### 7.1 Provider 合同
+
+- [x] 保留最小供应商中立 `CompanionChatProvider` 合同：`info`、统一 `send()`、`AbortSignal`、统一超时和错误分类；事件流、能力协商和 `generate()` 留给后续 Harness 设计。
+- [x] 把 `id`、`displayName`、`protocol`、`model`、`endpoint` 和 `credentialRef` 分开。Profile ID 是经过校验的稳定字符串，不再使用写死厂商集合的联合类型作为核心边界。
+- [x] Provider Profile 只保存非秘密元数据；凭据按 Profile/`credentialRef` 存入系统安全存储，普通配置、localStorage、日志和错误不携带凭据。
+- [x] 保留统一的 Context 隐私过滤、超时、取消、错误分类和本地降级说明；Adapter 不得绕过这些边界。
+
+### 7.2 Adapter 与配置
+
+- [x] 将现有本地回复实现接入明确的 `local` Adapter；它不支持 Tool Call，也不伪造工具执行。
+- [x] 将当前 Gemini 请求封装成 `gemini-native` Adapter，保持已有行为和回归测试；通用 Profile/UI 使用协议和名称，不把自定义配置限定为某个厂商。
+- [x] 增加 `openai-compatible` 协议 Adapter，使用户可配置兼容该协议的 Provider、Endpoint 和 Model；协议名不等同于具体供应商。
+- [x] 设置界面展示 Provider 名称、协议、Model、Endpoint、凭据设置/清除、连接测试和本地/远程披露。
+- [x] 用同一最小合同覆盖 local、Gemini-native 和 OpenAI-compatible Adapter；以后新增 Adapter 或预设不需要修改 Memory、Task、Soul 或聊天业务分支。
+- [x] 更新 `docs/agent-memory-data-contract.md`，移除过时的“内置 App 固定本地 Provider”现状说明，并写明供应商中立的外发边界。
+
+### 阶段 7 验收门
+
+- [x] 切换 Provider 后，Soul、Preference、Memory、Task、主动提醒设置和当前宠物身份不需要迁移或重写。
+- [x] local、Gemini-native 和 OpenAI-compatible Adapter 使用同一套最小聊天合同测试，覆盖请求体、Endpoint、过滤、超时、取消、鉴权、限流、网络失败和畸形响应。
+- [x] 当前 Provider 不支持 Tool Call；本阶段没有 Harness，也没有任何 Tool Call 循环或外部权限实现。
+- [x] App 的聊天分支只按统一 Provider 合同工作；新增协议主要集中在 Adapter/预设，不修改 Memory、Task、Soul 或确定性意图路由。
+
+## 原阶段 8--11：历史路线（已被替代）
+
+> 2026-08-11 路线收敛：本节只保留审计背景，不是实施计划、验收清单或发布依据。Companion Harness V1 的唯一有效入口是 [Companion Harness V1 TODO](companion-harness-todo.md)。
+
+历史方案曾计划 `CompanionAgentRunner -> Provider Tool Call -> Tool Registry -> Tool Result -> Provider/final` 的循环，并包含单轮最多 4 次 Provider 请求、3 次 Tool 执行、`pet.express` 以及 Tool Call 专用发布矩阵。该路线与已冻结的 One Call First Harness V1 不一致，现已整体停止，不得从本节恢复任务或据此扩展阶段 7 Provider 合同。
+
+当前路线固定为：
+
+- 阶段 0--7 的已验收底座、隐私边界、数据合同和 Provider Profile/Protocol/Adapter 分层继续有效。
+- Harness V1 采用 `CompanionHarness -> Harness-owned CompanionModelPort -> Provider Adapter`；Provider Adapter 保持领域中立。
+- Harness 骨架、Context、模型响应、Action、Memory、Proactive、App 接线、评测和发布门禁全部以 [Companion Harness V1 TODO](companion-harness-todo.md) 为准。
+- Tool Loop、ReAct、Planner、Critic、Tool Registry、`pet.express` 和多次 Provider 自反调用均不属于 V1。
+
+## 阶段 0--7 的历史通用完成标准
+
+以下条目只记录已验收阶段 0--7 的通用做法；Harness V1 使用 [Companion Harness V1 TODO](companion-harness-todo.md) 中各 Phase 的验收门。
 
 - [x] 只修改当前阶段涉及的文件和逻辑。
 - [x] 保留用户已有工作区改动，不使用破坏性 Git 命令。

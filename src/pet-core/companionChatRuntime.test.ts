@@ -6,8 +6,11 @@ import {
   enterCompanionChat,
   exitCompanionChat,
   receiveCompanionReply,
+  retryCompanionMessage,
   sendCompanionMessage,
+  shouldFallbackToLocalCompanion,
   shouldAutoExitCompanionChat,
+  startCompanionContextEpoch,
   stopCompanionReply,
   updateCompanionDraft,
 } from "./companionChatRuntime";
@@ -45,6 +48,66 @@ describe("companion chat runtime", () => {
       pendingUserMessage: null,
       pendingRequestId: null,
     });
+  });
+
+  test("starts a new internal epoch without removing visible messages", () => {
+    const first = sendCompanionMessage(
+      updateCompanionDraft(enterCompanionChat(config, 1000), "旧话题"),
+      1100,
+    );
+    if (first.mode !== "active") throw new Error("Expected active chat");
+
+    const replied = receiveCompanionReply(first, "旧话题回复", 1200);
+    if (replied.mode !== "active") throw new Error("Expected active chat");
+    const nextEpochState = startCompanionContextEpoch(replied);
+    if (nextEpochState.mode !== "active") throw new Error("Expected active chat");
+    const next = sendCompanionMessage(
+      updateCompanionDraft(nextEpochState, "新话题"),
+      1300,
+    );
+
+    if (next.mode !== "active") throw new Error("Expected active chat");
+    expect(next.contextEpoch).not.toBe(first.contextEpoch);
+    expect(next.messages.map((message) => message.text)).toEqual([
+      "喵？",
+      "旧话题",
+      "旧话题回复",
+      "新话题",
+    ]);
+    expect(next.messages[1]?.contextEpoch).toBe(first.contextEpoch);
+    expect(next.messages[3]?.contextEpoch).toBe(next.contextEpoch);
+  });
+
+  test("retries the latest user turn without keeping the previous pet reply", () => {
+    const firstTurn = sendCompanionMessage(
+      updateCompanionDraft(enterCompanionChat(config, 1000), "第一句话"),
+      1200,
+    );
+    const replied = receiveCompanionReply(firstTurn, "第一句回复", 1300);
+    const retried = retryCompanionMessage(replied, 1400);
+
+    if (retried.mode !== "active") throw new Error("Expected active chat");
+    expect(retried.messages.map((message) => message.text)).toEqual(["喵？", "第一句话"]);
+    expect(retried.pendingUserMessage?.text).toBe("第一句话");
+    expect(retried.pendingRequestId).toBe(retried.pendingUserMessage?.id);
+  });
+
+  test("exits without restoring the previous record into a new Provider context", () => {
+    const active = receiveCompanionReply(
+      sendCompanionMessage(
+        updateCompanionDraft(enterCompanionChat(config, 1000), "旧话题"),
+        1200,
+      ),
+      "旧话题回复",
+      1300,
+    );
+
+    expect(exitCompanionChat(active)).toEqual(INACTIVE_COMPANION_CHAT);
+    const next = enterCompanionChat(config, 1500);
+    if (next.mode !== "active") throw new Error("Expected active chat");
+    expect(next.messages.map((message) => message.text)).toEqual(["喵？"]);
+    expect(next.messages.map((message) => message.text)).not.toContain("旧话题");
+    expect(next.messages.map((message) => message.text)).not.toContain("旧话题回复");
   });
 
   test("receives a pet reply and exits after idle timeout", () => {
@@ -100,5 +163,37 @@ describe("companion chat runtime", () => {
     await expect(fallback.send({ text: "你好" })).resolves.toEqual({
       text: "嗯，我听着。",
     });
+  });
+
+  test("keeps a non-fallback provider failure marked for the page retry state", () => {
+    const sent = sendCompanionMessage(
+      updateCompanionDraft(enterCompanionChat(config, 1000), "请再试一次"),
+      1200,
+    );
+    const errored = receiveCompanionReply(
+      sent,
+      "聊天服务暂时没接上，稍后再试。",
+      1300,
+      "error",
+    );
+
+    if (errored.mode !== "active") throw new Error("Expected active chat");
+    expect(errored.messages[errored.messages.length - 1]).toMatchObject({
+      speaker: "pet",
+      status: "error",
+      text: "聊天服务暂时没接上，稍后再试。",
+    });
+  });
+
+  test("only falls back when the selected remote setting allows it", () => {
+    const remoteInfo = {
+      kind: "remote" as const,
+      provider: "Google Gemini",
+      target: "https://generativelanguage.googleapis.com/v1beta",
+      disclosure: "远程模式",
+    };
+    expect(shouldFallbackToLocalCompanion(remoteInfo, true)).toBe(true);
+    expect(shouldFallbackToLocalCompanion(remoteInfo, false)).toBe(false);
+    expect(shouldFallbackToLocalCompanion({ ...remoteInfo, kind: "local" }, true)).toBe(false);
   });
 });

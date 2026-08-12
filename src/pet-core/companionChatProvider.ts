@@ -1,22 +1,57 @@
 import {
+  createLocalCompanionChatFallbackProvider,
   createLocalCompanionChatProvider,
-  type CompanionChatProviderInfo,
   type CompanionChatProvider,
+  type CompanionChatProviderInfo,
+  type CompanionChatProviderInput,
   type CompanionChatProviderReply,
 } from "./companionChatRuntime";
 import type { CompanionChatConfig } from "./companionChat";
 import {
+  CompanionModelCodecError,
+  encodeCompanionModelRequest,
+} from "./companionModelCodec";
+import {
+  ProviderAdapterError,
+  createGeminiNativeProviderAdapter,
+  createOpenAiCompatibleProviderAdapter,
+  type ProviderAdapter,
+} from "./companionProviderAdapter";
+import {
+  CompanionContextPrivacyError,
+  CompanionContextTrustError,
   assembleCompanionContext,
   filterCompanionContextForRemote,
+  isTrustedCompanionChatContext,
   type CompanionChatContext,
 } from "./companionContext";
+import { CompanionContextBudgetError } from "./companionContextBudget";
 import {
   containsSensitiveCompanionText,
   REMOTE_SENSITIVE_INPUT_REPLY,
 } from "./companionPrivacy";
+import {
+  DEFAULT_COMPANION_PROVIDER_SETTINGS,
+  getCompanionProviderStatusInfo,
+  isSupportedCompanionProviderProtocol,
+  normalizeCompanionProviderEndpoint,
+  normalizeCompanionProviderSettings,
+  validateCompanionProviderProfile,
+  type CompanionProviderProfile,
+  type CompanionProviderProtocol,
+  type SupportedCompanionProviderProtocol,
+} from "./companionProviderConfig";
 
-export const DEFAULT_GEMINI_COMPANION_MODEL = "gemini-2.5-flash";
+export {
+  DEFAULT_GEMINI_COMPANION_API_BASE_URL,
+  DEFAULT_GEMINI_COMPANION_MODEL,
+  DEFAULT_OPENAI_COMPATIBLE_API_BASE_URL,
+  DEFAULT_OPENAI_COMPATIBLE_MODEL,
+  normalizeCompanionProviderEndpoint,
+} from "./companionProviderConfig";
+
 const DEFAULT_MAX_REPLY_LENGTH = 36;
+export const DEFAULT_COMPANION_PROVIDER_TIMEOUT_MS = 15_000;
 
 export type CompanionChatHttpResponse = {
   ok: boolean;
@@ -24,56 +59,45 @@ export type CompanionChatHttpResponse = {
   json: () => Promise<unknown>;
 };
 
+export type CompanionChatHttpRequestInit = {
+  method: "POST";
+  headers: Record<string, string>;
+  body: string;
+  signal?: AbortSignal;
+};
+
 export type CompanionChatHttpFetcher = (
   url: string,
-  init: {
-    method: "POST";
-    headers: Record<string, string>;
-    body: string;
-  },
+  init: CompanionChatHttpRequestInit,
 ) => Promise<CompanionChatHttpResponse>;
 
-export const DEFAULT_GEMINI_COMPANION_API_BASE_URL =
-  "https://generativelanguage.googleapis.com/v1beta";
-
-export type GoogleGeminiKeySource = "ai-studio" | "google-cloud" | "unknown";
-
-export type GeminiCompanionBackend = "google-gemini" | "custom-gemini";
-
-export type GeminiCompanionConnection = {
-  backend: GeminiCompanionBackend;
-  apiKey: string;
-  endpoint: string;
-  model: string;
-  keySource: GoogleGeminiKeySource;
-};
-
-export type GeminiCompanionChatOptions = {
-  apiKey: string;
-  config: CompanionChatConfig;
-  model?: string;
-  endpoint?: string;
-  keySource?: GoogleGeminiKeySource;
-  fetcher?: CompanionChatHttpFetcher;
-};
-
-export type CompanionChatProviderOptions = {
-  apiKey?: string | null;
-  model?: string;
-  endpoint?: string;
-  keySource?: GoogleGeminiKeySource;
-  fetcher?: CompanionChatHttpFetcher;
-  random?: () => number;
-};
+export type CompanionChatProviderErrorKind =
+  | "configuration"
+  | "unsupported"
+  | "authentication"
+  | "rate-limit"
+  | "timeout"
+  | "cancelled"
+  | "network"
+  | "server"
+  | "malformed-response"
+  | "content-safety"
+  | "remote";
 
 export class CompanionChatProviderError extends Error {
   readonly status: number | undefined;
+  readonly kind: CompanionChatProviderErrorKind;
   readonly userMessage: string;
 
-  constructor(userMessage: string, status?: number) {
+  constructor(
+    userMessage: string,
+    kind: CompanionChatProviderErrorKind = "remote",
+    status?: number,
+  ) {
     super(userMessage);
     this.name = "CompanionChatProviderError";
     this.status = status;
+    this.kind = kind;
     this.userMessage = userMessage;
   }
 }
@@ -85,134 +109,28 @@ const defaultFetcher: CompanionChatHttpFetcher = (url, init) =>
     json: () => response.json() as Promise<unknown>,
   }));
 
-export function normalizeGeminiApiBaseUrl(endpoint?: string): string {
-  const candidate = endpoint?.trim() || DEFAULT_GEMINI_COMPANION_API_BASE_URL;
+export type CompanionChatAdapterFactoryOptions = {
+  profile: CompanionProviderProfile;
+  credential: string;
+  config: CompanionChatConfig;
+  fetcher: CompanionChatHttpFetcher;
+  timeoutMs: number;
+  random?: () => number;
+};
 
-  let url: URL;
-  try {
-    url = new URL(candidate);
-  } catch {
-    throw new CompanionChatProviderError("聊天服务地址无效。请检查 API 地址。");
-  }
+export type CompanionChatAdapter = {
+  protocol: SupportedCompanionProviderProtocol;
+  create: (options: CompanionChatAdapterFactoryOptions) => CompanionChatProvider;
+};
 
-  if (
-    (url.protocol !== "https:" && url.protocol !== "http:") ||
-    url.username ||
-    url.password ||
-    url.search ||
-    url.hash
-  ) {
-    throw new CompanionChatProviderError("聊天服务地址无效。请检查 API 地址。");
-  }
-
-  const hostname = url.hostname.toLowerCase().replace(/^\[|\]$/g, "");
-  const isLoopback = hostname === "localhost"
-    || hostname === "127.0.0.1"
-    || hostname === "::1";
-  if (url.protocol === "http:" && !isLoopback) {
-    throw new CompanionChatProviderError(
-      "自定义聊天服务必须使用 HTTPS；仅允许明确的本机 loopback 地址使用 HTTP。",
-    );
-  }
-
-  let pathname = url.pathname.replace(/\/+$/, "");
-  if (!pathname) pathname = "/v1beta";
-  if (pathname.endsWith("/models")) {
-    pathname = pathname.slice(0, -"/models".length) || "/v1beta";
-  }
-
-  return `${url.origin}${pathname}`;
-}
-
-export function isOfficialGoogleGeminiEndpoint(endpoint?: string): boolean {
-  try {
-    const normalized = normalizeGeminiApiBaseUrl(endpoint);
-    const url = new URL(normalized);
-    return (
-      url.origin === "https://generativelanguage.googleapis.com" &&
-      (url.pathname === "/v1" || url.pathname === "/v1beta")
-    );
-  } catch {
-    return false;
-  }
-}
-
-export function resolveGeminiCompanionConnection({
-  apiKey,
-  endpoint,
-  model = DEFAULT_GEMINI_COMPANION_MODEL,
-  keySource = "unknown",
-}: {
-  apiKey: string;
-  endpoint?: string;
-  model?: string;
-  keySource?: GoogleGeminiKeySource;
-}): GeminiCompanionConnection {
-  const normalizedKey = apiKey.trim();
-  if (!normalizedKey) {
-    throw new CompanionChatProviderError("聊天服务的 Key 还没有配置好。");
-  }
-
-  const normalizedModel = model.trim() || DEFAULT_GEMINI_COMPANION_MODEL;
-  const normalizedEndpoint = normalizeGeminiApiBaseUrl(endpoint);
-
-  return {
-    backend: isOfficialGoogleGeminiEndpoint(normalizedEndpoint)
-      ? "google-gemini"
-      : "custom-gemini",
-    apiKey: normalizedKey,
-    endpoint: normalizedEndpoint,
-    model: normalizedModel,
-    keySource,
-  };
-}
-
-function getRemoteProviderInfo(
-  connection: GeminiCompanionConnection,
-): CompanionChatProviderInfo {
-  const provider =
-    connection.backend === "google-gemini"
-      ? "Google Gemini"
-      : "自定义 Gemini Provider";
-
-  return {
-    kind: "remote",
-    provider,
-    target: connection.endpoint,
-    disclosure:
-      "远程模式：本轮必要上下文会发送到远程 AI 服务。本应用不会主动保存完整原始聊天记录；服务商的数据保留、训练和区域政策不由本应用保证，请以服务商当前条款为准。",
-  };
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function readErrorMessage(value: unknown): string | null {
-  if (!isRecord(value) || !isRecord(value.error)) return null;
-  return typeof value.error.message === "string" ? value.error.message : null;
-}
-
-function readGeminiText(value: unknown): string | null {
-  if (!isRecord(value) || !Array.isArray(value.candidates)) return null;
-
-  for (const candidate of value.candidates) {
-    if (!isRecord(candidate) || !isRecord(candidate.content)) continue;
-    const parts = candidate.content.parts;
-    if (!Array.isArray(parts)) continue;
-    const text = parts
-      .filter(
-        (part): part is Record<string, unknown> =>
-          isRecord(part) && typeof part.text === "string",
-      )
-      .map((part) => String(part.text).trim())
-      .filter(Boolean)
-      .join(" ");
-    if (text) return text;
-  }
-
-  return null;
-}
+export type CompanionChatProviderOptions = {
+  profile?: CompanionProviderProfile;
+  /** Ephemeral credential read from the secure store; never persisted here. */
+  credential?: string | null;
+  fetcher?: CompanionChatHttpFetcher;
+  random?: () => number;
+  timeoutMs?: number;
+};
 
 function clampReply(text: string, maxLength: number): string {
   const normalized = text.replace(/```[\s\S]*?```/g, "").replace(/\s+/g, " ").trim();
@@ -220,146 +138,297 @@ function clampReply(text: string, maxLength: number): string {
   return `${Array.from(normalized).slice(0, Math.max(1, maxLength - 1)).join("")}…`;
 }
 
-function buildContents(context: CompanionChatContext) {
-  return [
-    ...context.history.map((message) => ({
-      role: message.speaker === "user" ? "user" : "model",
-      parts: [{ text: message.text }],
-    })),
-    {
-      role: "user",
-      parts: [{ text: context.userInput }],
-    },
-  ];
-}
-
-function getUserFacingError(status: number, detail: string | null): string {
-  if (status === 401 || status === 403) {
-    return "聊天服务的 Key 还没有配置好。";
-  }
-  if (status === 429) {
-    return "聊天额度刚刚用完啦，等一会儿再试。";
-  }
-  if (status >= 500) {
-    return "聊天服务暂时没接上，稍后再试。";
-  }
-  if (detail?.toLowerCase().includes("safety")) {
-    return "这句话我先不接着展开，我们换个轻松的话题吧。";
-  }
-  return "我刚才没听清，再说一次好吗？";
-}
-
-export function createGeminiCompanionChatProvider({
-  apiKey,
-  config,
-  model = DEFAULT_GEMINI_COMPANION_MODEL,
-  endpoint,
-  keySource,
-  fetcher = defaultFetcher,
-}: GeminiCompanionChatOptions): CompanionChatProvider {
-  const connection = resolveGeminiCompanionConnection({
-    apiKey,
-    endpoint,
-    model,
-    keySource,
-  });
-
-  return {
-    info: getRemoteProviderInfo(connection),
-    async send(input): Promise<CompanionChatProviderReply> {
-      if (containsSensitiveCompanionText(input.text)) {
-        return {
-          text: REMOTE_SENSITIVE_INPUT_REPLY,
-        };
+function buildRemoteContext(
+  input: CompanionChatProviderInput,
+  config: CompanionChatConfig,
+): CompanionChatContext {
+  try {
+    let context: CompanionChatContext;
+    if (input.context !== undefined) {
+      // A caller-provided object is never trusted merely because its
+      // userInput happens to match the current text. Only the ContextBuilder
+      // runtime marker (and its frozen output) grants remote-send authority.
+      if (!isTrustedCompanionChatContext(input.context)) {
+        throw new CompanionContextTrustError();
       }
-
-      const context =
-        input.context?.userInput === input.text
-          ? input.context
-          : assembleCompanionContext({
-              petId: input.petId ?? input.context?.petId ?? "unknown",
-              userInput: input.text,
-              history: input.history,
-              preferences: input.preferences,
-              memories: input.memories,
-              systemPrompt: config.systemPrompt,
-              style: config.style,
-            });
-      const remoteContext = filterCompanionContextForRemote({
-        ...context,
+      if (input.context.userInput !== input.text) {
+        throw new CompanionContextTrustError();
+      }
+      if (input.petId !== undefined && input.context.petId !== input.petId) {
+        throw new CompanionContextTrustError();
+      }
+      if (
+        input.contextEpoch !== undefined
+        && input.context.contextEpoch !== input.contextEpoch
+      ) {
+        throw new CompanionContextTrustError();
+      }
+      context = input.context;
+    } else {
+      context = assembleCompanionContext({
+        petId: input.petId ?? "unknown",
         userInput: input.text,
+        history: input.history,
+        contextEpoch: input.contextEpoch,
+        preferences: input.preferences,
+        memories: input.memories,
+        systemPrompt: config.systemPrompt,
+        style: config.style,
       });
+    }
+    return filterCompanionContextForRemote(context);
+  } catch (error) {
+    if (error instanceof CompanionContextPrivacyError) {
+      throw new CompanionChatProviderError(REMOTE_SENSITIVE_INPUT_REPLY, "content-safety");
+    }
+    if (error instanceof CompanionContextBudgetError || error instanceof CompanionContextTrustError) {
+      throw new CompanionChatProviderError(
+        error instanceof CompanionContextTrustError
+          ? "远程请求需要由正式 ContextBuilder 构建安全上下文，未发送请求。"
+          : "上下文超出安全预算，未发送远程请求。",
+        "configuration",
+      );
+    }
+    throw error;
+  }
+}
 
-      let response: CompanionChatHttpResponse;
-      try {
-        response = await fetcher(
-          `${connection.endpoint}/models/${encodeURIComponent(connection.model)}:generateContent`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-goog-api-key": connection.apiKey,
-            },
-            body: JSON.stringify({
-              system_instruction: {
-                parts: [{ text: remoteContext.systemInstruction }],
-              },
-              contents: buildContents(remoteContext),
-              generationConfig: {
-                temperature: 0.8,
-                maxOutputTokens: Math.min(
-                  256,
-                  Math.max(48, (config.style?.maxReplyLength ?? DEFAULT_MAX_REPLY_LENGTH) * 2),
-                ),
-              },
-            }),
-          },
-        );
-      } catch (error) {
-        if (error instanceof CompanionChatProviderError) throw error;
-        throw new CompanionChatProviderError("聊天服务暂时没接上，稍后再试。");
-      }
+function createRemoteInfo(profile: CompanionProviderProfile): CompanionChatProviderInfo {
+  return getCompanionProviderStatusInfo({
+    ...profile,
+    fallbackToLocal: true,
+    credentialConfigured: true,
+  });
+}
 
-      const payload = await response.json().catch(() => null);
-      if (!response.ok) {
-        throw new CompanionChatProviderError(
-          getUserFacingError(response.status, readErrorMessage(payload)),
-          response.status,
-        );
-      }
+function normalizeCompatibilityError(error: unknown): CompanionChatProviderError {
+  if (error instanceof CompanionChatProviderError) return error;
+  if (error instanceof CompanionModelCodecError) {
+    return new CompanionChatProviderError(
+      "聊天服务返回了无法识别的回复。",
+      "malformed-response",
+    );
+  }
+  if (error instanceof ProviderAdapterError) {
+    const messages: Partial<Record<CompanionChatProviderErrorKind, string>> = {
+      configuration: "聊天服务配置无效，未发送远程请求。",
+      unsupported: "当前 Provider 协议或能力不受支持。",
+      authentication: "聊天服务的凭据无效或没有权限，请检查 Provider 设置。",
+      "rate-limit": "聊天额度刚刚用完啦，等一会儿再试。",
+      timeout: "聊天服务响应超时，稍后再试。",
+      cancelled: "这次回复已停止。",
+      network: "聊天服务暂时没接上，稍后再试。",
+      server: "聊天服务暂时没接上，稍后再试。",
+      "malformed-response": "聊天服务返回了无法识别的回复。",
+      "content-safety": "这句话我先不接着展开，我们换个轻松的话题吧。",
+      remote: "我刚才没听清，再说一次好吗？",
+    };
+    return new CompanionChatProviderError(
+      messages[error.kind] ?? "聊天服务暂时没接上，稍后再试。",
+      error.kind,
+      error.status,
+    );
+  }
+  return new CompanionChatProviderError(
+    "聊天服务暂时没接上，稍后再试。",
+    "network",
+  );
+}
 
-      const reply = readGeminiText(payload);
-      if (!reply) {
-        throw new CompanionChatProviderError("我刚才没听清，再说一次好吗？");
+function createRemoteCompatibilityProvider(
+  options: CompanionChatAdapterFactoryOptions,
+  adapter: ProviderAdapter,
+  info: CompanionChatProviderInfo,
+): CompanionChatProvider {
+  return {
+    info,
+    async send(input): Promise<CompanionChatProviderReply> {
+      if (input.signal?.aborted) {
+        throw new CompanionChatProviderError("这次回复已停止。", "cancelled");
       }
-      if (containsSensitiveCompanionText(reply)) {
+      if (containsSensitiveCompanionText(input.text)) {
         return { text: REMOTE_SENSITIVE_INPUT_REPLY };
       }
 
-      return {
-        text: clampReply(
-          reply,
-          config.style?.maxReplyLength ?? DEFAULT_MAX_REPLY_LENGTH,
-        ),
-      };
+      try {
+        const context = buildRemoteContext(input, options.config);
+        const request = encodeCompanionModelRequest(context, adapter.capabilities, {
+          timeoutMs: options.timeoutMs,
+          temperature: 0.8,
+          maxOutputTokens: Math.min(
+            256,
+            Math.max(48, (options.config.style?.maxReplyLength ?? DEFAULT_MAX_REPLY_LENGTH) * 2),
+          ),
+        });
+        const response = await adapter.generate({
+          ...request,
+          signal: input.signal,
+        });
+        if (!response.text) {
+          throw new CompanionChatProviderError(
+            "聊天服务返回了无法识别的回复。",
+            "malformed-response",
+          );
+        }
+        if (containsSensitiveCompanionText(response.text)) {
+          return { text: REMOTE_SENSITIVE_INPUT_REPLY };
+        }
+        return {
+          text: clampReply(
+            response.text,
+            options.config.style?.maxReplyLength ?? DEFAULT_MAX_REPLY_LENGTH,
+          ),
+        };
+      } catch (error) {
+        throw normalizeCompatibilityError(error);
+      }
     },
   };
+}
+
+function createGeminiNativeAdapter(
+  options: CompanionChatAdapterFactoryOptions,
+): CompanionChatProvider {
+  const endpoint = normalizeCompanionProviderEndpoint(
+    "gemini-native",
+    options.profile.endpoint,
+  );
+  const info = createRemoteInfo(options.profile);
+  const adapter = createGeminiNativeProviderAdapter({
+    id: options.profile.id,
+    providerLabel: options.profile.displayName,
+    endpoint,
+    model: options.profile.model,
+    credential: options.credential,
+    fetcher: options.fetcher,
+    timeoutMs: options.timeoutMs,
+  });
+  return createRemoteCompatibilityProvider(options, adapter, info);
+}
+
+function createOpenAiCompatibleAdapter(
+  options: CompanionChatAdapterFactoryOptions,
+): CompanionChatProvider {
+  const endpoint = normalizeCompanionProviderEndpoint(
+    "openai-compatible",
+    options.profile.endpoint,
+  );
+  const info = createRemoteInfo(options.profile);
+  const adapter = createOpenAiCompatibleProviderAdapter({
+    id: options.profile.id,
+    providerLabel: options.profile.displayName,
+    endpoint,
+    model: options.profile.model,
+    credential: options.credential,
+    fetcher: options.fetcher,
+    timeoutMs: options.timeoutMs,
+  });
+  return createRemoteCompatibilityProvider(options, adapter, info);
+}
+
+function createLocalAdapter(
+  options: CompanionChatAdapterFactoryOptions,
+): CompanionChatProvider {
+  return createLocalCompanionChatProvider(options.config, options.random);
+}
+
+export const COMPANION_CHAT_ADAPTERS: Readonly<
+  Record<SupportedCompanionProviderProtocol, CompanionChatAdapter>
+> = {
+  local: {
+    protocol: "local",
+    create: createLocalAdapter,
+  },
+  "gemini-native": {
+    protocol: "gemini-native",
+    create: createGeminiNativeAdapter,
+  },
+  "openai-compatible": {
+    protocol: "openai-compatible",
+    create: createOpenAiCompatibleAdapter,
+  },
+};
+
+export function getCompanionChatAdapter(
+  protocol: CompanionProviderProtocol,
+): CompanionChatAdapter {
+  if (!isSupportedCompanionProviderProtocol(protocol)) {
+    throw new CompanionChatProviderError(
+      `不支持的聊天协议：${protocol || "未填写"}。`,
+      "unsupported",
+    );
+  }
+  return COMPANION_CHAT_ADAPTERS[protocol];
 }
 
 export function createCompanionChatProvider(
   config: CompanionChatConfig,
   options: CompanionChatProviderOptions = {},
 ): CompanionChatProvider {
-  if (options.apiKey?.trim()) {
-    return createGeminiCompanionChatProvider({
-      apiKey: options.apiKey,
+  const profile = normalizeCompanionProviderSettings(
+    options.profile ?? DEFAULT_COMPANION_PROVIDER_SETTINGS,
+  );
+  const profileError = validateCompanionProviderProfile(profile);
+  if (profileError) {
+    const kind = profileError.startsWith("不支持的聊天协议") ? "unsupported" : "configuration";
+    throw new CompanionChatProviderError(profileError, kind);
+  }
+
+  const adapter = getCompanionChatAdapter(profile.protocol);
+  if (profile.protocol === "local") {
+    return adapter.create({
+      profile,
+      credential: "",
       config,
-      model: options.model,
-      endpoint: options.endpoint,
-      keySource: options.keySource,
-      fetcher: options.fetcher,
+      fetcher: options.fetcher ?? defaultFetcher,
+      timeoutMs: options.timeoutMs ?? DEFAULT_COMPANION_PROVIDER_TIMEOUT_MS,
+      random: options.random,
     });
   }
 
-  return createLocalCompanionChatProvider(config, options.random);
+  const credential = options.credential?.trim();
+  if (!credential) {
+    throw new CompanionChatProviderError(
+      "聊天服务的凭据还没有配置好，请先填写凭据。",
+      "configuration",
+    );
+  }
+
+  try {
+    return adapter.create({
+      profile,
+      credential,
+      config,
+      fetcher: options.fetcher ?? defaultFetcher,
+      timeoutMs: options.timeoutMs ?? DEFAULT_COMPANION_PROVIDER_TIMEOUT_MS,
+      random: options.random,
+    });
+  } catch (error) {
+    if (error instanceof CompanionChatProviderError) throw error;
+    throw new CompanionChatProviderError(
+      error instanceof Error ? error.message : "Provider 配置无效。",
+      "configuration",
+    );
+  }
 }
+
+/** Explicit adapter entry point retained for focused protocol tests. */
+export function createGeminiNativeCompanionChatProvider(options: {
+  profile: CompanionProviderProfile;
+  credential: string;
+  config: CompanionChatConfig;
+  fetcher?: CompanionChatHttpFetcher;
+  timeoutMs?: number;
+}): CompanionChatProvider {
+  return createCompanionChatProvider(options.config, {
+    profile: { ...options.profile, protocol: "gemini-native" },
+    credential: options.credential,
+    fetcher: options.fetcher,
+    timeoutMs: options.timeoutMs,
+  });
+}
+
+/** Compatibility alias for code that referred to the old Gemini factory. */
+export const createGeminiCompanionChatProvider = createGeminiNativeCompanionChatProvider;
+
+export { createLocalCompanionChatFallbackProvider };

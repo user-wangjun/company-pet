@@ -23,7 +23,9 @@ export function shouldResizeReminderWindow(
 }
 
 export type LatestWindowLayoutScheduler = {
-  schedule: (applyLayout: () => Promise<void>) => Promise<boolean>;
+  schedule: (
+    applyLayout: (isLatest: () => boolean) => Promise<void>,
+  ) => Promise<boolean>;
 };
 
 export function createLatestWindowLayoutScheduler(): LatestWindowLayoutScheduler {
@@ -35,9 +37,12 @@ export function createLatestWindowLayoutScheduler(): LatestWindowLayoutScheduler
       const request = latestRequest + 1;
       latestRequest = request;
       const result = tail.then(async () => {
-        if (request !== latestRequest) return false;
-        await applyLayout();
-        return true;
+        // The callback must re-check this guard after every awaited native
+        // mutation; a newer request can arrive while this one is in flight.
+        const isLatest = () => request === latestRequest;
+        if (!isLatest()) return false;
+        await applyLayout(isLatest);
+        return isLatest();
       });
 
       tail = result.then(

@@ -1,8 +1,41 @@
 export const APP_DISPLAY_NAME = "愈心桌宠";
 export const APP_WINDOW_TITLE = APP_DISPLAY_NAME;
 export const PLATFORM_START_OPEN = true;
-export const PLATFORM_START_SECTION = "pets" as const;
+export const PLATFORM_START_SECTION = "home" as const;
 export const INITIAL_WINDOW_MARGIN_PX = 24;
+
+export type PlatformSection = "home" | "tasks" | "pets" | "chat" | "settings";
+
+export type CompanionExitReason =
+  | "back"
+  | "close"
+  | "escape"
+  | "outside"
+  | "idle"
+  | "navigation"
+  | "pet-switch"
+  | "mutual-surface"
+  | "return";
+
+export function resolveRenderedPlatformSection(
+  section: PlatformSection,
+  companionChatMode: "active" | "inactive",
+): PlatformSection {
+  return section === "chat" && companionChatMode !== "active"
+    ? "home"
+    : section;
+}
+
+export function resolvePlatformSectionAfterCompanionExit(
+  reason: CompanionExitReason,
+  requestedSection?: PlatformSection,
+): PlatformSection {
+  if (reason === "navigation" && requestedSection && requestedSection !== "chat") {
+    return requestedSection;
+  }
+
+  return "home";
+}
 
 export type WindowSize = {
   width: number;

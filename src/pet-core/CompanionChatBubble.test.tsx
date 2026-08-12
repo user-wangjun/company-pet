@@ -49,7 +49,7 @@ describe("CompanionChatBubble", () => {
         messages={[{ id: "1", speaker: "pet", text: "嗯？" }]}
         providerInfo={{
           kind: "remote",
-          provider: "自定义 Gemini Provider",
+          provider: "自定义 Provider",
           target: "https://custom.example/v1beta",
           disclosure:
             "远程模式：本轮必要上下文会发送到远程 AI 服务。",
@@ -60,7 +60,7 @@ describe("CompanionChatBubble", () => {
       />,
     );
 
-    expect(html).toContain("自定义 Gemini Provider");
+    expect(html).toContain("自定义 Provider");
     expect(html).toContain("https://custom.example/v1beta");
     expect(html).toContain("本轮必要上下文会发送到远程 AI 服务");
   });

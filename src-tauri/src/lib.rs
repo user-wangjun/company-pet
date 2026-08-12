@@ -1,5 +1,6 @@
 use std::{fs::OpenOptions, io::Write};
 
+mod companion_provider;
 mod desktop_icons;
 mod installer_update;
 mod task_notifications;
@@ -211,6 +212,9 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
             record_interaction,
+            companion_provider::get_companion_provider_credential,
+            companion_provider::set_companion_provider_credential,
+            companion_provider::clear_companion_provider_credential,
             installer_update::download_and_open_installer,
             desktop_icons::get_desktop_icons,
             desktop_icons::is_point_on_desktop,

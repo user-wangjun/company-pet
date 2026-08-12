@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   PLATFORM_FEEDBACK_BUBBLE_MS,
   expireBubbleText,
+  getBubbleTextAfterPetMovement,
 } from "./bubbleLifecycle";
 
 describe("transient platform feedback bubbles", () => {
@@ -13,5 +14,10 @@ describe("transient platform feedback bubbles", () => {
   it("does not let an older timer clear a newer bubble", () => {
     expect(expireBubbleText("睡眠提醒", "任务已取消")).toBe("睡眠提醒");
     expect(expireBubbleText(null, "任务已取消")).toBeNull();
+  });
+
+  it("keeps an active care reminder bubble when the pet starts moving", () => {
+    expect(getBubbleTextAfterPetMovement("该休息一下啦", true)).toBe("该休息一下啦");
+    expect(getBubbleTextAfterPetMovement("普通动作反馈", false)).toBeNull();
   });
 });

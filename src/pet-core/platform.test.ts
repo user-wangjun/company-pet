@@ -14,11 +14,14 @@ import {
   getWindowPositionForPhysicalPetAnchor,
   PLATFORM_START_OPEN,
   PLATFORM_START_SECTION,
+  resolvePlatformSectionAfterCompanionExit,
+  resolveRenderedPlatformSection,
 } from "./platform";
 import defaultCapability from "../../src-tauri/capabilities/default.json";
 import tauriConfig from "../../src-tauri/tauri.conf.json";
 
 const tauriCargoToml = readFileSync(resolve("src-tauri/Cargo.toml"), "utf8");
+const appCss = readFileSync(resolve("src/App.css"), "utf8");
 
 describe("platform branding", () => {
   test("uses Yuxin Desktop Pet as the platform name", () => {
@@ -28,7 +31,7 @@ describe("platform branding", () => {
 
   test("starts with independent hidden pet and platform windows", () => {
     expect(PLATFORM_START_OPEN).toBe(true);
-    expect(PLATFORM_START_SECTION).toBe("pets");
+    expect(PLATFORM_START_SECTION).toBe("home");
     expect(tauriConfig.app.windows.map((window) => window.label)).toEqual([
       "main",
       "platform",
@@ -205,5 +208,49 @@ describe("platform branding", () => {
         },
       ),
     ).toEqual({ x: -1280, y: 120 });
+  });
+});
+
+describe("platform companion navigation contract", () => {
+  test.each([
+    "back",
+    "close",
+    "escape",
+    "outside",
+    "idle",
+    "pet-switch",
+    "mutual-surface",
+    "return",
+  ] as const)("routes %s exits to home", (reason) => {
+    expect(resolvePlatformSectionAfterCompanionExit(reason)).toBe("home");
+  });
+
+  test("routes an explicit platform navigation away from chat to its destination", () => {
+    expect(resolvePlatformSectionAfterCompanionExit("navigation", "settings")).toBe(
+      "settings",
+    );
+    expect(resolvePlatformSectionAfterCompanionExit("navigation", "tasks")).toBe(
+      "tasks",
+    );
+    expect(resolvePlatformSectionAfterCompanionExit("navigation", "chat")).toBe(
+      "home",
+    );
+  });
+
+  test("never renders an inactive chat section and preserves the active room", () => {
+    expect(resolveRenderedPlatformSection("chat", "inactive")).toBe("home");
+    expect(resolveRenderedPlatformSection("chat", "active")).toBe("chat");
+    expect(resolveRenderedPlatformSection("settings", "inactive")).toBe("settings");
+  });
+
+  test("keeps the companion room shell as one flexible column", () => {
+    const shellStart = appCss.indexOf(".platform-companion-chat-room-shell {");
+    const shellEnd = appCss.indexOf("\n}", shellStart);
+    expect(shellStart).toBeGreaterThanOrEqual(0);
+    expect(shellEnd).toBeGreaterThan(shellStart);
+
+    const shellRule = appCss.slice(shellStart, shellEnd);
+    expect(shellRule).toContain("grid-template-columns: minmax(0, 1fr);");
+    expect(shellRule).not.toMatch(/174px|204px/);
   });
 });

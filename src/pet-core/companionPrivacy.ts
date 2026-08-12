@@ -27,6 +27,13 @@ const SENSITIVE_CATEGORY_PATTERNS: readonly RegExp[] = [
   /(?:医疗诊断|诊断(?:结果)?|病史|医疗记录|健康记录|用药|吃药|药物|处方|病情|疾病史|治疗|\bdiagnosis\b|\bmedical history\b|\bmedical record\b|\bmedication(?:s)?\b|\bprescription\b|\bdiagnosed with\b|\bhealth condition\b|\btreatment\b)/iu,
 ];
 
+// Profile values have a narrower final-pass detector than general chat text.
+// Field/category allowlists remain the primary boundary; these shapes are only
+// a last line of defence for a value that reached an otherwise allowed slot.
+const COMPANION_PROFILE_EMAIL_PATTERN = /[^\s@,，；;]+@[^\s@,，；;]+\.[^\s@,，；;]+/u;
+const COMPANION_PROFILE_PHONE_PATTERN = /(?:^|[^\d])(\+?[0-9][0-9\s().-]{5,22})(?:$|[^\d])/u;
+const COMPANION_PROFILE_GENDER_PATTERN = /(?:^|[\s,，:：=])(?:unspecified|female|male|non-binary|prefer-not-to-say)(?:$|[\s,，:：=])/iu;
+
 const SENSITIVE_LABEL_WITH_VALUE_PATTERNS: readonly RegExp[] = [
   /(?:我的|本人的|用户的|我有|my|my own|the user's|their)?\s*(?:密码|口令|password|passcode|passphrase|passwd|pwd|token|令牌|api\s*[_ -]?key|apikey|密钥|私钥|private\s+key)\s*(?:是|为|叫做|[:=：]|is|are|equals?)\s*[^\s,，。；;]+/iu,
   /(?:身份证(?:号|号码)?|公民身份号码|social security number|\bssn\b|national id(?:entity)?|identity card|id number)\s*(?:是|为|叫做|号码是|[:=：]|is|number is)?\s*[0-9xX][0-9xX\s-]{2,}/iu,
@@ -76,6 +83,24 @@ export const SENSITIVE_COMPANION_PERSISTENCE_ERROR =
 export const REMOTE_SENSITIVE_INPUT_REPLY =
   "这类隐私我们先不发到云端，好吗？我可以安静陪着你。";
 
+/**
+ * Final-pass detector for user-profile-shaped values. It intentionally does
+ * not classify ordinary conversation such as "female" as globally sensitive;
+ * callers use it only after a profile/preference field has passed its exact
+ * projection allowlist.
+ */
+export function containsSensitiveCompanionProfileValue(value: string): boolean {
+  const normalized = value.trim();
+  if (!normalized) return false;
+  if (COMPANION_PROFILE_EMAIL_PATTERN.test(normalized)) return true;
+  const phoneMatch = COMPANION_PROFILE_PHONE_PATTERN.exec(normalized);
+  if (phoneMatch?.[1]) {
+    const digits = phoneMatch[1].replace(/\D/gu, "");
+    if (digits.length >= 7 && digits.length <= 20) return true;
+  }
+  return COMPANION_PROFILE_GENDER_PATTERN.test(normalized);
+}
+
 function matchesAny(value: string, patterns: readonly RegExp[]): boolean {
   return patterns.some((pattern) => pattern.test(value));
 }
@@ -96,8 +121,12 @@ function hasStructuredSensitiveData(value: string): boolean {
     || matchesAny(value, SENSITIVE_LABEL_WITH_VALUE_PATTERNS)
     || hasHealthData(value)
     || hasMedicationData(value)
-    || CHINESE_ADDRESS_SHAPE.test(value)
-    || ENGLISH_ADDRESS_SHAPE.test(value);
+    // Both address shapes require a house number. Avoid sending a long
+    // number-free CJK reply through the backtracking-heavy shape matcher.
+    // This keeps the privacy boundary fail-closed without turning a valid
+    // ordinary 2,000-character reply into a multi-second operation.
+    || (/[0-9]/u.test(value)
+      && (CHINESE_ADDRESS_SHAPE.test(value) || ENGLISH_ADDRESS_SHAPE.test(value)));
 }
 
 function isDiscussionWithoutAttachedData(value: string): boolean {

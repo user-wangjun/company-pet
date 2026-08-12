@@ -5,12 +5,19 @@ import {
 import type { CompanionPreference } from "./companionPreferences";
 import type { CompanionChatContext } from "./companionContext";
 import type { MemoryEntry } from "./companionMemory";
+import {
+  createCompanionContextEpoch,
+  type CompanionContextEpoch,
+} from "./companionContextEpoch";
 
 export type CompanionChatMessage = {
   id: string;
   speaker: "pet" | "user";
   text: string;
+  /** Internal only: visible records may contain messages from older epochs. */
+  contextEpoch?: CompanionContextEpoch;
   sound?: string;
+  status?: "error";
 };
 
 export type CompanionChatProviderInput = {
@@ -20,6 +27,8 @@ export type CompanionChatProviderInput = {
   preferences?: CompanionPreference[];
   memories?: MemoryEntry[];
   context?: CompanionChatContext;
+  contextEpoch?: CompanionContextEpoch;
+  signal?: AbortSignal;
 };
 
 export type CompanionChatProviderReply = {
@@ -49,11 +58,19 @@ export type CompanionChatProvider = {
   info: CompanionChatProviderInfo;
 };
 
+export function shouldFallbackToLocalCompanion(
+  providerInfo: CompanionChatProviderInfo,
+  fallbackToLocal: boolean,
+): boolean {
+  return providerInfo.kind === "remote" && fallbackToLocal;
+}
+
 export type CompanionChatState =
   | { mode: "inactive" }
   | {
       mode: "active";
       messages: CompanionChatMessage[];
+      contextEpoch: CompanionContextEpoch;
       draft: string;
       pendingRequestId: string | null;
       pendingUserMessage: CompanionChatMessage | null;
@@ -73,14 +90,17 @@ export function enterCompanionChat(
   random: () => number = Math.random,
 ): CompanionChatState {
   const cue = chooseCompanionChatCue(config.openers, random);
+  const contextEpoch = createCompanionContextEpoch();
   return {
     mode: "active",
+    contextEpoch,
     messages: [
       {
         id: messageId(now, 0),
         speaker: "pet",
         text: cue.text,
         sound: cue.sound,
+        contextEpoch,
       },
     ],
     draft: "",
@@ -88,6 +108,19 @@ export function enterCompanionChat(
     pendingUserMessage: null,
     lastActiveAt: now,
   };
+}
+
+/**
+ * Starts a fresh model-context boundary while keeping the visible record
+ * intact. The next user message is the first message eligible for the new
+ * epoch; older visible messages remain read-only companionship history.
+ */
+export function startCompanionContextEpoch(
+  state: CompanionChatState,
+): CompanionChatState {
+  return state.mode === "active"
+    ? { ...state, contextEpoch: createCompanionContextEpoch() }
+    : state;
 }
 
 export function updateCompanionDraft(
@@ -109,6 +142,7 @@ export function sendCompanionMessage(
     id: messageId(now, state.messages.length),
     speaker: "user" as const,
     text,
+    contextEpoch: state.contextEpoch,
   };
   return {
     ...state,
@@ -118,6 +152,34 @@ export function sendCompanionMessage(
     pendingUserMessage: message,
     lastActiveAt: now,
   };
+}
+
+export function retryCompanionMessage(
+  state: CompanionChatState,
+  now = Date.now(),
+): CompanionChatState {
+  if (state.mode !== "active" || state.pendingRequestId) return state;
+
+  let lastUserMessageIndex = -1;
+  for (let index = state.messages.length - 1; index >= 0; index -= 1) {
+    if (state.messages[index]?.speaker === "user") {
+      lastUserMessageIndex = index;
+      break;
+    }
+  }
+  if (lastUserMessageIndex < 0) return state;
+
+  const lastUserMessage = state.messages[lastUserMessageIndex];
+  return sendCompanionMessage(
+    {
+      ...state,
+      messages: state.messages.slice(0, lastUserMessageIndex),
+      draft: lastUserMessage.text,
+      pendingRequestId: null,
+      pendingUserMessage: null,
+    },
+    now,
+  );
 }
 
 export function stopCompanionReply(state: CompanionChatState): CompanionChatState {
@@ -138,6 +200,7 @@ export function receiveCompanionReply(
   state: CompanionChatState,
   text: string,
   now = Date.now(),
+  status?: CompanionChatMessage["status"],
 ): CompanionChatState {
   if (state.mode !== "active") return state;
   return {
@@ -148,6 +211,8 @@ export function receiveCompanionReply(
         id: messageId(now, state.messages.length),
         speaker: "pet",
         text,
+        contextEpoch: state.contextEpoch,
+        status,
       },
     ],
     pendingRequestId: null,

@@ -6,3 +6,10 @@ export function expireBubbleText(
 ): string | null {
   return currentText === scheduledText ? null : currentText;
 }
+
+export function getBubbleTextAfterPetMovement(
+  currentText: string | null,
+  hasActiveCareReminderPrompt: boolean,
+): string | null {
+  return hasActiveCareReminderPrompt ? currentText : null;
+}

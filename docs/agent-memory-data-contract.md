@@ -1,6 +1,6 @@
 # Agent Memory / Soul / Task 正式数据契约
 
-状态：阶段 0/0.1 正式契约（2026-08-03）。本契约描述当前桌面端边界；它不授权云端同步、远程上传或让模型自行修改数据。
+状态：阶段 0/0.1 正式契约（2026-08-03；2026-08-11 冻结 Harness V1 Task Context 外发边界）。本契约描述当前桌面端边界；它不授权云端同步、远程上传或让模型自行修改数据。
 
 第一版范围：当前宠物的轻量陪伴聊天。默认不保存完整原始聊天记录；Gemini、OpenAI 或本地 Provider 可以替换，Memory、Task 和检索契约不随 Provider 重写。长期写入只接受用户明确要求或确认后的低风险内容。
 
@@ -45,14 +45,18 @@
 
 - **本地 Provider** 只在本机生成回复，不发起网络请求，也不把聊天上下文交给远程服务。
 - **远程 Provider** 只有在用户主动配置了远程 API Key 后才启用；它可以发送本轮必要上下文，但请求必须先经过统一的远程上下文过滤器。
-- 没有 API Key、API Key 为空或只有空白时，平台固定使用本地 Provider，不会偷偷切换到 Gemini、任何自定义 Gemini endpoint 或其他远程服务。
+- 没有有效凭据、凭据为空或只有空白时，平台固定使用 `local` Adapter，不会偷偷切换到其他远程服务。
 - API Key 只作为本地连接配置使用；它不进入 Memory、Session、Outbox、普通聊天上下文或日志，也不会出现在用户可见的 Provider 提示中。
 
-当前代码已经把本地 Provider、远程 Provider 的纯工厂、聊天打开时的 `info` 解析、配置变化重解析、远程上下文过滤和远程失败后的本地降级拆开。桌面 App 的实际入口（右键菜单“陪我聊聊”与右键双击快捷方式）不提供远程 Key 配置；没有 OS Secret Store 时不会把 Key 放进 `localStorage`，因此内置 App 当前固定使用本地 Provider。测试中的手动注入 Key 只验证 Provider 合同，不代表远程模式已作为用户配置流程交付。
+阶段 7 将 Provider Profile 的稳定 `id`、展示名称、协议、Endpoint、Model 和 `credentialRef` 分开保存；Profile 只保存非秘密元数据，凭据由系统安全存储按 Profile/`credentialRef` 读取。当前支持 `local`、`gemini-native` 和 `openai-compatible` 三种协议；Google Gemini 是 `gemini-native` 的一个预设，OpenAI-compatible 是协议名称而不是供应商名称。设置界面中的远程连接测试和远程聊天请求都必须由用户主动触发。
+
+Provider 配置位于平台顶层“设置”页面的模型服务区块；“提醒设置”只承载任务、提醒偏好和本地 Memory 管理，不再包含模型服务配置。平台设置中心同时承载本机个人信息，后续设置项继续收纳在同一个“设置”页面中。个人资料单独保存在 `yuxin-companion-user-profile-v1`；昵称保存时同步为现有 `global.nickname` 陪伴偏好，性别、邮箱和电话不会进入 Memory、Task、Soul、远程 Provider、Outbox 或普通日志。当前没有账号系统、云端同步或联系人功能；将这些字段清空并保存即可清除本机资料。切换 Provider 只改变模型服务接入，不迁移或重写 Soul、Preference、Memory、Task、主动提醒规则或当前宠物身份。
+
+兼容迁移优先读取 v2 配置，找不到时只读旧 v1 配置并写入新的非秘密元数据；旧 `google-gemini` / `custom-gemini` Profile ID 和对应 `credentialRef` 保持可读，系统安全存储中的既有账户不会被覆盖或删除。旧配置中如果仍有明文 `apiKey` 字段，迁移会忽略该字段而要求用户重新输入，避免把不安全的历史秘密复制到新的普通配置或日志中；无法从旧明文配置无损恢复的凭据是已知限制。
 
 ### 远程模型请求、Repository 持久化与同步边界
 
-- **远程模型请求**：只有用户明确配置 Key 的 Provider 才可能发起；它是一次用户主动聊天发送动作的远程调用，不是同步，也不是本地事实写入。当前内置 App 没有 Key 配置入口，因此实际聊天不发起网络模型请求。
+- **远程模型请求**：只有用户明确配置凭据并主动选择远程 Profile 后才可能发起；它是一次用户主动聊天发送动作或用户主动点击的连接测试，不是同步，也不是本地事实写入。连接测试不会在设置加载或 Provider 切换时自动发起。
 - **Repository 持久化**：Preference、Memory、Task 和本地设置写入本机存储；写入成功才更新 UI，失败不显示成功、不关闭提醒、不清理待处理动作。
 - **Outbox / 同步**：Outbox 只是本机的安全变更投影和未来 Transport 边界；当前没有远程发送、云端数据库、ack/cursor、跨设备同步或远程持久化。Outbox 中的事件不会因为聊天 Provider 存在就自动上传。
 
@@ -65,6 +69,17 @@
 - 未命中敏感规则的当前宠物 Soul、平台策略和必要的回复风格提示；Soul 和平台策略不能包含用户隐私；
 - 未命中敏感规则、且作用域匹配并仍处于有效状态的 Preference 和已确认 Memory 内容。Memory 的 `evidence` 等用户可控字段也必须经过过滤；
 - 服务请求所需的模型、endpoint 和生成参数。完整 Prompt、完整原始聊天记录和 API Key 不作为日志内容保存。
+
+以上是穷举白名单，不是示例列表。Task、Reminder、ReminderInstance、Task 的派生摘要以及 Outbox 中的 Task 事件均不在远程外发白名单内。
+
+### Task / Reminder 远程外发冻结（Harness Phase 2 前置门）
+
+- Harness V1 默认且当前固定不把任何本机 Task/Reminder 事实或投影加入远程 Context；“与当前消息相关”“近期到期”“高优先级”“模型可能需要”都不是外发理由。
+- 用户本轮输入可以自然包含任务措辞；该文本仍只按“当前用户输入”白名单和敏感规则处理，不授权应用查询 `TaskDatabase`、匹配本地任务或把匹配结果拼入请求。
+- 明确的创建、完成、延期、改期和提醒偏好请求继续由本地确定性路由与 Task Store 处理，正常路径为 0 次远程调用；不能为了补充模型上下文而发送本地 Task 事实。
+- 禁止外发的 Task/Reminder 字段包括但不限于：本地 id、title、note、status、priority、projectId、dueAt、remindAt、repeatType、repeatRule、sourceMessageId、evidence、attachmentRefs、createdByPetId、ReminderInstance 状态/时间、`deletedAt`、Tombstone 和 Outbox payload。活动、完成、取消、过期、软删除和物理删除记录一律同样禁止。
+- 因为 V1 从未把本机 Task/Reminder 事实发送给 Provider，本地删除不会产生远程删除请求，也不会发送 Tombstone 或 delete Event。删除后记录立即停止参与本地任务消费者；用户曾在聊天输入中亲自键入的文本可能已由所选服务商处理，本机删除 Task 不能被表述为已追溯删除服务商侧历史。
+- 如未来确有最小 Task 投影需求，必须先单独修订本契约，明确：仅限当前用户同一 Turn 的明确讨论条件、逐字段 allowlist、终态/删除后的立即排除与服务商留存限制、用户可见披露和关闭方式；随后完成 Gemini-native 与 OpenAI-compatible 的请求体隐私 fixture，至少覆盖相关任务、近期到期任务、无关任务、已完成/取消任务和已删除任务。完成这些前置项之前，不得仅凭 Harness TODO 或实现便利增加任何 Task/Reminder Context。
 
 ### 永远不得发送的内容
 
@@ -89,7 +104,7 @@ Memory v1 的本地 Tombstone 保留原 schema 形状，但将 `content`、`evid
 | Task | 查看任务/提醒事实 | `updateTask`、重排提醒 | 完成/取消作为状态操作 | 先软删除并产生 delete Event，按产品规则再物理清理 | 导出任务事实，不含敏感字段 | 任务消费者和提醒调度停止使用 |
 | Event | 查看本机安全 Outbox 投影 | 不允许直接编辑事实事件 | 不适用 | 事实删除产生 delete Event；传播确认后才可压缩 | 仅导出安全投影 | 不影响事实检索，不能把 Event 当事实源 |
 
-以上是当前边界允许的操作，不等于所有操作已经有完整的用户设置 UI；聊天入口已经通过右键菜单和右键双击提供，但远程 Provider 配置入口、OS Secret Store、Event ack/跨设备同步仍未交付。
+以上是当前边界允许的操作；聊天入口和远程 Provider 设置入口已经交付，远程凭据继续只走 OS Secret Store。Event ack、跨设备同步、云端事实源和模型驱动的工具执行仍未交付。
 
 服务商是否保存数据、保存多久、是否用于训练以及处理区域政策，不由本应用保证；用户应以服务商当前有效的条款、隐私政策和区域说明为准。当前项目没有云端数据库、同步服务、向量库、队列或账号系统能力。
 
