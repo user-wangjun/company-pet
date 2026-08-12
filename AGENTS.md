@@ -89,3 +89,18 @@ When improving an existing pet, keep the same package boundary: update only that
 - Pet-specific naming, copy, sprites, and prompts belong in the pet package.
 - Shared renderer, interaction, and loading logic belongs in `src/`.
 - Antigravity project rules are mirrored in `.agents/rules/desktop-pet-pack.md`; keep that file aligned with these rules when changing package conventions.
+
+## Visual Boundary Hard Constraints
+
+These rules apply to Live2D/Cubism material separation, pet artwork repair, and any visual edit where the user marks a boundary on an image.
+
+- The user's latest explicit red-line markup is an authoritative visual boundary, not a suggestion or a shape reference. It overrides earlier candidate geometry and earlier visual approvals for the same scope.
+- Before generating or editing a material, convert the markup into a coordinate-locked boundary contract in the authoritative source canvas. Record the source image hash, canvas size, coordinate transform, boundary segments, and which side is allowed to contain material.
+- The final visible/display alpha must be a subset of the allowed red-line region. Apply the constraint after all geometry operations and again after antialiasing/downsampling. Any alpha outside the boundary is a hard failure.
+- Do not use smoothing, Bézier overshoot, blur, dilation, erosion, threshold expansion, or topology repair to cross or enlarge a user-marked boundary. Hidden continuity is a separate construction concern and must not change visible ownership.
+- A builder must fail closed when the boundary contract is missing, stale, ambiguous, or violated. Required checks include outside-boundary pixels equal to zero, bidirectional boundary coverage/error, and explicit evidence of the latest markup in the review artifact.
+- Source-line distance, topology, coverage, hash, or build success cannot override a visual boundary failure. If machine checks pass while the visual overlay disagrees, return to the earliest invalid visual gate and stop downstream work.
+- Each new user markup replaces the previous candidate as the active geometry reference; do not keep incrementally adjusting a rejected shape without rebuilding from the latest contract.
+- Do not freeze or promote a visually bounded material without a direct user visual approval of the latest red-line overlay. Preserve prior approvals and rejections as historical evidence.
+
+The detailed always-on rule is `.agents/rules/visual-boundary-gate.md`.

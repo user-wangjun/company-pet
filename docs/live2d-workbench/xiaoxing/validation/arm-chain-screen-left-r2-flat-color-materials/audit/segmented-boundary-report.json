@@ -1,0 +1,2456 @@
+{
+  "schemaVersion": 1,
+  "stage": "R2 segmented source-line boundary audit",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "sourceImage": "source/masters/front-line-source-exact-after-reset.png",
+  "sourceThreshold": 235,
+  "visibleSegmentCount": 9,
+  "handAudit": "audit/hand-boundary-error-table.json",
+  "segments": [
+    {
+      "sourceLineSegmentId": "sleeve_outer_profile",
+      "maskLayer": "sleeve",
+      "classification": "observed",
+      "maskBoundaryPixels": 228,
+      "maskBoundaryPixelSample": [
+        [
+          163,
+          225
+        ],
+        [
+          164,
+          225
+        ],
+        [
+          165,
+          225
+        ],
+        [
+          166,
+          225
+        ],
+        [
+          163,
+          226
+        ],
+        [
+          166,
+          226
+        ],
+        [
+          167,
+          226
+        ],
+        [
+          161,
+          227
+        ],
+        [
+          162,
+          227
+        ],
+        [
+          163,
+          227
+        ],
+        [
+          167,
+          227
+        ],
+        [
+          168,
+          227
+        ],
+        [
+          160,
+          228
+        ],
+        [
+          161,
+          228
+        ],
+        [
+          168,
+          228
+        ],
+        [
+          169,
+          228
+        ],
+        [
+          158,
+          229
+        ],
+        [
+          159,
+          229
+        ],
+        [
+          160,
+          229
+        ],
+        [
+          169,
+          229
+        ],
+        [
+          157,
+          230
+        ],
+        [
+          158,
+          230
+        ],
+        [
+          155,
+          231
+        ],
+        [
+          156,
+          231
+        ],
+        [
+          157,
+          231
+        ],
+        [
+          154,
+          232
+        ],
+        [
+          155,
+          232
+        ],
+        [
+          153,
+          233
+        ],
+        [
+          154,
+          233
+        ],
+        [
+          152,
+          234
+        ],
+        [
+          153,
+          234
+        ],
+        [
+          151,
+          235
+        ],
+        [
+          152,
+          235
+        ],
+        [
+          150,
+          236
+        ],
+        [
+          151,
+          236
+        ],
+        [
+          150,
+          237
+        ],
+        [
+          150,
+          238
+        ],
+        [
+          149,
+          239
+        ],
+        [
+          150,
+          239
+        ],
+        [
+          149,
+          240
+        ],
+        [
+          148,
+          241
+        ],
+        [
+          149,
+          241
+        ],
+        [
+          148,
+          242
+        ],
+        [
+          148,
+          243
+        ],
+        [
+          147,
+          244
+        ],
+        [
+          148,
+          244
+        ],
+        [
+          147,
+          245
+        ],
+        [
+          146,
+          246
+        ],
+        [
+          147,
+          246
+        ],
+        [
+          146,
+          247
+        ],
+        [
+          146,
+          248
+        ],
+        [
+          145,
+          249
+        ],
+        [
+          146,
+          249
+        ],
+        [
+          145,
+          250
+        ],
+        [
+          144,
+          251
+        ],
+        [
+          145,
+          251
+        ],
+        [
+          144,
+          252
+        ],
+        [
+          144,
+          253
+        ],
+        [
+          143,
+          254
+        ],
+        [
+          144,
+          254
+        ],
+        [
+          143,
+          255
+        ],
+        [
+          142,
+          256
+        ],
+        [
+          143,
+          256
+        ],
+        [
+          142,
+          257
+        ]
+      ],
+      "sourceLinePixelsInCorridor": 450,
+      "nearestSourceLineDistanceDistributionPx": {
+        "count": 228,
+        "p50Px": 0.0,
+        "p90Px": 0.0,
+        "p95Px": 1.0,
+        "p99Px": 2.0,
+        "maxPx": 3.0,
+        "binsPx": {
+          "0-1": 225,
+          "1-2": 2,
+          "2-4": 1,
+          "4-8": 0,
+          "8-16": 0,
+          "16+": 0
+        }
+      },
+      "maxErrorPx": 3.0,
+      "tolerancePx": 9.0,
+      "overTolerancePixels": 0,
+      "noCorrespondingSourceLineBoundaryPixels": 0,
+      "sourceTraceCorridorPx": 6.0,
+      "boundaryTraceCorridorPx": 7.0,
+      "traceBasis": "front-line-source-exact-after-reset manual corridor; rendered boundary is sampled from the mask, never from this trace"
+    },
+    {
+      "sourceLineSegmentId": "sleeve_cuff_outer_edge",
+      "maskLayer": "sleeve",
+      "classification": "observed",
+      "maskBoundaryPixels": 109,
+      "maskBoundaryPixelSample": [
+        [
+          98,
+          364
+        ],
+        [
+          99,
+          364
+        ],
+        [
+          98,
+          365
+        ],
+        [
+          98,
+          366
+        ],
+        [
+          98,
+          367
+        ],
+        [
+          98,
+          368
+        ],
+        [
+          98,
+          369
+        ],
+        [
+          98,
+          370
+        ],
+        [
+          99,
+          370
+        ],
+        [
+          100,
+          370
+        ],
+        [
+          100,
+          371
+        ],
+        [
+          101,
+          371
+        ],
+        [
+          101,
+          372
+        ],
+        [
+          102,
+          372
+        ],
+        [
+          103,
+          372
+        ],
+        [
+          104,
+          372
+        ],
+        [
+          104,
+          373
+        ],
+        [
+          105,
+          373
+        ],
+        [
+          106,
+          373
+        ],
+        [
+          106,
+          374
+        ],
+        [
+          107,
+          374
+        ],
+        [
+          108,
+          374
+        ],
+        [
+          109,
+          374
+        ],
+        [
+          109,
+          375
+        ],
+        [
+          110,
+          375
+        ],
+        [
+          110,
+          376
+        ],
+        [
+          111,
+          376
+        ],
+        [
+          112,
+          376
+        ],
+        [
+          113,
+          376
+        ],
+        [
+          113,
+          377
+        ],
+        [
+          114,
+          377
+        ],
+        [
+          115,
+          377
+        ],
+        [
+          115,
+          378
+        ],
+        [
+          116,
+          378
+        ],
+        [
+          117,
+          378
+        ],
+        [
+          118,
+          378
+        ],
+        [
+          118,
+          379
+        ],
+        [
+          119,
+          379
+        ],
+        [
+          120,
+          379
+        ],
+        [
+          121,
+          379
+        ],
+        [
+          121,
+          380
+        ],
+        [
+          122,
+          380
+        ],
+        [
+          123,
+          380
+        ],
+        [
+          123,
+          381
+        ],
+        [
+          124,
+          381
+        ],
+        [
+          125,
+          381
+        ],
+        [
+          126,
+          381
+        ],
+        [
+          126,
+          382
+        ],
+        [
+          127,
+          382
+        ],
+        [
+          128,
+          382
+        ],
+        [
+          129,
+          382
+        ],
+        [
+          129,
+          383
+        ],
+        [
+          130,
+          383
+        ],
+        [
+          131,
+          383
+        ],
+        [
+          131,
+          384
+        ],
+        [
+          132,
+          384
+        ],
+        [
+          133,
+          384
+        ],
+        [
+          134,
+          384
+        ],
+        [
+          134,
+          385
+        ],
+        [
+          135,
+          385
+        ],
+        [
+          136,
+          385
+        ],
+        [
+          136,
+          386
+        ],
+        [
+          137,
+          386
+        ],
+        [
+          138,
+          386
+        ]
+      ],
+      "sourceLinePixelsInCorridor": 308,
+      "nearestSourceLineDistanceDistributionPx": {
+        "count": 109,
+        "p50Px": 0.0,
+        "p90Px": 1.0,
+        "p95Px": 1.0,
+        "p99Px": 1.4142,
+        "maxPx": 1.4142,
+        "binsPx": {
+          "0-1": 105,
+          "1-2": 4,
+          "2-4": 0,
+          "4-8": 0,
+          "8-16": 0,
+          "16+": 0
+        }
+      },
+      "maxErrorPx": 1.4142,
+      "tolerancePx": 9.0,
+      "overTolerancePixels": 0,
+      "noCorrespondingSourceLineBoundaryPixels": 0,
+      "sourceTraceCorridorPx": 6.0,
+      "boundaryTraceCorridorPx": 7.0,
+      "traceBasis": "front-line-source-exact-after-reset manual corridor; rendered boundary is sampled from the mask, never from this trace"
+    },
+    {
+      "sourceLineSegmentId": "sleeve_cuff_inner_edge",
+      "maskLayer": "sleeve",
+      "classification": "observed",
+      "maskBoundaryPixels": 92,
+      "maskBoundaryPixelSample": [
+        [
+          105,
+          373
+        ],
+        [
+          106,
+          373
+        ],
+        [
+          106,
+          374
+        ],
+        [
+          107,
+          374
+        ],
+        [
+          108,
+          374
+        ],
+        [
+          109,
+          374
+        ],
+        [
+          109,
+          375
+        ],
+        [
+          110,
+          375
+        ],
+        [
+          110,
+          376
+        ],
+        [
+          111,
+          376
+        ],
+        [
+          112,
+          376
+        ],
+        [
+          113,
+          376
+        ],
+        [
+          113,
+          377
+        ],
+        [
+          114,
+          377
+        ],
+        [
+          115,
+          377
+        ],
+        [
+          115,
+          378
+        ],
+        [
+          116,
+          378
+        ],
+        [
+          117,
+          378
+        ],
+        [
+          118,
+          378
+        ],
+        [
+          118,
+          379
+        ],
+        [
+          119,
+          379
+        ],
+        [
+          120,
+          379
+        ],
+        [
+          121,
+          379
+        ],
+        [
+          121,
+          380
+        ],
+        [
+          122,
+          380
+        ],
+        [
+          123,
+          380
+        ],
+        [
+          123,
+          381
+        ],
+        [
+          124,
+          381
+        ],
+        [
+          125,
+          381
+        ],
+        [
+          126,
+          381
+        ],
+        [
+          126,
+          382
+        ],
+        [
+          127,
+          382
+        ],
+        [
+          128,
+          382
+        ],
+        [
+          129,
+          382
+        ],
+        [
+          129,
+          383
+        ],
+        [
+          130,
+          383
+        ],
+        [
+          131,
+          383
+        ],
+        [
+          131,
+          384
+        ],
+        [
+          132,
+          384
+        ],
+        [
+          133,
+          384
+        ],
+        [
+          134,
+          384
+        ],
+        [
+          134,
+          385
+        ],
+        [
+          135,
+          385
+        ],
+        [
+          136,
+          385
+        ],
+        [
+          136,
+          386
+        ],
+        [
+          137,
+          386
+        ],
+        [
+          138,
+          386
+        ],
+        [
+          139,
+          386
+        ],
+        [
+          139,
+          387
+        ],
+        [
+          140,
+          387
+        ],
+        [
+          140,
+          388
+        ],
+        [
+          141,
+          388
+        ],
+        [
+          142,
+          388
+        ],
+        [
+          143,
+          388
+        ],
+        [
+          143,
+          389
+        ],
+        [
+          144,
+          389
+        ],
+        [
+          145,
+          389
+        ],
+        [
+          146,
+          389
+        ],
+        [
+          146,
+          390
+        ],
+        [
+          147,
+          390
+        ],
+        [
+          148,
+          390
+        ],
+        [
+          148,
+          391
+        ],
+        [
+          149,
+          391
+        ],
+        [
+          150,
+          391
+        ]
+      ],
+      "sourceLinePixelsInCorridor": 251,
+      "nearestSourceLineDistanceDistributionPx": {
+        "count": 92,
+        "p50Px": 0.0,
+        "p90Px": 1.0,
+        "p95Px": 1.0,
+        "p99Px": 1.4142,
+        "maxPx": 1.4142,
+        "binsPx": {
+          "0-1": 88,
+          "1-2": 4,
+          "2-4": 0,
+          "4-8": 0,
+          "8-16": 0,
+          "16+": 0
+        }
+      },
+      "maxErrorPx": 1.4142,
+      "tolerancePx": 9.0,
+      "overTolerancePixels": 0,
+      "noCorrespondingSourceLineBoundaryPixels": 0,
+      "sourceTraceCorridorPx": 6.0,
+      "boundaryTraceCorridorPx": 7.0,
+      "traceBasis": "front-line-source-exact-after-reset manual corridor; rendered boundary is sampled from the mask, never from this trace"
+    },
+    {
+      "sourceLineSegmentId": "forearm_outer_visible_contour",
+      "maskLayer": "forearm-skin",
+      "classification": "observed",
+      "maskBoundaryPixels": 166,
+      "maskBoundaryPixelSample": [
+        [
+          133,
+          398
+        ],
+        [
+          134,
+          398
+        ],
+        [
+          135,
+          398
+        ],
+        [
+          136,
+          398
+        ],
+        [
+          137,
+          398
+        ],
+        [
+          138,
+          398
+        ],
+        [
+          139,
+          398
+        ],
+        [
+          140,
+          398
+        ],
+        [
+          141,
+          398
+        ],
+        [
+          133,
+          399
+        ],
+        [
+          133,
+          400
+        ],
+        [
+          133,
+          401
+        ],
+        [
+          132,
+          402
+        ],
+        [
+          133,
+          402
+        ],
+        [
+          132,
+          403
+        ],
+        [
+          132,
+          404
+        ],
+        [
+          132,
+          405
+        ],
+        [
+          131,
+          406
+        ],
+        [
+          132,
+          406
+        ],
+        [
+          131,
+          407
+        ],
+        [
+          131,
+          408
+        ],
+        [
+          130,
+          409
+        ],
+        [
+          131,
+          409
+        ],
+        [
+          130,
+          410
+        ],
+        [
+          129,
+          411
+        ],
+        [
+          130,
+          411
+        ],
+        [
+          129,
+          412
+        ],
+        [
+          129,
+          413
+        ],
+        [
+          128,
+          414
+        ],
+        [
+          129,
+          414
+        ],
+        [
+          128,
+          415
+        ],
+        [
+          128,
+          416
+        ],
+        [
+          127,
+          417
+        ],
+        [
+          128,
+          417
+        ],
+        [
+          127,
+          418
+        ],
+        [
+          127,
+          419
+        ],
+        [
+          126,
+          420
+        ],
+        [
+          127,
+          420
+        ],
+        [
+          126,
+          421
+        ],
+        [
+          126,
+          422
+        ],
+        [
+          125,
+          423
+        ],
+        [
+          126,
+          423
+        ],
+        [
+          125,
+          424
+        ],
+        [
+          125,
+          425
+        ],
+        [
+          125,
+          426
+        ],
+        [
+          124,
+          427
+        ],
+        [
+          125,
+          427
+        ],
+        [
+          124,
+          428
+        ],
+        [
+          124,
+          429
+        ],
+        [
+          123,
+          430
+        ],
+        [
+          124,
+          430
+        ],
+        [
+          123,
+          431
+        ],
+        [
+          123,
+          432
+        ],
+        [
+          123,
+          433
+        ],
+        [
+          122,
+          434
+        ],
+        [
+          123,
+          434
+        ],
+        [
+          122,
+          435
+        ],
+        [
+          122,
+          436
+        ],
+        [
+          122,
+          437
+        ],
+        [
+          122,
+          438
+        ],
+        [
+          121,
+          439
+        ],
+        [
+          122,
+          439
+        ],
+        [
+          121,
+          440
+        ],
+        [
+          121,
+          441
+        ]
+      ],
+      "sourceLinePixelsInCorridor": 385,
+      "nearestSourceLineDistanceDistributionPx": {
+        "count": 166,
+        "p50Px": 0.0,
+        "p90Px": 1.0,
+        "p95Px": 1.0,
+        "p99Px": 3.6056,
+        "maxPx": 5.3852,
+        "binsPx": {
+          "0-1": 159,
+          "1-2": 3,
+          "2-4": 2,
+          "4-8": 2,
+          "8-16": 0,
+          "16+": 0
+        }
+      },
+      "maxErrorPx": 5.3852,
+      "tolerancePx": 9.0,
+      "overTolerancePixels": 0,
+      "noCorrespondingSourceLineBoundaryPixels": 0,
+      "sourceTraceCorridorPx": 6.0,
+      "boundaryTraceCorridorPx": 7.0,
+      "traceBasis": "front-line-source-exact-after-reset manual corridor; rendered boundary is sampled from the mask, never from this trace"
+    },
+    {
+      "sourceLineSegmentId": "forearm_inner_visible_contour",
+      "maskLayer": "forearm-skin",
+      "classification": "observed",
+      "maskBoundaryPixels": 178,
+      "maskBoundaryPixelSample": [
+        [
+          157,
+          398
+        ],
+        [
+          158,
+          398
+        ],
+        [
+          159,
+          398
+        ],
+        [
+          160,
+          398
+        ],
+        [
+          161,
+          398
+        ],
+        [
+          162,
+          398
+        ],
+        [
+          165,
+          398
+        ],
+        [
+          162,
+          399
+        ],
+        [
+          163,
+          399
+        ],
+        [
+          164,
+          399
+        ],
+        [
+          165,
+          399
+        ],
+        [
+          164,
+          400
+        ],
+        [
+          165,
+          400
+        ],
+        [
+          164,
+          401
+        ],
+        [
+          164,
+          402
+        ],
+        [
+          164,
+          403
+        ],
+        [
+          164,
+          404
+        ],
+        [
+          164,
+          405
+        ],
+        [
+          164,
+          406
+        ],
+        [
+          164,
+          407
+        ],
+        [
+          165,
+          407
+        ],
+        [
+          165,
+          408
+        ],
+        [
+          165,
+          409
+        ],
+        [
+          165,
+          410
+        ],
+        [
+          165,
+          411
+        ],
+        [
+          165,
+          412
+        ],
+        [
+          165,
+          413
+        ],
+        [
+          165,
+          414
+        ],
+        [
+          164,
+          415
+        ],
+        [
+          165,
+          415
+        ],
+        [
+          164,
+          416
+        ],
+        [
+          164,
+          417
+        ],
+        [
+          164,
+          418
+        ],
+        [
+          164,
+          419
+        ],
+        [
+          163,
+          420
+        ],
+        [
+          164,
+          420
+        ],
+        [
+          163,
+          421
+        ],
+        [
+          163,
+          422
+        ],
+        [
+          163,
+          423
+        ],
+        [
+          163,
+          424
+        ],
+        [
+          163,
+          425
+        ],
+        [
+          163,
+          426
+        ],
+        [
+          159,
+          427
+        ],
+        [
+          160,
+          427
+        ],
+        [
+          161,
+          427
+        ],
+        [
+          162,
+          427
+        ],
+        [
+          163,
+          427
+        ],
+        [
+          159,
+          428
+        ],
+        [
+          159,
+          429
+        ],
+        [
+          159,
+          430
+        ],
+        [
+          158,
+          431
+        ],
+        [
+          159,
+          431
+        ],
+        [
+          160,
+          431
+        ],
+        [
+          161,
+          431
+        ],
+        [
+          162,
+          431
+        ],
+        [
+          158,
+          432
+        ],
+        [
+          158,
+          433
+        ],
+        [
+          158,
+          434
+        ],
+        [
+          157,
+          435
+        ],
+        [
+          158,
+          435
+        ],
+        [
+          157,
+          436
+        ],
+        [
+          157,
+          437
+        ],
+        [
+          156,
+          438
+        ],
+        [
+          157,
+          438
+        ]
+      ],
+      "sourceLinePixelsInCorridor": 471,
+      "nearestSourceLineDistanceDistributionPx": {
+        "count": 178,
+        "p50Px": 0.0,
+        "p90Px": 1.0,
+        "p95Px": 1.0,
+        "p99Px": 1.4142,
+        "maxPx": 2.0,
+        "binsPx": {
+          "0-1": 175,
+          "1-2": 3,
+          "2-4": 0,
+          "4-8": 0,
+          "8-16": 0,
+          "16+": 0
+        }
+      },
+      "maxErrorPx": 2.0,
+      "tolerancePx": 9.0,
+      "overTolerancePixels": 0,
+      "noCorrespondingSourceLineBoundaryPixels": 0,
+      "sourceTraceCorridorPx": 6.0,
+      "boundaryTraceCorridorPx": 7.0,
+      "traceBasis": "front-line-source-exact-after-reset manual corridor; rendered boundary is sampled from the mask, never from this trace"
+    },
+    {
+      "sourceLineSegmentId": "bracelet_proximal_loop",
+      "maskLayer": "bracelet-back",
+      "classification": "observed",
+      "maskBoundaryPixels": 96,
+      "maskBoundaryPixelSample": [
+        [
+          101,
+          516
+        ],
+        [
+          102,
+          516
+        ],
+        [
+          103,
+          516
+        ],
+        [
+          104,
+          516
+        ],
+        [
+          105,
+          516
+        ],
+        [
+          101,
+          517
+        ],
+        [
+          105,
+          517
+        ],
+        [
+          101,
+          518
+        ],
+        [
+          103,
+          518
+        ],
+        [
+          104,
+          518
+        ],
+        [
+          105,
+          518
+        ],
+        [
+          100,
+          519
+        ],
+        [
+          101,
+          519
+        ],
+        [
+          103,
+          519
+        ],
+        [
+          105,
+          519
+        ],
+        [
+          106,
+          519
+        ],
+        [
+          107,
+          519
+        ],
+        [
+          100,
+          520
+        ],
+        [
+          103,
+          520
+        ],
+        [
+          105,
+          520
+        ],
+        [
+          107,
+          520
+        ],
+        [
+          108,
+          520
+        ],
+        [
+          100,
+          521
+        ],
+        [
+          101,
+          521
+        ],
+        [
+          102,
+          521
+        ],
+        [
+          103,
+          521
+        ],
+        [
+          104,
+          521
+        ],
+        [
+          105,
+          521
+        ],
+        [
+          107,
+          521
+        ],
+        [
+          109,
+          521
+        ],
+        [
+          110,
+          521
+        ],
+        [
+          104,
+          522
+        ],
+        [
+          105,
+          522
+        ],
+        [
+          106,
+          522
+        ],
+        [
+          107,
+          522
+        ],
+        [
+          108,
+          522
+        ],
+        [
+          109,
+          522
+        ],
+        [
+          110,
+          522
+        ],
+        [
+          111,
+          522
+        ],
+        [
+          112,
+          522
+        ],
+        [
+          107,
+          523
+        ],
+        [
+          108,
+          523
+        ],
+        [
+          109,
+          523
+        ],
+        [
+          110,
+          523
+        ],
+        [
+          111,
+          523
+        ],
+        [
+          112,
+          523
+        ],
+        [
+          113,
+          523
+        ],
+        [
+          114,
+          523
+        ],
+        [
+          123,
+          523
+        ],
+        [
+          111,
+          524
+        ],
+        [
+          112,
+          524
+        ],
+        [
+          113,
+          524
+        ],
+        [
+          114,
+          524
+        ],
+        [
+          115,
+          524
+        ],
+        [
+          116,
+          524
+        ],
+        [
+          123,
+          524
+        ],
+        [
+          124,
+          524
+        ],
+        [
+          113,
+          525
+        ],
+        [
+          114,
+          525
+        ],
+        [
+          115,
+          525
+        ],
+        [
+          116,
+          525
+        ],
+        [
+          117,
+          525
+        ],
+        [
+          118,
+          525
+        ],
+        [
+          119,
+          525
+        ]
+      ],
+      "sourceLinePixelsInCorridor": 160,
+      "nearestSourceLineDistanceDistributionPx": {
+        "count": 96,
+        "p50Px": 0.0,
+        "p90Px": 0.0,
+        "p95Px": 0.0,
+        "p99Px": 1.0,
+        "maxPx": 1.0,
+        "binsPx": {
+          "0-1": 96,
+          "1-2": 0,
+          "2-4": 0,
+          "4-8": 0,
+          "8-16": 0,
+          "16+": 0
+        }
+      },
+      "maxErrorPx": 1.0,
+      "tolerancePx": 9.0,
+      "overTolerancePixels": 0,
+      "noCorrespondingSourceLineBoundaryPixels": 0,
+      "sourceTraceCorridorPx": 6.0,
+      "boundaryTraceCorridorPx": 7.0,
+      "traceBasis": "front-line-source-exact-after-reset manual corridor; rendered boundary is sampled from the mask, never from this trace"
+    },
+    {
+      "sourceLineSegmentId": "bracelet_distal_loop",
+      "maskLayer": "bracelet-front",
+      "classification": "observed",
+      "maskBoundaryPixels": 113,
+      "maskBoundaryPixelSample": [
+        [
+          99,
+          518
+        ],
+        [
+          100,
+          518
+        ],
+        [
+          99,
+          519
+        ],
+        [
+          99,
+          520
+        ],
+        [
+          99,
+          521
+        ],
+        [
+          99,
+          522
+        ],
+        [
+          100,
+          522
+        ],
+        [
+          101,
+          522
+        ],
+        [
+          102,
+          522
+        ],
+        [
+          103,
+          522
+        ],
+        [
+          100,
+          523
+        ],
+        [
+          103,
+          523
+        ],
+        [
+          104,
+          523
+        ],
+        [
+          100,
+          524
+        ],
+        [
+          101,
+          524
+        ],
+        [
+          102,
+          524
+        ],
+        [
+          103,
+          524
+        ],
+        [
+          105,
+          524
+        ],
+        [
+          106,
+          524
+        ],
+        [
+          110,
+          524
+        ],
+        [
+          100,
+          525
+        ],
+        [
+          101,
+          525
+        ],
+        [
+          103,
+          525
+        ],
+        [
+          104,
+          525
+        ],
+        [
+          105,
+          525
+        ],
+        [
+          106,
+          525
+        ],
+        [
+          107,
+          525
+        ],
+        [
+          112,
+          525
+        ],
+        [
+          99,
+          526
+        ],
+        [
+          100,
+          526
+        ],
+        [
+          101,
+          526
+        ],
+        [
+          102,
+          526
+        ],
+        [
+          103,
+          526
+        ],
+        [
+          107,
+          526
+        ],
+        [
+          108,
+          526
+        ],
+        [
+          114,
+          526
+        ],
+        [
+          115,
+          526
+        ],
+        [
+          98,
+          527
+        ],
+        [
+          99,
+          527
+        ],
+        [
+          108,
+          527
+        ],
+        [
+          109,
+          527
+        ],
+        [
+          110,
+          527
+        ],
+        [
+          116,
+          527
+        ],
+        [
+          98,
+          528
+        ],
+        [
+          99,
+          528
+        ],
+        [
+          100,
+          528
+        ],
+        [
+          101,
+          528
+        ],
+        [
+          102,
+          528
+        ],
+        [
+          103,
+          528
+        ],
+        [
+          108,
+          528
+        ],
+        [
+          109,
+          528
+        ],
+        [
+          110,
+          528
+        ],
+        [
+          111,
+          528
+        ],
+        [
+          118,
+          528
+        ],
+        [
+          119,
+          528
+        ],
+        [
+          103,
+          529
+        ],
+        [
+          104,
+          529
+        ],
+        [
+          105,
+          529
+        ],
+        [
+          107,
+          529
+        ],
+        [
+          108,
+          529
+        ],
+        [
+          110,
+          529
+        ],
+        [
+          111,
+          529
+        ],
+        [
+          112,
+          529
+        ],
+        [
+          113,
+          529
+        ]
+      ],
+      "sourceLinePixelsInCorridor": 260,
+      "nearestSourceLineDistanceDistributionPx": {
+        "count": 113,
+        "p50Px": 0.0,
+        "p90Px": 0.0,
+        "p95Px": 1.0,
+        "p99Px": 1.0,
+        "maxPx": 1.0,
+        "binsPx": {
+          "0-1": 113,
+          "1-2": 0,
+          "2-4": 0,
+          "4-8": 0,
+          "8-16": 0,
+          "16+": 0
+        }
+      },
+      "maxErrorPx": 1.0,
+      "tolerancePx": 9.0,
+      "overTolerancePixels": 0,
+      "noCorrespondingSourceLineBoundaryPixels": 0,
+      "sourceTraceCorridorPx": 6.0,
+      "boundaryTraceCorridorPx": 7.0,
+      "traceBasis": "front-line-source-exact-after-reset manual corridor; rendered boundary is sampled from the mask, never from this trace"
+    },
+    {
+      "sourceLineSegmentId": "bracelet_hanging_left",
+      "maskLayer": "bracelet-front",
+      "classification": "observed",
+      "maskBoundaryPixels": 58,
+      "maskBoundaryPixelSample": [
+        [
+          99,
+          518
+        ],
+        [
+          100,
+          518
+        ],
+        [
+          99,
+          519
+        ],
+        [
+          99,
+          520
+        ],
+        [
+          99,
+          521
+        ],
+        [
+          99,
+          522
+        ],
+        [
+          100,
+          522
+        ],
+        [
+          101,
+          522
+        ],
+        [
+          102,
+          522
+        ],
+        [
+          103,
+          522
+        ],
+        [
+          100,
+          523
+        ],
+        [
+          103,
+          523
+        ],
+        [
+          104,
+          523
+        ],
+        [
+          100,
+          524
+        ],
+        [
+          101,
+          524
+        ],
+        [
+          102,
+          524
+        ],
+        [
+          103,
+          524
+        ],
+        [
+          105,
+          524
+        ],
+        [
+          106,
+          524
+        ],
+        [
+          110,
+          524
+        ],
+        [
+          100,
+          525
+        ],
+        [
+          101,
+          525
+        ],
+        [
+          103,
+          525
+        ],
+        [
+          104,
+          525
+        ],
+        [
+          105,
+          525
+        ],
+        [
+          106,
+          525
+        ],
+        [
+          107,
+          525
+        ],
+        [
+          99,
+          526
+        ],
+        [
+          100,
+          526
+        ],
+        [
+          101,
+          526
+        ],
+        [
+          102,
+          526
+        ],
+        [
+          103,
+          526
+        ],
+        [
+          107,
+          526
+        ],
+        [
+          108,
+          526
+        ],
+        [
+          98,
+          527
+        ],
+        [
+          99,
+          527
+        ],
+        [
+          108,
+          527
+        ],
+        [
+          109,
+          527
+        ],
+        [
+          110,
+          527
+        ],
+        [
+          98,
+          528
+        ],
+        [
+          99,
+          528
+        ],
+        [
+          100,
+          528
+        ],
+        [
+          101,
+          528
+        ],
+        [
+          102,
+          528
+        ],
+        [
+          103,
+          528
+        ],
+        [
+          108,
+          528
+        ],
+        [
+          109,
+          528
+        ],
+        [
+          110,
+          528
+        ],
+        [
+          103,
+          529
+        ],
+        [
+          104,
+          529
+        ],
+        [
+          105,
+          529
+        ],
+        [
+          107,
+          529
+        ],
+        [
+          108,
+          529
+        ],
+        [
+          110,
+          529
+        ],
+        [
+          103,
+          530
+        ],
+        [
+          105,
+          530
+        ],
+        [
+          106,
+          530
+        ],
+        [
+          107,
+          530
+        ]
+      ],
+      "sourceLinePixelsInCorridor": 191,
+      "nearestSourceLineDistanceDistributionPx": {
+        "count": 58,
+        "p50Px": 0.0,
+        "p90Px": 0.0,
+        "p95Px": 0.0,
+        "p99Px": 1.0,
+        "maxPx": 1.0,
+        "binsPx": {
+          "0-1": 58,
+          "1-2": 0,
+          "2-4": 0,
+          "4-8": 0,
+          "8-16": 0,
+          "16+": 0
+        }
+      },
+      "maxErrorPx": 1.0,
+      "tolerancePx": 9.0,
+      "overTolerancePixels": 0,
+      "noCorrespondingSourceLineBoundaryPixels": 0,
+      "sourceTraceCorridorPx": 6.0,
+      "boundaryTraceCorridorPx": 7.0,
+      "traceBasis": "front-line-source-exact-after-reset manual corridor; rendered boundary is sampled from the mask, never from this trace"
+    },
+    {
+      "sourceLineSegmentId": "bracelet_hanging_right",
+      "maskLayer": "bracelet-front",
+      "classification": "observed",
+      "maskBoundaryPixels": 22,
+      "maskBoundaryPixelSample": [
+        [
+          122,
+          529
+        ],
+        [
+          122,
+          530
+        ],
+        [
+          123,
+          530
+        ],
+        [
+          124,
+          530
+        ],
+        [
+          125,
+          530
+        ],
+        [
+          121,
+          531
+        ],
+        [
+          125,
+          531
+        ],
+        [
+          126,
+          531
+        ],
+        [
+          127,
+          531
+        ],
+        [
+          121,
+          532
+        ],
+        [
+          125,
+          532
+        ],
+        [
+          126,
+          532
+        ],
+        [
+          123,
+          533
+        ],
+        [
+          124,
+          533
+        ],
+        [
+          125,
+          533
+        ],
+        [
+          120,
+          534
+        ],
+        [
+          123,
+          534
+        ],
+        [
+          120,
+          535
+        ],
+        [
+          121,
+          535
+        ],
+        [
+          122,
+          535
+        ],
+        [
+          123,
+          535
+        ],
+        [
+          123,
+          536
+        ]
+      ],
+      "sourceLinePixelsInCorridor": 91,
+      "nearestSourceLineDistanceDistributionPx": {
+        "count": 22,
+        "p50Px": 0.0,
+        "p90Px": 1.0,
+        "p95Px": 1.0,
+        "p99Px": 1.0,
+        "maxPx": 1.0,
+        "binsPx": {
+          "0-1": 22,
+          "1-2": 0,
+          "2-4": 0,
+          "4-8": 0,
+          "8-16": 0,
+          "16+": 0
+        }
+      },
+      "maxErrorPx": 1.0,
+      "tolerancePx": 9.0,
+      "overTolerancePixels": 0,
+      "noCorrespondingSourceLineBoundaryPixels": 0,
+      "sourceTraceCorridorPx": 6.0,
+      "boundaryTraceCorridorPx": 7.0,
+      "traceBasis": "front-line-source-exact-after-reset manual corridor; rendered boundary is sampled from the mask, never from this trace"
+    }
+  ],
+  "hiddenBoundaryConstraints": [
+    {
+      "id": "upper_arm_shoulder_root",
+      "maskLayer": "upper_arm",
+      "classification": "hidden",
+      "status": "derived",
+      "constraint": "R1 shoulder envelope and shoulder cubic root; source-line error not applicable"
+    },
+    {
+      "id": "forearm_wrist_root",
+      "maskLayer": "forearm-skin",
+      "classification": "hidden",
+      "status": "derived_with_unresolved_depth",
+      "constraint": "R1 wrist envelope, forearm bone-axis taper, and cubic wrist cap; source-line error not applicable"
+    },
+    {
+      "id": "hand_wrist_root",
+      "maskLayer": "hand",
+      "classification": "hidden",
+      "status": "derived_minimal_candidate",
+      "constraint": "R1 wrist/palmRoot direction and minimal cubic wrist root; source-line error is excluded under bracelet"
+    }
+  ],
+  "checks": [
+    {
+      "id": "all_visible_segments_have_source_samples",
+      "pass": true,
+      "detail": "每个可见段均有实际源线像素和对应 mask boundary 像素"
+    },
+    {
+      "id": "visible_segments_within_source_tolerance",
+      "pass": true,
+      "detail": "可见边界逐段最近源线误差在 9 px 容差内；隐藏段不使用该指标",
+      "segmentFailures": []
+    },
+    {
+      "id": "hidden_segments_use_r1_constraints_not_source_error",
+      "pass": true,
+      "detail": "隐藏边界按 R1 包络/体积约束审计，不伪造可见原线误差"
+    }
+  ]
+}

@@ -1,0 +1,633 @@
+{
+  "globalRules": {
+    "allowedGeometry": [
+      "local smooth convex envelope",
+      "ellipse arc",
+      "Bezier curve with continuous tangent"
+    ],
+    "forbiddenGeometry": [
+      "尖角",
+      "楔形",
+      "锐利多边形",
+      "粗糙全局凸包",
+      "固定圆形补丁",
+      "径向填充",
+      "blur",
+      "dilate",
+      "克隆皮肤块",
+      "纹理遮缝"
+    ],
+    "hiddenOverlapIsNotVisiblePixelSharing": true,
+    "sharedPivotRequired": true,
+    "visibleBoundaryRule": "visible ownership remains unique even where hidden parent/child envelopes overlap"
+  },
+  "identity": {
+    "anatomicalSide": "right",
+    "character": "xiaoxing",
+    "definition": "正面画面左侧手臂，即角色解剖学右臂",
+    "screenSide": "left",
+    "subject": "小星 Left",
+    "view": "front"
+  },
+  "joints": [
+    {
+      "activeEnvelope": {
+        "analyticReference": "ellipse curvature is continuous; cubic controls use the 45-degree kappa approximation",
+        "basis": "shared pivot + parent/child bone axis + observed local width + multi-view depth",
+        "bezierSegments": [
+          {
+            "control1": [
+              156.948919,
+              294.023372
+            ],
+            "control2": [
+              151.74523,
+              290.68092
+            ],
+            "end": [
+              148.267352,
+              285.49365
+            ],
+            "start": [
+              162.733667,
+              294.785703
+            ]
+          },
+          {
+            "control1": [
+              144.789474,
+              280.30638
+            ],
+            "control2": [
+              143.322296,
+              273.699204
+            ],
+            "end": [
+              144.188581,
+              267.125627
+            ],
+            "start": [
+              148.267352,
+              285.49365
+            ]
+          },
+          {
+            "control1": [
+              145.054866,
+              260.55205
+            ],
+            "control2": [
+              148.183653,
+              254.550544
+            ],
+            "end": [
+              152.886644,
+              250.441373
+            ],
+            "start": [
+              144.188581,
+              267.125627
+            ]
+          },
+          {
+            "control1": [
+              157.589635,
+              246.332202
+            ],
+            "control2": [
+              163.481585,
+              244.451966
+            ],
+            "end": [
+              169.266333,
+              245.214297
+            ],
+            "start": [
+              152.886644,
+              250.441373
+            ]
+          },
+          {
+            "control1": [
+              175.051081,
+              245.976628
+            ],
+            "control2": [
+              180.25477,
+              249.31908
+            ],
+            "end": [
+              183.732648,
+              254.50635
+            ],
+            "start": [
+              169.266333,
+              245.214297
+            ]
+          },
+          {
+            "control1": [
+              187.210526,
+              259.69362
+            ],
+            "control2": [
+              188.677704,
+              266.300796
+            ],
+            "end": [
+              187.811419,
+              272.874373
+            ],
+            "start": [
+              183.732648,
+              254.50635
+            ]
+          },
+          {
+            "control1": [
+              186.945134,
+              279.44795
+            ],
+            "control2": [
+              183.816347,
+              285.449456
+            ],
+            "end": [
+              179.113356,
+              289.558627
+            ],
+            "start": [
+              187.811419,
+              272.874373
+            ]
+          },
+          {
+            "control1": [
+              174.410365,
+              293.667798
+            ],
+            "control2": [
+              168.518415,
+              295.548034
+            ],
+            "end": [
+              162.733667,
+              294.785703
+            ],
+            "start": [
+              179.113356,
+              289.558627
+            ]
+          }
+        ],
+        "center": [
+          166.0,
+          270.0
+        ],
+        "controlPointOrder": "clockwise closed loop in image coordinates; 8 monotonic 45-degree arcs",
+        "notFixedCircularPatch": true,
+        "notGlobalConvexHull": true,
+        "notRadialBlurOrDilation": true,
+        "radiiPx": [
+          25.0,
+          22.0
+        ],
+        "rotationDeg": 97.507347,
+        "shape": "local_smooth_convex_ellipse"
+      },
+      "anatomicalSide": "right",
+      "childHiddenCoverage": {
+        "evidenceStatus": "derived",
+        "owner": "upper_arm",
+        "responsibility": "upper_arm continues the hidden skin volume into the shoulder pivot and under the sleeve"
+      },
+      "childLayer": "upper_arm",
+      "depthAndDrawOrder": "sleeve foreground; upper_arm hidden underneath at the visible sleeve opening",
+      "id": "shoulder",
+      "minimumBidirectionalHiddenOverlapPx": {
+        "longitudinalPx": 14.0,
+        "transversePx": 8.0
+      },
+      "parentHiddenCoverage": {
+        "evidenceStatus": "derived",
+        "owner": "sleeve",
+        "responsibility": "sleeve owns garment-side cover and hides the upper-arm proximal continuation"
+      },
+      "parentLayer": "sleeve",
+      "screenSide": "left",
+      "sharedPhysicalPivotFrontMasterPx": [
+        166.0,
+        270.0
+      ],
+      "view": "front",
+      "widthGuard": {
+        "envelopeTransverseDiameterPx": 44.0,
+        "maximumAllowedDiameterPx": 58.0,
+        "noAbnormalBulgeRule": "envelope diameter may not exceed the local reference width plus declared hidden overlap",
+        "referenceSectionWidthPx": 42.0
+      }
+    },
+    {
+      "activeEnvelope": {
+        "analyticReference": "ellipse curvature is continuous; cubic controls use the 45-degree kappa approximation",
+        "basis": "shared pivot + parent/child bone axis + observed local width + multi-view depth",
+        "bezierSegments": [
+          {
+            "control1": [
+              140.051721,
+              415.184415
+            ],
+            "control2": [
+              136.645675,
+              412.259106
+            ],
+            "end": [
+              134.668567,
+              408.19837
+            ],
+            "start": [
+              144.137413,
+              416.33076
+            ]
+          },
+          {
+            "control1": [
+              132.691459,
+              404.137634
+            ],
+            "control2": [
+              132.305242,
+              399.274103
+            ],
+            "end": [
+              133.59488,
+              394.6777
+            ],
+            "start": [
+              134.668567,
+              408.19837
+            ]
+          },
+          {
+            "control1": [
+              134.884518,
+              390.081297
+            ],
+            "control2": [
+              137.744372,
+              386.128534
+            ],
+            "end": [
+              141.545304,
+              383.688974
+            ],
+            "start": [
+              133.59488,
+              394.6777
+            ]
+          },
+          {
+            "control1": [
+              145.346236,
+              381.249414
+            ],
+            "control2": [
+              149.776895,
+              380.522895
+            ],
+            "end": [
+              153.862587,
+              381.66924
+            ],
+            "start": [
+              141.545304,
+              383.688974
+            ]
+          },
+          {
+            "control1": [
+              157.948279,
+              382.815585
+            ],
+            "control2": [
+              161.354325,
+              385.740894
+            ],
+            "end": [
+              163.331433,
+              389.80163
+            ],
+            "start": [
+              153.862587,
+              381.66924
+            ]
+          },
+          {
+            "control1": [
+              165.308541,
+              393.862366
+            ],
+            "control2": [
+              165.694758,
+              398.725897
+            ],
+            "end": [
+              164.40512,
+              403.3223
+            ],
+            "start": [
+              163.331433,
+              389.80163
+            ]
+          },
+          {
+            "control1": [
+              163.115482,
+              407.918703
+            ],
+            "control2": [
+              160.255628,
+              411.871466
+            ],
+            "end": [
+              156.454696,
+              414.311026
+            ],
+            "start": [
+              164.40512,
+              403.3223
+            ]
+          },
+          {
+            "control1": [
+              152.653764,
+              416.750586
+            ],
+            "control2": [
+              148.223105,
+              417.477105
+            ],
+            "end": [
+              144.137413,
+              416.33076
+            ],
+            "start": [
+              156.454696,
+              414.311026
+            ]
+          }
+        ],
+        "center": [
+          149.0,
+          399.0
+        ],
+        "controlPointOrder": "clockwise closed loop in image coordinates; 8 monotonic 45-degree arcs",
+        "notFixedCircularPatch": true,
+        "notGlobalConvexHull": true,
+        "notRadialBlurOrDilation": true,
+        "radiiPx": [
+          18.0,
+          16.0
+        ],
+        "rotationDeg": 105.672821,
+        "shape": "local_smooth_convex_ellipse"
+      },
+      "anatomicalSide": "right",
+      "childHiddenCoverage": {
+        "evidenceStatus": "derived",
+        "owner": "forearm",
+        "responsibility": "forearm extends a hidden proximal cover under the upper arm without changing the visible contour"
+      },
+      "childLayer": "forearm",
+      "depthAndDrawOrder": "no visible duplicate skin; parent/child overlap is hidden and must not be faked by draw order",
+      "id": "elbow",
+      "minimumBidirectionalHiddenOverlapPx": {
+        "longitudinalPx": 10.0,
+        "transversePx": 7.0
+      },
+      "parentHiddenCoverage": {
+        "evidenceStatus": "derived",
+        "owner": "upper_arm",
+        "responsibility": "upper_arm extends a hidden distal cover under the forearm at the shared elbow pivot"
+      },
+      "parentLayer": "upper_arm",
+      "screenSide": "left",
+      "sharedPhysicalPivotFrontMasterPx": [
+        149.0,
+        399.0
+      ],
+      "view": "front",
+      "widthGuard": {
+        "envelopeTransverseDiameterPx": 32.0,
+        "maximumAllowedDiameterPx": 48.0,
+        "noAbnormalBulgeRule": "envelope diameter may not exceed the local reference width plus declared hidden overlap",
+        "referenceSectionWidthPx": 34.0
+      }
+    },
+    {
+      "activeEnvelope": {
+        "analyticReference": "ellipse curvature is continuous; cubic controls use the 45-degree kappa approximation",
+        "basis": "shared pivot + parent/child bone axis + observed local width + multi-view depth",
+        "bezierSegments": [
+          {
+            "control1": [
+              98.465028,
+              554.815793
+            ],
+            "control2": [
+              95.788248,
+              551.376105
+            ],
+            "end": [
+              94.680135,
+              546.820529
+            ],
+            "start": [
+              102.121614,
+              556.382901
+            ]
+          },
+          {
+            "control1": [
+              93.572022,
+              542.264953
+            ],
+            "control2": [
+              94.123347,
+              536.966659
+            ],
+            "end": [
+              96.212825,
+              532.091211
+            ],
+            "start": [
+              94.680135,
+              546.820529
+            ]
+          },
+          {
+            "control1": [
+              98.302303,
+              527.215763
+            ],
+            "control2": [
+              101.758774,
+              523.162531
+            ],
+            "end": [
+              105.821855,
+              520.823181
+            ],
+            "start": [
+              96.212825,
+              532.091211
+            ]
+          },
+          {
+            "control1": [
+              109.884936,
+              518.483831
+            ],
+            "control2": [
+              114.2218,
+              518.049991
+            ],
+            "end": [
+              117.878386,
+              519.617099
+            ],
+            "start": [
+              105.821855,
+              520.823181
+            ]
+          },
+          {
+            "control1": [
+              121.534972,
+              521.184207
+            ],
+            "control2": [
+              124.211752,
+              524.623895
+            ],
+            "end": [
+              125.319865,
+              529.179471
+            ],
+            "start": [
+              117.878386,
+              519.617099
+            ]
+          },
+          {
+            "control1": [
+              126.427978,
+              533.735047
+            ],
+            "control2": [
+              125.876653,
+              539.033341
+            ],
+            "end": [
+              123.787175,
+              543.908789
+            ],
+            "start": [
+              125.319865,
+              529.179471
+            ]
+          },
+          {
+            "control1": [
+              121.697697,
+              548.784237
+            ],
+            "control2": [
+              118.241226,
+              552.837469
+            ],
+            "end": [
+              114.178145,
+              555.176819
+            ],
+            "start": [
+              123.787175,
+              543.908789
+            ]
+          },
+          {
+            "control1": [
+              110.115064,
+              557.516169
+            ],
+            "control2": [
+              105.7782,
+              557.950009
+            ],
+            "end": [
+              102.121614,
+              556.382901
+            ],
+            "start": [
+              114.178145,
+              555.176819
+            ]
+          }
+        ],
+        "center": [
+          110.0,
+          538.0
+        ],
+        "controlPointOrder": "clockwise closed loop in image coordinates; 8 monotonic 45-degree arcs",
+        "notFixedCircularPatch": true,
+        "notGlobalConvexHull": true,
+        "notRadialBlurOrDilation": true,
+        "radiiPx": [
+          20.0,
+          15.0
+        ],
+        "rotationDeg": 113.198591,
+        "shape": "local_smooth_convex_ellipse"
+      },
+      "anatomicalSide": "right",
+      "childHiddenCoverage": {
+        "evidenceStatus": "derived",
+        "owner": "hand",
+        "responsibility": "hand owns continuous skin into the hidden distal wrist/palm-root underlay"
+      },
+      "childLayer": "hand",
+      "depthAndDrawOrder": "bracelet is a forearm-owned foreground subregion at the wrist; hand must not duplicate it",
+      "id": "wrist",
+      "minimumBidirectionalHiddenOverlapPx": {
+        "longitudinalPx": 8.0,
+        "transversePx": 6.0
+      },
+      "parentHiddenCoverage": {
+        "evidenceStatus": "derived",
+        "owner": "forearm",
+        "responsibility": "forearm owns continuous skin into the hidden proximal wrist underlay"
+      },
+      "parentLayer": "forearm",
+      "screenSide": "left",
+      "sharedPhysicalPivotFrontMasterPx": [
+        110.0,
+        538.0
+      ],
+      "view": "front",
+      "widthGuard": {
+        "envelopeTransverseDiameterPx": 30.0,
+        "maximumAllowedDiameterPx": 48.0,
+        "noAbnormalBulgeRule": "envelope diameter may not exceed the local reference width plus declared hidden overlap",
+        "referenceSectionWidthPx": 36.0
+      }
+    }
+  ],
+  "schemaVersion": 1,
+  "stage": "R1 smooth joint-envelope and hidden-overlap contract",
+  "status": "engineering-candidate-waiting-user-visual-approval",
+  "unresolved": [
+    "隐藏肩根的三维深度仍是 derived candidate，需用户视觉批准",
+    "腕部在手链遮挡下的真实截面与深度切换仍 unresolved",
+    "这些包络是后续几何 QA 的覆盖依据，不是正式 mask 或动作设计"
+  ]
+}

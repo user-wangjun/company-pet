@@ -1,0 +1,486 @@
+{
+  "schemaVersion": 1,
+  "stage": "R2 visual repair pixel diff",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "baseline": {
+    "schemaVersion": 1,
+    "stage": "R2 visual repair before/after baseline",
+    "character": "xiaoxing",
+    "view": "front",
+    "screenSide": "left",
+    "anatomicalSide": "right",
+    "subject": "小星 Left",
+    "status": "captured_before_current_r2_visual_repair",
+    "scope": "current R2 candidate only; not a new R2 version and not a frozen artifact",
+    "files": {
+      "upper_arm.visible": "audit/repair-baseline/upper_arm/visible.png",
+      "upper_arm.hidden": "audit/repair-baseline/upper_arm/hidden.png",
+      "upper_arm.complete": "audit/repair-baseline/upper_arm/complete.png",
+      "forearm.visible": "audit/repair-baseline/forearm/visible.png",
+      "forearm.hidden": "audit/repair-baseline/forearm/hidden.png",
+      "forearm.complete": "audit/repair-baseline/forearm/complete.png",
+      "hand.visible": "audit/repair-baseline/hand/visible.png",
+      "hand.hidden": "audit/repair-baseline/hand/hidden.png",
+      "hand.complete": "audit/repair-baseline/hand/complete.png",
+      "hand.formalDisplayFlatLayer": "audit/repair-baseline/hand/flat-layer.png"
+    },
+    "formalDisplayBaseline": {
+      "source": "flat-layers/hand.png",
+      "capturedBeforeMaintenance": true,
+      "authorizedChangeRoi": [
+        90,
+        515,
+        140,
+        558
+      ]
+    }
+  },
+  "layers": {
+    "upper_arm": {
+      "sourceBasis": [
+        "joint-envelope-contract:shoulder",
+        "sleeve/shoulder hidden overlap"
+      ],
+      "complete": {
+        "baselineAvailable": true,
+        "beforeSha256": "b87336c069e5025f609844ca2ea9279e17bf34c019d41767882061429950ddfc",
+        "afterSha256": "a54caef2927fd293ecb6f7d56735a9322bc63b58be883ef2f7ad4a538fefa55d",
+        "changedPixels": 1013,
+        "addedPixels": 7,
+        "removedPixels": 1006,
+        "changedBBox": [
+          136,
+          245,
+          178,
+          415
+        ]
+      },
+      "visible": {
+        "baselineAvailable": true,
+        "beforeSha256": "657aa6e2c1d04350106e505e4b5fbb7f3daf11f4264dc1be9204ceacdcdc6b52",
+        "afterSha256": "657aa6e2c1d04350106e505e4b5fbb7f3daf11f4264dc1be9204ceacdcdc6b52",
+        "changedPixels": 0,
+        "addedPixels": 0,
+        "removedPixels": 0,
+        "changedBBox": null
+      },
+      "hidden": {
+        "baselineAvailable": true,
+        "beforeSha256": "b87336c069e5025f609844ca2ea9279e17bf34c019d41767882061429950ddfc",
+        "afterSha256": "a54caef2927fd293ecb6f7d56735a9322bc63b58be883ef2f7ad4a538fefa55d",
+        "changedPixels": 1013,
+        "addedPixels": 7,
+        "removedPixels": 1006,
+        "changedBBox": [
+          136,
+          245,
+          178,
+          415
+        ]
+      },
+      "visibleBoundaryPolicy": "existing visible source-line candidate preserved unless an explicit source-line-based change is listed"
+    },
+    "forearm": {
+      "sourceBasis": [
+        "joint-envelope-contract:wrist",
+        "forearm bone-axis taper",
+        "bracelet depth candidate"
+      ],
+      "complete": {
+        "baselineAvailable": true,
+        "beforeSha256": "a3e0fbaafd819a20c4622d6beb713055abfb117a20083cad30365cf5133dd1a4",
+        "afterSha256": "60fcd47d1fe011b8033c4c773b27444744b93fa186ab854d8684800e3595f593",
+        "changedPixels": 871,
+        "addedPixels": 366,
+        "removedPixels": 505,
+        "changedBBox": [
+          98,
+          380,
+          167,
+          549
+        ]
+      },
+      "visible": {
+        "baselineAvailable": true,
+        "beforeSha256": "58f5b3e7101e046f19e413533b382fef40cc90678d8e18dc8abe060a168019e7",
+        "afterSha256": "ce410d4c01bd80f045809f104c6a53fa2b39be2a29ff8cfb0d9ebb85b8ab7c12",
+        "changedPixels": 543,
+        "addedPixels": 204,
+        "removedPixels": 339,
+        "changedBBox": [
+          98,
+          398,
+          166,
+          544
+        ]
+      },
+      "hidden": {
+        "baselineAvailable": true,
+        "beforeSha256": "8c0fe22f9d4e851a67002d58f50ef1c50d2e1094024446bc818496a4166f97ea",
+        "afterSha256": "384d89cc416b649e0be88f06e835f71817f73ff6eb425158afe0c0e346c1cb1f",
+        "changedPixels": 548,
+        "addedPixels": 272,
+        "removedPixels": 276,
+        "changedBBox": [
+          98,
+          380,
+          167,
+          549
+        ]
+      },
+      "visibleBoundaryPolicy": "existing visible source-line candidate preserved unless an explicit source-line-based change is listed"
+    },
+    "hand": {
+      "sourceBasis": [
+        "joint-envelope-contract:wrist",
+        "hand_radial_outer_contour",
+        "hand_ulnar_outer_contour",
+        "palm direction"
+      ],
+      "complete": {
+        "baselineAvailable": true,
+        "beforeSha256": "562a027b0137a0dfa82429a84bcae46f04b0c5bdde6427473db70fed18733212",
+        "afterSha256": "5fae916409483456e8f5c1d3d39325e893c07edef99acdda7740bdc6faeffcdd",
+        "changedPixels": 1300,
+        "addedPixels": 241,
+        "removedPixels": 1059,
+        "changedBBox": [
+          64,
+          523,
+          131,
+          621
+        ]
+      },
+      "visible": {
+        "baselineAvailable": true,
+        "beforeSha256": "263da916112f6aa7c7843c105e33087903df89f8f5cc955c8037b5e3c6cf9718",
+        "afterSha256": "0a98eb5ccd85258128c21cff0837f9bb6032c26e7f79463165eefb85d41ce8aa",
+        "changedPixels": 1027,
+        "addedPixels": 193,
+        "removedPixels": 834,
+        "changedBBox": [
+          64,
+          532,
+          124,
+          621
+        ]
+      },
+      "hidden": {
+        "baselineAvailable": true,
+        "beforeSha256": "2fbf602fd37abddcd9a55218682f79c8eb8436c3f08766694a1c010b75362e12",
+        "afterSha256": "b073d5a9aca2cdb6ab6d8bccf4f3efa6bb5b7ec27ad1ffee5420750e64274903",
+        "changedPixels": 309,
+        "addedPixels": 66,
+        "removedPixels": 243,
+        "changedBBox": [
+          94,
+          523,
+          131,
+          552
+        ]
+      },
+      "visibleBoundaryPolicy": "existing visible source-line candidate preserved unless an explicit source-line-based change is listed"
+    }
+  },
+  "interpretation": "green additions are hidden-root reconstruction; visible boundary changes are separately counted and require source-line evidence",
+  "forearmDistalUcap": {
+    "schemaVersion": 1,
+    "stage": "FOREARM_DISTAL_UCAP_AA_STAGE_A pixel diff",
+    "character": "xiaoxing",
+    "view": "front",
+    "screenSide": "left",
+    "anatomicalSide": "right",
+    "subject": "小星 Left",
+    "scope": "forearm visible shaft source-line lock plus wrist bracelet/skin source-line seam plus distal U-cap; hand/non-forearm outputs protected",
+    "baseline": {
+      "source": "audit/repair-baseline.json",
+      "hidden": {
+        "baselineAvailable": true,
+        "beforeSha256": "8c0fe22f9d4e851a67002d58f50ef1c50d2e1094024446bc818496a4166f97ea",
+        "afterSha256": "384d89cc416b649e0be88f06e835f71817f73ff6eb425158afe0c0e346c1cb1f",
+        "changedPixels": 548,
+        "addedPixels": 272,
+        "removedPixels": 276,
+        "changedBBox": [
+          98,
+          380,
+          167,
+          549
+        ]
+      },
+      "complete": {
+        "baselineAvailable": true,
+        "beforeSha256": "a3e0fbaafd819a20c4622d6beb713055abfb117a20083cad30365cf5133dd1a4",
+        "afterSha256": "60fcd47d1fe011b8033c4c773b27444744b93fa186ab854d8684800e3595f593",
+        "changedPixels": 871,
+        "addedPixels": 366,
+        "removedPixels": 505,
+        "changedBBox": [
+          98,
+          380,
+          167,
+          549
+        ]
+      }
+    },
+    "visibleShaftSourceLineRepair": {
+      "baselineAvailable": true,
+      "beforeSha256": "58f5b3e7101e046f19e413533b382fef40cc90678d8e18dc8abe060a168019e7",
+      "afterSha256": "ce410d4c01bd80f045809f104c6a53fa2b39be2a29ff8cfb0d9ebb85b8ab7c12",
+      "changedPixels": 543,
+      "addedPixels": 204,
+      "removedPixels": 339,
+      "changedBBox": [
+        98,
+        398,
+        166,
+        544
+      ]
+    },
+    "visibleShaftCurrentInvocationDiff": {
+      "baselineAvailable": true,
+      "beforeSha256": "ce410d4c01bd80f045809f104c6a53fa2b39be2a29ff8cfb0d9ebb85b8ab7c12",
+      "afterSha256": "ce410d4c01bd80f045809f104c6a53fa2b39be2a29ff8cfb0d9ebb85b8ab7c12",
+      "changedPixels": 0,
+      "addedPixels": 0,
+      "removedPixels": 0,
+      "changedBBox": null
+    },
+    "shaftRepairRoi": [
+      94,
+      398,
+      171,
+      515
+    ],
+    "formalDisplayAlpha": {
+      "forearm": {
+        "mode": "L",
+        "size": [
+          512,
+          1086
+        ],
+        "min": 0,
+        "max": 255,
+        "fractionalAlphaPixels": 376,
+        "nonzeroPixels": 5028,
+        "bbox": [
+          98,
+          380,
+          166,
+          549
+        ]
+      },
+      "forearmSkin": {
+        "mode": "L",
+        "size": [
+          512,
+          1086
+        ],
+        "min": 0,
+        "max": 255,
+        "fractionalAlphaPixels": 393,
+        "nonzeroPixels": 4837,
+        "bbox": [
+          98,
+          380,
+          166,
+          549
+        ]
+      },
+      "ucap": {
+        "mode": "L",
+        "size": [
+          512,
+          1086
+        ],
+        "min": 0,
+        "max": 255,
+        "fractionalAlphaPixels": 53,
+        "nonzeroPixels": 418,
+        "bbox": [
+          98,
+          526,
+          120,
+          549
+        ]
+      }
+    },
+    "sourceLineShaftBoundary": {
+      "source": "source/masters/front-line-source-exact-after-reset.png",
+      "sourceCanvas": [
+        512,
+        1086
+      ],
+      "coordinateTransform": "identity",
+      "roi": [
+        94,
+        390,
+        171,
+        525
+      ],
+      "visibleRoi": [
+        94,
+        398,
+        171,
+        515
+      ],
+      "barrier": {
+        "rasterRule": "source line pixels with luma < 240 are 4-connected barriers",
+        "connectivity": "4-connected free pixels"
+      },
+      "seed": [
+        140,
+        450
+      ],
+      "selectedComponent": {
+        "bbox": [
+          106,
+          390,
+          162,
+          524
+        ],
+        "pixelCount": 3328
+      },
+      "materialBoundary": {
+        "bbox": [
+          105,
+          390,
+          165,
+          524
+        ],
+        "pixelCount": 3979,
+        "addedContourPixels": 651,
+        "rule": "component free pixels plus only contiguous barrier pixels touching each selected row run inside the shaft visible ROI",
+        "rightAaExclusion": {
+          "roi": [
+            166,
+            407,
+            167,
+            411
+          ],
+          "pixelCount": 4,
+          "rule": "latest user visual review removes only the registered right-side antialias fringe; dark source contour ownership is retained"
+        }
+      },
+      "traceMethod": "direct source-raster enclosure plus contiguous source contour pixels; no smooth trace, blur, dilate, erode, mirror, or color-class boundary",
+      "semanticRule": "selected component is the skin-side shaft between the observed outer contour and the separate shirt/torso locator line"
+    },
+    "candidateControlPoints": [
+      [
+        100.84,
+        528.3
+      ],
+      [
+        100.35,
+        530.3
+      ],
+      [
+        99.54,
+        533.3
+      ],
+      [
+        98.72,
+        536.3
+      ],
+      [
+        97.84,
+        540.3
+      ],
+      [
+        98.28,
+        543.3
+      ],
+      [
+        99.6,
+        546.3
+      ],
+      [
+        102.0,
+        548.05
+      ],
+      [
+        105.53,
+        548.45
+      ],
+      [
+        109.2,
+        548.85
+      ],
+      [
+        112.84,
+        548.45
+      ],
+      [
+        115.5,
+        547.6
+      ],
+      [
+        117.5,
+        545.9
+      ],
+      [
+        118.9,
+        544.2
+      ],
+      [
+        119.34,
+        542.2
+      ],
+      [
+        119.52,
+        539.2
+      ],
+      [
+        119.72,
+        537.2
+      ],
+      [
+        120.03,
+        535.34
+      ],
+      [
+        119.2,
+        531.8
+      ],
+      [
+        115.5,
+        527.8
+      ],
+      [
+        112.0,
+        526.5
+      ],
+      [
+        108.5,
+        526.2
+      ],
+      [
+        105.0,
+        526.5
+      ],
+      [
+        102.5,
+        527.4
+      ]
+    ]
+  },
+  "handProtection": {
+    "artifacts": {
+      "masks/visible/hand.png": "d2d633b2e771bcab053d3b461d89359032ca7c49a842ae07c9fc415130d16f34",
+      "masks/hidden/hand.png": "ac12719eef44ee07fb6d6b4ad3e9ff219e532a4d0f533e44f4770cd6ce1db654",
+      "masks/complete/hand.png": "67ba60fa666e1e7572118c3a16ab23e0187d24690275a40dd6089df435be4c5a",
+      "display-alpha/hand-hidden.png": "1e260d60c69d1fbe2f4591ba8e1a1b007113864f53951f54e1034a9aec674ac0",
+      "display-alpha/hand-complete.png": "423f479b52c7623fad676592d7b7b1c00f83e9d394dff2976882db2803b87a10",
+      "flat-layers/hand.png": "fa82b3175c7de0613d36a32abab7e234cf9896a6dbb4a44899bd1f7cf93adb9c",
+      "contracts/hand-line-trace-contract.json": "9336e4b6e39d1e96ad959ece1bb72dbea603fb5a1710d740e9111a3048b8140e",
+      "audit/hand-boundary-error-table.json": "99f775abe11ded8ee07715171ff6823f57fa272c275316a45e9580dc574f517c",
+      "audit/hand-visual-boundary-report.json": "5fe20e684b2fb10d3272eeb7494dfec8aead467e06866f4badd82c1ea9d87699",
+      "qa/hand-r2-repair/14-隐藏腕根抗锯齿维护审查.png": "e1687d5777373c6a0d556e5a0fd0913b71104863658274fbf5845d8275e18198"
+    },
+    "rewritten": false
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "stage": "UPPER_ARM_AA_ANATOMICAL_CANDIDATE",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "status": "UPPER_ARM_AA_ANATOMICAL_CANDIDATE / WAITING_USER_VISUAL_APPROVAL",
+  "checks": [
+    {
+      "id": "upper_arm_candidate_single_component_no_holes",
+      "pass": true,
+      "detail": "大臂候选单连通且无孔洞：组件=1，孔洞=0",
+      "componentCount": 1,
+      "holeCount": 0
+    },
+    {
+      "id": "upper_arm_visible_ownership_remains_empty",
+      "pass": true,
+      "detail": "候选只重建 hidden/complete；upper_arm visible ownership 仍为 0 px",
+      "visiblePixelCount": 0
+    },
+    {
+      "id": "upper_arm_formal_alpha_has_fractional_coverage",
+      "pass": true,
+      "detail": "32×浮点曲线经一次 BOX 后保留 fractional Alpha：403 px",
+      "fractionalAlphaPixels": 403,
+      "supersample": 32,
+      "downsample": "BOX exactly once"
+    },
+    {
+      "id": "upper_arm_shoulder_hidden_overlap",
+      "pass": true,
+      "detail": "候选肩根与受保护 sleeve hidden 有局部重叠",
+      "overlapPixels": 651
+    },
+    {
+      "id": "upper_arm_elbow_hidden_overlap",
+      "pass": true,
+      "detail": "候选远端与受保护 forearm hidden 在肘部局部重叠",
+      "overlapPixels": 455,
+      "roi": [
+        128,
+        378,
+        174,
+        425
+      ]
+    },
+    {
+      "id": "upper_arm_anatomical_taper",
+      "pass": true,
+      "detail": "肩部 deltoid 较宽，中段逐渐收窄，远端不形成鼓包",
+      "sectionWidthsPx": {
+        "248": 20,
+        "260": 32,
+        "280": 35,
+        "300": 33,
+        "320": 33,
+        "340": 32,
+        "360": 31,
+        "380": 31,
+        "395": 29,
+        "405": 22
+      }
+    },
+    {
+      "id": "upper_arm_width_guard",
+      "pass": true,
+      "detail": "局部横截面保持在人体上臂候选宽度范围内",
+      "minWidthPx": 29,
+      "maxWidthPx": 33,
+      "guardPx": [
+        24,
+        46
+      ]
+    },
+    {
+      "id": "upper_arm_candidate_diff_isolated",
+      "pass": true,
+      "detail": "新旧差异只用于审查，不覆盖受保护 R2 大臂正式文件",
+      "oldToCandidate": {
+        "baselineAvailable": true,
+        "beforeSha256": "78c3d5f06ec10d2f296200a2269b4c91451f8074f6190c4136e10d536393b989",
+        "afterSha256": "bd2bb6e1f8c27f4511a365c154a82e272df4b3f0d0a5c581c603c8c64130fbd4",
+        "changedPixels": 742,
+        "addedPixels": 237,
+        "removedPixels": 505,
+        "changedBBox": [
+          134,
+          241,
+          178,
+          415
+        ]
+      }
+    }
+  ],
+  "metrics": {
+    "componentCount": 1,
+    "holeCount": 0,
+    "sectionWidthsPx": {
+      "248": 20,
+      "260": 32,
+      "280": 35,
+      "300": 33,
+      "320": 33,
+      "340": 32,
+      "360": 31,
+      "380": 31,
+      "395": 29,
+      "405": 22
+    },
+    "fractionalAlphaPixels": 403,
+    "shoulderOverlapPixels": 651,
+    "elbowOverlapPixels": 455,
+    "oldToCandidate": {
+      "baselineAvailable": true,
+      "beforeSha256": "78c3d5f06ec10d2f296200a2269b4c91451f8074f6190c4136e10d536393b989",
+      "afterSha256": "bd2bb6e1f8c27f4511a365c154a82e272df4b3f0d0a5c581c603c8c64130fbd4",
+      "changedPixels": 742,
+      "addedPixels": 237,
+      "removedPixels": 505,
+      "changedBBox": [
+        134,
+        241,
+        178,
+        415
+      ]
+    }
+  },
+  "engineeringPass": true,
+  "userVisualApproval": null,
+  "overallGatePass": false,
+  "protectedArtifacts": {
+    "oldUpperArmMaskSha256": "21ef9a49ee6dbae6cf8e09f04e6b1a539da37483227db214f84d2128275327a3",
+    "oldUpperArmFlatLayerSha256": "419afcadebef33a66d47cc9c9ffc6d8cd413277d28b84e73bea59910fb8e607c",
+    "forearmNotWritten": true,
+    "handNotWritten": true
+  },
+  "outputs": {
+    "visible": "masks/visible-upper_arm.png",
+    "hidden": "masks/hidden-upper_arm.png",
+    "complete": "masks/complete-upper_arm.png",
+    "displayAlpha": "display-alpha/upper_arm.png",
+    "flatLayer": "flat-layers/upper_arm.png",
+    "review": "qa/upper-arm-aa-anatomical-review.png"
+  },
+  "downstreamForbidden": [
+    "texture",
+    "PSD",
+    "Cubism",
+    "Mesh",
+    "Physics",
+    "Runtime",
+    "R3",
+    "R4"
+  ]
+}

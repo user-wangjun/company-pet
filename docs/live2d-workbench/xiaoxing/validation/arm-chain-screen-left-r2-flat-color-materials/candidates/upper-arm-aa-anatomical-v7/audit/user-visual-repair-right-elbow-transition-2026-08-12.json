@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "stage": "UPPER_ARM_AA_ANATOMICAL_CANDIDATE",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "decision": "repair_authorized_by_user",
+  "userText": "那你进行修复一下吧",
+  "scope": "right/body-side lower upper-arm boundary and elbow transition",
+  "markupReference": {
+    "path": "C:/Users/13640/AppData/Local/Temp/codex-clipboard-d5d9144b-5857-4f48-894c-2bfda30cb723.png",
+    "sha256": "5d73982b0a4778002688f034d7b27cbe418ce0fb72381f8dfcb2523a2d32e476",
+    "dimensions": [568, 506],
+    "role": "visual rejection and repair target; not a coordinate-locked boundary contract"
+  },
+  "repairIntent": "extend the body-side distal contour toward the source-line continuation and use the forearm hidden elbow overlap for a continuous transition; do not widen the full shaft",
+  "formalLayerPromotion": false,
+  "userVisualApproval": null
+}

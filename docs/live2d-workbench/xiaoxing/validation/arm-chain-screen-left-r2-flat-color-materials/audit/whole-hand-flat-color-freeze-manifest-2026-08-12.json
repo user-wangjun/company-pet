@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "recordType": "frozen_visual_input_manifest",
+  "manifestDate": "2026-08-12",
+  "freezeId": "xiaoxing-front-screen-left-whole-hand-flat-color-2026-08-12",
+  "status": "FROZEN_VISUAL_INPUT / FORMAL_R2_PROMOTION_PENDING_ENGINEERING_REVALIDATION",
+  "scope": {
+    "character": "xiaoxing",
+    "view": "front",
+    "screenSide": "left",
+    "anatomicalSide": "right",
+    "material": "whole hand flat-color blocks",
+    "assembly": "upper-arm v8 + sleeve + forearm + bracelet back/front + hand"
+  },
+  "userApprovalRecord": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/audit/user-visual-approval-whole-hand-flat-color-freeze-2026-08-12.json",
+  "candidateSource": {
+    "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8",
+    "engineeringPass": true,
+    "machineReport": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8/audit/upper-arm-aa-machine-report.json",
+    "contract": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8/audit/upper-arm-aa-anatomical-contract.json"
+  },
+  "frozenFiles": [
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8/flat-layers/upper_arm.png",
+      "role": "frozen visual source: upper-arm flat color",
+      "sha256": "2ae6d87248d40cc4f6b59904b6a9fb4c35bb937f897ab6277636c148292ef104",
+      "bytes": 5036
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8/display-alpha/upper_arm.png",
+      "role": "frozen visual source: upper-arm fractional display alpha",
+      "sha256": "dd6720976c64658f6a71ee3005b0cc11d42e25f7415d0c25302cbbf13e300099",
+      "bytes": 1768
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8/masks/hidden-upper_arm.png",
+      "role": "frozen visual source: upper-arm hidden logical mask",
+      "sha256": "0b44e3b8e0fbd545b8007568a3a5d52c42779fba7e76f77cb73464ddee05f01c",
+      "bytes": 942
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8/masks/complete-upper_arm.png",
+      "role": "frozen visual source: upper-arm complete logical mask",
+      "sha256": "0b44e3b8e0fbd545b8007568a3a5d52c42779fba7e76f77cb73464ddee05f01c",
+      "bytes": 942
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/flat-layers/sleeve.png",
+      "role": "protected formal R2 input: sleeve",
+      "sha256": "e4a571bb2a4b88f2be2b7baa67fa59ea2ca728bae042b0261146782dde758fe0",
+      "bytes": 4061
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/flat-layers/forearm.png",
+      "role": "protected formal R2 input: forearm",
+      "sha256": "f4afde461152a4b7a5cc9864cf043e9a060bb1046dd44aa3f34f01585c2a800c",
+      "bytes": 4679
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/flat-layers/bracelet-back.png",
+      "role": "protected formal R2 input: bracelet back",
+      "sha256": "dceb50d5da5590844ba5fbec404f0e380cefbc6a643178be3864d3d96aa9a64f",
+      "bytes": 4017
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/flat-layers/bracelet-front.png",
+      "role": "protected formal R2 input: bracelet front",
+      "sha256": "5b9454a54d70e84bbf708e104b7aa398a65e321ab72f594fa2ecbfe194113a6a",
+      "bytes": 4120
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/flat-layers/hand.png",
+      "role": "protected formal R2 input: hand flat color",
+      "sha256": "fa82b3175c7de0613d36a32abab7e234cf9896a6dbb4a44899bd1f7cf93adb9c",
+      "bytes": 4699
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/display-alpha/hand-hidden.png",
+      "role": "protected formal R2 input: hidden wrist-root continuation",
+      "sha256": "1e260d60c69d1fbe2f4591ba8e1a1b007113864f53951f54e1034a9aec674ac0",
+      "bytes": 799
+    }
+  ],
+  "reviewFiles": [
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8/qa/upper-arm-aa-anatomical-review.png",
+      "role": "source line, old/new geometry, formal alpha and gate board",
+      "sha256": "974a8de76284de519ce274a76e5bebc620d077e4d0f305970fd79c3052378002",
+      "bytes": 417570
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8/qa/upper-arm-source-line-fit-500pct.png",
+      "role": "latest source-line fit review",
+      "sha256": "26d5f2663a6fc8a10d61245fe83e8d0d540484862de8c2cab72d38c997aa2a96",
+      "bytes": 104770
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v8/qa/upper-arm-occlusion-transition-500pct.png",
+      "role": "elbow occlusion transition review",
+      "sha256": "d549314ccd5d00fb1677e877495938bfe953255cd7db8deeb657da2f8d564c89",
+      "bytes": 17899
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/qa/手臂色块-实际线稿拟合-全臂-400pct.png",
+      "role": "whole-arm line-fit review",
+      "sha256": "8c16aa0ede9166b03df87f9f361bb84a059fc92373651a43fcdc0016cf3940e3",
+      "bytes": 90197
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/previews/whole-hand-v8/whole-hand-v8-preview.gif",
+      "role": "user-facing whole-hand preview",
+      "sha256": "2f22d7c83944f9ec1ac08572a2eb87cc80b669f4045862080b42e0255b281539",
+      "bytes": 216960
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/previews/whole-hand-v8/whole-hand-v8-contact-sheet.png",
+      "role": "whole-hand preview contact sheet",
+      "sha256": "2421746cb8e875d42e70b00f1905991773ea5c58d7ed55016c24ae9dfa40e0e0",
+      "bytes": 165377
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/previews/whole-hand-v8/wrist-connection-contact-v2.png",
+      "role": "wrist hidden-connection review",
+      "sha256": "e5afa0f02286e57912aabda1aa69979de7258d3e17cc5529199df73aee440d6f",
+      "bytes": 80563
+    }
+  ],
+  "sourceAuthority": [
+    {
+      "path": "docs/live2d-workbench/xiaoxing/source/masters/front-line-source-exact-after-reset.png",
+      "role": "authoritative semantic line source",
+      "sha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+      "bytes": 460239
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/source/masters/front-color-source-exact-after-reset.png",
+      "role": "identity/color reference only",
+      "sha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "bytes": 581346
+    }
+  ],
+  "latestMarkupFiles": [
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/audit/user-markup-forearm-elbow-source-reference-2026-08-12.png",
+      "role": "latest elbow/upper-arm boundary reference",
+      "sha256": "c8a9d24923ac05c360c4bf3daeeed55c8f587e12897b41fefde86235c37bf21f",
+      "bytes": 126986
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/audit/user-markup-forearm-hidden-connection-blue-2026-08-11.png",
+      "role": "latest hidden wrist connection boundary reference",
+      "sha256": "5f2708bd1b86b7182b829f946887ddb890a90d578b80952c4fcc16f1c032cec1",
+      "bytes": 42330
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/audit/user-markup-hand-redline-2026-08-09.png",
+      "role": "hand red-line boundary reference",
+      "sha256": "5d40e47b73c56418d94ed847922b1a9ff4b687aff764bfecedd7d5949ec0ce0f",
+      "bytes": 251967
+    }
+  ],
+  "protectedFormalFilesUnchanged": [
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/flat-layers/upper_arm.png",
+      "role": "current formal R2 upper-arm flat layer; unchanged",
+      "sha256": "419afcadebef33a66d47cc9c9ffc6d8cd413277d28b84e73bea59910fb8e607c",
+      "bytes": 3922
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/masks/hidden/upper_arm.png",
+      "role": "current formal R2 upper-arm hidden mask; unchanged",
+      "sha256": "21ef9a49ee6dbae6cf8e09f04e6b1a539da37483227db214f84d2128275327a3",
+      "bytes": 981
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/masks/complete/upper_arm.png",
+      "role": "current formal R2 upper-arm complete mask; unchanged",
+      "sha256": "21ef9a49ee6dbae6cf8e09f04e6b1a539da37483227db214f84d2128275327a3",
+      "bytes": 981
+    }
+  ],
+  "previewReport": {
+    "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/previews/whole-hand-v8/preview-report.json",
+    "sha256": "c22ee0e7256fa4ecbf70019584e0c4bd323248d8a31b89305a72d72398f2d6d2",
+    "checks": {
+      "allFramesHaveVisiblePixels": true,
+      "allFramesSingleConnectedArmChainAtAlphaGt8": true,
+      "allElbowOverlapsPositive": true,
+      "allWristOverlapsPositive": true,
+      "bicubicRingingIslandsRemoved": 2,
+      "hiddenWristRootIncludedInPreview": true
+    },
+    "formalPromotion": false
+  },
+  "gateSeparation": {
+    "visualFreeze": true,
+    "userVisualApproval": true,
+    "upperArmCandidateEngineeringPass": true,
+    "currentR2EngineeringPass": false,
+    "overallGatePass": false,
+    "formalR2Promotion": false,
+    "explanation": "visual approval freezes the reviewed color-block input; it does not erase existing formal R2 engineering failures"
+  },
+  "acceptedVisualDecisions": [
+    "upper-arm v8 anatomical contour and anti-aliased display alpha are the frozen visual source",
+    "bracelet/forearm/hand color blocks are the current protected R2 inputs",
+    "wrist-root hidden continuation is included in the reviewed preview",
+    "finger gaps remain intentional transparent negative spaces",
+    "no extra boundary expansion or white-gap fill is part of this freeze"
+  ],
+  "knownLimitations": [
+    "bracelet rear-half depth remains unresolved from the single front line drawing",
+    "formal R2 promotion still requires engineering revalidation of forearm holes and lift-frame connectivity",
+    "this freeze covers flat-color geometry/input only; it is not a Cubism/runtime/action freeze"
+  ]
+}

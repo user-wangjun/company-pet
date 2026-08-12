@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "stage": "UPPER_ARM_AA_ANATOMICAL_CANDIDATE",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "decision": "authorized_by_latest_user_request",
+  "userText": "先进行抗锯齿化的处理吧，而且根据人体来优化一下",
+  "scope": [
+    "upper_arm hidden/complete geometry candidate",
+    "upper_arm formal display Alpha candidate",
+    "upper_arm flat-color review artifact"
+  ],
+  "protected": [
+    "upper_arm visible ownership",
+    "sleeve",
+    "forearm",
+    "bracelet",
+    "hand",
+    "skeleton/pivots/body transform"
+  ],
+  "userVisualApproval": null,
+  "overallGatePass": false
+}

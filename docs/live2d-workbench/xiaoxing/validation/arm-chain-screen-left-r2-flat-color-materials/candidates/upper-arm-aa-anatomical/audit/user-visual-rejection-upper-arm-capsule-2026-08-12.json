@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "stage": "UPPER_ARM_AA_ANATOMICAL_CANDIDATE",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "decision": "rejected_by_user_visual_review",
+  "userText": "感觉不太像还是",
+  "reason": "上一版的连续曲线仍呈现为近似胶囊/圆头长条，未充分体现肩部根部、中段软组织和肘部斜向收束的关系。",
+  "supersededBy": "upper-arm-aa-anatomical-v2",
+  "formalLayerPromotion": false,
+  "userVisualApproval": false
+}

@@ -1,0 +1,149 @@
+{
+  "anatomicalSide": "right",
+  "artifactCount": 26,
+  "artifactManifestExcludesItself": true,
+  "artifacts": [
+    {
+      "bytes": 285571,
+      "path": "audit/extrema-matrix.json",
+      "sha256": "b68d9dbd533292262981a8a795900c48a74c3e3069c65ee45f35aeace8bd70a2"
+    },
+    {
+      "bytes": 10748,
+      "path": "audit/hand-palm-repair-candidate.json",
+      "sha256": "725ad7399544df9afeae59436308cd654d63ef4e63d37c91fd918c5301f30da1"
+    },
+    {
+      "bytes": 33187,
+      "path": "audit/machine-report.json",
+      "sha256": "5d9f8ada9bcfc3f56cf2c38a8b5c1d5af971b845fce4bacafda7acfec50f0952"
+    },
+    {
+      "bytes": 291025,
+      "path": "audit/r2-input-freeze.json",
+      "sha256": "2e870b73d27b42394f908a489545654f5183e2da3ebd52581a48991c387a39de"
+    },
+    {
+      "bytes": 3017572,
+      "path": "audit/sample-metrics.json",
+      "sha256": "625999004f229466e26f21f7f3f35f26560a3dae5fce79e40301b45b2ddd60d7"
+    },
+    {
+      "bytes": 8755,
+      "path": "contracts/r3-motion-stress-contract.json",
+      "sha256": "e5ecbe8c974cc3762037eba12232245d5dd744851596445cc1b9c41bce677c1c"
+    },
+    {
+      "bytes": 40916,
+      "path": "qa/bracelet-移除与前后深度检查.png",
+      "sha256": "3e42a4993b97d362ce4f903d14dfe876b1b7c7de2860d7b26705f9830da33e7c"
+    },
+    {
+      "bytes": 205964,
+      "path": "qa/coupled-motion-0-1-0.gif",
+      "sha256": "bc66b74ec6533fd21419076145fb191ce66e80b9c5159e6cce36b3d4170da010"
+    },
+    {
+      "bytes": 205773,
+      "path": "qa/coupled-motion-alt-0-1-0.gif",
+      "sha256": "17f362bb5a30c557e49b9613053cf8273135d423b84e1d69c86c8dfe87bd5864"
+    },
+    {
+      "bytes": 192789,
+      "path": "qa/elbow-0-1-0.gif",
+      "sha256": "13732594798feb098dde6249d72aed60e58e85786b0ce8861f3040524fb1dc6c"
+    },
+    {
+      "bytes": 532082,
+      "path": "qa/R3-小星Left-运动压力测试-中文审查图.png",
+      "sha256": "99b1680805f9ca0b6e47f312dc38b450b22330fb03e8cd46178109e11ef3b154"
+    },
+    {
+      "bytes": 210973,
+      "path": "qa/shoulder-negative-0-1-0.gif",
+      "sha256": "277c8b21eeced8a3d056331c0a0047c7600bf5a2dd656c19e9e20104513b286b"
+    },
+    {
+      "bytes": 191920,
+      "path": "qa/shoulder-positive-0-1-0.gif",
+      "sha256": "0a11920906d65e605b7c82a3028d6869e3f2dc217cb47973f48c952cca42cdab"
+    },
+    {
+      "bytes": 158530,
+      "path": "qa/wrist-negative-0-1-0.gif",
+      "sha256": "9205b7181d219b59f7b5c1ecd0d5952c5d06f5e5cc4ab2c0706498ec08e13300"
+    },
+    {
+      "bytes": 158501,
+      "path": "qa/wrist-positive-0-1-0.gif",
+      "sha256": "7ad2250d366d07dbc3e20f28de11d4ff547c3078ef72b6b99a97a8103a58d147"
+    },
+    {
+      "bytes": 45900,
+      "path": "qa/三处关节最近邻放大图.png",
+      "sha256": "f942af4f5c95b9ea4c0f67b81c0a645668abd2470eb7ebf138ab3f3296cb7c4c"
+    },
+    {
+      "bytes": 71353,
+      "path": "qa/单关节与组合极值接触表.png",
+      "sha256": "92712e660addb979ce5d683e8854216a469b4ce36676e5c7271416ea9f98d9ec"
+    },
+    {
+      "bytes": 1047831,
+      "path": "qa/手掌边界修复候选-中文审查图.png",
+      "sha256": "c0b733586cda828704eaa48910638131eacfb74f6e0d034218f559e594e0c54e"
+    },
+    {
+      "bytes": 39109,
+      "path": "qa/袖子双锚点-躯干支撑-袖口跟随审查.png",
+      "sha256": "6472c135873778d86ba3555838a4f1566d0f601e97196c7cd92874d551329426"
+    },
+    {
+      "bytes": 6282,
+      "path": "README.md",
+      "sha256": "ebbdf545673d27d0d02e2e30314e361d536288152c38dfdcc90b6f6ea7f162b0"
+    },
+    {
+      "bytes": 5394,
+      "path": "repair-candidate/hand-palm/hand-flat-layer.png",
+      "sha256": "04e4777f135ccf7a8747a7cf25462e2ab29157a51ca4626939cae152c3966b56"
+    },
+    {
+      "bytes": 1928,
+      "path": "repair-candidate/hand-palm/masks/hand-complete.png",
+      "sha256": "421b5a7e13942961f42a8377a5d572e97b4dd1b6b209ffc7144b0bb5a6ba8c94"
+    },
+    {
+      "bytes": 775,
+      "path": "repair-candidate/hand-palm/masks/hand-hidden.png",
+      "sha256": "34334d5cfa7c321d904c55479b8bd628cb0cb38854b8977b146f5b14da2d1441"
+    },
+    {
+      "bytes": 1773,
+      "path": "repair-candidate/hand-palm/masks/hand-visible.png",
+      "sha256": "7e0130d6d90267346287da69199a6822b58cb5394533bc4d6e36390d05e758ab"
+    },
+    {
+      "bytes": 20858,
+      "path": "tools/build_hand_palm_repair_candidate.py",
+      "sha256": "d686178aae4f1bd3b0a600090c8ffa91956a4c6f9e203a305f76564f7479fffe"
+    },
+    {
+      "bytes": 95284,
+      "path": "tools/build_r3_motion_stress.py",
+      "sha256": "ac47fdaa66f6fd6238561f134786be786074dd29827ccfbc7a7d031769cf4dc3"
+    }
+  ],
+  "character": "xiaoxing",
+  "engineeringPass": false,
+  "overallGatePass": false,
+  "protectedSnapshotDigest": "d1025edb42df897379ad6c88fca726a907d27f5ff9282f5507836f6d8ea374e1",
+  "r2InputManifestSha256": "fea721ad3f6eb9576dd14d847a97fa17c712d7ccba2b3deda7e09ca8efd8ee8a",
+  "r3Gate": "unchecked",
+  "schemaVersion": 1,
+  "screenSide": "left",
+  "stage": "R3 motion stress and geometry-freeze candidate",
+  "status": "R3_ENGINEERING_FAILED / RETURN_TO_EARLIEST_FAILED_STAGE",
+  "subject": "小星 Left",
+  "view": "front"
+}

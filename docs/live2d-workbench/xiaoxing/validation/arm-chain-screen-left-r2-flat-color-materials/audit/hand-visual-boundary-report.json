@@ -1,0 +1,671 @@
+{
+  "schemaVersion": 1,
+  "stage": "R2 hand flat-layer smooth red-boundary audit",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "sourceMarkup": "audit/user-markup-hand-redline-2026-08-09.png",
+  "sourceMarkupSha256": "5d40e47b73c56418d94ed847922b1a9ff4b687aff764bfecedd7d5949ec0ce0f",
+  "markupDimensions": [
+    1300,
+    1562
+  ],
+  "sourceCanvas": [
+    512,
+    1086
+  ],
+  "roi": [
+    55,
+    505,
+    155,
+    630
+  ],
+  "coordinateTransform": "identity in original 512x1086 source space; smooth candidate is HAND_VISUAL_BEZIER_SEGMENTS and raw markup is the final hard guard",
+  "allowedSide": "red-line interior / hand-material side",
+  "displayAlphaSource": "display-alpha/hand-complete.png -> flat-layers/hand.png",
+  "hiddenDisplayAlphaSource": "display-alpha/hand-hidden.png",
+  "hiddenWristRoi": [
+    90,
+    515,
+    140,
+    558
+  ],
+  "boundarySegments": {
+    "leftTransition": [
+      [
+        104,
+        531
+      ],
+      [
+        102,
+        533
+      ],
+      [
+        100,
+        536
+      ],
+      [
+        98,
+        539
+      ],
+      [
+        96,
+        542
+      ],
+      [
+        94,
+        545
+      ],
+      [
+        92,
+        548
+      ],
+      [
+        90,
+        551
+      ],
+      [
+        87,
+        554
+      ]
+    ],
+    "topGuidePolyline": [
+      [
+        87,
+        555
+      ],
+      [
+        89,
+        554
+      ],
+      [
+        91,
+        552
+      ],
+      [
+        93,
+        548
+      ],
+      [
+        95,
+        544
+      ],
+      [
+        97,
+        541
+      ],
+      [
+        99,
+        538
+      ],
+      [
+        101,
+        536
+      ],
+      [
+        103,
+        533
+      ],
+      [
+        105,
+        532
+      ],
+      [
+        108,
+        532
+      ],
+      [
+        111,
+        532
+      ],
+      [
+        114,
+        533
+      ],
+      [
+        116,
+        534
+      ],
+      [
+        118,
+        536
+      ],
+      [
+        120,
+        539
+      ],
+      [
+        122,
+        541
+      ]
+    ],
+    "rightTransition": [
+      [
+        112,
+        531
+      ],
+      [
+        115,
+        533
+      ],
+      [
+        118,
+        536
+      ],
+      [
+        120,
+        539
+      ],
+      [
+        122,
+        541
+      ],
+      [
+        122,
+        543
+      ],
+      [
+        119,
+        545
+      ]
+    ],
+    "bezierSegments": [
+      [
+        [
+          87.0,
+          555.55
+        ],
+        [
+          87.666664248,
+          555.260008393
+        ],
+        [
+          88.333328495,
+          554.970016787
+        ],
+        [
+          89.0,
+          554.55
+        ]
+      ],
+      [
+        [
+          89.0,
+          554.55
+        ],
+        [
+          89.666671505,
+          554.129983213
+        ],
+        [
+          90.333350266,
+          553.579941246
+        ],
+        [
+          91.0,
+          552.55
+        ]
+      ],
+      [
+        [
+          91.0,
+          552.55
+        ],
+        [
+          91.666649734,
+          551.520058754
+        ],
+        [
+          92.333270441,
+          550.010218229
+        ],
+        [
+          93.0,
+          548.55
+        ]
+      ],
+      [
+        [
+          93.0,
+          548.55
+        ],
+        [
+          93.666729559,
+          547.089781771
+        ],
+        [
+          94.333567971,
+          545.679185836
+        ],
+        [
+          95.0,
+          544.55
+        ]
+      ],
+      [
+        [
+          95.0,
+          544.55
+        ],
+        [
+          95.666432029,
+          543.420814164
+        ],
+        [
+          96.332457675,
+          542.573038425
+        ],
+        [
+          97.0,
+          541.55
+        ]
+      ],
+      [
+        [
+          97.0,
+          541.55
+        ],
+        [
+          97.667542325,
+          540.526961575
+        ],
+        [
+          98.336601329,
+          539.328660462
+        ],
+        [
+          99.0,
+          538.55
+        ]
+      ],
+      [
+        [
+          99.0,
+          538.55
+        ],
+        [
+          99.663398671,
+          537.771339538
+        ],
+        [
+          100.321137008,
+          537.412319727
+        ],
+        [
+          101.0,
+          536.55
+        ]
+      ],
+      [
+        [
+          101.0,
+          536.55
+        ],
+        [
+          101.678862992,
+          535.687680273
+        ],
+        [
+          102.378850638,
+          534.322060628
+        ],
+        [
+          103.0,
+          533.55
+        ]
+      ],
+      [
+        [
+          103.0,
+          533.55
+        ],
+        [
+          103.621149362,
+          532.777939372
+        ],
+        [
+          104.163460439,
+          532.599437759
+        ],
+        [
+          105.0,
+          532.55
+        ]
+      ],
+      [
+        [
+          105.0,
+          532.55
+        ],
+        [
+          105.836539561,
+          532.500562241
+        ],
+        [
+          106.967307605,
+          532.580188335
+        ],
+        [
+          108.0,
+          532.55
+        ]
+      ],
+      [
+        [
+          108.0,
+          532.55
+        ],
+        [
+          109.032692395,
+          532.519811665
+        ],
+        [
+          109.967309139,
+          532.379808899
+        ],
+        [
+          111.0,
+          532.55
+        ]
+      ],
+      [
+        [
+          111.0,
+          532.55
+        ],
+        [
+          112.032690861,
+          532.720191101
+        ],
+        [
+          113.163455838,
+          533.200576068
+        ],
+        [
+          114.0,
+          533.55
+        ]
+      ],
+      [
+        [
+          114.0,
+          533.55
+        ],
+        [
+          114.836544162,
+          533.899423932
+        ],
+        [
+          115.378867507,
+          534.117886827
+        ],
+        [
+          116.0,
+          534.55
+        ]
+      ],
+      [
+        [
+          116.0,
+          534.55
+        ],
+        [
+          116.621132493,
+          534.982113173
+        ],
+        [
+          117.321074133,
+          535.627876623
+        ],
+        [
+          118.0,
+          536.55
+        ]
+      ],
+      [
+        [
+          118.0,
+          536.55
+        ],
+        [
+          118.678925867,
+          537.472123377
+        ],
+        [
+          119.336835962,
+          538.670606679
+        ],
+        [
+          120.0,
+          539.55
+        ]
+      ],
+      [
+        [
+          120.0,
+          539.55
+        ],
+        [
+          120.663164038,
+          540.429393321
+        ],
+        [
+          121.331582019,
+          540.98969666
+        ],
+        [
+          122.0,
+          541.55
+        ]
+      ]
+    ]
+  },
+  "rendering": {
+    "supersample": 32,
+    "curveType": "explicit cubic Bezier segments with C2-continuous uniform-knot joins",
+    "c1JoinErrorsPx": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "c2JoinErrorsPx": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "insetPx": 0.25,
+    "curveInsetYPx": 0.55,
+    "downsample": "BOX",
+    "finalClipReapplied": true,
+    "markupClipReapplied": true,
+    "minRawCurveMarkupClearancePx": 0.237684,
+    "minActualCurveMarkupClearancePx": 0.51719,
+    "palmCapEndY": 567,
+    "firstOpenGapY": 568,
+    "upperBoundaryFractionalAlphaPixels": 77,
+    "forbiddenOperations": [
+      "row/column hard cut",
+      "LANCZOS ringing",
+      "blur",
+      "dilate",
+      "erode",
+      "stroke expansion"
+    ]
+  },
+  "outsideBoundaryPixels": 0,
+  "outsideBoundaryPixelSample": [],
+  "outsideSmoothBoundaryPixels": 0,
+  "renderedGuideBoundary": {
+    "guideSamples": 1537,
+    "candidateSamples": 73,
+    "guideToCandidate": {
+      "count": 1537,
+      "p50Px": 0.4622,
+      "p90Px": 0.7125,
+      "p95Px": 1.1061,
+      "p99Px": 1.5324,
+      "maxPx": 1.8446,
+      "binsPx": {
+        "0-1": 1441,
+        "1-2": 96,
+        "2-4": 0,
+        "4-8": 0,
+        "8-16": 0,
+        "16+": 0
+      }
+    },
+    "candidateToGuide": {
+      "count": 73,
+      "p50Px": 0.4588,
+      "p90Px": 1.4185,
+      "p95Px": 2.3248,
+      "p99Px": 3.3438,
+      "maxPx": 3.9303,
+      "binsPx": {
+        "0-1": 62,
+        "1-2": 5,
+        "2-4": 6,
+        "4-8": 0,
+        "8-16": 0,
+        "16+": 0
+      }
+    },
+    "bidirectionalMaxPx": 3.9303,
+    "bidirectionalP95Px": 2.3248,
+    "uncoveredGuideSamples": 0,
+    "unmatchedCandidateSamples": 0
+  },
+  "visibleCandidateBoundary": {
+    "candidateSamples": 80,
+    "guideToCandidate": {
+      "count": 1537,
+      "p50Px": 0.451,
+      "p90Px": 0.665,
+      "p95Px": 0.7179,
+      "p99Px": 0.9017,
+      "maxPx": 1.0966,
+      "binsPx": {
+        "0-1": 1531,
+        "1-2": 6,
+        "2-4": 0,
+        "4-8": 0,
+        "8-16": 0,
+        "16+": 0
+      }
+    },
+    "candidateToGuide": {
+      "count": 80,
+      "p50Px": 0.4985,
+      "p90Px": 1.7614,
+      "p95Px": 3.592,
+      "p99Px": 4.8788,
+      "maxPx": 5.3668,
+      "binsPx": {
+        "0-1": 65,
+        "1-2": 7,
+        "2-4": 6,
+        "4-8": 2,
+        "8-16": 0,
+        "16+": 0
+      }
+    },
+    "bidirectionalMaxPx": 5.3668,
+    "bidirectionalP95Px": 3.592
+  },
+  "checks": [
+    {
+      "id": "final_alpha_inside_red_boundary",
+      "pass": true,
+      "outsideBoundaryPixels": 0,
+      "detail": "authoritative raw user markup is reapplied after the smooth candidate guard and downsampling"
+    },
+    {
+      "id": "final_alpha_inside_smooth_c2_boundary",
+      "pass": true,
+      "outsideSmoothBoundaryPixels": 0
+    },
+    {
+      "id": "registered_bezier_boundary_bidirectional_raster_error_le_4px",
+      "pass": true,
+      "maxPx": 3.9303,
+      "p95Px": 2.3248,
+      "tolerancePx": 4.0
+    },
+    {
+      "id": "bezier_curve_c2_continuity",
+      "pass": true,
+      "maxC1JoinErrorPx": 0.0,
+      "maxC2JoinErrorPx": 0.0,
+      "tolerancePx": 0.0001
+    },
+    {
+      "id": "bezier_curve_stays_inside_raw_markup_without_overshoot",
+      "pass": true,
+      "minRawCurveMarkupClearancePx": 0.237684,
+      "minActualCurveMarkupClearancePx": 0.51719,
+      "overshootTolerancePx": 1e-06
+    },
+    {
+      "id": "final_clip_reapplied_after_downsample",
+      "pass": true,
+      "detail": "final hand alpha is multiplied by both BOX-rendered smooth and raw-markup guards after downsampling"
+    },
+    {
+      "id": "upper_boundary_has_antialiased_alpha",
+      "pass": true,
+      "fractionalAlphaPixels": 77,
+      "roi": [
+        84,
+        530,
+        124,
+        568
+      ]
+    },
+    {
+      "id": "palm_cap_stops_before_first_open_gap",
+      "pass": true,
+      "capEndY": 567,
+      "firstOpenGapY": 568,
+      "alphaRunsAtFirstOpenGap": [
+        [
+          83,
+          99
+        ],
+        [
+          101,
+          112
+        ]
+      ]
+    }
+  ],
+  "overallPass": true,
+  "maintenanceStatus": "R2_HAND_HIDDEN_AA_MAINTENANCE_CANDIDATE / WAITING_USER_VISUAL_APPROVAL",
+  "displayAlphaPath": "display-alpha/hand-complete.png",
+  "flatLayerPath": "flat-layers/hand.png"
+}

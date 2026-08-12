@@ -1,0 +1,361 @@
+{
+  "schemaVersion": 1,
+  "stage": "WHOLE_HAND_PREVIEW_GIF",
+  "status": "PREVIEW_ONLY / FORMAL_LAYER_UNCHANGED",
+  "sourceCanvas": [
+    512,
+    1086
+  ],
+  "crop": [
+    14,
+    206,
+    293,
+    642
+  ],
+  "scale": 2,
+  "frameCount": 11,
+  "durationMs": 130,
+  "loop": true,
+  "transformOrder": [
+    "upper_arm and sleeve <- shoulder rotation",
+    "forearm, bracelet-back, bracelet-front, hand <- elbow fold then shoulder rotation",
+    "hand <- small local wrist rotation before inheriting elbow and shoulder transforms",
+    "hand hidden wrist root <- same wrist rotation, behind forearm and bracelet",
+    "bracelet depth order = back -> forearm skin -> hand -> front"
+  ],
+  "pivots": {
+    "shoulder": [
+      166.0,
+      270.0
+    ],
+    "elbow": [
+      149.0,
+      399.0
+    ],
+    "wrist": [
+      110.0,
+      538.0
+    ]
+  },
+  "inputs": {
+    "candidateUpperArm": {
+      "path": "candidates/upper-arm-aa-anatomical-v8/flat-layers/upper_arm.png",
+      "sha256": "2ae6d87248d40cc4f6b59904b6a9fb4c35bb937f897ab6277636c148292ef104"
+    },
+    "r2Sleeve": {
+      "path": "flat-layers/sleeve.png",
+      "sha256": "e4a571bb2a4b88f2be2b7baa67fa59ea2ca728bae042b0261146782dde758fe0"
+    },
+    "r2Forearm": {
+      "path": "flat-layers/forearm.png",
+      "sha256": "f4afde461152a4b7a5cc9864cf043e9a060bb1046dd44aa3f34f01585c2a800c"
+    },
+    "r2BraceletBack": {
+      "path": "flat-layers/bracelet-back.png",
+      "sha256": "dceb50d5da5590844ba5fbec404f0e380cefbc6a643178be3864d3d96aa9a64f"
+    },
+    "r2BraceletFront": {
+      "path": "flat-layers/bracelet-front.png",
+      "sha256": "5b9454a54d70e84bbf708e104b7aa398a65e321ab72f594fa2ecbfe194113a6a"
+    },
+    "r2Hand": {
+      "path": "flat-layers/hand.png",
+      "sha256": "fa82b3175c7de0613d36a32abab7e234cf9896a6dbb4a44899bd1f7cf93adb9c"
+    },
+    "r2HandHidden": {
+      "path": "display-alpha/hand-hidden.png",
+      "sha256": "1e260d60c69d1fbe2f4591ba8e1a1b007113864f53951f54e1034a9aec674ac0"
+    }
+  },
+  "outputs": {
+    "gif": {
+      "path": "previews/whole-hand-v8/whole-hand-v8-preview.gif",
+      "sha256": "2f22d7c83944f9ec1ac08572a2eb87cc80b669f4045862080b42e0255b281539"
+    },
+    "contactSheet": {
+      "path": "previews/whole-hand-v8/whole-hand-v8-contact-sheet.png",
+      "sha256": "2421746cb8e875d42e70b00f1905991773ea5c58d7ed55016c24ae9dfa40e0e0"
+    }
+  },
+  "checks": {
+    "allFramesHaveVisiblePixels": true,
+    "allFramesSingleConnectedArmChainAtAlphaGt8": true,
+    "allElbowOverlapsPositive": true,
+    "allWristOverlapsPositive": true,
+    "bicubicRingingIslandsRemoved": 2,
+    "hiddenWristRootIncludedInPreview": true
+  },
+  "formalGate": {
+    "engineeringPass": null,
+    "userVisualApproval": null,
+    "overallGatePass": false,
+    "formalR2Promotion": false,
+    "reason": "GIF is a user-facing preview only; it does not replace direct visual approval of the latest bounded material or the formal R2 gate."
+  },
+  "frames": [
+    {
+      "id": "00-rest",
+      "shoulderAngle": 0.0,
+      "elbowAngle": 0.0,
+      "wristAngle": 0.0,
+      "bbox": [
+        67,
+        225,
+        195,
+        619
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 0,
+      "elbowOverlapPixels": 798,
+      "wristOverlapPixels": 424,
+      "elbowPoint": [
+        149.0,
+        399.0
+      ],
+      "wristPoint": [
+        110.0,
+        538.0
+      ]
+    },
+    {
+      "id": "01-raise-1",
+      "shoulderAngle": -12.0,
+      "elbowAngle": 30.0,
+      "wristAngle": -4.0,
+      "bbox": [
+        77,
+        224,
+        192,
+        624
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 0,
+      "elbowOverlapPixels": 822,
+      "wristOverlapPixels": 441,
+      "elbowPoint": [
+        122.551,
+        392.647
+      ],
+      "wristPoint": [
+        128.413,
+        536.895
+      ]
+    },
+    {
+      "id": "02-raise-2",
+      "shoulderAngle": -24.0,
+      "elbowAngle": 65.0,
+      "wristAngle": -8.0,
+      "bbox": [
+        62,
+        227,
+        196,
+        598
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 1,
+      "elbowOverlapPixels": 807,
+      "wristOverlapPixels": 445,
+      "elbowPoint": [
+        98.001,
+        380.933
+      ],
+      "wristPoint": [
+        159.759,
+        511.424
+      ]
+    },
+    {
+      "id": "03-raise-3",
+      "shoulderAngle": -36.0,
+      "elbowAngle": 100.0,
+      "wristAngle": -12.0,
+      "bbox": [
+        51,
+        230,
+        230,
+        541
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 0,
+      "elbowOverlapPixels": 861,
+      "wristOverlapPixels": 447,
+      "elbowPoint": [
+        76.422,
+        364.371
+      ],
+      "wristPoint": [
+        184.258,
+        460.357
+      ]
+    },
+    {
+      "id": "04-raise-4",
+      "shoulderAngle": -48.0,
+      "elbowAngle": 135.0,
+      "wristAngle": -16.0,
+      "bbox": [
+        38,
+        234,
+        261,
+        455
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 0,
+      "elbowOverlapPixels": 1079,
+      "wristOverlapPixels": 447,
+      "elbowPoint": [
+        58.759,
+        343.684
+      ],
+      "wristPoint": [
+        195.528,
+        389.906
+      ]
+    },
+    {
+      "id": "05-raise-peak",
+      "shoulderAngle": -52.0,
+      "elbowAngle": 155.0,
+      "wristAngle": -20.0,
+      "bbox": [
+        32,
+        235,
+        275,
+        395
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 0,
+      "elbowOverlapPixels": 1406,
+      "wristOverlapPixels": 449,
+      "elbowPoint": [
+        53.88,
+        336.024
+      ],
+      "wristPoint": [
+        198.091,
+        342.756
+      ]
+    },
+    {
+      "id": "06-lower-4",
+      "shoulderAngle": -48.0,
+      "elbowAngle": 135.0,
+      "wristAngle": -16.0,
+      "bbox": [
+        38,
+        234,
+        261,
+        455
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 0,
+      "elbowOverlapPixels": 1079,
+      "wristOverlapPixels": 447,
+      "elbowPoint": [
+        58.759,
+        343.684
+      ],
+      "wristPoint": [
+        195.528,
+        389.906
+      ]
+    },
+    {
+      "id": "07-lower-3",
+      "shoulderAngle": -36.0,
+      "elbowAngle": 100.0,
+      "wristAngle": -12.0,
+      "bbox": [
+        51,
+        230,
+        230,
+        541
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 0,
+      "elbowOverlapPixels": 861,
+      "wristOverlapPixels": 447,
+      "elbowPoint": [
+        76.422,
+        364.371
+      ],
+      "wristPoint": [
+        184.258,
+        460.357
+      ]
+    },
+    {
+      "id": "08-lower-2",
+      "shoulderAngle": -24.0,
+      "elbowAngle": 65.0,
+      "wristAngle": -8.0,
+      "bbox": [
+        62,
+        227,
+        196,
+        598
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 1,
+      "elbowOverlapPixels": 807,
+      "wristOverlapPixels": 445,
+      "elbowPoint": [
+        98.001,
+        380.933
+      ],
+      "wristPoint": [
+        159.759,
+        511.424
+      ]
+    },
+    {
+      "id": "09-lower-1",
+      "shoulderAngle": -12.0,
+      "elbowAngle": 30.0,
+      "wristAngle": -4.0,
+      "bbox": [
+        77,
+        224,
+        192,
+        624
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 0,
+      "elbowOverlapPixels": 822,
+      "wristOverlapPixels": 441,
+      "elbowPoint": [
+        122.551,
+        392.647
+      ],
+      "wristPoint": [
+        128.413,
+        536.895
+      ]
+    },
+    {
+      "id": "10-return",
+      "shoulderAngle": 0.0,
+      "elbowAngle": 0.0,
+      "wristAngle": 0.0,
+      "bbox": [
+        67,
+        225,
+        195,
+        619
+      ],
+      "connectedComponentsAtAlphaGt8": 1,
+      "tinyAlphaIslandsRemoved": 0,
+      "elbowOverlapPixels": 798,
+      "wristOverlapPixels": 424,
+      "elbowPoint": [
+        149.0,
+        399.0
+      ],
+      "wristPoint": [
+        110.0,
+        538.0
+      ]
+    }
+  ]
+}

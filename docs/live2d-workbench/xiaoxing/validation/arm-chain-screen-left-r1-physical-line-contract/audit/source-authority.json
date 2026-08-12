@@ -1,0 +1,162 @@
+{
+  "authoritativeInputs": [
+    {
+      "actualSha256": "7f8605a85df7fa2c8843e925f8274a06403d884d975b1b195b2a583478dc222c",
+      "alpha": {
+        "max": 255,
+        "min": 255,
+        "nonzeroPixels": 1572528,
+        "partialPixels": 0,
+        "state": "opaque-full-canvas",
+        "transparentPixels": 0
+      },
+      "colorMode": "RGB",
+      "dimensions": {
+        "height": 1086,
+        "width": 1448
+      },
+      "expectedSha256": "7f8605a85df7fa2c8843e925f8274a06403d884d975b1b195b2a583478dc222c",
+      "format": "PNG",
+      "id": "xiaoxing-three-view-line",
+      "metadataKeys": [],
+      "path": "../../source/xiaoxing-three-view-line.png",
+      "role": "结构线稿唯一权威；决定可见轮廓、材料边界和关节关系",
+      "sha256Match": true
+    },
+    {
+      "actualSha256": "2d1b9c71c4e6c17ea503800b05f44bf7bfe127799a5e156886c191b97d350154",
+      "alpha": {
+        "max": 255,
+        "min": 255,
+        "nonzeroPixels": 1572528,
+        "partialPixels": 0,
+        "state": "opaque-full-canvas",
+        "transparentPixels": 0
+      },
+      "colorMode": "RGB",
+      "dimensions": {
+        "height": 1086,
+        "width": 1448
+      },
+      "expectedSha256": "2d1b9c71c4e6c17ea503800b05f44bf7bfe127799a5e156886c191b97d350154",
+      "format": "PNG",
+      "id": "xiaoxing-three-view-color",
+      "metadataKeys": [],
+      "path": "../../source/xiaoxing-three-view-color.png",
+      "role": "身份、颜色和材质参照；不得覆盖线稿结构",
+      "sha256Match": true
+    },
+    {
+      "actualSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+      "alpha": {
+        "max": 255,
+        "min": 255,
+        "nonzeroPixels": 556032,
+        "partialPixels": 0,
+        "state": "opaque-full-canvas",
+        "transparentPixels": 0
+      },
+      "colorMode": "RGB",
+      "dimensions": {
+        "height": 1086,
+        "width": 512
+      },
+      "expectedSha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f",
+      "format": "PNG",
+      "id": "front-line-source-exact-after-reset",
+      "metadataKeys": [],
+      "path": "../../source/masters/front-line-source-exact-after-reset.png",
+      "role": "正面正式 512×1086 线稿坐标母版",
+      "sha256Match": true
+    },
+    {
+      "actualSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "alpha": {
+        "max": 255,
+        "min": 255,
+        "nonzeroPixels": 556032,
+        "partialPixels": 0,
+        "state": "opaque-full-canvas",
+        "transparentPixels": 0
+      },
+      "colorMode": "RGB",
+      "dimensions": {
+        "height": 1086,
+        "width": 512
+      },
+      "expectedSha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5",
+      "format": "PNG",
+      "id": "front-color-source-exact-after-reset",
+      "metadataKeys": [],
+      "path": "../../source/masters/front-color-source-exact-after-reset.png",
+      "role": "正面正式 512×1086 彩稿身份/颜色坐标参照",
+      "sha256Match": true
+    }
+  ],
+  "coordinateRelation": {
+    "colorCropByteIdentity": true,
+    "formalCoordinateRule": "all R1 front candidates stay in 512x1086 frontMaster coordinates; no scale, rotation, or manual reposition",
+    "frontMasterCanvas": {
+      "height": 1086,
+      "width": 512
+    },
+    "frontMasterCropBoxInThreeViewPx": [
+      34,
+      0,
+      546,
+      1086
+    ],
+    "frontMasterTransform": "frontMaster(x,y) == threeView(x+34,y), exact 1:1 integer crop",
+    "lineCropByteIdentity": true,
+    "threeViewCanvas": {
+      "height": 1086,
+      "width": 1448
+    },
+    "viewInterpretation": "front, side, and back are projections of one body; side/back are not separate skeletons or materials",
+    "viewRegions": {
+      "back": {
+        "region": [
+          967,
+          0,
+          1448,
+          1086
+        ],
+        "role": "layout/projection reference only"
+      },
+      "front": {
+        "region": [
+          34,
+          0,
+          546,
+          1086
+        ],
+        "role": "exact master crop"
+      },
+      "side": {
+        "region": [
+          546,
+          0,
+          967,
+          1086
+        ],
+        "role": "layout/projection reference only"
+      }
+    }
+  },
+  "identity": {
+    "anatomicalSide": "right",
+    "character": "xiaoxing",
+    "definition": "正面画面左侧手臂，即角色解剖学右臂",
+    "screenSide": "left",
+    "subject": "小星 Left",
+    "view": "front"
+  },
+  "readOnlyEvidence": {
+    "oldDirectoriesUnmodifiedByThisBuild": true,
+    "v25Comparison": "../arm-chain-screen-left-v25-shoulder-joint-correction/candidate-skeleton.json",
+    "v38Regression": "../arm-chain-screen-left-v38-reset-guided-wrist-underlay/audit/machine-report.json"
+  },
+  "schemaVersion": 1,
+  "stage": "R1 physical body, joints, and line semantics",
+  "status": "engineering-audit-candidate"
+}

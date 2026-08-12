@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 2,
+  "stage": "R2 layer-only draw order",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "coordinateSpace": "frontMaster 512x1086; identity transform",
+  "bodySpaceTransform": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "orderDirection": "back_to_front",
+  "layers": [
+    {
+      "id": "upper_arm",
+      "order": 10,
+      "relation": "hidden parent skin behind sleeve and forearm at shoulder/elbow"
+    },
+    {
+      "id": "sleeve",
+      "order": 20,
+      "relation": "foreground garment at shoulder/cuff; covers hidden upper-arm root"
+    },
+    {
+      "id": "hand",
+      "order": 30,
+      "relation": "distal skin at wrist/palm; no accessory pixels"
+    },
+    {
+      "id": "forearm",
+      "order": 40,
+      "relation": "single forearm layer contains forearm_skin and the forearm-owned bracelet; it is in front at elbow/wrist"
+    }
+  ],
+  "forearmSubregionDrawOrder": [
+    {
+      "id": "bracelet_back",
+      "order": 30,
+      "relation": "forearm-owned rear-depth candidate behind forearm_skin"
+    },
+    {
+      "id": "forearm_skin",
+      "order": 40,
+      "relation": "forearm-owned skin surface"
+    },
+    {
+      "id": "hand",
+      "order": 50,
+      "relation": "distal hand surface; no bracelet pixels"
+    },
+    {
+      "id": "bracelet_front",
+      "order": 60,
+      "relation": "forearm-owned foreground accessory in front of forearm_skin and hand"
+    }
+  ],
+  "requiredRelations": [
+    "sleeve foreground of upper_arm at sleeve opening",
+    "forearm foreground of upper_arm at elbow hidden overlap",
+    "hand and forearm_skin share the R1 wrist pivot and have bidirectional hidden coverage",
+    "bracelet_back, forearm_skin, hand, and bracelet_front are a QA-only subregion ordering of one forearm transform; bracelet_front is in front of skin and hand",
+    "no draw-order step may repair a wrong visible alpha boundary"
+  ],
+  "neutralProjection": "default layer-only neutral uses visible ownership masks; complete hidden geometry is exercised by displaced-part reviews because torso/hair occluders are outside this arm-only package",
+  "braceletDepthDecision": "forearm-owned audit candidate split into bracelet_back -> forearm_skin -> hand -> bracelet_front; rear half depth remains unresolved and is not claimed frozen",
+  "braceletSupportedMotionScope": "front-facing small wrist translation/rotation only; no pronation/supination or deep wrap",
+  "r2Gate": "approved"
+}

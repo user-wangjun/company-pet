@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "decisionOwner": "user",
+  "decisionDate": "2026-08-07",
+  "subject": "小星 Left",
+  "identity": {
+    "character": "xiaoxing",
+    "view": "front",
+    "screenSide": "left",
+    "anatomicalSide": "right"
+  },
+  "userQuote": "手的左上应该在往内一些，右上往外凸一点",
+  "reopenedStage": "R2",
+  "decision": "refinement_requested",
+  "requestedChange": "仅调整 hand flat layer 的 proximal upper display arc：左上向内收约 1 个源像素，右上向外恢复约 1 个源像素；不改 visible/hidden/complete mask、手指、腕点或手链。",
+  "supersedesForCurrentOutput": "audit/user-visual-approval-r2-2026-08-07.json",
+  "historicalApprovalMustRemainUnmodified": true,
+  "status": "R2_HAND_VISIBLE_REPAIR_CANDIDATE / WAITING_USER_VISUAL_APPROVAL",
+  "r2Gate": "reopened",
+  "r3Status": "STALE_DUE_TO_UPSTREAM_R2_HAND_REJECTION",
+  "r3Policy": "Do not rerun, repair or promote the current R3 hand candidate in this repair pass."
+}

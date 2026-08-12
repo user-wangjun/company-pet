@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "stage": "R2 FORMAL PROMOTION deterministic rebuild evidence",
+  "runNumber": 1,
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "status": "R2_FORMAL_PROMOTED / R3_READY_NOT_STARTED",
+  "engineeringPass": true,
+  "userVisualApproval": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/audit/user-visual-approval-whole-hand-flat-color-freeze-2026-08-12.json",
+  "formalR2Promotion": true,
+  "r2Gate": "passed",
+  "overallGatePass": true,
+  "artifactManifestSha256": "b687a5f605038d717f3cb15a8fcd31b525d43a8ace8eff61e918b008ba7afb54",
+  "machineReportSha256": "2e176428d82e0874241de12e3db135ce479142ba3994db997a6bd0b806f1f277",
+  "artifactCount": 282,
+  "protectedFileCount": 847,
+  "protectedArtifactsUnchanged": true,
+  "handProtectedArtifactsUnchanged": true,
+  "nonForearmArtifactsUnchanged": true,
+  "forearmUcapBoundary": {
+    "outsideBoundaryPixels": 0,
+    "overallPass": true
+  },
+  "liftActionDiagnostic": [
+    {
+      "id": "lift_action_all_frames_connected",
+      "detail": "每个抬手帧的四层色块为单一连通手臂链",
+      "uncoveredPixels": null,
+      "componentCounts": [
+        1,
+        1,
+        1,
+        2,
+        2,
+        1,
+        2,
+        2,
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "previousProtectedSnapshotMatched": true,
+  "previousArtifactListMatched": false,
+  "downstreamForbidden": true,
+  "nextState": "READY_FOR_R3 / R3_READY_NOT_STARTED"
+}

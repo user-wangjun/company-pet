@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "stage": "UPPER_ARM_AA_ANATOMICAL_CANDIDATE",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "decision": "rejected_by_user_visual_review",
+  "userText": "太粗了，而且衔接的不好",
+  "reason": "v2 肩部和中段横截面过宽，肩根与肘部的结束过渡仍然像独立色块，没有自然接入袖口和肘部共享区域。",
+  "supersededBy": "upper-arm-aa-anatomical-v3",
+  "formalLayerPromotion": false,
+  "userVisualApproval": false
+}

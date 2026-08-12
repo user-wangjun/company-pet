@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "approvalKind": "final_freeze",
+  "decisionOwner": "user",
+  "decisionDate": "2026-08-07",
+  "subject": "小星 Left",
+  "identity": {
+    "character": "xiaoxing",
+    "view": "front",
+    "screenSide": "left",
+    "anatomicalSide": "right"
+  },
+  "userQuote": "可以，这次可以冻结了",
+  "approvedStage": "R2",
+  "decision": "approved",
+  "approvalBasis": "用户确认当前 R2 hand 平色显示层与 complete 人眼审查边界的最终 proximal 补量、左侧过渡和右上弧线符合红线标注，同意冻结当前 R2 手部范围。",
+  "authorizedNextStage": "R2_GEOMETRY_FREEZE_ONLY",
+  "authorizedScope": [
+    "冻结当前 R2 hand visible、hidden、complete mask 与 hand flat layer",
+    "冻结当前 hand-dependent layer-only 拼装、审查图、审计报告和 manifest",
+    "保留当前 proximal display boundary、抗锯齿和红线内补量",
+    "保留 wrist=(110,538)、palmRoot=(104,552) 以及当前 bracelet 深度候选说明"
+  ],
+  "reviewArtifacts": [
+    "qa/hand-r2-repair/09-新hand-独立平色色块.png",
+    "qa/hand-r2-repair/12-原线原彩新拼装并列-中文总审查图.png",
+    "qa/hand-r2-repair/05-新hand-complete-源线叠加.png",
+    "qa/hand-r2-repair/07-每根手指每个指缝与虎口-1600pct.png",
+    "audit/hand-boundary-error-table.json",
+    "contracts/hand-line-trace-contract.json"
+  ],
+  "historicalDecisions": [
+    {
+      "path": "audit/user-visual-approval-r2-2026-08-06.json",
+      "status": "historical_decision_superseded_for_current_hand_revision",
+      "mustRemainUnmodified": true
+    },
+    {
+      "path": "audit/user-visual-approval-r2-2026-08-07.json",
+      "status": "prior_approval_superseded_by_final_freeze_record",
+      "mustRemainUnmodified": true
+    },
+    {
+      "path": "audit/user-visual-refinement-request-hand-r2-2026-08-07.json",
+      "status": "resolved_by_final_freeze_approval",
+      "mustRemainUnmodified": true
+    },
+    {
+      "path": "audit/user-visual-rejection-hand-r2-2026-08-07.json",
+      "status": "superseded_by_newer_final_user_visual_approval",
+      "mustRemainUnmodified": true
+    }
+  ],
+  "notAuthorized": [
+    "正式纹理",
+    "PSD",
+    "网格",
+    "ArtMesh",
+    "Deformer",
+    "节点",
+    "参数",
+    "动作",
+    "Physics",
+    "Cubism",
+    "Runtime",
+    "平台接入",
+    "R3 运动压力测试或几何冻结扩展"
+  ],
+  "status": "R2_APPROVED_CURRENT_SCOPE / R2-GATE_APPROVED",
+  "engineeringPass": false,
+  "overallGatePass": false,
+  "machineGateNote": "用户视觉批准不替代工程门禁；当前仍保留 R1 wrist envelope 未覆盖 84px 和既有 flat lift QA 连通性失败的事实。",
+  "r2Gate": "approved",
+  "r3Status": "STALE_DUE_TO_UPSTREAM_R2_HAND_REJECTION",
+  "r3Policy": "冻结当前 R2 手部后仍不得重跑、修复或提升旧 R3 候选。"
+}

@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "stage": "UPPER_ARM_AA_ANATOMICAL_CANDIDATE",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "source": {
+    "line": {
+      "path": "docs/live2d-workbench/xiaoxing/source/masters/front-line-source-exact-after-reset.png",
+      "sha256": "706aaf10652147cf76e233532b5459ce130921a96806f6970c91e1f3a427172f"
+    },
+    "color": {
+      "path": "docs/live2d-workbench/xiaoxing/source/masters/front-color-source-exact-after-reset.png",
+      "sha256": "33b3ce81781c02b36488ed72fa27c2a136682824ca10c42077895eab0ffb2dd5"
+    },
+    "canvas": [
+      512,
+      1086
+    ],
+    "coordinateTransform": "identity; all points are front-master pixels"
+  },
+  "anatomyBasis": {
+    "shoulderPivot": [
+      166,
+      270
+    ],
+    "elbowPivot": [
+      149,
+      399
+    ],
+    "principle": "deltoid root fuller at shoulder, brachium tapers through the mid-arm, distal contour narrows into the elbow without a circular elbow bulb",
+    "referenceContracts": [
+      "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/contracts/body-joint-contract.json",
+      "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/contracts/joint-envelope-contract.json"
+    ]
+  },
+  "boundary": {
+    "classification": "hidden anatomical material; no visible upper_arm ownership is authorized",
+    "allowedSide": "inside the registered upper-arm cubic loop and beneath the sleeve/hair occlusion envelope",
+    "anatomicalAnchors": {
+      "shoulderRoot": [
+        155.0,
+        255.0
+      ],
+      "shoulderPivot": [
+        166.0,
+        270.0
+      ],
+      "elbowPivot": [
+        149.0,
+        399.0
+      ],
+      "distalClosure": [
+        145.0,
+        398.0
+      ]
+    },
+    "bezierSegments": [
+      [
+        [
+          155.0,
+          255.0
+        ],
+        [
+          157.0,
+          253.0
+        ],
+        [
+          160.0,
+          253.0
+        ],
+        [
+          162.0,
+          256.0
+        ]
+      ],
+      [
+        [
+          162.0,
+          256.0
+        ],
+        [
+          164.0,
+          260.0
+        ],
+        [
+          165.0,
+          265.0
+        ],
+        [
+          165.0,
+          272.0
+        ]
+      ],
+      [
+        [
+          165.0,
+          272.0
+        ],
+        [
+          166.0,
+          288.0
+        ],
+        [
+          164.0,
+          310.0
+        ],
+        [
+          161.0,
+          333.0
+        ]
+      ],
+      [
+        [
+          161.0,
+          333.0
+        ],
+        [
+          160.0,
+          350.0
+        ],
+        [
+          158.0,
+          368.0
+        ],
+        [
+          158.0,
+          382.0
+        ]
+      ],
+      [
+        [
+          158.0,
+          382.0
+        ],
+        [
+          158.0,
+          388.0
+        ],
+        [
+          157.0,
+          393.0
+        ],
+        [
+          155.0,
+          396.0
+        ]
+      ],
+      [
+        [
+          155.0,
+          396.0
+        ],
+        [
+          152.0,
+          399.0
+        ],
+        [
+          148.0,
+          400.0
+        ],
+        [
+          145.0,
+          398.0
+        ]
+      ],
+      [
+        [
+          145.0,
+          398.0
+        ],
+        [
+          142.0,
+          396.0
+        ],
+        [
+          141.0,
+          392.0
+        ],
+        [
+          141.0,
+          387.0
+        ]
+      ],
+      [
+        [
+          141.0,
+          387.0
+        ],
+        [
+          141.0,
+          373.0
+        ],
+        [
+          142.0,
+          355.0
+        ],
+        [
+          143.0,
+          337.0
+        ]
+      ],
+      [
+        [
+          143.0,
+          337.0
+        ],
+        [
+          143.0,
+          317.0
+        ],
+        [
+          145.0,
+          292.0
+        ],
+        [
+          146.0,
+          276.0
+        ]
+      ],
+      [
+        [
+          146.0,
+          276.0
+        ],
+        [
+          147.0,
+          266.0
+        ],
+        [
+          150.0,
+          258.0
+        ],
+        [
+          155.0,
+          255.0
+        ]
+      ]
+    ],
+    "closed": true,
+    "continuityTarget": "explicit connected cubic chain; no periodic end regularization",
+    "outsideAlphaRule": "formal display Alpha is generated only from the high-resolution loop; no alpha may exist outside the loop"
+  },
+  "antialiasing": {
+    "supersample": 32,
+    "logic": "32x high-resolution fill -> one BOX coverage downsample -> threshold 128",
+    "formalDisplayAlpha": "32x high-resolution fill -> one BOX coverage downsample; fractional edge coverage retained",
+    "forbiddenOperations": [
+      "low-resolution NEAREST geometry",
+      "LANCZOS ringing",
+      "blur",
+      "dilate",
+      "erode",
+      "stroke expansion",
+      "rectangle",
+      "fixed circle",
+      "global convex hull"
+    ]
+  },
+  "status": "UPPER_ARM_AA_ANATOMICAL_CANDIDATE / WAITING_USER_VISUAL_APPROVAL",
+  "reviewImage": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r2-flat-color-materials/candidates/upper-arm-aa-anatomical-v6/qa/upper-arm-aa-anatomical-review.png"
+}

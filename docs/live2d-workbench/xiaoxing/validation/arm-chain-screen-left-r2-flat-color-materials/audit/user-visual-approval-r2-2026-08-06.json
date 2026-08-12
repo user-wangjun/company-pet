@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "decisionOwner": "user",
+  "decisionDate": "2026-08-06",
+  "subject": "小星 Left",
+  "identity": {
+    "character": "xiaoxing",
+    "view": "front",
+    "screenSide": "left",
+    "anatomicalSide": "right"
+  },
+  "userQuote": "可以，就这样吧，通过了",
+  "approvedStage": "R2",
+  "decision": "approved",
+  "approvalBasis": "用户确认肩根收窄后的当前 R2 平色几何、袖口浅灰交界归属、手链深度候选和隐藏腕部连续性审查通过。",
+  "authorizedNextStage": "R2_GEOMETRY_FREEZE_ONLY",
+  "authorizedScope": [
+    "关闭当前 R2-GATE",
+    "冻结当前范围内的全画布平色几何、可见/隐藏 ownership、layer-only 拼装和 bracelet 深度候选",
+    "保留 bracelet 仅支持前向小幅腕部移动/旋转的限制",
+    "保留隐藏腕部截面为 derived candidate 的证据说明"
+  ],
+  "visualDecisions": {
+    "cuffGrayBoundaryOwner": "skin",
+    "braceletDepthCandidate": "approved",
+    "hiddenWristCrossSection": "approved_for_current_flat_color_scope",
+    "upperArmShoulderRoot": "approved_after_narrowing"
+  },
+  "reviewArtifacts": [
+    "qa/R2-小星Left-全画布平色材料-中文审查图.png",
+    "qa/返修前后-完整材料根部-并列近景.png",
+    "qa/bracelet-depth-分层关系-800pct.png",
+    "qa/未决区域-标注.png"
+  ],
+  "notAuthorized": [
+    "正式纹理",
+    "PSD",
+    "网格",
+    "ArtMesh",
+    "Deformer",
+    "节点",
+    "参数",
+    "动作",
+    "Physics",
+    "Cubism",
+    "Runtime",
+    "平台接入",
+    "R3 运动压力测试或几何冻结扩展"
+  ],
+  "status": "R2_APPROVED_CURRENT_SCOPE"
+}

@@ -1,0 +1,314 @@
+{
+  "anatomicalSide": "right",
+  "authorization": {
+    "r2ApprovalRemainsHistorical": true,
+    "r3UserVisualApproval": "not_created",
+    "source": "explicit user request for R3 execution"
+  },
+  "canvas": {
+    "coordinateSpace": "frontMaster",
+    "format": "512x1086 full-canvas PNG",
+    "height": 1086,
+    "width": 512
+  },
+  "character": "xiaoxing",
+  "extremaMatrix": {
+    "elbowDeg": [
+      0.0,
+      35.0
+    ],
+    "excludedByContractExamples": [
+      {
+        "anglesDeg": {
+          "elbow": 0.0,
+          "shoulder": 24.0,
+          "wrist": 0.0
+        },
+        "reason": "shoulder exceeds +20° R1 range"
+      },
+      {
+        "anglesDeg": {
+          "elbow": -8.0,
+          "shoulder": 0.0,
+          "wrist": 0.0
+        },
+        "reason": "negative elbow leaves the R1 preferred screen-left bend branch"
+      },
+      {
+        "anglesDeg": {
+          "elbow": 35.0,
+          "shoulder": 0.0,
+          "wrist": 22.0
+        },
+        "reason": "wrist exceeds +18° R1 front-plane range"
+      },
+      {
+        "anglesDeg": {
+          "elbow": 35.0,
+          "pronation": 1.0,
+          "shoulder": 0.0,
+          "wrist": 0.0
+        },
+        "reason": "pronation/supination and depth rotation are outside this 2D contract"
+      },
+      {
+        "anglesDeg": {
+          "braceletIndependent": 1.0,
+          "elbow": 35.0,
+          "shoulder": 0.0,
+          "wrist": 0.0
+        },
+        "reason": "bracelet is forearm-owned and cannot acquire an independent joint"
+      }
+    ],
+    "inRangeCombinationCount": 18,
+    "shoulderDeg": [
+      -18.0,
+      0.0,
+      20.0
+    ],
+    "wristDeg": [
+      -15.0,
+      0.0,
+      18.0
+    ]
+  },
+  "gatePolicy": {
+    "engineeringPassRequired": true,
+    "geometryFreezeChecklist": "must not be generated in this phase",
+    "overallGatePassAfterThisBuild": false,
+    "r3Gate": "must remain unchecked until user approves the complete activity envelope"
+  },
+  "motionHierarchy": {
+    "bracelet": {
+      "independentJoint": false,
+      "independentMotionNode": false,
+      "owner": "forearm",
+      "parent": "forearm",
+      "pivot": "elbow->wrist chain"
+    },
+    "forearm": {
+      "parent": "upper_arm",
+      "pivot": "elbow",
+      "transform": "rotate around elbow, then inherit shoulder"
+    },
+    "hand": {
+      "parent": "forearm",
+      "pivot": "wrist",
+      "transform": "rotate around wrist, then inherit elbow and shoulder"
+    },
+    "order": [
+      "shoulder",
+      "elbow",
+      "wrist"
+    ],
+    "upper_arm": {
+      "parent": "body/torso",
+      "pivot": "shoulder",
+      "transform": "rotate around shoulder"
+    }
+  },
+  "physicalContract": {
+    "angleConvention": "positive angle increases the image-plane atan2(y,x) axis; no scale or translation is used for anatomy",
+    "areaDriftLimitPct": 5.0,
+    "boneLengthsPx": {
+      "forearm": 144.367586,
+      "upper_arm": 130.115333,
+      "wrist_to_palmRoot": 15.231546
+    },
+    "hiddenOverlapMinimumPx": {
+      "elbow": {
+        "longitudinalPx": 10.0,
+        "transversePx": 7.0
+      },
+      "shoulder": {
+        "longitudinalPx": 14.0,
+        "transversePx": 8.0
+      },
+      "wrist": {
+        "longitudinalPx": 8.0,
+        "transversePx": 6.0
+      }
+    },
+    "pivots": {
+      "elbow": [
+        149.0,
+        399.0
+      ],
+      "palmRoot": [
+        104.0,
+        552.0
+      ],
+      "shoulder": [
+        166.0,
+        270.0
+      ],
+      "wrist": [
+        110.0,
+        538.0
+      ]
+    },
+    "preferredBranches": {
+      "elbow": "positive flexion remains the screen-left bend branch; no negative or branch-flipped elbow solve",
+      "shoulder": "front-plane two-way range; keep elbow lateral to torso and do not flip through torso",
+      "wrist": "small front-plane bend only; no pronation/supination or depth flip"
+    },
+    "rangesDeg": {
+      "elbow": [
+        0.0,
+        35.0
+      ],
+      "shoulder": [
+        -18.0,
+        20.0
+      ],
+      "wrist": [
+        -15.0,
+        18.0
+      ]
+    },
+    "widthGuardsPx": {
+      "elbow": 48.0,
+      "shoulder": 58.0,
+      "wrist": 48.0
+    }
+  },
+  "sampling": {
+    "humanMotionProfile": {
+      "description": "relaxed hanging arm: shoulder leads, elbow follows, wrist makes the smallest late adjustment",
+      "jointLeadDelay": {
+        "elbow": 0.12,
+        "shoulder": 0.0,
+        "wrist": 0.24
+      },
+      "rationale": "avoid synchronized rigid-arm rotation; preserve the reference pose's near-extended hanging arm and keep the hand in a plausible workspace",
+      "returnIsSpatiallySymmetric": true,
+      "type": "human_sequential"
+    },
+    "minimumSamplesPerTrack": 41,
+    "outAndBackShape": "integer-symmetric 0 -> 1 -> 0 progress; independent tracks use sin(pi/2 * progress), human_sequential tracks use delayed smooth joint amplitudes with exact spatial return",
+    "tracks": [
+      {
+        "id": "shoulder-negative-0-1-0",
+        "peakDeg": {
+          "elbow": 0.0,
+          "shoulder": -18.0,
+          "wrist": 0.0
+        }
+      },
+      {
+        "id": "shoulder-positive-0-1-0",
+        "peakDeg": {
+          "elbow": 0.0,
+          "shoulder": 20.0,
+          "wrist": 0.0
+        }
+      },
+      {
+        "id": "elbow-0-1-0",
+        "peakDeg": {
+          "elbow": 35.0,
+          "shoulder": 0.0,
+          "wrist": 0.0
+        }
+      },
+      {
+        "id": "wrist-negative-0-1-0",
+        "peakDeg": {
+          "elbow": 0.0,
+          "shoulder": 0.0,
+          "wrist": -15.0
+        }
+      },
+      {
+        "id": "wrist-positive-0-1-0",
+        "peakDeg": {
+          "elbow": 0.0,
+          "shoulder": 0.0,
+          "wrist": 18.0
+        }
+      },
+      {
+        "id": "coupled-motion-0-1-0",
+        "motionProfile": {
+          "description": "relaxed hanging arm: shoulder leads, elbow follows, wrist makes the smallest late adjustment",
+          "jointLeadDelay": {
+            "elbow": 0.12,
+            "shoulder": 0.0,
+            "wrist": 0.24
+          },
+          "rationale": "avoid synchronized rigid-arm rotation; preserve the reference pose's near-extended hanging arm and keep the hand in a plausible workspace",
+          "returnIsSpatiallySymmetric": true,
+          "type": "human_sequential"
+        },
+        "peakDeg": {
+          "elbow": 12.0,
+          "shoulder": -6.0,
+          "wrist": -3.0
+        }
+      },
+      {
+        "id": "coupled-motion-alt-0-1-0",
+        "motionProfile": {
+          "description": "relaxed hanging arm: shoulder leads, elbow follows, wrist makes the smallest late adjustment",
+          "jointLeadDelay": {
+            "elbow": 0.12,
+            "shoulder": 0.0,
+            "wrist": 0.24
+          },
+          "rationale": "avoid synchronized rigid-arm rotation; preserve the reference pose's near-extended hanging arm and keep the hand in a plausible workspace",
+          "returnIsSpatiallySymmetric": true,
+          "type": "human_sequential"
+        },
+        "peakDeg": {
+          "elbow": 8.0,
+          "shoulder": 4.0,
+          "wrist": 2.0
+        }
+      }
+    ]
+  },
+  "schemaVersion": 1,
+  "screenSide": "left",
+  "sleeveR3OnlyDualAnchor": {
+    "cuffAnchorNeutral": [
+      149.0,
+      399.0
+    ],
+    "cuffFollow": "cuff endpoint follows the upper_arm shoulder transform",
+    "interpolation": "continuous centerline displacement plus continuous cross-section rotation; no local scale, blur, dilate, mesh, deformer, or node",
+    "notFormalR5": true,
+    "proximalAnchor": [
+      166.0,
+      228.0
+    ],
+    "proximalSupport": "torso/scapular support remains fixed in front-plane test",
+    "status": "pressure-test-only-continuous-geometric-warp"
+  },
+  "sourcePolicy": {
+    "forbidden": [
+      "whole-character base image",
+      "R1/R2 mutation",
+      "V12-V38 mutation",
+      "texture",
+      "PSD",
+      "ArtMesh",
+      "Deformer",
+      "nodes",
+      "Physics",
+      "Cubism",
+      "Runtime",
+      "pose-image switching",
+      "blur",
+      "dilate",
+      "fixed circular patch",
+      "manual drag compensation"
+    ],
+    "motionAlphaSource": "R2 frozen complete flat-layers only",
+    "sourceLineAndColor": "fixed review background/overlay only; never used as alpha fallback or layer-only material"
+  },
+  "stage": "R3 motion stress and geometry-freeze candidate",
+  "status": "R3_ENGINEERING_CANDIDATE / WAITING_USER_VISUAL_APPROVAL",
+  "subject": "小星 Left",
+  "view": "front"
+}

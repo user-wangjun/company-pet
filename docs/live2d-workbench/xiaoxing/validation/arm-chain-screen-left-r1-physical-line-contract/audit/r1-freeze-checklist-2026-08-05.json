@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "freezeId": "xiaoxing-left-r1-2026-08-05",
+  "status": "frozen_for_r2",
+  "identity": {
+    "character": "xiaoxing",
+    "view": "front",
+    "screenSide": "left",
+    "anatomicalSide": "right"
+  },
+  "freezeBoundary": "R1 structure, physical-joint, line-ownership, and joint-envelope evidence only; no R2 mask, texture, mesh, motion, Physics, Cubism, or Runtime artifact is frozen by this checklist.",
+  "deterministicRebuild": {
+    "command": "python docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/tools/build_r1_physical_line_contract.py",
+    "treeChangedCount": 0,
+    "engineeringPass": true,
+    "reviewPngSha256Run1": "c643d6e16f37cc3a1f298cdfec921c0d3b2f7a773c920841f851550cbabf08a1",
+    "reviewPngSha256Run2": "c643d6e16f37cc3a1f298cdfec921c0d3b2f7a773c920841f851550cbabf08a1"
+  },
+  "frozenFiles": [
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/tools/build_r1_physical_line_contract.py",
+      "sha256": "1acd1941e2000ae2028dbd9c87914257f4d8fb7dd5e2c7b4b0c7752820b56e2c",
+      "role": "deterministic R1 builder"
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/audit/source-authority.json",
+      "sha256": "5be7b879d214414dd71dae9f6b15b3c95387f2c6c2073be16ab1094cafbf7e73",
+      "role": "authoritative input and coordinate registration"
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/audit/machine-report.json",
+      "sha256": "04e2a452ad48e66eabbca0738c313365e4dd1478ebe165047877c39f44db96ef",
+      "role": "R1 engineering audit"
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/contracts/body-joint-contract.json",
+      "sha256": "07495986a576d9843ae701b5320354d7f1e53fb84abd674fb327b8f2a8ad2484",
+      "role": "canonical body, joints, axes, and pressure ranges"
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/contracts/line-ownership-contract.json",
+      "sha256": "08effb9810434fadbb2ba406ccb28dd1f0a63b804c235cdfe372858bbb30c18d",
+      "role": "visible line semantics and unique ownership"
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/contracts/joint-envelope-contract.json",
+      "sha256": "5d225d07816e5e530e8e7eebd76aae6ba1325544e56c18e5e932a117b4b7f2d7",
+      "role": "smooth joint envelopes and hidden overlap"
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/qa/R1-小星Left-物理关节与线稿语义-中文审查图.png",
+      "sha256": "c643d6e16f37cc3a1f298cdfec921c0d3b2f7a773c920841f851550cbabf08a1",
+      "role": "R1 Chinese visual review artifact"
+    },
+    {
+      "path": "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-r1-physical-line-contract/audit/user-visual-approval-r1-2026-08-04.json",
+      "sha256": "2b300ca0f0bff32ed4797cd4a2bf1c9db4e4ce531f70845e429b385e9a5bd4fb",
+      "role": "user approval and R2 authorization record"
+    }
+  ],
+  "readOnlyHistoricalEvidence": [
+    "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-v12-*",
+    "docs/live2d-workbench/xiaoxing/validation/arm-chain-screen-left-v38-reset-guided-wrist-underlay"
+  ],
+  "oldArtifactsModified": false,
+  "r2Gate": "not_approved",
+  "statusNote": "R1_APPROVED / R2_IN_PROGRESS"
+}

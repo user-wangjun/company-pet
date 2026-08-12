@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "stage": "R2 visual repair before/after baseline",
+  "character": "xiaoxing",
+  "view": "front",
+  "screenSide": "left",
+  "anatomicalSide": "right",
+  "subject": "小星 Left",
+  "status": "captured_before_current_r2_visual_repair",
+  "scope": "current R2 candidate only; not a new R2 version and not a frozen artifact",
+  "files": {
+    "upper_arm.visible": "audit/repair-baseline/upper_arm/visible.png",
+    "upper_arm.hidden": "audit/repair-baseline/upper_arm/hidden.png",
+    "upper_arm.complete": "audit/repair-baseline/upper_arm/complete.png",
+    "forearm.visible": "audit/repair-baseline/forearm/visible.png",
+    "forearm.hidden": "audit/repair-baseline/forearm/hidden.png",
+    "forearm.complete": "audit/repair-baseline/forearm/complete.png",
+    "hand.visible": "audit/repair-baseline/hand/visible.png",
+    "hand.hidden": "audit/repair-baseline/hand/hidden.png",
+    "hand.complete": "audit/repair-baseline/hand/complete.png",
+    "hand.formalDisplayFlatLayer": "audit/repair-baseline/hand/flat-layer.png"
+  },
+  "formalDisplayBaseline": {
+    "source": "flat-layers/hand.png",
+    "capturedBeforeMaintenance": true,
+    "authorizedChangeRoi": [
+      90,
+      515,
+      140,
+      558
+    ]
+  }
+}

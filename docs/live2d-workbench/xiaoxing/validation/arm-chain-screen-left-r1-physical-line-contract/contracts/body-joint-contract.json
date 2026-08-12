@@ -1,0 +1,473 @@
+{
+  "activityPressureRanges": {
+    "elbow": {
+      "depthSwitch": "unresolved for pronation/supination; profile depth is not encoded by the front line master",
+      "outsideCurrent2DRange": "超过约 35° 的深屈肘、肘向后穿袖和前臂跨躯干均不可信",
+      "preferredBendBranch": "向屏幕左侧轻微屈曲；保持手腕不穿过袖口/躯干，禁止肘部分支翻转",
+      "start": {
+        "localJointAngleDeg": 8.165474,
+        "screenAxisAngleDeg": 105.672821
+      },
+      "testExtremesDeg": [
+        0.0,
+        35.0
+      ]
+    },
+    "shoulder": {
+      "depthSwitch": "unresolved beyond small frontal-plane test; shoulder rotation under sleeve is not visible",
+      "outsideCurrent2DRange": "大于约 20° 的抬臂、明显前后摆和肩胛滑动均超出当前二维线稿证据",
+      "preferredBendBranch": "保持肘点在躯干外侧，优先沿屏幕左下方分支，不穿过躯干",
+      "start": {
+        "localJointAngleDeg": 0.0,
+        "screenAxisAngleDeg": 97.507347
+      },
+      "testExtremesDeg": [
+        -18.0,
+        20.0
+      ]
+    },
+    "status": "qa-pressure-only-not-formal-action-design",
+    "wrist": {
+      "depthSwitch": "unresolved; bracelet occludes the wrist skin and cannot be used to invent depth",
+      "outsideCurrent2DRange": "大于约 18° 的背屈、旋前旋后和手链环绕深度切换留待后续证据",
+      "preferredBendBranch": "小幅向屏幕左下/右下分支，保持掌根与手链同一腕部支点",
+      "start": {
+        "localJointAngleDeg": 0.0,
+        "screenAxisAngleDeg": 113.198591
+      },
+      "testExtremesDeg": [
+        -15.0,
+        18.0
+      ]
+    }
+  },
+  "boneAxes": {
+    "forearm": {
+      "evidenceStatus": "derived",
+      "from": "elbow",
+      "frontMasterEnd": [
+        110.0,
+        538.0
+      ],
+      "frontMasterStart": [
+        149.0,
+        399.0
+      ],
+      "lengthPx": 144.367586,
+      "screenAxisAngleDeg": 105.672821,
+      "to": "wrist"
+    },
+    "hand_palm_root": {
+      "evidenceStatus": "observed+derived",
+      "from": "wrist",
+      "frontMasterEnd": [
+        104.0,
+        552.0
+      ],
+      "frontMasterStart": [
+        110.0,
+        538.0
+      ],
+      "lengthPx": 15.231546,
+      "screenAxisAngleDeg": 113.198591,
+      "to": "palmRoot"
+    },
+    "upper_arm": {
+      "evidenceStatus": "derived",
+      "from": "shoulder",
+      "frontMasterEnd": [
+        149.0,
+        399.0
+      ],
+      "frontMasterStart": [
+        166.0,
+        270.0
+      ],
+      "lengthPx": 130.115333,
+      "screenAxisAngleDeg": 97.507347,
+      "to": "elbow"
+    }
+  },
+  "canonicalBody": {
+    "actualJoints": [
+      "shoulder",
+      "elbow",
+      "wrist"
+    ],
+    "depth": {
+      "back": "anatomical right projects to screen-right; hair/shirt may occlude the shoulder root",
+      "evidenceStatus": "derived",
+      "front": "arm hangs lateral to torso; sleeve is foreground at shoulder; forearm-owned bracelet is foreground at wrist",
+      "side": "arm is lateral to shirt body; forearm skin exits the sleeve opening and hand is distal"
+    },
+    "fixedSegmentRule": "one set of segment lengths; view projection may shorten apparent length within declared 5% QA tolerance",
+    "handAxisReference": {
+      "id": "palmRoot",
+      "role": "hand direction/extent reference only; not a fourth joint"
+    },
+    "identityRule": "front screen-left is anatomical right; back projection reverses screen placement",
+    "model": "one articulated right arm projected into front/side/back",
+    "supportRelation": "shoulder is supported by the torso/scapular volume; sleeve is an occluding garment, not a substitute for the hidden arm root"
+  },
+  "coordinateSystems": {
+    "formalFront": "frontMaster 512x1086 RGB source coordinates",
+    "sideRegistration": "screenSide and anatomicalSide are recorded on every view projection; side profile is depth evidence, not a second body",
+    "threeView": "source three-view 1448x1086 pixel coordinates"
+  },
+  "historicalComparison": {
+    "r1MeasuredFrontMasterPoints": {
+      "elbow": [
+        149.0,
+        399.0
+      ],
+      "shoulder": [
+        166.0,
+        270.0
+      ],
+      "wrist": [
+        110.0,
+        538.0
+      ]
+    },
+    "r1MinusV25Px": {
+      "elbow": [
+        2.0,
+        -6.0
+      ],
+      "shoulder": [
+        -4.0,
+        19.0
+      ],
+      "wrist": [
+        -5.0,
+        9.0
+      ]
+    },
+    "source": "../arm-chain-screen-left-v25-shoulder-joint-correction/candidate-skeleton.json",
+    "sourceSha256": "98ad3196db9108f4b9739e1bf1a32b5a4fdcb819c122fbeb685194db6ec0f2d6",
+    "use": "comparison-only; V25 is not inherited as R1 fact",
+    "v25CandidateFrontMasterPoints": {
+      "elbow": [
+        147.0,
+        405.0
+      ],
+      "shoulder": [
+        170.0,
+        251.0
+      ],
+      "wrist": [
+        115.0,
+        529.0
+      ]
+    }
+  },
+  "identity": {
+    "anatomicalSide": "right",
+    "character": "xiaoxing",
+    "definition": "正面画面左侧手臂，即角色解剖学右臂",
+    "screenSide": "left",
+    "subject": "小星 Left",
+    "view": "front"
+  },
+  "jointAnglesAtRest": {
+    "elbowIncludedDeg": 171.834526,
+    "interpretation": "near-extended hanging arm; angles are structural measurements, not action keyforms",
+    "wristIncludedDeg": 172.47423
+  },
+  "jointPlacementBasis": {
+    "elbow": {
+      "anatomicalCenter": "humeroulnar hinge center between upper-arm and forearm axes",
+      "frontMaster": [
+        149.0,
+        399.0
+      ],
+      "frontPlacementRule": "取袖口出臂处上臂—前臂骨轴的铰链中心；不取任一侧皮肤外轮廓",
+      "visibility": "occluded-transition-derived"
+    },
+    "palmRoot": {
+      "anatomicalCenter": "proximal palm direction reference",
+      "frontMaster": [
+        104.0,
+        552.0
+      ],
+      "frontPlacementRule": "只用于掌部方向和手段长度参考，不计入关节数量",
+      "visibility": "observed-derived-reference"
+    },
+    "shoulder": {
+      "anatomicalCenter": "glenohumeral joint center / humeral-head center projection",
+      "frontMaster": [
+        166.0,
+        270.0
+      ],
+      "frontPlacementRule": "在袖山覆盖下取肩关节中心的投影；不取头发线、肩部外轮廓或袖口端点",
+      "visibility": "hidden-under-sleeve-derived"
+    },
+    "wrist": {
+      "anatomicalCenter": "radiocarpal joint center at the forearm-to-palm transition",
+      "frontMaster": [
+        110.0,
+        538.0
+      ],
+      "frontPlacementRule": "取手链下方两侧腕部轮廓之间的中轴、并与掌部方向相接；不落在任一边缘；手链只遮挡外观，不改变腕关节支点",
+      "visibility": "bracelet-occluded-derived"
+    }
+  },
+  "landmarks": {
+    "elbow": {
+      "backProjection": [
+        1220.0,
+        399.0
+      ],
+      "evidenceStatus": "derived",
+      "frontMaster": [
+        149.0,
+        399.0
+      ],
+      "sideProjection": [
+        686.0,
+        399.0
+      ],
+      "sourceThreeView": [
+        183.0,
+        399.0
+      ]
+    },
+    "palmRoot": {
+      "backProjection": [
+        1249.0,
+        552.0
+      ],
+      "evidenceStatus": "observed+derived",
+      "frontMaster": [
+        104.0,
+        552.0
+      ],
+      "sideProjection": [
+        672.0,
+        552.0
+      ],
+      "sourceThreeView": [
+        138.0,
+        552.0
+      ]
+    },
+    "shoulder": {
+      "backProjection": [
+        1207.0,
+        270.0
+      ],
+      "evidenceStatus": "derived",
+      "frontMaster": [
+        166.0,
+        270.0
+      ],
+      "sideProjection": [
+        688.0,
+        270.0
+      ],
+      "sourceThreeView": [
+        200.0,
+        270.0
+      ]
+    },
+    "wrist": {
+      "backProjection": [
+        1243.0,
+        538.0
+      ],
+      "evidenceStatus": "derived",
+      "frontMaster": [
+        110.0,
+        538.0
+      ],
+      "sideProjection": [
+        677.0,
+        538.0
+      ],
+      "sourceThreeView": [
+        144.0,
+        538.0
+      ]
+    }
+  },
+  "localVolumeSections": {
+    "elbow": {
+      "center": [
+        149.0,
+        399.0
+      ],
+      "evidenceStatus": "derived",
+      "note": "原线稿没有可独立认定的肘褶线；支点是由骨轴和局部宽度推导",
+      "observedBasis": "袖口下方可见前臂宽度、侧视袖口出臂截面、固定肩腕骨长",
+      "radiiPx": [
+        18.0,
+        16.0
+      ]
+    },
+    "shoulder": {
+      "center": [
+        166.0,
+        270.0
+      ],
+      "evidenceStatus": "derived",
+      "note": "皮肤肩根被袖子遮挡；此处是物理体积截面候选，不是可见皮肤 mask",
+      "observedBasis": "前视袖山、袖口方向、侧视袖内上臂根和背视肩线共同约束",
+      "radiiPx": [
+        25.0,
+        22.0
+      ]
+    },
+    "wrist": {
+      "center": [
+        110.0,
+        538.0
+      ],
+      "evidenceStatus": "derived",
+      "note": "手链遮挡下的皮肤截面未直接可见；不可从 V38 皮肤/手链旧材料填充",
+      "observedBasis": "手链两侧对称包络、前臂末端轮廓、手掌根方向",
+      "radiiPx": [
+        20.0,
+        15.0
+      ]
+    }
+  },
+  "observedDerivedUnresolved": [
+    {
+      "conclusion": "袖山、袖口和三视图肩线可见，皮肤肩根不可见",
+      "id": "shoulder-visible-sleeve",
+      "status": "observed"
+    },
+    {
+      "conclusion": "以袖山/躯干体积、固定骨长和侧背投影共同定位肩支点",
+      "id": "shoulder-pivot",
+      "status": "derived"
+    },
+    {
+      "conclusion": "肘点由肩腕固定骨长、袖口下皮肤宽度和三视图投影求得，原线无独立肘褶",
+      "id": "elbow-pivot",
+      "status": "derived"
+    },
+    {
+      "conclusion": "腕点由前臂末端、手掌根方向和手链外轮廓共同定位",
+      "id": "wrist-pivot",
+      "status": "derived"
+    },
+    {
+      "conclusion": "手链下方隐藏皮肤的完整截面不能从 V38 旧材料或默认遮挡推断",
+      "id": "bracelet-hidden-wrist-skin",
+      "status": "unresolved"
+    },
+    {
+      "conclusion": "单独侧视无法独立区分解剖侧，只作为同一身体的厚度/遮挡证据",
+      "id": "profile-side-identity",
+      "status": "unresolved"
+    }
+  ],
+  "schemaVersion": 1,
+  "scope": {
+    "braceletTreatment": "bracelet is an attached subregion owned by forearm; no separate moving layer is required for this R1",
+    "excluded": [
+      "opposite arm",
+      "full-body separation",
+      "materials",
+      "masks",
+      "mesh",
+      "nodes",
+      "motion",
+      "Physics",
+      "Runtime"
+    ],
+    "included": [
+      "sleeve",
+      "upper_arm",
+      "forearm",
+      "hand"
+    ]
+  },
+  "stage": "R1 physical body, joints, and line semantics",
+  "status": "engineering-candidate-waiting-user-visual-approval",
+  "v38RegressionEvidence": {
+    "braceletPixelsAlsoPresentInForearmAlpha": 429,
+    "engineeringPass": true,
+    "overallGatePass": false,
+    "regressionUse": "semantic ownership and complete material geometry must be rebuilt before any downstream stage",
+    "rootTransitionPixels": 752,
+    "source": "../arm-chain-screen-left-v38-reset-guided-wrist-underlay/audit/machine-report.json",
+    "status": "rejected_by_user_visual_review",
+    "userFinding": "全是断口"
+  },
+  "viewProjections": {
+    "back": {
+      "anatomicalSide": "right",
+      "points": {
+        "elbow": [
+          1220.0,
+          399.0
+        ],
+        "palmRoot": [
+          1249.0,
+          552.0
+        ],
+        "shoulder": [
+          1207.0,
+          270.0
+        ],
+        "wrist": [
+          1243.0,
+          538.0
+        ]
+      },
+      "projectionStatus": "derived-back-projection; anatomical right projects to screen-right in the back view",
+      "screenSide": "right",
+      "view": "back"
+    },
+    "front": {
+      "anatomicalSide": "right",
+      "points": {
+        "elbow": [
+          183.0,
+          399.0
+        ],
+        "palmRoot": [
+          138.0,
+          552.0
+        ],
+        "shoulder": [
+          200.0,
+          270.0
+        ],
+        "wrist": [
+          144.0,
+          538.0
+        ]
+      },
+      "projectionStatus": "authoritative-formal-master",
+      "screenSide": "left",
+      "view": "front"
+    },
+    "side": {
+      "anatomicalSide": "right",
+      "points": {
+        "elbow": [
+          686.0,
+          399.0
+        ],
+        "palmRoot": [
+          672.0,
+          552.0
+        ],
+        "shoulder": [
+          688.0,
+          270.0
+        ],
+        "wrist": [
+          677.0,
+          538.0
+        ]
+      },
+      "projectionStatus": "derived-profile-projection; profile alone does not disambiguate anatomical side",
+      "screenSide": "profile-near",
+      "view": "side"
+    }
+  }
+}
