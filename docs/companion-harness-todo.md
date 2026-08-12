@@ -1,7 +1,7 @@
 # Companion Harness V1 TODO
 
-> 状态：Phase 1、Phase 2、Phase 3、Phase 4、Phase 5 的纯逻辑实现与验收已通过；Phase 6 当前处于 P1 收口前复核，尚未通过；App 接线、Phase 7--8 和发布验证未开始
-> 审查日期：2026-08-12
+> 状态：Phase 1、Phase 2、Phase 3、Phase 4、Phase 5、Phase 6 的纯逻辑实现与验收已通过；Phase 7--8、App 接线和发布验证未开始
+> 审查日期：2026-08-13
 > 产品：愈心桌宠
 > 输入文档：`Companion Harness PRD v1.2`、`Companion Harness Technical Design v1.2`
 
@@ -352,6 +352,17 @@ Phase 2 前置门禁（2026-08-11 已完成）：
 - 本地降级：任务/提醒事件始终使用宠物包本地 `TaskFeedbackPackage`，不向 Provider 或远程 Context 发送 Task/Reminder 投影；模板读取失败时使用安全本地文案。AI Enhanced、远程 Model、Action、Memory 的 throwing spy 联合测试均保持 `0` 次调用。
 - 验证证据（P1 收口前基线，非最终通过证据）：`companionProactiveEvent.test.ts` 覆盖稳定 id、正常/due-soon、重复、DND、关闭主动、每日上限、聚合、App Restart、Sleep/Resume、目标宠物不可用、writer/sink/confirmation failure 和外部调用隔离；Phase 6 相关定向组为 `8` 个文件、`152/152`；全量 `npm test` 为 `80` 个文件、`855/855`；`npx tsc --noEmit` 和 `npm run build` 均通过，仅保留既有 Vite 大 chunk warning。新增 P1 对抗测试与最终数字待收口后补录。
 - 范围声明：未修改 `App.tsx`，未接真实 Provider/API Key，未做浏览器/Tauri 实机、视觉 QA、Rust/Cargo、commit、push、package 或 release。纯逻辑测试、类型检查和 Web 构建不等同于 App/Tauri 运行时或可发布验证；P1-A 至 P1-E 全部通过前不得开始 Phase 7。
+
+### Phase 6 P1 最终收口（2026-08-13）
+
+- 状态：P1-A 至 P1-E 全部通过；Phase 6 实施项 `8/8`、验收门 `2/2` 恢复为已通过。本记录只证明纯逻辑边界和 Web 构建门已通过，不代表 App 接线、Tauri 实机或可发布完成。
+- P1-A 并发事务：`processEvent`、`processEvents`、`handleEvent`、`handleEvents` 共享短生命周期微任务批处理；同一批先统一解析/聚合，再由最新持久化状态执行 gate、reservation、sink、confirmation。dailyLimit=1、全局气泡冷却、相近事件 taskBurst、重复 id、resolver/sink/storage 异常后的队列恢复均有对抗测试；不同事件并发只产生一个 sink 和一个 bubble count。
+- P1-B durable 幂等：在现有 `ProactiveExpressionState.taskState` 内增加严格 receipt schema，`deliveredKeys` 仅保留兼容投影；257 个可重放事件后首个 receipt 仍为 confirmed，重启重放不再调用 sink。reserved/blocked/confirmed 均保留生命周期；只有注入的 Task/Reminder 领域终态证明通过且清理写入成功时才删除 receipt，证明失败或写入失败均保留。
+- P1-C 权威上下文：`getLastDeliveryContext()` 只读取已持久化的 confirmed context；sink 返回 false、抛错、storage-failed、unavailable、switch-required 和 confirmation-failed 都不会伪造或覆盖上一条真实记录；“别再提醒这件事”继续只绑定真实 context。
+- P1-D Harness 唯一路径：`CompanionHarness.handleEvent()` 保持 `Promise<void>`，服务内部微批保留聚合和事件 id；preferred pet 通过注入的 `ensureActivePet` 成功后才取包、reserve、sink，失败不投递且可安全重试，不向 active pet 静默 fallback。Provider、Model、Context、Action、Memory 均为 `0` 次调用。
+- P1-E legacy 兼容：旧 App 继续从 `evaluate().deliveries` 得到非空投递 projection；该兼容 wrapper 通过旧路径的 durable reserve/confirm 保持既有契约。新 Harness 服务只调用 `evaluateEligibility()`、`reserveDelivery()`、`confirmDelivery()`，不消费 legacy deliveries；事务评估在 sink 前不标记 `actualDelivery`。
+- 验证证据：Phase 6 目标定向组 `8` 个文件、`172/172`；全量 `npm test` `80` 个文件、`875/875`；`npx tsc --noEmit` 通过；`npm run build` 通过，仅保留既有 Vite `>500 kB` chunk warning；`git diff --check` 通过，仅有既存/当前文件的 LF/CRLF 转换提示。
+- 范围声明：本轮未修改 `App.tsx`，未开始 Phase 7--8，未接真实 Provider/API Key，未做浏览器/Tauri 实机、视觉 QA、Rust/Cargo、commit、push、package 或 release。基于本次纯逻辑收口，Phase 7 作为下一阶段的入口条件已满足，但本轮不启动 Phase 7。
 
 ### Phase 7：App 接线与旧分支收敛
 
