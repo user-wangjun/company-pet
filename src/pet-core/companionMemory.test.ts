@@ -11,8 +11,10 @@ import {
   type MemoryRepository,
 } from "./companionMemory";
 import {
+  LOCAL_REPOSITORY_DELETE_GUARD_STORAGE_KEY,
   LOCAL_REPOSITORY_JOURNAL_STORAGE_KEY,
   LOCAL_REPOSITORY_OUTBOX_STORAGE_KEY,
+  LOCAL_REPOSITORY_SYNC_VERSION_KEY,
 } from "../storage/localRepository";
 
 function createStorage(initial: string | null = null) {
@@ -210,6 +212,68 @@ describe("local companion memory v1", () => {
     expect(repository.search("火车站", { petId: "xiaoju-cat" })).toEqual([]);
   });
 
+  test.each([198, 199])("allows an atomic supersede at the %i-entry boundary", (count) => {
+    const repository = createCompanionMemoryRepository({ now: () => NOW });
+    for (let index = 0; index < count; index += 1) {
+      expect(repository.save(memoryInput(`边界事实-${index}`, { id: `boundary-${index}` }))).not.toBeNull();
+    }
+
+    const previous = repository.get("boundary-0")!;
+    const replaced = repository.supersede(
+      previous.id,
+      memoryInput(`边界替换-${count}`, { id: `boundary-replacement-${count}` }),
+    );
+
+    expect(replaced).toMatchObject({
+      id: `boundary-replacement-${count}`,
+      status: "active",
+      supersedesId: previous.id,
+    });
+    expect(repository.list({ includeDeleted: true })).toHaveLength(count + 1);
+  });
+
+  test("rejects a supersede that would exceed 200 entries without touching local facts or Outbox", () => {
+    const store = createStorage();
+    const repository = createCompanionMemoryRepository({ storage: store, now: () => NOW });
+    for (let index = 0; index < 200; index += 1) {
+      expect(repository.save(memoryInput(`容量事实-${index}`, { id: `capacity-${index}` }))).not.toBeNull();
+    }
+    const previous = repository.get("capacity-0")!;
+    const keys = [
+      COMPANION_MEMORY_STORAGE_KEY,
+      LOCAL_REPOSITORY_OUTBOX_STORAGE_KEY,
+      LOCAL_REPOSITORY_JOURNAL_STORAGE_KEY,
+      LOCAL_REPOSITORY_DELETE_GUARD_STORAGE_KEY,
+      LOCAL_REPOSITORY_SYNC_VERSION_KEY,
+    ];
+    const before = new Map(keys.map((key) => [key, store.values.get(key)]));
+
+    expect(repository.supersede(
+      previous.id,
+      memoryInput("容量替换", { id: "capacity-replacement" }),
+    )).toBeNull();
+
+    expect(repository.get(previous.id)).toMatchObject({ status: "active", content: "容量事实-0" });
+    const rawEntity = JSON.parse(store.values.get(COMPANION_MEMORY_STORAGE_KEY) ?? "null") as {
+      data?: { entries?: unknown[] };
+    };
+    expect(rawEntity.data?.entries).toHaveLength(200);
+    for (const key of keys) expect(store.values.get(key)).toBe(before.get(key));
+
+    const restarted = createCompanionMemoryRepository({ storage: store, now: () => NOW });
+    expect(restarted.list({ includeDeleted: true })).toHaveLength(200);
+    expect(restarted.get(previous.id)).toMatchObject({ status: "active", content: "容量事实-0" });
+  });
+
+  test("fails closed instead of silently replacing a different entry with the same id", () => {
+    const repository = createCompanionMemoryRepository({ now: () => NOW });
+    expect(repository.save(memoryInput("第一个事实", { id: "same-id" }))).not.toBeNull();
+    expect(repository.save(memoryInput("第二个事实", { id: "same-id" }))).toBeNull();
+    expect(repository.list({ includeDeleted: true })).toMatchObject([
+      { id: "same-id", content: "第一个事实", status: "active" },
+    ]);
+  });
+
   test("turns explicit remember language into a confirmed, low-risk candidate", () => {
     const candidate = extractCompanionMemoryCandidate(
       "请记住我喜欢桂花茶。",
@@ -247,11 +311,16 @@ describe("local companion memory v1", () => {
     const candidate = {
       scope: "global" as const,
       type: "fact" as const,
+      category: "goal" as const,
+      lifetime: "stable" as const,
       content: "用户可能喜欢夜跑",
       source: "inferred" as const,
       evidence: "用户说也许会去夜跑",
       sourceMessageId: "message-inferred",
       confidence: 0.55,
+      importance: 0.5,
+      explicitness: "inferred" as const,
+      confirmationStatus: "requires_confirmation" as const,
       expiresAt: null,
       requiresConfirmation: true,
       confirmationReason: "表达不确定，需要用户确认。",
@@ -267,11 +336,16 @@ describe("local companion memory v1", () => {
     const candidate = {
       scope: "pet:xiaoju-cat" as const,
       type: "relationship" as const,
+      category: "shared_experience" as const,
+      lifetime: "stable" as const,
       content: "我们一起看过雨",
       source: "inferred" as const,
       evidence: "你提到和小橘一起看过雨",
       sourceMessageId: "message-confirmed",
       confidence: 0.72,
+      importance: 0.7,
+      explicitness: "inferred" as const,
+      confirmationStatus: "requires_confirmation" as const,
       expiresAt: null,
       requiresConfirmation: true,
       confirmationReason: "这是从表达中推断的关系，需要用户确认。",

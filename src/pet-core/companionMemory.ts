@@ -5,6 +5,7 @@ import {
   type LocalRepositoryEventInput,
 } from "../storage/localRepository";
 import { containsSensitiveCompanionText } from "./companionPrivacy";
+import type { MemoryCandidate } from "./companionHarnessTypes";
 
 export const COMPANION_MEMORY_STORAGE_KEY = "yuxin-companion-memory-v1";
 export const COMPANION_MEMORY_SCHEMA_VERSION = 1;
@@ -91,6 +92,8 @@ export type MemoryRepository = {
   list(options?: MemoryListOptions): MemoryEntry[];
   get(id: string): MemoryEntry | null;
   save(entry: MemoryEntryInput): MemoryEntry | null;
+  /** Atomically marks the old row superseded and inserts the replacement. */
+  supersede(id: string, entry: MemoryEntryInput): MemoryEntry | null;
   update(id: string, patch: MemoryEntryPatch): MemoryEntry | null;
   disable(id: string): MemoryEntry | null;
   delete(id: string): MemoryEntry | null;
@@ -98,18 +101,8 @@ export type MemoryRepository = {
   export(format?: MemoryExportFormat, options?: MemoryListOptions): string;
 };
 
-export type CompanionMemoryCandidate = {
-  scope: MemoryScope;
-  type: MemoryType;
-  content: string;
-  source: "explicit" | "inferred" | "confirmed";
-  evidence: string;
-  sourceMessageId: string;
-  confidence: number;
-  expiresAt: string | null;
-  requiresConfirmation: boolean;
+export type CompanionMemoryCandidate = MemoryCandidate & {
   confirmationReason: string;
-  confirmed: boolean;
 };
 
 type CompanionMemoryState = {
@@ -336,6 +329,20 @@ function normalizeText(value: string): string {
   return value.replace(/\r\n?/g, "\n").replace(/\s+/g, " ").trim();
 }
 
+function normalizeMemoryIdentityText(value: string): string {
+  return normalizeText(value)
+    .normalize("NFKC")
+    .toLocaleLowerCase()
+    .replace(/\s+/gu, "");
+}
+
+function sameMemoryIdentity(left: MemoryEntry, right: MemoryEntry): boolean {
+  return left.scope === right.scope
+    && left.type === right.type
+    && left.expiresAt === right.expiresAt
+    && normalizeMemoryIdentityText(left.content) === normalizeMemoryIdentityText(right.content);
+}
+
 function createMemoryId(now: number, idGenerator: () => string): string {
   const generated = idGenerator().trim();
   return generated || `memory-${now.toString(36)}`;
@@ -544,6 +551,10 @@ export function createCompanionMemoryRepository(
   };
 
   const writeState = (state: CompanionMemoryState): boolean => {
+    if (state.entries.length > MAX_COMPANION_MEMORY_ENTRIES) {
+      warn("[companion-memory] Rejected state above the Memory entry limit");
+      return false;
+    }
     const previous = readState();
     if (JSON.stringify(previous) === JSON.stringify(state)) return true;
     const nowIso = new Date(now()).toISOString();
@@ -628,6 +639,68 @@ export function createCompanionMemoryRepository(
     return cloneEntry(updated);
   };
 
+  const supersedeEntry = (id: string, input: MemoryEntryInput): MemoryEntry | null => {
+    const state = readState();
+    const existing = state.entries.find((entry) => entry.id === id);
+    if (!existing || existing.status === "deleted") return null;
+
+    const currentTime = now();
+    const normalized = normalizeMemoryEntry(
+      {
+        ...input,
+        status: "active",
+        supersedesId: id,
+        deletedAt: null,
+        createdAt: input.createdAt ?? new Date(currentTime).toISOString(),
+        updatedAt: new Date(currentTime).toISOString(),
+      },
+      currentTime,
+      idGenerator,
+    );
+    if (!normalized || normalized.id === id) {
+      warn("[companion-memory] Rejected invalid Memory supersede");
+      return null;
+    }
+    const existingReplacement = state.entries.find((entry) => entry.id === normalized.id && entry.id !== id);
+    if (existingReplacement && (
+      existingReplacement.status === "deleted"
+      || existingReplacement.status !== "superseded"
+      || !sameMemoryIdentity(existingReplacement, normalized)
+    )) {
+      warn("[companion-memory] Rejected Memory supersede id collision");
+      return null;
+    }
+
+    const supersededAt = new Date(currentTime).toISOString();
+    const superseded: MemoryEntry = {
+      ...existing,
+      status: "superseded",
+      updatedAt: supersededAt,
+      deletedAt: null,
+    };
+    const entries = existingReplacement
+      ? state.entries.map((entry) => {
+          if (entry.id === id) return superseded;
+          if (entry.id === normalized.id) return normalized;
+          return entry;
+        })
+      : [
+          ...state.entries.map((entry) => entry.id === id ? superseded : entry),
+          normalized,
+        ];
+    if (entries.length > MAX_COMPANION_MEMORY_ENTRIES) {
+      warn("[companion-memory] Memory entry limit reached; supersede was not saved");
+      return null;
+    }
+    // The whole collection and both Outbox projections go through one
+    // existing localRepository transaction. A failed write therefore keeps
+    // the old active fact and does not expose a half-written replacement.
+    if (!writeState({ version: COMPANION_MEMORY_SCHEMA_VERSION, entries })) {
+      return null;
+    }
+    return cloneEntry(normalized);
+  };
+
   return {
     list,
 
@@ -648,6 +721,26 @@ export function createCompanionMemoryRepository(
         : normalizedEntry;
 
       const state = readState();
+      const existingWithId = state.entries.find((entry) => entry.id === normalized.id);
+      if (existingWithId?.status === "deleted") {
+        // A deleted id is terminal. Reusing it would allow a retrying or
+        // stale candidate to revive a Tombstone after a delete boundary.
+        warn("[companion-memory] Rejected save that would revive a deleted Memory");
+        return null;
+      }
+      if (existingWithId) {
+        if (!sameMemoryIdentity(existingWithId, normalized)) {
+          warn("[companion-memory] Rejected Memory id collision with different content");
+          return null;
+        }
+        if (existingWithId.status !== "active") {
+          warn("[companion-memory] Rejected save against a historical Memory revision");
+          return null;
+        }
+        // An exact retry is already the active fact. Returning it without a
+        // write keeps the operation idempotent and does not append Outbox.
+        return cloneEntry(existingWithId);
+      }
       const entries = [
         ...state.entries.filter((entry) => entry.id !== normalized.id),
         normalized,
@@ -661,6 +754,8 @@ export function createCompanionMemoryRepository(
       }
       return cloneEntry(normalized);
     },
+
+    supersede: supersedeEntry,
 
     update: updateEntry,
 
@@ -753,6 +848,7 @@ export function createCompanionMemoryRepository(
 function extractRememberedContent(input: string): {
   content: string;
   type: MemoryType;
+  category: MemoryCandidate["category"];
   scopeKind: "global" | "pet";
 } | null {
   const normalized = normalizeText(input)
@@ -762,17 +858,28 @@ function extractRememberedContent(input: string): {
   if (!normalized) return null;
 
   if (/^(?:我和你|我们)/u.test(normalized)) {
-    return { content: normalized, type: "relationship", scopeKind: "pet" };
+    return {
+      content: normalized,
+      type: "relationship",
+      category: "shared_experience",
+      scopeKind: "pet",
+    };
   }
-  if (/^我(?:喜欢|不喜欢|习惯|通常)/u.test(normalized)) {
+  if (/^我(?:喜欢|不喜欢|不吃|不喝|不爱|爱吃|爱喝|习惯|通常)/u.test(normalized)) {
     return {
       content: `用户${normalized.slice(1)}`,
       type: "preference",
+      category: "preference",
       scopeKind: "global",
     };
   }
   if (/^(?:我的昵称是|我叫)/u.test(normalized)) {
-    return { content: `用户${normalized}`, type: "fact", scopeKind: "global" };
+    return {
+      content: `用户${normalized}`,
+      type: "fact",
+      category: "profile",
+      scopeKind: "global",
+    };
   }
 
   return null;
@@ -811,11 +918,16 @@ export function extractCompanionMemoryCandidate(
   return {
     scope: extracted.scopeKind === "pet" ? `pet:${normalizedPetId}` : "global",
     type: extracted.type,
+    category: extracted.category,
+    lifetime: "stable",
     content: extracted.content,
     source: "explicit",
     evidence: input,
     sourceMessageId: sourceMessageId.trim(),
     confidence: 0.98,
+    importance: 0.8,
+    explicitness: "explicit",
+    confirmationStatus: "not_required",
     expiresAt: null,
     requiresConfirmation: false,
     confirmationReason:
@@ -830,6 +942,7 @@ export function confirmCompanionMemoryCandidate(
   return {
     ...candidate,
     source: "confirmed",
+    confirmationStatus: "confirmed",
     requiresConfirmation: false,
     confirmationReason: "用户已明确确认这条 Memory。",
     confirmed: true,
@@ -840,7 +953,11 @@ export function saveCompanionMemoryCandidate(
   repository: MemoryRepository,
   candidate: CompanionMemoryCandidate,
 ): MemoryEntry | null {
-  if (!candidate.confirmed || candidate.requiresConfirmation) return null;
+  if (
+    candidate.confirmationStatus === "requires_confirmation"
+    || candidate.confirmed === false
+    || candidate.requiresConfirmation === true
+  ) return null;
   return repository.save({
     scope: candidate.scope,
     type: candidate.type,

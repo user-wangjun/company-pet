@@ -29,6 +29,7 @@ export type TaskCandidate = {
   repeatType?: TaskCandidateRepeatType;
   repeatRule?: RepeatRule;
   timezone?: string;
+  /** Legacy convention: JavaScript Date#getTimezoneOffset (UTC minus local). */
   timezoneOffsetMinutes: number;
   sourceMessageId: string;
   evidence: string;
@@ -43,6 +44,7 @@ export type TaskCandidate = {
 export type TaskExtractorOptions = {
   now?: Date | string;
   timezone?: string;
+  /** Legacy convention: UTC minus local; do not pass CompanionInput.utcOffsetMinutes directly. */
   timezoneOffsetMinutes?: number;
 };
 
@@ -55,6 +57,7 @@ export type TaskOperationCandidate = {
   schedulePrecision: SchedulePrecision;
   remindAt: string | null;
   timezone?: string;
+  /** Legacy convention: JavaScript Date#getTimezoneOffset (UTC minus local). */
   timezoneOffsetMinutes: number;
   sourceMessageId: string;
   evidence: string;

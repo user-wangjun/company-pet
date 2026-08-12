@@ -2,7 +2,9 @@ import type {
   ProactiveExpressionStorage,
   ProactiveTaskDecisionOutcome,
   ProactiveTaskDeliveryContext,
+  ProactiveTaskDeliveryReceipt,
   ProactiveTaskPreferenceMode,
+  ProactiveTaskDeliveryReservationStatus,
   ProactiveTaskState,
   QuietHoursWindow,
 } from "./proactiveExpressionGate";
@@ -13,8 +15,8 @@ import {
   recordProactiveSemanticEventSuccess,
   writeProactiveExpressionState,
 } from "./proactiveExpressionGate";
+import { PROACTIVE_BUBBLE_MIN_INTERVAL_MS } from "./proactiveExpressionGate";
 import {
-  areTaskTitlesSimilar,
   normalizeTaskTitle,
 } from "./companionTaskExtractor";
 import type {
@@ -33,6 +35,16 @@ export const PROACTIVE_TASK_TIME_WINDOW_MS = 60 * 60 * 1000;
 export const PROACTIVE_TASK_DECISION_LOG_LIMIT = 200;
 export const PROACTIVE_TASK_DELIVERED_KEY_LIMIT = 256;
 
+/**
+ * Only the Task/Reminder domain adapter may construct this proof. The engine
+ * deliberately accepts no title, note, chat text, or mutable candidate data.
+ */
+export type ProactiveDeliveryTerminalProof = {
+  eventId: string;
+  authority: "task-reminder-domain";
+  status: "terminal";
+};
+
 export type ProactiveTaskCandidateStatus = "scheduled" | "triggered" | "missed";
 
 export type ProactiveTaskCandidate = {
@@ -47,6 +59,8 @@ export type ProactiveTaskCandidate = {
   triggeredAt: string | null;
   status: ProactiveTaskCandidateStatus;
   categoryKey?: string;
+  /** Stable CompanionEvent id used as the idempotency key when available. */
+  eventId?: string;
 };
 
 export type ProactiveTriggerResult = ProactiveTaskDecisionOutcome;
@@ -63,6 +77,8 @@ export type ProactiveTriggerDecision = {
   nextEligibleAt: string | null;
   petId: string;
   actualDelivery: boolean;
+  /** Policy may allow or reserve a delivery before a local sink confirms it. */
+  deliveryStatus?: "allowed" | "reserved" | "delivered" | "blocked";
   aggregateOf?: string;
   aggregatedTaskIds?: string[];
 };
@@ -70,16 +86,45 @@ export type ProactiveTriggerDecision = {
 export type ProactiveTriggerEvaluation = {
   decisions: ProactiveTriggerDecision[];
   state: ReturnType<typeof readProactiveExpressionState>;
+  /** Whether the non-delivery evaluation timestamp was durably recorded. */
+  evaluationPersistenceConfirmed: boolean;
+  /** Policy-approved candidates; these are not sink confirmations. */
+  eligibleDeliveries: Array<{
+    decision: ProactiveTriggerDecision;
+    candidates: ProactiveTaskCandidate[];
+  }>;
+  /** Kept as an explicit empty list so callers cannot mistake policy for delivery. */
   deliveries: Array<{
     decision: ProactiveTriggerDecision;
     candidates: ProactiveTaskCandidate[];
   }>;
 };
 
+export type ProactiveDeliveryReservation = {
+  status: "reserved" | "already-delivered" | "already-reserved" | "blocked" | "storage-failed" | "not-eligible";
+  candidateKeys: string[];
+  taskIds: string[];
+  decision: ProactiveTriggerDecision;
+};
+
+export type ProactiveDeliveryConfirmation = {
+  status: "confirmed" | "already-delivered" | "not-reserved" | "confirmation-failed";
+  candidateKeys: string[];
+  taskIds: string[];
+  decisions: ProactiveTriggerDecision[];
+};
+
 export type ProactiveTaskPreferencePatch = {
   mode?: ProactiveTaskPreferenceMode;
   preferredPetId?: string | null;
 };
+
+export class ProactivePreferencePersistenceError extends Error {
+  constructor() {
+    super("Failed to persist proactive task preference.");
+    this.name = "ProactivePreferencePersistenceError";
+  }
+}
 
 export type ProactivePreferenceCommand = {
   action: "mute" | "reduce" | "switch_pet";
@@ -96,6 +141,8 @@ export type ProactiveTriggerEngineOptions = {
   reducedTaskCooldownMs?: number;
   aggregationWindowMs?: number;
   timeWindowMs?: number;
+  /** Domain-owned proof verifier; cleanup is disabled when absent. */
+  verifyTerminalReceipt?: (proof: ProactiveDeliveryTerminalProof) => boolean;
 };
 
 type PreparedCandidate = {
@@ -103,6 +150,13 @@ type PreparedCandidate = {
   candidateKey: string;
   petId: string;
   score: number;
+  candidateTimeMs: number;
+  titleProfile: TaskTitleProfile;
+};
+
+type TaskTitleProfile = {
+  normalized: string;
+  bigrams: Set<string>;
 };
 
 function validDate(value: string | null | undefined): Date | null {
@@ -120,13 +174,22 @@ function candidateKey(
   now: Date,
   timeWindowMs: number,
 ): string {
+  if (candidate.eventId && candidate.eventId.trim()) return candidate.eventId;
   const time = candidateTime(candidate, now).getTime();
   const windowStart = Math.floor(time / timeWindowMs) * timeWindowMs;
   return `${candidate.taskId}|${new Date(windowStart).toISOString()}`;
 }
 
 function taskStateOf(state: ReturnType<typeof readProactiveExpressionState>): ProactiveTaskState {
-  return state.taskState ?? createProactiveTaskState();
+  const taskState = state.taskState ?? createProactiveTaskState();
+  return taskState.deliveryReceipts
+    ? taskState
+    : {
+        ...taskState,
+        deliveryReservations: taskState.deliveryReservations ?? {},
+        deliveryReceipts: {},
+        deliveryReservationTaskIds: taskState.deliveryReservationTaskIds ?? {},
+      };
 }
 
 function withTaskState(
@@ -151,7 +214,10 @@ function choosePet(
   availablePetIds: readonly string[],
 ): string {
   const preferredPetId = preferenceFor(taskState, taskId).preferredPetId;
-  if (preferredPetId && availablePetIds.includes(preferredPetId)) return preferredPetId;
+  // An explicit but unavailable preference is a hard route failure. Falling
+  // back to the active pet would silently violate the user's selected-pet
+  // contract and could render the same event twice under two identities.
+  if (preferredPetId) return preferredPetId;
   if (availablePetIds.includes(activePetId)) return activePetId;
   return availablePetIds[0] ?? activePetId;
 }
@@ -169,17 +235,46 @@ function scoreCandidate(
   return Math.max(0, Math.min(1, priorityScore[candidate.priority] + missedBonus - reducedPenalty - ignoredPenalty));
 }
 
+function taskTitleProfile(title: string): TaskTitleProfile {
+  const normalized = normalizeTaskTitle(title);
+  const characters = Array.from(normalized);
+  return {
+    normalized,
+    bigrams: new Set(
+      characters.length > 1
+        ? characters.slice(0, -1).map((_, index) => characters.slice(index, index + 2).join(""))
+        : characters,
+    ),
+  };
+}
+
+function areTaskTitleProfilesSimilar(left: TaskTitleProfile, right: TaskTitleProfile): boolean {
+  if (!left.normalized || !right.normalized) return false;
+  if (
+    left.normalized === right.normalized
+    || left.normalized.includes(right.normalized)
+    || right.normalized.includes(left.normalized)
+  ) {
+    return true;
+  }
+  const intersection = [...left.bigrams].filter((value) => right.bigrams.has(value)).length;
+  return (2 * intersection) / (left.bigrams.size + right.bigrams.size) >= 0.72;
+}
+
 function sameAggregationGroup(
-  left: ProactiveTaskCandidate,
-  right: ProactiveTaskCandidate,
+  left: PreparedCandidate,
+  right: PreparedCandidate,
   aggregationWindowMs: number,
-  now: Date,
 ): boolean {
-  const leftTime = candidateTime(left, now).getTime();
-  const rightTime = candidateTime(right, now).getTime();
-  if (Math.abs(leftTime - rightTime) > aggregationWindowMs) return false;
-  if (left.categoryKey && right.categoryKey && left.categoryKey === right.categoryKey) return true;
-  return areTaskTitlesSimilar(left.title, right.title);
+  if (Math.abs(left.candidateTimeMs - right.candidateTimeMs) > aggregationWindowMs) return false;
+  if (
+    left.candidate.categoryKey
+    && right.candidate.categoryKey
+    && left.candidate.categoryKey === right.candidate.categoryKey
+  ) {
+    return true;
+  }
+  return areTaskTitleProfilesSimilar(left.titleProfile, right.titleProfile);
 }
 
 function nextIsoAfter(base: Date, delayMs: number): string {
@@ -291,7 +386,13 @@ export function setProactiveTaskPreference(
     ...taskState,
     preferences: { ...taskState.preferences, [taskId]: nextPreference },
   });
-  writeProactiveExpressionState(next, options.storage);
+
+  // This return value is an authoritative post-write state, not merely the
+  // candidate computed above. The shared writer must confirm that persistence
+  // completed before the state can be returned to a domain caller.
+  if (!writeProactiveExpressionState(next, options.storage)) {
+    throw new ProactivePreferencePersistenceError();
+  }
   return next;
 }
 
@@ -344,27 +445,29 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
   const aggregationWindowMs = options.aggregationWindowMs ?? PROACTIVE_TASK_AGGREGATION_WINDOW_MS;
   const timeWindowMs = options.timeWindowMs ?? PROACTIVE_TASK_TIME_WINDOW_MS;
 
-  const evaluate = (
+  const evaluateEligibility = (
     candidates: readonly ProactiveTaskCandidate[],
     now = new Date(),
   ): ProactiveTriggerEvaluation => {
-    let state = readProactiveExpressionState(storage, now);
-    let taskState = taskStateOf(state);
+    const persistedState = readProactiveExpressionState(storage, now);
+    const persistedTaskState = taskStateOf(persistedState);
+    let policyState = persistedState;
     const decisions: ProactiveTriggerDecision[] = [];
     const prepared: PreparedCandidate[] = [];
 
     for (const candidate of candidates) {
       const key = candidateKey(candidate, now, timeWindowMs);
-      const petId = choosePet(taskState, candidate.taskId, options.activePetId, availablePetIds);
-      const score = scoreCandidate(candidate, taskState);
-      const preference = preferenceFor(taskState, candidate.taskId);
-      const record = recordFor(taskState, candidate.taskId);
+      const petId = choosePet(persistedTaskState, candidate.taskId, options.activePetId, availablePetIds);
+      const score = scoreCandidate(candidate, persistedTaskState);
+      const preference = preferenceFor(persistedTaskState, candidate.taskId);
+      const record = recordFor(persistedTaskState, candidate.taskId);
       const lastDeliveredAt = validDate(record.lastDeliveredAt);
       const baseCooldown = preference.mode === "reduced" ? reducedTaskCooldownMs : taskCooldownMs;
       const ignoreBackoff = record.ignoredStreak >= 2
         ? baseCooldown * Math.min(8, 2 ** Math.min(record.ignoredStreak - 1, 3))
         : baseCooldown;
       const cooldown = record.ignoredStreak >= 2 ? ignoreBackoff : baseCooldown;
+      const reservationStatus = persistedTaskState.deliveryReservations?.[key];
 
       if (candidate.deletedAt || !["pending", "in_progress"].includes(candidate.taskStatus)) {
         decisions.push({
@@ -382,7 +485,7 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
         });
         continue;
       }
-      if (taskState.deliveredKeys.includes(key)) {
+      if (persistedTaskState.deliveryReceipts?.[key]?.status === "confirmed") {
         decisions.push({
           taskId: candidate.taskId,
           reminderInstanceId: candidate.reminderInstanceId,
@@ -391,10 +494,30 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
           score,
           priority: candidate.priority,
           reason: "already-delivered",
-          explanation: "同一任务在同一时间窗口已经投递过。",
+          explanation: "同一事件已经收到本地投递确认。",
           nextEligibleAt: null,
           petId,
           actualDelivery: false,
+          deliveryStatus: "delivered",
+        });
+        continue;
+      }
+      if (reservationStatus) {
+        decisions.push({
+          taskId: candidate.taskId,
+          reminderInstanceId: candidate.reminderInstanceId,
+          candidateKey: key,
+          result: "suppress",
+          score,
+          priority: candidate.priority,
+          reason: reservationStatus === "blocked" ? "delivery-blocked" : "delivery-reserved",
+          explanation: reservationStatus === "blocked"
+            ? "这次本地投递未确认成功，已阻止重复气泡。"
+            : "这次事件已有持久化投递占位，等待同一处理结果。",
+          nextEligibleAt: null,
+          petId,
+          actualDelivery: false,
+          deliveryStatus: "blocked",
         });
         continue;
       }
@@ -437,20 +560,35 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
           continue;
         }
       }
-      prepared.push({ candidate, candidateKey: key, petId, score });
+      const preparedTime = candidateTime(candidate, now);
+      prepared.push({
+        candidate,
+        candidateKey: key,
+        petId,
+        score,
+        candidateTimeMs: preparedTime.getTime(),
+        titleProfile: taskTitleProfile(candidate.title),
+      });
     }
 
+    const eligibleDeliveries: Array<{
+      decision: ProactiveTriggerDecision;
+      candidates: ProactiveTaskCandidate[];
+    }> = [];
     if (prepared.length > 0) {
       const groups: PreparedCandidate[][] = [];
       for (const item of prepared.sort((left, right) => right.score - left.score || left.candidateKey.localeCompare(right.candidateKey))) {
-        const group = groups.find((existing) => sameAggregationGroup(existing[0].candidate, item.candidate, aggregationWindowMs, now));
+        const group = groups.find((existing) => sameAggregationGroup(existing[0], item, aggregationWindowMs));
         if (group) group.push(item);
         else groups.push([item]);
       }
 
       for (const group of groups) {
         const primary = group[0];
-        if (state.bubbleCounts.task_reminder >= dailyLimit) {
+        const persistedReservations = Object.values(taskStateOf(policyState).deliveryReservations ?? {})
+          .filter((status) => status === "reserved")
+          .length;
+        if (policyState.bubbleCounts.task_reminder + persistedReservations >= dailyLimit) {
           for (const item of group) {
             decisions.push({
               taskId: item.candidate.taskId,
@@ -471,16 +609,15 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
 
         const gateDecision = evaluateProactiveSemanticEvent({
           event: "task_reminder",
-          state,
+          state: policyState,
           now,
           quietHours: options.quietHours,
         });
-        state = gateDecision.state;
-        taskState = taskStateOf(state);
+        policyState = gateDecision.state;
         if (!gateDecision.bubbleAllowed) {
           const isDelay = gateDecision.reason === "bubble-cooldown";
-          const nextEligibleAt = isDelay && state.lastActiveBubbleAt
-            ? nextIsoAfter(new Date(state.lastActiveBubbleAt), 45 * 60 * 1000)
+          const nextEligibleAt = isDelay && policyState.lastActiveBubbleAt
+            ? nextIsoAfter(new Date(policyState.lastActiveBubbleAt), 45 * 60 * 1000)
             : null;
           for (const item of group) {
             decisions.push({
@@ -506,34 +643,7 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
 
         const aggregate = group.length > 1;
         const action: ProactiveTriggerResult = aggregate ? "aggregate" : "send";
-        state = recordProactiveSemanticEventSuccess(state, "task_reminder", now, true);
-        taskState = taskStateOf(state);
-          const deliveredKeys = new Set(taskState.deliveredKeys);
-          const records = { ...taskState.records };
-          for (const item of group) {
-            deliveredKeys.add(item.candidateKey);
-            const previousRecord = recordFor(taskState, item.candidate.taskId);
-            records[item.candidate.taskId] = {
-              lastDeliveredAt: now.toISOString(),
-              // Delivery is not engagement. Keep the prior streak so the
-              // next unattended bubble can advance it across deliveries.
-              ignoredStreak: previousRecord.ignoredStreak,
-            };
-          }
-        state = withTaskState(state, {
-          ...taskState,
-          records,
-          deliveredKeys: [...deliveredKeys].slice(-PROACTIVE_TASK_DELIVERED_KEY_LIMIT),
-          lastDeliveryContext: {
-            candidateKey: primary.candidateKey,
-            taskIds: group.map((item) => item.candidate.taskId),
-            taskTitles: group.map((item) => item.candidate.title),
-            petId: primary.petId,
-            deliveredAt: now.toISOString(),
-          } satisfies ProactiveTaskDeliveryContext,
-        });
-
-        decisions.push({
+        const decision: ProactiveTriggerDecision = {
           taskId: primary.candidate.taskId,
           reminderInstanceId: primary.candidate.reminderInstanceId,
           candidateKey: primary.candidateKey,
@@ -546,9 +656,17 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
             : "任务已到期或需要重新评估，且通过主动表达门禁。",
           nextEligibleAt: null,
           petId: primary.petId,
-          actualDelivery: true,
+          // Policy permission is deliberately not a delivery confirmation.
+          actualDelivery: false,
+          deliveryStatus: "allowed",
           aggregatedTaskIds: aggregate ? group.map((item) => item.candidate.taskId) : undefined,
-        });
+        };
+        decisions.push(decision);
+        eligibleDeliveries.push({ decision, candidates: group.map((item) => item.candidate) });
+        // Provisional state prevents two independent groups in one scan from
+        // both passing the global cooldown. It is never persisted here; only
+        // confirmDelivery() may turn it into a real count.
+        policyState = recordProactiveSemanticEventSuccess(policyState, "task_reminder", now, true);
         for (const item of group.slice(1)) {
           decisions.push({
             taskId: item.candidate.taskId,
@@ -568,21 +686,436 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
       }
     }
 
-    state = appendDecisionLog(state, decisions, now);
-    writeProactiveExpressionState(state, storage);
-    const deliveries = decisions
-      .filter((decision) => decision.actualDelivery)
-      .map((decision) => ({
-        decision,
-        candidates: (decision.aggregatedTaskIds ?? [decision.taskId])
-          .map((taskId) => candidates.find((candidate) => candidate.taskId === taskId))
-          .filter((candidate): candidate is ProactiveTaskCandidate => Boolean(candidate)),
-      }));
-    return { decisions, state, deliveries };
+    // A scheduler scan can contain hundreds of candidates. Persisting the
+    // entire expression-state JSON for every such pure policy evaluation
+    // makes the scan O(candidate-count * state-size) without adding delivery
+    // safety. The Phase 6 event path evaluates a small resolved batch and
+    // still persists its timestamp; large batches rely on the durable
+    // reserveDelivery write immediately before the sink instead.
+    const shouldPersistEvaluationStamp = candidates.length <= 8;
+    const evaluationPersistenceConfirmed = shouldPersistEvaluationStamp
+      ? writeProactiveExpressionState(
+        Number.isFinite(now.getTime())
+          ? { ...persistedState, lastEvaluatedAt: now.toISOString() }
+          : persistedState,
+        storage,
+      )
+      : true;
+    return {
+      decisions,
+      state: persistedState,
+      evaluationPersistenceConfirmed,
+      eligibleDeliveries,
+      // The transactional API intentionally leaves the legacy projection
+      // empty. The public evaluate() wrapper below restores the old App
+      // contract without claiming that a sink has run.
+      deliveries: [],
+    };
+  };
+
+  /**
+   * Legacy App contract. App currently consumes `evaluate().deliveries`
+   * directly and has no reserve/confirm callback. Preserve that old
+   * compatibility path by committing its projection through the existing
+   * durable reserve/confirm boundary. The Phase 6 event service never calls
+   * this method; it uses evaluateEligibility() and owns the real sink.
+   */
+  const evaluate = (
+    candidates: readonly ProactiveTaskCandidate[],
+    now = new Date(),
+  ): ProactiveTriggerEvaluation => {
+    const evaluation = evaluateEligibility(candidates, now);
+    if (!evaluation.evaluationPersistenceConfirmed) return evaluation;
+
+    const committedByKey = new Map<string, ProactiveTriggerDecision>();
+    const deliveries: ProactiveTriggerEvaluation["deliveries"] = [];
+    for (const eligible of evaluation.eligibleDeliveries) {
+      const reservation = reserveDelivery(eligible.decision, eligible.candidates, now);
+      if (reservation.status !== "reserved") continue;
+      // This is the pre-Phase-6 App compatibility path. Its existing contract
+      // treats the projected delivery as committed; the new Harness event
+      // path never calls evaluate() and therefore cannot inherit this legacy
+      // assumption.
+      const confirmation = confirmDeliveryInternal(reservation, eligible.candidates, now);
+      if (confirmation.status !== "confirmed") continue;
+      for (const decision of confirmation.decisions) committedByKey.set(decision.candidateKey, decision);
+      const primary = confirmation.decisions.find(
+        (decision) => decision.candidateKey === eligible.decision.candidateKey,
+      );
+      if (primary?.actualDelivery) {
+        deliveries.push({ decision: primary, candidates: [...eligible.candidates] });
+      }
+    }
+    return {
+      ...evaluation,
+      decisions: evaluation.decisions.map((decision) => committedByKey.get(decision.candidateKey) ?? decision),
+      state: readProactiveExpressionState(storage, now),
+      deliveries,
+    };
+  };
+
+  const candidateKeysForDecision = (
+    decision: ProactiveTriggerDecision,
+    candidates: readonly ProactiveTaskCandidate[],
+    now: Date,
+  ): string[] => {
+    const keys = decision.aggregatedTaskIds
+      ? candidates
+        .filter((candidate) => decision.aggregatedTaskIds?.includes(candidate.taskId))
+        .map((candidate) => candidateKey(candidate, now, timeWindowMs))
+      : [];
+    return [...new Set([decision.candidateKey, ...keys])];
+  };
+
+  const reserveDelivery = (
+    decision: ProactiveTriggerDecision,
+    candidates: readonly ProactiveTaskCandidate[],
+    now = new Date(),
+  ): ProactiveDeliveryReservation => {
+    const candidateKeys = candidateKeysForDecision(decision, candidates, now);
+    const taskIds = [...new Set(decision.aggregatedTaskIds ?? [decision.taskId])];
+    if (decision.result !== "send" && decision.result !== "aggregate") {
+      return { status: "not-eligible", candidateKeys, taskIds, decision };
+    }
+
+    if (!Number.isFinite(now.getTime())) {
+      return { status: "not-eligible", candidateKeys, taskIds, decision };
+    }
+    const state = readProactiveExpressionState(storage, now);
+    const taskState = taskStateOf(state);
+    const receipts = taskState.deliveryReceipts ?? {};
+    const reservations = taskState.deliveryReservations ?? {};
+    const reservationTaskIds = taskState.deliveryReservationTaskIds ?? {};
+    if (candidateKeys.some((key) => receipts[key]?.status === "confirmed")) {
+      return { status: "already-delivered", candidateKeys, taskIds, decision };
+    }
+    if (candidateKeys.some((key) => receipts[key]?.status === "blocked" || reservations[key] === "blocked")) {
+      return { status: "blocked", candidateKeys, taskIds, decision };
+    }
+    if (candidateKeys.some((key) => receipts[key]?.status === "reserved" || reservations[key] === "reserved")) {
+      return { status: "already-reserved", candidateKeys, taskIds, decision };
+    }
+    for (const [key, receipt] of Object.entries(receipts)) {
+      if (
+        !candidateKeys.includes(key)
+        && (receipt.status === "reserved" || receipt.status === "blocked")
+        && reservationTaskIds[key]?.some((taskId) => taskIds.includes(taskId))
+      ) {
+        return {
+          status: receipt.status === "blocked" ? "blocked" : "already-reserved",
+          candidateKeys,
+          taskIds,
+          decision,
+        };
+      }
+    }
+
+    // Re-read and re-check every shared gate immediately before the sink. The
+    // service-level micro-batch prevents normal races, while this second
+    // boundary keeps a different event from bypassing a just-reserved or
+    // just-confirmed daily limit/cooldown when callers use the engine directly.
+    if (
+      state.bubbleCounts.task_reminder
+        + Object.values(receipts).filter((receipt) => receipt.status === "reserved").length
+        >= dailyLimit
+    ) {
+      return { status: "not-eligible", candidateKeys, taskIds, decision };
+    }
+    const recentBubbleAt = state.lastActiveBubbleAt
+      ? Date.parse(state.lastActiveBubbleAt)
+      : Number.NaN;
+    const hasRecentConfirmedBubble = Number.isFinite(recentBubbleAt)
+      && now.getTime() - recentBubbleAt < PROACTIVE_BUBBLE_MIN_INTERVAL_MS;
+    const hasRecentReservation = Object.values(receipts).some((receipt) => {
+      if (receipt.status !== "reserved") return false;
+      const reservedAt = Date.parse(receipt.updatedAt);
+      return Number.isFinite(reservedAt)
+        && now.getTime() - reservedAt < PROACTIVE_BUBBLE_MIN_INTERVAL_MS;
+    });
+    if (hasRecentConfirmedBubble || hasRecentReservation) {
+      return { status: "not-eligible", candidateKeys, taskIds, decision };
+    }
+
+    const gateDecision = evaluateProactiveSemanticEvent({
+      event: "task_reminder",
+      state,
+      now,
+      quietHours: options.quietHours,
+    });
+    if (!gateDecision.bubbleAllowed) {
+      return { status: "not-eligible", candidateKeys, taskIds, decision };
+    }
+
+    for (const candidate of candidates) {
+      if (candidate.deletedAt || !["pending", "in_progress"].includes(candidate.taskStatus)) {
+        return { status: "not-eligible", candidateKeys, taskIds, decision };
+      }
+    }
+    for (const taskId of taskIds) {
+      const preference = preferenceFor(taskState, taskId);
+      if (preference.mode === "muted") {
+        return { status: "not-eligible", candidateKeys, taskIds, decision };
+      }
+      const record = recordFor(taskState, taskId);
+      const lastDeliveredAt = validDate(record.lastDeliveredAt);
+      if (!lastDeliveredAt) continue;
+      const baseCooldown = preference.mode === "reduced" ? reducedTaskCooldownMs : taskCooldownMs;
+      const cooldown = record.ignoredStreak >= 2
+        ? baseCooldown * Math.min(8, 2 ** Math.min(record.ignoredStreak - 1, 3))
+        : baseCooldown;
+      if (now.getTime() < lastDeliveredAt.getTime() + cooldown) {
+        return { status: "not-eligible", candidateKeys, taskIds, decision };
+      }
+    }
+
+    const nextReservations: Record<string, ProactiveTaskDeliveryReservationStatus> = {
+      ...reservations,
+    };
+    const nextReceipts: Record<string, ProactiveTaskDeliveryReceipt> = {
+      ...receipts,
+    };
+    const nextReservationTaskIds: Record<string, string[]> = {
+      ...reservationTaskIds,
+    };
+    const reservedAt = now.toISOString();
+    for (const key of candidateKeys) {
+      nextReservations[key] = "reserved";
+      nextReceipts[key] = { status: "reserved", updatedAt: reservedAt };
+      nextReservationTaskIds[key] = [...taskIds];
+    }
+    const next = withTaskState(state, {
+      ...taskState,
+      deliveryReservations: nextReservations,
+      deliveryReceipts: nextReceipts,
+      deliveryReservationTaskIds: nextReservationTaskIds,
+    });
+    // The reservation is the at-most-once barrier. If it cannot be durably
+    // written, the sink is never called and the event remains retryable.
+    if (!writeProactiveExpressionState(next, storage)) {
+      return { status: "storage-failed", candidateKeys, taskIds, decision };
+    }
+    return {
+      status: "reserved",
+      candidateKeys,
+      taskIds,
+      decision: { ...decision, deliveryStatus: "reserved", actualDelivery: false },
+    };
+  };
+
+  const confirmDeliveryInternal = (
+    reservation: ProactiveDeliveryReservation,
+    candidates: readonly ProactiveTaskCandidate[],
+    now = new Date(),
+  ): ProactiveDeliveryConfirmation => {
+    const decision = reservation.decision;
+    if (reservation.status !== "reserved") {
+      return {
+        status: reservation.status === "already-delivered" ? "already-delivered" : "not-reserved",
+        candidateKeys: reservation.candidateKeys,
+        taskIds: reservation.taskIds,
+        decisions: [],
+      };
+    }
+
+    const state = readProactiveExpressionState(storage, now);
+    const taskState = taskStateOf(state);
+    const receipts = taskState.deliveryReceipts ?? {};
+    const reservations = taskState.deliveryReservations ?? {};
+    if (reservation.candidateKeys.every((key) => receipts[key]?.status === "confirmed")) {
+      return {
+        status: "already-delivered",
+        candidateKeys: reservation.candidateKeys,
+        taskIds: reservation.taskIds,
+        decisions: [],
+      };
+    }
+    if (reservation.candidateKeys.some((key) => (
+      receipts[key]?.status ?? reservations[key]
+    ) !== "reserved")) {
+      return {
+        status: "not-reserved",
+        candidateKeys: reservation.candidateKeys,
+        taskIds: reservation.taskIds,
+        decisions: [],
+      };
+    }
+
+    const confirmedState = recordProactiveSemanticEventSuccess(state, "task_reminder", now, true);
+    const confirmedTaskState = taskStateOf(confirmedState);
+    const deliveredKeys = new Set(confirmedTaskState.deliveredKeys);
+    const nextReservations = { ...(confirmedTaskState.deliveryReservations ?? {}) };
+    const nextReceipts: Record<string, ProactiveTaskDeliveryReceipt> = {
+      ...(confirmedTaskState.deliveryReceipts ?? {}),
+    };
+    const nextReservationTaskIds = { ...(confirmedTaskState.deliveryReservationTaskIds ?? {}) };
+    const records = { ...confirmedTaskState.records };
+    for (const key of reservation.candidateKeys) {
+      deliveredKeys.add(key);
+      delete nextReservations[key];
+      nextReceipts[key] = { status: "confirmed", updatedAt: now.toISOString() };
+      delete nextReservationTaskIds[key];
+    }
+    for (const taskId of reservation.taskIds) {
+      const previousRecord = recordFor(confirmedTaskState, taskId);
+      records[taskId] = {
+        lastDeliveredAt: now.toISOString(),
+        // Delivery is not engagement. Keep the prior streak so the next
+        // unattended bubble can advance it across deliveries.
+        ignoredStreak: previousRecord.ignoredStreak,
+      };
+    }
+    const deliveryContext: ProactiveTaskDeliveryContext = {
+      candidateKey: decision.candidateKey,
+      taskIds: reservation.taskIds,
+      taskTitles: reservation.taskIds.map((taskId) =>
+        candidates.find((candidate) => candidate.taskId === taskId)?.title ?? "这件事",
+      ),
+      petId: decision.petId,
+      deliveredAt: now.toISOString(),
+    };
+    let nextState = withTaskState(confirmedState, {
+      ...confirmedTaskState,
+      records,
+      deliveredKeys: [...deliveredKeys].slice(-PROACTIVE_TASK_DELIVERED_KEY_LIMIT),
+      deliveryReservations: nextReservations,
+      deliveryReceipts: nextReceipts,
+      deliveryReservationTaskIds: nextReservationTaskIds,
+      lastDeliveryContext: deliveryContext,
+    });
+    const confirmedDecisions: ProactiveTriggerDecision[] = [{
+      ...decision,
+      actualDelivery: true,
+      deliveryStatus: "delivered",
+    }];
+    for (const candidate of candidates) {
+      const key = candidateKey(candidate, now, timeWindowMs);
+      if (key === decision.candidateKey || !reservation.candidateKeys.includes(key)) continue;
+      confirmedDecisions.push({
+        taskId: candidate.taskId,
+        reminderInstanceId: candidate.reminderInstanceId,
+        candidateKey: key,
+        result: "suppress",
+        score: decision.score,
+        priority: candidate.priority,
+        reason: "aggregated",
+        explanation: "已并入同一次宠物主动提醒。",
+        nextEligibleAt: null,
+        petId: decision.petId,
+        actualDelivery: false,
+        aggregateOf: decision.taskId,
+      });
+    }
+    nextState = appendDecisionLog(nextState, confirmedDecisions, now);
+    if (!writeProactiveExpressionState(nextState, storage)) {
+      // The pre-sink reservation remains durable, so a confirmation write
+      // failure cannot make a later Harness instance call the sink again.
+      return {
+        status: "confirmation-failed",
+        candidateKeys: reservation.candidateKeys,
+        taskIds: reservation.taskIds,
+        decisions: [],
+      };
+    }
+    return {
+      status: "confirmed",
+      candidateKeys: reservation.candidateKeys,
+      taskIds: reservation.taskIds,
+      decisions: confirmedDecisions,
+    };
+  };
+
+  const confirmDelivery = (
+    reservation: ProactiveDeliveryReservation,
+    candidates: readonly ProactiveTaskCandidate[],
+    now = new Date(),
+  ): ProactiveDeliveryConfirmation => confirmDeliveryInternal(reservation, candidates, now);
+
+  const blockDelivery = (
+    reservation: ProactiveDeliveryReservation,
+    now = new Date(),
+  ): boolean => {
+    if (reservation.status !== "reserved") return false;
+    const state = readProactiveExpressionState(storage, now);
+    const taskState = taskStateOf(state);
+    const reservations = { ...(taskState.deliveryReservations ?? {}) };
+    const receipts: Record<string, ProactiveTaskDeliveryReceipt> = {
+      ...(taskState.deliveryReceipts ?? {}),
+    };
+    const reservationTaskIds = { ...(taskState.deliveryReservationTaskIds ?? {}) };
+    for (const key of reservation.candidateKeys) {
+      if (receipts[key]?.status === "reserved" || reservations[key] === "reserved") {
+        reservations[key] = "blocked";
+        receipts[key] = { status: "blocked", updatedAt: now.toISOString() };
+      }
+    }
+    // A failed block write leaves the original reservation intact, which is
+    // the safer at-most-once outcome after an ambiguous sink result.
+    return writeProactiveExpressionState(withTaskState(state, {
+      ...taskState,
+      deliveryReservations: reservations,
+      deliveryReceipts: receipts,
+      deliveryReservationTaskIds: reservationTaskIds,
+    }), storage);
+  };
+
+  const pruneTerminalReceipts = (
+    proofs: readonly ProactiveDeliveryTerminalProof[],
+    now = new Date(),
+  ): boolean => {
+    if (!Array.isArray(proofs) || proofs.some((proof) => (
+      !proof
+      || typeof proof.eventId !== "string"
+      || proof.eventId.trim().length === 0
+      || proof.authority !== "task-reminder-domain"
+      || proof.status !== "terminal"
+    ))) {
+      return false;
+    }
+    if (!options.verifyTerminalReceipt) return false;
+    try {
+      if (proofs.some((proof) => options.verifyTerminalReceipt?.(proof) !== true)) return false;
+    } catch {
+      return false;
+    }
+    if (proofs.length === 0) return true;
+
+    const state = readProactiveExpressionState(storage, now);
+    const taskState = taskStateOf(state);
+    const receiptIds = new Set(proofs.map((proof) => proof.eventId));
+    const nextReceipts = { ...(taskState.deliveryReceipts ?? {}) };
+    const nextReservations = { ...(taskState.deliveryReservations ?? {}) };
+    const nextReservationTaskIds = { ...(taskState.deliveryReservationTaskIds ?? {}) };
+    const nextDeliveredKeys = taskState.deliveredKeys.filter((key) => !receiptIds.has(key));
+    for (const eventId of receiptIds) {
+      delete nextReceipts[eventId];
+      delete nextReservations[eventId];
+      delete nextReservationTaskIds[eventId];
+    }
+    const nextContext = taskState.lastDeliveryContext
+      && receiptIds.has(taskState.lastDeliveryContext.candidateKey)
+      ? null
+      : taskState.lastDeliveryContext;
+
+    // A failed write leaves the receipt intact, so a restart cannot resurrect
+    // a live event merely because cleanup was attempted.
+    return writeProactiveExpressionState(withTaskState(state, {
+      ...taskState,
+      deliveredKeys: nextDeliveredKeys,
+      deliveryReservations: nextReservations,
+      deliveryReceipts: nextReceipts,
+      deliveryReservationTaskIds: nextReservationTaskIds,
+      lastDeliveryContext: nextContext,
+    }), storage);
   };
 
   return {
+    evaluateEligibility,
     evaluate,
+    reserveDelivery,
+    confirmDelivery,
+    blockDelivery,
+    pruneTerminalReceipts,
+    pruneDeliveryReceipts: pruneTerminalReceipts,
     getState: (now = new Date()) => readProactiveExpressionState(storage, now),
     getLastDeliveryContext: (now = new Date()) =>
       taskStateOf(readProactiveExpressionState(storage, now)).lastDeliveryContext,

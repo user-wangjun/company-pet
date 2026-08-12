@@ -11,6 +11,7 @@ import {
   PROACTIVE_EXPRESSION_STORAGE_KEY,
   PROACTIVE_SEMANTIC_EVENTS,
   createProactiveExpressionState,
+  createProactiveTaskState,
   evaluateProactiveSemanticEvent,
   isWithinQuietHours,
   normalizeProactiveExpressionState,
@@ -227,6 +228,57 @@ describe("proactive expression gate", () => {
       state: restarted,
       now: at(10),
     }).reason).toBe("daily-limit");
+  });
+
+  test("persists opaque delivery receipts in the existing taskState and migrates legacy keys", () => {
+    const now = at(8);
+    const base = createProactiveExpressionState(now);
+    const taskState = createProactiveTaskState();
+    taskState.deliveredKeys = ["legacy-event"];
+    taskState.deliveryReceipts = {
+      "confirmed-event": {
+        status: "confirmed",
+        updatedAt: now.toISOString(),
+      },
+      "blocked-event": {
+        status: "blocked",
+        updatedAt: now.toISOString(),
+      },
+    };
+    const target = storage();
+    expect(writeProactiveExpressionState({ ...base, taskState }, target)).toBe(true);
+    const restarted = readProactiveExpressionState(target, now);
+
+    expect(restarted.taskState?.deliveryReceipts).toMatchObject({
+      "confirmed-event": { status: "confirmed" },
+      "blocked-event": { status: "blocked" },
+      "legacy-event": { status: "confirmed" },
+    });
+    expect(restarted.taskState?.deliveryReservations).toMatchObject({
+      "blocked-event": "blocked",
+    });
+    expect(JSON.stringify(restarted.taskState?.deliveryReceipts)).not.toContain("title");
+    expect(JSON.stringify(restarted.taskState?.deliveryReceipts)).not.toContain("note");
+  });
+
+  test("fails closed for malformed receipt status or timestamp", () => {
+    const now = at(8);
+    const base = createProactiveExpressionState(now);
+    const taskState = createProactiveTaskState();
+    const malformed = {
+      ...base,
+      taskState: {
+        ...taskState,
+        deliveryReceipts: {
+          "event-1": { status: "active", updatedAt: now.toISOString() },
+        },
+      },
+    };
+    const target = storage(JSON.stringify(malformed));
+    const restarted = readProactiveExpressionState(target, at(9));
+
+    expect(restarted.conservativeSilenceDate).toBe("2026-07-26");
+    expect(restarted.taskState).toBeUndefined();
   });
 
   test("computes default and custom cross-midnight quiet windows", () => {

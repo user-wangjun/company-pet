@@ -50,6 +50,27 @@ export type ProactiveTaskDecisionLog = {
   at: string;
 };
 
+/**
+ * A persisted reservation is intentionally separate from deliveredKeys.
+ * `reserved` means the durable at-most-once barrier was written before the
+ * local sink was called; `blocked` means the sink was called but did not
+ * confirm success. Neither state is a delivery confirmation.
+ */
+export type ProactiveTaskDeliveryReservationStatus = "reserved" | "blocked";
+
+/**
+ * Durable receipt state is the authoritative idempotency record. The older
+ * `deliveredKeys` array remains a bounded compatibility projection, but it is
+ * never allowed to evict a receipt that the Task/Reminder domain can still
+ * replay.
+ */
+export type ProactiveTaskDeliveryReceiptStatus = ProactiveTaskDeliveryReservationStatus | "confirmed";
+
+export type ProactiveTaskDeliveryReceipt = {
+  status: ProactiveTaskDeliveryReceiptStatus;
+  updatedAt: string;
+};
+
 export type ProactiveTaskDeliveryContext = {
   candidateKey: string;
   taskIds: string[];
@@ -65,6 +86,11 @@ export type ProactiveTaskState = {
   deliveredKeys: string[];
   decisionLog: ProactiveTaskDecisionLog[];
   lastDeliveryContext: ProactiveTaskDeliveryContext | null;
+  deliveryReservations?: Record<string, ProactiveTaskDeliveryReservationStatus>;
+  /** Opaque event receipts; contains no title, note, chat, or Task payload. */
+  deliveryReceipts: Record<string, ProactiveTaskDeliveryReceipt>;
+  /** Task ids are retained only for reservation gate re-checks; no titles or notes. */
+  deliveryReservationTaskIds?: Record<string, string[]>;
 };
 
 export type ProactiveExpressionState = {
@@ -222,7 +248,22 @@ function isProactiveTaskDeliveryContext(
   );
 }
 
-function parseTaskState(value: unknown): ProactiveTaskState | undefined | null {
+function isProactiveTaskDeliveryReceipt(
+  value: unknown,
+): value is ProactiveTaskDeliveryReceipt {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const source = value as Record<string, unknown>;
+  return Object.keys(source).sort().join("|") === "status|updatedAt"
+    && (source.status === "reserved" || source.status === "blocked" || source.status === "confirmed")
+    && isCanonicalUtcIso(source.updatedAt);
+}
+
+const LEGACY_RECEIPT_TIMESTAMP = "1970-01-01T00:00:00.000Z";
+
+function parseTaskState(
+  value: unknown,
+  legacyReceiptTimestamp = LEGACY_RECEIPT_TIMESTAMP,
+): ProactiveTaskState | undefined | null {
   if (value === undefined) return undefined;
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   const source = value as Record<string, unknown>;
@@ -233,17 +274,108 @@ function parseTaskState(value: unknown): ProactiveTaskState | undefined | null {
   const deliveredKeysValue = source.deliveredKeys;
   const decisionLogValue = source.decisionLog;
   const lastDeliveryContextValue = source.lastDeliveryContext;
+  const deliveryReservationsValue = source.deliveryReservations;
+  const deliveryReceiptsValue = source.deliveryReceipts;
+  const deliveryReservationTaskIdsValue = source.deliveryReservationTaskIds;
   if (
     !preferencesValue || typeof preferencesValue !== "object" || Array.isArray(preferencesValue)
     || !recordsValue || typeof recordsValue !== "object" || Array.isArray(recordsValue)
     || !Array.isArray(deliveredKeysValue)
     || !deliveredKeysValue.every((key) => typeof key === "string" && key.length > 0)
     || !Array.isArray(decisionLogValue)
+    || (deliveryReservationsValue !== undefined
+      && (!deliveryReservationsValue
+        || typeof deliveryReservationsValue !== "object"
+        || Array.isArray(deliveryReservationsValue)))
+    || (deliveryReceiptsValue !== undefined
+      && (!deliveryReceiptsValue
+        || typeof deliveryReceiptsValue !== "object"
+        || Array.isArray(deliveryReceiptsValue)))
+    || (deliveryReservationTaskIdsValue !== undefined
+      && (!deliveryReservationTaskIdsValue
+        || typeof deliveryReservationTaskIdsValue !== "object"
+        || Array.isArray(deliveryReservationTaskIdsValue)))
     || (lastDeliveryContextValue !== undefined
       && lastDeliveryContextValue !== null
       && !isProactiveTaskDeliveryContext(lastDeliveryContextValue))
   ) {
     return null;
+  }
+
+  const deliveryReservations: Record<string, ProactiveTaskDeliveryReservationStatus> = {};
+  if (deliveryReservationsValue !== undefined) {
+    for (const [key, rawStatus] of Object.entries(deliveryReservationsValue)) {
+      if (
+        typeof key !== "string" || key.length === 0
+        || (rawStatus !== "reserved" && rawStatus !== "blocked")
+      ) {
+        return null;
+      }
+      deliveryReservations[key] = rawStatus;
+    }
+  }
+
+  const deliveryReceipts: Record<string, ProactiveTaskDeliveryReceipt> = {};
+  if (deliveryReceiptsValue !== undefined) {
+    for (const [key, rawReceipt] of Object.entries(deliveryReceiptsValue)) {
+      if (typeof key !== "string" || key.length === 0 || !isProactiveTaskDeliveryReceipt(rawReceipt)) {
+        return null;
+      }
+      deliveryReceipts[key] = {
+        status: rawReceipt.status,
+        updatedAt: rawReceipt.updatedAt,
+      };
+    }
+  }
+
+  // Migrate the pre-receipt projection conservatively. A delivered key is
+  // stronger than a stale reservation projection, so it always becomes a
+  // confirmed receipt rather than becoming replayable after restart.
+  for (const key of deliveredKeysValue) {
+    const existing = deliveryReceipts[key];
+    if (!existing || existing.status !== "confirmed") {
+      deliveryReceipts[key] = {
+        status: "confirmed",
+        updatedAt: legacyReceiptTimestamp,
+      };
+    }
+  }
+  for (const [key, status] of Object.entries(deliveryReservations)) {
+    const existing = deliveryReceipts[key];
+    if (existing?.status === "confirmed") {
+      delete deliveryReservations[key];
+      continue;
+    }
+    if (existing && existing.status !== status) return null;
+    deliveryReceipts[key] ??= {
+      status,
+      updatedAt: legacyReceiptTimestamp,
+    };
+  }
+  for (const [key, receipt] of Object.entries(deliveryReceipts)) {
+    if (receipt.status === "reserved" || receipt.status === "blocked") {
+      deliveryReservations[key] = receipt.status;
+    } else {
+      delete deliveryReservations[key];
+    }
+  }
+
+  const deliveryReservationTaskIds: Record<string, string[]> = {};
+  if (deliveryReservationTaskIdsValue !== undefined) {
+    for (const [key, rawTaskIds] of Object.entries(deliveryReservationTaskIdsValue)) {
+      if (
+        typeof key !== "string"
+        || key.length === 0
+        || !Array.isArray(rawTaskIds)
+        || rawTaskIds.length === 0
+        || !rawTaskIds.every((taskId) => typeof taskId === "string" && taskId.length > 0)
+        || deliveryReceipts[key]?.status === "confirmed"
+        || !deliveryReceipts[key]
+      ) {
+        return null;
+      }
+      deliveryReservationTaskIds[key] = [...new Set(rawTaskIds)];
+    }
   }
 
   const preferences: Record<string, ProactiveTaskPreference> = {};
@@ -319,6 +451,9 @@ function parseTaskState(value: unknown): ProactiveTaskState | undefined | null {
             petId: lastDeliveryContextValue.petId,
             deliveredAt: lastDeliveryContextValue.deliveredAt,
           },
+    deliveryReservations,
+    deliveryReceipts,
+    deliveryReservationTaskIds,
   };
 }
 
@@ -327,27 +462,29 @@ function parsePersistedState(value: unknown): ProactiveExpressionState | null {
   const source = value as Record<string, unknown>;
   const triggerCounts = parseCounts(source.triggerCounts);
   const bubbleCounts = parseCounts(source.bubbleCounts);
-  const taskState = parseTaskState(source.taskState);
   const lastActiveBubbleAt = source.lastActiveBubbleAt;
+  const lastEvaluatedAt = source.lastEvaluatedAt;
   const conservativeSilenceDate = source.conservativeSilenceDate;
   if (
     source.schemaVersion !== PROACTIVE_EXPRESSION_SCHEMA_VERSION ||
     !isValidLocalDate(source.currentLocalDate) ||
-    !isCanonicalUtcIso(source.lastEvaluatedAt) ||
+    !isCanonicalUtcIso(lastEvaluatedAt) ||
     (lastActiveBubbleAt !== null && !isCanonicalUtcIso(lastActiveBubbleAt)) ||
     (conservativeSilenceDate !== null && !isValidLocalDate(conservativeSilenceDate)) ||
     !triggerCounts ||
-    !bubbleCounts ||
-    (source.taskState !== undefined && !taskState)
+    !bubbleCounts
   ) {
     return null;
   }
+
+  const taskState = parseTaskState(source.taskState, lastEvaluatedAt);
+  if (source.taskState !== undefined && !taskState) return null;
 
   const baseState: ProactiveExpressionState = {
     schemaVersion: PROACTIVE_EXPRESSION_SCHEMA_VERSION,
     currentLocalDate: source.currentLocalDate,
     lastActiveBubbleAt,
-    lastEvaluatedAt: source.lastEvaluatedAt,
+    lastEvaluatedAt,
     triggerCounts,
     bubbleCounts,
     conservativeSilenceDate,
@@ -363,6 +500,9 @@ export function createProactiveTaskState(): ProactiveTaskState {
     deliveredKeys: [],
     decisionLog: [],
     lastDeliveryContext: null,
+    deliveryReservations: {},
+    deliveryReceipts: {},
+    deliveryReservationTaskIds: {},
   };
 }
 

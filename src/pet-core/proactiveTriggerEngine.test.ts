@@ -57,22 +57,64 @@ function engine(
   });
 }
 
+function evaluateAndConfirm(
+  triggerEngine: ReturnType<typeof createProactiveTriggerEngine>,
+  candidates: readonly ProactiveTaskCandidate[],
+  now: Date,
+) {
+  const evaluation = triggerEngine.evaluateEligibility(candidates, now);
+  const eligible = evaluation.eligibleDeliveries[0];
+  if (!eligible) return { evaluation, confirmation: null };
+  const reservation = triggerEngine.reserveDelivery(eligible.decision, eligible.candidates, now);
+  expect(reservation.status).toBe("reserved");
+  const confirmation = triggerEngine.confirmDelivery(reservation, eligible.candidates, now);
+  expect(confirmation.status).toBe("confirmed");
+  return { evaluation, confirmation };
+}
+
 describe("provider-independent proactive trigger engine", () => {
   it("delivers the same task at most once in one time window", () => {
     const stateStorage = storage();
     const triggerEngine = engine(stateStorage);
     const first = candidate("task-1", "交报告", at(8));
 
-    const firstEvaluation = triggerEngine.evaluate([first], at(8));
-    const secondEvaluation = triggerEngine.evaluate([first], at(8, 5));
+    const { evaluation: firstEvaluation } = evaluateAndConfirm(triggerEngine, [first], at(8));
+    const secondEvaluation = triggerEngine.evaluateEligibility([first], at(8, 5));
 
-    expect(firstEvaluation.deliveries).toHaveLength(1);
-    expect(firstEvaluation.decisions[0]).toMatchObject({ result: "send", actualDelivery: true });
+    expect(firstEvaluation.eligibleDeliveries).toHaveLength(1);
+    expect(firstEvaluation.decisions[0]).toMatchObject({ result: "send", actualDelivery: false, deliveryStatus: "allowed" });
     expect(secondEvaluation.decisions[0]).toMatchObject({
       result: "suppress",
       reason: "already-delivered",
       actualDelivery: false,
     });
+  });
+
+  it("keeps the App legacy deliveries projection while transactional evaluation stays truthful", () => {
+    const legacyEngine = engine(storage());
+    const legacyEvaluation = legacyEngine.evaluate([
+      candidate("legacy-app", "交报告", at(8)),
+    ], at(8));
+
+    expect(legacyEvaluation.deliveries).toHaveLength(1);
+    expect(legacyEvaluation.deliveries[0]?.decision).toMatchObject({
+      result: "send",
+      actualDelivery: true,
+      deliveryStatus: "delivered",
+    });
+    expect(legacyEngine.getLastDeliveryContext(at(8))).toMatchObject({
+      taskIds: ["legacy-app"],
+    });
+
+    const transactionalEngine = engine(storage());
+    const transactionalEvaluation = transactionalEngine.evaluateEligibility([
+      candidate("transactional-only", "浇花", at(8)),
+    ], at(8));
+
+    expect(transactionalEvaluation.eligibleDeliveries).toHaveLength(1);
+    expect(transactionalEvaluation.deliveries).toHaveLength(0);
+    expect(transactionalEvaluation.eligibleDeliveries[0]?.decision.actualDelivery).toBe(false);
+    expect(transactionalEngine.getLastDeliveryContext(at(8))).toBeNull();
   });
 
   it("suppresses a candidate during quiet hours", () => {
@@ -83,7 +125,7 @@ describe("provider-independent proactive trigger engine", () => {
       quietHours: { startTime: "23:00", endTime: "07:00" },
     });
 
-    const evaluation = triggerEngine.evaluate([candidate("task-quiet", "睡觉", at(23, 30))], at(23, 30));
+    const evaluation = triggerEngine.evaluateEligibility([candidate("task-quiet", "睡觉", at(23, 30))], at(23, 30));
 
     expect(evaluation.decisions[0]).toMatchObject({
       result: "suppress",
@@ -101,8 +143,8 @@ describe("provider-independent proactive trigger engine", () => {
     });
     const task = candidate("task-recheck", "睡觉", at(23, 30));
 
-    expect(triggerEngine.evaluate([task], at(23, 30)).decisions[0].reason).toBe("quiet-hours");
-    expect(triggerEngine.evaluate([task], new Date(2026, 7, 3, 8, 0, 0, 0)).decisions[0].result).toBe("send");
+    expect(triggerEngine.evaluateEligibility([task], at(23, 30)).decisions[0].reason).toBe("quiet-hours");
+    expect(triggerEngine.evaluateEligibility([task], new Date(2026, 7, 3, 8, 0, 0, 0)).decisions[0].result).toBe("send");
   });
 
   it("suppresses after the user-level daily limit", () => {
@@ -114,8 +156,8 @@ describe("provider-independent proactive trigger engine", () => {
       quietHours: QUIET_DISABLED,
     });
 
-    expect(triggerEngine.evaluate([candidate("task-limit-1", "交报告", at(8))], at(8)).decisions[0].result).toBe("send");
-    const evaluation = triggerEngine.evaluate([candidate("task-limit-2", "浇花", at(9))], at(9));
+    evaluateAndConfirm(triggerEngine, [candidate("task-limit-1", "交报告", at(8))], at(8));
+    const evaluation = triggerEngine.evaluateEligibility([candidate("task-limit-2", "浇花", at(9))], at(9));
 
     expect(evaluation.decisions[0]).toMatchObject({ result: "suppress", reason: "daily-limit" });
   });
@@ -124,18 +166,18 @@ describe("provider-independent proactive trigger engine", () => {
     const stateStorage = storage();
     const triggerEngine = engine(stateStorage);
     const first = candidate("task-ignore", "整理报告", at(8));
-    const firstEvaluation = triggerEngine.evaluate([first], at(8));
-    expect(firstEvaluation.decisions[0]).toMatchObject({ result: "send", actualDelivery: true });
+    const { evaluation: firstEvaluation } = evaluateAndConfirm(triggerEngine, [first], at(8));
+    expect(firstEvaluation.decisions[0]).toMatchObject({ result: "send", actualDelivery: false, deliveryStatus: "allowed" });
     triggerEngine.recordIgnored(first.taskId, at(8, 1));
 
     const second = candidate("task-ignore", "整理报告", at(12, 1), {
       reminderInstanceId: "instance-ignore-second",
     });
-    const secondEvaluation = triggerEngine.evaluate([second], at(12, 1));
-    expect(secondEvaluation.decisions[0]).toMatchObject({ result: "send", actualDelivery: true });
+    const { evaluation: secondEvaluation } = evaluateAndConfirm(triggerEngine, [second], at(12, 1));
+    expect(secondEvaluation.decisions[0]).toMatchObject({ result: "send", actualDelivery: false, deliveryStatus: "allowed" });
     triggerEngine.recordIgnored(second.taskId, at(12, 2));
 
-    const evaluation = triggerEngine.evaluate([
+    const evaluation = triggerEngine.evaluateEligibility([
       candidate("task-ignore", "整理报告", at(16, 1), { reminderInstanceId: "instance-ignore-next" }),
     ], at(16, 1));
 
@@ -150,21 +192,22 @@ describe("provider-independent proactive trigger engine", () => {
       candidate("task-aggregate-2", "交报告给老板", at(8, 20)),
     ];
 
-    const evaluation = triggerEngine.evaluate(tasks, at(8));
+    const { evaluation, confirmation } = evaluateAndConfirm(triggerEngine, tasks, at(8));
 
-    expect(evaluation.deliveries).toHaveLength(1);
-    expect(evaluation.deliveries[0].decision.result).toBe("aggregate");
-    expect(evaluation.deliveries[0].decision.aggregatedTaskIds).toEqual(expect.arrayContaining([
+    expect(evaluation.eligibleDeliveries).toHaveLength(1);
+    expect(evaluation.eligibleDeliveries[0].decision.result).toBe("aggregate");
+    expect(evaluation.eligibleDeliveries[0].decision.aggregatedTaskIds).toEqual(expect.arrayContaining([
       "task-aggregate-1",
       "task-aggregate-2",
     ]));
-    expect(evaluation.decisions.filter((decision) => decision.actualDelivery)).toHaveLength(1);
+    expect(evaluation.decisions.filter((decision) => decision.actualDelivery)).toHaveLength(0);
+    expect(confirmation?.decisions.filter((decision) => decision.actualDelivery)).toHaveLength(1);
     expect(evaluation.decisions.find((decision) => decision.taskId === "task-aggregate-2")?.reason).toBe("aggregated");
   });
 
   it("does not generate delivery for completed, cancelled, or deleted tasks", () => {
     const triggerEngine = engine(storage());
-    const evaluation = triggerEngine.evaluate([
+    const evaluation = triggerEngine.evaluateEligibility([
       candidate("task-completed", "已完成", at(8), { taskStatus: "completed" }),
       candidate("task-cancelled", "已取消", at(8), { taskStatus: "cancelled" }),
       candidate("task-deleted", "已删除", at(8), { deletedAt: at(7).toISOString() }),
@@ -184,7 +227,7 @@ describe("provider-independent proactive trigger engine", () => {
       quietHours: QUIET_DISABLED,
     });
     const first = candidate("task-restart", "复习", at(8));
-    firstEngine.evaluate([first], at(8));
+    evaluateAndConfirm(firstEngine, [first], at(8));
 
     const restartedEngine = createProactiveTriggerEngine({
       storage: stateStorage,
@@ -192,10 +235,10 @@ describe("provider-independent proactive trigger engine", () => {
       dailyLimit: 2,
       quietHours: QUIET_DISABLED,
     });
-    const nextWindow = restartedEngine.evaluate([
+    const nextWindow = restartedEngine.evaluateEligibility([
       candidate("task-restart", "复习", at(9), { reminderInstanceId: "instance-restart-next" }),
     ], at(9));
-    const duplicate = restartedEngine.evaluate([first], at(9, 1));
+    const duplicate = restartedEngine.evaluateEligibility([first], at(9, 1));
 
     expect(nextWindow.decisions[0]).toMatchObject({ result: "delay", reason: "task-cooldown" });
     expect(duplicate.decisions[0]).toMatchObject({ result: "suppress", reason: "already-delivered" });
@@ -211,7 +254,7 @@ describe("provider-independent proactive trigger engine", () => {
       dailyLimit: 1,
       quietHours: QUIET_DISABLED,
     });
-    firstEngine.evaluate([candidate("task-daily-restart-1", "背单词", at(8))], at(8));
+    evaluateAndConfirm(firstEngine, [candidate("task-daily-restart-1", "背单词", at(8))], at(8));
 
     const restartedEngine = createProactiveTriggerEngine({
       storage: stateStorage,
@@ -219,7 +262,7 @@ describe("provider-independent proactive trigger engine", () => {
       dailyLimit: 1,
       quietHours: QUIET_DISABLED,
     });
-    const evaluation = restartedEngine.evaluate([
+    const evaluation = restartedEngine.evaluateEligibility([
       candidate("task-daily-restart-2", "浇花", at(10)),
     ], at(10));
 
@@ -234,8 +277,8 @@ describe("provider-independent proactive trigger engine", () => {
 
     triggerEngine.setTaskPreference(muted.taskId, { mode: "muted" }, at(7));
     triggerEngine.setTaskPreference(reduced.taskId, { mode: "reduced" }, at(7));
-    const first = triggerEngine.evaluate([muted, reduced], at(8));
-    const reducedLater = triggerEngine.evaluate([
+    const first = evaluateAndConfirm(triggerEngine, [muted, reduced], at(8)).evaluation;
+    const reducedLater = triggerEngine.evaluateEligibility([
       { ...reduced, reminderInstanceId: "instance-reduced-next", scheduledAt: at(9).toISOString() },
     ], at(9));
 
@@ -247,19 +290,34 @@ describe("provider-independent proactive trigger engine", () => {
     expect(reducedLater.decisions[0]).toMatchObject({ result: "delay", reason: "reduced-frequency" });
   });
 
+  it("throws instead of returning a candidate when preference persistence is rejected", () => {
+    const stateStorage: ProactiveExpressionStorage = {
+      getItem: vi.fn(() => null),
+      setItem: vi.fn(() => {
+        throw new Error("storage quota exceeded");
+      }),
+    };
+    const triggerEngine = engine(stateStorage);
+
+    expect(() => triggerEngine.setTaskPreference("task-writer", { mode: "muted" }, at(7)))
+      .toThrow("Failed to persist proactive task preference.");
+    expect(stateStorage.setItem).toHaveBeenCalledTimes(1);
+  });
+
   it("uses one selected pet and switching pet changes delivery only", () => {
     const stateStorage = storage();
     const triggerEngine = engine(stateStorage);
     const first = candidate("task-pet", "买牛奶", at(8));
     triggerEngine.setTaskPreference(first.taskId, { preferredPetId: "black-cat" }, at(7));
 
-    const evaluation = triggerEngine.evaluate([first], at(8));
-    const duplicate = triggerEngine.evaluate([
+    const { evaluation, confirmation } = evaluateAndConfirm(triggerEngine, [first], at(8));
+    const duplicate = triggerEngine.evaluateEligibility([
       candidate("task-pet", "买牛奶", at(8), { reminderInstanceId: "instance-pet-next" }),
     ], at(8, 1));
 
     expect(evaluation.decisions[0]).toMatchObject({ taskId: "task-pet", petId: "black-cat", result: "send" });
-    expect(evaluation.deliveries).toHaveLength(1);
+    expect(evaluation.eligibleDeliveries).toHaveLength(1);
+    expect(confirmation?.status).toBe("confirmed");
     expect(triggerEngine.getLastDeliveryContext(at(8))).toMatchObject({
       taskIds: ["task-pet"],
       taskTitles: ["买牛奶"],
