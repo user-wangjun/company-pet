@@ -1,5 +1,8 @@
 import { describe, expect, test } from "vitest";
-import { buildPetWindowLayout } from "./petWindowLayout";
+import {
+  buildPetWindowLayout,
+  getPetReminderWindowSize,
+} from "./petWindowLayout";
 
 const petVisibleBounds = { x: 40, y: 108, width: 85, height: 100 };
 
@@ -41,5 +44,23 @@ describe("compact pet window layout", () => {
     expect(layout.windowSize.height).toBe(297);
     expect(layout.petViewport.y).toBe(81);
     expect(layout.bubbleBottom).toBe(109);
+  });
+
+  test("adds height when an action bubble would reach the reminder window edge", () => {
+    expect(
+      getPetReminderWindowSize(
+        { width: 164, height: 360, tailHeight: 8 },
+        { width: 240, height: 450 },
+      ),
+    ).toEqual({ width: 240, height: 476 });
+  });
+
+  test("keeps the normal reminder footprint for short bubbles", () => {
+    expect(
+      getPetReminderWindowSize(
+        { width: 164, height: 180, tailHeight: 8 },
+        { width: 240, height: 450 },
+      ),
+    ).toEqual({ width: 240, height: 450 });
   });
 });

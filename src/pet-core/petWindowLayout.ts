@@ -37,6 +37,27 @@ function expandBounds(bounds: Bounds, padding: number): Bounds {
 }
 
 /**
+ * Keeps an expanded reminder window tall enough for the complete bubble.
+ *
+ * The reminder window is intentionally wider than the compact pet window so
+ * the task reminder stack has room, but its height must also account for the
+ * measured bubble. Without this, a long reminder with two action buttons can
+ * extend above the native webview and lose its first line at the window edge.
+ */
+export function getPetReminderWindowSize(
+  bubble: PetBubbleSize | null,
+  minimum: WindowSize,
+): WindowSize {
+  const bubbleHeight = bubble ? finitePositive(bubble.height, 0) : 0;
+  const requiredHeight = PET_BUBBLE_BOTTOM_PX + bubbleHeight + WINDOW_PADDING_PX;
+
+  return {
+    width: Math.max(1, Math.ceil(minimum.width)),
+    height: Math.max(1, Math.ceil(Math.max(minimum.height, requiredHeight))),
+  };
+}
+
+/**
  * Builds a compact native-window footprint around the pet and any visible
  * bubble. Coordinates are kept relative to the old 165x215 pet design so the
  * sprite can be cropped without changing its screen-space pose.

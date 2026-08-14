@@ -250,6 +250,7 @@ import {
 } from "./pet-core/petVisibleBounds";
 import {
   buildPetWindowLayout,
+  getPetReminderWindowSize,
   type PetBubbleSize,
 } from "./pet-core/petWindowLayout";
 import {
@@ -1751,7 +1752,7 @@ function DesktopPetApp() {
         : nextMode === "task-menu"
           ? taskMenuLayout.windowSize
           : isReminderWindowExpanded
-            ? PET_REMINDER_WINDOW_SIZE
+            ? getPetReminderWindowSize(petBubbleSize, PET_REMINDER_WINDOW_SIZE)
             : petWindowLayout.windowSize;
     const failureEvent = nextMode === "platform"
       ? "platform_layout_failed"
@@ -1794,6 +1795,7 @@ function DesktopPetApp() {
     isPlatformWindow,
     isQuickCreateOpen,
     isTaskMenuOpen,
+    petBubbleSize,
     petWindowLayout,
     taskMenuLayout,
     visibleTaskReminders.length,
