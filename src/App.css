@@ -259,6 +259,58 @@ button {
   white-space: normal;
 }
 
+.companion-ollama-pull-progress {
+  display: grid;
+  gap: 3px;
+  padding: 7px 8px;
+  border: 1px solid rgba(74, 125, 101, 0.2);
+  border-radius: 10px;
+  background: rgba(235, 248, 239, 0.92);
+  color: #4d7560;
+}
+
+.companion-ollama-pull-progress.is-compact {
+  padding: 5px 7px;
+  border-radius: 9px;
+}
+
+.companion-ollama-pull-progress-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+
+.companion-ollama-pull-progress-heading strong,
+.companion-ollama-pull-progress-heading span,
+.companion-ollama-pull-progress small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.companion-ollama-pull-progress-heading strong {
+  font-size: 10px;
+}
+
+.companion-ollama-pull-progress-heading span {
+  color: #6f907c;
+  font-size: 9px;
+}
+
+.companion-ollama-pull-progress small {
+  color: #648773;
+  font-size: 8px;
+  line-height: 1.35;
+}
+
+.companion-ollama-pull-progress progress {
+  width: 100%;
+  height: 4px;
+  accent-color: #72ad87;
+}
+
 .companion-chat-messages {
   display: flex;
   min-height: 74px;
@@ -1195,6 +1247,15 @@ button {
   line-height: 1.45;
 }
 
+.platform-companion-chat-provider > .companion-ollama-pull-progress {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.platform-companion-chat-room > .companion-ollama-pull-progress {
+  margin: 0 13px 5px;
+}
+
 .platform-companion-chat-messages {
   display: flex;
   min-height: 0;
@@ -1314,6 +1375,7 @@ button {
 
 .platform-companion-chat-input {
   display: grid;
+  box-sizing: border-box;
   grid-template-columns: minmax(0, 1fr) 64px;
   gap: 8px;
   padding-top: 12px;
@@ -1519,6 +1581,7 @@ button {
   display: flex;
   align-items: center;
   width: auto !important;
+  min-width: 0;
   min-height: 24px;
   gap: 7px;
   margin: 7px 13px 5px;
@@ -1709,6 +1772,7 @@ button {
 .platform-companion-chat-room-input {
   position: relative;
   z-index: 6;
+  min-width: 0;
   width: calc(100% - 18px) !important;
   max-width: none;
   justify-self: center;

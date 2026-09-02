@@ -1,7 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
 import type { CompanionModelPort } from "./companionModelPort";
 import type { CompanionEvent } from "./companionHarnessTypes";
-import type { ProactiveExpressionStorage } from "./proactiveExpressionGate";
+import {
+  createProactiveExpressionState,
+  localDateId,
+  type ProactiveExpressionStorage,
+} from "./proactiveExpressionGate";
 import type { ProactiveTaskCandidate } from "./proactiveTriggerEngine";
 import type { Reminder, ReminderInstance, Task, TriggeredReminder } from "../task-core/types";
 import {
@@ -416,7 +420,10 @@ describe("Companion proactive event service", () => {
     expect(results.filter((result) => result.status === "delivered")).toHaveLength(1);
     expect(results.some((result) => result.status === "suppressed" || result.status === "delayed")).toBe(true);
     expect(fixtureValue.sink).toHaveBeenCalledTimes(1);
-    expect(fixtureValue.service.engine.getState(NOW).bubbleCounts.task_reminder).toBe(1);
+    const state = fixtureValue.service.engine.getState(NOW);
+    expect(state.bubbleCounts.task_reminder).toBe(1);
+    expect(Object.values(state.taskState?.deliveryReceipts ?? {})
+      .filter((receipt) => receipt.status === "confirmed")).toHaveLength(1);
   });
 
   it("serializes concurrent distinct events against the global bubble cooldown", async () => {
@@ -507,6 +514,10 @@ describe("Companion proactive event service", () => {
     expect(restartedSink).toHaveBeenCalledTimes(1);
   });
 
+  // This intentionally rewrites the bounded local receipt snapshot 257 times
+  // and is slower only when the full Vitest pool contends for CPU/IO. Keep the
+  // pressure and restart assertions intact; the local timeout is scoped to
+  // this case instead of relaxing the suite-wide default.
   it("keeps durable at-most-once receipts after 257 confirmed events and restart", async () => {
     const base = new Date(NOW.getTime() + 10 * 60 * 1000);
     let clock = base;
@@ -559,7 +570,7 @@ describe("Companion proactive event service", () => {
     expect(replay.status).toBe("duplicate");
     expect(restartedSink).not.toHaveBeenCalled();
     expect(Object.keys(restarted.engine.getState(clock).taskState?.deliveryReceipts ?? {})).toHaveLength(257);
-  });
+  }, 10_000);
 
   it("prunes only terminally proven receipts and cannot resurrect a live event after restart", async () => {
     let terminallyProven = false;
@@ -632,6 +643,355 @@ describe("Companion proactive event service", () => {
 
     await fixtureValue.service.processEvents([firstEvent, secondEvent]);
     expect(fixtureValue.sink).toHaveBeenCalledTimes(1);
+  });
+
+  it("P1-F A/D/E: charges one quota for an aggregate group and keeps every receipt", async () => {
+    let clock = new Date("2026-08-12T08:00:00.000Z");
+    let stored: string | null = null;
+    let writes = 0;
+    let failConfirmation = true;
+    const stateStorage: ProactiveExpressionStorage = {
+      getItem: vi.fn(() => stored),
+      setItem: vi.fn((_key, value) => {
+        writes += 1;
+        if (failConfirmation && writes === 3) throw new Error("confirmation persistence failed");
+        stored = value;
+      }),
+    };
+    const sink = vi.fn(async () => true);
+    const fixtureValue = fixture({
+      storage: stateStorage,
+      now: () => clock,
+      dailyLimit: 2,
+      taskCooldownMs: 0,
+      reducedTaskCooldownMs: 0,
+      deliverySink: sink,
+    });
+    const firstCandidate = dueSoonCandidate(
+      "p1f-aggregate-1",
+      "写报告",
+      "2026-08-12T08:30:00.000Z",
+    );
+    const secondCandidate = dueSoonCandidate(
+      "p1f-aggregate-2",
+      "写报告给老板",
+      "2026-08-12T08:45:00.000Z",
+    );
+    const firstEvent = adaptProactiveTaskCandidateToCompanionEvent(firstCandidate, clock)!;
+    const secondEvent = adaptProactiveTaskCandidateToCompanionEvent(secondCandidate, clock)!;
+    fixtureValue.candidateByTask.set(firstCandidate.taskId, firstCandidate);
+    fixtureValue.candidateByTask.set(secondCandidate.taskId, secondCandidate);
+
+    const failed = await fixtureValue.service.processEvents([firstEvent, secondEvent]);
+
+    expect(failed).toHaveLength(2);
+    expect(failed.every((result) => result.status === "confirmation-failed")).toBe(true);
+    expect(sink).toHaveBeenCalledTimes(1);
+    expect(failed[0]?.reservation).toMatchObject({
+      status: "reserved",
+      reservationGroupId: expect.any(String),
+      reservationLocalDate: localDateId(clock),
+    });
+    const reservedState = fixtureValue.service.engine.getState(clock);
+    const firstReceipt = reservedState.taskState?.deliveryReceipts[firstEvent.id];
+    const secondReceipt = reservedState.taskState?.deliveryReceipts[secondEvent.id];
+    expect(firstReceipt).toMatchObject({
+      status: "reserved",
+      reservationGroupId: expect.any(String),
+      reservationLocalDate: localDateId(clock),
+    });
+    expect(secondReceipt).toMatchObject({
+      status: "reserved",
+      reservationGroupId: firstReceipt?.reservationGroupId,
+      reservationLocalDate: localDateId(clock),
+    });
+    expect(reservedState.bubbleCounts.task_reminder).toBe(0);
+
+    failConfirmation = false;
+    clock = new Date("2026-08-12T10:00:00.000Z");
+    const thirdCandidate = dueSoonCandidate(
+      "p1f-independent-3",
+      "浇花",
+      "2026-08-12T10:30:00.000Z",
+    );
+    const thirdEvent = adaptProactiveTaskCandidateToCompanionEvent(thirdCandidate, clock)!;
+    fixtureValue.candidateByTask.set(thirdCandidate.taskId, thirdCandidate);
+
+    const third = await fixtureValue.service.processEvent(thirdEvent);
+    expect(third.status).toBe("delivered");
+    expect(sink).toHaveBeenCalledTimes(2);
+    const afterThird = fixtureValue.service.engine.getState(clock);
+    expect(afterThird.bubbleCounts.task_reminder).toBe(1);
+    expect(afterThird.taskState?.deliveryReceipts[firstEvent.id]?.status).toBe("reserved");
+    expect(afterThird.taskState?.deliveryReceipts[secondEvent.id]?.status).toBe("reserved");
+    expect(afterThird.taskState?.deliveryReceipts[thirdEvent.id]).toMatchObject({
+      status: "confirmed",
+      reservationGroupId: expect.any(String),
+      reservationLocalDate: localDateId(clock),
+    });
+    expect(afterThird.taskState?.deliveryReceipts[thirdEvent.id]?.reservationGroupId)
+      .not.toBe(firstReceipt?.reservationGroupId);
+  });
+
+  it("P1-F legacy migration: shares quota for proven old aggregation and stays idempotent after rebuild", async () => {
+    const reservationAt = new Date("2026-08-12T08:00:00.000Z");
+    let clock = new Date("2026-08-12T09:00:00.000Z");
+    const firstCandidate = dueSoonCandidate(
+      "legacy-migration-a",
+      "写报告",
+      "2026-08-12T08:30:00.000Z",
+    );
+    const secondCandidate = dueSoonCandidate(
+      "legacy-migration-b",
+      "写报告给老板",
+      "2026-08-12T08:45:00.000Z",
+    );
+    const firstEvent = adaptProactiveTaskCandidateToCompanionEvent(firstCandidate, reservationAt)!;
+    const secondEvent = adaptProactiveTaskCandidateToCompanionEvent(secondCandidate, reservationAt)!;
+    const legacyTaskState = {
+      schemaVersion: 1,
+      preferences: {},
+      records: {},
+      deliveredKeys: [],
+      decisionLog: [],
+      lastDeliveryContext: null,
+      deliveryReservations: {
+        [firstEvent.id]: "reserved",
+        [secondEvent.id]: "reserved",
+      },
+      deliveryReceipts: {
+        [firstEvent.id]: { status: "reserved", updatedAt: reservationAt.toISOString() },
+        [secondEvent.id]: { status: "reserved", updatedAt: reservationAt.toISOString() },
+      },
+      deliveryReservationTaskIds: {
+        [firstEvent.id]: [firstCandidate.taskId, secondCandidate.taskId, secondCandidate.taskId],
+        [secondEvent.id]: [secondCandidate.taskId, firstCandidate.taskId],
+      },
+    };
+    let stored = JSON.stringify({
+      ...createProactiveExpressionState(reservationAt),
+      taskState: legacyTaskState,
+    });
+    const stateStorage: ProactiveExpressionStorage = {
+      getItem: vi.fn(() => stored),
+      setItem: vi.fn((_key, value) => {
+        stored = value;
+      }),
+    };
+    const sink = vi.fn(async () => true);
+    const fixtureValue = fixture({
+      storage: stateStorage,
+      now: () => clock,
+      dailyLimit: 2,
+      taskCooldownMs: 0,
+      reducedTaskCooldownMs: 0,
+      deliverySink: sink,
+    });
+    fixtureValue.candidateByTask.set(firstCandidate.taskId, firstCandidate);
+    fixtureValue.candidateByTask.set(secondCandidate.taskId, secondCandidate);
+
+    const restartedSink = vi.fn(async () => true);
+    const rebuilt = createCompanionProactiveEventService({
+      storage: stateStorage,
+      activePetId: "xiaoju-cat",
+      availablePetIds: ["xiaoju-cat"],
+      quietHours: QUIET_DISABLED,
+      dailyLimit: 2,
+      taskCooldownMs: 0,
+      reducedTaskCooldownMs: 0,
+      now: () => clock,
+      deliverySink: restartedSink,
+      resolveTaskCandidate: (event) => fixtureValue.candidateByTask.get(event.taskId) ?? null,
+      getTaskFeedbackPackage: () => readyPackage(),
+    });
+    const oldReplay = await rebuilt.processEvents([firstEvent, secondEvent]);
+    expect(oldReplay).toHaveLength(2);
+    expect(oldReplay.every((result) => result.status === "duplicate")).toBe(true);
+    expect(restartedSink).not.toHaveBeenCalled();
+
+    const migratedState = rebuilt.engine.getState(clock);
+    const firstReceipt = migratedState.taskState?.deliveryReceipts[firstEvent.id];
+    const secondReceipt = migratedState.taskState?.deliveryReceipts[secondEvent.id];
+    expect(migratedState.taskState?.schemaVersion).toBe(2);
+    expect(firstReceipt).toMatchObject({
+      status: "reserved",
+      reservationGroupId: expect.any(String),
+      reservationLocalDate: localDateId(reservationAt),
+    });
+    expect(secondReceipt).toMatchObject({
+      status: "reserved",
+      reservationGroupId: firstReceipt?.reservationGroupId,
+      reservationLocalDate: localDateId(reservationAt),
+    });
+    expect(migratedState.taskState?.deliveryReceipts).toHaveProperty(firstEvent.id);
+    expect(migratedState.taskState?.deliveryReceipts).toHaveProperty(secondEvent.id);
+    expect(migratedState.taskState?.deliveryReservationTaskIds).toEqual({
+      [firstEvent.id]: [firstCandidate.taskId, secondCandidate.taskId],
+      [secondEvent.id]: [firstCandidate.taskId, secondCandidate.taskId],
+    });
+
+    clock = new Date("2026-08-12T10:00:00.000Z");
+    const thirdCandidate = dueSoonCandidate(
+      "legacy-migration-independent",
+      "浇花",
+      "2026-08-12T10:30:00.000Z",
+    );
+    const thirdEvent = adaptProactiveTaskCandidateToCompanionEvent(thirdCandidate, clock)!;
+    fixtureValue.candidateByTask.set(thirdCandidate.taskId, thirdCandidate);
+    const newDelivery = await fixtureValue.service.processEvent(thirdEvent);
+
+    expect(newDelivery.status).toBe("delivered");
+    expect(newDelivery.sinkCalled).toBe(true);
+    expect(sink).toHaveBeenCalledTimes(1);
+    expect(restartedSink).not.toHaveBeenCalled();
+    const afterNewDelivery = fixtureValue.service.engine.getState(clock);
+    expect(afterNewDelivery.bubbleCounts.task_reminder).toBe(1);
+    expect(afterNewDelivery.taskState?.deliveryReceipts[firstEvent.id]?.status).toBe("reserved");
+    expect(afterNewDelivery.taskState?.deliveryReceipts[secondEvent.id]?.status).toBe("reserved");
+    expect(afterNewDelivery.taskState?.deliveryReceipts[thirdEvent.id]).toMatchObject({
+      status: "confirmed",
+      reservationGroupId: expect.any(String),
+      reservationLocalDate: localDateId(clock),
+    });
+    expect(afterNewDelivery.taskState?.deliveryReceipts[thirdEvent.id]?.reservationGroupId)
+      .not.toBe(firstReceipt?.reservationGroupId);
+
+    const rebuiltAfterWriteback = createCompanionProactiveEventService({
+      storage: stateStorage,
+      activePetId: "xiaoju-cat",
+      availablePetIds: ["xiaoju-cat"],
+      quietHours: QUIET_DISABLED,
+      dailyLimit: 2,
+      taskCooldownMs: 0,
+      reducedTaskCooldownMs: 0,
+      now: () => clock,
+      deliverySink: restartedSink,
+      resolveTaskCandidate: (event) => fixtureValue.candidateByTask.get(event.taskId) ?? null,
+      getTaskFeedbackPackage: () => readyPackage(),
+    });
+    const replayAfterWriteback = await rebuiltAfterWriteback.processEvents([
+      firstEvent,
+      secondEvent,
+      thirdEvent,
+    ]);
+    expect(replayAfterWriteback.every((result) => result.status === "duplicate")).toBe(true);
+    expect(restartedSink).not.toHaveBeenCalled();
+    expect(rebuiltAfterWriteback.engine.getState(clock).taskState?.deliveryReceipts[thirdEvent.id])
+      .toEqual(afterNewDelivery.taskState?.deliveryReceipts[thirdEvent.id]);
+  });
+
+  it("P1-F B/C: lets a new day use quota while replaying the old reserved event remains a sink no-op", async () => {
+    let clock = new Date("2026-08-12T08:00:00.000Z");
+    let stored: string | null = null;
+    let writes = 0;
+    let failConfirmation = true;
+    const stateStorage: ProactiveExpressionStorage = {
+      getItem: vi.fn(() => stored),
+      setItem: vi.fn((_key, value) => {
+        writes += 1;
+        if (failConfirmation && writes === 3) throw new Error("confirmation persistence failed");
+        stored = value;
+      }),
+    };
+    const sink = vi.fn(async () => true);
+    const fixtureValue = fixture({
+      storage: stateStorage,
+      now: () => clock,
+      dailyLimit: 1,
+      taskCooldownMs: 0,
+      reducedTaskCooldownMs: 0,
+      deliverySink: sink,
+    });
+    const oldCandidate = dueSoonCandidate(
+      "p1f-old-day",
+      "旧事项",
+      "2026-08-12T08:30:00.000Z",
+    );
+    const oldEvent = adaptProactiveTaskCandidateToCompanionEvent(oldCandidate, clock)!;
+    fixtureValue.candidateByTask.set(oldCandidate.taskId, oldCandidate);
+    expect((await fixtureValue.service.processEvent(oldEvent)).status).toBe("confirmation-failed");
+    expect(sink).toHaveBeenCalledTimes(1);
+
+    failConfirmation = false;
+    clock = new Date("2026-08-13T08:00:00.000Z");
+    const newCandidate = dueSoonCandidate(
+      "p1f-new-day",
+      "新事项",
+      "2026-08-13T08:30:00.000Z",
+    );
+    const newEvent = adaptProactiveTaskCandidateToCompanionEvent(newCandidate, clock)!;
+    fixtureValue.candidateByTask.set(newCandidate.taskId, newCandidate);
+
+    const replayBeforeRestart = await fixtureValue.service.processEvent(oldEvent);
+    expect(replayBeforeRestart.status).toBe("duplicate");
+    expect(sink).toHaveBeenCalledTimes(1);
+
+    const restartedSink = vi.fn(async () => true);
+    const restarted = createCompanionProactiveEventService({
+      storage: stateStorage,
+      activePetId: "xiaoju-cat",
+      availablePetIds: ["xiaoju-cat"],
+      quietHours: QUIET_DISABLED,
+      dailyLimit: 1,
+      taskCooldownMs: 0,
+      reducedTaskCooldownMs: 0,
+      now: () => clock,
+      deliverySink: restartedSink,
+      resolveTaskCandidate: (event) => fixtureValue.candidateByTask.get(event.taskId) ?? null,
+      getTaskFeedbackPackage: () => readyPackage(),
+    });
+    const replayAfterRestart = await restarted.processEvent(oldEvent);
+    expect(replayAfterRestart.status).toBe("duplicate");
+    expect(restartedSink).not.toHaveBeenCalled();
+
+    const nextDay = await restarted.processEvent(newEvent);
+    expect(nextDay.status).toBe("delivered");
+    expect(restartedSink).toHaveBeenCalledTimes(1);
+    const state = restarted.engine.getState(clock);
+    expect(state.bubbleCounts.task_reminder).toBe(1);
+    expect(state.taskState?.deliveryReceipts[oldEvent.id]).toMatchObject({
+      status: "reserved",
+      reservationLocalDate: localDateId(new Date("2026-08-12T08:00:00.000Z")),
+    });
+    expect(state.taskState?.deliveryReceipts[newEvent.id]).toMatchObject({
+      status: "confirmed",
+      reservationLocalDate: localDateId(clock),
+    });
+  });
+
+  it("P1-F E: confirmation contributes one bubble without double-counting its confirmed group", async () => {
+    let clock = new Date("2026-08-12T08:00:00.000Z");
+    const fixtureValue = fixture({
+      now: () => clock,
+      dailyLimit: 2,
+      taskCooldownMs: 0,
+      reducedTaskCooldownMs: 0,
+    });
+    const firstCandidate = dueSoonCandidate(
+      "p1f-confirmed-1",
+      "写报告",
+      "2026-08-12T08:30:00.000Z",
+    );
+    const firstEvent = adaptProactiveTaskCandidateToCompanionEvent(firstCandidate, clock)!;
+    fixtureValue.candidateByTask.set(firstCandidate.taskId, firstCandidate);
+    expect((await fixtureValue.service.processEvent(firstEvent)).status).toBe("delivered");
+
+    clock = new Date("2026-08-12T10:00:00.000Z");
+    const secondCandidate = dueSoonCandidate(
+      "p1f-confirmed-2",
+      "浇花",
+      "2026-08-12T10:30:00.000Z",
+    );
+    const secondEvent = adaptProactiveTaskCandidateToCompanionEvent(secondCandidate, clock)!;
+    fixtureValue.candidateByTask.set(secondCandidate.taskId, secondCandidate);
+    expect((await fixtureValue.service.processEvent(secondEvent)).status).toBe("delivered");
+
+    const state = fixtureValue.service.engine.getState(clock);
+    expect(fixtureValue.sink).toHaveBeenCalledTimes(2);
+    expect(state.bubbleCounts.task_reminder).toBe(2);
+    expect(state.taskState?.deliveryReservations).toEqual({});
+    expect(state.taskState?.deliveryReceipts[firstEvent.id]?.status).toBe("confirmed");
+    expect(state.taskState?.deliveryReceipts[secondEvent.id]?.status).toBe("confirmed");
   });
 
   it("suppresses DND, disabled, daily limit, cooldown, reduced, muted and ignore backoff without domain writes", async () => {

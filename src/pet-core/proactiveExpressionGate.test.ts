@@ -14,6 +14,7 @@ import {
   createProactiveTaskState,
   evaluateProactiveSemanticEvent,
   isWithinQuietHours,
+  localDateId,
   normalizeProactiveExpressionState,
   quietHoursFromBedtime,
   readProactiveExpressionState,
@@ -239,10 +240,14 @@ describe("proactive expression gate", () => {
       "confirmed-event": {
         status: "confirmed",
         updatedAt: now.toISOString(),
+        reservationGroupId: "group-confirmed",
+        reservationLocalDate: localDateId(now),
       },
       "blocked-event": {
         status: "blocked",
         updatedAt: now.toISOString(),
+        reservationGroupId: "group-blocked",
+        reservationLocalDate: localDateId(now),
       },
     };
     const target = storage();
@@ -259,6 +264,162 @@ describe("proactive expression gate", () => {
     });
     expect(JSON.stringify(restarted.taskState?.deliveryReceipts)).not.toContain("title");
     expect(JSON.stringify(restarted.taskState?.deliveryReceipts)).not.toContain("note");
+  });
+
+  test("migrates the old reservation schema without dropping a live receipt and round-trips group/date", () => {
+    const now = at(8);
+    const base = createProactiveExpressionState(now);
+    const legacyTaskState = {
+      schemaVersion: 1,
+      preferences: {},
+      records: {},
+      deliveredKeys: [],
+      decisionLog: [],
+      lastDeliveryContext: null,
+      deliveryReservations: { "legacy-reserved": "reserved" },
+      deliveryReceipts: {
+        "legacy-reserved": { status: "reserved", updatedAt: now.toISOString() },
+      },
+      deliveryReservationTaskIds: { "legacy-reserved": ["legacy-task"] },
+    };
+    const target = storage(JSON.stringify({ ...base, taskState: legacyTaskState }));
+
+    const migrated = readProactiveExpressionState(target, now);
+    expect(migrated.taskState?.schemaVersion).toBe(2);
+    expect(migrated.taskState?.deliveryReceipts["legacy-reserved"]).toMatchObject({
+      status: "reserved",
+      reservationGroupId: expect.any(String),
+      reservationLocalDate: localDateId(now),
+    });
+    expect(migrated.taskState?.deliveryReservations?.["legacy-reserved"]).toBe("reserved");
+    expect(migrated.taskState?.deliveryReservationTaskIds?.["legacy-reserved"]).toEqual(["legacy-task"]);
+
+    expect(writeProactiveExpressionState(migrated, target)).toBe(true);
+    const roundTrip = readProactiveExpressionState(target, now);
+    expect(roundTrip.taskState?.deliveryReceipts["legacy-reserved"]).toEqual(
+      migrated.taskState?.deliveryReceipts["legacy-reserved"],
+    );
+  });
+
+  test("reconstructs one stable legacy group from equivalent normalized task sets", () => {
+    const now = at(8);
+    const updatedAt = now.toISOString();
+    const base = createProactiveExpressionState(now);
+    const createLegacyState = (reverseReceiptOrder = false) => {
+      const receiptEntries = [
+        ["legacy-event-a", { status: "reserved", updatedAt }],
+        ["legacy-event-b", { status: "reserved", updatedAt }],
+        ["legacy-event-independent", { status: "reserved", updatedAt }],
+      ] as const;
+      const orderedEntries = reverseReceiptOrder ? [...receiptEntries].reverse() : receiptEntries;
+      return {
+        schemaVersion: 1,
+        preferences: {},
+        records: {},
+        deliveredKeys: [],
+        decisionLog: [],
+        lastDeliveryContext: null,
+        deliveryReservations: {
+          "legacy-event-a": "reserved",
+          "legacy-event-b": "reserved",
+          "legacy-event-independent": "reserved",
+        },
+        deliveryReceipts: Object.fromEntries(orderedEntries),
+        deliveryReservationTaskIds: {
+          "legacy-event-a": ["task-a", "task-b", "task-b"],
+          "legacy-event-b": ["task-b", "task-a"],
+          "legacy-event-independent": ["task-independent"],
+        },
+      };
+    };
+    const firstStorage = storage(JSON.stringify({
+      ...base,
+      taskState: createLegacyState(),
+    }));
+    const reorderedStorage = storage(JSON.stringify({
+      ...base,
+      taskState: createLegacyState(true),
+    }));
+
+    const migrated = readProactiveExpressionState(firstStorage, now);
+    const reordered = readProactiveExpressionState(reorderedStorage, now);
+    const firstReceipts = migrated.taskState?.deliveryReceipts;
+    const reorderedReceipts = reordered.taskState?.deliveryReceipts;
+    const groupId = firstReceipts?.["legacy-event-a"]?.reservationGroupId;
+
+    expect(migrated.taskState?.schemaVersion).toBe(2);
+    expect(firstReceipts).toEqual(expect.objectContaining({
+      "legacy-event-a": expect.objectContaining({
+        status: "reserved",
+        updatedAt,
+        reservationGroupId: expect.any(String),
+        reservationLocalDate: localDateId(now),
+      }),
+      "legacy-event-b": expect.objectContaining({
+        status: "reserved",
+        updatedAt,
+        reservationGroupId: groupId,
+        reservationLocalDate: localDateId(now),
+      }),
+      "legacy-event-independent": expect.objectContaining({
+        status: "reserved",
+        updatedAt,
+        reservationGroupId: expect.any(String),
+        reservationLocalDate: localDateId(now),
+      }),
+    }));
+    expect(groupId).toEqual(expect.any(String));
+    expect(groupId).not.toMatch(/[\s\u0000-\u001f\u007f]/u);
+    expect(firstReceipts?.["legacy-event-independent"]?.reservationGroupId)
+      .not.toBe(groupId);
+    expect(migrated.taskState?.deliveryReceipts).toHaveProperty("legacy-event-a");
+    expect(migrated.taskState?.deliveryReceipts).toHaveProperty("legacy-event-b");
+    expect(migrated.taskState?.deliveryReservationTaskIds).toEqual({
+      "legacy-event-a": ["task-a", "task-b"],
+      "legacy-event-b": ["task-a", "task-b"],
+      "legacy-event-independent": ["task-independent"],
+    });
+    expect(reorderedReceipts?.["legacy-event-a"]?.reservationGroupId).toBe(groupId);
+    expect(reorderedReceipts?.["legacy-event-b"]?.reservationGroupId).toBe(groupId);
+
+    expect(writeProactiveExpressionState(migrated, firstStorage)).toBe(true);
+    const roundTrip = readProactiveExpressionState(firstStorage, now);
+    expect(roundTrip.taskState?.deliveryReceipts["legacy-event-a"]?.reservationGroupId)
+      .toBe(groupId);
+    expect(roundTrip.taskState?.deliveryReceipts["legacy-event-b"]?.reservationGroupId)
+      .toBe(groupId);
+    expect(roundTrip.taskState?.deliveryReservationTaskIds).toEqual(
+      migrated.taskState?.deliveryReservationTaskIds,
+    );
+  });
+
+  test.each([
+    { reservationGroupId: "", reservationLocalDate: "2026-07-26" },
+    { reservationGroupId: "group-1", reservationLocalDate: "2026-02-30" },
+    { reservationGroupId: "group-1", reservationLocalDate: "not-a-date" },
+  ])("fails closed for an invalid reservation group/date (%j)", ({ reservationGroupId, reservationLocalDate }) => {
+    const now = at(8);
+    const base = createProactiveExpressionState(now);
+    const taskState = {
+      ...createProactiveTaskState(),
+      deliveryReceipts: {
+        "event-invalid": {
+          status: "reserved",
+          updatedAt: now.toISOString(),
+          reservationGroupId,
+          reservationLocalDate,
+        },
+      },
+      deliveryReservations: { "event-invalid": "reserved" },
+      deliveryReservationTaskIds: { "event-invalid": ["task-invalid"] },
+    };
+    const restarted = readProactiveExpressionState(
+      storage(JSON.stringify({ ...base, taskState })),
+      now,
+    );
+
+    expect(restarted.conservativeSilenceDate).toBe(localDateId(now));
+    expect(restarted.taskState).toBeUndefined();
   });
 
   test("fails closed for malformed receipt status or timestamp", () => {

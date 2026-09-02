@@ -14,12 +14,21 @@ export const DEFAULT_OPENAI_COMPATIBLE_MODEL = "gpt-4o-mini";
 export const DEFAULT_GEMINI_COMPANION_API_BASE_URL =
   "https://generativelanguage.googleapis.com/v1beta";
 export const DEFAULT_OPENAI_COMPATIBLE_API_BASE_URL = "https://api.openai.com/v1";
+/** Models offered by the bundled Ollama profile on a fresh configuration. */
+export const BUNDLED_OLLAMA_MODELS = ["qwen3.5:0.8b", "qwen3.5:2b"] as const;
+/** The first-run model used by the bundled Ollama profile. */
+export const DEFAULT_BUNDLED_OLLAMA_MODEL = "qwen3.5:2b";
+/** Compatibility-shaped request base; Tauri replaces its port at runtime. */
+export const DEFAULT_BUNDLED_OLLAMA_API_BASE_URL =
+  "http://127.0.0.1:11434/v1";
+export const MAX_COMPANION_PROVIDER_MODELS = 128;
 
 export const REMOTE_COMPANION_CHAT_DISCLOSURE =
   "远程模式：本轮必要上下文会发送到远程 AI 服务。本应用不会主动保存完整原始聊天记录；服务商的数据保留、训练和区域政策不由本应用保证，请以服务商当前条款为准。";
 
 export const COMPANION_PROVIDER_PROTOCOLS = [
   "local",
+  "ollama-local",
   "gemini-native",
   "openai-compatible",
 ] as const;
@@ -46,6 +55,8 @@ export type CompanionProviderProfile = {
   protocol: CompanionProviderProtocol;
   endpoint: string;
   model: string;
+  /** Non-secret model ids discovered from the provider or entered by the user. */
+  models?: string[];
   credentialRef: CompanionProviderCredentialRef | null;
 };
 
@@ -81,6 +92,11 @@ export type CompanionProviderActionResult = {
   message: string;
 };
 
+export type CompanionProviderValidationOptions = {
+  /** Model discovery may run before the user has selected an active model. */
+  allowEmptyModel?: boolean;
+};
+
 export type CompanionProviderHydratedState = {
   settings: CompanionProviderSettings;
   /** Ephemeral runtime secret; never part of settings or persistence. */
@@ -89,12 +105,14 @@ export type CompanionProviderHydratedState = {
 
 export const COMPANION_PROVIDER_PROTOCOL_LABELS: Record<string, string> = {
   local: "local（本地）",
+  "ollama-local": "ollama-local（内置本地模型）",
   "gemini-native": "gemini-native（原生协议）",
   "openai-compatible": "openai-compatible（兼容协议）",
 };
 
 export const COMPANION_PROVIDER_PROTOCOL_DESCRIPTIONS: Record<string, string> = {
   local: "只在本机生成回复，不发起网络请求。",
+  "ollama-local": "使用随应用管理的本地 Ollama；首次使用会下载所选模型。",
   "gemini-native": "使用 Gemini 原生 generateContent 协议；Google Gemini 是其中一个预设。",
   "openai-compatible": "使用通用 chat/completions 兼容协议，不代表任何一家供应商。",
 };
@@ -106,6 +124,15 @@ const PROVIDER_PROFILE_PRESETS: Record<string, CompanionProviderProfile> = {
     protocol: "local",
     endpoint: "",
     model: "local",
+    credentialRef: null,
+  },
+  "bundled-ollama": {
+    id: "bundled-ollama",
+    displayName: "内置本地模型（Ollama）",
+    protocol: "ollama-local",
+    endpoint: "",
+    model: DEFAULT_BUNDLED_OLLAMA_MODEL,
+    models: [...BUNDLED_OLLAMA_MODELS],
     credentialRef: null,
   },
   "google-gemini": {
@@ -155,7 +182,7 @@ export function getCompanionProviderProfilePresets(): CompanionProviderProfile[]
 }
 
 export function getDefaultEndpointForProtocol(protocol: CompanionProviderProtocol): string {
-  if (protocol === "local") return "";
+  if (protocol === "local" || protocol === "ollama-local") return "";
   if (protocol === "gemini-native") return DEFAULT_GEMINI_COMPANION_API_BASE_URL;
   if (protocol === "openai-compatible") return DEFAULT_OPENAI_COMPATIBLE_API_BASE_URL;
   return "";
@@ -163,9 +190,34 @@ export function getDefaultEndpointForProtocol(protocol: CompanionProviderProtoco
 
 export function getDefaultModelForProtocol(protocol: CompanionProviderProtocol): string {
   if (protocol === "local") return "local";
+  if (protocol === "ollama-local") return DEFAULT_BUNDLED_OLLAMA_MODEL;
   if (protocol === "gemini-native") return DEFAULT_GEMINI_COMPANION_MODEL;
   if (protocol === "openai-compatible") return DEFAULT_OPENAI_COMPATIBLE_MODEL;
   return "";
+}
+
+export function isLocalCompanionProviderProtocol(
+  protocol: CompanionProviderProtocol,
+): boolean {
+  return protocol === "local" || protocol === "ollama-local";
+}
+
+export function normalizeCompanionProviderModelIds(
+  values: readonly unknown[] | null | undefined,
+): string[] {
+  if (!Array.isArray(values)) return [];
+  const models: string[] = [];
+  const seen = new Set<string>();
+  for (const value of values) {
+    if (typeof value !== "string") continue;
+    const model = value.trim();
+    if (!model || model.length > 160 || /[\r\n\u0000-\u001f\u007f]/u.test(model)) continue;
+    if (seen.has(model)) continue;
+    seen.add(model);
+    models.push(model);
+    if (models.length >= MAX_COMPANION_PROVIDER_MODELS) break;
+  }
+  return models;
 }
 
 export function getCompanionProviderProtocolLabel(protocol: CompanionProviderProtocol): string {
@@ -206,7 +258,7 @@ function isLoopbackHostname(hostname: string): boolean {
 function normalizeHttpEndpoint(
   endpoint: string | undefined,
   defaultPath: string,
-  stripSuffix: string,
+  stripSuffix: string | readonly string[],
 ): string {
   const candidate = endpoint?.trim();
   if (!candidate) return "";
@@ -233,8 +285,10 @@ function normalizeHttpEndpoint(
 
   let pathname = url.pathname.replace(/\/+$/, "");
   if (!pathname) pathname = defaultPath;
-  if (pathname.endsWith(stripSuffix)) {
-    pathname = pathname.slice(0, -stripSuffix.length).replace(/\/+$/, "") || defaultPath;
+  const suffixes = Array.isArray(stripSuffix) ? stripSuffix : [stripSuffix];
+  const matchedSuffix = suffixes.find((suffix) => pathname.endsWith(suffix));
+  if (matchedSuffix) {
+    pathname = pathname.slice(0, -matchedSuffix.length).replace(/\/+$/, "") || defaultPath;
   }
   return `${url.origin}${pathname}`;
 }
@@ -244,6 +298,7 @@ export function normalizeCompanionProviderEndpoint(
   endpoint?: string,
 ): string {
   if (protocol === "local") return "";
+  if (protocol === "ollama-local") return DEFAULT_BUNDLED_OLLAMA_API_BASE_URL;
   if (protocol === "gemini-native") {
     return normalizeHttpEndpoint(
       endpoint || DEFAULT_GEMINI_COMPANION_API_BASE_URL,
@@ -255,7 +310,7 @@ export function normalizeCompanionProviderEndpoint(
     return normalizeHttpEndpoint(
       endpoint || DEFAULT_OPENAI_COMPATIBLE_API_BASE_URL,
       "/v1",
-      "/chat/completions",
+      ["/chat/completions", "/models"],
     );
   }
   throw new Error(`不支持的聊天协议：${protocol || "未填写"}。`);
@@ -300,7 +355,8 @@ function defaultProfileForId(id: string): CompanionProviderProfile {
 }
 
 export const DEFAULT_COMPANION_PROVIDER_SETTINGS: CompanionProviderSettings = {
-  ...defaultProfileForId("local"),
+  ...defaultProfileForId("bundled-ollama"),
+  models: [...BUNDLED_OLLAMA_MODELS],
   fallbackToLocal: true,
   credentialConfigured: false,
 };
@@ -320,19 +376,29 @@ export function normalizeCompanionProviderSettings(
   const protocol = asTrimmedString(source.protocol)
     ?? legacyProtocol(legacyId)
     ?? preset.protocol;
-  const displayName = asTrimmedString(source.displayName) || preset.displayName;
+  const displayName = typeof source.displayName === "string"
+    ? source.displayName.trim()
+    : preset.displayName;
   const endpoint = typeof source.endpoint === "string"
     ? source.endpoint.trim()
     : preset.endpoint || getDefaultEndpointForProtocol(protocol);
   const model = typeof source.model === "string"
     ? source.model.trim()
     : preset.model || getDefaultModelForProtocol(protocol);
+  const configuredModels = Array.isArray(source.models) ? source.models : preset.models;
+  const models = protocol === "local"
+    ? ["local"]
+    : normalizeCompanionProviderModelIds(
+        protocol === "ollama-local"
+          ? [...BUNDLED_OLLAMA_MODELS, ...(configuredModels ?? [])]
+          : configuredModels,
+      );
   const rawCredentialRef = source.credentialRef;
   const credentialRef = rawCredentialRef === null
     ? null
     : typeof rawCredentialRef === "string"
       ? rawCredentialRef.trim()
-      : protocol === "local" || id === "local"
+      : isLocalCompanionProviderProtocol(protocol) || id === "local"
         ? null
         : id;
 
@@ -342,6 +408,7 @@ export function normalizeCompanionProviderSettings(
     protocol,
     endpoint,
     model,
+    models,
     credentialRef,
     fallbackToLocal: source.fallbackToLocal !== false,
     credentialConfigured: source.credentialConfigured === true
@@ -403,12 +470,14 @@ export function parseCompanionProviderSettings(
       ? ""
       : undefined;
   const model = typeof parsed.model === "string" ? parsed.model : undefined;
+  const models = Array.isArray(parsed.models) ? parsed.models : undefined;
   return normalizeCompanionProviderSettings({
     id: asTrimmedString(parsed.id) ?? legacyId,
     displayName: asTrimmedString(parsed.displayName),
     protocol: asTrimmedString(parsed.protocol) ?? legacyProtocol(legacyId),
     endpoint,
     model,
+    models,
     credentialRef: typeof parsed.credentialRef === "string"
       ? parsed.credentialRef
       : undefined,
@@ -435,6 +504,7 @@ function serializeCompanionProviderSettings(
     protocol: normalized.protocol,
     endpoint: normalized.endpoint,
     model: normalized.model,
+    models: normalized.models,
     credentialRef: normalized.credentialRef,
     fallbackToLocal: normalized.fallbackToLocal,
     credentialConfigured: normalized.credentialConfigured,
@@ -525,7 +595,7 @@ export async function readCompanionProviderCredential(
   secureStore: CompanionProviderSecureStore = defaultSecureStore,
 ): Promise<string | null> {
   const normalized = normalizeCompanionProviderSettings(settings);
-  if (normalized.protocol === "local" || !normalized.credentialRef) return null;
+  if (isLocalCompanionProviderProtocol(normalized.protocol) || !normalized.credentialRef) return null;
   if (!isValidCompanionProviderProfileId(normalized.id)
     || !isValidCompanionProviderCredentialRef(normalized.credentialRef)) {
     return null;
@@ -577,7 +647,7 @@ export async function writeCompanionProviderSettingsWithSecureStore(
 
   let credential: string | null = null;
   try {
-    if (normalized.protocol !== "local" && normalized.credentialRef) {
+    if (!isLocalCompanionProviderProtocol(normalized.protocol) && normalized.credentialRef) {
       if (options.credential !== undefined) {
         credential = options.credential?.trim() || null;
       } else if (normalized.credentialConfigured) {
@@ -609,7 +679,7 @@ export async function clearCompanionProviderCredentialWithSecureStore(
   secureStore: CompanionProviderSecureStore = defaultSecureStore,
 ): Promise<boolean> {
   const normalized = normalizeCompanionProviderSettings(settings);
-  if (normalized.protocol === "local") return true;
+  if (isLocalCompanionProviderProtocol(normalized.protocol)) return true;
   if (!normalized.credentialRef
     || !isValidCompanionProviderProfileId(normalized.id)
     || !isValidCompanionProviderCredentialRef(normalized.credentialRef)) {
@@ -643,6 +713,15 @@ export function getCompanionProviderStatusInfo(
 ): CompanionChatProviderInfo {
   const normalized = normalizeCompanionProviderSettings(settings);
   if (normalized.protocol === "local") return LOCAL_COMPANION_CHAT_PROVIDER_INFO;
+  if (normalized.protocol === "ollama-local") {
+    return {
+      kind: "local",
+      provider: getCompanionProviderLabel(normalized.id, normalized.displayName),
+      target: "本机（内置 Ollama）",
+      disclosure:
+        "本地模型模式：生成请求只发送到应用管理的本机 Ollama；首次使用会下载所选模型文件。",
+    };
+  }
   return {
     kind: "remote",
     provider: getCompanionProviderLabel(normalized.id, normalized.displayName),
@@ -653,6 +732,7 @@ export function getCompanionProviderStatusInfo(
 
 export function validateCompanionProviderProfile(
   input: CompanionProviderProfile,
+  options: CompanionProviderValidationOptions = {},
 ): string | null {
   const settings = normalizeCompanionProviderSettings(input);
   if (!isValidCompanionProviderProfileId(settings.id)) {
@@ -663,14 +743,20 @@ export function validateCompanionProviderProfile(
   if (!isSupportedCompanionProviderProtocol(settings.protocol)) {
     return `不支持的聊天协议：${settings.protocol}。`;
   }
-  if (settings.protocol === "local") {
+  if (isLocalCompanionProviderProtocol(settings.protocol)) {
     if (settings.credentialRef !== null) return "本地 Provider 不需要 credentialRef。";
+    if (settings.protocol === "ollama-local") {
+      if (!settings.model.trim() && !options.allowEmptyModel) return "Model 不能为空。";
+      if (settings.model.length > 160 || /[\r\n]/.test(settings.model)) {
+        return "Model 格式无效。";
+      }
+    }
     return null;
   }
   if (!isValidCompanionProviderCredentialRef(settings.credentialRef)) {
     return "credentialRef 无效，只能包含小写字母、数字、点、下划线和连字符。";
   }
-  if (!settings.model.trim()) return "Model 不能为空。";
+  if (!settings.model.trim() && !options.allowEmptyModel) return "Model 不能为空。";
   if (settings.model.length > 160 || /[\r\n]/.test(settings.model)) {
     return "Model 格式无效。";
   }
@@ -686,11 +772,12 @@ export function validateCompanionProviderProfile(
 export function validateCompanionProviderSettings(
   input: CompanionProviderSettings,
   credential?: string | null,
+  options: CompanionProviderValidationOptions = {},
 ): string | null {
   const settings = normalizeCompanionProviderSettings(input);
-  const profileError = validateCompanionProviderProfile(settings);
+  const profileError = validateCompanionProviderProfile(settings, options);
   if (profileError) return profileError;
-  if (settings.protocol !== "local"
+  if (!isLocalCompanionProviderProtocol(settings.protocol)
     && !settings.credentialConfigured
     && !credential?.trim()) {
     return "聊天服务的凭据还没有配置好，请先填写凭据。";

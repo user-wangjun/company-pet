@@ -1,7 +1,7 @@
 # Companion Harness V1 TODO
 
-> 状态：Phase 1、Phase 2、Phase 3、Phase 4、Phase 5、Phase 6 的纯逻辑实现与验收已通过；Phase 7--8、App 接线和发布验证未开始
-> 审查日期：2026-08-13
+> 状态：Phase 8-R4-H 真实 Windows 200% DPI Tauri Settings A-G 复验通过，当前 H 结论为 `TAURI_SETTINGS_PASS`；本轮全量 Vitest 另受工作树既有 pet manifest/test 参数不一致阻断。pre-QA 原始资料未知，真实 Provider、打包、发布和 Git 发布仍未完成
+> 审查日期：2026-08-20
 > 产品：愈心桌宠
 > 输入文档：`Companion Harness PRD v1.2`、`Companion Harness Technical Design v1.2`
 
@@ -353,47 +353,314 @@ Phase 2 前置门禁（2026-08-11 已完成）：
 - 验证证据（P1 收口前基线，非最终通过证据）：`companionProactiveEvent.test.ts` 覆盖稳定 id、正常/due-soon、重复、DND、关闭主动、每日上限、聚合、App Restart、Sleep/Resume、目标宠物不可用、writer/sink/confirmation failure 和外部调用隔离；Phase 6 相关定向组为 `8` 个文件、`152/152`；全量 `npm test` 为 `80` 个文件、`855/855`；`npx tsc --noEmit` 和 `npm run build` 均通过，仅保留既有 Vite 大 chunk warning。新增 P1 对抗测试与最终数字待收口后补录。
 - 范围声明：未修改 `App.tsx`，未接真实 Provider/API Key，未做浏览器/Tauri 实机、视觉 QA、Rust/Cargo、commit、push、package 或 release。纯逻辑测试、类型检查和 Web 构建不等同于 App/Tauri 运行时或可发布验证；P1-A 至 P1-E 全部通过前不得开始 Phase 7。
 
-### Phase 6 P1 最终收口（2026-08-13）
+### Phase 6 P1 实现侧验证（2026-08-24，P1-F 额度单位、跨日生命周期与损坏 schema 收口）
 
-- 状态：P1-A 至 P1-E 全部通过；Phase 6 实施项 `8/8`、验收门 `2/2` 恢复为已通过。本记录只证明纯逻辑边界和 Web 构建门已通过，不代表 App 接线、Tauri 实机或可发布完成。
-- P1-A 并发事务：`processEvent`、`processEvents`、`handleEvent`、`handleEvents` 共享短生命周期微任务批处理；同一批先统一解析/聚合，再由最新持久化状态执行 gate、reservation、sink、confirmation。dailyLimit=1、全局气泡冷却、相近事件 taskBurst、重复 id、resolver/sink/storage 异常后的队列恢复均有对抗测试；不同事件并发只产生一个 sink 和一个 bubble count。
-- P1-B durable 幂等：在现有 `ProactiveExpressionState.taskState` 内增加严格 receipt schema，`deliveredKeys` 仅保留兼容投影；257 个可重放事件后首个 receipt 仍为 confirmed，重启重放不再调用 sink。reserved/blocked/confirmed 均保留生命周期；只有注入的 Task/Reminder 领域终态证明通过且清理写入成功时才删除 receipt，证明失败或写入失败均保留。
-- P1-C 权威上下文：`getLastDeliveryContext()` 只读取已持久化的 confirmed context；sink 返回 false、抛错、storage-failed、unavailable、switch-required 和 confirmation-failed 都不会伪造或覆盖上一条真实记录；“别再提醒这件事”继续只绑定真实 context。
-- P1-D Harness 唯一路径：`CompanionHarness.handleEvent()` 保持 `Promise<void>`，服务内部微批保留聚合和事件 id；preferred pet 通过注入的 `ensureActivePet` 成功后才取包、reserve、sink，失败不投递且可安全重试，不向 active pet 静默 fallback。Provider、Model、Context、Action、Memory 均为 `0` 次调用。
-- P1-E legacy 兼容：旧 App 继续从 `evaluate().deliveries` 得到非空投递 projection；该兼容 wrapper 通过旧路径的 durable reserve/confirm 保持既有契约。新 Harness 服务只调用 `evaluateEligibility()`、`reserveDelivery()`、`confirmDelivery()`，不消费 legacy deliveries；事务评估在 sink 前不标记 `actualDelivery`。
-- 验证证据：Phase 6 目标定向组 `8` 个文件、`172/172`；全量 `npm test` `80` 个文件、`875/875`；`npx tsc --noEmit` 通过；`npm run build` 通过，仅保留既有 Vite `>500 kB` chunk warning；`git diff --check` 通过，仅有既存/当前文件的 LF/CRLF 转换提示。
-- 范围声明：本轮未修改 `App.tsx`，未开始 Phase 7--8，未接真实 Provider/API Key，未做浏览器/Tauri 实机、视觉 QA、Rust/Cargo、commit、push、package 或 release。基于本次纯逻辑收口，Phase 7 作为下一阶段的入口条件已满足，但本轮不启动 Phase 7。
+- 状态：Phase 6 的纯逻辑/Web 验收门恢复通过。P1-A 至 P1-F 的反例与回归均通过；Phase 6 实施项 `8/8`、验收门 `2/2` 仅表示本地纯逻辑与 Web build 门，不代表 App 接线、浏览器/Tauri 实机或可发布完成。
+- P1-A 至 P1-E 保持既有收口：微批事务仍统一处理并发解析/聚合、dailyLimit、全局气泡冷却、durable receipt、终态证明清理、权威 confirmed context、Harness preferred-pet 路由和 legacy `evaluate().deliveries` 兼容；新 Harness 事件路径仍不消费 legacy deliveries，Provider、Model、Context、Action、Memory 均为 `0` 次调用。
+- P1-F 额度单位：`ProactiveTaskDeliveryReceipt` 携带稳定 `reservationGroupId` 与 `reservationLocalDate`；同一聚合投递的 N 个 event receipt 共享 group，只计一个当前本地日期 reservation group。`evaluateEligibility()` 与 `reserveDelivery()` 共用 `countCurrentProactiveReservationGroups()`，confirmed receipt 不再重复计入 bubble quota。
+- P1-F 旧 schema 迁移规则：schema v1 先校验每个 receipt 的状态和 canonical `updatedAt`，再读取 `deliveryReservationTaskIds`；task ID 集合先去空重、排序规范化。只有状态、`updatedAt` 和完整规范化 task 集合都相同的旧 receipt 才共享确定性 `legacy-reservation:v2:<SHA-256>` group；缺少证据或证据不一致时按 event key 保守隔离。receipt、event key、旧 reservationLocalDate 均保留，迁移写回后再次读取 group/date 不变。
+- P1-F A/D/E 真实行为：`dailyLimit=2` 的两事件聚合只调用一次 sink；confirmation persistence 故意失败后两个 receipt 都保持 `reserved`、共享同一 group/date、`bubbleCounts.task_reminder=0`；超过 45 分钟后第三个独立事件再调用一次 sink 并成功确认，最终 bubble count 为 `1`，第三个 receipt 使用独立 group。确认成功的独立 group 只增加一个 bubble；`dailyLimit=2` 下第二个独立投递仍可成功，最终 sink 为 `2`、bubble count 为 `2`、reservation map 为空。
+- P1-F B/C 真实行为：第一天 sink 成功但 confirmation 写失败时 sink 为 `1`，原 event receipt 在当天保持 `reserved`；同一 event 在跨日、服务重建/重启前后均不再次调用 sink。第二天的新 event 成功投递，重启后的新 sink 为 `1`，旧 receipt 保留第一天 `reservationLocalDate`，新 receipt 为 confirmed 且属于第二天，bubble count 为 `1`。
+- P1-F 旧迁移反例：`proactiveExpressionGate.test.ts` 的 `reconstructs one stable legacy group from equivalent normalized task sets` 与 `companionProactiveEvent.test.ts` 的 `P1-F legacy migration: shares quota for proven old aggregation and stays idempotent after rebuild`。两条旧 receipt 代表一个实际 group（receipt 数 `2`、当日 quota 计数 `1`）；独立第三事件获得第二个 group 并成功投递。旧 event 重放在重建前后 sink `0` 次，新 event sink `1` 次；没有重复 confirmed receipt 或重复 bubble，写回再读 group/date 保持稳定。
+- P1-F F/H 回归：两个不同 event 并发且 `dailyLimit=1` 仍只有一个 sink 和一个 confirmed receipt/bubble；主动事件继续不创建聊天 Turn，Provider、Model、Context、Action、Memory spy 均为 `0`。
+- P1-F G schema/时间：嵌套 task-state schema 从 `1` 保守迁移到 `2`，旧 reserved/blocked/confirmed receipt 不丢弃并可靠获得 legacy group/date；schema round-trip、非法 group/date 和时钟回拨均 fail closed。新增 `proactiveTriggerEngine.test.ts` 的 `does not rewrite a damaged reservation schema or reopen it after a local day changes`，先确认损坏 group/date 导致 `evaluationPersistenceConfirmed=false`、无 `setItem` 回写，跨日后仍无 eligible delivery；receipt 仍只能由既有 Task/Reminder 终态证明清理，不能按时间删除或重放开放。
+- 定向证据（真实命令）：`npx vitest run src/pet-core/proactiveExpressionGate.test.ts src/pet-core/proactiveTriggerEngine.test.ts src/pet-core/companionProactiveEvent.test.ts`，真实文件清单为 `src/pet-core/proactiveExpressionGate.test.ts`、`src/pet-core/proactiveTriggerEngine.test.ts`、`src/pet-core/companionProactiveEvent.test.ts`，3 个文件、`73/73`；P1-F 行为聚焦（4 个命名 P1-F 反例 + 损坏 schema 反例）为 `5/5`。
+- 全量证据（真实命令）：`npm test`，91 个文件、`1048/1048`。
+- 类型/构建证据（真实命令）：`npx tsc --noEmit` 通过；`npm run build` 通过，Vite 转换 `861` 个模块，保留既有 `>500 kB` chunk warning；`git diff --check` 退出码 `0`，仅有工作树既有 LF/CRLF 转换提示。
+- 范围声明：本轮只补充损坏 reservation schema 的 fail-closed 回写防护和对抗测试，并保留当前 P1-F reservation gate/engine、Phase 6 纯逻辑测试及本 TODO 范围；未修改 `App.tsx`，未开始 Phase 7--8，未接真实 Provider/API Key，未做浏览器/Tauri 实机、视觉 QA、Rust/Cargo、commit、push、package 或 release。纯逻辑测试、类型检查和 Web build 不等同于 App/Tauri 运行时或可发布验证；本轮完成后停止，不启动 Phase 7。
 
 ### Phase 7：App 接线与旧分支收敛
 
 目标：Harness 成为唯一聊天编排入口，同时保留现有桌宠体验。
 
-- [ ] 在纯逻辑阶段验收后，把 `App.tsx` 的聊天发送大分支收敛为构造 `CompanionInput`、调用 Harness、渲染 `CompanionResponse`。
-- [ ] React 继续负责气泡、输入、pending、停止、重试、Session UI 和 Provider 披露；领域判断、Provider 调用、Action/Memory 执行迁出组件。
-- [ ] 保留 `companionChatRuntime.ts` 的现有状态机与 90 秒退出规则，不重写聊天交互。
-- [ ] 保留当前运行时会话列表行为；本阶段不把完整原始聊天写入长期 Repository。
-- [ ] 切宠物时切换 Soul 和 `pet:<id>` Memory，取消旧 Turn；Task 仍为用户级唯一事实，`createdByPetId` 只作 provenance。
-- [ ] 远程失败允许一次已披露的本地降级；不能在本轮继续偷偷请求远程 Provider。
-- [ ] 接线完成后删除/收敛 App 内重复编排分支，不能长期同时保留两条会产生副作用的执行路径。
-- [ ] Provider 设置、连接测试、系统安全存储和现有兼容迁移不因 Harness 改写。
+- [x] 在纯逻辑阶段验收后，把 `App.tsx` 的聊天发送大分支收敛为构造 `CompanionInput`、调用 Harness、渲染 `CompanionResponse`。
+- [x] React 继续负责气泡、输入、pending、停止、重试、Session UI 和 Provider 披露；领域判断、Provider 调用、Action/Memory 执行迁出组件。
+- [x] 保留 `companionChatRuntime.ts` 的现有状态机与 90 秒退出规则，不重写聊天交互。
+- [x] 保留当前运行时会话列表行为；本阶段不把完整原始聊天写入长期 Repository。
+- [x] 切宠物时切换 Soul 和 `pet:<id>` Memory，取消旧 Turn；Task 仍为用户级唯一事实，`createdByPetId` 只作 provenance。
+- [x] 远程失败允许一次已披露的本地降级；不能在本轮继续偷偷请求远程 Provider。
+- [x] 接线完成后删除/收敛 App 内重复编排分支，不能长期同时保留两条会产生副作用的执行路径。
+- [x] Provider 设置、连接测试、系统安全存储和现有兼容迁移不因 Harness 改写。
 
 验收门：
 
-- [ ] 本地聊天、远程 text-only、远程 structured、明确 Task/Reminder、确认、Memory、forget、主动偏好、停止、重试、换宠物全部走唯一 Harness 入口。
-- [ ] 退出、停止、换宠、超时和新请求覆盖旧请求均无幽灵回复或迟到副作用。
-- [ ] 用户切 Provider 后 Soul、Preference、Memory、Task、主动设置和当前宠物身份不迁移、不丢失、不重复。
+- [x] 本地聊天、远程 text-only、远程 structured、明确 Task/Reminder、确认、Memory、forget、主动偏好、停止、重试、换宠物全部在 Harness/领域定向测试与 Web 本地运行路径中收敛到唯一入口；Tauri 聊天发送/停止仍未验证。
+- [x] 退出、停止、换宠、超时和新请求覆盖旧请求的纯逻辑迟到保护通过；Web 已验证停止、重试和退出无幽灵回复，Tauri 端到端交互仍未验证。
+- [x] 用户切 Provider 后 Soul、Preference、Memory、Task、主动设置和当前宠物身份的快照/动态 getter 与隔离测试通过；未使用真实远程 Provider，Tauri 设置切换 UI 未验证。
+
+### Phase 7 实施与验收记录（2026-08-13）
+
+- 状态：Phase 7 代码实现、纯逻辑硬门和 Web 运行时门通过；Tauri 聊天端到端运行验证未通过，保持为独立未验证层级。下方“未做事项”是 Phase 7 记录生成时的快照；当前 Phase 8 已完成纯逻辑与自动化门。
+- App/Harness 组合根：新增 `src/pet-core/companionAppHarness.ts`。`App.tsx` 通过稳定 `useRef` 实例组合 Harness，Provider profile/credential/fallback、当前宠物、宠物 Soul、companion-chat package、Preference、history、Task Repository 和 Trigger Engine 均从动态 ref/getter 读取，不因 React render、切宠或 Provider 设置重建 Harness。
+- 唯一聊天入口：`sendCompanionChatMessage()` 只构造 `CompanionInput` 并调用 `companionAppHarness.harness.respond()`；常规发送路径不再调用旧 Pipeline、Context、Task/Memory/Preference/Proactive 写入或 `provider.send()`。全局唯一直接 `provider.send()` 保留在用户主动连接测试 `testCompanionProvider()`，使用 text-only，不进入 Harness Action/Memory。
+- `CompanionInput`：`requestId` 为每次发送尝试的唯一 opaque 序列，`sessionId` 在一次打开的陪伴会话内稳定、退出后清空并下次重建，`sourceMessageId` 对应 pending user message，`userId` 使用 `local-user`，`petId` 在发送开始时快照，`currentTime` 为 ISO 字符串，`timezone` 使用运行时 IANA timezone、失败回退 `UTC`，`utcOffsetMinutes` 为 `-Date#getTimezoneOffset()`，`source` 为 `chat`，`contextEpoch` 沿用当前 runtime，`signal` 绑定当前 AbortController。
+- 本地生成快照：`CompanionModelPort` 增加 Harness-owned `localGenerate` 钩子；本地回复根据 `HarnessModelRequest.input.petId` 读取对应 companion-chat package 和同一 Turn Context，不会因 Turn 期间活动宠物改变而串用新宠物。新增 Phase 7 回归测试覆盖该边界。
+- 领域迁移：Task/Reminder、确认/取消/过期/换宠、Preference、forget、Memory candidate、主动提醒偏好、Provider snapshot/fallback 和 ResponseFinalizer 均在 Harness/本地域 service 处理；真实 Task Repository 写入成功后才报告成功，失败不更新 React 事实状态。
+- 取消与幽灵回复：停止、退出、90 秒自动退出、切宠、Provider 保存/清除、新请求 supersede、surface 互斥和卸载均调用 `Harness.cancel()`/AbortController；ResponseSink 使用 `commitIfCurrent()` 检查 active pet、session、pending source message 和 Turn identity，迟到结果不追加 UI 或领域副作用。`companionChatRuntime` 的 90 秒、stop 草稿恢复和 retry 规则保持不变。
+- Provider/fallback：远程普通 Turn 每轮一个 frozen Provider snapshot、最多一次 remote adapter 调用；允许 fallback 时最多一次本地 fallback，fallback disclosure 来自 Harness；下一 Turn 才读取新设置。credential sentinel 不进入 Context、Response 或错误。
+- 自动化证据：Phase 7 定向命令 7 个文件、`105/105`；Phase 6 防回退 3 个文件、`72/72`；Provider/Context/Privacy 定向 7 个文件、`104/104`；全量 `npm test` 为 81 个文件、`893/893`；`npm exec tsc -- --noEmit` 通过；`npm run build` 通过，Vite 转换 838 个模块，仅保留既有大 chunk warning；`git diff --check` 通过。
+- Web 运行证据：当前代码在本地 Web App 实际打开陪伴房，使用本地 Provider 完成发送与单条回复；实际验证停止后输入恢复且无迟到回复/重复发送、重试、退出、切宠、Task/Reminder、Memory/forget、Preference、主动提醒偏好，以及平台聊天入口与桌宠气泡入口的互斥行为。
+- Tauri 运行边界：工作区 debug 二进制可启动，并捕获平台 `860×590` 与桌宠 `105×97` 窗口；但当前机器在窗口互斥切换时出现前台进程识别失败、窗口最小化/进程退出和辅助功能 XML 错误，未可靠完成 Tauri 内聊天发送、停止、重试或双表面无重复回复。因此 Tauri 聊天端到端验证为“未验证”，不能以 Web、测试或 build 替代。
+- 未做事项（Phase 7 记录快照）：未使用真实 Provider/API Key；未运行 Cargo/Rust；未打包、发布、commit 或 push；未修改 `src-tauri`、宠物资源、Live2D、release exe、package.json 或 lockfile。
 
 ### Phase 8：可观测性、评测与发布门禁
 
-- [ ] 只记录脱敏后的 request id、provider profile id、protocol、latency、call count、action type/result、memory candidate count、event type/decision 和 error kind。
-- [ ] 不记录完整 Prompt、用户消息、Memory content、Task note/evidence、API Key、原始 Provider body 或完整模型回复。
-- [ ] 建立固定评测集，至少覆盖普通陪伴、明确/模糊任务、提醒创建/改期、完成任务、记住/忘记、冲突 Memory、敏感内容、Provider 故障、取消和主动提醒。
-- [ ] 每个评测同时检查三层：用户最终文案、领域事实、外部调用/隐私副作用。
-- [ ] 将 Task/Reminder 远程零外发作为独立隐私矩阵：相关、近期到期、无关、完成/取消、软删除/物理删除和主动提醒均不得把本地事实放进请求体。
-- [ ] 为 Local、Gemini-native、OpenAI-compatible 跑相同的领域中立 Provider Adapter 合同测试，并单独运行 `CompanionModelPort` / Model Codec 合同测试；真实远程冒烟只在用户已经主动配置凭据后执行，不进入 CI，不记录正文。
-- [ ] 运行 Harness 相关测试、现有 Companion/Memory/Task/Proactive/Provider 回归、全量 `npm test`、`npm run build`、`cargo test`、`cargo check` 和 `git diff --check`。
-- [ ] Tauri 实机验证本地完整路径；涉及聊天 UI 改动时检查正常显示尺寸与 2x 显示尺寸。
-- [ ] 更新 README、正式数据契约和旧路线状态，明确支持能力、降级、隐私、未实现项和 Harness 已接管的入口。
+- [x] 只记录脱敏后的 request id、provider profile id、protocol、latency、call count、action type/result、memory candidate count、event type/decision 和 error kind。
+- [x] 不记录完整 Prompt、用户消息、Memory content、Task note/evidence、API Key、原始 Provider body 或完整模型回复。
+- [x] 建立固定评测集，至少覆盖普通陪伴、明确/模糊任务、提醒创建/改期、完成任务、记住/忘记、冲突 Memory、敏感内容、Provider 故障、取消和主动提醒。
+- [x] 每个评测同时检查三层：用户最终文案、领域事实、外部调用/隐私副作用。
+- [x] 将 Task/Reminder 远程零外发作为独立隐私矩阵：相关、近期到期、无关、完成/取消、软删除/物理删除和主动提醒均不得把本地事实放进请求体。
+- [x] 为 Local、Gemini-native、OpenAI-compatible 跑相同的领域中立 Provider Adapter 合同测试，并单独运行 `CompanionModelPort` / Model Codec 合同测试；真实远程冒烟只在用户已经主动配置凭据后执行，不进入 CI，不记录正文。
+- [x] 运行 Harness 相关测试、现有 Companion/Memory/Task/Proactive/Provider 回归、全量 `npm test`、`npm run build`、`cargo test`、`cargo check` 和 `git diff --check`。
+- [x] Tauri 实机验证 Settings 本地完整路径；main/platform、Owner blocked/retry、隐藏/重开与 listener 生命周期已通过。
+- [x] Settings 在当前真实 Windows 200%（GetScaleFactorForMonitor=200、main/platform GetDpiForWindow=192）下通过正常与 2x 显示/交互验收。
+- [x] Tauri 聊天 UI 完整路径；保留 `tauri-chat-real-20260826-0034` 原始证据不改，并以当前源码完成独立审计 run `tauri-chat-root-fix-20260828-045500` 的真实 Tauri A-H、隔离启动防护、事实型 validator 与清理复核；新 run 证据目录为 `docs/companion-harness-evidence/phase-8-tauri-chat/tauri-chat-root-fix-20260828-045500/`。
+- 审计说明（2026-08-25）：`final-rerun-20260825-0801` 标记为 `AUDIT_REJECTED`，不能作为通过证据；固定 Keyring service 使隔离应用仍访问正式凭据命名空间，A 将 Local Storage/LevelDB 等变化笼统归为缓存而不能证明正式数据只读，C 的 Stop 点击发生在超时/本地 fallback 已结束后而未证明真正取消，G 缺少 listener attach/detach 数量闭环，H 缺少同一运行时间线内的准确写入次数闭环。
+- 最终真实验收记录（2026-08-26）：runId `tauri-chat-real-20260826-0034`；自动化全量为 92 个测试文件、1056 个测试，Cargo 测试 17 个；A-H 全部 PASS。A 正式业务目录差异为 0、formal Credential Manager set/delete 为 0；隔离 Keyring service 与正式 service 不同；B-H 仅使用隔离数据、隔离凭据和 127.0.0.1 loopback stub。
+- 本轮审计说明（2026-08-27—2026-08-28）：0034 原始证据保留不改；已补齐 fail-closed 启动防护、事实型 validator 与隔离运行目录清理复核。新 run `tauri-chat-root-fix-20260828-045500` 的 A-H、正式数据零差异、凭据命名空间隔离、隐私扫描和独立清理复核均已通过；最终 validator 负责从原始证据重算结论。
+- 验收边界：真实外部 Provider、正式 API Key 内容、打包、安装包、release、commit 和 push 均未纳入本轮通过范围。
+- [x] 更新 README、正式数据契约和旧路线状态，明确支持能力、降级、隐私、未实现项和 Harness 已接管的入口。
+
+### Phase 8 实施与验收记录（历史快照，2026-08-13）
+
+- P2 先行修复（历史快照）：新增 `companionUserProfileSync.ts`，曾尝试让全局昵称 Preference 与个人资料的显示值、保存和失败回滚保持一致；Phase 8-R 已将昵称持久化权收敛到 `global.nickname` Preference，并补齐重启、冲突、失败和恢复矩阵。昵称仍是 Preference，不会被误写成 Memory。
+- 可观测性：新增 `companionObservability.ts`。运行时只接受协议化 allowlist 字段，request/profile id 使用不透明 hash，记录上限为 256 条；未知值收敛为 `unknown`，不接收原始 Prompt、消息、Task、Reminder、Memory、Provider body、回复正文或凭据。`companionObservability.test.ts` 用 hostile sentinel 验证真实 Recorder 与 Harness 生命周期均不泄漏。
+- 固定评测：`companionPhase8Acceptance.test.ts` 固定覆盖普通聊天、明确/模糊 Task、Reminder 创建/改期/完成、确认/取消、重试/双击幂等、Memory/forget/冲突修正、敏感内容、Provider 错误、取消/supersede、主动提醒偏好和本地降级；每个 fixture 同时检查最终文案、领域事实、调用次数、隐私和重复/取消副作用。中文 Task/Reminder 语料 `20/20`，成功率 `100%`（满足 `>=95%`）。
+- Provider 隐私矩阵：Local、Gemini-native 与 OpenAI-compatible 共用领域中立 Adapter/Model Port 合同；远程零外发覆盖相关、近期到期、无关、完成/取消、软删除/物理删除和主动提醒事实，并对请求体做 sentinel 检查。没有用户主动配置的真实 API 凭据，因此未执行真实远程冒烟。
+- 故障与假成功：401/403/429/5xx、malformed、network/timeout 均保持单次远程调用、无秘密回显，并按配置最多一次本地降级；远程结构化候选不能覆盖本地领域事实或直接写 Task。停止和 supersede 后迟到响应不产生 UI、Task、Reminder 或 Memory 副作用。
+- 自动化证据（历史快照，已由下方 Phase 8-R 记录替代）：Phase 8/相关闭环 `31` 个文件、`445/445`；全量 `npm test` `84` 个文件、`911/911`；TypeScript 检查通过；`npm run build` 通过（Vite 转换 `840` 个模块，仅保留既有大 chunk warning）；`cargo test` `12/12`、`cargo check` 通过；最终 `git diff --check` 通过。
+- Tauri 当前尝试：实际启动工作区 `src-tauri/target/debug/yuxin-desktop-pet.exe`，先观察到未启动开发服务器导致的 `ERR_CONNECTION_REFUSED`，随后启动 `http://localhost:1420` 并确认当前 debug 桌宠窗口成功加载（截图约 `105×97`）。平台窗口没有出现在当前可操作窗口集合，无法可靠完成聊天、停止、重试、退出、切宠、Task/Reminder、确认、偏好、forget、双表面及 `860×590`/`1720×1180` 的完整证据；Tauri 门保持未勾选，不能用 Web、测试或历史 exe 替代。
+- 发布边界：本轮未使用真实 Provider/API Key，未打包、commit、push 或发布；未修改宠物包、Live2D、release exe、`package.json` 或 lockfile；没有用户视觉/美学验收。纯逻辑、Web 构建与 Cargo 证据不等于 Tauri 或发布通过。
+
+### Phase 8-R2 持久化一致性与 Observability 收口（2026-08-14）
+
+- 状态：实现侧验证通过，等待独立验收。该状态只覆盖本轮代码、纯逻辑测试、Web build 与 Cargo 检查；不表示 Tauri、真实 Provider、正常/2x DPI、打包、发布或用户视觉验收完成。Tauri 实机项继续保持未勾选。
+- 修复前稳定失败的三个反例：双键保存返回失败但重启后新 Profile 残留被迁移、已删除 Profile 昵称被空 Preference 复活、`cancel_task` / `postpone_task` / `reschedule_task` 被 Recorder 记录为 `unknown`。修复前分别在 `companionUserProfileSync.test.ts`、`companionObservability.test.ts` 中失败；修复后反例均通过。
+- 持久化协议：新增版本化 `yuxin-companion-user-profile-recovery-v1` 恢复记录。每次 Profile/Preference 联合写入先写入并读回 `prepared` 记录，再对两个业务 key 与 Preference-authority marker 写入并读回，最后验证 `committed` 记录；任一步失败都返回失败、不触发 `onCommitted`，并恢复旧快照。恢复失败保留记录并阻塞后续写入；启动先恢复记录，已提交但清理失败时保留新状态并按记录幂等修复。
+- Nickname 与迁移：Profile 持久化时清空 `nickname`，有效昵称只由 `global.nickname` Preference 派生。Preference key 已存在但缺少 nickname 时明确表示无昵称；只有 Profile-only、无 marker、无未完成恢复记录时才执行一次 legacy migration。成功写入并读回 `yuxin-companion-user-profile-migration-v1` marker；迁移写入或 marker 验证失败不激活昵称。App 与测试共用 `initializeCompanionUserProfileState()`，不再在 `App.tsx` 组合迁移与解析。
+- 事务故障矩阵：`companionUserProfileSync.test.ts` 为 `24/24`，覆盖 prepared 写入失败、Profile/Preference 首写失败、跨 key 中途失败与 Profile 恢复失败、committed 写入失败、marker 写入失败、cleanup 失败、恢复期间再次写入、聊天改昵称后资料保存、forget、冲突、legacy migration、迁移失败和多次重启。
+- Observability：Recorder allowlist 覆盖七种正式 `CompanionActionType`，但后三种本地兼容 Action 仍不进入 Model Codec/Provider Schema；真实 Harness 本地路由保持 Provider/model `0` 次调用，观测只保留 type/status，不保存 payload、title、reference、Task/Reminder id 或时间正文。`companionObservability.test.ts` 与 Model Codec 防回退测试通过。
+- 定向证据：Phase 8 固定组 `4` 个文件、`61/61`；pet-core/task-core/storage 核心回归 `69` 个文件、`887/887`；补丁三文件组 `51/51`。
+- 默认全量证据：`npm test` 连续三次均为 `84` 个文件、`943/943`；Vitest 用时分别为 `8.38s`、`8.42s`、`8.51s`。`npx tsc --noEmit` 通过；`npm run build` 通过，Vite 转换 `840` 个模块，仅保留既有大 chunk warning；`cargo test` `12/12`、`cargo check` 通过；随后 `git diff --check` 通过。
+- 未验证边界：没有真实 API Key 或远程 Provider 冒烟，没有启动 Tauri 最终验收，没有检查正常/2x DPI 交互，没有打包、发布、commit 或 push。本轮没有修改无关 Live2D、宠物资源、动画、QA 素材、release exe、`src-tauri` 业务代码、`package.json` 或 lockfile。
+
+### Phase 8-R 阻断项修复与自动化硬门（2026-08-14）
+
+- 状态：本节记录三个自动化阻断项的当前修复和硬门结果；它不表示 Tauri、真实 Provider、打包、发布或用户视觉验收已完成。Tauri 实机验证项继续保持未勾选。
+- Observability 失败隔离：`CompanionHarness.respond` 和 `handleEvent` 均通过非递归、无重试的安全观测边界调用 Recorder；Recorder 抛错不会改变成功回复、ResponseSink 提交、主动事件投递、领域错误或取消/失败结果。观测输入按 allowlist 投影，动作和调用计数在交给观测器前复制，hostile Recorder 不能改写领域返回值，也不会看到原始 Prompt、消息、Task/Reminder、Memory、Provider body、回复正文或凭据。
+- 昵称单一事实源：`global.nickname` Preference 是唯一持久化权威；Profile 的 `nickname` 只是兼容显示镜像，加载和重启时始终由 Preference 派生。Profile-only 旧数据只通过显式迁移写入 Preference；缺失 Preference 不会被旧 Profile 反向复活。持久化写入使用写后读验证和失败恢复，覆盖聊天后设置页立即可见、邮箱/其他资料变更、清空、首次写入失败、Preference 失败、恢复失败、重启、旧数据迁移和 Preference/Profile 冲突。
+- 默认测试超时：`companionProactiveEvent.test.ts` 的 257 条确认事件压力用例保留全部断言，只增加该单测的 `10_000ms` 局部超时；生产代码未改全局超时、并发参数或重试策略。该压力是有界本地收据快照的刻意规模测试，隔离运行通过。
+- Phase 8 定向证据：`companionPhase8Acceptance.test.ts`、`companionObservability.test.ts`、`companionUserProfileSync.test.ts` 通过；观察与昵称新增/修复测试合计 `18/18`，固定中文评测仍为 `20/20`。
+- Companion 回归证据：Harness、Action、Memory、Preference、Forget、Provider、Context/Privacy 和 Proactive 共 `11` 个文件、`206/206` 通过。
+- 默认全量证据：原始 `npm test` 连续三次均通过，每次均为 `84` 个文件、`921/921`；Vitest 用时分别为 `12.38s`、`9.91s`、`8.43s`，墙钟分别为 `14.533s`、`12.112s`、`10.647s`。
+- 其他硬门：`npx tsc --noEmit`、`npm run build`、`cargo test` `12/12`、`cargo check` 和 `git diff --check` 均通过。build 仍只有既有大 chunk warning；未使用真实 Provider/API Key，未打包、发布、commit 或 push。
+
+### Phase 8-R2 读取失败阻断项修复（2026-08-14，最新快照）
+
+- 状态：Phase 8-R2 读取失败阻断项实现侧验证通过，等待独立验收。该状态只表示本轮 Profile/Preference 持久化纯逻辑、自动化测试、TypeScript、Web build 和 Cargo 检查通过；不表示 Tauri、真实 Provider、正常/2x DPI、打包、发布或用户验收完成。Phase 8 的 Tauri 实机复选框继续保持未勾选。
+- 修复前红灯证据：在未修改生产代码时新增的两个对称反例稳定失败，定向命令为 `npm test -- --run src/pet-core/companionUserProfileSync.test.ts -t "snapshot read failure"`，结果 `2 failed / 24 skipped`。Profile 快照读取异常后，旧 `gender/email/phone` 被折叠成空 Profile；Preferences 快照读取异常后，旧昵称被折叠为空 Preferences，随后回滚会把伪造空快照写回业务键并破坏重启事实。
+- 读取协议：`Profile`、`Preferences`、migration marker 和 recovery record 现在都通过单次 raw `getItem` 得到 `present-valid`、`missing`、`read-error` 或 `invalid`；同一次读取同时决定 presence、raw value 和 typed value。事务写入 prepared recovery record 前必须取得完整可信快照；任何读取异常/无效内容/无法确认 presence 都 fail closed，返回失败、保持 persistence 内存态、不调用 `onCommitted`、不执行业务键或 marker/migration 写入，也不启动 legacy migration。
+- 零业务写入与写后读：Profile/Preferences/marker/recovery 的写后读验证只接受明确的目标值；读回失败、缺失、不一致或异常都不是成功。事务开始前的快照失败不创建 recovery record、不调用 `removeItem` 清除旧业务键。恢复写入的任一读回失败会保留 prepared record 并阻止后续新事务；只有完整旧快照已恢复并且 recovery 删除后的 raw 读取明确为 `missing` 才清理 prepared record。已验证的 committed record 仍优先采用新状态，cleanup 失败不回滚新状态并继续保留可重放证据。
+- Nickname/迁移边界保持不变：`global.nickname` 仍是唯一持久化昵称权威，Profile 持久化镜像的 `nickname` 仍为空；Preference key 存在但没有 `global.nickname` 时不复活旧 Profile 昵称。任何 Profile/Preferences/marker/recovery 读取错误或 malformed 内容都阻止迁移，不猜测为 missing/empty。
+- 新增测试：`companionUserProfileSync.test.ts` 从 `24` 个增加到 `32` 个，新增 `8` 个测试块，覆盖两个对称快照反例、App raw storage Profile/Preferences 读失败、marker/recovery presence 读失败、legacy migration 读门禁、malformed Profile/Preferences、prepared recovery readback 失败和 rollback readback 失败；每个故障路径检查返回/回调、raw 业务事实、marker/recovery、内存态和重启态。
+- 定向证据：`npm test -- --run src/pet-core/companionUserProfileSync.test.ts` 为 `1` 文件、`32/32`；Phase 8 固定组（`companionPhase8Acceptance.test.ts`、`companionObservability.test.ts`、`companionUserProfileSync.test.ts`、`companionModelCodec.test.ts`）为 `4` 文件、`69/69`；Companion/pet-core/task-core/storage 回归为 `69` 文件、`895/895`。
+- 三轮默认全量：连续三次 `npm test` 均为 `84` 文件、`951/951`，Vitest duration 分别为 `10.06s`、`8.68s`、`9.14s`；三轮均通过，没有通过缩小测试范围或修改配置隐藏失败。
+- 其他硬门：`npx tsc --noEmit` 通过；`npm run build` 通过，Vite 转换 `840` 个模块，仅保留既有 `>500 kB` chunk warning；`cargo test --manifest-path src-tauri/Cargo.toml` 为 `12/12` 通过；`cargo check --manifest-path src-tauri/Cargo.toml` 通过；`git diff --check` 通过，仅报告工作区既有的 LF/CRLF 转换 warning。
+- 本轮修改与边界：只修改 `src/pet-core/companionUserProfileSync.ts`、`src/pet-core/companionUserProfileSync.test.ts` 和本 TODO；未修改 `App.tsx`、`companionObservability.ts`、`companionModelCodec.ts`、Provider/Harness/Task/Memory/Proactive 业务代码、`src-tauri` 业务代码、`package.json`/lockfile、宠物包、Live2D、动画、QA 素材或 release 文件。工作区其他脏改动和未跟踪素材均未触碰。
+- 未执行：Tauri 实机启动/聊天验收、真实 Provider/API Key 或远程冒烟、正常尺寸/2x DPI 检查、打包、发布、commit、push；完成本轮实现侧验证后在此停止，等待独立验收。
+
+### Phase 8-R3 Profile / Preferences 单写者与 App/Harness 接线（2026-08-14，最新快照）
+
+- 状态：实现侧验证通过，等待独立验收。本状态只覆盖本轮 Settings Repository/Owner、typed bridge、Profile/Preferences UI、Harness preference/forget wiring、纯逻辑测试、TypeScript、Web build 与 Cargo 检查；自动化实现侧通过，Tauri 双窗口运行未验证；真实 Provider、正常/2x DPI、打包、发布或用户视觉验收也未完成。
+- 修复前红灯证据：在未修改生产实现时，P0-1 四个一次性 raw `getItem` 失败路径和 P0-2 双客户端 stale Profile/Preference、逆序、删除、同字段冲突、owner restart 共 `6` 个反例稳定失败；旧 App-style full-state persistence 会用空 startup projection 覆盖已有资料，stale client 也能报告成功。该红灯基线已记录后移除，修复后由 `companionUserSettingsRepository.test.ts` 固定为绿灯回归。
+- Settings 协议：`CompanionUserSettingsOwner` 是唯一本机 settings/recovery 写者；App 通过 `CompanionUserSettingsRepository` 提交 `updateProfile`、`upsertPreference`、`deletePreference` delta command，命令携带 expected generation/revision 与 correlation id。Owner 对 stale version fail closed，对 correlation replay 返回原结果，并在成功后广播带版本的 committed snapshot。
+- Blocked 与 UI：Profile、Preferences、migration marker、recovery record 任一读取异常或恢复不可用都会返回无业务快照的 blocked 状态；App/Harness 不构造空写入状态，设置页显示读取失败并禁用保存，Context 的空 Preferences 只读 projection 不会进入写路径。forget 先读取 Settings 与 Memory，再执行 Preference/Memory 删除，Settings 不可用时不会触碰 Memory。
+- Tauri bridge：非平台主窗口持有 Owner；平台窗口通过 `companion-settings-command`、`companion-settings-result`、`companion-settings-snapshot` typed events 请求和接收版本化状态。没有修改 `src-tauri` 业务命令；桥接运行证据仍需 Tauri 双窗口实机验收。
+- 自动化证据：`companionUserSettingsRepository.test.ts` `6/6`、`companionUserProfileSync.test.ts` `32/32`、Phase 7/8 接线组 `57/57`；此前记录的 Phase 8/Observability/Model Codec 固定组保持通过。当前全量单轮为 `85` 个文件、`959/959`。
+- 未执行与停止边界：继续不使用真实 API Key/Provider，不启动发布流程，不打包、commit 或 push；不修改宠物资源、Live2D、动画、QA 素材或 release exe。Tauri 双窗口运行、真实远程请求、正常/2x DPI 和用户视觉验收保留为独立验收项。
+
+#### Bridge 阻断项修复（2026-08-14）
+
+- 状态：Bridge 阻断项实现侧验证通过，等待独立验收。本记录只覆盖 typed event Bridge 的 Owner re-initialize、跨 generation 握手权威和自动化协议证据；Tauri 双窗口运行、真实 Provider、正常/2x DPI、打包、发布和用户视觉验收仍未验证。
+- 修复前红灯：先新增 `src/pet-core/companionUserSettingsBridge.test.ts`，未修改生产代码执行 `npm test -- --run src/pet-core/companionUserSettingsBridge.test.ts`，结果为 `1` 个文件、`5 passed / 7 failed`。其中 `blocked Owner recovers through a platform retry...` 在 retry 后仍为 `blocked`；`Owner restart with a clock rollback...` 在 `generation-2 / issuedAt=900` 后仍保留 `generation-1`，两个核心阻断项均稳定失败。
+- Bridge 权威规则：Owner Bridge 收到 `kind: "initialize"` 时等待 `owner.initialize()` 后返回新状态；平台的 correlation-matched initialize response 是当前 main Owner 的握手权威，generation 变化不比较 issuedAt，revision 只在相同 generation 内防回退；未经握手的异代 snapshot 不直接覆盖状态并触发去重握手；新 generation 建立后旧 generation 的 snapshot/command result 不得覆盖平台状态；blocked 不携带业务快照，blocked 时命令 fail closed。
+- Bridge 自动化证据：真实经过 `companion-settings-command`、`companion-settings-result`、`companion-settings-snapshot`、`startCompanionUserSettingsOwnerBridge()` 和 `createCompanionUserSettingsBridge()` 的测试为 `12/12`。覆盖初始握手、阻塞恢复、Owner 正常/回拨重启、异代迟到 snapshot、同代低/高 revision、stale command、结果超时后的 committed snapshot 与 correlation replay、emitTo 失败、重复 initialize/snapshot 和 listener 解除。
+- 本轮验证：Settings 定向组 `5` 个文件、`52/52`；Phase 7/8、Harness、Preference、forget、Context/Privacy、Proactive 固定回归 `19` 个文件、`327/327`；最终全量 `npm test` 连续三轮均为 `86` 个文件、`971/971`，Vitest duration 分别为 `9.60s`、`10.32s`、`10.06s`。
+- 其他硬门：`npx tsc --noEmit` 通过；`npm run build` 通过，Vite 转换 `841` 个模块，仅保留既有 `>500 kB` chunk warning；`cargo test --manifest-path src-tauri/Cargo.toml` 为 `12/12` 通过；`cargo check --manifest-path src-tauri/Cargo.toml` 通过；`git diff --check` 通过，仅报告工作区已有的 LF/CRLF 转换 warning。
+- 本轮修改范围：`src/pet-core/companionUserSettingsBridge.ts`、新增 `src/pet-core/companionUserSettingsBridge.test.ts` 和本 TODO；未修改 `companionUserProfileSync.ts` 事务内核、Repository delta/commit 核心、`App.tsx`、`companionLocalDataService.ts`、Provider/Task/Memory/Proactive 业务、`src-tauri`、`package.json`/lockfile、宠物资源、Live2D、动画、QA 素材或 release 文件。未使用真实 API Key/Provider，未 package、commit、push 或 release。
+- 未验证事项：没有可靠完成 Tauri 双窗口运行验收，因此不能宣称 main/platform 真实 handshake、隐藏/重显、主窗口重启或跨窗口 Profile/Preference 更新已通过；当前结论只能是“Bridge 阻断项实现侧验证通过，等待独立验收”。
+
+#### Bridge 迟到 blocked snapshot 修复（2026-08-14）
+
+- 状态：实现侧验证通过，等待独立验收。
+- 修复前稳定红灯：新增反例后，在未修改生产代码时连续两次执行 `npm test -- --run src/pet-core/companionUserSettingsBridge.test.ts -t "a late blocked snapshot from the old Owner cannot clear the newly established Owner"`，每次均为 `1` 个文件、`1 failed / 12 skipped`（共 `13` 个测试）。失败断言为平台在释放 generation-1 的迟到 blocked snapshot 后仍应为 ready，但旧实现实际变为 `blocked`。
+- 根因：blocked snapshot 不携带可验证的 generation/Owner 身份，却在 snapshot listener 中被无条件 `applyInitialization(next, "snapshot")`；因此 generation-2 已由 correlation-matched initialize response 建立后，旧 generation-1 的迟到 blocked 事件仍可清空平台当前可用视图。
+- 最终权威规则：snapshot 只表示状态变化提示，不承担跨 Owner 接管权威；未经明确握手确认的 blocked snapshot 不直接改变平台 ready/blocked 状态，而是触发现有 `handshakeInFlight` 去重的 initialize。只有当前 Owner 的 correlation-matched initialize response 才能应用最终 ready 或 blocked；重复 blocked 信号共享同一握手，不比较 issuedAt，不创建第二套 Settings 事实源。同 generation 的 revision 防回退、旧 generation 的 ready snapshot/command result fail closed 规则保持不变。
+- 新增 Bridge 测试覆盖：迟到旧 Owner blocked snapshot 不得回滚新 Owner（A）；当前 Owner 真实 blocked 必须由 blocked initialize response 接纳、平台 getSnapshot 为 null、命令 fail closed 且零业务写入（B）；重复 blocked snapshot 只共享一个 in-flight initialize（C）；清除存储故障后重新 initialize 必须重读原 Profile/Preferences 而不是空状态（D）。原有新 Owner 正常/时钟回拨接管、迟到旧 ready、同 generation 低/高 revision、timeout、correlation replay、stale command、Owner unavailable 和 listener cleanup 回归仍保留（E）。所有新增证据均经过真实 `companion-settings-command`、`companion-settings-result`、`companion-settings-snapshot`、`startCompanionUserSettingsOwnerBridge()` 与 `createCompanionUserSettingsBridge()`。
+- 验证结果：Bridge 定向 `npm test -- --run src/pet-core/companionUserSettingsBridge.test.ts` 为 `1` 个文件、`16/16`；Settings 定向（Bridge、Repository、Profile/Preferences sync、Profile settings UI、Preferences、Phase 7/8 接线）为 `7` 个文件、`81/81`；Companion 固定回归（Phase 7/8、Harness 相关链路、Preference、Forget、Context/Privacy、Proactive、Model Codec、Observability）为 `22` 个文件、`346/346`。原始 `npm test` 连续三轮均为 `86` 个文件、`975/975`。`npx tsc --noEmit` 通过；`npm run build` 通过，Vite 转换 `841` 个模块，仅有既有 `>500 kB` chunk warning；`cargo test --manifest-path src-tauri/Cargo.toml` 为 `12/12`；`cargo check --manifest-path src-tauri/Cargo.toml` 通过；`git diff --check` 通过，仅报告工作区已有的 LF/CRLF 转换 warning。
+- Tauri 实机：未验证。未用 Vitest、Web build 或历史 exe 代替 main/platform 双窗口的真实握手、跨窗口更新、Owner blocked/恢复、Owner 重启或隐藏/重显 listener 验收。
+- 未执行：真实 Provider/API Key 或远程请求、正常/2x DPI 验证、打包、发布、commit、push；也未修改 Provider、Task、Memory、Proactive、事务内核、Repository 核心、App、`src-tauri` 业务代码、宠物资源、Live2D、动画、QA 素材或 release 文件。
+
+### Phase 8-R4 Settings Protocol V2（2026-08-14，上一轮基线，已被下节当前快照 supersede）
+
+- 状态：上一轮 Settings Protocol V2 实现侧记录，随后独立验收发现 P1 显式 retry/reconcile 竞态与 P2 client Repository stop 接线缺口；当前结论以本节后的“独立验收失败与显式恢复 / Bridge 生命周期修复”快照为准，不表示 Phase 8 已完成。
+- 第一性根因：问题不是单个 Bridge 反例，而是早期 SettingsService 缺少完整的 Owner 状态协议，在 Phase 7 App/Harness 接线后逐步显化。最近一轮 blocked snapshot 修复又引入了 P1 反馈回归：`blocked snapshot -> automatic initialize -> Owner.initialize() -> refresh() 无条件 notify() -> 同一 blocked snapshot -> 下一轮 initialize`。旧 `handshakeInFlight` 只能合并重叠请求，无法处理 result-before-snapshot 的串行排列。
+- 修复前稳定红灯：在未修改生产实现时，两次运行
+  `npm test -- --run src/pet-core/companionUserSettingsBridge.test.ts -t "result-before-snapshot consumes one blocked Owner version without a feedback loop"`
+  均为 `1` 个文件、`1 failed / 16 skipped`（该文件共 `17` 个测试）。失败断言为有界释放 `4` 轮后延迟 blocked snapshot 队列应为空，旧实现实际仍残留一个同状态 snapshot，证明自动 initialize 在 result 先到后自激。该测试真实经过 `createCompanionUserSettingsOwner()`、`startCompanionUserSettingsOwnerBridge()`、`createCompanionUserSettingsBridge()`、`companion-settings-command`、`companion-settings-result` 和 `companion-settings-snapshot`。
+- Owner Protocol V2：每个 Owner 实例生成随机 `ownerEpoch`；同一 Owner 的真实语义转换递增 `stateSeq`；只有 Profile/Preferences 成功提交递增 `dataRevision`。ready/blocked 都携带版本；blocked 不带伪造空 snapshot，保留 `lastKnownDataRevision`。相同 ready 和相同 reason 的 blocked retry 真实重读但不重复通知；ready↔blocked、blocked reason 变化各发一次；成功业务提交同时递增 `stateSeq` 与 `dataRevision`。initialize 与 command 共用串行 Owner 执行队列。
+- Client Transport V2：Bridge 内部区分 `not-ready/connecting/owner-unavailable/bridge-timeout/synced`。transport failure 只生成 UI-facing projection，不冒充 Owner blocked，也不改变已确认 Owner 版本。Bridge 维护当前确认版本、retired epoch 集合、pending signal 集合和单一 bounded automatic reconcile runner；同 epoch 相同/更低 `stateSeq`、低 `dataRevision`、旧 epoch、重复 result/snapshot 都被吸收或拒绝；新 epoch 只有带目标 epoch 的 correlation-matched initialize result 才能接管。`issuedAt` 只作诊断，绝不排序。
+- 权威关系：snapshot 现在只是版本化状态变化 signal；同一版本的 result-before-snapshot 与 snapshot-before-result 都只消费一次。自动 reconcile 只为未消费 signal 运行且最多一个 in-flight；显式 `initialize()/retry` 仍始终允许真实读取。command timeout 不伪装成功；correlation replay 不重复业务写；blocked/transport unavailable 时业务写入保持为零；stop 后平台 listener、pending runner 和迟到事件不再改变状态。
+- 修改文件范围：
+  - `src/pet-core/companionUserSettingsRepository.ts`
+  - `src/pet-core/companionUserSettingsRepository.test.ts`
+  - `src/pet-core/companionUserSettingsBridge.ts`
+  - `src/pet-core/companionUserSettingsBridge.test.ts`
+  - `src/pet-core/companionLocalDataService.ts`
+  - `src/App.tsx`
+  - `docs/companion-harness-todo.md`
+  - `D:\Users\Downloads\Companion Harness PRD.md`
+  - `D:\Users\Downloads\Companion Harness Technical Design.md`
+  未修改 `companionUserProfileSync.ts` 事务恢复内核、Provider、Task/Reminder、Memory、Proactive、`src-tauri` 业务命令、`package.json`/lockfile、宠物资源、Live2D、动画、QA 素材、release exe。
+- 新增/改写测试矩阵：
+  - A result-before-snapshot：同版本迟到 signal 被吸收，自动命令计数停止，队列归零。
+  - B snapshot-before-result：signal 先到、matched result 后到，仍只 reconcile 一次。
+  - C 重复与排列：重复 blocked signal、重复 result、重复 snapshot、有限有界释放均不产生第二轮。
+  - D 当前 Owner blocked：ready→blocked 版本化传播、blocked 命令 fail closed、业务写入 `0`、相同 blocked retry 不重复通知。
+  - E 显式恢复：故障解除后显式 initialize 真实重读并恢复原 Profile/Preferences，blocked→ready 只产生一个新版本。
+  - F Owner 重启：新 epoch 接管、时钟回拨不影响接管，旧 ready/blocked/result 不能覆盖新 Owner。
+  - G revision/stateSeq：同 epoch 低版本拒绝、高版本只经匹配 Owner result 接纳；stateSeq 与 dataRevision 职责分离，恢复 retry 不增加 dataRevision。
+  - H timeout/replay：transport projection、command timeout、迟到 committed signal、correlation replay 和零重复写入。
+  - I stop/listener：Owner Bridge 与平台 Bridge stop 后 listener/pending runner 清理，迟到 result/snapshot 不再改变客户端。
+- 实际验证数字：Settings Bridge + Repository 定向为 `2` 个文件、`27/27`；Settings/Profile/Preferences/Phase 7/8 定向为 `8` 个文件、`87/87`；固定 Harness/Context/Privacy/Action/Memory/Provider/Model/Observability/Proactive/Phase 7/8 回归为 `42` 个文件、`561/561`；全量 `npm test` 连续三轮均为 `86` 个文件、`980/980`。
+- 其他硬门：`npx tsc --noEmit` 通过；`npm run build` 通过，Vite 转换 `841` 个模块，仅保留既有 `>500 kB` chunk warning；`cargo test --manifest-path src-tauri/Cargo.toml` 为 `12/12`；`cargo check --manifest-path src-tauri/Cargo.toml` 通过；`git diff --check` 退出码 `0`，仅报告工作树既有 LF/CRLF 转换 warning。
+- Tauri 边界：**Tauri 双窗口未验证。** 没有用 Vitest、Web build、历史 exe 或模拟事件代替 main/platform 初始握手、隐藏/重显、跨窗口 Profile/Preferences 更新、Owner blocked/恢复、Owner 重启、时钟回拨、旧事件迟到或 listener 重建的真实实机验收。真实 Provider/API Key、视觉/正常与 2x DPI、打包、发布、commit、push 也未执行。
+
+### Phase 8-R4 独立验收失败与显式恢复 / Bridge 生命周期修复（2026-08-14，当前快照）
+
+- 状态：原 Phase 8-R4 独立验收未通过，不能进入下一阶段；本轮修复完成后最多记录为“Phase 8-R4 显式恢复与 Bridge 生命周期修复实现侧验证通过，等待独立复验。”不得写 Phase 8 已完成，也不得勾选 Tauri 实机门。
+- 已确认保留：原 blocked snapshot 自激反馈环已修复；同一 blocked 版本的自动化计数为 `automaticCommands=0`、`queuedSnapshots=0`；`ownerEpoch/stateSeq/dataRevision`、版本化 signal、retired epoch、bounded reconcile 与 PRD / Technical Design Protocol V2 主体继续有效。
+- 本次独立验收失败的两个边界：用户显式 retry 复用了正在执行且带 `expectedOwnerEpoch=B` 的 automatic reconcile，导致 `commandsAfterAuto=1`、`delayedBeforeRetry=1`、`commandsAddedByExplicitCall=0`、`totalCommandsAfterRetry=1`、`retryStatus=blocked`、`finalStatus=blocked`；App 组合根 cleanup 只执行 UI `unsubscribe()` 与 Owner `stopBridge?.()`，没有调用 platform client Repository 的 `stop()`。
+- 修复前红灯证据：新增 P1 核心竞态测试后，在未修改生产代码时连续两次运行 `npm test -- --run src/pet-core/companionUserSettingsBridge.test.ts -t "an explicit retry queued behind a mismatched automatic reconcile performs one unrestricted Owner reread"`，每次均为 `1` 个文件、`1 failed / 20 skipped`，失败点为 retry/final state 仍为 `blocked`；P2 lifecycle contract 在未接线时为 `1` 个文件、`1 failed / 1`，缺少 `companionUserSettingsRepository.stop?.()`。
+- P1 最终规则：explicit handshake 与 automatic reconcile 使用独立 Promise 语义；automatic in-flight 时多个用户 retry 只登记一个共享 queued explicit handshake，runner 结束后追加一个不带 `expectedOwnerEpoch` 的真实读取；explicit matched result 消费相同或更低 pending version；只有仍有新 signal 才恢复 automatic runner；stop 会有限结束 queued retry 并吸收迟到事件。
+- P2 最终规则：App 通过 Settings runtime lifecycle helper 管理 client Repository；每次 setup 先调用可选 `start()` 以支持 React StrictMode 同 context 重演，cleanup 解除 UI subscription、停止 main Owner Bridge，并调用 platform client Repository `stop()`。client Bridge stop 后可安全 restart，重建后只保留一组 result/snapshot listener。
+- 本轮新增/强化测试矩阵：P1 核心竞态、三次点击合并、explicit blocked→ready 的 signal-before-result、result-before-signal、automatic 已恢复后仍追加 explicit reread、stop 竞态；P2 platform cleanup、main Owner cleanup、同 context restart listener；原 result/snapshot 排列、duplicate、Owner restart、clock rollback、retired epoch、timeout/replay、stale revision 与零业务写入回归均保留。
+- 当前实现侧固定结果：Bridge + Repository 聚焦组为 `2` 个文件、`34/34`；Settings/App 定向组为 `9` 个文件、`96/96`；Harness/Context/Privacy/Action/Memory/Provider/Model/Observability/Proactive/Phase 7/8 固定组为 `42` 个文件、`566/566`；三轮完整 `npm test` 均为 `87` 个文件、`989/989`，退出码 `0`，无 warning。`npx tsc --noEmit` 退出码 `0`；`npm run build` 退出码 `0`，Vite 转换 `842` 个模块，仅有既有单个 `>500 kB` chunk warning；`cargo test --manifest-path src-tauri/Cargo.toml` 为 `12/12`、退出码 `0`；`cargo check --manifest-path src-tauri/Cargo.toml` 退出码 `0`；`git diff --check` 退出码 `0`，仅有工作树既有 LF/CRLF 转换 warning。上述自动化结果不替代 Tauri 双窗口实机、真实 Provider、视觉、DPI、打包或发布验收。
+- 停止边界：本轮不使用真实 API Key，不修改 Profile/Preferences 事务内核，不修改 Provider / Task / Reminder / Memory / Proactive 业务、不打包、不发布、不 commit、不 push；完成实现侧验证后停止，等待独立复验。
+
+### Phase 8-R4 P2 in-flight lifecycle 修复（2026-08-14，当前实现侧结果）
+
+- 状态：Phase 8-R4 P2 in-flight lifecycle 修复实现侧验证通过，等待独立复验。P1 显式 retry/reconcile 已通过上一轮独立验收；本轮不能宣称 Phase 8 完成。
+- 上一次独立验收的真实失败证据：`commandsBeforeCleanup = 1`、`heldBeforeCleanup = 1`、`sharedPromise = true`、`commandsAfterRestart = 1`、`secondStatus = blocked`、`secondReason = owner-unavailable`；restart 后 result/snapshot listener 数量为 `1/1`，但 `finalStatus = blocked`、`finalReason = owner-unavailable`。因此 listener 重建本身成立，缺陷是旧生命周期异步任务跨越 stop/start 后污染并被新生命周期复用。
+- 根因：旧实现以全局 `stopped` 布尔值表示生命周期；`stop()` 以只有 `correlationId` 的伪响应结束 waiter，`start()` 又快速把 `stopped` 设回 `false`。旧 `runExplicitHandshake()` 恢复后把取消结果解释为 `owner-unavailable`，而 `initialize()` 直接返回旧 `explicitHandshakeInFlight`；旧 Promise 的 `finally` 还可以无条件清空或驱动新代 Promise/runner，形成 ABA 竞态。automatic reconcile 与 queued explicit retry 共享同样的跨代风险。
+- 最终实现策略：每个 request/waiter、explicit handshake、automatic runner、queued retry、listener installation 和 `finally` 都绑定 lifecycle generation；`stop()` 先递增并使旧 generation 失效，再以明确的 `cancelled` outcome 有限结束旧 waiter、清空旧槽位/pending signal/queued retry、解除 listener；`start()` 再递增创建新 generation，先完成新 result/snapshot listener installation。explicit/reconcile Promise 槽位在清理时同时校验“槽位仍是自己创建的 Promise”和 generation 仍一致；旧 generation 只能返回 stop 时安全快照，不能设置新代 transport failure、清空新代 Promise、消费新代 signal、启动新代 runner 或通知新代 UI。取消与 `owner-unavailable` 保持不同语义。
+- 核心修复前红灯命令（生产代码未修改）：
+  `npm test -- --run src/pet-core/companionUserSettingsBridge.test.ts -t "an immediate restart during an in-flight explicit handshake creates a fresh lifecycle-scoped request"`
+  连续两次均为 `1` 个文件、`1 failed / 29 skipped`（该文件共 `30` 个测试），失败断言为两轮 `initialize()` 仍共享同一个 Promise。两次退出码均为 `1`。
+- 新增真实对抗矩阵（均使用 `createCompanionUserSettingsBridge()`、Owner Bridge 与 mocked Tauri event bus）：
+  - `an immediate restart during an in-flight explicit handshake creates a fresh lifecycle-scoped request`：同步 stop/start 后两轮 Promise 不共享；第二轮新增且只新增一条不带 `expectedOwnerEpoch` 的 initialize；旧 result 迟到后状态仍 ready；listener `1/1`，业务写入 `0`。
+  - `a stopped lifecycle finalizer cannot clear or schedule work in the restarted lifecycle`：旧 Promise 进入 `finally` 后不能清空新 Promise，也不能造成第三条 command 或 automatic reconcile；新代完成。
+  - `restart invalidates an in-flight automatic reconcile and its queued explicit retry`：旧 automatic 与 queued explicit 在 stop/start 后失效；新代发出一条 unrestricted read；旧 automatic result/snapshot 迟到不改变新 ready 状态；无循环、无重复读取、业务写入 `0`。
+  - 原 P1 retry/reconcile、result-before-snapshot、snapshot-before-result、Owner restart/clock rollback、retired epoch、timeout/replay、blocked fail-closed、listener cleanup 与 App runtime lifecycle 回归全部保留。
+- 修复后核心时序结果：新 Bridge 对抗测试 `3/3`；核心 explicit restart 的 race command 在基线之后新增 `2` 条，第二条 `expectedOwnerEpoch` 未定义；两轮 Promise `false` 共享；最终状态 `ready`；result/snapshot listener 严格为 `1/1`；业务写入 `0`。Bridge 文件总计 `30/30` 通过。
+- 实际验证结果（全部退出码 `0`）：Bridge/Repository/Lifecycle 聚焦组 `3` 个文件、`39/39`；Settings/App 固定组 `9` 个文件、`99/99`；按小写 `companion`、大写 `Companion` 或 `proactive` 文件名前缀及 `.test.ts`/`.test.tsx` 后缀生成的固定 Harness 文件数为 `42`，通过 `569/569`；完整 `npm test` 连续三轮均为 `87` 个文件、`992/992`。
+- 其他硬门：`npx tsc --noEmit` 通过；`npm run build` 通过，Vite 转换 `842` 个模块，仅有既有单个 `>500 kB` chunk warning；`cargo test --manifest-path src-tauri/Cargo.toml` 为 `12/12`；`cargo check --manifest-path src-tauri/Cargo.toml` 通过；`git diff --check` 退出码 `0`，仅有工作树既有 LF/CRLF 转换 warning。
+- 未验证边界：Tauri 双窗口仍未实机验证；真实 Provider/API Key、正常与 2x DPI、视觉、打包、发布、commit、push 均未执行。不要把本轮 Vitest、Web build 或 Cargo 结果替代上述边界，也不要进入下一阶段。
+
+### Phase 8-R4 Tauri Settings Bridge 实机验收（2026-08-15）
+
+- 唯一结论：`TAURI_SETTINGS_PARTIAL`。A、B、C、D、E、G 通过；F 的时钟回拨/旧事件迟到对抗未在真实 Tauri 注入，H 的隔离真实 2x DPI 未执行，因此不勾选任何 Tauri 完成复选框，不进入下一阶段。
+- 当前源码与运行方式：HEAD `242e148041911201f3ce2d978a193cdf4eaeb89c`；工作区 `D:\CodeWorkspace\电脑桌宠`；使用 `npm run tauri dev` 生成并运行 `src-tauri/target/debug/yuxin-desktop-pet.exe`。正常 run PID `20892`，DEV fault run PID `20680`；窗口证据明确标记为 `main` 与 `platform`。
+- A 初始握手：`PASS`。platform 达到 ready；启动初始 initialize 只有一条，后续 initialize 均由明确提交/快照后的协议流程触发；最终 listener 为 `result=1/snapshot=1`，未观察到自激反馈循环。
+- B 隐藏/重显：`PASS`。platform 关闭只隐藏窗口，main 桌宠菜单重新打开 platform；重显后路由和 Settings 状态仍可用，listener 未重复。
+- C Profile 跨窗口：`PASS`（历史运行行为）。先读取并记录基线；真实 Tauri platform 保存一次，Owner 回投成功反馈可见；重复不改字段的保存显示 no-op，未产生新的 snapshot/dataRevision；旧记录的起止比较只证明本轮起止相等，不证明 pre-QA 原始资料。
+- D Preferences 跨窗口：`PASS`（历史运行行为）。Local Provider 下真实提交一次 `upsertPreference`，只产生一次 snapshot/revision；Profile 仍是镜像而非第二事实源；旧记录的起止比较只证明本轮起止相等，不证明 pre-QA 原始资料。
+- E Owner blocked→恢复：`PASS`（历史运行行为）。仅在 DEV 环境使用 `VITE_XIAOJU_SETTINGS_FAULT=read`；Settings 页进入 blocked、没有业务快照和保存控件，fault 段业务 command 为 `0`；用户点击一次“重新读取本机设置”后执行 unrestricted reread 并恢复 ready，没有自动 initialize 循环。旧记录的起止比较不证明 pre-QA 原始资料，该入口不进入生产/release 路径。
+- F Owner 重启/时钟回拨：`UNVERIFIED`。真实重建 Owner 产生了新的 owner epoch，但本轮没有安全的真实时钟回拨与旧 ready/blocked/result/snapshot 迟到注入；不将自动化对抗测试升级为实机通过。
+- G lifecycle/listener：`PASS`。真实源码生命周期边界中 stop 后 `resultListeners=0`、`snapshotListeners=0`、`pendingWaiters=0`；下一次 client attach 严格为 `1/1`，旧 Owner Bridge 清理后保持单一 active subscription。
+- H DPI：`UNVERIFIED`。未修改系统全局缩放；没有隔离的真实 2x DPI Tauri 执行条件，因此不伪造字段、反馈条、按钮和滚动区的 2x 通过。
+- 自动化实际结果：聚焦反馈 `1` 文件 `9/9`；Settings/Repository/Bridge/Lifecycle/Profile 聚焦组 `7` 文件 `90/90`；完整 `npm test` `87` 文件、`1000/1000`；`npx tsc --noEmit` 通过；`npm run build` 通过，仅有既有单个 Vite `>500 kB` chunk warning；`git diff --check` 退出码 `0`，仅有工作区已有 LF/CRLF warning。Rust 未修改，未运行 cargo。
+- 历史数据记录（本轮已降级）：旧记录只证明当时运行起点与结束值的比较相等，不能证明起点是 pre-QA 原始资料；本轮不再使用“原始资料已找到”或“精确恢复”结论，按 `preQaOriginalStatus: UNKNOWN` 处理。
+- 有效证据：
+  - `docs/companion-harness-evidence/phase-8-r4-tauri-settings/phase-8-r4-tauri-matrix.json`
+  - `docs/companion-harness-evidence/phase-8-r4-tauri-settings/tauri-interactions.log`
+  - `docs/companion-harness-evidence/phase-8-r4-tauri-settings/platform-home-r4-current.jpg`（JPEG，860x590，非全零）
+  - `docs/companion-harness-evidence/phase-8-r4-tauri-settings/platform-settings-blocked-r4.jpg`（JPEG，860x590，非全零）
+  - `docs/companion-harness-evidence/phase-8-r4-tauri-settings/main-context-menu.jpg`（历史 JPEG；WebView 原生菜单，不能证明矩阵 B，已排除）
+- 尚未验证边界：F 的真实时钟回拨/旧事件迟到、H 的真实隔离 2x DPI；此外真实 Provider/API Key、发布/打包和 release acceptance 仍不在本门范围。所有诊断 trace 已裁剪 correlationId/ownerEpoch，未记录完整 Profile、昵称、邮箱、电话、Key 或 Prompt。
+
+### Phase 8-R4 当前修复与独立复验（2026-08-15）
+
+- B 门单项标记：✅ `PASS`（真实 Tauri 自定义任务菜单、平台隐藏后主桌宠保留、从菜单重开平台均有当前源码证据）。这只是 B 门单项通过，不改变整门 `TAURI_SETTINGS_PARTIAL` 结论。
+- 当前基线：修复前唯一结论为 `TAURI_SETTINGS_REJECTED`。上一节旧快照中的 `TAURI_SETTINGS_PARTIAL` 已被本轮独立复核推翻，不作为当前结论；它不能覆盖本轮发现的 Settings UI 并发缺陷。
+- 真实红灯（生产实现未修改）：
+  `npm test -- --run src/pet-core/CompanionUserProfileSettings.test.tsx -t "keeps one physical save request locked through a pending draft edit"`
+  连续两次退出码均为 `1`；每次为 `1` failed / `14` skipped，失败语义均为同一 pending `onSave` 被第二次调用（期望调用数 `1`，实际 `2`）。
+- 最小修复：`CompanionUserProfileSettings` 将同步不可重入的 `requestInFlightRef`、按钮 `busy`、保存 attempt/result、draft revision/dirty 标记、反馈关联和 lifecycle generation 分开；编辑不释放物理请求锁，result/projection 不覆盖编辑后的草稿，第一笔 Promise settle 后才允许下一次保存。新增真实 jsdom 挂载交互测试，覆盖同周期重复保存、pending 编辑、result/projection 两种排列、settle 后提交最新草稿、blocked→恢复和成功/失败/no-op 反馈。
+- 自动化实际结果：组件核心 `1` 文件 `15/15`；Settings 定向组 `7` 文件 `96/96`；全量 `npm test -- --run` 为 `87` 文件 `1006/1006`；`npx tsc --noEmit` 退出码 `0`；`npm run build` 退出码 `0`（843 modules，只有既有单个 Vite 大 chunk warning）；产物 fault-marker 检查通过；`git diff --check` 退出码 `0`，仅有既有 LF/CRLF warning。Rust 未修改，`cargo`：`NOT RUN because Rust was not modified`。
+- 当前源码 Tauri 复验：本轮启动 `npm run tauri dev`，仅停止本轮启动的进程；进程 PID `35132`，窗口 `main=854884`、`platform=396130`。main 自定义任务菜单通过真实可访问树确认包含“今日任务 / 新建任务 / 陪我聊聊 / 快捷提醒 / 提醒设置 / 暂时隐藏桌宠”；先隐藏 platform 并确认 main 仍在，再从该自定义菜单重新打开 platform。有效证据为 `main-task-menu-r4.jpg` 与 `platform-reopened-r4.jpg`；`main-context-menu.jpg` 明确标记为 WebView 原生菜单并排除矩阵 B。
+- 数据保护：没有可信的 pre-QA 备份，未清空、猜测、替换或输出 Profile/Preferences 字段原值；`preQaOriginalStatus: UNKNOWN`、`startOfRunStateRestored: true`（仅表示本轮起止比较相等）、`priorQaMarkersRemain: true`、`ownerAuthorizationToMutate: false`。任何真正恢复原始资料的动作均等待 owner 提供备份或授权。
+- 最新验收矩阵：`TAURI_SETTINGS_PARTIAL`。代码、红绿证据、构建和 B 菜单证据已纠正；F 的真实时钟回拨/旧事件迟到与 H 的隔离真实 2x DPI 仍为 `UNVERIFIED`，不升级为 accepted，不宣称 Phase 8/Harness V1/发布门完成，也不进入下一阶段。
+
+### Phase 8-R4-F 真实 Tauri Owner 接管复验（2026-08-15）
+
+- 状态：F `PASS`。总状态仍为 `TAURI_SETTINGS_PARTIAL — only isolated true 2x DPI remains`；H 仍为 `UNVERIFIED`，不进入 H、Provider、打包、发布或 Git 发布。
+- 当前源码真实运行：`npm run tauri dev -- --no-watch`；选定 runId `f-owner-takeover-r4`；Tauri PID `37212`；main/platform 原生 HWND `28705644/62194748`。日志同时保留了早期控制器未就绪的两次 `UNVERIFIED` 尝试，最终判定只采用 `r4` 的完整时序。
+- Owner A→B：A epoch 后缀 `…90bd6a2d`，B epoch 后缀 `…s8gazpfj`；A `issuedAt=1786808790945`，B `issuedAt=1786808790944`，`issuedAtB < issuedAtA=true`。A 停止时 command listener/owner subscription 为 `0/0`；B correlation-matched unrestricted initialize 后 platform 为 `ready`，result/snapshot listener 为 `1/1`。
+- 真实迟到矩阵：ready/blocked snapshot、ready/blocked initialize result、duplicate result、duplicate snapshot、result-before-snapshot、snapshot-before-result 均经 `companion-settings-snapshot`/`companion-settings-result` 真实 Tauri event bus 注入。每项注入前后 authority/status/stateSeq/dataRevision 与 B 投影均相等；无 blocked UI projection、无旧 Profile/Preferences projection、无业务 command/write；automatic reconcile 总数为 `1` 且有界。
+- drain/cleanup：bounded drain 为 `pendingWaiters=0`、`queuedSignals=0`、`automaticRunner=0`、result/snapshot listener `1/1`、业务 command `0`；stop client 后 listener `0/0`，迟到 snapshot 不改变状态；stop Owner B 后 command listener/owner subscription `0/0`。
+- 安全 seam：复用 Owner 工厂已有 `ownerEpoch`/`issuedAt` seam；新增的仅为 `import.meta.env.DEV` 双重保护的 session-scoped controller、内存事件捕获/重放和去敏诊断计数。没有修改系统时间、localStorage、Profile/Preferences、业务写入或生产 `window` 全局。最终生产 absence 检查确认 scenario 环境变量、marker、scenario id、控制事件和 DEV fault 文案均不在 `dist`。
+- 本轮硬门实际结果：Bridge/Repository/Lifecycle `3` 个文件 `39/39`；Settings 定向组 `7` 个文件 `96/96`；全量 `88` 个文件 `1007/1007`；`npx tsc --noEmit` 通过；`npm run build` 通过，Vite 转换 `844` 个模块，仅有既有单个 `>500 kB` chunk warning；`git diff --check` 退出码 `0`，仅有工作区既有 LF/CRLF 提示；Rust 未修改，`cargo`：`NOT RUN because Rust was not modified`。
+- 有效证据：`docs/companion-harness-evidence/phase-8-r4-tauri-settings/tauri-f-owner-takeover.log`。日志只记录 epoch 后缀、协议版本、状态和计数，不记录完整 ownerEpoch/correlationId、snapshot、nickname、email、phone、API Key、Prompt 或聊天历史。
+
+### Phase 8-R4-H 当前 Tauri Settings 2x DPI 验收（2026-08-20）
+
+- 当前结论：`TAURI_SETTINGS_PASS`；Phase 8-R4-H `PASS`，Tauri Settings A-H 全部通过。该记录追加在 F 记录之后，不改写前序失败、部分通过或 `UNVERIFIED` 历史快照。
+- 真实运行：当前 HEAD `242e148041911201f3ce2d978a193cdf4eaeb89c`；命令 `npm run tauri dev -- --no-watch`；Tauri exe `D:\CodeWorkspace\电脑桌宠\src-tauri\target\debug\yuxin-desktop-pet.exe`；最终 run launcher PID `39632`、Tauri PID `41036`；main HWND `15927612`、platform HWND `854706`；两者均为当前源码本轮原生窗口，完成后仅停止本轮 PID。
+- DPI 硬证据：启动前和启动后只读 `GetScaleFactorForMonitor=200`；主显示器 `\\.\DISPLAY1`、primary、`1536×960`、work area `1536×912`；main/platform 均位于 `DISPLAY1`，`GetDpiForWindow=192`，等价 `scaleFactor=2.0`。没有修改系统全局缩放；没有用近似值替代原生结果。
+- H 矩阵：A main 桌宠完整可见且点击区对齐；B platform 框架/home/真实任务菜单完整；C Profile 控件、焦点、no-op 保存和反馈状态正常；D Local Provider Preferences 区域正常且不使用真实 Key/请求；E Settings `scrollHeight=808`、`clientHeight=492`，可到底并回顶；F 仅使用既有 `VITE_XIAOJU_SETTINGS_FAULT=read`，blocked/retry 完整且业务写入 `0`；G platform 隐藏后 main 保留并由真实任务菜单重开，路由/布局/listener 正常；H 原生 200%/192 DPI 证据与完整 Settings 2x 视觉/交互矩阵通过。
+- 截图证据：新增 `tauri-h-2x-proof.json`、`tauri-h-2x.log`、`main-2x-r4.jpg`、`main-task-menu-2x-r4.png`、`platform-home-2x-r4.jpg`、`platform-settings-2x-top-r4.jpg`、`platform-settings-2x-bottom-r4.jpg`、`platform-settings-blocked-2x-r4.jpg`、`platform-reopened-2x-r4.jpg`。所有新截图已检查签名、非零尺寸/内容与哈希；设置页截图使用去敏证据区域，未交付真实资料值。
+- 缺陷与修复：先完成完整 H 矩阵，未发现 2x DPI 生产 UI/CSS、窗口布局或业务协议缺陷，因此没有生产修复批次。为完成本轮 TypeScript 硬门，仅移除三个测试文件内共六个已失效 `@ts-expect-error` 注释：`src/marketing/marketingStaticFile.test.ts`、`src/pet-core/platform.test.ts`、`src/pet-core/companionPhase7Acceptance.test.ts`；未修改生产实现或 Provider/Task/Reminder/Memory/Proactive/Settings 持久化协议/Bridge 权威协议/Rust/包锁/宠物资源/Live2D/release 文件。
+- 自动化与隔离：聚焦命令 4 文件 `54/54`；全量 `npm test -- --run` 为 88 文件 `1011/1011`；`npx tsc --noEmit`、`npm run build`、`git diff --check` 通过；build 为 863 modules，仅既有单个 `>500 kB` warning；Rust 未修改，`NOT RUN because Rust was not modified`；dist 未发现 H/F 环境变量、fault marker/文案、控制事件、测试 sentinel、敏感 sentinel 或验收专用生产入口。
+- 数据保护与边界：Profile/Preferences 原值、API Key、Prompt、聊天正文、完整 correlationId 和完整 ownerEpoch 均未记录；`preQaOriginalStatus` 保持 `UNKNOWN`；没有业务变更。该门只收口当前源码真实 Tauri Settings A-H，不代表 Harness V1 发布、真实 Provider/API Key、打包/安装包、release acceptance、commit、push 或 Git 发布。
+- 本节证据索引：`docs/companion-harness-evidence/phase-8-r4-tauri-settings/tauri-h-2x-proof.json`、`tauri-h-2x.log`、更新后的 `phase-8-r4-tauri-matrix.json`。
+
+### Phase 8-R4-H 修复后追加复验（2026-08-20）
+
+- 当前 H 结论：`TAURI_SETTINGS_PASS`。本节追加在历史 F/H 记录之后，不覆盖前序红灯、部分通过、`UNVERIFIED` 或旧 H 记录；A-G 真实 Windows 200% DPI Tauri Settings 检查全部通过。
+- 正常 run：当前源码 h11 使用独立 Vite `1434` 与 Tauri `com.yuxin.desktop.codexh11`；原生 proof 为主显示器 `\\.\DISPLAY1`、monitor scale `200%`、main/platform `GetDpiForWindow=192`。关闭 platform 后只剩 main；再用真实桌宠任务菜单重开 platform，进入 Settings 并完成底部/顶部滚动。重开后 platform 原生窗口仍为 200%，没有重复可见窗口，active settings listener 为 `1/1`。
+- A-G 矩阵：A main 桌宠完整可见；B platform 品牌、导航、宠物入口、信箱、窗口控制和首页滚动通过；C Profile 字段、焦点外观、no-op 保存反馈通过；D Local Provider 底部控件可达且未触发连接/保存/网络请求；E Settings 顶到底再回顶通过；F 独立 fault bundle 的 blocked/重新读取面和重试恢复通过，业务写入标记为 `0`；G 隐藏后主宠保留、真实任务菜单重开、Settings 路由与滚动能力通过。
+- F fault run：Vite 启动时设置既有 `VITE_XIAOJU_SETTINGS_FAULT=read`，日志为 `tauri-h-2x-fault-current-20260820-hfault2.log`；真实页面显示“本机设置正在等待恢复”与“重新读取本机设置”，点击重试后恢复 ready。该 run 已停止；第一次仅在 Tauri 子进程设置变量的无效配置 run 不计入 F。
+- 本轮修复批次：
+  - `src/App.tsx` 在平台导航后增加同一窗口的延迟 reveal/focus retry，覆盖真实隐藏/重开时的窗口显示竞态，不创建新窗口或 listener。
+  - 新增 `src/pet-core/dedicatedPlatformWindow.ts` 与对应单测，锁定 `unminimize -> show -> setFocus` 顺序。
+  - `src/pet-core/companionUserSettingsBridge.ts` 将 Settings DEV trace event prefix 做编译期 DEV 隔离；最终 dist 扫描不再包含 `settings_trace:` 控制事件。
+- 当前自动化：聚焦组 `4` 文件 `54/54`；`npx tsc --noEmit`、`npm run build`、`git diff --check` 和 dist 隔离扫描通过；dist 不含 H/F 环境变量、DEV marker/error、控制事件、测试 sentinel 或验收入口；Rust 未修改，`NOT RUN because Rust was not modified`。
+- 全量测试例外：本轮最终 `npm test -- --run` 为 `89` 文件、`1012/1013`，唯一失败是工作树既有 `public/pets/xiaoju-cat/pet.json` 当前 `loopFrameCount=14/landingFrameCount=5` 与既有 `src/pet-core/petInteractionManifest.test.ts` 断言 `12/7` 不一致；本轮没有修改宠物资源或该测试，保留该未授权范围的 dirty 状态，不把它包装成通过。
+- 当前证据：`phase-8-r4-tauri-matrix.json` 的 `currentHAfterF`；`tauri-h-2x-dpi-proof-20260820-h11.json`、`tauri-h-2x-dpi-proof-20260820-h11-reopen.json`；`main-2x-current-20260820-h11.jpg`；`platform-home-2x-current-20260820-h11.jpg`；`platform-settings-top-2x-current-20260820-h11.jpg`；`platform-settings-bottom-2x-current-20260820-h11.jpg`；`platform-settings-reopened-2x-current-20260820-h11.jpg`；`platform-settings-blocked-current-20260820-hfault2.jpg`。设置截图使用脱敏区域，未交付真实资料值。
+- 数据与独立门：`preQaOriginalStatus` 继续为 `UNKNOWN`；没有 Profile/Preferences 业务变更、真实 Provider/API Key、打包、安装包、commit、push 或发布。全量 Vitest 的宠物 manifest/test mismatch 仍是工作区独立自动化待处理项；Provider、打包/安装、release acceptance 与 Git 发布仍未完成。
+
+### Phase 8-R4-H 当前源码证据追加（2026-08-20，最终本地收口）
+
+- 当前结论：`TAURI_SETTINGS_PASS`；本节追加在历史 F/H 记录之后，不改写任何历史失败、部分通过或 `UNVERIFIED` 快照。
+- 正常 current-source run：h13 使用真实 Tauri main/platform 双窗口；`DISPLAY1` 为 primary，原生 `GetScaleFactorForMonitor=200`，main/platform `GetDpiForWindow=192`；Profile、no-op 保存、Local Provider、Settings 顶到底再回顶、platform 隐藏/任务菜单重开均通过。证据：`tauri-h-2x-dpi-proof-20260820-h13.json`、`tauri-h-2x-current-run-20260820-h13.log` 及 h13 截图组。
+- F current-source run：hFault5 在 Vite 启动时使用既有 `VITE_XIAOJU_SETTINGS_FAULT=read`；真实 Settings blocked/重试面显示正常，显式重试后恢复 ready；日志统计 `blocked=4`、`ready=5`、业务写入标记 `0`，平台关闭完成，run 已停止。证据：`tauri-h-2x-fault-current-20260820-hfault5.log`。
+- Native blocked capture：hFault6 记录当前源码 native main/platform HWND、`210×224`/`1720×1180`、DPI `192`、scale `200%`；其 platform PrintWindow 候选为黑帧，已明确排除，不作为验收截图。hFault5 的真实 CUA blocked/retry 观察与 ready 去敏截图仍作为 F 证据。证据：`tauri-h-2x-fault-current-20260820-hfault5.log`、`platform-settings-retry-ready-cua-current-20260820-hfault5.jpg`、`tauri-h-2x-final-proof-20260820-h13-hfault5.json`。
+- 自动化硬门（本次证据完成后重跑）：聚焦组 `54/54`；全量 `89` 文件、`1013/1013`；`npx tsc --noEmit`、`npm run build`（`861` modules）、`git diff --check` 和 dist 隔离扫描均通过；Rust：`NOT RUN because Rust was not modified`。
+- 数据保护：没有输出或修改 Profile/Preferences 原值，没有 API Key/Provider 请求；没有完整 correlationId、ownerEpoch、Prompt 或聊天正文；`preQaOriginalStatus` 继续为 `UNKNOWN`。Provider、打包/安装、release acceptance、commit、push 和 Git 发布仍是独立未授权门。
+- 证据索引：`docs/companion-harness-evidence/phase-8-r4-tauri-settings/tauri-h-2x-final-proof-20260820-h13-hfault5.json`、`phase-8-r4-tauri-matrix.json` 的 `currentHFinal`。
+
+### Phase 8-R4-H 当前源码 H18 追加验收（2026-08-21）
+
+- 当前结论：`TAURI_SETTINGS_PASS`；本节追加在全部历史 H 记录之后，不改写历史失败、部分通过或 `UNVERIFIED` 快照。H18 先完成完整 A-G 矩阵，再执行自动化与产物硬门。
+- 真实运行：当前 HEAD `242e148041911201f3ce2d978a193cdf4eaeb89c`；正常与故障均使用 `npm run tauri dev -- --no-watch`；正常运行未设置 `VITE_XIAOJU_SETTINGS_FAULT`，故障运行单独设置既有 `VITE_XIAOJU_SETTINGS_FAULT=read`；两次运行均在证据采集后停止，目标 Tauri 进程与 `1420/9222` 监听均清零。
+- DPI 硬证据：启动前及矩阵完成后的原生探针均显示 primary `\\.\DISPLAY1`、`1536×960`、work area `1536×912`、`GetScaleFactorForMonitor=200`；main/platform 原生窗口均为 `GetDpiForWindow=192`，WebView `devicePixelRatio=2`，未修改系统缩放、未强制 WebView scale、未使用浏览器模拟或截图放大。
+- H 矩阵：A main 桌宠命中区通过；B platform 框架/home 与六项真实任务菜单通过；C Profile 四字段、Tab 焦点顺序、no-op 保存及无变化反馈通过；D Local Provider 区域可达且未测试连接、保存或请求；E Settings 到底、回顶且无裁切；F 独立 read fault 显示 blocked/retry，显式重试恢复 ready，故障日志业务 command type 为 `0`；G platform 隐藏后 main 保留，由任务菜单重开 platform 并重新到达 Settings；H 原生 200%/192 DPI 下 A-G 全部通过。
+- 缺陷与修复：完整矩阵未发现当前源码的 2x UI、窗口布局、路由、滚动或设置桥接缺陷，因此没有生产修复批次；H14-H17 的中断/恢复尝试保留为历史，不提升为 H18 证据。工作树中与本门无关的 dirty/untracked 内容保持不动。
+- 当前证据：`tauri-h-2x-proof-20260821-h18.json`、`tauri-h-2x-current-run-20260821-h18.log`、`tauri-h-2x-fault-current-20260821-h18.log`、`main-2x-20260821-h18.png`、`main-task-menu-2x-20260821-h18.png`、`platform-home-2x-20260821-h18.png`、`platform-settings-2x-top-20260821-h18.png`、`platform-settings-2x-bottom-20260821-h18.png`、`platform-settings-blocked-2x-20260821-h18.png`；Profile 顶部截图已去敏，blocked 截图不含 Profile 值。
+- 自动化与隔离：聚焦命令 4 文件 `54/54`；全量 `npm test -- --run` 为 `91` 文件、`1047/1047`；`npx tsc --noEmit`、`npm run build`、`git diff --check` 通过；构建转换 `861` 个模块，仅有既有单个 `>500 kB` chunk warning；dist 未发现 H/F 环境变量、DEV fault/owner takeover marker、控制事件、测试 sentinel 或验收专用入口；Rust 未修改，`cargo`：`NOT RUN because Rust was not modified`。
+- 数据保护与边界：`preQaOriginalStatus` 保持 `UNKNOWN`；没有 Profile/Preferences 业务写入、API Key、真实 Provider 请求、完整 correlationId/ownerEpoch、Prompt 或聊天正文进入交付证据；没有 Provider、Harness V1、打包、发布、commit 或 push 声明。
+- 本节证据索引：`docs/companion-harness-evidence/phase-8-r4-tauri-settings/tauri-h-2x-proof-20260821-h18.json` 与 `phase-8-r4-tauri-matrix.json` 的 `currentHFinalH18`。
 
 ## 6. V1 最终验收指标
 
@@ -402,7 +669,7 @@ Phase 2 前置门禁（2026-08-11 已完成）：
 | 普通远程聊天外部请求 | 每 Turn `<= 1` | Fake Provider 计数 + Adapter 合同测试 |
 | 可本地完成的明确操作 | 外部请求 `= 0` | Task/Memory 集成测试 |
 | V1 主动提醒外部请求 | 每事件 `= 0` | Proactive 测试 |
-| 明确 Task / Reminder 操作成功率 | 支持语料集 `>= 95%` | 固定中文 fixture 报告 |
+| 明确 Task / Reminder 操作成功率 | 支持语料集 `>= 95%` | `companionPhase8Acceptance.test.ts` 固定中文 fixture `20/20` |
 | 虚假成功确认 | `0` | Provider 乱报 + 各类领域失败矩阵 |
 | 重复 Reminder / Action 写入 | `0` | 重试、双击、重复候选、重启 fixture |
 | 业务层直接依赖具体厂商 | `0` | import/协议边界检查 |
@@ -440,7 +707,26 @@ Phase 2 前置门禁（2026-08-11 已完成）：
 
 ## 9. 输入文档指纹
 
-- `Companion Harness PRD.md`：SHA-256 `5B77EE7D981313263375198F7A0475C970E5F17E03802592815491AD3C3B7E96`
-- `Companion Harness Technical Design.md`：SHA-256 `533160387A92B852B4D8FF49D250781F5A80D7E97346DF738E9DD210A1992CD2`
+- `Companion Harness PRD.md`：SHA-256 `558D4D61958FC3425604A34EFE9E43EEBA4BA50D3AE44946F5533850B5787116`
+- `Companion Harness Technical Design.md`：SHA-256 `89F63E87AADC7D8CB8A3D4CB54B86BCD7F3DAC288D09D9F66F8F32EBF196C8B2`
 
 后续如果输入文档变化，先对比指纹并重新审查受影响条目，不默认沿用旧结论。
+
+### Companion Harness 意图修复与 Release 复验（2026-08-31）
+
+- 根因：`extractCompanionPreference()` 原先用裸 `安静|别太吵|少打扰` 匹配，把普通陪伴表达误写为 `global.companionStyle=quiet` 且标为 `inferred`；现改为“持久范围信号 + 明确安静控制信号”双门禁，写入来源为 `explicit`。
+- 修改文件：`src/pet-core/companionPreferences.ts`、`src/pet-core/companionPreferences.test.ts`、`src/pet-core/companionChatPipeline.test.ts`、`src/pet-core/companionHarness.test.ts`。
+- 验证：聚焦 `3` 文件 `74/74`；Companion 回归 `38` 文件 `551/551`；`tsc --noEmit`、`npm run build`、Tauri `build --no-bundle` 均通过；`git diff --check` 无错误。
+- Release：`D:\CodeWorkspace\电脑桌宠\src-tauri\target\release\yuxin-desktop-pet.exe`；FileVersion `0.3.2`；构建文件时间 `2026-08-31 00:13:00`；SHA-256 `DF1885B448DC592E8B1249A833B5CD74F113B27058A058BD691CA138AE0F4F77`；运行 PID `19152`，唯一进程路径与 Release 一致。已确认并关闭误启动的旧注册 `0.2.5` 进程，未关闭当前 Release。
+- 模型目录：通过 `https://api.deepseek.com/v1/models` 获取 `3` 个模型，当前仍选 `deepseek-v4-flash`。
+- 真实 DS：当前 Release/Tauri 中发送原始普通聊天测试句，Provider `ds` 返回可见回复“好，那就安静待着吧，喵。我陪你坐会儿。”；单次远程请求成功，未出现本地回退或重复回复。
+- 回退与敏感配置：验收前回退开关为开启；真实请求期间临时关闭，完成后已重新开启并保存。API Key 仅确认掩码状态“已配置”，未读取、输出、修改或清除。
+- 副作用：普通句与完整原始句均未触发 Preference/Task/Reminder/Memory；明确持久化安静请求保持单次幂等写入。最终结论：`MINIMAL_REAL_DS_PASS`。
+
+### Companion Harness 当前 Release 最小真实 DS 复验（2026-09-02）
+
+- 最终结论：`CURRENT_RELEASE_MINIMAL_DS_PASS`。
+- 版本隔离：仅运行 `D:\CodeWorkspace\电脑桌宠\src-tauri\target\release\yuxin-desktop-pet.exe`；FileVersion `0.3.2`；SHA-256 `5909E969F8147301CD388E114567D8AB27123D75D32D837D1A8889A97DBDC42B`；最终 PID `23596`，进程路径一致且 `Responding=True`。
+- Provider：真实 Tauri 设置页确认当前使用 `ds`、协议 `openai-compatible`、模型 `deepseek-v4-flash`、Endpoint `https://api.deepseek.com`；API Key 仅确认掩码“已配置”，未读取、输出、修改或清除。模型目录曾从 `https://api.deepseek.com/v1/models` 成功获取 `3` 个模型。
+- 真实 DS：临时关闭本地回退并保存后，在陪伴房远程模式发送一条最小普通陪伴测试；界面由 `ds` 返回可见回复“好的，我就在这儿陪你。安静坐一会儿就好。”，未出现本地回退或重复回复。
+- 副作用与恢复：本轮回复未创建 Task、Reminder 或 Memory；测试后已重新开启本地回退并保存，设置页显示“已保存并使用ds。”；未修改源码、测试、构建产物或其他配置文件。

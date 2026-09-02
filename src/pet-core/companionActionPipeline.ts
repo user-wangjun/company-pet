@@ -30,6 +30,7 @@ import type {
   ActionCandidate,
   ActionExecutionResult,
   CompanionActionCandidate,
+  CompanionActionConfirmationProof,
   CompanionActionService,
   CompanionActionType,
   CompanionInput,
@@ -229,6 +230,8 @@ function hintsForRoute(
       ),
       proactivePreference: null,
       memoryCandidate: null,
+      preference: null,
+      forget: false,
     };
   }
   if (route.kind === "task-operation") {
@@ -251,6 +254,8 @@ function hintsForRoute(
       ),
       proactivePreference: null,
       memoryCandidate: null,
+      preference: null,
+      forget: false,
     };
   }
   if (route.kind === "proactive") {
@@ -266,6 +271,8 @@ function hintsForRoute(
       evidence: null,
       proactivePreference,
       memoryCandidate: null,
+      preference: null,
+      forget: false,
     };
   }
   if (route.kind === "memory") {
@@ -276,6 +283,35 @@ function hintsForRoute(
       evidence: null,
       proactivePreference: null,
       memoryCandidate: route.candidate,
+      preference: null,
+      forget: false,
+    };
+  }
+  if (route.kind === "preference") {
+    return {
+      route,
+      localOwned: true,
+      action: null,
+      evidence: null,
+      proactivePreference: null,
+      memoryCandidate: null,
+      preference: {
+        sourceMessageId: input.sourceMessageId,
+        preference: route.extraction.preference,
+      },
+      forget: false,
+    };
+  }
+  if (route.kind === "forget") {
+    return {
+      route,
+      localOwned: true,
+      action: null,
+      evidence: null,
+      proactivePreference: null,
+      memoryCandidate: null,
+      preference: null,
+      forget: true,
     };
   }
   return {
@@ -285,6 +321,8 @@ function hintsForRoute(
     evidence: null,
     proactivePreference: null,
     memoryCandidate: null,
+    preference: null,
+    forget: false,
   };
 }
 
@@ -612,8 +650,9 @@ export class CompanionActionPipeline implements CompanionActionService {
     input: CompanionInput,
     candidates: readonly CompanionActionCandidate[],
     signal: AbortSignal,
+    confirmation?: CompanionActionConfirmationProof,
   ): Promise<readonly ActionExecutionResult[]> {
-    const work = () => this.processSerial(input, candidates, signal);
+    const work = () => this.processSerial(input, candidates, signal, confirmation);
     const next = this.serial.then(work, work);
     this.serial = next.then(() => undefined, () => undefined);
     return next;
@@ -623,6 +662,7 @@ export class CompanionActionPipeline implements CompanionActionService {
     input: CompanionInput,
     candidates: readonly CompanionActionCandidate[],
     signal: AbortSignal,
+    confirmation?: CompanionActionConfirmationProof,
   ): Promise<readonly ActionExecutionResult[]> {
     const hints = buildLocalRequestHints(input);
     const results: ActionExecutionResult[] = [];
@@ -652,6 +692,7 @@ export class CompanionActionPipeline implements CompanionActionService {
         signal,
         isCurrent: () => !signal.aborted,
         idempotency: this.idempotency,
+        confirmation,
       });
       if (decision.status === "rejected") {
         results.push(decision.result);

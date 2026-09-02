@@ -500,8 +500,11 @@ export type CompanionContextBuilderInput = {
   petId: string;
   message: string;
   sessionId: string;
+  sourceMessageId?: string;
   contextEpoch?: CompanionContextEpoch;
 };
+
+type CompanionContextBuilderValue<T> = T | ((input: CompanionContextBuilderInput) => T);
 
 export type CompanionContextBuilderOptions = {
   soul?: PetSoulPackage | ((input: CompanionContextBuilderInput) => PetSoulPackage | undefined);
@@ -513,11 +516,18 @@ export type CompanionContextBuilderOptions = {
   memoryRepository?: Pick<MemoryRepository, "search">;
   history?: readonly CompanionChatMessage[]
     | ((input: CompanionContextBuilderInput) => readonly CompanionChatMessage[] | undefined);
-  systemPrompt?: string;
-  style?: CompanionChatStyle;
+  systemPrompt?: CompanionContextBuilderValue<string | undefined>;
+  style?: CompanionContextBuilderValue<CompanionChatStyle | undefined>;
   platformRules?: CompanionPlatformRules;
   budget?: CompanionContextBudgetLimits;
   now?: number | (() => number);
+};
+
+export type CompanionContextBuilder = {
+  build(
+    input: CompanionContextBuilderInput,
+    signal: AbortSignal,
+  ): Promise<CompanionChatContext>;
 };
 
 function assertContextBuilderActive(signal: AbortSignal): void {
@@ -536,12 +546,7 @@ function resolveBuilderValue<T>(
 /** Pure injectable ContextBuilder for Harness tests and future App wiring. */
 export function createCompanionContextBuilder(
   options: CompanionContextBuilderOptions = {},
-): {
-  build(
-    input: CompanionContextBuilderInput,
-    signal: AbortSignal,
-  ): Promise<CompanionChatContext>;
-} {
+): CompanionContextBuilder {
   return {
     async build(input, signal) {
       assertContextBuilderActive(signal);
@@ -566,6 +571,12 @@ export function createCompanionContextBuilder(
         ? undefined
         : resolveBuilderValue(options.history, input);
       assertContextBuilderActive(signal);
+      const systemPrompt = options.systemPrompt === undefined
+        ? undefined
+        : resolveBuilderValue(options.systemPrompt, input);
+      const style = options.style === undefined
+        ? undefined
+        : resolveBuilderValue(options.style, input);
       const context = assembleCompanionContext({
         petId: input.petId,
         userInput: input.message,
@@ -574,8 +585,8 @@ export function createCompanionContextBuilder(
         memories,
         history,
         contextEpoch: input.contextEpoch,
-        systemPrompt: options.systemPrompt,
-        style: options.style,
+        systemPrompt,
+        style,
         platformRules: options.platformRules,
         budget: options.budget,
         now,

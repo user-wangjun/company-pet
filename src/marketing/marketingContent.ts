@@ -1,5 +1,6 @@
 export const MARKETING_ROUTE_PATH = "/marketing";
 export const MARKETING_FILE_NAME = "marketing.html";
+export const ACCOUNT_ROUTE_PATH = "/account";
 
 export const WINDOWS_DOWNLOAD_URL =
   "https://github.com/user-wangjun/company-pet/releases/latest/download/yuxin-desktop-pet-0.3.1-windows-x64-setup.exe";
@@ -21,6 +22,11 @@ export function isMarketingRoute(pathname: string): boolean {
   );
 }
 
+export function isAccountRoute(pathname: string): boolean {
+  const normalizedPath = pathname.replace(/\\/g, "/").replace(/\/+$/, "") || "/";
+  return normalizedPath === ACCOUNT_ROUTE_PATH;
+}
+
 export const socialLinks: SocialLink[] = [
   {
     label: "Discord",
@@ -36,5 +42,5 @@ export const socialLinks: SocialLink[] = [
   { label: "X", icon: "x", behavior: "toast" },
   { label: "微信", icon: "wechat", behavior: "wechat" },
   { label: "QQ", icon: "qq", behavior: "toast" },
-  { label: "用户头像", icon: "user", behavior: "toast" },
+  { label: "用户头像", icon: "user", href: ACCOUNT_ROUTE_PATH, behavior: "link" },
 ];

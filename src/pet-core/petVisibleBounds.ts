@@ -12,6 +12,7 @@ type FrameSample = {
   specScale: number;
   offsetX: number;
   offsetY: number;
+  runtimeOffsetY: number;
   sourceWidth: number;
   sourceHeight: number;
   frameRect: { x: number; y: number; width: number; height: number } | null;
@@ -89,8 +90,20 @@ function unionBounds(bounds: Bounds | null, next: Bounds): Bounds {
 
 function toWindowBounds(sample: FrameSample, frameBounds: Bounds): Bounds {
   const scale = PET_VISUAL_SCALE * sample.specScale;
-  const left = PET_WINDOW_WIDTH / 2 - (sample.sourceWidth / 2) * scale + frameBounds.x * scale + sample.offsetX;
-  const top = PET_WINDOW_HEIGHT - PET_BOTTOM_INSET_PX - sample.sourceHeight * scale + frameBounds.y * scale + sample.offsetY;
+  const left =
+    PET_WINDOW_WIDTH / 2 -
+    (sample.sourceWidth / 2) * scale +
+    frameBounds.x * scale +
+    sample.offsetX;
+  // Keep dynamic-window cropping in sync with the renderer's per-frame drag
+  // correction. Without this, takeoff frames can move above the measured top.
+  const top =
+    PET_WINDOW_HEIGHT -
+    PET_BOTTOM_INSET_PX -
+    sample.sourceHeight * scale +
+    frameBounds.y * scale +
+    sample.offsetY +
+    sample.runtimeOffsetY * scale;
 
   return {
     x: left,
@@ -107,17 +120,30 @@ export async function measurePetVisibleBounds(manifest: PetManifest): Promise<Bo
 
   try {
     const samplesByUrl = new Map<string, FrameSample[]>();
-    for (const spec of Object.values(manifest.animations)) {
+    for (const [animationName, spec] of Object.entries(manifest.animations)) {
       const scale = spec.scale ?? 1;
       const offsetX = spec.offsetX ?? 0;
       const offsetY = spec.offsetY ?? 0;
-      const spriteSheetUrl = resolvePetAssetUrl(manifest.id, spec.spritesheetPath ?? manifest.spritesheetPath);
+      const dragFrameOffsets =
+        animationName === manifest.interactions.drag.right ||
+        animationName === manifest.interactions.drag.left
+          ? manifest.interactions.drag.frameOffsetY
+          : undefined;
+      const spriteSheetUrl = resolvePetAssetUrl(
+        manifest.id,
+        spec.spritesheetPath ?? manifest.spritesheetPath,
+      );
       const sheetSamples = samplesByUrl.get(spriteSheetUrl) ?? [];
-      for (const rect of buildAnimationFrameRects(spec, FRAME_WIDTH, FRAME_HEIGHT)) {
+      for (const [frameIndex, rect] of buildAnimationFrameRects(
+        spec,
+        FRAME_WIDTH,
+        FRAME_HEIGHT,
+      ).entries()) {
         sheetSamples.push({
           specScale: scale,
           offsetX,
           offsetY,
+          runtimeOffsetY: dragFrameOffsets?.[frameIndex] ?? 0,
           sourceWidth: FRAME_WIDTH,
           sourceHeight: FRAME_HEIGHT,
           frameRect: rect,
@@ -132,6 +158,7 @@ export async function measurePetVisibleBounds(manifest: PetManifest): Promise<Bo
           specScale: scale,
           offsetX,
           offsetY,
+          runtimeOffsetY: 0,
           sourceWidth: 0,
           sourceHeight: 0,
           frameRect: null,

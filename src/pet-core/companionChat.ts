@@ -23,6 +23,12 @@ export type CompanionChatPackage =
   | { status: "loaded"; petId: string; config: CompanionChatConfig }
   | { status: "failed"; petId: string };
 
+export type LocalCompanionReplyInput = {
+  message: string;
+  systemInstruction?: string;
+  history?: readonly { speaker: "pet" | "user"; text: string }[];
+};
+
 type CompanionChatResponse = {
   ok: boolean;
   status: number;
@@ -153,4 +159,48 @@ export function chooseCompanionChatCue(
   }
 
   return available[available.length - 1];
+}
+
+/**
+ * Generates the package-local reply without going through the legacy
+ * Provider object. The Harness App composition root uses this as its Local
+ * ModelPort implementation, preserving localReplies/style/context behavior.
+ */
+export function generateLocalCompanionReply(
+  config: CompanionChatConfig,
+  input: LocalCompanionReplyInput,
+  random: () => number = Math.random,
+): string {
+  const replies = config.localReplies.length
+    ? config.localReplies
+    : ["嗯，我听着。"];
+  const systemInstruction = input.systemInstruction ?? "";
+  const hasSoulContext = systemInstruction.includes("【当前宠物 Soul");
+  const hasPreferenceContext = systemInstruction.includes("【用户偏好");
+  const hasSessionContext = (input.history ?? []).some(
+    (message) => message.speaker === "user",
+  );
+  const nickname = systemInstruction
+    .split(/\r?\n/)
+    .find((line) => line.trim().startsWith("- nickname:"))
+    ?.replace(/^\s*-\s*nickname:\s*/i, "")
+    .trim();
+  const contextOffset = Number(hasSoulContext)
+    + Number(hasPreferenceContext)
+    + Number(hasSessionContext);
+  const baseReply = replies[
+    (Math.floor(random() * replies.length) + contextOffset) % replies.length
+  ];
+  const prefix = nickname
+    ? `${nickname}，`
+    : hasSessionContext
+      ? "我还记得刚才聊过的，"
+      : hasSoulContext
+        ? "我会照着小伙伴的性格陪你，"
+        : "";
+  const maxReplyLength = config.style?.maxReplyLength ?? 36;
+  const text = `${prefix}${baseReply}`.replace(/\s+/g, " ").trim();
+  return Array.from(text).length <= maxReplyLength
+    ? text
+    : `${Array.from(text).slice(0, Math.max(1, maxReplyLength - 1)).join("")}…`;
 }

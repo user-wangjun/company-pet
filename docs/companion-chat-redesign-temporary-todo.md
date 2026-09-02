@@ -1,7 +1,7 @@
 # 陪伴聊天形态整改临时 TODO
 
 日期：2026-08-11
-状态：临时执行清单，整改完成并经用户验收后删除或合并进正式设计文档
+状态：临时执行清单，整改完成并经用户验收后删除或合并进正式设计文档。Companion Harness 由独立的 `docs/companion-harness-todo.md` 管理，已推进到 Phase 8 的纯逻辑与自动化门；这不关闭本文未完成的 UI、Tauri 或视觉门。
 当前总进度：`2 / 6 阶段（约 33%）`；整改代码进度：`1 / 5 阶段（20%）`
 
 ## 1. 目标
@@ -20,7 +20,7 @@
 
 明确不做：
 
-- 不实现或调整 Harness；`docs/companion-harness-todo.md` 由独立任务负责。
+- 不实现或调整 Harness；`docs/companion-harness-todo.md` 由独立路线负责，当前 Harness Phase 8 的状态、观测和发布门禁不在本文内重复关闭。
 - 不扩展、重写或限定具体 Provider；只消费现有 Provider 中立状态。
 - 不改 API Key、Endpoint、模型接入或远程请求协议。
 - 不新增完整聊天记录持久化、云同步、自动总结或“最近会话”侧栏。
@@ -39,6 +39,7 @@
 - [x] Esc、外部点击或 90 秒自动退出后，`platformSection` 可能仍为 `chat`，页面却落入桌宠选择页。
 - [x] 860×590 可显示，但 1720×1180 / 大窗口下陪伴房缩成左侧窄列。
 - [x] 当前自动化基线通过：67 个测试文件、601 个测试；前端 build、Cargo check、12 个 Rust 测试和 `git diff --check` 均通过。
+- [x] Harness V1 已在独立路线完成 Phase 8 的纯逻辑/自动化验收；本文仍保留自己的 UI、Tauri 实机和用户视觉验收门，不能把 Harness 证据当作本路线完成证据。
 
 以上只表示问题和基线已经确认，不表示整改代码已经完成。
 

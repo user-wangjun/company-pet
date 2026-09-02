@@ -1,6 +1,6 @@
 # Agent Memory / Soul / Task 正式数据契约
 
-状态：阶段 0/0.1 正式契约（2026-08-03；2026-08-11 冻结 Harness V1 Task Context 外发边界）。本契约描述当前桌面端边界；它不授权云端同步、远程上传或让模型自行修改数据。
+状态：阶段 0/0.1 正式契约（2026-08-03；2026-08-11 冻结 Harness V1 Task Context 外发边界；2026-08-13 由 Phase 8 评测与观测矩阵复核；2026-08-14 完成 Phase 8-R3 Profile/Preferences 单写者与读取失败隔离实现侧复核）。本契约描述当前桌面端边界；它不授权云端同步、远程上传或让模型自行修改数据。
 
 第一版范围：当前宠物的轻量陪伴聊天。默认不保存完整原始聊天记录；Gemini、OpenAI 或本地 Provider 可以替换，Memory、Task 和检索契约不随 Provider 重写。长期写入只接受用户明确要求或确认后的低风险内容。
 
@@ -50,7 +50,15 @@
 
 阶段 7 将 Provider Profile 的稳定 `id`、展示名称、协议、Endpoint、Model 和 `credentialRef` 分开保存；Profile 只保存非秘密元数据，凭据由系统安全存储按 Profile/`credentialRef` 读取。当前支持 `local`、`gemini-native` 和 `openai-compatible` 三种协议；Google Gemini 是 `gemini-native` 的一个预设，OpenAI-compatible 是协议名称而不是供应商名称。设置界面中的远程连接测试和远程聊天请求都必须由用户主动触发。
 
-Provider 配置位于平台顶层“设置”页面的模型服务区块；“提醒设置”只承载任务、提醒偏好和本地 Memory 管理，不再包含模型服务配置。平台设置中心同时承载本机个人信息，后续设置项继续收纳在同一个“设置”页面中。个人资料单独保存在 `yuxin-companion-user-profile-v1`；昵称保存时同步为现有 `global.nickname` 陪伴偏好，性别、邮箱和电话不会进入 Memory、Task、Soul、远程 Provider、Outbox 或普通日志。当前没有账号系统、云端同步或联系人功能；将这些字段清空并保存即可清除本机资料。切换 Provider 只改变模型服务接入，不迁移或重写 Soul、Preference、Memory、Task、主动提醒规则或当前宠物身份。
+Provider 配置位于平台顶层“设置”页面的模型服务区块；“提醒设置”只承载任务、提醒偏好和本地 Memory 管理，不再包含模型服务配置。平台设置中心同时承载本机个人信息，后续设置项继续收纳在同一个“设置”页面中。个人资料保存在 `yuxin-companion-user-profile-v1`，但 `global.nickname` Preference 是昵称唯一持久化事实源；Profile 的 `nickname` 只作为兼容显示镜像，由 Preference 派生，加载、重启和冲突恢复时不反向覆盖 Preference。没有昵称 Preference 时，旧 Profile 昵称不会自动复活；仅在显式兼容迁移中把旧 Profile 昵称写入 Preference。写入采用写后读验证，失败时恢复已验证的旧状态，不把未经验证的 Profile 或 Preference 更新显示为成功。性别、邮箱和电话不会进入 Memory、Task、Soul、远程 Provider、Outbox 或普通日志。当前没有账号系统、云端同步或联系人功能；将这些字段清空并保存即可清除本机资料。切换 Provider 只改变模型服务接入，不迁移或重写 Soul、Preference、Memory、Task、主动提醒规则或当前宠物身份。
+Provider 配置位于平台顶层“设置”页面的模型服务区块；“提醒设置”只承载任务、提醒偏好和本地 Memory 管理，不再包含模型服务配置。平台设置中心同时承载本机个人信息，后续设置项继续收纳在同一个“设置”页面中。个人资料保存在 `yuxin-companion-user-profile-v1`，但 `global.nickname` Preference 是昵称唯一持久化事实源；Profile 的 `nickname` 只作为兼容显示镜像，由 Preference 派生，加载、重启和冲突恢复时不反向覆盖 Preference。没有昵称 Preference 时，旧 Profile 昵称不会自动复活；仅在显式兼容迁移中把旧 Profile 昵称写入 Preference。跨 Profile/Preference 的资料保存先写入并读回验证版本化的 `yuxin-companion-user-profile-recovery-v1` `prepared` 记录，再验证两个业务 key 和 `yuxin-companion-user-profile-migration-v1` authority marker，最后提交并读回 `committed` 状态；失败会恢复旧快照，恢复失败会保留记录并阻塞后续写入，启动总是先处理该记录。写入采用写后读验证，失败时恢复已验证的旧状态，不把未经验证的 Profile 或 Preference 更新显示为成功。性别、邮箱和电话不会进入 Memory、Task、Soul、远程 Provider、Outbox 或普通日志。当前没有账号系统、云端同步或联系人功能；将这些字段清空并保存即可清除本机资料。切换 Provider 只改变模型服务接入，不迁移或重写 Soul、Preference、Memory、Task、主动提醒规则或当前宠物身份。
+
+### Profile / Preferences 设置单写者协议（Phase 8-R3）
+
+- App 只通过 `CompanionUserSettingsRepository` 读取和修改个人资料与偏好。Repository 由主窗口的 `CompanionUserSettingsOwner` 持有唯一本地存储写入口；平台窗口在 Tauri 中只通过 typed event bridge 请求命令、接收已提交 snapshot，不直接读写四个 settings/recovery key。
+- 启动结果是显式的 `ready` 或 `blocked`。`blocked` 只携带 `read-failed`、`invalid-storage`、`recovery-blocked` 或 `write-failed` 等原因，不携带业务 Profile/Preferences 快照；UI 必须保留空 projection、显示读取失败并禁用保存。一次性读取异常不能被折叠成空资料后继续写入。
+- 写入只接受 `updateProfile(patch, expectedGeneration, expectedRevision)`、`upsertPreference(preference, expectedGeneration, expectedRevision)` 和 `deletePreference(id, expectedGeneration, expectedRevision)` 这三类 delta command。每个 command 带 `correlationId`；过期 generation/revision fail closed，重放同一 correlation 只返回原已提交结果，不再写第二次。
+- Owner 成功提交后广播带 generation/revision 的完整 committed snapshot；Context 在 Settings 不可用时可以使用空的只读 Preferences projection，但任何 Preference 或 forget 操作都必须先拿到可读的 Settings snapshot。forget 在删除 Memory 前先完成 Settings 与 Memory 的读取预检。
 
 兼容迁移优先读取 v2 配置，找不到时只读旧 v1 配置并写入新的非秘密元数据；旧 `google-gemini` / `custom-gemini` Profile ID 和对应 `credentialRef` 保持可读，系统安全存储中的既有账户不会被覆盖或删除。旧配置中如果仍有明文 `apiKey` 字段，迁移会忽略该字段而要求用户重新输入，避免把不安全的历史秘密复制到新的普通配置或日志中；无法从旧明文配置无损恢复的凭据是已知限制。
 
@@ -80,6 +88,14 @@ Provider 配置位于平台顶层“设置”页面的模型服务区块；“�
 - 禁止外发的 Task/Reminder 字段包括但不限于：本地 id、title、note、status、priority、projectId、dueAt、remindAt、repeatType、repeatRule、sourceMessageId、evidence、attachmentRefs、createdByPetId、ReminderInstance 状态/时间、`deletedAt`、Tombstone 和 Outbox payload。活动、完成、取消、过期、软删除和物理删除记录一律同样禁止。
 - 因为 V1 从未把本机 Task/Reminder 事实发送给 Provider，本地删除不会产生远程删除请求，也不会发送 Tombstone 或 delete Event。删除后记录立即停止参与本地任务消费者；用户曾在聊天输入中亲自键入的文本可能已由所选服务商处理，本机删除 Task 不能被表述为已追溯删除服务商侧历史。
 - 如未来确有最小 Task 投影需求，必须先单独修订本契约，明确：仅限当前用户同一 Turn 的明确讨论条件、逐字段 allowlist、终态/删除后的立即排除与服务商留存限制、用户可见披露和关闭方式；随后完成 Gemini-native 与 OpenAI-compatible 的请求体隐私 fixture，至少覆盖相关任务、近期到期任务、无关任务、已完成/取消任务和已删除任务。完成这些前置项之前，不得仅凭 Harness TODO 或实现便利增加任何 Task/Reminder Context。
+
+### Phase 8 可观测性白名单
+
+运行时观测器是本机、有界、非持久化的诊断边界。允许记录的字段只有：不透明 hash 后的 `requestId` / `providerProfileId`、`protocol`、有限范围的 `latencyMs`、`remoteCallCount` / `localFallbackCount`、七种正式 `CompanionActionType` 的 `actionType` / `actionStatus`、`memoryCandidateCount` / `memoryStatus`、主动事件的 `eventType` / `decision`，以及收敛后的 `errorKind`。`cancel_task`、`postpone_task`、`reschedule_task` 仍只由本地确定性路由产生，不加入 Model Codec 或 Provider Schema。协议字段、动作状态、事件决策和错误类别均使用 allowlist，未知值写为 `unknown`；记录器有固定容量上限，不向 Provider、Outbox 或日志文件扩散。
+
+完整 Prompt、用户消息、Memory content/evidence、Task/Reminder note/evidence/id、原始 Provider 请求/响应、完整模型回复、API Key 和其他凭据均不允许进入观测数据。`src/pet-core/companionObservability.test.ts` 的 hostile sentinel 测试和 `src/pet-core/companionPhase8Acceptance.test.ts` 的三层评测共同验证这一边界；这属于本机自动化证据，不代表真实远程服务或 Tauri 发布验证。
+
+观测器是诊断旁路，不是领域成功条件。`respond`、`handleEvent` 和主动事件投递即使 Recorder 抛错，也必须保留原有成功、失败、取消、提交和幂等结果；观测调用不重试、不递归调用 Harness，并且只接收脱敏后的协议化快照。Recorder 不能通过修改观测入参改变领域返回值。
 
 ### 永远不得发送的内容
 

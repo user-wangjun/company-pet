@@ -9,6 +9,7 @@ export type CompanionForgetResult = {
   recentMemoryId: string | null;
   deletedPreference: boolean;
   deletedMemory: boolean;
+  persistenceFailed: boolean;
   feedback: string;
 };
 
@@ -28,6 +29,7 @@ export function forgetRecentCompanionData(input: {
   const warn = input.warn ?? console.warn;
   let preferences = input.preferences;
   let deletedPreference = false;
+  let persistenceFailed = false;
   const recentPreferenceId = preferences.recentPreferenceId;
   if (
     recentPreferenceId
@@ -37,7 +39,7 @@ export function forgetRecentCompanionData(input: {
     if (input.persistPreferences(nextPreferences)) {
       preferences = nextPreferences;
       deletedPreference = true;
-    }
+    } else persistenceFailed = true;
   }
 
   let deletedMemory = false;
@@ -54,9 +56,13 @@ export function forgetRecentCompanionData(input: {
             entry.status === "active"
             && (entry.scope === "global" || entry.scope === `pet:${input.petId}`),
         );
-    if (remembered) deletedMemory = Boolean(input.memoryRepository.delete(remembered.id));
+    if (remembered) {
+      deletedMemory = Boolean(input.memoryRepository.delete(remembered.id));
+      if (!deletedMemory) persistenceFailed = true;
+    }
   } catch {
     warn("[companion-memory] Failed to forget recent memory");
+    persistenceFailed = true;
   }
 
   return {
@@ -64,7 +70,10 @@ export function forgetRecentCompanionData(input: {
     recentMemoryId: null,
     deletedPreference,
     deletedMemory,
-    feedback: deletedPreference || deletedMemory
+    persistenceFailed,
+    feedback: persistenceFailed
+      ? "我暂时没能完整忘掉这条内容，请稍后再试。"
+      : deletedPreference || deletedMemory
       ? "好，我忘掉刚才那条。"
       : "最近没有可删除的偏好或 Memory。",
   };

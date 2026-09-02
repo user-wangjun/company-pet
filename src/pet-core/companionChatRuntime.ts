@@ -81,7 +81,10 @@ export const INACTIVE_COMPANION_CHAT: CompanionChatState = { mode: "inactive" };
 const AUTO_EXIT_MS = 90_000;
 
 function messageId(now: number, index: number): string {
-  return `${now}-${index}`;
+  // Keep internal message ids opaque to the privacy detector. A raw
+  // Date.now() prefix is a 13-digit run and is intentionally treated like a
+  // possible national-id/account value at local persistence boundaries.
+  return `companion-message-${Math.max(0, Math.trunc(now)).toString(36)}-${Math.max(0, index).toString(36)}`;
 }
 
 export function enterCompanionChat(

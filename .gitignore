@@ -3,7 +3,12 @@ dist/
 target/
 src-tauri/target/
 src-tauri/gen/
+src-tauri/resources/ollama/windows-x86_64/*
+!src-tauri/resources/ollama/windows-x86_64/README.md
+docs/companion-harness-evidence/
 .vite/
+.env.local
+.env.*.local
 *.log
 __pycache__/
 *.py[cod]
@@ -14,3 +19,5 @@ output/
 .superpowers/
 .vs/
 /tmp-*.png
+/yuxin-desktop-pet.exe
+/*_x64-setup.exe

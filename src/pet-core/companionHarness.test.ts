@@ -535,6 +535,105 @@ describe("Companion Harness Phase 1", () => {
     expect(domains.memoryCalls).toHaveLength(0);
   });
 
+  test("sends the full ordinary quiet expression to the remote Model Port without local side effects", async () => {
+    const remote = new FakeModelPort(
+      REMOTE_INFO,
+      async () => modelResponse("你今天辛苦了，可以安静坐一会儿，我陪着你。"),
+    );
+    const localFallback = new FakeModelPort(
+      LOCAL_INFO,
+      async () => modelResponse("不应触发本地回退"),
+    );
+    const domains = createDomainSpies();
+    const preferenceProcess = vi.fn(async () => ({
+      type: "preference" as const,
+      status: "succeeded" as const,
+    }));
+    const response = await createHarness(remote, {
+      ...domains,
+      localFallbackModelPort: localFallback,
+      fallbackToLocal: true,
+      preferenceService: { process: preferenceProcess },
+    }).respond(input({
+      message: "这是一次功能测试。请用两句简短中文回应：我今天有点累，想安静坐一会儿。不要创建任务、提醒或记忆。",
+    }));
+
+    expect(response).toMatchObject({
+      status: "success",
+      provider: REMOTE_INFO,
+      degraded: false,
+      callCounts: { model: 1, external: 1, local: 0, fallback: 0 },
+    });
+    expect(response.text).toContain("安静坐一会儿");
+    expect(response.actions).toEqual([]);
+    expect(response.preference).toBeUndefined();
+    expect(response.memory).toMatchObject({
+      status: "not-requested",
+      acceptedCount: 0,
+      rejectedCount: 0,
+      decisions: [],
+    });
+    expect(remote.calls).toHaveLength(1);
+    expect(localFallback.calls).toHaveLength(0);
+    expect(domains.actionCalls).toHaveLength(0);
+    expect(domains.memoryCalls).toHaveLength(0);
+    expect(preferenceProcess).not.toHaveBeenCalled();
+  });
+
+  test("keeps explicit persistent quiet preferences local and idempotent", async () => {
+    const remote = new FakeModelPort(REMOTE_INFO, async () => modelResponse("不应触发远程"));
+    const writes = vi.fn();
+    let persistedPreference: string | null = null;
+    const preferenceProcess = vi.fn(async (
+      _nextInput: CompanionInput,
+      request: { preference: { id: string; value: string } },
+    ) => {
+      const fingerprint = JSON.stringify(request.preference);
+      if (persistedPreference === fingerprint) {
+        return {
+          type: "preference" as const,
+          status: "duplicate" as const,
+          errorCode: "preference-unchanged",
+        };
+      }
+      persistedPreference = fingerprint;
+      writes();
+      return {
+        type: "preference" as const,
+        status: "succeeded" as const,
+        displayData: { key: "companionStyle" },
+      };
+    });
+    const harness = createHarness(remote, {
+      preferenceService: { process: preferenceProcess },
+    });
+
+    const first = await harness.respond(input({
+      requestId: "quiet-preference-request-1",
+      sourceMessageId: "quiet-preference-message-1",
+      message: "以后请安静一点陪我。",
+    }));
+    const second = await harness.respond(input({
+      requestId: "quiet-preference-request-2",
+      sourceMessageId: "quiet-preference-message-2",
+      message: "以后请安静一点陪我。",
+    }));
+
+    expect(first).toMatchObject({
+      status: "success",
+      preference: { status: "succeeded", displayData: { key: "companionStyle" } },
+      callCounts: { model: 0, external: 0, local: 0, fallback: 0 },
+    });
+    expect(second).toMatchObject({
+      status: "success",
+      preference: { status: "duplicate", errorCode: "preference-unchanged" },
+      callCounts: { model: 0, external: 0, local: 0, fallback: 0 },
+    });
+    expect(preferenceProcess).toHaveBeenCalledTimes(2);
+    expect(writes).toHaveBeenCalledTimes(1);
+    expect(remote.calls).toHaveLength(0);
+  });
+
   test("does not call the Model Port or domain services when the request starts cancelled", async () => {
     const controller = new AbortController();
     controller.abort();

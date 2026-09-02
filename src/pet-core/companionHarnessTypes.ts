@@ -2,11 +2,15 @@ import type { CompanionChatContext } from "./companionContext";
 import type { CompanionContextEpoch } from "./companionContextEpoch";
 import type { CompanionChatProviderErrorKind } from "./companionChatProvider";
 import type {
+  CompanionPreference,
+} from "./companionPreferences";
+import type {
   CompanionModelPort,
   CompanionModelPortInfo,
 } from "./companionModelPort";
 import type { MemoryRepository } from "./companionMemory";
 import type { TaskDatabase } from "../task-core/types";
+import type { CompanionObservability } from "./companionObservability";
 
 export type CompanionModelActionType =
   | "create_task"
@@ -227,6 +231,14 @@ export interface CompanionMemoryConfirmationVerifier {
   ): CompanionMemoryConfirmationProof | null | Promise<CompanionMemoryConfirmationProof | null>;
 }
 
+export interface CompanionActionConfirmationProof {
+  sourceMessageId: string;
+  confirmationMessageId: string;
+  sessionId: string;
+  userId: string;
+  petId: string;
+}
+
 export interface CompanionModelResponse {
   replyDraft: string;
   actions?: readonly ActionCandidate[];
@@ -270,6 +282,37 @@ export interface CompanionProactivePreferenceExecutionResult {
   type: "proactive_preference";
   action: CompanionProactivePreferenceAction;
   status: ActionExecutionStatus;
+  errorCode?: string;
+  displayData?: Record<string, string>;
+}
+
+export type CompanionPreferenceExecutionStatus =
+  | "succeeded"
+  | "duplicate"
+  | "failed"
+  | "cancelled";
+
+export interface CompanionPreferenceRequest {
+  sourceMessageId: string;
+  preference: CompanionPreference;
+}
+
+export interface CompanionPreferenceExecutionResult {
+  type: "preference";
+  status: CompanionPreferenceExecutionStatus;
+  errorCode?: string;
+  displayData?: Record<string, string>;
+}
+
+export type CompanionForgetExecutionStatus =
+  | "succeeded"
+  | "noop"
+  | "failed"
+  | "cancelled";
+
+export interface CompanionForgetExecutionResult {
+  type: "forget";
+  status: CompanionForgetExecutionStatus;
   errorCode?: string;
   displayData?: Record<string, string>;
 }
@@ -331,11 +374,16 @@ export interface CompanionResponse {
   text: string | null;
   provider: CompanionModelPortInfo;
   providerDisclosure: string;
+  /** Safe Provider identity metadata for Harness observability only. */
+  providerProfileId?: string;
+  protocol?: string;
   degraded: boolean;
   canCommit: boolean;
   committed: boolean;
   actions: readonly ActionExecutionResult[];
   proactivePreference?: CompanionProactivePreferenceExecutionResult;
+  preference?: CompanionPreferenceExecutionResult;
+  forget?: CompanionForgetExecutionResult;
   memory: MemoryPolicyResult;
   callCounts: CompanionCallCounts;
   error?: CompanionHarnessError;
@@ -354,6 +402,7 @@ export interface CompanionActionService {
     input: CompanionInput,
     candidates: readonly CompanionActionCandidate[],
     signal: AbortSignal,
+    confirmation?: CompanionActionConfirmationProof,
   ): Promise<readonly ActionExecutionResult[]>;
 }
 
@@ -363,6 +412,21 @@ export interface CompanionProactivePreferenceService {
     request: CompanionProactivePreferenceRequest,
     signal: AbortSignal,
   ): Promise<CompanionProactivePreferenceExecutionResult>;
+}
+
+export interface CompanionPreferenceService {
+  process(
+    input: CompanionInput,
+    request: CompanionPreferenceRequest,
+    signal: AbortSignal,
+  ): Promise<CompanionPreferenceExecutionResult>;
+}
+
+export interface CompanionForgetService {
+  process(
+    input: CompanionInput,
+    signal: AbortSignal,
+  ): Promise<CompanionForgetExecutionResult>;
 }
 
 export interface CompanionMemoryService {
@@ -410,14 +474,17 @@ export interface CompanionHarnessDependencies {
   contextBuilder?: CompanionContextBuilder;
   actionService?: CompanionActionService;
   proactivePreferenceService?: CompanionProactivePreferenceService;
+  preferenceService?: CompanionPreferenceService;
+  forgetService?: CompanionForgetService;
   proactiveEventService?: CompanionProactiveEventService;
   taskRepository?: CompanionTaskRepository;
   memoryService?: CompanionMemoryService;
   memoryRepository?: MemoryRepository;
   memoryConfirmationVerifier?: CompanionMemoryConfirmationVerifier;
   responseSink?: CompanionResponseSink;
-  fallbackToLocal?: boolean;
+  fallbackToLocal?: boolean | (() => boolean);
   timeoutMs?: number;
+  observability?: CompanionObservability;
 }
 
 export interface CompanionHarness {

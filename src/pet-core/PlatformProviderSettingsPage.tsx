@@ -9,9 +9,14 @@ import type {
   CompanionUserProfile,
   CompanionUserProfileActionResult,
 } from "./companionUserProfile";
+import type { SettingsInitialization } from "./companionUserSettingsRepository";
+import type { CompanionProviderModelsActionResult } from "./companionProviderModels";
+import type { BundledOllamaPullProgress } from "./CompanionOllamaPullProgress";
 
 export type PlatformProviderSettingsPageProps = {
-  userProfile: CompanionUserProfile;
+  userProfile: CompanionUserProfile | null;
+  userProfileSettings?: SettingsInitialization;
+  onUserProfileSettingsRetry?: () => void;
   onUserProfileSave: (
     profile: CompanionUserProfile,
   ) => CompanionUserProfileActionResult | Promise<CompanionUserProfileActionResult>;
@@ -29,20 +34,29 @@ export type PlatformProviderSettingsPageProps = {
     settings: CompanionProviderSettingsValue,
     credential?: string,
   ) => CompanionProviderActionResult | Promise<CompanionProviderActionResult>;
+  onFetchModels?: (
+    settings: CompanionProviderSettingsValue,
+    credential?: string,
+  ) => CompanionProviderModelsActionResult | Promise<CompanionProviderModelsActionResult>;
   onClear?: (
     settings: CompanionProviderSettingsValue,
   ) => CompanionProviderActionResult | Promise<CompanionProviderActionResult>;
+  ollamaPullProgress?: BundledOllamaPullProgress | null;
 };
 
 export function PlatformProviderSettingsPage({
   userProfile,
+  userProfileSettings,
+  onUserProfileSettingsRetry,
   onUserProfileSave,
   settings,
   providerInfo,
   onProviderChange,
   onTest,
   onSave,
+  onFetchModels,
   onClear,
+  ollamaPullProgress,
 }: PlatformProviderSettingsPageProps) {
   return (
     <section className="platform-provider-settings-page" aria-label="设置">
@@ -56,6 +70,8 @@ export function PlatformProviderSettingsPage({
 
       <CompanionUserProfileSettings
         profile={userProfile}
+        settings={userProfileSettings}
+        onRetry={onUserProfileSettingsRetry}
         onSave={onUserProfileSave}
       />
 
@@ -76,7 +92,9 @@ export function PlatformProviderSettingsPage({
         onProviderChange={onProviderChange}
         onTest={onTest}
         onSave={onSave}
+        onFetchModels={onFetchModels}
         onClear={onClear}
+        ollamaPullProgress={ollamaPullProgress}
       />
     </section>
   );

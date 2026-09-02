@@ -1,6 +1,4 @@
-// @ts-expect-error Vitest runs this in Node, while the app tsconfig keeps Node types out.
 import { existsSync, readFileSync } from "node:fs";
-// @ts-expect-error Vitest runs this in Node, while the app tsconfig keeps Node types out.
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
 import { WINDOWS_DOWNLOAD_URL } from "./marketingContent";

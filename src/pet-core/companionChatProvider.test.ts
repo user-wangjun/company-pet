@@ -37,11 +37,17 @@ function response(payload: unknown, status = 200): CompanionChatHttpResponse {
 }
 
 function profile(
-  protocol: "gemini-native" | "openai-compatible" | "local",
+  protocol: "gemini-native" | "openai-compatible" | "local" | "ollama-local",
   overrides: Partial<CompanionProviderProfile> = {},
 ): CompanionProviderProfile {
   const preset = getCompanionProviderProfilePreset(
-    protocol === "gemini-native" ? "google-gemini" : protocol === "openai-compatible" ? "custom-provider" : "local",
+    protocol === "gemini-native"
+      ? "google-gemini"
+      : protocol === "openai-compatible"
+        ? "custom-provider"
+        : protocol === "ollama-local"
+          ? "bundled-ollama"
+          : "local",
   )!;
   return normalizeCompanionProviderSettings({
     ...preset,
@@ -76,6 +82,10 @@ describe("provider-neutral chat adapters", () => {
     )).toBe("https://models.example/v1");
     expect(normalizeCompanionProviderEndpoint(
       "openai-compatible",
+      "https://models.example/v1/models/",
+    )).toBe("https://models.example/v1");
+    expect(normalizeCompanionProviderEndpoint(
+      "openai-compatible",
       "https://models.example",
     )).toBe("https://models.example/v1");
     expect(() => normalizeCompanionProviderEndpoint(
@@ -90,6 +100,7 @@ describe("provider-neutral chat adapters", () => {
 
   test("selects adapters by protocol and fails closed for an unknown protocol", () => {
     expect(getCompanionChatAdapter("local").protocol).toBe("local");
+    expect(getCompanionChatAdapter("ollama-local").protocol).toBe("ollama-local");
     expect(getCompanionChatAdapter("gemini-native").protocol).toBe("gemini-native");
     expect(getCompanionChatAdapter("openai-compatible").protocol).toBe("openai-compatible");
     expect(() => getCompanionChatAdapter("future-protocol")).toThrow("不支持");
@@ -107,6 +118,29 @@ describe("provider-neutral chat adapters", () => {
     });
     expect(provider.info).toMatchObject({ kind: "local", target: "本机" });
     expect(fetcher).not.toHaveBeenCalled();
+  });
+
+  test("runs the bundled Ollama chat adapter without a credential", async () => {
+    const fetcher = vi.fn<CompanionChatHttpFetcher>(async (_url, _init) => response({
+      choices: [{ message: { content: "本地模型回复" } }],
+    }));
+    const provider = createCompanionChatProvider(config, {
+      profile: profile("ollama-local", { model: "qwen3:0.6b" }),
+      credential: null,
+      fetcher,
+    });
+
+    await expect(provider.send({ text: "本地测试" })).resolves.toEqual({
+      text: "本地模型回复",
+    });
+    expect(provider.info).toMatchObject({
+      kind: "local",
+      target: "本机（内置 Ollama）",
+    });
+    const [url, init] = fetcher.mock.calls[0]!;
+    expect(url).toBe("http://127.0.0.1:11434/v1/chat/completions");
+    expect(init.headers.Authorization).toBeUndefined();
+    expect(JSON.parse(init.body)).toMatchObject({ model: "qwen3:0.6b" });
   });
 
   test("sends a filtered Gemini-native request and reads the model reply", async () => {

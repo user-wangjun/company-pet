@@ -53,6 +53,28 @@ describe("desktop pet visual sizing", () => {
       offsetY: 0,
     });
   });
+
+  test("can mirror a canonical left-facing animation for the right-facing drag handoff", () => {
+    expect(
+      getPetAnimationTransform(
+        {
+          row: 0,
+          frames: 24,
+          speed: 0.09,
+          loop: true,
+          visualClass: "pose-change",
+          scale: 1,
+        },
+        "right",
+        "mirror-right",
+      ),
+    ).toEqual({
+      scaleX: -PET_VISUAL_SCALE,
+      scaleY: PET_VISUAL_SCALE,
+      offsetX: 0,
+      offsetY: 0,
+    });
+  });
   test("uses a smaller body scale for desktop icon interaction checks", () => {
     expect(PET_VISUAL_SCALE).toBeLessThan(1);
     expect(PET_VISUAL_SCALE).toBeCloseTo(0.46);

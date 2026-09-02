@@ -5,6 +5,7 @@ import {
 } from "./companionModelPort";
 import {
   ProviderAdapterError,
+  createOllamaLocalProviderAdapter,
   createOpenAiCompatibleProviderAdapter,
   type ProviderAdapter,
   type ProviderGenerateRequest,
@@ -321,6 +322,35 @@ describe("Harness-owned CompanionModelPort", () => {
       context: forged,
     })).resolves.toMatchObject({ replyDraft: "LOCAL_OK" });
     expect(generate).toHaveBeenCalledTimes(1);
+  });
+
+  test("does not replace bundled Ollama with the deterministic local reply hook", async () => {
+    const fetcher = vi.fn<ProviderHttpFetcher>(async () => ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        choices: [{ message: { content: "OLLAMA_PORT_REPLY" } }],
+      }),
+    }));
+    const ollama = createOllamaLocalProviderAdapter({
+      id: "bundled-ollama",
+      endpoint: "http://127.0.0.1:11434/v1",
+      model: "qwen3:0.6b",
+      fetcher,
+    });
+    const localGenerate = vi.fn(async () => "WRONG_DETERMINISTIC_REPLY");
+    const port = createCompanionModelPort({
+      resolver: resolverFor(ollama),
+      info: ollama.info,
+      localGenerate,
+    });
+
+    await expect(port.generate({
+      input: input({ message: "本地 Ollama 输入" }),
+      context: trustedContext("本地 Ollama 输入"),
+    })).resolves.toMatchObject({ replyDraft: "OLLAMA_PORT_REPLY" });
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    expect(localGenerate).not.toHaveBeenCalled();
   });
 
   test("converts Adapter errors to the existing safe error classification", async () => {

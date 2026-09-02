@@ -2,8 +2,10 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, test } from "vitest";
 import MarketingPage from "./MarketingPage";
 import {
+  ACCOUNT_ROUTE_PATH,
   MARKETING_FILE_NAME,
   MARKETING_ROUTE_PATH,
+  isAccountRoute,
   isMarketingRoute,
   socialLinks,
 } from "./marketingContent";
@@ -22,6 +24,10 @@ describe("marketing homepage route", () => {
     expect(isMarketingRoute("/dist/index.html")).toBe(false);
     expect(isMarketingRoute("/platform")).toBe(false);
     expect(isMarketingRoute("/marketing-3d")).toBe(false);
+    expect(ACCOUNT_ROUTE_PATH).toBe("/account");
+    expect(isAccountRoute("/account")).toBe(true);
+    expect(isAccountRoute("/account/")).toBe(true);
+    expect(isAccountRoute("/")).toBe(false);
   });
 });
 

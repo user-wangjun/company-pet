@@ -64,4 +64,29 @@ describe("CompanionChatBubble", () => {
     expect(html).toContain("https://custom.example/v1beta");
     expect(html).toContain("本轮必要上下文会发送到远程 AI 服务");
   });
+
+  test("shows bundled Ollama model preparation progress", () => {
+    const html = renderToStaticMarkup(
+      <CompanionChatBubble
+        draft=""
+        isWaiting={true}
+        messages={[{ id: "1", speaker: "pet", text: "嗯？" }]}
+        ollamaPullProgress={{
+          model: "qwen3.5:2b",
+          status: "下载中",
+          completed: 50,
+          total: 100,
+          done: false,
+        }}
+        onDraftChange={vi.fn()}
+        onSend={vi.fn()}
+        onStop={vi.fn()}
+      />,
+    );
+
+    expect(html).toContain("正在准备模型");
+    expect(html).toContain("qwen3.5:2b");
+    expect(html).toContain("下载中 50%…");
+    expect(html).toContain('aria-label="qwen3.5:2b 模型下载进度"');
+  });
 });

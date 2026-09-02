@@ -23,9 +23,11 @@ import {
   type CompanionChatProviderErrorKind,
 } from "./companionChatProvider";
 import {
+  DEFAULT_BUNDLED_OLLAMA_TIMEOUT_MS,
   ProviderAdapterError,
   type ProviderCapabilities,
   type ProviderAdapter,
+  type ProviderGenerateResponse,
 } from "./companionProviderAdapter";
 import type { ProviderResolver } from "./companionProviderResolver";
 
@@ -46,6 +48,8 @@ export interface ResolvedCompanionModelTurn {
   readonly adapter: ProviderAdapter;
   readonly info: CompanionModelPortInfo;
   readonly capabilities: ProviderCapabilities;
+  readonly providerProfileId?: string;
+  readonly protocol?: string;
   generate(request: HarnessModelRequest): Promise<CompanionModelResponse>;
 }
 
@@ -74,6 +78,11 @@ export type CompanionModelPortOptions = {
   timeoutMs?: number;
   temperature?: number;
   maxOutputTokens?: number;
+  /**
+   * Harness-owned local generation hook. It receives the immutable input and
+   * context snapshot so a local reply cannot drift to a newly active pet.
+   */
+  localGenerate?: (request: HarnessModelRequest) => string | Promise<string>;
 };
 
 function errorKind(value: unknown): CompanionChatProviderErrorKind {
@@ -128,6 +137,7 @@ function createResolvedCompanionModelTurn(
   timeoutMs: number,
   temperature: number | undefined,
   maxOutputTokens: number | undefined,
+  localGenerate: CompanionModelPortOptions["localGenerate"],
 ): ResolvedCompanionModelTurn {
   const info = snapshotInfo(adapter);
   const capabilities = snapshotCapabilities(adapter);
@@ -179,27 +189,41 @@ function createResolvedCompanionModelTurn(
       ) {
         throw new CompanionContextTrustError();
       }
-      const providerRequest = info.kind === "remote" || isTrustedCompanionChatContext(request.context)
-        ? codec.encode(
-            info.kind === "remote"
-              ? filterCompanionContextForRemote(request.context)
-              : request.context,
-            capabilities,
-            {
+      let providerResponse: ProviderGenerateResponse;
+      // The deterministic `local` profile is the only path that uses the
+      // harness-provided fixed reply. `ollama-local` is also private, but it
+      // must still call its real local model adapter.
+      if (info.kind === "local" && adapter.protocol === "local" && localGenerate) {
+        providerResponse = {
+          text: await localGenerate(request),
+          metadata: {
+            providerId: adapter.id,
+            model: adapter.info.target,
+          },
+        };
+      } else {
+        const providerRequest = info.kind === "remote" || isTrustedCompanionChatContext(request.context)
+          ? codec.encode(
+              info.kind === "remote"
+                ? filterCompanionContextForRemote(request.context)
+                : request.context,
+              capabilities,
+              {
+                timeoutMs,
+                ...(temperature === undefined ? {} : { temperature }),
+                ...(maxOutputTokens === undefined ? {} : { maxOutputTokens }),
+              },
+            )
+          : encodeLocalCompanionModelRequest(request.input.message, {
               timeoutMs,
               ...(temperature === undefined ? {} : { temperature }),
               ...(maxOutputTokens === undefined ? {} : { maxOutputTokens }),
-            },
-          )
-        : encodeLocalCompanionModelRequest(request.input.message, {
-            timeoutMs,
-            ...(temperature === undefined ? {} : { temperature }),
-            ...(maxOutputTokens === undefined ? {} : { maxOutputTokens }),
-          });
-      const providerResponse = await adapter.generate({
-        ...providerRequest,
-        signal: request.signal,
-      });
+            });
+        providerResponse = await adapter.generate({
+          ...providerRequest,
+          signal: request.signal,
+        });
+      }
       return codec.decode(providerResponse, {
         mode: selected.mode,
         sourceMessageId: request.input.sourceMessageId,
@@ -214,6 +238,8 @@ function createResolvedCompanionModelTurn(
     adapter,
     info,
     capabilities,
+    providerProfileId: adapter.id,
+    protocol: adapter.protocol,
     generate,
   });
 }
@@ -235,12 +261,17 @@ export function createCompanionModelPort(
 
   const beginTurn = (): ResolvedCompanionModelTurn => {
     try {
+      const adapter = options.resolver.resolve();
+      const effectiveTimeoutMs = adapter.protocol === "ollama-local"
+        ? Math.max(timeoutMs, DEFAULT_BUNDLED_OLLAMA_TIMEOUT_MS)
+        : timeoutMs;
       return createResolvedCompanionModelTurn(
-        options.resolver.resolve(),
+        adapter,
         codec,
-        timeoutMs,
+        effectiveTimeoutMs,
         options.temperature,
         options.maxOutputTokens,
+        options.localGenerate,
       );
     } catch (error) {
       throw normalizePortError(error);

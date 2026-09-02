@@ -15,6 +15,7 @@ import {
   updateCompanionDraft,
 } from "./companionChatRuntime";
 import type { CompanionChatConfig } from "./companionChat";
+import { containsSensitiveCompanionText } from "./companionPrivacy";
 
 const config: CompanionChatConfig = {
   openers: [{ text: "喵？", sound: "chatOpenMew" }],
@@ -39,6 +40,8 @@ describe("companion chat runtime", () => {
     if (sent.mode !== "active") throw new Error("Expected active chat");
     expect(sent.draft).toBe("");
     expect(sent.pendingUserMessage?.text).toBe("写错了");
+    expect(sent.pendingUserMessage?.id).toMatch(/^companion-message-/u);
+    expect(containsSensitiveCompanionText(sent.pendingUserMessage?.id ?? "")).toBe(false);
     expect(sent.messages[sent.messages.length - 1]).toMatchObject({
       speaker: "user",
       text: "写错了",

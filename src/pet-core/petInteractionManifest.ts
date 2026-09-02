@@ -40,6 +40,12 @@ export type PetDragSpec = {
   directionMode: PetDirectionMode;
   right: string;
   left: string;
+  /**
+   * Per-source-cell vertical corrections, in texture pixels. The renderer
+   * applies these to the drag sprite position so a pose change does not move
+   * the character's contact line with the transparent cell padding.
+   */
+  frameOffsetY?: number[];
   takeoffFrame?: number;
   takeoffStartFrame?: number;
   takeoffFrameCount?: number;
@@ -51,6 +57,9 @@ export type PetDragSpec = {
   landingFrameCount?: number;
   landingTransitionSpeed?: number;
   landingHoldMs?: number;
+  landingEndsOnIdleFirst?: boolean;
+  landingIdleStartFrame?: number;
+  landingIdleFollowsDragDirection?: boolean;
 };
 
 export type PetHoverSpec =
@@ -232,6 +241,20 @@ function parseOptionalNumber(
   parser: (input: unknown, inputField: string) => number,
 ): number | undefined {
   return value === undefined ? undefined : parser(value, field);
+}
+
+function parseOptionalNumberArray(
+  value: unknown,
+  field: string,
+  parser: (input: unknown, inputField: string) => number,
+): number[] | undefined {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value)) {
+    throw new Error(`Expected array at ${field}`);
+  }
+  return value.map((item, index) =>
+    parser(item, `${field}[${index}]`),
+  );
 }
 
 function parseOptionalPath(
@@ -564,6 +587,16 @@ function parseDrag(
   }
 
   const frameCount = Math.min(rightAnimation.frames, leftAnimation.frames);
+  const frameOffsetY = parseOptionalNumberArray(
+    source.frameOffsetY,
+    "interactions.drag.frameOffsetY",
+    requireFiniteNumber,
+  );
+  if (frameOffsetY !== undefined && frameOffsetY.length !== frameCount) {
+    throw new Error(
+      `Expected ${frameCount} values at interactions.drag.frameOffsetY`,
+    );
+  }
   const frameFields = [
     "takeoffFrame",
     "loopStartFrame",
@@ -695,6 +728,7 @@ function parseDrag(
     directionMode,
     right,
     left,
+    frameOffsetY,
     ...frames,
     takeoffStartFrame,
     takeoffFrameCount,
@@ -711,6 +745,25 @@ function parseDrag(
       "interactions.drag.landingHoldMs",
       requireFiniteNonNegativeNumber,
     ),
+    landingEndsOnIdleFirst:
+      source.landingEndsOnIdleFirst === undefined
+        ? undefined
+        : requireBoolean(
+            source.landingEndsOnIdleFirst,
+            "interactions.drag.landingEndsOnIdleFirst",
+          ),
+    landingIdleStartFrame: parseOptionalNumber(
+      source.landingIdleStartFrame,
+      "interactions.drag.landingIdleStartFrame",
+      requireNonNegativeInteger,
+    ),
+    landingIdleFollowsDragDirection:
+      source.landingIdleFollowsDragDirection === undefined
+        ? undefined
+        : requireBoolean(
+            source.landingIdleFollowsDragDirection,
+            "interactions.drag.landingIdleFollowsDragDirection",
+          ),
   };
 }
 

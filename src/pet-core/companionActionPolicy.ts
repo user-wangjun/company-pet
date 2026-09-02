@@ -349,7 +349,15 @@ export function authorizeCompanionAction(
     return { status: "rejected", result: result(candidate, "rejected", "invalid-action-schema") };
   }
   if (candidate.sourceMessageId !== input.sourceMessageId) {
-    return { status: "rejected", result: result(candidate, "rejected", "source-message-mismatch") };
+    if (
+      !context.confirmation
+      || context.confirmation.sourceMessageId !== candidate.sourceMessageId
+      || context.confirmation.sessionId !== input.sessionId
+      || context.confirmation.userId !== input.userId
+      || context.confirmation.petId !== input.petId
+    ) {
+      return { status: "rejected", result: result(candidate, "rejected", "source-message-mismatch") };
+    }
   }
   const rawPayload = (candidate as unknown as { payload?: unknown }).payload;
   if (!isRecord(rawPayload) || !hasOnlySafePayloadFields(rawPayload)) {
@@ -365,7 +373,19 @@ export function authorizeCompanionAction(
   if (!evidence) {
     return { status: "rejected", result: result(candidate, "rejected", "missing-local-evidence") };
   }
-  if (actionNeedsConfirmation(evidence, candidate)) {
+  const idempotencyKey = normalizedIdempotencyKey(input, candidate);
+  const previous = context.idempotency.get(idempotencyKey);
+  if (previous?.status === "succeeded") {
+    return {
+      status: "rejected",
+      result: {
+        ...previous,
+        status: "duplicate",
+        errorCode: "idempotent-retry",
+      },
+    };
+  }
+  if (actionNeedsConfirmation(evidence, candidate) && !context.confirmation) {
     return { status: "rejected", result: result(candidate, "confirmation_required", "explicit-confirmation-required") };
   }
   if (!matchesEvidence(input, candidate, evidence)) {
@@ -391,19 +411,6 @@ export function authorizeCompanionAction(
   if ((candidate.type === "create_reminder" || candidate.type === "update_reminder")
     && (!evidence.triggerAt || !sameTime(time, evidence.triggerAt))) {
     return { status: "rejected", result: result(candidate, "rejected", "trigger-time-mismatch") };
-  }
-
-  const idempotencyKey = normalizedIdempotencyKey(input, candidate);
-  const previous = context.idempotency.get(idempotencyKey);
-  if (previous?.status === "succeeded") {
-    return {
-      status: "rejected",
-      result: {
-        ...previous,
-        status: "duplicate",
-        errorCode: "idempotent-retry",
-      },
-    };
   }
 
   const targetResult = assertTarget(database, candidate);

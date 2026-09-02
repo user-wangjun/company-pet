@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "build": {
+    "beforeBundleCommand": "node scripts/prepare-ollama-runtime.mjs"
+  },
+  "bundle": {
+    "resources": [
+      "resources/ollama/windows-x86_64/"
+    ]
+  }
+}

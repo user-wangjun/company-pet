@@ -4,12 +4,17 @@ import type {
   CompanionChatProviderInfo,
 } from "./companionChatRuntime";
 import { LOCAL_COMPANION_CHAT_PROVIDER_INFO } from "./companionChatRuntime";
+import {
+  CompanionOllamaPullProgress,
+  type BundledOllamaPullProgress,
+} from "./CompanionOllamaPullProgress";
 
 type CompanionChatBubbleProps = {
   messages: CompanionChatMessage[];
   draft: string;
   isWaiting: boolean;
   providerInfo?: CompanionChatProviderInfo;
+  ollamaPullProgress?: BundledOllamaPullProgress | null;
   onDraftChange: (draft: string) => void;
   onSend: () => void;
   onStop: () => void;
@@ -20,6 +25,7 @@ export function CompanionChatBubble({
   draft,
   isWaiting,
   providerInfo = LOCAL_COMPANION_CHAT_PROVIDER_INFO,
+  ollamaPullProgress,
   onDraftChange,
   onSend,
   onStop,
@@ -45,6 +51,7 @@ export function CompanionChatBubble({
         <span>{providerInfo.target}</span>
         <small>{providerInfo.disclosure}</small>
       </div>
+      <CompanionOllamaPullProgress progress={ollamaPullProgress} compact />
       <div className="companion-chat-messages">
         {messages.map((message) => (
           <div

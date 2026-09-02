@@ -24,6 +24,10 @@ import type {
   MemoryCandidate,
   MemoryPolicyResult,
   CompanionProactivePreferenceExecutionResult,
+  CompanionPreferenceExecutionResult,
+  CompanionForgetExecutionResult,
+  CompanionPreferenceRequest,
+  CompanionActionConfirmationProof,
 } from "./companionHarnessTypes";
 import { parseCompanionEvent } from "./companionProactiveEvent";
 import type {
@@ -52,7 +56,14 @@ import {
   buildLocalRequestHints,
   createCompanionActionService,
 } from "./companionActionPipeline";
+import { resolveTaskCandidateConfirmation } from "./companionTaskExtractor";
 import { finalizeCompanionResponse } from "./companionResponseFinalizer";
+import { NOOP_COMPANION_OBSERVABILITY } from "./companionObservability";
+import type {
+  CompanionObservability,
+  CompanionProactiveObservationInput,
+  CompanionTurnObservationInput,
+} from "./companionObservability";
 
 const DEFAULT_DOMAIN_FAILURE_MESSAGE = "这次操作没有完成，请稍后再试。";
 const DEFAULT_INVALID_INPUT_MESSAGE = "这次消息还没有准备好，请再试一次。";
@@ -60,6 +71,7 @@ const DEFAULT_STALE_MESSAGE = "这次回复已经过期，不会继续提交。"
 const DEFAULT_CANCELLED_MESSAGE = "这次回复已停止。";
 const DEFAULT_MALFORMED_RESPONSE_MESSAGE = "聊天服务返回了无法识别的回复。";
 const MAX_REPLY_DRAFT_LENGTH = 2_000;
+const PENDING_CONFIRMATION_TTL_MS = 90_000;
 
 type TurnInvalidationReason = "cancelled" | "superseded";
 
@@ -72,6 +84,16 @@ type ActiveTurn = {
   active: boolean;
   reason: TurnInvalidationReason | null;
   fallbackAttempted: boolean;
+};
+
+type PendingActionConfirmation = {
+  input: CompanionInput;
+  candidate: CompanionActionCandidate;
+};
+
+type PendingMemoryConfirmation = {
+  input: CompanionInput;
+  candidate: MemoryCandidate;
 };
 
 type ModelAttemptResult =
@@ -133,6 +155,17 @@ function validateInput(input: CompanionInput): string | null {
   if (!Number.isFinite(Date.parse(input.currentTime))) return "currentTime is invalid";
   if (!isInputSource(input.source)) return "source is invalid";
   return null;
+}
+
+function pendingConfirmationExpired(
+  pendingInput: CompanionInput,
+  currentInput: CompanionInput,
+): boolean {
+  const pendingTime = Date.parse(pendingInput.currentTime);
+  const currentTime = Date.parse(currentInput.currentTime);
+  return Number.isFinite(pendingTime)
+    && Number.isFinite(currentTime)
+    && currentTime - pendingTime > PENDING_CONFIRMATION_TTL_MS;
 }
 
 function emptyCallCounts(): CompanionCallCounts {
@@ -384,8 +417,12 @@ function mergeMemoryPolicyResults(
 
 export class CompanionHarnessImpl implements CompanionHarness {
   private readonly activeTurns = new Map<string, ActiveTurn>();
+  private readonly pendingActionConfirmations = new Map<string, PendingActionConfirmation>();
+  private readonly pendingMemoryConfirmations = new Map<string, PendingMemoryConfirmation[]>();
   private readonly timeoutMs: number;
-  private readonly dependencies: CompanionHarnessDependencies;
+  private readonly dependencies: Omit<CompanionHarnessDependencies, "observability"> & {
+    observability: CompanionObservability;
+  };
 
   constructor(dependencies: CompanionHarnessDependencies) {
     this.dependencies = {
@@ -395,10 +432,14 @@ export class CompanionHarnessImpl implements CompanionHarness {
       memoryService: dependencies.memoryService
         ?? createCompanionMemoryService(
           dependencies.memoryRepository ?? createCompanionMemoryRepository(),
-          dependencies.memoryConfirmationVerifier
-            ? { confirmationVerifier: dependencies.memoryConfirmationVerifier }
-            : {},
-        ),
+          {
+            confirmationVerifier: dependencies.memoryConfirmationVerifier ?? {
+              verify: (input, candidate, candidateId, signal) =>
+                this.verifyPendingMemoryConfirmation(input, candidate, candidateId, signal),
+            },
+            },
+          ),
+      observability: dependencies.observability ?? NOOP_COMPANION_OBSERVABILITY,
     };
     this.timeoutMs = Math.max(
       1,
@@ -408,9 +449,49 @@ export class CompanionHarnessImpl implements CompanionHarness {
 
   cancel(sessionId: string, requestId?: string): void {
     const turn = this.activeTurns.get(sessionId);
-    if (!turn || (requestId !== undefined && turn.identity.requestId !== requestId)) return;
-    this.invalidateTurn(turn, "cancelled");
-    this.activeTurns.delete(sessionId);
+    if (turn && (requestId === undefined || turn.identity.requestId === requestId)) {
+      this.invalidateTurn(turn, "cancelled");
+      this.activeTurns.delete(sessionId);
+    }
+    // A pending confirmation is a session-bound authorization, not UI state.
+    // An unqualified lifecycle cancellation invalidates it even when no model
+    // Turn is currently active. A request-scoped cancellation only clears the
+    // candidate that belongs to that same request; a stale cancellation must
+    // not revoke a newer confirmation in the same session.
+    if (requestId === undefined) {
+      this.pendingActionConfirmations.delete(sessionId);
+      this.pendingMemoryConfirmations.delete(sessionId);
+    } else {
+      const pendingAction = this.pendingActionConfirmations.get(sessionId);
+      if (pendingAction?.input.requestId === requestId) {
+        this.pendingActionConfirmations.delete(sessionId);
+      }
+      const pendingMemory = this.pendingMemoryConfirmations.get(sessionId);
+      if (pendingMemory?.some(({ input }) => input.requestId === requestId)) {
+        this.pendingMemoryConfirmations.delete(sessionId);
+      }
+    }
+  }
+
+  /**
+   * Observability is a diagnostic side channel. A recorder failure must never
+   * change a domain result, UI commit, or the service-error classification.
+   */
+  private recordTurnObservation(input: CompanionTurnObservationInput): void {
+    try {
+      this.dependencies.observability.recordTurn(input);
+    } catch {
+      // The observer is intentionally fail-closed and non-blocking. Do not
+      // retry here: the injected observer may be the source of the failure.
+    }
+  }
+
+  private recordProactiveObservation(input: CompanionProactiveObservationInput): void {
+    try {
+      this.dependencies.observability.recordProactive(input);
+    } catch {
+      // Keep proactive delivery status and its at-most-once boundary intact.
+    }
   }
 
   /**
@@ -422,16 +503,73 @@ export class CompanionHarnessImpl implements CompanionHarness {
    */
   async handleEvent(event: CompanionEvent): Promise<void> {
     const parsed = parseCompanionEvent(event);
-    if (!parsed || !this.dependencies.proactiveEventService) return;
+    if (!parsed) {
+      const rawEventType = typeof event === "object" && event !== null && "type" in event
+        ? (event as { type?: unknown }).type
+        : undefined;
+      this.recordProactiveObservation({
+        eventType: typeof rawEventType === "string" ? rawEventType : "unknown",
+        decision: "invalid",
+      });
+      return;
+    }
+    if (!this.dependencies.proactiveEventService) {
+      this.recordProactiveObservation({
+        eventType: parsed.type,
+        decision: "service-error",
+      });
+      return;
+    }
     try {
       await this.dependencies.proactiveEventService.handleEvent(parsed);
+      this.recordProactiveObservation({
+        eventType: parsed.type,
+        decision: "forwarded",
+      });
     } catch {
       // A void event API cannot report a sink failure. The service owns the
       // durable reservation/confirmation boundary and must fail closed.
+      this.recordProactiveObservation({
+        eventType: parsed.type,
+        decision: "service-error",
+      });
     }
   }
 
   async respond(input: CompanionInput): Promise<CompanionResponse> {
+    const startedAt = Date.now();
+    const response = await this.respondInternal(input);
+    this.recordTurnObservation({
+      requestId: input.requestId,
+      providerProfileId: response.providerProfileId
+        ?? (response.provider.kind === "local" ? "local" : "unknown"),
+      protocol: response.protocol
+        ?? (response.provider.kind === "local" ? "local" : "unknown"),
+      latencyMs: Date.now() - startedAt,
+      callCounts: { ...response.callCounts },
+      // Never hand an observer references into the returned domain response.
+      // A hostile recorder must not be able to mutate status, action results,
+      // or any other committed fact before it throws.
+      actions: response.actions.map((action) => ({
+        type: action.type,
+        status: action.status,
+      })),
+      memory: {
+        candidateCount: Math.max(
+          response.memory.decisions.length,
+          response.memory.acceptedCount + response.memory.rejectedCount,
+        ),
+        acceptedCount: response.memory.acceptedCount,
+        rejectedCount: response.memory.rejectedCount,
+        status: response.memory.status,
+      },
+      responseStatus: response.status,
+      errorKind: response.error?.kind,
+    });
+    return response;
+  }
+
+  private async respondInternal(input: CompanionInput): Promise<CompanionResponse> {
     const identity = createIdentity(input);
     const counts = emptyCallCounts();
     const primaryPort = this.dependencies.modelPort;
@@ -445,6 +583,97 @@ export class CompanionHarnessImpl implements CompanionHarness {
           kind: "invalid-input",
           message: DEFAULT_INVALID_INPUT_MESSAGE,
         },
+      );
+    }
+    const pendingAction = this.pendingActionConfirmations.get(input.sessionId);
+    const pendingMemory = this.pendingMemoryConfirmations.get(input.sessionId);
+    if (pendingAction || pendingMemory) {
+      const pendingInputs = [
+        ...(pendingAction ? [pendingAction.input] : []),
+        ...(pendingMemory?.map(({ input: pendingInput }) => pendingInput) ?? []),
+      ];
+      const pendingPetId = pendingAction?.input.petId ?? pendingMemory?.[0]?.input.petId;
+      const pendingUserId = pendingAction?.input.userId ?? pendingMemory?.[0]?.input.userId;
+      if (
+        pendingPetId !== input.petId
+        || pendingUserId !== input.userId
+        || pendingInputs.some((pendingInput) => pendingConfirmationExpired(pendingInput, input))
+        || pendingInputs.some((pendingInput) => pendingInput.sourceMessageId === input.sourceMessageId)
+      ) {
+        this.pendingActionConfirmations.delete(input.sessionId);
+        this.pendingMemoryConfirmations.delete(input.sessionId);
+        return this.errorResponse(
+          identity,
+          primaryPort.info,
+          counts,
+          {
+            kind: "stale-turn",
+            message: DEFAULT_STALE_MESSAGE,
+          },
+        );
+      }
+
+      const confirmation = resolveTaskCandidateConfirmation(input.message);
+      if (confirmation === "cancel") {
+        this.pendingActionConfirmations.delete(input.sessionId);
+        this.pendingMemoryConfirmations.delete(input.sessionId);
+        return await this.respondWithLocalText(input, identity, counts, "好，我不记这条。", primaryPort.info);
+      }
+      if (confirmation === "confirm") {
+        if (pendingAction) {
+          this.pendingActionConfirmations.delete(input.sessionId);
+          const executionInput: CompanionInput = {
+            ...pendingAction.input,
+            currentTime: input.currentTime,
+            timezone: input.timezone,
+            utcOffsetMinutes: input.utcOffsetMinutes,
+            signal: input.signal,
+          };
+          const confirmationProof: CompanionActionConfirmationProof = {
+            sourceMessageId: pendingAction.input.sourceMessageId,
+            confirmationMessageId: input.sourceMessageId,
+            sessionId: input.sessionId,
+            userId: input.userId,
+            petId: input.petId,
+          };
+          return await this.respondWithLocalAction(
+            input,
+            identity,
+            counts,
+            pendingAction.candidate,
+            executionInput,
+            confirmationProof,
+          );
+        }
+        if (pendingMemory?.length) {
+          try {
+            // Keep the original candidate in the session-bound map until the
+            // Memory policy has verified the confirmation proof. The default
+            // verifier deliberately reads this map at the write boundary.
+            return await this.respondWithLocalMemory(
+              input,
+              identity,
+              counts,
+              pendingMemory.map(({ candidate }) => ({
+                ...candidate,
+                source: "confirmed" as const,
+                confirmationStatus: "confirmed" as const,
+                requiresConfirmation: false,
+                confirmed: true,
+              })),
+            );
+          } finally {
+            this.pendingMemoryConfirmations.delete(input.sessionId);
+          }
+        }
+      }
+
+      return await this.respondWithLocalText(
+        input,
+        identity,
+        counts,
+        "你可以回复“确认”记下，或回复“取消”丢掉这条。",
+        primaryPort.info,
       );
     }
     const localHints = buildLocalRequestHints(input);
@@ -499,6 +728,17 @@ export class CompanionHarnessImpl implements CompanionHarness {
         counts,
         localHints.memoryCandidate,
       );
+    }
+    if (localHints.localOwned && localHints.preference) {
+      return await this.respondWithLocalPreference(
+        input,
+        identity,
+        counts,
+        localHints.preference,
+      );
+    }
+    if (localHints.localOwned && localHints.forget) {
+      return await this.respondWithLocalForget(input, identity, counts);
     }
 
     let primaryTurn: ResolvedCompanionModelTurn;
@@ -608,7 +848,9 @@ export class CompanionHarnessImpl implements CompanionHarness {
       if (!selectedResponse && primaryError) {
         degradedFrom = primaryError.kind;
         const fallbackPort = this.dependencies.localFallbackModelPort;
-        const fallbackEnabled = this.dependencies.fallbackToLocal !== false;
+        const fallbackEnabled = typeof this.dependencies.fallbackToLocal === "function"
+          ? this.dependencies.fallbackToLocal()
+          : this.dependencies.fallbackToLocal !== false;
         const canFallback = fallbackPort !== undefined
           && shouldFallbackToLocalCompanion(primaryTurn.info, fallbackEnabled)
           && primaryError.kind !== "cancelled"
@@ -740,6 +982,8 @@ export class CompanionHarnessImpl implements CompanionHarness {
     identity: CompanionTurnIdentity,
     counts: CompanionCallCounts,
     candidate: CompanionActionCandidate,
+    executionInput: CompanionInput = input,
+    confirmation?: CompanionActionConfirmationProof,
   ): Promise<CompanionResponse> {
     const previousTurn = this.activeTurns.get(input.sessionId);
     if (previousTurn) this.invalidateTurn(previousTurn, "superseded");
@@ -764,9 +1008,10 @@ export class CompanionHarnessImpl implements CompanionHarness {
       let actionResults: readonly ActionExecutionResult[];
       try {
         actionResults = await this.dependencies.actionService!.process(
-          input,
+          executionInput,
           [candidate],
           controller.signal,
+          confirmation,
         );
       } catch {
         actionResults = [{
@@ -777,6 +1022,12 @@ export class CompanionHarnessImpl implements CompanionHarness {
       }
       if (!this.isCurrentTurn(turn)) {
         return this.invalidationResponse(turn, counts, actionResults);
+      }
+      if (actionResults.some((result) => result.status === "confirmation_required")) {
+        this.pendingActionConfirmations.set(input.sessionId, {
+          input: executionInput,
+          candidate,
+        });
       }
       return await this.finishResponse(
         turn,
@@ -797,12 +1048,220 @@ export class CompanionHarnessImpl implements CompanionHarness {
     }
   }
 
+  private async respondWithLocalText(
+    input: CompanionInput,
+    identity: CompanionTurnIdentity,
+    counts: CompanionCallCounts,
+    text: string,
+    providerInfo: CompanionModelPortInfo,
+  ): Promise<CompanionResponse> {
+    const previousTurn = this.activeTurns.get(input.sessionId);
+    if (previousTurn) this.invalidateTurn(previousTurn, "superseded");
+
+    const controller = new AbortController();
+    const turn: ActiveTurn = {
+      identity,
+      input,
+      controller,
+      primaryTurn: null,
+      providerInfo,
+      active: true,
+      reason: null,
+      fallbackAttempted: false,
+    };
+    this.activeTurns.set(input.sessionId, turn);
+    const onInputAbort = () => this.invalidateTurn(turn, "cancelled");
+    input.signal?.addEventListener("abort", onInputAbort, { once: true });
+
+    try {
+      if (!this.isCurrentTurn(turn)) return this.invalidationResponse(turn, counts);
+      return await this.finishResponse(
+        turn,
+        undefined,
+        { replyDraft: text, actions: [] },
+        counts,
+        false,
+        undefined,
+        undefined,
+        [],
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      );
+    } finally {
+      input.signal?.removeEventListener("abort", onInputAbort);
+      if (this.activeTurns.get(input.sessionId) === turn) {
+        this.activeTurns.delete(input.sessionId);
+      }
+    }
+  }
+
+  private async respondWithLocalPreference(
+    input: CompanionInput,
+    identity: CompanionTurnIdentity,
+    counts: CompanionCallCounts,
+    request: CompanionPreferenceRequest,
+  ): Promise<CompanionResponse> {
+    const previousTurn = this.activeTurns.get(input.sessionId);
+    if (previousTurn) this.invalidateTurn(previousTurn, "superseded");
+
+    const controller = new AbortController();
+    const turn: ActiveTurn = {
+      identity,
+      input,
+      controller,
+      primaryTurn: null,
+      providerInfo: this.dependencies.modelPort.info,
+      active: true,
+      reason: null,
+      fallbackAttempted: false,
+    };
+    this.activeTurns.set(input.sessionId, turn);
+    const onInputAbort = () => this.invalidateTurn(turn, "cancelled");
+    input.signal?.addEventListener("abort", onInputAbort, { once: true });
+
+    try {
+      if (!this.isCurrentTurn(turn)) return this.invalidationResponse(turn, counts);
+      const preference = this.dependencies.preferenceService
+        ? await this.dependencies.preferenceService.process(input, request, controller.signal)
+        : {
+            type: "preference" as const,
+            status: "failed" as const,
+            errorCode: "preference-service-not-configured",
+          };
+      if (!this.isCurrentTurn(turn)) {
+        return this.invalidationResponse(turn, counts);
+      }
+      return await this.finishResponse(
+        turn,
+        undefined,
+        { replyDraft: "", actions: [] },
+        counts,
+        false,
+        undefined,
+        undefined,
+        [],
+        undefined,
+        undefined,
+        undefined,
+        preference,
+        undefined,
+      );
+    } catch {
+      return await this.finishResponse(
+        turn,
+        undefined,
+        { replyDraft: "", actions: [] },
+        counts,
+        false,
+        undefined,
+        undefined,
+        [],
+        undefined,
+        undefined,
+        undefined,
+        {
+          type: "preference",
+          status: "failed",
+          errorCode: "preference-service-threw",
+        },
+        undefined,
+      );
+    } finally {
+      input.signal?.removeEventListener("abort", onInputAbort);
+      if (this.activeTurns.get(input.sessionId) === turn) {
+        this.activeTurns.delete(input.sessionId);
+      }
+    }
+  }
+
+  private async respondWithLocalForget(
+    input: CompanionInput,
+    identity: CompanionTurnIdentity,
+    counts: CompanionCallCounts,
+  ): Promise<CompanionResponse> {
+    const previousTurn = this.activeTurns.get(input.sessionId);
+    if (previousTurn) this.invalidateTurn(previousTurn, "superseded");
+
+    const controller = new AbortController();
+    const turn: ActiveTurn = {
+      identity,
+      input,
+      controller,
+      primaryTurn: null,
+      providerInfo: this.dependencies.modelPort.info,
+      active: true,
+      reason: null,
+      fallbackAttempted: false,
+    };
+    this.activeTurns.set(input.sessionId, turn);
+    const onInputAbort = () => this.invalidateTurn(turn, "cancelled");
+    input.signal?.addEventListener("abort", onInputAbort, { once: true });
+
+    try {
+      if (!this.isCurrentTurn(turn)) return this.invalidationResponse(turn, counts);
+      const forget = this.dependencies.forgetService
+        ? await this.dependencies.forgetService.process(input, controller.signal)
+        : {
+            type: "forget" as const,
+            status: "failed" as const,
+            errorCode: "forget-service-not-configured",
+          };
+      if (!this.isCurrentTurn(turn)) return this.invalidationResponse(turn, counts);
+      return await this.finishResponse(
+        turn,
+        undefined,
+        { replyDraft: "", actions: [] },
+        counts,
+        false,
+        undefined,
+        undefined,
+        [],
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        forget,
+      );
+    } catch {
+      return await this.finishResponse(
+        turn,
+        undefined,
+        { replyDraft: "", actions: [] },
+        counts,
+        false,
+        undefined,
+        undefined,
+        [],
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        {
+          type: "forget",
+          status: "failed",
+          errorCode: "forget-service-threw",
+        },
+      );
+    } finally {
+      input.signal?.removeEventListener("abort", onInputAbort);
+      if (this.activeTurns.get(input.sessionId) === turn) {
+        this.activeTurns.delete(input.sessionId);
+      }
+    }
+  }
+
   private async respondWithLocalMemory(
     input: CompanionInput,
     identity: CompanionTurnIdentity,
     counts: CompanionCallCounts,
-    candidate: MemoryCandidate,
+    candidateOrCandidates: MemoryCandidate | readonly MemoryCandidate[],
   ): Promise<CompanionResponse> {
+    const candidates = Array.isArray(candidateOrCandidates)
+      ? candidateOrCandidates
+      : [candidateOrCandidates];
     const previousTurn = this.activeTurns.get(input.sessionId);
     if (previousTurn) this.invalidateTurn(previousTurn, "superseded");
 
@@ -827,15 +1286,19 @@ export class CompanionHarnessImpl implements CompanionHarness {
       try {
         memory = await this.dependencies.memoryService!.process(
           input,
-          [candidate],
+          candidates,
           controller.signal,
         );
       } catch {
         memory = {
           status: "failed",
           acceptedCount: 0,
-          rejectedCount: 1,
-          decisions: [{ index: 0, status: "failed", errorCode: "memory-service-threw" }],
+          rejectedCount: candidates.length,
+          decisions: candidates.map((_, index) => ({
+            index,
+            status: "failed" as const,
+            errorCode: "memory-service-threw",
+          })),
           errorCode: "memory-service-threw",
         };
       }
@@ -936,11 +1399,71 @@ export class CompanionHarnessImpl implements CompanionHarness {
     }
   }
 
+  private rememberPendingMemoryConfirmations(
+    input: CompanionInput,
+    candidates: readonly MemoryCandidate[],
+    memory: MemoryPolicyResult,
+    candidateIndexes?: readonly number[],
+  ): void {
+    if (!candidates.length) return;
+    const pending = candidates.filter((_, index) => {
+      const decisionIndex = candidateIndexes?.[index] ?? index;
+      return memory.decisions.some(
+        (decision) => decision.index === decisionIndex && decision.status === "confirmation_required",
+      );
+    });
+    if (pending.length > 0) {
+      this.pendingMemoryConfirmations.set(
+        input.sessionId,
+        pending.map((candidate) => ({ input, candidate })),
+      );
+    }
+  }
+
+  private verifyPendingMemoryConfirmation(
+    input: CompanionInput,
+    candidate: MemoryCandidate,
+    candidateId: string,
+    signal: AbortSignal,
+  ) {
+    if (signal.aborted || input.signal?.aborted) return null;
+    if (resolveTaskCandidateConfirmation(input.message) !== "confirm") return null;
+    const pending = this.pendingMemoryConfirmations.get(input.sessionId) ?? [];
+    const match = pending.find((item) =>
+      item.input.petId === input.petId
+      && item.input.userId === input.userId
+      && item.input.sourceMessageId !== input.sourceMessageId
+      && item.candidate.sourceMessageId === candidate.sourceMessageId,
+    );
+    if (!match) return null;
+    return {
+      candidateId,
+      sourceMessageId: candidate.sourceMessageId,
+      confirmationMessageId: input.sourceMessageId,
+      sessionId: input.sessionId,
+      petId: input.petId,
+      status: "confirmed" as const,
+    };
+  }
+
   private invalidateTurn(turn: ActiveTurn, reason: TurnInvalidationReason): void {
     if (!turn.active) return;
     turn.active = false;
     turn.reason = reason;
     turn.controller.abort();
+    if (reason === "cancelled") {
+      this.pendingActionConfirmations.delete(turn.identity.sessionId);
+      this.pendingMemoryConfirmations.delete(turn.identity.sessionId);
+      return;
+    }
+    const pendingAction = this.pendingActionConfirmations.get(turn.identity.sessionId);
+    if (pendingAction?.input.requestId === turn.identity.requestId) {
+      this.pendingActionConfirmations.delete(turn.identity.sessionId);
+    }
+    const pendingMemory = this.pendingMemoryConfirmations.get(turn.identity.sessionId);
+    if (pendingMemory?.some(({ input }) => input.requestId === turn.identity.requestId)) {
+      this.pendingMemoryConfirmations.delete(turn.identity.sessionId);
+    }
   }
 
   private isCurrentTurn(turn: ActiveTurn): boolean {
@@ -1034,6 +1557,8 @@ export class CompanionHarnessImpl implements CompanionHarness {
     actionCandidatesOverride?: readonly CompanionActionCandidate[],
     proactivePreference?: CompanionProactivePreferenceExecutionResult,
     precomputedMemory?: MemoryPolicyResult,
+    preference?: CompanionPreferenceExecutionResult,
+    forget?: CompanionForgetExecutionResult,
   ): Promise<CompanionResponse> {
     if (!this.isCurrentTurn(turn)) return this.invalidationResponse(turn, counts);
 
@@ -1141,12 +1666,20 @@ export class CompanionHarnessImpl implements CompanionHarness {
       }
     }
     domainDegraded = memory.status === "failed";
+    this.rememberPendingMemoryConfirmations(
+      turn.input,
+      memoryCandidates,
+      memory,
+      modelResponse.memoryCandidateIndexes,
+    );
 
     const actionDegraded = actionCandidates.length > 0 && hasActionFailure(actionResults);
     const proactivePreferenceDegraded = proactivePreference !== undefined
       && proactivePreference.status !== "succeeded"
       && proactivePreference.status !== "duplicate";
-    const responseStatus = providerDegraded || domainDegraded || actionDegraded || proactivePreferenceDegraded
+    const preferenceDegraded = preference?.status === "failed";
+    const forgetDegraded = forget?.status === "failed";
+    const responseStatus = providerDegraded || domainDegraded || actionDegraded || proactivePreferenceDegraded || preferenceDegraded || forgetDegraded
       ? "degraded"
       : responseStatusForMemory(memory);
     const responseError = degradedError
@@ -1154,6 +1687,10 @@ export class CompanionHarnessImpl implements CompanionHarness {
         ? domainError("本轮操作没有全部按请求完成，下面是本地事实结果。")
         : proactivePreferenceDegraded
         ? domainError("主动提醒偏好没有按请求完成，下面是本地事实结果。")
+        : preferenceDegraded
+        ? domainError("偏好没有保存成功，下面是本地事实结果。")
+        : forgetDegraded
+        ? domainError("忘记操作没有完整完成，下面是本地事实结果。")
         : memory.status === "failed"
         ? domainError("Memory 没有保存成功，本轮聊天仍已保留。")
         : undefined);
@@ -1168,14 +1705,20 @@ export class CompanionHarnessImpl implements CompanionHarness {
         actions: actionResults,
         memory,
         ...(proactivePreference ? { proactivePreference } : {}),
+        ...(preference ? { preference } : {}),
+        ...(forget ? { forget } : {}),
       }),
       provider,
       providerDisclosure: provider.disclosure,
+      providerProfileId: resolvedTurn?.providerProfileId ?? "local",
+      protocol: resolvedTurn?.protocol ?? "local",
       degraded: responseStatus === "degraded",
       canCommit: true,
       committed: false,
       actions: actionResults,
       ...(proactivePreference ? { proactivePreference } : {}),
+      ...(preference ? { preference } : {}),
+      ...(forget ? { forget } : {}),
       memory,
       callCounts: counts,
       ...(responseError ? { error: responseError } : {}),
@@ -1285,6 +1828,8 @@ export class CompanionHarnessImpl implements CompanionHarness {
       text: null,
       provider,
       providerDisclosure: provider.disclosure,
+      providerProfileId: provider.kind === "local" ? "local" : "unknown",
+      protocol: provider.kind === "local" ? "local" : "unknown",
       degraded,
       canCommit: false,
       committed: false,
@@ -1302,6 +1847,8 @@ export class CompanionHarnessImpl implements CompanionHarness {
     provider: CompanionModelPortInfo,
     counts: CompanionCallCounts,
     proactivePreference?: CompanionProactivePreferenceExecutionResult,
+    providerProfileId = provider.kind === "local" ? "local" : "unknown",
+    protocol = provider.kind === "local" ? "local" : "unknown",
   ): CompanionResponse {
     return {
       identity,
@@ -1309,6 +1856,8 @@ export class CompanionHarnessImpl implements CompanionHarness {
       text: null,
       provider,
       providerDisclosure: provider.disclosure,
+      providerProfileId,
+      protocol,
       degraded: false,
       canCommit: false,
       committed: false,
@@ -1333,6 +1882,8 @@ export class CompanionHarnessImpl implements CompanionHarness {
       text: null,
       provider: turn.providerInfo,
       providerDisclosure: turn.providerInfo.disclosure,
+      providerProfileId: turn.primaryTurn?.providerProfileId ?? "local",
+      protocol: turn.primaryTurn?.protocol ?? "local",
       degraded: false,
       canCommit: false,
       committed: false,
@@ -1352,7 +1903,14 @@ export class CompanionHarnessImpl implements CompanionHarness {
     proactivePreference?: CompanionProactivePreferenceExecutionResult,
   ): CompanionResponse {
     if (turn.reason === "cancelled" || turn.input.signal?.aborted) {
-      const response = this.cancelledResponse(turn.identity, turn.providerInfo, counts, proactivePreference);
+      const response = this.cancelledResponse(
+        turn.identity,
+        turn.providerInfo,
+        counts,
+        proactivePreference,
+        turn.primaryTurn?.providerProfileId,
+        turn.primaryTurn?.protocol,
+      );
       return { ...response, actions, memory };
     }
     return this.discardedResponse(turn, counts, actions, memory, proactivePreference);

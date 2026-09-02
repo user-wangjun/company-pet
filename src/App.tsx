@@ -48,7 +48,8 @@ import {
 } from "./platform-mail/mailbox";
 import type { LetterOpenMode } from "./platform-mail/letterExperience";
 import MarketingPage from "./marketing/MarketingPage";
-import { isMarketingRoute } from "./marketing/marketingContent";
+import { isAccountRoute, isMarketingRoute } from "./marketing/marketingContent";
+import { AccountGate } from "./account/AccountGate";
 import type {
   DesktopIconBounds,
   DesktopIconInteractionState,
@@ -75,6 +76,9 @@ import {
 } from "./pet-core/animationRows";
 import {
   createDragDirectionState,
+  resolveDragLandingIdleStartFrame,
+  resolveDragLoopFrameIndex,
+  shouldReturnToIdleImmediatelyAfterDragLanding,
   updateDragDirection,
   type DragDirectionState,
 } from "./pet-core/dragDirection";
@@ -116,15 +120,17 @@ import {
   type PetDialogueEvent,
   type PetDialoguePackage,
 } from "./pet-core/dialogue";
-import { assembleCompanionContext } from "./pet-core/companionContext";
-import { resolveCompanionChatPipelineRoute } from "./pet-core/companionChatPipeline";
 import {
   createPetSoundPlayer,
   type PetSoundPlayer,
 } from "./pet-core/sound";
 import { CompanionChatBubble } from "./pet-core/CompanionChatBubble";
+import {
+  type BundledOllamaPullProgress,
+} from "./pet-core/CompanionOllamaPullProgress";
 import { PlatformCompanionChatPage } from "./pet-core/PlatformCompanionChatPage";
 import { PlatformProviderSettingsPage } from "./pet-core/PlatformProviderSettingsPage";
+import { revealDedicatedPlatformWindow as revealPlatformWindow } from "./pet-core/dedicatedPlatformWindow";
 import {
   loadPetCompanionChatPackage,
   resolveCompanionChatPackage,
@@ -134,19 +140,17 @@ import {
   CompanionChatProviderError,
   createCompanionChatProvider,
 } from "./pet-core/companionChatProvider";
+import { ProviderAdapterError } from "./pet-core/companionProviderAdapter";
 import {
   INACTIVE_COMPANION_CHAT,
   LOCAL_COMPANION_CHAT_PROVIDER_INFO,
-  createLocalCompanionChatFallbackProvider,
   receiveCompanionReply,
   enterCompanionChat,
   retryCompanionMessage,
   sendCompanionMessage,
-  shouldFallbackToLocalCompanion,
   stopCompanionReply,
   startCompanionContextEpoch,
   updateCompanionDraft,
-  type CompanionChatProvider,
   type CompanionChatProviderInfo,
   type CompanionChatState,
 } from "./pet-core/companionChatRuntime";
@@ -154,19 +158,31 @@ import {
   isExplicitCompanionTopicChange,
 } from "./pet-core/companionContextEpoch";
 import {
-  readCompanionPreferences,
-  upsertCompanionPreference,
-  writeCompanionPreferences,
   type CompanionPreferencesState,
 } from "./pet-core/companionPreferences";
 import {
   normalizeCompanionUserProfile,
-  readCompanionUserProfile,
   validateCompanionUserProfile,
-  writeCompanionUserProfile,
   type CompanionUserProfile,
   type CompanionUserProfileActionResult,
 } from "./pet-core/companionUserProfile";
+import {
+  createCompanionUserSettingsOwner,
+  createCompanionUserSettingsRepository,
+  type CompanionUserSettingsRepository,
+  type CompanionUserSettingsOwner,
+} from "./pet-core/companionUserSettingsRepository";
+import {
+  clearCompanionUserSettingsDevFault,
+  createCompanionUserSettingsDevStorage,
+} from "./pet-core/companionUserSettingsDevFault";
+import {
+  createCompanionUserSettingsBridge,
+  startCompanionUserSettingsOwnerBridge,
+  type CompanionUserSettingsOwnerBridgeEmission,
+  type CompanionUserSettingsOwnerBridgeLifecycle,
+} from "./pet-core/companionUserSettingsBridge";
+import { startCompanionUserSettingsRuntime } from "./pet-core/companionUserSettingsRuntime";
 import {
   clearCompanionProviderCredentialWithSecureStore,
   readCompanionProviderCredential,
@@ -175,6 +191,7 @@ import {
   getCompanionProviderProfilePreset,
   getCompanionProviderLabel,
   getCompanionProviderStatusInfo,
+  isLocalCompanionProviderProtocol,
   normalizeCompanionProviderSettings,
   validateCompanionProviderSettings,
   writeCompanionProviderSettingsWithSecureStore,
@@ -182,11 +199,22 @@ import {
   type CompanionProviderId,
   type CompanionProviderSettings,
 } from "./pet-core/companionProviderConfig";
-import { forgetRecentCompanionData } from "./pet-core/companionForget";
+import {
+  fetchCompanionProviderModels as fetchUpstreamCompanionProviderModels,
+  getCompanionProviderModelListUrl,
+  type CompanionProviderModelsActionResult,
+} from "./pet-core/companionProviderModels";
+import {
+  createCompanionProviderSyncCoordinator,
+  type CompanionProviderSyncCoordinator,
+} from "./pet-core/companionProviderSync";
+import {
+  createCompanionProviderWindowLifecycle,
+  type CompanionProviderWindowLifecycle,
+} from "./pet-core/companionProviderWindowLifecycle";
+import { shouldRecordProviderFallback } from "./pet-core/companionObservability";
 import {
   createCompanionMemoryRepository,
-  saveCompanionMemoryCandidate,
-  searchCompanionMemorySafely,
   type MemoryRepository,
 } from "./pet-core/companionMemory";
 import {
@@ -194,23 +222,14 @@ import {
   type PetSoulPackage,
 } from "./pet-core/petSoul";
 import {
-  canAutoCreateTask,
-  findDuplicateTask,
-  findTaskReference,
-  getPendingTaskCandidateForPet,
-  resolveTaskCandidateConfirmation,
-  taskDraftFromCandidate,
-  type PendingTaskCandidate,
-  type TaskCandidate,
-  type TaskOperationCandidate,
-} from "./pet-core/companionTaskExtractor";
-import {
-  applyCompanionTaskOperationToDatabase,
-} from "./pet-core/companionTaskOperations";
-import {
   autoExitCompanionTaskChat,
   exitCompanionTaskChat,
 } from "./pet-core/companionTaskSession";
+import {
+  COMPANION_LOCAL_USER_ID,
+  createCompanionAppHarness,
+  type CompanionAppHarnessRuntime,
+} from "./pet-core/companionAppHarness";
 import {
   createProactiveTaskCandidate,
   createProactiveTriggerEngine,
@@ -224,7 +243,6 @@ import {
   resolveProactiveTaskDelivery,
   type ProactiveTaskDelivery,
 } from "./pet-core/proactiveDelivery";
-import { resolveProactiveTaskControlTarget } from "./pet-core/proactiveTaskControl";
 import {
   CARE_REMINDER_STORAGE_KEY,
   getNextCareReminderWakeSchedules,
@@ -500,13 +518,55 @@ async function revealDedicatedPlatformWindow(): Promise<void> {
   const platformWindow = windows.find((candidate) => candidate.label === "platform");
   if (!platformWindow) throw new Error("platform window is unavailable");
 
-  await platformWindow.show();
-  await platformWindow.unminimize();
-  await platformWindow.setFocus();
+  await revealPlatformWindow(platformWindow);
 }
 
 function recordInteraction(event: string): Promise<unknown> {
   return invoke("record_interaction", { event }).catch(() => {});
+}
+
+type ChatObservationEvent =
+  | "chat_request_started"
+  | "chat_stop_clicked"
+  | "chat_turn_cancelled"
+  | "chat_fallback_started"
+  | "chat_result_committed"
+  | "chat_result_discarded"
+  | "provider_listener_attached"
+  | "provider_listener_detached"
+  | "provider_sync_notified"
+  | "provider_hydrated"
+  | "pet_switched"
+  | "confirmation_started"
+  | "confirmation_committed"
+  | "domain_write_committed"
+  | "memory_save_committed"
+  | "memory_forget_committed";
+
+type ChatObservationFields = {
+  httpStatus?: number;
+  listenerCount?: number;
+  callCount?: number;
+  commitCount?: number;
+  writeCount?: number;
+  cancelled?: boolean;
+  fallback?: boolean;
+  lateDiscarded?: boolean;
+};
+
+function recordChatObservation(
+  event: ChatObservationEvent,
+  fields: ChatObservationFields = {},
+): Promise<unknown> {
+  const currentWindow = getOptionalCurrentWindow();
+  if (!currentWindow) return Promise.resolve();
+  return invoke("record_interaction", {
+    event: `chat_observation:${JSON.stringify({
+      windowLabel: currentWindow.label,
+      event,
+      ...fields,
+    })}`,
+  }).catch(() => {});
 }
 
 function localDateKey(date = new Date()): string {
@@ -636,6 +696,11 @@ function DesktopPetApp() {
   const desktopIconProbeFailed = useRef(false);
   const desktopIconProbeSucceeded = useRef(false);
   const hoverStartedAt = useRef<number | null>(null);
+  // A pointer released after dragging is still physically over the moving
+  // pet window. Do not reinterpret that same pointer as a fresh hover until
+  // it leaves the pet surface; otherwise hover fish can interrupt landing.
+  const hoverSuppressedByDrag = useRef(false);
+  const dragHoverSuppressionTimer = useRef<number | null>(null);
   const desktopIconState = useRef<DesktopIconInteractionState>({
     activeIconKey: null,
     firstSeenAt: null,
@@ -676,6 +741,11 @@ function DesktopPetApp() {
   const nextIdleQuirkTime = useRef(Date.now() + randomInRange(20, 30) * 1000);
   const currentAnimation = useRef<AnimationName>("idle");
   const currentFacing = useRef<PetFacing>("right");
+  // Drag textures use full transparent 192x208 cells. Keep the character's
+  // contact line fixed while its silhouette changes; the values are source
+  // texture pixels and are converted through the active visual scale below.
+  const dragTextureStartFrame = useRef<number | null>(null);
+  const idleFollowsDragDirection = useRef(false);
   const playbackToken = useRef(0);
   const [bubbleText, setBubbleText] = useState<string | null>(null);
   const careReminderPromptRef = useRef<ActiveCareReminderPrompt | null>(null);
@@ -725,34 +795,149 @@ function DesktopPetApp() {
     useState<CompanionChatState>(INACTIVE_COMPANION_CHAT);
   const [companionChatProviderInfo, setCompanionChatProviderInfo] =
     useState<CompanionChatProviderInfo>(LOCAL_COMPANION_CHAT_PROVIDER_INFO);
+  const [ollamaPullProgress, setOllamaPullProgress] =
+    useState<BundledOllamaPullProgress | null>(null);
   const [companionProviderSettings, setCompanionProviderSettings] =
     useState<CompanionProviderSettings>(() => readCompanionProviderSettings());
-  const [companionUserProfile, setCompanionUserProfile] =
-    useState<CompanionUserProfile>(() => {
-      const storedProfile = readCompanionUserProfile();
-      if (storedProfile.nickname.trim()) return storedProfile;
-
-      const existingNickname = readCompanionPreferences().preferences.find(
-        (preference) => preference.id === "global.nickname",
-      )?.value ?? "";
-      return { ...storedProfile, nickname: existingNickname };
+  const companionUserSettingsOwnerRef = useRef<CompanionUserSettingsOwner | null>(null);
+  const companionUserSettingsRepositoryRef = useRef<CompanionUserSettingsRepository | null>(null);
+  const companionUserSettingsStorageRef = useRef<
+    Parameters<typeof createCompanionUserSettingsOwner>[0] | null
+  >(null);
+  const companionUserSettingsOwnerFactoryRef = useRef<((options: {
+    ownerEpoch: string;
+    issuedAt: number;
+  }) => CompanionUserSettingsOwner) | null>(null);
+  const companionUserSettingsOwnerBridgeStopRef = useRef<(() => void) | null>(null);
+  const companionUserSettingsOwnerBridgeLifecycleRef = useRef<CompanionUserSettingsOwnerBridgeLifecycle>({
+    commandListeners: 0,
+    ownerSubscriptions: 0,
   });
+  const companionUserSettingsOwnerBridgeEventsRef = useRef<CompanionUserSettingsOwnerBridgeEmission[]>([]);
+  if (companionUserSettingsRepositoryRef.current === null) {
+    if (isPlatformWindow && isTauriRuntime()) {
+      companionUserSettingsRepositoryRef.current = createCompanionUserSettingsBridge();
+    } else {
+      const storage = createCompanionUserSettingsDevStorage(window.localStorage);
+      companionUserSettingsStorageRef.current = storage;
+      companionUserSettingsOwnerRef.current = createCompanionUserSettingsOwner(storage);
+      companionUserSettingsOwnerFactoryRef.current = (options) =>
+        createCompanionUserSettingsOwner(storage, options);
+      companionUserSettingsRepositoryRef.current = createCompanionUserSettingsRepository({
+        owner: companionUserSettingsOwnerRef.current,
+      });
+    }
+  }
+  const companionUserSettingsRepository = companionUserSettingsRepositoryRef.current!;
+  const [companionSettingsInitialization, setCompanionSettingsInitialization] = useState(
+    () => companionUserSettingsRepository.getInitialization(),
+  );
+  const [companionUserProfile, setCompanionUserProfile] = useState<CompanionUserProfile | null>(
+    () => companionUserSettingsRepository.getSnapshot()?.profile ?? null,
+  );
+  const companionUserProfileRef = useRef<CompanionUserProfile | null>(companionUserProfile);
+  companionUserProfileRef.current = companionUserProfile;
   const companionChatStateRef = useRef<CompanionChatState>(INACTIVE_COMPANION_CHAT);
-  const companionChatProviderRef = useRef<CompanionChatProvider | null>(null);
+  const commitCompanionChatState = (
+    next: CompanionChatState | ((current: CompanionChatState) => CompanionChatState),
+  ) => {
+    const current = companionChatStateRef.current;
+    const resolved = typeof next === "function" ? next(current) : next;
+    companionChatStateRef.current = resolved;
+    setCompanionChatState(resolved);
+  };
   const companionProviderCredentialRef = useRef<string | null>(null);
   const companionChatAbortControllerRef = useRef<AbortController | null>(null);
+  const companionSessionIdRef = useRef<string | null>(null);
+  const companionRequestSequenceRef = useRef(0);
+  const companionAttemptRef = useRef<{
+    sessionId: string;
+    requestId: string;
+    sourceMessageId: string;
+    petId: string;
+    controller: AbortController;
+  } | null>(null);
+  const companionConfirmationPendingRef = useRef(false);
   const companionProviderSettingsRef = useRef<CompanionProviderSettings>(
     companionProviderSettings,
   );
   const companionProviderHydrationPromiseRef = useRef<Promise<void>>(Promise.resolve());
-  const companionPreferencesRef = useRef<CompanionPreferencesState>(
-    readCompanionPreferences(),
+  const companionProviderSyncRef = useRef<CompanionProviderSyncCoordinator | null>(null);
+  const companionProviderWindowLifecycleRef = useRef<CompanionProviderWindowLifecycle | null>(null);
+  const waitForCompanionProviderState = () =>
+    companionProviderSyncRef.current?.waitForSettled() ??
+    companionProviderHydrationPromiseRef.current;
+  const companionPreferencesRef = useRef<CompanionPreferencesState | null>(
+    companionUserSettingsRepository.getSnapshot()?.preferences ?? null,
   );
+  const applyCompanionSettingsInitialization = (
+    initialization: ReturnType<CompanionUserSettingsRepository["getInitialization"]>,
+  ) => {
+    setCompanionSettingsInitialization(initialization);
+    if (initialization.status === "ready") {
+      const nextProfile = initialization.snapshot.profile;
+      const nextPreferences = initialization.snapshot.preferences;
+      companionUserProfileRef.current = nextProfile;
+      companionPreferencesRef.current = nextPreferences;
+      setCompanionUserProfile(nextProfile);
+    } else {
+      companionUserProfileRef.current = null;
+      companionPreferencesRef.current = null;
+      setCompanionUserProfile(null);
+    }
+  };
+
+  useEffect(() => {
+    return startCompanionUserSettingsRuntime({
+      repository: companionUserSettingsRepository,
+      owner: companionUserSettingsOwnerRef.current,
+      isPlatformWindow,
+      isTauriRuntime: isTauriRuntime(),
+      applyInitialization: applyCompanionSettingsInitialization,
+      startOwnerBridge: startCompanionUserSettingsOwnerBridge,
+      ownerBridgeOptions: !isPlatformWindow
+        ? {
+            onEmit: (emission) => {
+              if (import.meta.env.DEV) {
+                companionUserSettingsOwnerBridgeEventsRef.current.push(emission);
+              }
+            },
+            onLifecycle: (lifecycle) => {
+              companionUserSettingsOwnerBridgeLifecycleRef.current = lifecycle;
+            },
+          }
+        : undefined,
+      onOwnerBridgeStarted: (stop) => {
+        companionUserSettingsOwnerBridgeStopRef.current = stop;
+      },
+    });
+  }, [companionUserSettingsRepository, isPlatformWindow]);
+  useEffect(() => {
+    if (!import.meta.env.DEV) return undefined;
+    let disposed = false;
+    let cleanup = () => {};
+    void import("./pet-core/companionUserSettingsDevScenario").then((module) => {
+      if (disposed) return;
+      cleanup = module.startCompanionUserSettingsDevScenario({
+        repository: companionUserSettingsRepository,
+        isPlatformWindow,
+        isTauriRuntime: isTauriRuntime(),
+        owner: companionUserSettingsOwnerRef.current,
+        createOwner: companionUserSettingsOwnerFactoryRef.current ?? undefined,
+        startOwnerBridge: startCompanionUserSettingsOwnerBridge,
+        getOwnerBridgeStop: () => companionUserSettingsOwnerBridgeStopRef.current,
+        getOwnerBridgeLifecycle: () => companionUserSettingsOwnerBridgeLifecycleRef.current,
+        ownerBridgeEvents: companionUserSettingsOwnerBridgeEventsRef.current,
+      });
+    });
+    return () => {
+      disposed = true;
+      cleanup();
+    };
+  }, [companionUserSettingsRepository, isPlatformWindow]);
   const [companionMemoryRepository] = useState<MemoryRepository>(() =>
     createCompanionMemoryRepository(),
   );
-  const recentCompanionMemoryIdRef = useRef<string | null>(null);
-  const pendingCompanionTaskRef = useRef<PendingTaskCandidate | null>(null);
   const proactiveDeliveryOutcomeRef = useRef(new Map<string, string>());
   const pendingProactiveDeliveriesRef = useRef<QueuedProactiveDelivery[]>([]);
   const pendingProactiveDeliveryKeysRef = useRef(new Set<string>());
@@ -765,6 +950,19 @@ function DesktopPetApp() {
     }),
     [activePetId, availablePetIds],
   );
+  const taskDatabaseRef = useRef(taskDatabase);
+  const availablePetIdsRef = useRef(availablePetIds);
+  const petManifestsByIdRef = useRef(petManifestsById);
+  const petCompanionChatsByIdRef = useRef(petCompanionChatsById);
+  const petSoulsByIdRef = useRef(petSoulsById);
+  const proactiveTriggerEngineRef = useRef(proactiveTriggerEngine);
+  taskDatabaseRef.current = taskDatabase;
+  availablePetIdsRef.current = availablePetIds;
+  petManifestsByIdRef.current = petManifestsById;
+  petCompanionChatsByIdRef.current = petCompanionChatsById;
+  petSoulsByIdRef.current = petSoulsById;
+  proactiveTriggerEngineRef.current = proactiveTriggerEngine;
+  activePetIdRef.current = activePetId;
   const petWindowLayout = useMemo(
     () => buildPetWindowLayout(petVisibleBounds, petBubbleSize),
     [petBubbleSize, petVisibleBounds],
@@ -803,6 +1001,154 @@ function DesktopPetApp() {
     platformSection,
     companionChatState.mode,
   );
+
+  const companionTaskRepositoryRef = useRef<{
+    read: () => TaskDatabase;
+    write: (database: TaskDatabase) => boolean;
+  } | null>(null);
+  if (companionTaskRepositoryRef.current === null) {
+    companionTaskRepositoryRef.current = {
+      read: () => readTaskDatabase(),
+      write: (database) => {
+        let written = false;
+        try {
+          written = writeTaskDatabase(database);
+        } catch {
+          written = false;
+        }
+        if (written) {
+          taskDatabaseRef.current = database;
+          setTaskDatabase(database);
+        }
+        return written;
+      },
+    };
+  }
+
+  const companionAppHarnessRef = useRef<CompanionAppHarnessRuntime | null>(null);
+  if (companionAppHarnessRef.current === null) {
+    companionAppHarnessRef.current = createCompanionAppHarness({
+      getProviderProfile: () => companionProviderSettingsRef.current,
+      getProviderCredential: () => companionProviderCredentialRef.current,
+      getFallbackToLocal: () => companionProviderSettingsRef.current.fallbackToLocal,
+      getActivePetId: () => activePetIdRef.current,
+      getAvailablePetIds: () => availablePetIdsRef.current,
+      getCompanionChatPackage: (petId) =>
+        petCompanionChatsByIdRef.current[petId]
+        ?? { status: "not-configured", petId },
+      getPetSoul: (petId) => petSoulsByIdRef.current[petId],
+      getPreferences: () => companionPreferencesRef.current,
+      getMemoryRepository: () => companionMemoryRepository,
+      getHistory: ({ petId, sessionId, sourceMessageId, contextEpoch }) => {
+        const state = companionChatStateRef.current;
+        if (
+          state.mode !== "active"
+          || activePetIdRef.current !== petId
+          || companionSessionIdRef.current !== sessionId
+        ) return [];
+        return state.messages.filter((message) =>
+          message.id !== sourceMessageId
+          && (contextEpoch === undefined || message.contextEpoch === contextEpoch),
+        );
+      },
+      taskRepository: companionTaskRepositoryRef.current,
+      getProactiveTriggerEngine: () => proactiveTriggerEngineRef.current,
+      settingsRepository: companionUserSettingsRepository,
+      responseSink: {
+        commit: (input, response, guard) => {
+          const current = companionChatStateRef.current;
+          if (
+            current.mode !== "active"
+            || activePetIdRef.current !== input.petId
+            || companionSessionIdRef.current !== input.sessionId
+            || current.pendingRequestId !== input.sourceMessageId
+          ) {
+            void recordChatObservation("chat_result_discarded", {
+              callCount: response.callCounts.model,
+              commitCount: 0,
+              lateDiscarded: true,
+            });
+            return;
+          }
+          const domainWriteCount = response.actions.filter(
+            (action) => action.status === "succeeded",
+          ).length;
+          const memoryWriteCount = response.memory.acceptedCount;
+          const forgetWriteCount = response.forget?.status === "succeeded" ? 1 : 0;
+          const needsConfirmation = response.actions.some(
+            (action) => action.status === "confirmation_required",
+          ) || response.memory.decisions.some(
+            (decision) => decision.status === "confirmation_required",
+          );
+          const committed = guard.commitIfCurrent(input, response, () => {
+            setCompanionChatProviderInfo(response.provider);
+            commitCompanionChatState((state) =>
+              state.mode === "active"
+              && activePetIdRef.current === input.petId
+              && companionSessionIdRef.current === input.sessionId
+              && state.pendingRequestId === input.sourceMessageId
+                ? receiveCompanionReply(
+                    state,
+                    response.text ?? "这次没有可显示的回复。",
+                  )
+                : state,
+            );
+          });
+          if (!committed) {
+            void recordChatObservation("chat_result_discarded", {
+              callCount: response.callCounts.model,
+              commitCount: 0,
+              lateDiscarded: true,
+            });
+            return;
+          }
+          if (shouldRecordProviderFallback(response)) {
+            void recordChatObservation("chat_fallback_started", {
+              callCount: response.callCounts.model,
+              fallback: true,
+            });
+          }
+          if (needsConfirmation && !companionConfirmationPendingRef.current) {
+            companionConfirmationPendingRef.current = true;
+            void recordChatObservation("confirmation_started", { writeCount: 0 });
+          }
+          if (domainWriteCount > 0) {
+            void recordChatObservation("domain_write_committed", {
+              writeCount: domainWriteCount,
+              commitCount: 1,
+            });
+          }
+          if (memoryWriteCount > 0) {
+            void recordChatObservation("memory_save_committed", {
+              writeCount: memoryWriteCount,
+              commitCount: 1,
+            });
+          }
+          if (forgetWriteCount > 0) {
+            void recordChatObservation("memory_forget_committed", {
+              writeCount: forgetWriteCount,
+              commitCount: 1,
+            });
+          }
+          if (companionConfirmationPendingRef.current && domainWriteCount > 0) {
+            companionConfirmationPendingRef.current = false;
+            void recordChatObservation("confirmation_committed", {
+              writeCount: domainWriteCount,
+              commitCount: 1,
+            });
+          }
+          void recordChatObservation("chat_result_committed", {
+            callCount: response.callCounts.model,
+            commitCount: 1,
+            writeCount: domainWriteCount + memoryWriteCount + forgetWriteCount,
+            fallback: response.degraded,
+            cancelled: false,
+          });
+        },
+      },
+    });
+  }
+  const companionAppHarness = companionAppHarnessRef.current!;
 
   const revealStartupWindow = (reason: string) => {
     if (startupWindowRevealed.current) return;
@@ -966,91 +1312,6 @@ function DesktopPetApp() {
     return true;
   };
 
-  const formatCompanionTaskSchedule = (candidate: Pick<TaskCandidate, "dueAt" | "schedulePrecision">) => {
-    if (!candidate.dueAt) return "具体日期和时间";
-    if (candidate.schedulePrecision === "date") return candidate.dueAt;
-    const date = new Date(candidate.dueAt);
-    return Number.isNaN(date.getTime())
-      ? candidate.dueAt
-      : new Intl.DateTimeFormat("zh-CN", {
-          month: "numeric",
-          day: "numeric",
-          hour: "numeric",
-          minute: "2-digit",
-        }).format(date);
-  };
-
-  const isSameCompanionTaskSchedule = (task: Task, candidate: TaskCandidate) => {
-    if (!task.dueAt || !candidate.dueAt || task.schedulePrecision !== candidate.schedulePrecision) return false;
-    if (candidate.schedulePrecision === "date") return task.dueAt.slice(0, 10) === candidate.dueAt.slice(0, 10);
-    return Date.parse(task.dueAt) === Date.parse(candidate.dueAt);
-  };
-
-  const commitCompanionTaskCandidate = (
-    candidate: TaskCandidate,
-    petId: string,
-    confirmed = false,
-  ): string => {
-    if (!confirmed && !canAutoCreateTask(candidate)) {
-      return candidate.reminderRequested && !candidate.remindAt
-        ? "提醒时间还不明确，告诉我具体时间后我再记下。"
-        : `要把「${candidate.title}」安排在${formatCompanionTaskSchedule(candidate)}吗？回复“确认”我再记下。`;
-    }
-    if (!candidate.dueAt) return "还缺一个具体日期，我不会把没有日期的事项默认为今天。";
-    if (candidate.reminderRequested && !candidate.remindAt) {
-      return "提醒时间还不明确，告诉我具体时间后我再记下。";
-    }
-
-    const current = readTaskDatabase();
-    const duplicate = findDuplicateTask(current, candidate);
-    if (duplicate) return `「${duplicate.title}」已经在待办里啦，我不重复添加。`;
-
-    const terminalMatch = findTaskReference(current, candidate.title, true).task;
-    if (
-      terminalMatch
-      && ["completed", "cancelled"].includes(terminalMatch.status)
-      && isSameCompanionTaskSchedule(terminalMatch, candidate)
-      && !/重新|再安排|恢复|再提醒/u.test(candidate.evidence)
-    ) {
-      return `「${terminalMatch.title}」已经${terminalMatch.status === "completed" ? "完成" : "取消"}，我没有重新激活它。`;
-    }
-
-    try {
-      const created = createTask(
-        current,
-        taskDraftFromCandidate(candidate, petId),
-      );
-      const feedback = `好，已记下「${created.task.title}」，时间是${formatCompanionTaskSchedule(candidate)}。`;
-      return commitTaskDatabase(created.database, feedback)
-        ? feedback
-        : TASK_DATABASE_WRITE_FAILURE_FEEDBACK;
-    } catch (error) {
-      console.warn("[companion-task] Failed to create task", error);
-      return "我暂时没能把这件事写入待办，再试一次好吗？";
-    }
-  };
-
-  const applyCompanionTaskOperation = (operation: TaskOperationCandidate): string => {
-    const changesSchedule = operation.operation === "postpone" || operation.operation === "reschedule";
-    if (changesSchedule && (operation.needsConfirmation || !operation.dueAt)) {
-      return "新时间还不明确，告诉我具体日期和时间后我再修改。";
-    }
-    const current = readTaskDatabase();
-    const result = applyCompanionTaskOperationToDatabase(current, operation);
-    if (result.status === "needs_schedule") return "新时间还不明确，告诉我具体日期和时间后我再修改。";
-    if (result.status === "not_found") return `我没找到「${operation.targetTitle}」这件待办。`;
-    if (result.status === "ambiguous") return "我找到不止一件相近待办，请说得更具体一点。";
-    if (result.status === "unchanged") return "这件待办现在不能再执行这个操作啦。";
-    const feedback = operation.operation === "complete"
-      ? `好，「${result.task.title}」完成啦。`
-      : operation.operation === "cancel"
-        ? `好，已取消「${result.task.title}」。`
-        : `好，「${result.task.title}」已经改到${formatCompanionTaskSchedule(operation)}。`;
-    return commitTaskDatabase(result.database, feedback)
-      ? feedback
-      : TASK_DATABASE_WRITE_FAILURE_FEEDBACK;
-  };
-
   if (soundPlayerRef.current === null) {
     soundPlayerRef.current = createPetSoundPlayer({ enabled: false });
   }
@@ -1115,41 +1376,86 @@ function DesktopPetApp() {
     companionChatStateRef.current = companionChatState;
   }, [companionChatState]);
   useEffect(() => {
-    let cancelled = false;
-    const hydration = readCompanionProviderSettingsStateWithSecureStore()
-      .then(({ settings, credential }) => {
-        if (cancelled) return;
+    if (!isTauriRuntime()) {
+      let cancelled = false;
+      const hydration = readCompanionProviderSettingsStateWithSecureStore()
+        .then(({ settings, credential }) => {
+          if (cancelled) return;
+          companionProviderCredentialRef.current = credential;
+          companionProviderSettingsRef.current = settings;
+          setCompanionProviderSettings(settings);
+        })
+        .catch(() => {
+          // Keep the non-secret metadata loaded from ordinary settings. A later
+          // save will surface the secure-store error without exposing the Key.
+        });
+      companionProviderHydrationPromiseRef.current = hydration;
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const sourceWindow = getOptionalCurrentWindow()?.label ??
+      (isPlatformWindow ? "platform" : "main");
+    const coordinator = createCompanionProviderSyncCoordinator({
+      sourceWindow,
+      initial: {
+        settings: companionProviderSettingsRef.current,
+        credential: companionProviderCredentialRef.current,
+      },
+      hydrate: readCompanionProviderSettingsStateWithSecureStore,
+      onState: ({ settings, credential }) => {
         companionProviderCredentialRef.current = credential;
         companionProviderSettingsRef.current = settings;
         setCompanionProviderSettings(settings);
-      })
-      .catch(() => {
-        // Keep the non-secret metadata loaded from ordinary settings. A later
-        // save will surface the secure-store error without exposing the Key.
-      });
+        setCompanionChatProviderInfo(getCompanionProviderStatusInfo(settings));
+      },
+      onProviderChanged: () => cancelCompanionChatTurn(),
+      onListenerAttached: (listenerCount) => {
+        void recordChatObservation("provider_listener_attached", { listenerCount });
+      },
+      onListenerDetached: (listenerCount) => {
+        void recordChatObservation("provider_listener_detached", { listenerCount });
+      },
+      onSyncNotified: () => {
+        void recordChatObservation("provider_sync_notified");
+      },
+      onHydrated: () => {
+        void recordChatObservation("provider_hydrated", { listenerCount: 1 });
+      },
+    });
+    const windowLifecycle = createCompanionProviderWindowLifecycle(coordinator);
+    companionProviderSyncRef.current = coordinator;
+    companionProviderWindowLifecycleRef.current = windowLifecycle;
+    const hydration = windowLifecycle.start().catch(() => {
+      // Keep the locally loaded metadata if the event bridge is unavailable.
+    });
     companionProviderHydrationPromiseRef.current = hydration;
     return () => {
-      cancelled = true;
+      windowLifecycle.stop();
+      if (companionProviderSyncRef.current === coordinator) {
+        companionProviderSyncRef.current = null;
+      }
+      if (companionProviderWindowLifecycleRef.current === windowLifecycle) {
+        companionProviderWindowLifecycleRef.current = null;
+      }
     };
-  }, []);
+  }, [isPlatformWindow]);
   useEffect(() => {
     companionProviderSettingsRef.current = companionProviderSettings;
-    companionChatProviderRef.current = null;
     setCompanionChatProviderInfo(getCompanionProviderStatusInfo(companionProviderSettings));
   }, [companionProviderSettings]);
   useEffect(() => {
-    abortCompanionChatRequest();
+    cancelCompanionChatTurn();
     activePetIdRef.current = activePetId;
-    companionChatProviderRef.current = null;
     setCompanionChatProviderInfo(
       getCompanionProviderStatusInfo(companionProviderSettingsRef.current),
     );
     const exited = exitCompanionTaskChat(
       companionChatStateRef.current,
-      pendingCompanionTaskRef.current,
+      null,
     );
-    pendingCompanionTaskRef.current = exited.pending;
-    setCompanionChatState(exited.state);
+    commitCompanionChatState(exited.state);
     if (isPlatformWindow && companionChatStateRef.current.mode === "active") {
       setPlatformSection(resolvePlatformSectionAfterCompanionExit("pet-switch"));
     }
@@ -1168,6 +1474,8 @@ function DesktopPetApp() {
           resetPetPositionOnNextOpen.current = true;
         }
         if (isPlatformWindow) {
+          const lifecycle = companionProviderWindowLifecycleRef.current;
+          if (lifecycle) void lifecycle.start().catch(() => {});
           setIsQuickCreateOpen(false);
           setIsPlatformOpen(true);
         } else {
@@ -1183,6 +1491,8 @@ function DesktopPetApp() {
         "platform-navigation",
         (payload) => {
           if (!isPlatformWindow) return;
+          const lifecycle = companionProviderWindowLifecycleRef.current;
+          if (lifecycle) void lifecycle.start().catch(() => {});
           if (payload.section === "quick-create") {
             setIsPlatformOpen(false);
             setIsQuickCreateOpen(true);
@@ -1274,6 +1584,24 @@ function DesktopPetApp() {
       "task-notification-action",
       handleTaskNotificationAction,
     );
+    let ollamaPullClearTimer: number | null = null;
+    const unlistenOllamaPullPromise = listenToAppEvent<BundledOllamaPullProgress>(
+      "ollama-pull-progress",
+      (progress) => {
+        if (!progress?.model?.trim()) return;
+        if (ollamaPullClearTimer !== null) {
+          window.clearTimeout(ollamaPullClearTimer);
+          ollamaPullClearTimer = null;
+        }
+        setOllamaPullProgress(progress);
+        if (progress.done) {
+          ollamaPullClearTimer = window.setTimeout(() => {
+            setOllamaPullProgress(null);
+            ollamaPullClearTimer = null;
+          }, 2200);
+        }
+      },
+    );
 
     if (isTauriRuntime() && !isPlatformWindow) {
       void invoke<Array<{ instanceId: string; action: string }>>("get_initial_task_notification_actions")
@@ -1306,6 +1634,10 @@ function DesktopPetApp() {
       void unlistenTaskWakeupPromise.then((unlisten) => unlisten());
       void unlistenCareReminderStatePromise.then((unlisten) => unlisten());
       void unlistenTaskNotificationActionPromise.then((unlisten) => unlisten());
+      void unlistenOllamaPullPromise.then((unlisten) => unlisten());
+      if (ollamaPullClearTimer !== null) {
+        window.clearTimeout(ollamaPullClearTimer);
+      }
     };
   }, [isPlatformWindow]);
 
@@ -1748,10 +2080,10 @@ function DesktopPetApp() {
     const desiredSize = nextMode === "platform"
       ? PLATFORM_WINDOW_SIZE
       : nextMode === "quick-create"
-        ? QUICK_CREATE_WINDOW_SIZE
-        : nextMode === "task-menu"
-          ? taskMenuLayout.windowSize
-          : isReminderWindowExpanded
+          ? QUICK_CREATE_WINDOW_SIZE
+          : nextMode === "task-menu"
+            ? taskMenuLayout.windowSize
+            : isReminderWindowExpanded
             ? getPetReminderWindowSize(petBubbleSize, PET_REMINDER_WINDOW_SIZE)
             : petWindowLayout.windowSize;
     const failureEvent = nextMode === "platform"
@@ -1859,6 +2191,13 @@ function DesktopPetApp() {
   ) => {
     void revealDedicatedPlatformWindow()
       .then(() => emit("platform-navigation", payload))
+      .then(
+        () =>
+          new Promise<void>((resolve) => {
+            window.setTimeout(resolve, 120);
+          }),
+      )
+      .then(() => revealDedicatedPlatformWindow())
       .catch(() => {
         recordInteraction("platform_window_show_failed");
       });
@@ -1873,6 +2212,7 @@ function DesktopPetApp() {
     }
     clearDefaultBubbleText();
     if (isPlatformWindow) {
+      companionProviderWindowLifecycleRef.current?.stop();
       void getOptionalCurrentWindow()?.hide().catch(() => {
         recordInteraction("platform_window_hide_failed");
       });
@@ -2199,6 +2539,7 @@ function DesktopPetApp() {
     if (isPlatformWindow) {
       setPlatformSection(resolvePlatformSectionAfterCompanionExit("pet-switch"));
     }
+    void recordChatObservation("pet_switched");
     recordInteraction("platform_pet_selected");
   };
 
@@ -2242,36 +2583,29 @@ function DesktopPetApp() {
       : { status: "not-configured", petId };
   };
 
-  const abortCompanionChatRequest = () => {
+  const cancelCompanionChatTurn = () => {
+    const attempt = companionAttemptRef.current;
+    const hadAttempt = attempt !== null;
+    attempt?.controller.abort();
     companionChatAbortControllerRef.current?.abort();
     companionChatAbortControllerRef.current = null;
+    const sessionId = companionSessionIdRef.current;
+    if (sessionId) {
+      companionAppHarness.harness.cancel(sessionId, attempt?.requestId);
+    }
+    companionAttemptRef.current = null;
+    companionConfirmationPendingRef.current = false;
+    if (hadAttempt) {
+      void recordChatObservation("chat_turn_cancelled", {
+        cancelled: true,
+        lateDiscarded: true,
+      });
+    }
   };
 
-  const prepareCompanionChatProvider = (petId: string) => {
-    const config = resolveCompanionChatPackage(getCompanionChatPackageForPet(petId));
-    const settings = companionProviderSettingsRef.current;
-    let provider: CompanionChatProvider;
-    try {
-      provider = createCompanionChatProvider(config, {
-        profile: settings,
-        credential: companionProviderCredentialRef.current,
-      });
-    } catch (error) {
-      const providerError = error instanceof CompanionChatProviderError
-        ? error
-        : new CompanionChatProviderError("聊天服务配置还没有准备好，请检查 Provider 设置。");
-      const info = getCompanionProviderStatusInfo(settings);
-      provider = {
-        info,
-        async send() {
-          throw providerError;
-        },
-      };
-    }
-    companionChatProviderRef.current = provider;
-    setCompanionChatProviderInfo(provider.info);
-    return { config, provider };
-  };
+  useEffect(() => () => {
+    cancelCompanionChatTurn();
+  }, []);
 
   const notifyCompanionChatOpened = () => {
     if (!isTauriRuntime()) return;
@@ -2285,7 +2619,7 @@ function DesktopPetApp() {
     suppliedCredential?: string,
   ): Promise<string | null> => {
     const settings = normalizeCompanionProviderSettings(input);
-    if (settings.protocol === "local") return null;
+    if (isLocalCompanionProviderProtocol(settings.protocol)) return null;
     if (suppliedCredential?.trim()) return suppliedCredential.trim();
     if (!settings.credentialConfigured) return null;
     return readCompanionProviderCredential(settings);
@@ -2295,7 +2629,7 @@ function DesktopPetApp() {
     provider: CompanionProviderId,
     current: CompanionProviderSettings,
   ): Promise<CompanionProviderSettings> => {
-    await companionProviderHydrationPromiseRef.current;
+    await waitForCompanionProviderState();
     const preset = getCompanionProviderProfilePreset(provider);
     const next = normalizeCompanionProviderSettings(
       preset
@@ -2320,38 +2654,57 @@ function DesktopPetApp() {
     const validationError = validateCompanionUserProfile(profile);
     if (validationError) return { ok: false, message: validationError };
 
-    const previousProfile = companionUserProfile;
-    if (!writeCompanionUserProfile(profile)) {
-      return { ok: false, message: "个人信息暂时没有保存成功，请稍后再试。" };
+    const current = companionUserSettingsRepository.getSnapshot();
+    if (!current) {
+      return { ok: false, message: "本机设置当前不可读取，已保留原资料；请重新读取后再保存。" };
     }
-
-    const currentPreferences = companionPreferencesRef.current;
-    const nextPreferences = profile.nickname
-      ? upsertCompanionPreference(currentPreferences, {
-          id: "global.nickname",
-          scope: "global",
-          category: "userProfile",
-          key: "nickname",
-          value: profile.nickname,
-          source: "explicit",
-        })
-      : {
-          preferences: currentPreferences.preferences.filter(
-            (preference) => preference.id !== "global.nickname",
-          ),
-          recentPreferenceId:
-            currentPreferences.recentPreferenceId === "global.nickname"
-              ? null
-              : currentPreferences.recentPreferenceId,
-        };
-
-    if (!writeCompanionPreferences(nextPreferences)) {
-      writeCompanionUserProfile(previousProfile);
-      return { ok: false, message: "个人信息暂时没有保存成功，请稍后再试。" };
+    const result = await companionUserSettingsRepository.updateProfile(
+      {
+        nickname: profile.nickname,
+        gender: profile.gender,
+        email: profile.email,
+        phone: profile.phone,
+      },
+      {
+        expectedGeneration: current.generation,
+        expectedRevision: current.revision,
+        expectedOwnerEpoch: current.ownerEpoch,
+        expectedStateSeq: current.stateSeq,
+        expectedDataRevision: current.dataRevision,
+      },
+      `settings-profile:${Date.now()}`,
+    );
+    if (!result.ok) {
+      const message = result.reason === "stale-revision"
+        ? "设置已在另一个窗口更新，请重新读取后再保存。"
+        : result.reason === "not-ready"
+        || result.reason === "recovery-blocked"
+        || result.reason === "owner-unavailable"
+        || result.reason === "bridge-timeout"
+        || result.reason === "read-failed"
+        || result.reason === "invalid-storage"
+        ? "本机设置当前不可读取，已保留原资料；请重新读取后再保存。"
+        : "个人信息暂时没有保存成功，请稍后再试。";
+      return { ok: false, message };
     }
-
-    companionPreferencesRef.current = nextPreferences;
-    setCompanionUserProfile(profile);
+    companionUserProfileRef.current = result.snapshot.profile;
+    companionPreferencesRef.current = result.snapshot.preferences;
+    setCompanionUserProfile(result.snapshot.profile);
+    setCompanionSettingsInitialization({
+      status: "ready",
+      snapshot: result.snapshot,
+      generation: result.generation,
+      revision: result.revision,
+      ownerEpoch: result.ownerEpoch,
+      stateSeq: result.stateSeq,
+      dataRevision: result.dataRevision,
+      issuedAt: companionSettingsInitialization.status === "ready"
+        ? companionSettingsInitialization.issuedAt
+        : Date.now(),
+    });
+    if (!result.applied && current.profile.email === profile.email && current.profile.phone === profile.phone) {
+      return { ok: true, message: "个人信息没有新的变化。" };
+    }
     return { ok: true, message: "个人信息已保存在本机。" };
   };
 
@@ -2359,7 +2712,7 @@ function DesktopPetApp() {
     input: CompanionProviderSettings,
     suppliedCredential?: string,
   ): Promise<CompanionProviderActionResult> => {
-    await companionProviderHydrationPromiseRef.current;
+    await waitForCompanionProviderState();
     try {
       const settings = normalizeCompanionProviderSettings(input);
       const credential = await resolveCompanionProviderCredentialForAction(
@@ -2373,12 +2726,17 @@ function DesktopPetApp() {
       }
 
       const saved = { ...settings, credentialConfigured: Boolean(credential) };
-      companionProviderCredentialRef.current = credential;
-      companionProviderSettingsRef.current = saved;
-      companionChatProviderRef.current = null;
-      abortCompanionChatRequest();
-      setCompanionProviderSettings(saved);
-      setCompanionChatProviderInfo(getCompanionProviderStatusInfo(saved));
+      const sync = companionProviderSyncRef.current;
+      if (sync) {
+        sync.applyLocalState({ settings: saved, credential });
+        void sync.publishChange().catch(() => {});
+      } else {
+        companionProviderCredentialRef.current = credential;
+        companionProviderSettingsRef.current = saved;
+        cancelCompanionChatTurn();
+        setCompanionProviderSettings(saved);
+        setCompanionChatProviderInfo(getCompanionProviderStatusInfo(saved));
+      }
       recordInteraction("companion_provider_saved");
       return {
         ok: true,
@@ -2392,9 +2750,9 @@ function DesktopPetApp() {
   const clearCompanionProviderApiKey = async (
     input: CompanionProviderSettings,
   ): Promise<CompanionProviderActionResult> => {
-    await companionProviderHydrationPromiseRef.current;
+    await waitForCompanionProviderState();
     const settings = normalizeCompanionProviderSettings(input);
-    if (settings.protocol === "local") {
+    if (isLocalCompanionProviderProtocol(settings.protocol)) {
       return { ok: true, message: "本地陪伴不需要 API Key。" };
     }
 
@@ -2406,12 +2764,17 @@ function DesktopPetApp() {
         ...settings,
         credentialConfigured: false,
       });
-      companionProviderCredentialRef.current = null;
-      companionProviderSettingsRef.current = cleared;
-      companionChatProviderRef.current = null;
-      abortCompanionChatRequest();
-      setCompanionProviderSettings(cleared);
-      setCompanionChatProviderInfo(getCompanionProviderStatusInfo(cleared));
+      const sync = companionProviderSyncRef.current;
+      if (sync) {
+        sync.applyLocalState({ settings: cleared, credential: null });
+        void sync.publishChange().catch(() => {});
+      } else {
+        companionProviderCredentialRef.current = null;
+        companionProviderSettingsRef.current = cleared;
+        cancelCompanionChatTurn();
+        setCompanionProviderSettings(cleared);
+        setCompanionChatProviderInfo(getCompanionProviderStatusInfo(cleared));
+      }
       recordInteraction("companion_provider_key_cleared");
       return {
         ok: true,
@@ -2422,12 +2785,53 @@ function DesktopPetApp() {
     }
   };
 
+  const fetchCompanionProviderModelsForSettings = async (
+    input: CompanionProviderSettings,
+    suppliedCredential?: string,
+  ): Promise<CompanionProviderModelsActionResult> => {
+    let requestUrl: string | null = null;
+    try {
+      await waitForCompanionProviderState();
+      const settings = normalizeCompanionProviderSettings(input);
+      const credential = await resolveCompanionProviderCredentialForAction(
+        settings,
+        suppliedCredential,
+      );
+      const validationError = validateCompanionProviderSettings(
+        settings,
+        credential,
+        { allowEmptyModel: true },
+      );
+      if (validationError) return { ok: false, message: validationError };
+      requestUrl = getCompanionProviderModelListUrl(settings);
+      const result = await fetchUpstreamCompanionProviderModels(settings, credential);
+      recordInteraction("companion_provider_models_fetched");
+      return {
+        ok: true,
+        message: `已从 ${requestUrl} 获取 ${result.models.length} 个模型，请选择后保存。`,
+        models: result.models,
+      };
+    } catch (error) {
+      if (error instanceof ProviderAdapterError) {
+        const target = requestUrl ? `（目标地址：${requestUrl}）` : "";
+        const status = error.status ? ` HTTP ${error.status}` : "";
+        return { ok: false, message: `${error.userMessage}${status}${target}` };
+      }
+      return {
+        ok: false,
+        message: requestUrl
+          ? `上游模型列表暂时没有获取成功（目标地址：${requestUrl}），请检查 Endpoint 和网络。`
+          : "上游模型列表暂时没有获取成功，请检查 Endpoint 和网络。",
+      };
+    }
+  };
+
   const testCompanionProvider = async (
     input: CompanionProviderSettings,
     suppliedCredential?: string,
   ): Promise<CompanionProviderActionResult> => {
     try {
-      await companionProviderHydrationPromiseRef.current;
+      await waitForCompanionProviderState();
       const settings = normalizeCompanionProviderSettings(input);
       const credential = await resolveCompanionProviderCredentialForAction(
         settings,
@@ -2463,8 +2867,7 @@ function DesktopPetApp() {
   };
 
   const openCompanionChat = async () => {
-    await companionProviderHydrationPromiseRef.current;
-    const { config } = prepareCompanionChatProvider(activePetId);
+    await waitForCompanionProviderState();
     if (companionChatStateRef.current.mode === "active") {
       notifyCompanionChatOpened();
       recordInteraction("companion_chat_open");
@@ -2475,11 +2878,13 @@ function DesktopPetApp() {
       window.clearTimeout(secondaryClickResetTimer.current);
       secondaryClickResetTimer.current = null;
     }
-    pendingCompanionTaskRef.current = null;
+    companionSessionIdRef.current = `companion-session-${Date.now()}-${Math.random().toString(36).slice(2)}`;
     setIsTaskMenuOpen(false);
     // A new active companionship starts a fresh bounded Provider context. The
     // previous record is read-only UI state and is intentionally not restored.
-    setCompanionChatState(enterCompanionChat(config));
+    const config = resolveCompanionChatPackage(getCompanionChatPackageForPet(activePetId));
+    commitCompanionChatState(enterCompanionChat(config));
+    setCompanionChatProviderInfo(getCompanionProviderStatusInfo(companionProviderSettingsRef.current));
     notifyCompanionChatOpened();
     recordInteraction("companion_chat_open");
   };
@@ -2489,32 +2894,21 @@ function DesktopPetApp() {
     setPlatformSection("chat");
   };
 
-  useEffect(() => {
-    if (companionChatState.mode !== "active") return;
-    prepareCompanionChatProvider(activePetId);
-  // The loaded package object is the configuration-change boundary for the
-  // currently active pet. The provider is resolved before the next send.
-  }, [activePetId, companionChatState.mode, petCompanionChatsById[activePetId]]);
-
   const stopCompanionChatReply = () => {
-    abortCompanionChatRequest();
-    setCompanionChatState((current) => stopCompanionReply(current));
+    if (companionAttemptRef.current) {
+      void recordChatObservation("chat_stop_clicked", { cancelled: true });
+    }
+    cancelCompanionChatTurn();
+    commitCompanionChatState((current) => stopCompanionReply(current));
     recordInteraction("companion_chat_stop");
   };
 
   const updateCompanionDraftText = (draft: string) => {
-    setCompanionChatState((current) => updateCompanionDraft(current, draft));
+    commitCompanionChatState((current) => updateCompanionDraft(current, draft));
   };
 
   const sendCompanionChatMessage = (stateOverride?: CompanionChatState) => {
-    const petId = activePetId;
-    const prepared = companionChatProviderRef.current
-      ? {
-          config: resolveCompanionChatPackage(getCompanionChatPackageForPet(petId)),
-          provider: companionChatProviderRef.current,
-        }
-      : prepareCompanionChatProvider(petId);
-    const { config, provider } = prepared;
+    const petId = activePetIdRef.current;
     const stateForSend = stateOverride ?? companionChatStateRef.current;
     const currentState = stateForSend.mode === "active"
       && !stateOverride
@@ -2522,269 +2916,110 @@ function DesktopPetApp() {
       ? startCompanionContextEpoch(stateForSend)
       : stateForSend;
     const sent = sendCompanionMessage(currentState);
-    setCompanionChatState(sent);
+    commitCompanionChatState(sent);
     if (sent.mode !== "active" || !sent.pendingUserMessage) return;
 
     const { id, text } = sent.pendingUserMessage;
+    const sessionId = companionSessionIdRef.current;
+    if (!sessionId) return;
+    const requestId = `companion-request-${Date.now()}-${++companionRequestSequenceRef.current}`;
+    const abortController = new AbortController();
+    const input = {
+      requestId,
+      sessionId,
+      sourceMessageId: id,
+      userId: COMPANION_LOCAL_USER_ID,
+      petId,
+      message: text,
+      currentTime: new Date().toISOString(),
+      timezone: (() => {
+        try {
+          return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+        } catch {
+          return "UTC";
+        }
+      })(),
+      utcOffsetMinutes: -new Date().getTimezoneOffset(),
+      source: "chat" as const,
+      contextEpoch: sent.contextEpoch,
+      signal: abortController.signal,
+    };
+    companionAttemptRef.current = {
+      sessionId,
+      requestId,
+      sourceMessageId: id,
+      petId,
+      controller: abortController,
+    };
+    companionChatAbortControllerRef.current = abortController;
+    void recordChatObservation("chat_request_started");
     window.setTimeout(() => {
       if (
         activePetIdRef.current !== petId ||
         companionChatStateRef.current.mode !== "active" ||
         companionChatStateRef.current.pendingRequestId !== id
+        || companionSessionIdRef.current !== sessionId
+        || companionAttemptRef.current?.requestId !== requestId
       ) {
         return;
       }
-
-      const taskDatabaseSnapshot = readTaskDatabase();
-      const taskExtractorOptions = {
-        now: new Date(),
-        timezoneOffsetMinutes: taskDatabaseSnapshot.settings.timezoneOffsetMinutes,
-      };
-      const pendingTaskCandidate = getPendingTaskCandidateForPet(
-        pendingCompanionTaskRef.current,
-        petId,
-      );
-      if (pendingTaskCandidate) {
-        const confirmation = resolveTaskCandidateConfirmation(text);
-        if (confirmation === "confirm") {
-          pendingCompanionTaskRef.current = null;
-          const feedback = commitCompanionTaskCandidate(pendingTaskCandidate, petId, true);
-          setCompanionChatState((current) => receiveCompanionReply(current, feedback));
+      void waitForCompanionProviderState().then(() => {
+        if (
+          activePetIdRef.current !== petId ||
+          companionChatStateRef.current.mode !== "active" ||
+          companionChatStateRef.current.pendingRequestId !== id ||
+          companionSessionIdRef.current !== sessionId ||
+          companionAttemptRef.current?.requestId !== requestId
+        ) {
           return;
         }
-        if (confirmation === "cancel") {
-          pendingCompanionTaskRef.current = null;
-          setCompanionChatState((current) => receiveCompanionReply(current, "好，我不记这条。"));
-          return;
-        }
-        setCompanionChatState((current) =>
-          receiveCompanionReply(current, "你可以回复“确认”记下，或回复“取消”丢掉这条。"),
-        );
-        return;
-      }
-
-      const route = resolveCompanionChatPipelineRoute({
-        text,
-        sourceMessageId: id,
-        petId,
-        taskOptions: taskExtractorOptions,
-      });
-      if (route.kind === "proactive") {
-        const preferenceCommand = route.command;
-        const preferenceTarget = resolveProactiveTaskControlTarget(
-          preferenceCommand,
-          taskDatabaseSnapshot,
-          proactiveTriggerEngine.getLastDeliveryContext(),
-        );
-        if (preferenceTarget.status === "needs-title") {
-          setCompanionChatState((current) =>
-            receiveCompanionReply(current, "告诉我具体是哪件待办，我就按你的选择调整提醒。"),
-          );
-          return;
-        }
-        if (preferenceTarget.status === "not-found") {
-          setCompanionChatState((current) =>
-            receiveCompanionReply(current, `我没找到「${preferenceTarget.targetTitle}」这件待办。`),
-          );
-          return;
-        }
-        if (preferenceTarget.status === "ambiguous") {
-          setCompanionChatState((current) =>
-            receiveCompanionReply(current, "我找到不止一件相近待办，请说得更具体一点。"),
-          );
-          return;
-        }
-        const preferenceTask = preferenceTarget.task;
-        if (preferenceCommand.action === "mute") {
-          proactiveTriggerEngine.setTaskPreference(preferenceTask.id, { mode: "muted" });
-          setCompanionChatState((current) =>
-            receiveCompanionReply(current, `好，我不再主动提醒「${preferenceTask.title}」了。`),
-          );
-          recordInteraction("task_proactive_muted");
-          return;
-        }
-        if (preferenceCommand.action === "reduce") {
-          proactiveTriggerEngine.setTaskPreference(preferenceTask.id, { mode: "reduced" });
-          setCompanionChatState((current) =>
-            receiveCompanionReply(current, `好，我会少提醒一点「${preferenceTask.title}」。`),
-          );
-          recordInteraction("task_proactive_reduced");
-          return;
-        }
-        const nextPetId = availablePetIds.find((candidatePetId) => candidatePetId !== activePetId);
-        if (!nextPetId) {
-          setCompanionChatState((current) =>
-            receiveCompanionReply(current, "现在还没有另一只可替换的宠物，我先不改变这件事。"),
-          );
-          return;
-        }
-        proactiveTriggerEngine.setTaskPreference(preferenceTask.id, { preferredPetId: nextPetId });
-        setCompanionChatState((current) =>
-          receiveCompanionReply(current, `好，之后由另一只宠物提醒「${preferenceTask.title}」，任务本身不变。`),
-        );
-        recordInteraction("task_proactive_pet_changed");
-        return;
-      }
-
-      if (route.kind === "task-operation") {
-        const feedback = applyCompanionTaskOperation(route.operation);
-        setCompanionChatState((current) => receiveCompanionReply(current, feedback));
-        return;
-      }
-
-      if (route.kind === "task-candidate") {
-        const taskCandidate = route.candidate;
-        if (taskCandidate.needsConfirmation) {
-          if (!taskCandidate.dueAt) {
-            setCompanionChatState((current) =>
-              receiveCompanionReply(current, "还缺一个具体日期，我不会把没有日期的事项默认为今天。"),
-            );
-            return;
-          }
-          if (taskCandidate.reminderRequested && !taskCandidate.remindAt) {
-            setCompanionChatState((current) =>
-              receiveCompanionReply(current, "提醒时间还不明确，告诉我具体时间后我再记下。"),
-            );
-            return;
-          }
-          pendingCompanionTaskRef.current = { petId, candidate: taskCandidate };
-          setCompanionChatState((current) =>
-            receiveCompanionReply(
-              current,
-              `要把「${taskCandidate.title}」安排在${formatCompanionTaskSchedule(taskCandidate)}吗？回复“确认”我再记下。`,
-            ),
-          );
-          return;
-        }
-        const feedback = commitCompanionTaskCandidate(taskCandidate, petId);
-        setCompanionChatState((current) => receiveCompanionReply(current, feedback));
-        return;
-      }
-
-      if (route.kind === "forget") {
-        const result = forgetRecentCompanionData({
-          preferences: companionPreferencesRef.current,
-          memoryRepository: companionMemoryRepository,
-          recentMemoryId: recentCompanionMemoryIdRef.current,
-          petId,
-          persistPreferences: writeCompanionPreferences,
-        });
-        companionPreferencesRef.current = result.preferences;
-        recentCompanionMemoryIdRef.current = result.recentMemoryId;
-        setCompanionChatState((current) =>
-          receiveCompanionReply(current, result.feedback),
-        );
-        return;
-      }
-
-      if (route.kind === "preference") {
-        const { extraction } = route;
-        const nextPreferences = upsertCompanionPreference(
-          companionPreferencesRef.current,
-          extraction.preference,
-        );
-        const saved = writeCompanionPreferences(nextPreferences);
-        if (saved) companionPreferencesRef.current = nextPreferences;
-        setCompanionChatState((current) =>
-          receiveCompanionReply(
-            current,
-            saved ? extraction.feedback : "我暂时没能保存这个偏好，再试一次好吗？",
-          ),
-        );
-        return;
-      }
-
-      const memoryCandidate = route.kind === "memory" ? route.candidate : null;
-      const savedMemory = memoryCandidate
-        ? saveCompanionMemoryCandidate(companionMemoryRepository, memoryCandidate)
-        : null;
-      if (savedMemory) recentCompanionMemoryIdRef.current = savedMemory.id;
-
-      if (memoryCandidate) {
-        setCompanionChatState((current) =>
-          receiveCompanionReply(
-            current,
-            savedMemory ? "好呀，我记住啦。" : "我暂时没能把这条 Memory 保存下来。",
-          ),
-        );
-        return;
-      }
-
-      const abortController = new AbortController();
-      companionChatAbortControllerRef.current = abortController;
-      const history = sent.messages.slice(0, -1);
-      const memories = searchCompanionMemorySafely(
-        companionMemoryRepository,
-        text,
-        { petId, limit: 3 },
-      );
-      const context = assembleCompanionContext({
-        petId,
-        soul: petSoulsById[petId],
-        preferences: companionPreferencesRef.current.preferences,
-        memories,
-        history,
-        contextEpoch: sent.contextEpoch,
-        userInput: text,
-        systemPrompt: config.systemPrompt,
-        style: config.style,
-      });
-
-      const providerInput = {
-        text,
-        petId,
-        history,
-        preferences: companionPreferencesRef.current.preferences,
-        memories,
-        context,
-        contextEpoch: sent.contextEpoch,
-        signal: abortController.signal,
-      };
-      const receiveReplyIfPending = (replyText: string) => {
+        return companionAppHarness.harness.respond(input);
+      }).then((response) => {
+        if (!response) return;
+        if (companionAttemptRef.current?.requestId === requestId) {
+          companionAttemptRef.current = null;
         if (companionChatAbortControllerRef.current === abortController) {
-          companionChatAbortControllerRef.current = null;
+            companionChatAbortControllerRef.current = null;
+          }
         }
-        setCompanionChatState((current) =>
-          activePetIdRef.current === petId &&
-          current.mode === "active" &&
-          current.pendingRequestId === id
-            ? receiveCompanionReply(current, replyText)
+        if (response.status === "discarded" || response.error?.kind === "stale-turn") {
+          void recordChatObservation("chat_result_discarded", {
+            callCount: response.callCounts.model,
+            commitCount: 0,
+            lateDiscarded: true,
+          });
+          return;
+        }
+        if (response.status !== "error" || response.error?.kind === "cancelled") {
+          return;
+        }
+        if (
+          activePetIdRef.current !== petId
+          || companionSessionIdRef.current !== sessionId
+          || companionChatStateRef.current.mode !== "active"
+          || companionChatStateRef.current.pendingRequestId !== id
+        ) return;
+        setCompanionChatProviderInfo(response.provider);
+        const message = response.error?.message ?? "聊天服务暂时没接上，稍后再试。";
+        commitCompanionChatState((current) =>
+          current.mode === "active" && current.pendingRequestId === id
+            ? receiveCompanionReply(current, message, Date.now(), "error")
             : current,
         );
-      };
-      void provider
-        .send(providerInput)
-        .then((reply) => {
-          receiveReplyIfPending(reply.text);
-        })
-        .catch((error: unknown) => {
-          if (error instanceof CompanionChatProviderError && error.kind === "cancelled") {
-            return;
-          }
-          if (shouldFallbackToLocalCompanion(
-            provider.info,
-            companionProviderSettingsRef.current.fallbackToLocal,
-          )) {
-            const localFallback = createLocalCompanionChatFallbackProvider(config);
-            companionChatProviderRef.current = localFallback;
-            setCompanionChatProviderInfo(localFallback.info);
-            void localFallback.send(providerInput)
-              .then((reply) => receiveReplyIfPending(reply.text))
-              .catch(() => receiveReplyIfPending("我先用本地方式陪着你，慢慢说就好。"));
-            return;
-          }
-          const message =
-            error instanceof CompanionChatProviderError
-              ? error.userMessage
-              : "聊天服务暂时没接上，稍后再试。";
-          setCompanionChatState((current) =>
-            activePetIdRef.current === petId
-            && current.mode === "active"
-            && current.pendingRequestId === id
-              ? receiveCompanionReply(current, message, Date.now(), "error")
-              : current,
-          );
-        });
+      }).catch(() => {
+        if (
+          activePetIdRef.current !== petId
+          || companionSessionIdRef.current !== sessionId
+          || companionChatStateRef.current.mode !== "active"
+          || companionChatStateRef.current.pendingRequestId !== id
+          || abortController.signal.aborted
+        ) return;
+        commitCompanionChatState((current) =>
+          current.mode === "active" && current.pendingRequestId === id
+            ? receiveCompanionReply(current, "聊天服务暂时没接上，稍后再试。", Date.now(), "error")
+            : current,
+        );
+      });
     }, 240);
   };
 
@@ -2799,14 +3034,13 @@ function DesktopPetApp() {
     returnToHome = isPlatformWindow,
     reason: CompanionExitReason = "return",
   ) => {
-    abortCompanionChatRequest();
+    cancelCompanionChatTurn();
     const exited = exitCompanionTaskChat(
       companionChatStateRef.current,
-      pendingCompanionTaskRef.current,
+      null,
     );
-    pendingCompanionTaskRef.current = exited.pending;
-    setCompanionChatState(exited.state);
-    companionChatProviderRef.current = null;
+    commitCompanionChatState(exited.state);
+    companionSessionIdRef.current = null;
     setCompanionChatProviderInfo(
       getCompanionProviderStatusInfo(companionProviderSettingsRef.current),
     );
@@ -2953,7 +3187,7 @@ function DesktopPetApp() {
     const timer = window.setInterval(() => {
       const exited = autoExitCompanionTaskChat(
         companionChatStateRef.current,
-        pendingCompanionTaskRef.current,
+        null,
       );
       if (!exited.exited) return;
       exitActiveCompanionChat(true, "idle");
@@ -3052,6 +3286,25 @@ function DesktopPetApp() {
     hoverStartedAt.current = null;
   };
 
+  const releaseDragHoverSuppression = () => {
+    if (dragHoverSuppressionTimer.current !== null) {
+      window.clearTimeout(dragHoverSuppressionTimer.current);
+      dragHoverSuppressionTimer.current = null;
+    }
+    hoverSuppressedByDrag.current = false;
+  };
+
+  const holdHoverAfterDrag = () => {
+    if (dragHoverSuppressionTimer.current !== null) {
+      window.clearTimeout(dragHoverSuppressionTimer.current);
+    }
+    hoverSuppressedByDrag.current = true;
+    dragHoverSuppressionTimer.current = window.setTimeout(() => {
+      dragHoverSuppressionTimer.current = null;
+      hoverSuppressedByDrag.current = false;
+    }, 1400);
+  };
+
   const restoreCursorEvents = () => {
     if (iconHugClickThroughTimer.current !== null) {
       window.clearTimeout(iconHugClickThroughTimer.current);
@@ -3081,9 +3334,16 @@ function DesktopPetApp() {
 
   const getAnimationDirectionMode = (
     name: AnimationName,
-  ): PetDirectionMode | "none" => {
+  ): PetDirectionMode | "mirror-right" | "none" => {
     const resolved = getActiveInteractionManifest();
     if (!resolved) return "none";
+    if (
+      name === resolved.idle.animation &&
+      idleFollowsDragDirection.current &&
+      resolved.drag.landingIdleFollowsDragDirection === true
+    ) {
+      return "mirror-right";
+    }
     return name === resolved.drag.left || name === resolved.drag.right
       ? resolved.drag.directionMode
       : "none";
@@ -3094,6 +3354,27 @@ function DesktopPetApp() {
     if (!host) return;
     host.dataset.currentAnimation = name;
     host.dataset.currentFacing = currentFacing.current;
+  };
+
+  const getDragFrameOffsetY = (
+    sprite: AnimatedSprite,
+    name: AnimationName,
+    scaleY: number,
+  ) => {
+    const resolved = getActiveInteractionManifest();
+    const frameOffsets = resolved?.drag.frameOffsetY;
+    const startFrame = dragTextureStartFrame.current;
+    if (
+      !frameOffsets ||
+      startFrame === null ||
+      (name !== resolved?.drag.left && name !== resolved?.drag.right)
+    ) {
+      return 0;
+    }
+
+    const localFrame = Math.max(0, Math.floor(sprite.currentFrame));
+    const globalFrame = startFrame + localFrame;
+    return (frameOffsets[globalFrame] ?? 0) * scaleY;
   };
 
   const applySpriteVisual = (sprite: AnimatedSprite, name: AnimationName) => {
@@ -3108,12 +3389,18 @@ function DesktopPetApp() {
     sprite.scale.set(transform.scaleX, transform.scaleY);
   };
 
-  const playAnimation = (name: AnimationName) => {
+  const playAnimation = (name: AnimationName, startFrame = 0) => {
     const sprite = spriteRef.current;
     const animations = animationsRef.current;
     const spec = getAnimationSpec(name);
     if (!sprite || !animations || !spec || !animations[name]) return false;
 
+    const resolved = getActiveInteractionManifest();
+    if (name !== resolved?.idle.animation) {
+      idleFollowsDragDirection.current = false;
+    }
+
+    dragTextureStartFrame.current = null;
     currentAnimation.current = name;
     markAnimationState(name);
     sprite.onComplete = undefined;
@@ -3121,20 +3408,28 @@ function DesktopPetApp() {
     sprite.animationSpeed = spec.speed;
     sprite.loop = spec.loop;
     applySpriteVisual(sprite, name);
-    sprite.gotoAndPlay(0);
+    const firstFrame = Math.max(0, Math.min(startFrame, animations[name].length - 1));
+    sprite.gotoAndPlay(firstFrame);
     return true;
   };
 
-  const playIdleAnimation = () => {
+  const playIdleAnimation = (
+    startFrame = 0,
+    followDragDirection = false,
+  ) => {
     const resolved = getActiveInteractionManifest();
     const idleAnimation = resolved?.idle.animation ?? "idle";
-    playAnimation(idleAnimation);
+    idleFollowsDragDirection.current =
+      followDragDirection &&
+      resolved?.drag.landingIdleFollowsDragDirection === true;
+    playAnimation(idleAnimation, startFrame);
   };
 
   const scheduleReturnToIdle = (
     returnAfterMs: number | undefined,
     resumeHoverAfterReturn = true,
     expectedToken = playbackToken.current,
+    idleStartFrame = 0,
   ) => {
     if (returnToIdleTimer.current !== null) {
       window.clearTimeout(returnToIdleTimer.current);
@@ -3149,7 +3444,7 @@ function DesktopPetApp() {
       if (!careReminderPromptRef.current) {
         clearDefaultBubbleText();
       }
-      playIdleAnimation();
+      playIdleAnimation(idleStartFrame);
       if (resumeHoverAfterReturn) {
         scheduleHoverEat();
       }
@@ -3330,6 +3625,7 @@ function DesktopPetApp() {
   const scheduleHoverEat = () => {
     const resolved = getActiveInteractionManifest();
     if (
+      hoverSuppressedByDrag.current ||
       pointerState.current ||
       hoverEatTimer.current !== null ||
       resolved?.hover.enabled !== true
@@ -3342,11 +3638,20 @@ function DesktopPetApp() {
     hoverEatTimer.current = window.setTimeout(() => {
       hoverEatTimer.current = null;
 
+      // A drag can finish while the pointer is still over the moving pet
+      // window. Re-check the suppression at execution time so a timer that
+      // raced with drag start cannot interrupt landing with hover fish.
+      // The press may still be below the drag threshold. Treat any active
+      // pointer as a drag candidate so a pre-existing hover timer cannot
+      // fire between pointer-down and the first drag move.
+      const activePointer = pointerState.current;
+      if (hoverSuppressedByDrag.current || activePointer) return;
+
       if (
         shouldTriggerHoverEat({
           hoverStartedAt: startedAt,
           now: Date.now(),
-          isDragging: Boolean(pointerState.current?.dragging),
+          isDragging: false,
         })
       ) {
         const latestResolved = getActiveInteractionManifest();
@@ -3420,6 +3725,10 @@ function DesktopPetApp() {
       landingFrames: landingFrames as Texture[],
       landingTransitionSpeed: drag.landingTransitionSpeed ?? 0.25,
       landingHoldMs: drag.landingHoldMs ?? 900,
+      landingEndsOnIdleFirst: drag.landingEndsOnIdleFirst ?? false,
+      landingIdleStartFrame: drag.landingIdleStartFrame,
+      landingIdleFollowsDragDirection:
+        drag.landingIdleFollowsDragDirection ?? false,
     };
   };
 
@@ -3428,15 +3737,30 @@ function DesktopPetApp() {
     includeTakeoff: boolean,
   ) => {
     const sprite = spriteRef.current;
+    const resolved = getActiveInteractionManifest();
     const plan = getDragFramePlan(animationName);
     const spec = getAnimationSpec(animationName);
-    if (!sprite || !plan || !spec) {
+    if (!resolved || !sprite || !plan || !spec) {
       playAnimation(animationName);
       return;
     }
 
     currentAnimation.current = animationName;
     markAnimationState(animationName);
+    const previousTextureCount = sprite.textures.length;
+    const previousFrame = sprite.currentFrame;
+    const dragTextureStart = includeTakeoff
+      ? resolved.drag.takeoffStartFrame ?? 0
+      : resolved.drag.loopStartFrame ?? plan.takeoffFrames.length;
+    dragTextureStartFrame.current = dragTextureStart;
+    const loopStartFrame = includeTakeoff
+      ? 0
+      : resolveDragLoopFrameIndex(
+          previousFrame,
+          previousTextureCount,
+          plan.takeoffFrames.length,
+          plan.loopFrames.length,
+        );
     sprite.onComplete = undefined;
     sprite.textures = includeTakeoff
       ? [...plan.takeoffFrames, ...plan.loopFrames]
@@ -3451,10 +3775,12 @@ function DesktopPetApp() {
           sprite.textures = plan.loopFrames;
           sprite.animationSpeed = spec.speed;
           sprite.loop = true;
+          dragTextureStartFrame.current =
+            resolved.drag.loopStartFrame ?? plan.takeoffFrames.length;
           sprite.gotoAndPlay(0);
         }
       : undefined;
-    sprite.gotoAndPlay(0);
+    sprite.gotoAndPlay(loopStartFrame);
   };
 
   const playDragStartInteraction = () => {
@@ -3506,13 +3832,28 @@ function DesktopPetApp() {
       returnToIdleTimer.current = null;
     }
 
+    const idleAnimation = getAnimationSpec(resolved.idle.animation);
+    const idleStartFrame = resolveDragLandingIdleStartFrame(
+      plan.landingEndsOnIdleFirst,
+      idleAnimation?.frames ?? 0,
+      plan.landingIdleStartFrame,
+    );
+
     currentAnimation.current = animationName;
     markAnimationState(animationName);
     sprite.onComplete = undefined;
-    sprite.textures = [sprite.texture, ...plan.landingFrames];
+    sprite.textures = plan.landingFrames;
     sprite.animationSpeed = plan.landingTransitionSpeed;
     sprite.loop = false;
+    dragTextureStartFrame.current =
+      resolved.drag.landingStartFrame ??
+      resolved.drag.landingApproachFrame ??
+      (resolved.drag.loopStartFrame ?? plan.takeoffFrames.length) +
+        plan.loopFrames.length;
     applySpriteVisual(sprite, animationName);
+    // The landing bridge ends on the same visual scale as idle. This keeps
+    // the final landing texture and idle's first texture on one render scale.
+    applySpriteVisual(sprite, resolved.idle.animation);
     sprite.onComplete = () => {
       if (
         spriteRef.current !== sprite ||
@@ -3522,7 +3863,19 @@ function DesktopPetApp() {
         return;
       }
       sprite.onComplete = undefined;
-      scheduleReturnToIdle(plan.landingHoldMs, true, token);
+      if (shouldReturnToIdleImmediatelyAfterDragLanding(plan.landingHoldMs)) {
+        if (!careReminderPromptRef.current) {
+          clearDefaultBubbleText();
+        }
+        playIdleAnimation(
+          idleStartFrame,
+          plan.landingIdleFollowsDragDirection,
+        );
+        // Do not treat the release pointer, which is still over the pet
+        // window, as a fresh hover. A real leave/re-enter can schedule it.
+        return;
+      }
+      scheduleReturnToIdle(plan.landingHoldMs, true, token, idleStartFrame);
     };
     sprite.gotoAndPlay(0);
   };
@@ -3619,6 +3972,11 @@ function DesktopPetApp() {
       })
     ) {
       pointer.dragging = true;
+      if (dragHoverSuppressionTimer.current !== null) {
+        window.clearTimeout(dragHoverSuppressionTimer.current);
+        dragHoverSuppressionTimer.current = null;
+      }
+      hoverSuppressedByDrag.current = true;
       clearHoverEatTimer();
       const dragDirection = updateDragDirection(
         createDragDirectionState(currentFacing.current, pointer.screenX),
@@ -3714,8 +4072,14 @@ function DesktopPetApp() {
     }
 
     recordInteraction("drag_end");
+    // Moving the transparent window causes a leave/enter pair while the
+    // release pointer is still over the pet. Keep hover actions out of the
+    // zero-hold landing bridge until that transient window movement settles.
+    holdHoverAfterDrag();
     playDragEndInteraction();
-    window.setTimeout(probeDesktopIconInteraction, 250);
+    // The periodic probe is sufficient after a drag. Running an immediate
+    // probe here can move/resize the pet window while landing is still
+    // visible and turns release into a desktop-icon interaction.
   };
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLElement>) => {
@@ -4070,6 +4434,10 @@ function DesktopPetApp() {
     ) {
       return;
     }
+    // A zero-hold drag landing has no returnToIdleTimer. Keep the desktop-icon
+    // probe out of that short release window as well, otherwise an async probe
+    // can replace the landing animation before it reaches canonical idle.
+    if (hoverSuppressedByDrag.current) return;
     if (
       resolved.desktopIcon.enabled &&
       currentAnimation.current === resolved.desktopIcon.action.animation
@@ -4114,6 +4482,16 @@ function DesktopPetApp() {
       appWindow.scaleFactor(),
     ])
       .then(([isOnDesktop, icons, position, size, scaleFactor]) => {
+        // The probe may have started just before a drag. Re-check the drag
+        // release suppression before allowing its async result to interrupt
+        // the landing bridge.
+        if (
+          hoverSuppressedByDrag.current ||
+          pointerState.current?.dragging ||
+          returnToIdleTimer.current !== null
+        ) {
+          return;
+        }
         if (!isOnDesktop) return;
 
         const target = findDesktopIconTarget(
@@ -4363,13 +4741,21 @@ function DesktopPetApp() {
                 spec,
                 currentFacing.current,
                 getAnimationDirectionMode(currentAnimation.current),
-              )
-            : { offsetX: 0, offsetY: 0 };
+            )
+            : { offsetX: 0, offsetY: 0, scaleY: 0 };
+          const dragFrameOffsetY = getDragFrameOffsetY(
+            sprite,
+            currentAnimation.current,
+            transform.scaleY ?? 0,
+          );
           const petViewport = petViewportRef.current;
           const spritePosition = getPetCanvasPosition(
             petViewport,
             getCanvasOrigin(petViewport),
-            { x: transform.offsetX, y: transform.offsetY },
+            {
+              x: transform.offsetX,
+              y: transform.offsetY + dragFrameOffsetY,
+            },
           );
           sprite.position.set(spritePosition.x, spritePosition.y);
         });
@@ -4387,6 +4773,7 @@ function DesktopPetApp() {
       }
       clearTransientBubbleTimer();
       clearHoverEatTimer();
+      releaseDragHoverSuppression();
       restoreCursorEvents();
       if (desktopIconProbeTimer.current !== null) {
         window.clearInterval(desktopIconProbeTimer.current);
@@ -4468,6 +4855,11 @@ function DesktopPetApp() {
           isWaiting={companionChatState.pendingRequestId !== null}
           messages={companionChatState.messages}
           providerInfo={companionChatProviderInfo}
+          ollamaPullProgress={
+            companionProviderSettings.protocol === "ollama-local"
+              ? ollamaPullProgress
+              : null
+          }
           onDraftChange={updateCompanionDraftText}
           onSend={sendCompanionChatMessage}
           onStop={stopCompanionChatReply}
@@ -4731,6 +5123,11 @@ function DesktopPetApp() {
               petPreviewKind={activePet?.previewKind}
               petPreviewUrl={activePet?.previewUrl}
               providerInfo={companionChatProviderInfo}
+              ollamaPullProgress={
+                companionProviderSettings.protocol === "ollama-local"
+                  ? ollamaPullProgress
+                  : null
+              }
               onBack={closePlatformCompanionChatPage}
               onClose={closePlatformCompanionChatPage}
               onRetry={retryCompanionChatMessage}
@@ -4869,12 +5266,23 @@ function DesktopPetApp() {
           ) : renderedPlatformSection === "settings" ? (
             <PlatformProviderSettingsPage
               userProfile={companionUserProfile}
+              userProfileSettings={companionSettingsInitialization}
+              onUserProfileSettingsRetry={() => {
+                clearCompanionUserSettingsDevFault();
+                void companionUserSettingsRepository.initialize().then(applyCompanionSettingsInitialization);
+              }}
               onUserProfileSave={saveCompanionUserProfile}
               settings={companionProviderSettings}
               providerInfo={companionChatProviderInfo}
+              ollamaPullProgress={
+                companionProviderSettings.protocol === "ollama-local"
+                  ? ollamaPullProgress
+                  : null
+              }
               onProviderChange={loadCompanionProviderDraft}
               onTest={testCompanionProvider}
               onSave={saveCompanionProviderSettings}
+              onFetchModels={fetchCompanionProviderModelsForSettings}
               onClear={clearCompanionProviderApiKey}
             />
           ) : renderedPlatformSection === "tasks" ? (
@@ -4996,6 +5404,14 @@ function App() {
 
   if (isMarketingRoute(pathname)) {
     return <MarketingPage />;
+  }
+
+  if (isAccountRoute(pathname)) {
+    return (
+      <AccountGate>
+        <DesktopPetApp />
+      </AccountGate>
+    );
   }
 
   return <DesktopPetApp />;

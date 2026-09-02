@@ -48,6 +48,14 @@ fn task_xml(executable: &std::path::Path, start_boundary: &str, wake_kind: Optio
 }
 
 #[cfg(target_os = "windows")]
+fn should_write_schedule_index(existing: Option<&[u8]>, next: &[u8]) -> bool {
+    match existing {
+        Some(previous) => previous != next,
+        None => next != b"[]",
+    }
+}
+
+#[cfg(target_os = "windows")]
 fn delete_schedule(name: &str) {
     let _ = std::process::Command::new("schtasks.exe")
         .args(["/Delete", "/TN", name, "/F"])
@@ -80,7 +88,6 @@ pub fn sync_task_schedules(
             .path()
             .app_data_dir()
             .map_err(|error| error.to_string())?;
-        fs::create_dir_all(&data_dir).map_err(|error| error.to_string())?;
         let index_path = data_dir.join("task-schedules.json");
         let previous: Vec<String> = fs::read_to_string(&index_path)
             .ok()
@@ -111,6 +118,11 @@ pub fn sync_task_schedules(
         }
         drop(desired);
 
+        if future.is_empty() && !index_path.exists() {
+            return Ok(());
+        }
+        fs::create_dir_all(&data_dir).map_err(|error| error.to_string())?;
+
         let executable = std::env::current_exe().map_err(|error| error.to_string())?;
         let mut created = Vec::new();
         for (name, date, wake_kind) in future {
@@ -137,11 +149,10 @@ pub fn sync_task_schedules(
                 created.push(name);
             }
         }
-        fs::write(
-            index_path,
-            serde_json::to_vec(&created).map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string())?;
+        let serialized = serde_json::to_vec(&created).map_err(|error| error.to_string())?;
+        if should_write_schedule_index(fs::read(&index_path).ok().as_deref(), &serialized) {
+            fs::write(index_path, serialized).map_err(|error| error.to_string())?;
+        }
         Ok(())
     }
 }
@@ -164,7 +175,9 @@ pub fn get_task_scheduler_wakeup_kind() -> Option<String> {
 
 #[cfg(all(test, target_os = "windows"))]
 mod tests {
-    use super::{schedule_name, task_scheduler_wakeup_kind_from_args, task_xml};
+    use super::{
+        schedule_name, should_write_schedule_index, task_scheduler_wakeup_kind_from_args, task_xml,
+    };
 
     #[test]
     fn builds_safe_windows_task_names() {
@@ -211,5 +224,16 @@ mod tests {
             task_scheduler_wakeup_kind_from_args(&args).as_deref(),
             Some("meal")
         );
+    }
+
+    #[test]
+    fn does_not_rewrite_an_unchanged_empty_schedule_index() {
+        assert!(!should_write_schedule_index(Some(b"[]"), b"[]"));
+        assert!(!should_write_schedule_index(None, b"[]"));
+        assert!(should_write_schedule_index(None, br#"["YuxinReminder_1"]"#));
+        assert!(should_write_schedule_index(
+            Some(b"[]"),
+            br#"["YuxinReminder_1"]"#
+        ));
     }
 }

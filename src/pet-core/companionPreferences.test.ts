@@ -4,6 +4,8 @@ import {
   EMPTY_COMPANION_PREFERENCES,
   deleteRecentPreference,
   extractCompanionPreference,
+  hasExplicitQuietCompanionPreferenceChange,
+  hasPersistentCompanionPreferenceScope,
   isForgetRecentPreferenceRequest,
   parseCompanionPreferences,
   readCompanionPreferences,
@@ -39,15 +41,52 @@ describe("companion preferences", () => {
     );
   });
 
-  test("extracts quiet and short reply style preferences", () => {
+  test("extracts short reply style and only explicit persistent quiet preferences", () => {
     expect(extractCompanionPreference("回答短一点，别太严肃")?.preference).toMatchObject({
       id: "global.replyStyle",
       value: "short-and-soft",
     });
-    expect(extractCompanionPreference("我喜欢安静一点")?.preference).toMatchObject({
+    expect(extractCompanionPreference("以后请安静一点陪我")?.preference).toMatchObject({
       id: "global.companionStyle",
-      source: "inferred",
+      source: "explicit",
       value: "quiet",
+    });
+  });
+
+  test("keeps persistent scope and explicit quiet-change intent independently testable", () => {
+    expect(hasPersistentCompanionPreferenceScope("我今天有点累，想安静坐一会儿。")).toBe(false);
+    expect(hasExplicitQuietCompanionPreferenceChange("我今天有点累，想安静坐一会儿。")).toBe(false);
+    expect(hasPersistentCompanionPreferenceScope("以后请安静一点陪我")).toBe(true);
+    expect(hasExplicitQuietCompanionPreferenceChange("以后请安静一点陪我")).toBe(true);
+    expect(hasPersistentCompanionPreferenceScope("以后陪我")).toBe(true);
+    expect(hasExplicitQuietCompanionPreferenceChange("以后陪我")).toBe(false);
+  });
+
+  test.each([
+    "我今天有点累，想安静坐一会儿。",
+    "这里很安静。",
+    "今晚想安静待一会儿。",
+    "你安静陪我坐一会儿就好。",
+    "窗外很安静，月光也很好看。",
+    "我想听你陪我安静聊两句。",
+    "这是一次功能测试。请用两句简短中文回应：我今天有点累，想安静坐一会儿。不要创建任务、提醒或记忆。",
+  ])("does not persist ordinary quiet expression: %s", (text) => {
+    expect(extractCompanionPreference(text)).toBeNull();
+  });
+
+  test.each([
+    "以后请安静一点陪我。",
+    "今后少打扰我。",
+    "从现在起陪伴时别太吵。",
+    "记住，以后陪我时安静一些。",
+  ])("extracts an explicit persistent quiet preference: %s", (text) => {
+    expect(extractCompanionPreference(text)?.preference).toMatchObject({
+      id: "global.companionStyle",
+      scope: "global",
+      category: "userProfile",
+      key: "companionStyle",
+      value: "quiet",
+      source: "explicit",
     });
   });
 

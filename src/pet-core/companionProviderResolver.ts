@@ -1,3 +1,4 @@
+import { invoke } from "@tauri-apps/api/core";
 import {
   createProviderAdapter,
   ProviderAdapterError,
@@ -9,11 +10,35 @@ import {
   type ProviderProtocol,
 } from "./companionProviderAdapter";
 import {
+  isLocalCompanionProviderProtocol,
   normalizeCompanionProviderEndpoint,
   normalizeCompanionProviderSettings,
   validateCompanionProviderProfile,
   type CompanionProviderProfile,
 } from "./companionProviderConfig";
+
+type NativeBundledOllamaResponse = {
+  status: number;
+  payload: unknown;
+};
+
+function isTauriRuntime(): boolean {
+  return typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+}
+
+function createBundledOllamaFetcher(): ProviderHttpFetcher {
+  return async (_url, init) => {
+    const response = await invoke<NativeBundledOllamaResponse>(
+      "fetch_bundled_ollama_chat",
+      { body: init.body },
+    );
+    return {
+      ok: response.status >= 200 && response.status < 300,
+      status: response.status,
+      json: async () => response.payload,
+    };
+  };
+}
 
 export interface ProviderResolver {
   resolve(): ProviderAdapter;
@@ -94,16 +119,20 @@ export function createCompanionProviderResolver(
         }
 
         const protocol = profile.protocol as ProviderProtocol;
-        const endpoint = protocol === "local"
+        const endpoint = isLocalCompanionProviderProtocol(protocol)
           ? ""
           : normalizeCompanionProviderEndpoint(protocol, profile.endpoint);
         const credential = currentCredential(options.credential);
-        if (protocol !== "local" && !credential?.trim()) {
+        if (!isLocalCompanionProviderProtocol(protocol) && !credential?.trim()) {
           throw new ProviderAdapterError(
             "远程 Provider 凭据未配置。",
             "configuration",
           );
         }
+        const fetcher = options.fetcher
+          ?? (protocol === "ollama-local" && isTauriRuntime()
+            ? createBundledOllamaFetcher()
+            : undefined);
         return createProviderAdapter({
           id: profile.id,
           protocol,
@@ -111,7 +140,7 @@ export function createCompanionProviderResolver(
           endpoint,
           model: profile.model,
           credential,
-          fetcher: options.fetcher,
+          fetcher,
           timeoutMs: options.timeoutMs,
           capabilities: verifiedCapabilities(options.verifiedCapabilities, profile),
           localGenerate: options.localGenerate,

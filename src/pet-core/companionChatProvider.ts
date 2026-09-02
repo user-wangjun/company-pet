@@ -1,3 +1,4 @@
+import { invoke } from "@tauri-apps/api/core";
 import {
   createLocalCompanionChatFallbackProvider,
   createLocalCompanionChatProvider,
@@ -13,8 +14,10 @@ import {
 } from "./companionModelCodec";
 import {
   ProviderAdapterError,
+  DEFAULT_BUNDLED_OLLAMA_TIMEOUT_MS,
   createGeminiNativeProviderAdapter,
   createOpenAiCompatibleProviderAdapter,
+  createOllamaLocalProviderAdapter,
   type ProviderAdapter,
 } from "./companionProviderAdapter";
 import {
@@ -71,6 +74,11 @@ export type CompanionChatHttpFetcher = (
   init: CompanionChatHttpRequestInit,
 ) => Promise<CompanionChatHttpResponse>;
 
+type NativeCompanionProviderChatResponse = {
+  status: number;
+  payload: unknown;
+};
+
 export type CompanionChatProviderErrorKind =
   | "configuration"
   | "unsupported"
@@ -108,6 +116,48 @@ const defaultFetcher: CompanionChatHttpFetcher = (url, init) =>
     status: response.status,
     json: () => response.json() as Promise<unknown>,
   }));
+
+function isTauriRuntime(): boolean {
+  return typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+}
+
+function createNativeFetcher(
+  protocol: Exclude<SupportedCompanionProviderProtocol, "local">,
+  credential: string,
+): CompanionChatHttpFetcher {
+  return async (url, init) => {
+    if (init.signal?.aborted) throw new Error("aborted");
+    const pending = protocol === "ollama-local"
+      ? invoke<NativeCompanionProviderChatResponse>(
+          "fetch_bundled_ollama_chat",
+          { body: init.body },
+        )
+      : invoke<NativeCompanionProviderChatResponse>(
+          "fetch_companion_provider_chat",
+          {
+            protocol,
+            url,
+            credential,
+            body: init.body,
+          },
+        );
+    let onAbort: (() => void) | null = null;
+    const response = init.signal
+      ? await new Promise<NativeCompanionProviderChatResponse>((resolve, reject) => {
+          onAbort = () => reject(new Error("aborted"));
+          init.signal?.addEventListener("abort", onAbort, { once: true });
+          void pending.then(resolve, reject);
+        }).finally(() => {
+          if (init.signal && onAbort) init.signal.removeEventListener("abort", onAbort);
+        })
+      : await pending;
+    return {
+      ok: response.status >= 200 && response.status < 300,
+      status: response.status,
+      json: async () => response.payload,
+    };
+  };
+}
 
 export type CompanionChatAdapterFactoryOptions = {
   profile: CompanionProviderProfile;
@@ -326,6 +376,29 @@ function createOpenAiCompatibleAdapter(
   return createRemoteCompatibilityProvider(options, adapter, info);
 }
 
+function createOllamaLocalAdapter(
+  options: CompanionChatAdapterFactoryOptions,
+): CompanionChatProvider {
+  const endpoint = normalizeCompanionProviderEndpoint(
+    "ollama-local",
+    options.profile.endpoint,
+  );
+  const info = getCompanionProviderStatusInfo({
+    ...options.profile,
+    fallbackToLocal: true,
+    credentialConfigured: false,
+  });
+  const adapter = createOllamaLocalProviderAdapter({
+    id: options.profile.id,
+    providerLabel: options.profile.displayName,
+    endpoint,
+    model: options.profile.model,
+    fetcher: options.fetcher,
+    timeoutMs: options.timeoutMs,
+  });
+  return createRemoteCompatibilityProvider(options, adapter, info);
+}
+
 function createLocalAdapter(
   options: CompanionChatAdapterFactoryOptions,
 ): CompanionChatProvider {
@@ -338,6 +411,10 @@ export const COMPANION_CHAT_ADAPTERS: Readonly<
   local: {
     protocol: "local",
     create: createLocalAdapter,
+  },
+  "ollama-local": {
+    protocol: "ollama-local",
+    create: createOllamaLocalAdapter,
   },
   "gemini-native": {
     protocol: "gemini-native",
@@ -375,13 +452,20 @@ export function createCompanionChatProvider(
   }
 
   const adapter = getCompanionChatAdapter(profile.protocol);
-  if (profile.protocol === "local") {
+  if (profile.protocol === "local" || profile.protocol === "ollama-local") {
+    const timeoutMs = options.timeoutMs
+      ?? (profile.protocol === "ollama-local"
+        ? DEFAULT_BUNDLED_OLLAMA_TIMEOUT_MS
+        : DEFAULT_COMPANION_PROVIDER_TIMEOUT_MS);
     return adapter.create({
       profile,
       credential: "",
       config,
-      fetcher: options.fetcher ?? defaultFetcher,
-      timeoutMs: options.timeoutMs ?? DEFAULT_COMPANION_PROVIDER_TIMEOUT_MS,
+      fetcher: options.fetcher
+        ?? (profile.protocol === "ollama-local" && isTauriRuntime()
+          ? createNativeFetcher(profile.protocol, "")
+          : defaultFetcher),
+      timeoutMs,
       random: options.random,
     });
   }
@@ -395,11 +479,18 @@ export function createCompanionChatProvider(
   }
 
   try {
+    const fetcher = options.fetcher
+      ?? (isTauriRuntime()
+        ? createNativeFetcher(
+            profile.protocol as Exclude<SupportedCompanionProviderProtocol, "local">,
+            credential,
+          )
+        : defaultFetcher);
     return adapter.create({
       profile,
       credential,
       config,
-      fetcher: options.fetcher ?? defaultFetcher,
+      fetcher,
       timeoutMs: options.timeoutMs ?? DEFAULT_COMPANION_PROVIDER_TIMEOUT_MS,
       random: options.random,
     });

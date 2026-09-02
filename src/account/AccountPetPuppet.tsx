@@ -1,157 +1,129 @@
-import { useEffect, useRef, type MutableRefObject } from "react";
+import { useState } from "react";
 import { DEFAULT_PET_ID, resolvePetAssetUrl } from "../pet-core/petAssets";
-import {
-  dampAccountPetParameters,
-  getAccountPetTargetParameters,
-  type AccountPetMood,
-  type AccountPetParameters,
-  type NormalizedPointer,
-} from "./accountPetParameters";
-import { getForelegMotion } from "./accountPoseSequence";
-import { Live2DPlanetScene } from "./live2dCoreRenderer";
+import type { AccountPetMood } from "./accountPetParameters";
 
-const MODEL_BASE_URL = resolvePetAssetUrl(
+const LOGIN_GAZE_ASSET_ROOT = "qa/login-gaze-v8";
+
+const LOGIN_WARM_BACKDROP_URL = resolvePetAssetUrl(
   DEFAULT_PET_ID,
-  "live2d/runtime/xiaoju-planet-login",
+  `${LOGIN_GAZE_ASSET_ROOT}/warm-room-backdrop.png`,
 );
-const FALLBACK_URL = resolvePetAssetUrl(
+
+const LOGIN_BODY_BASE_URL = resolvePetAssetUrl(
   DEFAULT_PET_ID,
-  "live2d/planet-scene-source/pose-keys-v3/00-rest.png",
+  `${LOGIN_GAZE_ASSET_ROOT}/body-open-base.png`,
 );
-const EYE_OVERLAY_URLS = [
-  resolvePetAssetUrl(DEFAULT_PET_ID, "live2d/planet-scene-source/layers-v2/20_Eye_L_Whole.png"),
-  resolvePetAssetUrl(DEFAULT_PET_ID, "live2d/planet-scene-source/layers-v2/21_Eye_R_Whole.png"),
-];
-const FORELEG_URLS = [
-  resolvePetAssetUrl(DEFAULT_PET_ID, "live2d/planet-scene-source/layers-v3/60_Foreleg_L_Complete.png"),
-  resolvePetAssetUrl(DEFAULT_PET_ID, "live2d/planet-scene-source/layers-v3/61_Foreleg_R_Complete.png"),
-];
-const PLANET_OVERLAY_URL = resolvePetAssetUrl(
+
+const LOGIN_LEFT_EYE_URL = resolvePetAssetUrl(
   DEFAULT_PET_ID,
-  "live2d/planet-scene-source/layers-v2/50_Planet_Foreground.png",
+  `${LOGIN_GAZE_ASSET_ROOT}/eye-left-base.png`,
 );
-const SHOULDER_OCCLUDER_URLS = [
-  resolvePetAssetUrl(DEFAULT_PET_ID, "live2d/planet-scene-source/layers-v3/30_Shoulder_Occluder_L.png"),
-  resolvePetAssetUrl(DEFAULT_PET_ID, "live2d/planet-scene-source/layers-v3/31_Shoulder_Occluder_R.png"),
-];
-const INITIAL_PARAMETERS = getAccountPetTargetParameters("idle", { x: 0, y: 0 });
+
+const LOGIN_RIGHT_EYE_URL = resolvePetAssetUrl(
+  DEFAULT_PET_ID,
+  `${LOGIN_GAZE_ASSET_ROOT}/eye-right-base.png`,
+);
+
+const LOGIN_LEFT_PUPIL_URL = resolvePetAssetUrl(
+  DEFAULT_PET_ID,
+  `${LOGIN_GAZE_ASSET_ROOT}/pupil-left.png`,
+);
+
+const LOGIN_RIGHT_PUPIL_URL = resolvePetAssetUrl(
+  DEFAULT_PET_ID,
+  `${LOGIN_GAZE_ASSET_ROOT}/pupil-right.png`,
+);
+
+const LOGIN_CLOSED_FACE_URL = resolvePetAssetUrl(
+  DEFAULT_PET_ID,
+  `${LOGIN_GAZE_ASSET_ROOT}/closed-eye-sockets.png`,
+);
 
 export function AccountPetPuppet({
-  mood,
-  pointer,
+  mood = "idle",
+  onPetClick,
 }: {
-  mood: AccountPetMood;
-  pointer: MutableRefObject<NormalizedPointer>;
+  mood?: AccountPetMood;
+  onPetClick?: () => void;
 }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rootRef = useRef<HTMLDivElement>(null);
-  const eyeRefs = useRef<Array<HTMLImageElement | null>>([]);
-  const forelegRefs = useRef<Array<HTMLImageElement | null>>([]);
-  const currentRef = useRef<AccountPetParameters>(INITIAL_PARAMETERS);
-  const moodRef = useRef(mood);
+  const [clickCount, setClickCount] = useState(0);
 
-  useEffect(() => {
-    moodRef.current = mood;
-  }, [mood]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    let scene: Live2DPlanetScene | null = null;
-    let frame = 0;
-    let cancelled = false;
-    let previous = performance.now();
-    const started = previous;
-
-    void Live2DPlanetScene.create(canvas, MODEL_BASE_URL)
-      .then((loadedScene) => {
-        if (cancelled) {
-          loadedScene.destroy();
-          return;
-        }
-        scene = loadedScene;
-        canvas.dataset.live2dReady = "true";
-
-        const animate = (now: number) => {
-          const delta = Math.min(50, now - previous);
-          previous = now;
-          const target = getAccountPetTargetParameters(moodRef.current, pointer.current);
-          const current = dampAccountPetParameters(currentRef.current, target, delta, 6.8);
-          currentRef.current = current;
-
-          const elapsed = (now - started) / 1000;
-          const blinkPhase = elapsed % 5.15;
-          const naturalBlink = blinkPhase > 4.86
-            ? clamp01(1 - Math.abs(blinkPhase - 5) / .14)
-            : 0;
-          const blink = Math.max(1 - current.eyeOpen, naturalBlink);
-          const forelegMotion = getForelegMotion(current.pawCover);
-          if (forelegRefs.current[0]) forelegRefs.current[0].style.transform = forelegMotion.leftTransform;
-          if (forelegRefs.current[1]) forelegRefs.current[1].style.transform = forelegMotion.rightTransform;
-
-          const eyeOpacity = 1 - blink;
-          const eyeTransform = `translate3d(${current.eyeBallX * 2.2}px, ${current.eyeBallY * 1.6}px, 0)`;
-          eyeRefs.current.forEach((image) => {
-            if (!image) return;
-            image.style.opacity = String(eyeOpacity);
-            image.style.transform = eyeTransform;
-          });
-          if (rootRef.current) {
-            rootRef.current.dataset.poseProgress = forelegMotion.progress.toFixed(3);
-          }
-          scene?.render(current, elapsed, blink);
-          frame = requestAnimationFrame(animate);
-        };
-
-        frame = requestAnimationFrame(animate);
-      })
-      .catch((error: unknown) => {
-        canvas.dataset.live2dError = error instanceof Error ? error.message : "Live2D scene failed";
-        console.error(error);
-      });
-
-    return () => {
-      cancelled = true;
-      cancelAnimationFrame(frame);
-      scene?.destroy();
-    };
-  }, [pointer]);
+  const handlePetClick = () => {
+    setClickCount((count) => count + 1);
+    onPetClick?.();
+  };
 
   return (
     <div
-      className="account-puppet account-live2d-scene"
-      data-model-url={`${MODEL_BASE_URL}/xiaoju-planet-login.model3.json`}
-      ref={rootRef}
+      className="account-warm-pet-scene"
+      data-mood={mood}
+      data-clicks={clickCount}
+      onClick={handlePetClick}
+      role="region"
+      aria-label="小橘的温馨桌边陪伴场景"
     >
-      <img className="account-live2d-fallback" alt="" src={FALLBACK_URL} />
-      <canvas className="account-live2d-canvas" ref={canvasRef} />
-      {EYE_OVERLAY_URLS.map((url, index) => (
+      <img
+        className="account-warm-pet-backdrop"
+        src={LOGIN_WARM_BACKDROP_URL}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+      />
+      <div className="account-warm-pet-shade" aria-hidden="true" />
+      <div className="account-layered-pet" aria-hidden="true">
         <img
+          className="account-layered-pet-body"
+          src={LOGIN_BODY_BASE_URL}
           alt=""
-          className="account-live2d-eye-layer"
-          key={url}
-          ref={(element) => { eyeRefs.current[index] = element; }}
-          src={url}
+          draggable={false}
         />
-      ))}
-      <div className="account-foreleg-rig" aria-hidden="true">
-        {FORELEG_URLS.map((url, index) => (
+        <div className="account-pet-open-eye-layer">
+          <div className="account-pet-eye-group">
+            <img
+              className="account-pet-eye-base account-pet-eye-base-left"
+              src={LOGIN_LEFT_EYE_URL}
+              alt=""
+              draggable={false}
+            />
+            <img
+              className="account-pet-eye-base account-pet-eye-base-right"
+              src={LOGIN_RIGHT_EYE_URL}
+              alt=""
+              draggable={false}
+            />
+            <img
+              className="account-pet-pupil account-pet-pupil-left"
+              src={LOGIN_LEFT_PUPIL_URL}
+              alt=""
+              draggable={false}
+            />
+            <img
+              className="account-pet-pupil account-pet-pupil-right"
+              src={LOGIN_RIGHT_PUPIL_URL}
+              alt=""
+              draggable={false}
+            />
+          </div>
+        </div>
+        <div className="account-pet-closed-face-layer" aria-hidden="true">
+          <div className="account-pet-lid-group">
+            <img
+              className="account-pet-closed-face"
+              src={LOGIN_CLOSED_FACE_URL}
+              alt=""
+              draggable={false}
+            />
+          </div>
+        </div>
+        <div className="account-pet-password-face-layer" aria-hidden="true">
           <img
+            className="account-pet-password-face"
+            src={LOGIN_CLOSED_FACE_URL}
             alt=""
-            className={`account-foreleg-layer account-foreleg-layer-${index === 0 ? "left" : "right"}`}
-            key={url}
-            ref={(element) => { forelegRefs.current[index] = element; }}
-            src={url}
+            draggable={false}
           />
-        ))}
+        </div>
       </div>
-      <img className="account-planet-overlay" alt="" src={PLANET_OVERLAY_URL} />
-      {SHOULDER_OCCLUDER_URLS.map((url) => (
-        <img className="account-shoulder-occluder" alt="" key={url} src={url} />
-      ))}
     </div>
   );
 }
-
-const clamp01 = (value: number) => Math.max(0, Math.min(1, value));

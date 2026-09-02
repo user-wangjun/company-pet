@@ -2,7 +2,7 @@
   "version": 1,
   "scenes": {
     "taskCreated": { "texts": ["记下啦，到时候小橘会轻轻提醒你。", "放心交给小橘，已经收好啦。"], "action": "tickle", "fallbackAction": "idle", "durationMs": 1800 },
-    "taskDue": { "texts": ["到时间啦，我们慢慢开始吧。", "小橘来轻轻提醒你一下。"], "action": "crouchAlert", "fallbackAction": "idle", "durationMs": 2400 },
+    "taskDue": { "texts": ["到时间啦，我们慢慢开始吧。", "小橘来轻轻提醒你一下。"], "action": "idle", "fallbackAction": "idle", "durationMs": 2400 },
     "taskCompleted": { "texts": ["做完啦，抱着小鱼庆祝一下。", "辛苦啦，这件事已经好好完成了。"], "action": "hugFish", "fallbackAction": "tickle", "durationMs": 2600 },
     "taskCompletionBurst": { "texts": ["一口气完成了好几件，小橘替你开心。"], "action": "fishChase", "fallbackAction": "hugFish", "durationMs": 2600 },
     "reminderSnoozed": { "texts": ["好，10分钟后再轻轻叫你。", "先缓一缓，小橘替你看着时间。"], "action": "idle", "fallbackAction": "idle", "durationMs": 1800 },

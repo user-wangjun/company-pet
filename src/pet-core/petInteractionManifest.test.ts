@@ -397,6 +397,20 @@ describe("pet interaction manifests", () => {
       },
       "Expected finite non-negative number at interactions.drag.landingHoldMs",
     ],
+    [
+      "landingEndsOnIdleFirst not boolean",
+      (drag: Record<string, unknown>) => {
+        drag.landingEndsOnIdleFirst = "true";
+      },
+      "Expected boolean at interactions.drag.landingEndsOnIdleFirst",
+    ],
+    [
+      "landingIdleFollowsDragDirection not boolean",
+      (drag: Record<string, unknown>) => {
+        drag.landingIdleFollowsDragDirection = "true";
+      },
+      "Expected boolean at interactions.drag.landingIdleFollowsDragDirection",
+    ],
   ] as const)(
     "validates malformed drag: %s",
     (_name, mutate, message) => {
@@ -550,7 +564,7 @@ describe("pet interaction manifests", () => {
     expect(resolve(ikun).hover.enabled).toBe(false);
     expect(resolve(suanBird).hover.enabled).toBe(false);
 
-    expect(resolve(xiaoju).desktopIcon.enabled).toBe(true);
+    expect(resolve(xiaoju).desktopIcon).toEqual({ enabled: false });
     expect(resolve(ds).desktopIcon.enabled).toBe(true);
     expect(resolve(ikun).desktopIcon).toEqual({ enabled: false });
     expect(resolve(suanBird).desktopIcon).toEqual({ enabled: false });
@@ -586,25 +600,34 @@ describe("pet interaction manifests", () => {
       scale: 0.84,
       spritesheetPath: "tickle-24.png",
     });
-    expect(resolved.animations.crouchAlert).toMatchObject({
-      row: 0,
-      frames: 24,
-      speed: 0.576,
-      loop: false,
-      visualClass: "pose-change",
-      scale: 1.08,
-      spritesheetPath: "crouch-alert-24.png",
-    });
+    expect(resolved.animations.crouchAlert).toBeUndefined();
     expect(resolved.singleClick).toMatchObject({
       animation: "tickle",
       durationMs: 1000,
     });
     expect(resolved.idleQuirks.filter((quirk) => quirk.animation === "tickle")).toHaveLength(2);
     expect(resolved.idleQuirks.filter((quirk) => quirk.animation === "tickle").every((quirk) => quirk.durationMs === 2000)).toBe(true);
-    expect(resolved.idleQuirks.filter((quirk) => quirk.animation === "crouchAlert")).toHaveLength(1);
-    expect(resolved.idleQuirks.find((quirk) => quirk.animation === "crouchAlert")?.durationMs).toBe(2500);
+    expect(resolved.idleQuirks.filter((quirk) => quirk.animation === "crouchAlert")).toHaveLength(0);
     expect(resolved.animations.fishChase.frames).toBe(24);
     expect(resolved.animations.fishEat.frames).toBe(24);
+    expect(resolved.animations.hugFish).toMatchObject({
+      row: 0,
+      frames: 24,
+      speed: 0.16,
+      loop: true,
+      visualClass: "ordinary",
+      scale: 0.86,
+      spritesheetPath: "hug-fish-24.png",
+    });
+    expect(resolved.animations.gnawFish).toMatchObject({
+      row: 0,
+      frames: 24,
+      speed: 0.16,
+      loop: false,
+      visualClass: "ordinary",
+      scale: 0.86,
+      spritesheetPath: "gnaw-fish-24.png",
+    });
   });
 
   test("declares xiaoju's 24-frame drag lifecycle", () => {
@@ -612,21 +635,49 @@ describe("pet interaction manifests", () => {
 
     expect(resolved.animations.dragRight).toMatchObject({
       frames: 24,
+      scale: 1,
       spritesheetPath: "drag-right-24.png",
     });
     expect(resolved.animations.dragLeft).toMatchObject({
       frames: 24,
+      scale: 1,
       spritesheetPath: "drag-left-24.png",
     });
     expect(resolved.drag).toMatchObject({
       takeoffStartFrame: 0,
-      takeoffFrameCount: 6,
-      loopStartFrame: 6,
+      takeoffFrameCount: 5,
+      loopStartFrame: 5,
       loopFrameCount: 12,
-      landingStartFrame: 18,
-      landingFrameCount: 6,
+      landingStartFrame: 17,
+      landingFrameCount: 7,
       landingTransitionSpeed: 0.14,
+      landingHoldMs: 0,
+      landingEndsOnIdleFirst: true,
+      landingIdleStartFrame: 8,
+      landingIdleFollowsDragDirection: true,
     });
+    expect(resolved.drag.frameOffsetY).toBeUndefined();
+  });
+
+  test("parses an explicit landing-to-idle first-frame handoff", () => {
+    const source = makeRawSource();
+    getRawObject(getRawInteractions(source).drag, "interactions.drag").landingEndsOnIdleFirst = true;
+
+    expect(resolve(source).drag.landingEndsOnIdleFirst).toBe(true);
+  });
+
+  test("parses an explicit idle continuation frame after landing", () => {
+    const source = makeRawSource();
+    getRawObject(getRawInteractions(source).drag, "interactions.drag").landingIdleStartFrame = 8;
+
+    expect(resolve(source).drag.landingIdleStartFrame).toBe(8);
+  });
+
+  test("parses a direction-matched idle handoff", () => {
+    const source = makeRawSource();
+    getRawObject(getRawInteractions(source).drag, "interactions.drag").landingIdleFollowsDragDirection = true;
+
+    expect(resolve(source).drag.landingIdleFollowsDragDirection).toBe(true);
   });
 
   test("declares real left and right drag rows where available", () => {
@@ -664,12 +715,11 @@ describe("pet interaction manifests", () => {
     });
   });
 
-  test("preserves xiaoju's existing idle quirks", () => {
+  test("declares xiaoju's current idle quirks without crouchAlert", () => {
     expect(resolve(xiaoju).idleQuirks.map((quirk) => quirk.bubbleText)).toEqual([
       "（砸嘴）……梦见超大金枪鱼了喵 🐟",
       "（幸福地翻个身）~ 换个姿势继续睡喵…… 🐾",
       "（亲昵地蹭了蹭）……主人工作辛苦啦，小橘陪着你喵 💤",
-      "（抬耳探看）~ 小橘听见啦，慢慢来喵 🐾",
       "（抱着小鱼撒娇）~ 嘿嘿，这只小鱼是橘橘的宝贝！🐟",
       "（美滋滋地坐着嚼鱼）~ 金枪鱼味儿的玩具鱼，真香！🐾",
     ]);

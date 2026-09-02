@@ -8,6 +8,7 @@
 
 export type ProviderProtocol =
   | "local"
+  | "ollama-local"
   | "gemini-native"
   | "openai-compatible";
 
@@ -151,6 +152,9 @@ const DEFAULT_GENERATION = Object.freeze({
   maxOutputTokens: 256,
 });
 
+/** The first Ollama model pull can take several minutes on a normal connection. */
+export const DEFAULT_BUNDLED_OLLAMA_TIMEOUT_MS = 5 * 60 * 1000;
+
 const defaultFetcher: ProviderHttpFetcher = (url, init) =>
   fetch(url, init).then((response) => ({
     ok: response.ok,
@@ -175,7 +179,7 @@ function normalizeCapabilities(
 ): ProviderCapabilities {
   // Local never pretends to provide structured model output, even if a
   // caller accidentally supplies a remote capability override.
-  if (protocol === "local") {
+  if (protocol === "local" || protocol === "ollama-local") {
     return Object.freeze({
       textGeneration: true,
       structuredOutput: "none",
@@ -211,8 +215,10 @@ function providerInfo(
     return {
       kind,
       provider,
-      target: "本机",
-      disclosure: "本地模式：不会发起网络请求。",
+      target: options.protocol === "ollama-local" ? "本机（内置 Ollama）" : "本机",
+      disclosure: options.protocol === "ollama-local"
+        ? "本地模型模式：生成请求只发送到应用管理的本机 Ollama；首次使用会下载所选模型。"
+        : "本地模式：不会发起网络请求。",
     };
   }
   return {
@@ -518,6 +524,10 @@ function buildGeminiBody(request: ProviderGenerateRequest): Record<string, unkno
   };
 }
 
+function isDeepSeekModel(model: string | undefined): boolean {
+  return typeof model === "string" && /^deepseek-/iu.test(model.trim());
+}
+
 function buildOpenAiBody(request: ProviderGenerateRequest): Record<string, unknown> {
   const messages = [
     ...(request.system
@@ -530,6 +540,10 @@ function buildOpenAiBody(request: ProviderGenerateRequest): Record<string, unkno
   ];
   const body: Record<string, unknown> = {
     ...(request.model ? { model: request.model } : {}),
+    // DeepSeek V4 enables thinking by default. The companion path deliberately
+    // keeps a small output budget and must receive the final answer in
+    // `message.content`, not an answer-less response consumed by reasoning.
+    ...(isDeepSeekModel(request.model) ? { thinking: { type: "disabled" } } : {}),
     messages,
     ...(request.generation?.temperature === undefined
       ? {}
@@ -675,6 +689,79 @@ export function createLocalProviderAdapter(
   };
 }
 
+/**
+ * Ollama's OpenAI-compatible endpoint is still a local transport. Keeping it
+ * as its own adapter makes that boundary explicit and avoids inventing an
+ * API key just to reuse the remote adapter.
+ */
+export function createOllamaLocalProviderAdapter(
+  options: Omit<ProviderAdapterFactoryOptions, "protocol">,
+): ProviderAdapter {
+  const endpoint = options.endpoint?.trim().replace(/\/+$/u, "") || "http://127.0.0.1:11434/v1";
+  const configuredModel = options.model?.trim() ?? "";
+  if (!configuredModel) {
+    throw new ProviderAdapterError("内置 Ollama 需要选择一个本地模型。", "configuration");
+  }
+  const capabilities = normalizeCapabilities("ollama-local", options.capabilities);
+  const fetcher = options.fetcher ?? defaultFetcher;
+
+  return {
+    id: options.id,
+    protocol: "ollama-local",
+    capabilities,
+    info: providerInfo({ ...options, protocol: "ollama-local", endpoint }, "local"),
+    async generate(request) {
+      assertRequest(request, capabilities);
+      if (request.signal?.aborted) throw cancelledError();
+      const selectedModel = request.model?.trim() || configuredModel;
+      if (!selectedModel) {
+        throw new ProviderAdapterError("内置 Ollama 需要选择一个本地模型。", "configuration");
+      }
+      const requestBody = buildOpenAiBody({ ...request, model: selectedModel });
+      // Qwen3.5 can return its reasoning in a separate `thinking` field when
+      // thinking is enabled. The companion UI consumes the final answer from
+      // `message.content`, so keep the local request focused on that answer.
+      requestBody.think = false;
+      requestBody.chat_template_kwargs = { enable_thinking: false };
+      requestBody.reasoning_effort = "none";
+      const { response, payload } = await fetchJsonWithTimeout(
+        fetcher,
+        `${endpoint}/chat/completions`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+        },
+        request.signal,
+        request.timeoutMs,
+      );
+      if (!response.ok) {
+        const classified = classifyHttpError(response.status, readErrorDetail(payload));
+        throw new ProviderAdapterError(classified.message, classified.kind, response.status);
+      }
+      const text = extractOpenAiText(payload);
+      if (!text) {
+        throw new ProviderAdapterError(
+          "内置 Ollama 返回了无法识别的回复。",
+          "malformed-response",
+          response.status,
+        );
+      }
+      const usage = capabilities.usageMetadata
+        ? parseUsage(
+            isRecord(payload) ? payload.usage : undefined,
+            "prompt_tokens",
+            "completion_tokens",
+          )
+        : undefined;
+      return {
+        text,
+        metadata: providerMetadata(options.id, selectedModel, usage),
+      };
+    },
+  };
+}
+
 export function createGeminiNativeProviderAdapter(
   options: Omit<ProviderAdapterFactoryOptions, "protocol">,
 ): ProviderAdapter {
@@ -699,6 +786,9 @@ export function createProviderAdapter(
   options: ProviderAdapterFactoryOptions,
 ): ProviderAdapter {
   if (options.protocol === "local") return createLocalProviderAdapter(options);
+  if (options.protocol === "ollama-local") {
+    return createOllamaLocalProviderAdapter(options);
+  }
   if (options.protocol === "gemini-native") {
     return createGeminiNativeProviderAdapter(options);
   }

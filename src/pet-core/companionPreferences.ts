@@ -24,6 +24,11 @@ export type CompanionPreferenceExtraction = {
 
 type StorageLike = Pick<Storage, "getItem" | "setItem">;
 
+const PERSISTENT_COMPANION_PREFERENCE_SCOPE =
+  /以后|今后|之后都|从现在起|往后|记住\s*以后/u;
+const EXPLICIT_QUIET_COMPANION_PREFERENCE_CHANGE =
+  /安静(?:一点|一些|些)|保持安静|(?:别|不要)(?:太|那么)吵|(?:少|别)打扰(?:我)?/u;
+
 export const EMPTY_COMPANION_PREFERENCES: CompanionPreferencesState = {
   preferences: [],
   recentPreferenceId: null,
@@ -49,6 +54,14 @@ export function isCompanionPreferencesStateSafe(
     !state.recentPreferenceId ||
     !containsSensitiveCompanionText(state.recentPreferenceId)
   ) && state.preferences.every(isCompanionPreferenceSafe);
+}
+
+export function hasPersistentCompanionPreferenceScope(text: string): boolean {
+  return PERSISTENT_COMPANION_PREFERENCE_SCOPE.test(text.trim());
+}
+
+export function hasExplicitQuietCompanionPreferenceChange(text: string): boolean {
+  return EXPLICIT_QUIET_COMPANION_PREFERENCE_CHANGE.test(text.trim());
 }
 
 export function extractCompanionPreference(
@@ -92,7 +105,10 @@ export function extractCompanionPreference(
     };
   }
 
-  if (/安静|别太吵|少打扰/.test(input)) {
+  if (
+    hasPersistentCompanionPreferenceScope(input)
+    && hasExplicitQuietCompanionPreferenceChange(input)
+  ) {
     return {
       preference: {
         id: "global.companionStyle",
@@ -100,7 +116,7 @@ export function extractCompanionPreference(
         category: "userProfile",
         key: "companionStyle",
         value: "quiet",
-        source: "inferred",
+        source: "explicit",
       },
       feedback: "嗯，我记住啦，会安静一点陪你。",
     };

@@ -1,6 +1,8 @@
 import type {
   ActionExecutionResult,
   CompanionActionType,
+  CompanionForgetExecutionResult,
+  CompanionPreferenceExecutionResult,
   CompanionProactivePreferenceExecutionResult,
   MemoryPolicyResult,
 } from "./companionHarnessTypes";
@@ -14,6 +16,8 @@ export interface CompanionResponseFinalizerInput {
   actions: readonly ActionExecutionResult[];
   memory?: MemoryPolicyResult;
   proactivePreference?: CompanionProactivePreferenceExecutionResult;
+  preference?: CompanionPreferenceExecutionResult;
+  forget?: CompanionForgetExecutionResult;
 }
 
 function safeDisplay(value: unknown): string | null {
@@ -144,6 +148,31 @@ function oneProactivePreferenceResult(
   }
 }
 
+function onePreferenceResult(result: CompanionPreferenceExecutionResult): string {
+  const labels: Record<string, string> = {
+    nickname: "这个称呼",
+    replyStyle: "回复风格",
+    companionStyle: "陪伴方式",
+    eyeCare: "护眼提醒偏好",
+  };
+  const target = labels[result.displayData?.key ?? ""] ?? "这个偏好";
+  switch (result.status) {
+    case "succeeded": return `已经记住${target}了。`;
+    case "duplicate": return `${target}已经是这样，不需要重复修改。`;
+    case "failed": return `${target}没有保存成功，我不会假装已经记住。`;
+    case "cancelled": return `${target}的修改已停止，没有继续保存。`;
+  }
+}
+
+function oneForgetResult(result: CompanionForgetExecutionResult): string {
+  switch (result.status) {
+    case "succeeded": return "好，我忘掉刚才那条。";
+    case "noop": return "最近没有可删除的偏好或 Memory。";
+    case "failed": return "我暂时没能完整忘掉这条内容，请稍后再试。";
+    case "cancelled": return "这次忘记操作已停止，没有继续修改。";
+  }
+}
+
 function memoryNotice(memory: MemoryPolicyResult): string | null {
   const decisions = memory.decisions;
   if (decisions.some((item) => item.status === "cancelled")) return null;
@@ -243,6 +272,8 @@ export function finalizeCompanionResponse(
   input: CompanionResponseFinalizerInput,
 ): string | null {
   if (input.memory && memoryWasCancelled(input.memory)) return null;
+  if (input.preference) return onePreferenceResult(input.preference);
+  if (input.forget) return oneForgetResult(input.forget);
   if (input.proactivePreference) {
     return oneProactivePreferenceResult(input.proactivePreference);
   }

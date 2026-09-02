@@ -171,6 +171,31 @@ describe("pet asset paths", () => {
     );
   });
 
+  test("declares xiaoju drag rows as 24-frame package-local PNG strips", () => {
+    expect(builtInPetManifest.animations.dragRight).toMatchObject({
+      row: 0,
+      frames: 24,
+      speed: 0.175,
+      loop: true,
+      scale: 1,
+      spritesheetPath: "drag-right-24.png",
+    });
+    expect(builtInPetManifest.animations.dragLeft).toMatchObject({
+      row: 0,
+      frames: 24,
+      speed: 0.175,
+      loop: true,
+      scale: 1,
+      spritesheetPath: "drag-left-24.png",
+    });
+    expect(resolvePetAssetUrl("xiaoju-cat", "drag-right-24.png")).toBe(
+      "/pets/xiaoju-cat/drag-right-24.png",
+    );
+    expect(resolvePetAssetUrl("xiaoju-cat", "drag-left-24.png")).toBe(
+      "/pets/xiaoju-cat/drag-left-24.png",
+    );
+  });
+
   test("declares the fish actions as 24-frame package-local PNG strips", () => {
     expect(builtInPetManifest.animations.fishChase).toMatchObject({
       row: 0,
@@ -194,7 +219,45 @@ describe("pet asset paths", () => {
     );
   });
 
-  test("declares xiaoju tickle and crouchAlert as 24-frame package-local PNG strips", () => {
+  test("declares xiaoju hugFish and gnawFish as 24-frame package-local PNG strips", () => {
+    expect(builtInPetManifest.animations.hugFish).toMatchObject({
+      row: 0,
+      frames: 24,
+      speed: 0.16,
+      loop: true,
+      visualClass: "ordinary",
+      scale: 0.86,
+      spritesheetPath: "hug-fish-24.png",
+    });
+    expect(resolvePetAssetUrl("xiaoju-cat", "hug-fish-24.png")).toBe(
+      "/pets/xiaoju-cat/hug-fish-24.png",
+    );
+    expect(builtInPetManifest.animations.gnawFish).toMatchObject({
+      row: 0,
+      frames: 24,
+      speed: 0.16,
+      loop: false,
+      visualClass: "ordinary",
+      scale: 0.86,
+      spritesheetPath: "gnaw-fish-24.png",
+    });
+    expect(resolvePetAssetUrl("xiaoju-cat", "gnaw-fish-24.png")).toBe(
+      "/pets/xiaoju-cat/gnaw-fish-24.png",
+    );
+  });
+
+  test("shelves xiaoju's desktop icon interaction without deleting its source animation", () => {
+    expect(builtInPetManifest.interactions.desktopIcon).toEqual({
+      enabled: false,
+    });
+    expect(builtInPetManifest.animations.iconHug).toMatchObject({
+      frames: 6,
+      loop: false,
+      spritesheetPath: "icon-hug.png",
+    });
+  });
+
+  test("declares xiaoju tickle as a 24-frame package-local PNG strip and retires crouchAlert", () => {
     expect(builtInPetManifest.animations.tickle).toMatchObject({
       row: 0,
       frames: 24,
@@ -204,20 +267,9 @@ describe("pet asset paths", () => {
       scale: 0.84,
       spritesheetPath: "tickle-24.png",
     });
-    expect(builtInPetManifest.animations.crouchAlert).toMatchObject({
-      row: 0,
-      frames: 24,
-      speed: 0.576,
-      loop: false,
-      visualClass: "pose-change",
-      scale: 1.08,
-      spritesheetPath: "crouch-alert-24.png",
-    });
+    expect("crouchAlert" in builtInPetManifest.animations).toBe(false);
     expect(resolvePetAssetUrl("xiaoju-cat", "tickle-24.png")).toBe(
       "/pets/xiaoju-cat/tickle-24.png",
-    );
-    expect(resolvePetAssetUrl("xiaoju-cat", "crouch-alert-24.png")).toBe(
-      "/pets/xiaoju-cat/crouch-alert-24.png",
     );
   });
 
@@ -259,7 +311,7 @@ describe("pet asset paths", () => {
   });
 
   test("maps xiaoju task scenes to the matching gentle reminder motion", () => {
-    expect(xiaojuTaskFeedback.scenes.taskDue?.action).toBe("crouchAlert");
+    expect(xiaojuTaskFeedback.scenes.taskDue?.action).toBe("idle");
     expect(xiaojuTaskFeedback.scenes.taskBurst?.fallbackAction).toBe("idle");
     expect(xiaojuTaskFeedback.scenes.repeatedSnooze?.action).toBe("idle");
     expect(xiaojuTaskFeedback.scenes.taskOverdue?.action).toBe("idle");
@@ -732,7 +784,6 @@ describe("pet asset paths", () => {
 
     expect(Object.keys(sounds).sort()).toEqual([
       "care_reminder",
-      "crouchAlert",
       "drag",
       "drag_end",
       "fishChase",

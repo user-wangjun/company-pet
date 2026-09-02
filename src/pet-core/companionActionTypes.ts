@@ -1,8 +1,10 @@
 import type {
   ActionCandidate,
   CompanionActionCandidate,
+  CompanionActionConfirmationProof,
   CompanionActionType,
   CompanionInput,
+  CompanionPreferenceRequest,
   CompanionProactivePreferenceRequest,
   CompanionLocalActionType,
   CompanionTaskRepository,
@@ -45,6 +47,8 @@ export interface LocalRequestHints {
   memoryCandidate: MemoryCandidate | null;
   evidence: LocalActionEvidence | null;
   proactivePreference: CompanionProactivePreferenceRequest | null;
+  preference: CompanionPreferenceRequest | null;
+  forget: boolean;
 }
 
 export interface ActionPolicyContext {
@@ -55,6 +59,7 @@ export interface ActionPolicyContext {
   signal: AbortSignal;
   isCurrent: () => boolean;
   idempotency: ReadonlyMap<string, import("./companionHarnessTypes").ActionExecutionResult>;
+  confirmation?: CompanionActionConfirmationProof;
 }
 
 export type ActionPolicyDecision =

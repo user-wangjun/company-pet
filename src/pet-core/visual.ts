@@ -34,7 +34,7 @@ export function getPetCanvasPosition(
 export function getPetAnimationTransform(
   spec: PetAnimationSpec,
   facing: PetFacing,
-  directionMode: PetDirectionMode | "none" = "none",
+  directionMode: PetDirectionMode | "mirror-right" | "none" = "none",
 ): {
   scaleX: number;
   scaleY: number;
@@ -42,7 +42,9 @@ export function getPetAnimationTransform(
   offsetY: number;
 } {
   const visualScale = PET_VISUAL_SCALE * (spec.scale ?? 1);
-  const mirror = directionMode === "mirror-left" && facing === "left";
+  const mirror =
+    (directionMode === "mirror-left" && facing === "left") ||
+    (directionMode === "mirror-right" && facing === "right");
   return {
     scaleX: mirror ? -visualScale : visualScale,
     scaleY: visualScale,

@@ -11,6 +11,7 @@ import type {
 import {
   createProactiveTaskState,
   evaluateProactiveSemanticEvent,
+  localDateId,
   readProactiveExpressionState,
   recordProactiveSemanticEventSuccess,
   writeProactiveExpressionState,
@@ -105,6 +106,10 @@ export type ProactiveDeliveryReservation = {
   candidateKeys: string[];
   taskIds: string[];
   decision: ProactiveTriggerDecision;
+  /** Present for a successful reservation; shared by all member receipts. */
+  reservationGroupId?: string;
+  /** Present for a successful reservation; quota belongs to this local date. */
+  reservationLocalDate?: string;
 };
 
 export type ProactiveDeliveryConfirmation = {
@@ -190,6 +195,48 @@ function taskStateOf(state: ReturnType<typeof readProactiveExpressionState>): Pr
         deliveryReceipts: {},
         deliveryReservationTaskIds: taskState.deliveryReservationTaskIds ?? {},
       };
+}
+
+/**
+ * Daily quota is measured in actual delivery groups, not event receipts.
+ * Every receipt in an aggregate shares one group id, while a reserved group
+ * from a previous local date remains an at-most-once barrier but does not
+ * consume the current day's quota.
+ */
+export function countCurrentProactiveReservationGroups(
+  taskState: ProactiveTaskState,
+  now: Date,
+): number {
+  if (!Number.isFinite(now.getTime())) return Number.POSITIVE_INFINITY;
+  const currentLocalDate = localDateId(now);
+  const groups = new Set<string>();
+  for (const receipt of Object.values(taskState.deliveryReceipts ?? {})) {
+    if (!receipt || typeof receipt !== "object") return Number.POSITIVE_INFINITY;
+    if (
+      receipt.status === "reserved"
+      && receipt.reservationLocalDate === currentLocalDate
+      && typeof receipt.reservationGroupId === "string"
+      && receipt.reservationGroupId.length > 0
+    ) {
+      groups.add(receipt.reservationGroupId);
+    }
+    // A typed caller may still hand us a pre-receipt projection directly.
+    // Count that opaque reservation conservatively instead of silently
+    // reopening quota when it has not gone through storage migration.
+  }
+  for (const [key, status] of Object.entries(taskState.deliveryReservations ?? {})) {
+    if (status === "reserved" && !taskState.deliveryReceipts?.[key]) {
+      groups.add(`legacy-unmigrated:${key}`);
+    }
+  }
+  return groups.size;
+}
+
+function reservationGroupIdForDecision(decision: ProactiveTriggerDecision): string {
+  const encoded = Array.from(decision.candidateKey)
+    .map((character) => character.codePointAt(0)!.toString(16))
+    .join(".");
+  return `proactive-reservation:v1:${encoded}`;
 }
 
 function withTaskState(
@@ -585,10 +632,11 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
 
       for (const group of groups) {
         const primary = group[0];
-        const persistedReservations = Object.values(taskStateOf(policyState).deliveryReservations ?? {})
-          .filter((status) => status === "reserved")
-          .length;
-        if (policyState.bubbleCounts.task_reminder + persistedReservations >= dailyLimit) {
+        const currentReservationGroups = countCurrentProactiveReservationGroups(
+          taskStateOf(policyState),
+          now,
+        );
+        if (policyState.bubbleCounts.task_reminder + currentReservationGroups >= dailyLimit) {
           for (const item of group) {
             decisions.push({
               taskId: item.candidate.taskId,
@@ -693,14 +741,16 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
     // still persists its timestamp; large batches rely on the durable
     // reserveDelivery write immediately before the sink instead.
     const shouldPersistEvaluationStamp = candidates.length <= 8;
-    const evaluationPersistenceConfirmed = shouldPersistEvaluationStamp
-      ? writeProactiveExpressionState(
-        Number.isFinite(now.getTime())
-          ? { ...persistedState, lastEvaluatedAt: now.toISOString() }
-          : persistedState,
-        storage,
-      )
-      : true;
+    const stateIsConservative = !Number.isFinite(now.getTime())
+      || persistedState.conservativeSilenceDate === localDateId(now);
+    const evaluationPersistenceConfirmed = stateIsConservative
+      ? false
+      : shouldPersistEvaluationStamp
+        ? writeProactiveExpressionState(
+          { ...persistedState, lastEvaluatedAt: now.toISOString() },
+          storage,
+        )
+        : true;
     return {
       decisions,
       state: persistedState,
@@ -816,7 +866,7 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
     // just-confirmed daily limit/cooldown when callers use the engine directly.
     if (
       state.bubbleCounts.task_reminder
-        + Object.values(receipts).filter((receipt) => receipt.status === "reserved").length
+        + countCurrentProactiveReservationGroups(taskState, now)
         >= dailyLimit
     ) {
       return { status: "not-eligible", candidateKeys, taskIds, decision };
@@ -878,9 +928,16 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
       ...reservationTaskIds,
     };
     const reservedAt = now.toISOString();
+    const reservationGroupId = reservationGroupIdForDecision(decision);
+    const reservationLocalDate = localDateId(now);
     for (const key of candidateKeys) {
       nextReservations[key] = "reserved";
-      nextReceipts[key] = { status: "reserved", updatedAt: reservedAt };
+      nextReceipts[key] = {
+        status: "reserved",
+        updatedAt: reservedAt,
+        reservationGroupId,
+        reservationLocalDate,
+      };
       nextReservationTaskIds[key] = [...taskIds];
     }
     const next = withTaskState(state, {
@@ -899,6 +956,8 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
       candidateKeys,
       taskIds,
       decision: { ...decision, deliveryStatus: "reserved", actualDelivery: false },
+      reservationGroupId,
+      reservationLocalDate,
     };
   };
 
@@ -950,9 +1009,23 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
     const nextReservationTaskIds = { ...(confirmedTaskState.deliveryReservationTaskIds ?? {}) };
     const records = { ...confirmedTaskState.records };
     for (const key of reservation.candidateKeys) {
+      const reservedReceipt = receipts[key] ?? nextReceipts[key];
+      if (!reservedReceipt) {
+        return {
+          status: "not-reserved",
+          candidateKeys: reservation.candidateKeys,
+          taskIds: reservation.taskIds,
+          decisions: [],
+        };
+      }
       deliveredKeys.add(key);
       delete nextReservations[key];
-      nextReceipts[key] = { status: "confirmed", updatedAt: now.toISOString() };
+      nextReceipts[key] = {
+        status: "confirmed",
+        updatedAt: now.toISOString(),
+        reservationGroupId: reservedReceipt.reservationGroupId,
+        reservationLocalDate: reservedReceipt.reservationLocalDate,
+      };
       delete nextReservationTaskIds[key];
     }
     for (const taskId of reservation.taskIds) {
@@ -1044,8 +1117,15 @@ export function createProactiveTriggerEngine(options: ProactiveTriggerEngineOpti
     const reservationTaskIds = { ...(taskState.deliveryReservationTaskIds ?? {}) };
     for (const key of reservation.candidateKeys) {
       if (receipts[key]?.status === "reserved" || reservations[key] === "reserved") {
+        const reservedReceipt = receipts[key];
+        if (!reservedReceipt) return false;
         reservations[key] = "blocked";
-        receipts[key] = { status: "blocked", updatedAt: now.toISOString() };
+        receipts[key] = {
+          status: "blocked",
+          updatedAt: now.toISOString(),
+          reservationGroupId: reservedReceipt.reservationGroupId,
+          reservationLocalDate: reservedReceipt.reservationLocalDate,
+        };
       }
     }
     // A failed block write leaves the original reservation intact, which is

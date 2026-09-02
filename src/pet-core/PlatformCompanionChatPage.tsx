@@ -2,6 +2,10 @@ import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 
 import type { CompanionChatMessage, CompanionChatProviderInfo } from "./companionChatRuntime";
 import { LOCAL_COMPANION_CHAT_PROVIDER_INFO } from "./companionChatRuntime";
 import { PlatformCompanionChatDrawer } from "./PlatformCompanionChatDrawer";
+import {
+  CompanionOllamaPullProgress,
+  type BundledOllamaPullProgress,
+} from "./CompanionOllamaPullProgress";
 
 export type PlatformCompanionChatPageProps = {
   petName: string;
@@ -11,6 +15,7 @@ export type PlatformCompanionChatPageProps = {
   draft: string;
   isWaiting: boolean;
   providerInfo?: CompanionChatProviderInfo;
+  ollamaPullProgress?: BundledOllamaPullProgress | null;
   onDraftChange: (draft: string) => void;
   onSend: () => void;
   onStop: () => void;
@@ -117,6 +122,7 @@ export function PlatformCompanionChatPage({
   draft,
   isWaiting,
   providerInfo = LOCAL_COMPANION_CHAT_PROVIDER_INFO,
+  ollamaPullProgress,
   onDraftChange,
   onSend,
   onStop,
@@ -240,6 +246,7 @@ export function PlatformCompanionChatPage({
           </div>
           <small>{providerInfo.disclosure}</small>
         </div>
+        <CompanionOllamaPullProgress progress={ollamaPullProgress} />
 
         <div className="platform-companion-chat-room-body">
           <CompanionRoomScene />
@@ -271,7 +278,13 @@ export function PlatformCompanionChatPage({
             <small>Enter 发送 · Shift+Enter 换行</small>
           </div>
           {isWaiting ? (
-            <button type="button" onClick={onStop}>
+            <button type="button" onClick={(event) => {
+              // The same form slot becomes a submit button after stopping;
+              // prevent the click's default action before that synchronous
+              // replacement can submit the form a second time.
+              event.preventDefault();
+              onStop();
+            }}>
               停止
             </button>
           ) : (

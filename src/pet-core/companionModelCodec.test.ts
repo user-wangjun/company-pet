@@ -479,6 +479,31 @@ describe("Harness-owned Companion Model Codec", () => {
     }).actions).toEqual([]);
   });
 
+  test.each(["cancel_task", "postpone_task", "reschedule_task"] as const)(
+    "keeps local compatibility Action %s out of the Model Envelope",
+    (type) => {
+      expect(JSON.stringify(COMPANION_MODEL_RESPONSE_SCHEMA)).not.toContain(type);
+      const payload = type === "cancel_task"
+        ? { reference: "本地目标" }
+        : { reference: "本地目标", dueAt: "2026-08-12T08:00:00.000Z" };
+      expect(decodeCompanionModelResponse(providerResponse({
+        structured: {
+          replyDraft: "安全回复",
+          actions: [{
+            sourceMessageId: "message-1",
+            intent: "explicit",
+            type,
+            payload,
+          }],
+        },
+      }), {
+        mode: "json_object",
+        sourceMessageId: "message-1",
+        petId: "xiaoju-cat",
+      }).actions).toEqual([]);
+    },
+  );
+
   test("does not accept an untrusted context for encoding", () => {
     expect(() => encodeCompanionModelRequest({
       petId: "xiaoju-cat",

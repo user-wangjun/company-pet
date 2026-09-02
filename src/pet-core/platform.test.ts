@@ -1,8 +1,4 @@
-// @ts-expect-error Vitest runs this in Node, while the app tsconfig keeps Node
-// types out of browser code.
 import { readFileSync } from "node:fs";
-// @ts-expect-error Vitest runs this in Node, while the app tsconfig keeps Node
-// types out of browser code.
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
 import {
@@ -252,5 +248,31 @@ describe("platform companion navigation contract", () => {
     const shellRule = appCss.slice(shellStart, shellEnd);
     expect(shellRule).toContain("grid-template-columns: minmax(0, 1fr);");
     expect(shellRule).not.toMatch(/174px|204px/);
+  });
+
+  test("keeps the companion room input inside the platform window", () => {
+    const inputStart = appCss.indexOf(".platform-companion-chat-input {");
+    const inputEnd = appCss.indexOf("\n}", inputStart);
+    expect(inputStart).toBeGreaterThanOrEqual(0);
+    expect(inputEnd).toBeGreaterThan(inputStart);
+
+    const inputRule = appCss.slice(inputStart, inputEnd);
+    expect(inputRule).toContain("box-sizing: border-box;");
+  });
+
+  test("allows the remote-pending room input to shrink before placing Stop", () => {
+    const providerStart = appCss.indexOf(".platform-companion-chat-room-provider {");
+    const providerEnd = appCss.indexOf("\n}", providerStart);
+    const roomInputStart = appCss.indexOf(".platform-companion-chat-room-input {");
+    const roomInputEnd = appCss.indexOf("\n}", roomInputStart);
+    expect(providerStart).toBeGreaterThanOrEqual(0);
+    expect(providerEnd).toBeGreaterThan(providerStart);
+    expect(roomInputStart).toBeGreaterThanOrEqual(0);
+    expect(roomInputEnd).toBeGreaterThan(roomInputStart);
+
+    const providerRule = appCss.slice(providerStart, providerEnd);
+    const roomInputRule = appCss.slice(roomInputStart, roomInputEnd);
+    expect(providerRule).toContain("min-width: 0;");
+    expect(roomInputRule).toContain("min-width: 0;");
   });
 });

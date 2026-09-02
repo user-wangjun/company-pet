@@ -22,9 +22,9 @@ export interface CompanionProactivePreferenceServiceOptions {
   repository: CompanionTaskRepository;
   triggerEngine: PreferenceEngine;
   /** The pets that can actually receive the next proactive delivery. */
-  availablePetIds?: readonly string[];
+  availablePetIds?: readonly string[] | (() => readonly string[]);
   /** Used to choose the next pet when no delivery context is available. */
-  activePetId?: string;
+  activePetId?: string | (() => string);
 }
 
 function result(
@@ -202,9 +202,11 @@ export function createCompanionProactivePreferenceService(
       const displayData = safeTaskDisplayTitle(resolution.task.title);
       const current = preferenceFor(state, resolution.task.id);
       const currentPetId = recentContext?.petId
-        ?? options.activePetId
+        ?? (typeof options.activePetId === "function" ? options.activePetId() : options.activePetId)
         ?? input.petId;
-      const availablePetIds = options.availablePetIds ?? [];
+      const availablePetIds = typeof options.availablePetIds === "function"
+        ? options.availablePetIds()
+        : options.availablePetIds ?? [];
       const patchResult = buildPatch(request, current, currentPetId, availablePetIds);
       if ("result" in patchResult) return patchResult.result;
       const { patch, preferredPetId } = patchResult;

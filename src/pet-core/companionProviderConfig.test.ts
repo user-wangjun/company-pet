@@ -1,12 +1,15 @@
 import { describe, expect, test } from "vitest";
 import {
   COMPANION_PROVIDER_SETTINGS_STORAGE_KEY,
+  BUNDLED_OLLAMA_MODELS,
+  DEFAULT_BUNDLED_OLLAMA_MODEL,
   DEFAULT_COMPANION_PROVIDER_SETTINGS,
   LEGACY_COMPANION_PROVIDER_SETTINGS_STORAGE_KEY,
   clearCompanionProviderCredentialWithSecureStore,
   createMemoryCompanionProviderSecureStore,
   getCompanionProviderProfilePreset,
   getCompanionProviderStatusInfo,
+  isLocalCompanionProviderProtocol,
   normalizeCompanionProviderSettings,
   parseCompanionProviderSettings,
   readCompanionProviderSettings,
@@ -27,19 +30,23 @@ function createStorage(initial: Record<string, string> = {}) {
 }
 
 describe("provider-neutral profile configuration", () => {
-  test("uses an explicit local profile as the default", () => {
+  test("uses the bundled Ollama profile as the default", () => {
     const storage = createStorage();
     expect(readCompanionProviderSettings(storage)).toEqual(
       DEFAULT_COMPANION_PROVIDER_SETTINGS,
     );
     expect(DEFAULT_COMPANION_PROVIDER_SETTINGS).toMatchObject({
-      id: "local",
-      displayName: "本地陪伴",
-      protocol: "local",
+      id: "bundled-ollama",
+      displayName: "内置本地模型（Ollama）",
+      protocol: "ollama-local",
       endpoint: "",
-      model: "local",
+      model: DEFAULT_BUNDLED_OLLAMA_MODEL,
       credentialRef: null,
     });
+    expect(DEFAULT_COMPANION_PROVIDER_SETTINGS.models).toEqual([
+      "qwen3.5:0.8b",
+      "qwen3.5:2b",
+    ]);
   });
 
   test("keeps profile metadata separate from the ephemeral credential", () => {
@@ -63,6 +70,33 @@ describe("provider-neutral profile configuration", () => {
       credentialConfigured: true,
     });
     expect(Object.prototype.hasOwnProperty.call(profile, "apiKey")).toBe(false);
+  });
+
+  test("normalizes a discovered model catalog without changing the active model", () => {
+    const profile = normalizeCompanionProviderSettings({
+      ...getCompanionProviderProfilePreset("custom-provider"),
+      model: "model-b",
+      models: [" model-a ", "model-b", "model-a", "", "model\n-invalid"],
+    });
+
+    expect(profile.model).toBe("model-b");
+    expect(profile.models).toEqual(["model-a", "model-b"]);
+  });
+
+  test("preserves explicitly cleared editable fields for UI validation", () => {
+    const profile = normalizeCompanionProviderSettings({
+      ...getCompanionProviderProfilePreset("custom-provider"),
+      displayName: "",
+      endpoint: "",
+      model: "",
+    });
+
+    expect(profile).toMatchObject({
+      displayName: "",
+      endpoint: "",
+      model: "",
+    });
+    expect(validateCompanionProviderProfile(profile)).toBe("Provider 名称不能为空。");
   });
 
   test("reads legacy Google and custom profiles without changing their credential references", () => {
@@ -209,6 +243,12 @@ describe("provider-neutral profile configuration", () => {
       ...getCompanionProviderProfilePreset("custom-provider")!,
       credentialConfigured: false,
     }, "unit-secret")).toBeNull();
+    expect(validateCompanionProviderSettings({
+      ...DEFAULT_COMPANION_PROVIDER_SETTINGS,
+      ...getCompanionProviderProfilePreset("custom-provider")!,
+      model: "",
+      credentialConfigured: false,
+    }, "unit-secret", { allowEmptyModel: true })).toBeNull();
   });
 
   test("status disclosure is local or remote without exposing credentials", () => {
@@ -219,12 +259,41 @@ describe("provider-neutral profile configuration", () => {
     });
     const remoteInfo = getCompanionProviderStatusInfo(remote);
 
-    expect(localInfo).toMatchObject({ kind: "local", target: "本机" });
+    expect(localInfo).toMatchObject({
+      kind: "local",
+      target: "本机（内置 Ollama）",
+    });
     expect(remoteInfo).toMatchObject({
       kind: "remote",
       provider: "自定义 Provider",
       target: "https://api.openai.com/v1",
     });
     expect(JSON.stringify(remoteInfo)).not.toContain("unit-secret");
+  });
+
+  test("configures bundled Ollama as a credential-free local profile", () => {
+    const profile = normalizeCompanionProviderSettings(
+      getCompanionProviderProfilePreset("bundled-ollama"),
+    );
+    const info = getCompanionProviderStatusInfo(profile);
+
+    expect(DEFAULT_BUNDLED_OLLAMA_MODEL).toBe("qwen3.5:2b");
+    expect(BUNDLED_OLLAMA_MODELS).toEqual(["qwen3.5:0.8b", "qwen3.5:2b"]);
+    expect(profile).toMatchObject({
+      id: "bundled-ollama",
+      protocol: "ollama-local",
+      endpoint: "",
+      model: DEFAULT_BUNDLED_OLLAMA_MODEL,
+      credentialRef: null,
+      credentialConfigured: false,
+    });
+    expect(profile.models).toEqual(["qwen3.5:0.8b", "qwen3.5:2b"]);
+    expect(isLocalCompanionProviderProtocol(profile.protocol)).toBe(true);
+    expect(validateCompanionProviderSettings(profile)).toBeNull();
+    expect(info).toMatchObject({
+      kind: "local",
+      target: "本机（内置 Ollama）",
+    });
+    expect(info.disclosure).toContain("应用管理的本机 Ollama");
   });
 });

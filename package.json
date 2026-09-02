@@ -7,13 +7,14 @@
     "dev": "vite",
     "build": "tsc && vite build && node scripts/prune-release-assets.mjs",
     "preview": "vite preview",
-    "test": "vitest run --exclude \"**/.worktrees/**\"",
+    "test": "vitest run --exclude \"**/.worktrees/**\" --exclude \"docs/companion-harness-evidence/**/*.test.mjs\"",
     "tauri": "tauri"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-notification": "^2.3.3",
     "@tauri-apps/plugin-opener": "^2",
+    "firebase": "^12.17.1",
     "pixi.js": "^8.18.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
@@ -23,6 +24,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
+    "jsdom": "^27.4.0",
     "typescript": "~5.8.3",
     "vite": "^7.0.4",
     "vitest": "^4.1.7"

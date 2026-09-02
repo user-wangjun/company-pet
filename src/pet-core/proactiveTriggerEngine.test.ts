@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import type { ProactiveExpressionStorage } from "./proactiveExpressionGate";
+import {
+  createProactiveExpressionState,
+  createProactiveTaskState,
+  type ProactiveExpressionStorage,
+} from "./proactiveExpressionGate";
 import {
   createProactiveTriggerEngine,
   parseProactivePreferenceCommand,
@@ -9,8 +13,8 @@ import {
 
 const QUIET_DISABLED = { startTime: "00:00", endTime: "00:01" };
 
-function storage(): ProactiveExpressionStorage {
-  let value: string | null = null;
+function storage(initialValue: string | null = null): ProactiveExpressionStorage {
+  let value = initialValue;
   return {
     getItem: vi.fn(() => value),
     setItem: vi.fn((_key, nextValue) => {
@@ -267,6 +271,43 @@ describe("provider-independent proactive trigger engine", () => {
     ], at(10));
 
     expect(evaluation.decisions[0]).toMatchObject({ result: "suppress", reason: "daily-limit" });
+  });
+
+  it("does not rewrite a damaged reservation schema or reopen it after a local day changes", () => {
+    const firstDay = at(8);
+    const damagedState = {
+      ...createProactiveExpressionState(firstDay),
+      taskState: {
+        ...createProactiveTaskState(),
+        deliveryReservations: { "old-event": "reserved" as const },
+        deliveryReceipts: {
+          "old-event": {
+            status: "reserved" as const,
+            updatedAt: firstDay.toISOString(),
+            reservationGroupId: "",
+            reservationLocalDate: "2026-08-02",
+          },
+        },
+        deliveryReservationTaskIds: { "old-event": ["old-task"] },
+      },
+    };
+    const stateStorage = storage(JSON.stringify(damagedState));
+    const triggerEngine = engine(stateStorage);
+
+    const firstEvaluation = triggerEngine.evaluateEligibility([
+      candidate("new-day-one", "第一天的新提醒", firstDay),
+    ], firstDay);
+    const secondDay = new Date(2026, 7, 3, 8, 0, 0, 0);
+    const secondEvaluation = triggerEngine.evaluateEligibility([
+      candidate("new-day-two", "第二天的新提醒", secondDay),
+    ], secondDay);
+
+    expect(firstEvaluation.evaluationPersistenceConfirmed).toBe(false);
+    expect(secondEvaluation.evaluationPersistenceConfirmed).toBe(false);
+    expect(firstEvaluation.eligibleDeliveries).toHaveLength(0);
+    expect(secondEvaluation.eligibleDeliveries).toHaveLength(0);
+    expect(stateStorage.setItem).not.toHaveBeenCalled();
+    expect(stateStorage.getItem).toHaveBeenCalledTimes(2);
   });
 
   it("persists mute and reduced-frequency controls without changing task facts", () => {

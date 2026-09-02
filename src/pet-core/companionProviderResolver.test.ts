@@ -14,12 +14,14 @@ import {
 } from "./companionProviderConfig";
 
 function profile(
-  protocol: "local" | "gemini-native" | "openai-compatible",
+  protocol: "local" | "ollama-local" | "gemini-native" | "openai-compatible",
   overrides: Partial<CompanionProviderProfile> = {},
 ): CompanionProviderProfile {
   const preset = getCompanionProviderProfilePreset(
     protocol === "local"
       ? "local"
+      : protocol === "ollama-local"
+        ? "bundled-ollama"
       : protocol === "gemini-native"
         ? "google-gemini"
         : "custom-provider",
@@ -64,6 +66,31 @@ describe("ProviderResolver", () => {
       structuredOutput: "none",
     });
     await expect(adapter.generate(request())).resolves.toHaveProperty("text");
+  });
+
+  test("resolves bundled Ollama as a local adapter without requiring a credential", async () => {
+    const fetcher = vi.fn<ProviderHttpFetcher>(async () => ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        choices: [{ message: { content: "reply" } }],
+      }),
+    }));
+    const adapter = createCompanionProviderResolver({
+      profile: profile("ollama-local"),
+      credential: null,
+      fetcher,
+    }).resolve();
+
+    expect(adapter.protocol).toBe("ollama-local");
+    expect(adapter.info).toMatchObject({
+      kind: "local",
+      target: "本机（内置 Ollama）",
+    });
+    await expect(adapter.generate(request())).resolves.toHaveProperty("text", "reply");
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    const [, init] = fetcher.mock.calls[0]!;
+    expect(init.headers.Authorization).toBeUndefined();
   });
 
   test.each(["gemini-native", "openai-compatible"] as const)(

@@ -11,12 +11,11 @@
   "threeViewPreviewPath": "three-view-preview.png",
   "animations": {
     "idle": { "row": 0, "frames": 24, "speed": 0.09, "loop": true, "visualClass": "pose-change", "scale": 1, "spritesheetPath": "idle-24.png" },
-    "dragRight": { "row": 0, "frames": 24, "speed": 0.175, "loop": true, "visualClass": "ordinary", "scale": 0.83, "spritesheetPath": "drag-right-24.png" },
-    "dragLeft": { "row": 0, "frames": 24, "speed": 0.175, "loop": true, "visualClass": "ordinary", "scale": 0.83, "spritesheetPath": "drag-left-24.png" },
+    "dragRight": { "row": 0, "frames": 24, "speed": 0.175, "loop": true, "visualClass": "ordinary", "scale": 1, "spritesheetPath": "drag-right-24.png" },
+    "dragLeft": { "row": 0, "frames": 24, "speed": 0.175, "loop": true, "visualClass": "ordinary", "scale": 1, "spritesheetPath": "drag-left-24.png" },
     "tickle": { "row": 0, "frames": 24, "speed": 0.96, "loop": false, "visualClass": "ordinary", "scale": 0.84, "spritesheetPath": "tickle-24.png" },
-    "crouchAlert": { "row": 0, "frames": 24, "speed": 0.576, "loop": false, "visualClass": "pose-change", "scale": 1.08, "spritesheetPath": "crouch-alert-24.png" },
-    "hugFish": { "row": 5, "frames": 8, "speed": 0.12, "loop": true, "visualClass": "ordinary", "scale": 0.86 },
-    "gnawFish": { "row": 6, "frames": 6, "speed": 0.14, "loop": false, "visualClass": "ordinary", "scale": 0.86 },
+    "hugFish": { "row": 0, "frames": 24, "speed": 0.16, "loop": true, "visualClass": "ordinary", "scale": 0.86, "spritesheetPath": "hug-fish-24.png" },
+    "gnawFish": { "row": 0, "frames": 24, "speed": 0.16, "loop": false, "visualClass": "ordinary", "scale": 0.86, "spritesheetPath": "gnaw-fish-24.png" },
     "fishChase": { "row": 0, "frames": 24, "speed": 0.2, "loop": true, "visualClass": "pose-change", "scale": 1, "spritesheetPath": "fish-chase-24.png" },
     "fishEat": { "row": 0, "frames": 24, "speed": 0.16, "loop": false, "visualClass": "ordinary", "scale": 0.84, "spritesheetPath": "fish-eat-24.png" },
     "iconHug": {
@@ -43,13 +42,16 @@
       "right": "dragRight",
       "left": "dragLeft",
       "takeoffStartFrame": 0,
-      "takeoffFrameCount": 6,
-      "loopStartFrame": 6,
+      "takeoffFrameCount": 5,
+      "loopStartFrame": 5,
       "loopFrameCount": 12,
-      "landingStartFrame": 18,
-      "landingFrameCount": 6,
+      "landingStartFrame": 17,
+      "landingFrameCount": 7,
       "landingTransitionSpeed": 0.14,
-      "landingHoldMs": 900
+      "landingHoldMs": 0,
+      "landingEndsOnIdleFirst": true,
+      "landingIdleStartFrame": 8,
+      "landingIdleFollowsDragDirection": true
     },
     "hover": {
       "enabled": true,
@@ -60,12 +62,7 @@
         ]
       }
     },
-    "desktopIcon": {
-      "enabled": true,
-      "action": { "animation": "iconHug", "durationMs": 5600, "sound": "iconHug" },
-      "positioning": "wrap",
-      "allowedSide": "any"
-    },
+    "desktopIcon": { "enabled": false },
     "reminders": {
       "eyeCare": { "animation": "idle", "durationMs": 8000, "sound": "care_reminder", "dialogueEvent": "eyeCare" },
       "water": { "animation": "idle", "durationMs": 8000, "sound": "care_reminder", "dialogueEvent": "water" },
@@ -76,7 +73,6 @@
       { "animation": "fishEat", "durationMs": 2500, "sound": "fishEat", "bubbleText": "（砸嘴）……梦见超大金枪鱼了喵 🐟" },
       { "animation": "tickle", "durationMs": 2000, "sound": "idle", "bubbleText": "（幸福地翻个身）~ 换个姿势继续睡喵…… 🐾" },
       { "animation": "tickle", "durationMs": 2000, "sound": "idle", "bubbleText": "（亲昵地蹭了蹭）……主人工作辛苦啦，小橘陪着你喵 💤" },
-      { "animation": "crouchAlert", "durationMs": 2500, "sound": "idle", "bubbleText": "（抬耳探看）~ 小橘听见啦，慢慢来喵 🐾" },
       { "animation": "hugFish", "durationMs": 3000, "sound": "hugFish", "bubbleText": "（抱着小鱼撒娇）~ 嘿嘿，这只小鱼是橘橘的宝贝！🐟" },
       { "animation": "gnawFish", "durationMs": 2500, "sound": "gnawFish", "bubbleText": "（美滋滋地坐着嚼鱼）~ 金枪鱼味儿的玩具鱼，真香！🐾" }
     ]
@@ -88,7 +84,6 @@
     "fishChase": 1,
     "fishEat": 0.84,
     "iconHug": 0.83,
-    "crouchAlert": 1.08,
     "hugFish": 0.86,
     "gnawFish": 0.86
   },
@@ -118,10 +113,6 @@
     "fishEat": [
       { "path": "sounds/purr-whiskers.ogg", "volume": 0.16, "maxDurationMs": 1100 },
       { "path": "sounds/meow-pleading.oga", "volume": 0.13, "maxDurationMs": 1500 }
-    ],
-    "crouchAlert": [
-      { "path": "sounds/meow-young-female.ogg", "volume": 0.18, "maxDurationMs": 1150 },
-      { "path": "sounds/meow-impatient.ogg", "volume": 0.17, "maxDurationMs": 650 }
     ],
     "hugFish": [
       { "path": "sounds/purr-whiskers.ogg", "volume": 0.16, "maxDurationMs": 1200 },

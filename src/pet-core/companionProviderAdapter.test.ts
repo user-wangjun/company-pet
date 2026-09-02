@@ -3,6 +3,7 @@ import {
   ProviderAdapterError,
   createGeminiNativeProviderAdapter,
   createLocalProviderAdapter,
+  createOllamaLocalProviderAdapter,
   createOpenAiCompatibleProviderAdapter,
   type ProviderGenerateRequest,
   type ProviderHttpFetcher,
@@ -137,6 +138,27 @@ describe("domain-neutral Provider Adapter contract", () => {
     expect(JSON.stringify(body)).not.toContain("SECRET_SENTINEL");
   });
 
+  test("disables DeepSeek default thinking for the short companion response budget", async () => {
+    const fetcher = vi.fn<ProviderHttpFetcher>(async () => response({
+      choices: [{ message: { content: "DEEPSEEK_TEXT" } }],
+    }));
+    const adapter = createOpenAiCompatibleProviderAdapter({
+      id: "deepseek",
+      endpoint: "https://api.deepseek.com/v1",
+      model: "deepseek-v4-flash",
+      credential: "SECRET_SENTINEL",
+      fetcher,
+    });
+
+    await expect(adapter.generate(textRequest({ model: undefined }))).resolves.toMatchObject({
+      text: "DEEPSEEK_TEXT",
+    });
+    const [, init] = fetcher.mock.calls[0]!;
+    const body = JSON.parse(init.body) as Record<string, unknown>;
+    expect(body.model).toBe("deepseek-v4-flash");
+    expect(body.thinking).toEqual({ type: "disabled" });
+  });
+
   test("does not guess structured support from provider name, endpoint, or model", async () => {
     const fetcher = vi.fn<ProviderHttpFetcher>(async () => response({
       choices: [{ message: { content: "{}" } }],
@@ -197,6 +219,44 @@ describe("domain-neutral Provider Adapter contract", () => {
     });
     expect(local.info.kind).toBe("local");
     expect(local.capabilities.structuredOutput).toBe("none");
+  });
+
+  test("Ollama adapter stays local, uses OpenAI-compatible chat, and sends no API key", async () => {
+    const fetcher = vi.fn<ProviderHttpFetcher>(async () => response({
+      choices: [{ message: { content: "OLLAMA_TEXT" } }],
+    }));
+    const adapter = createOllamaLocalProviderAdapter({
+      id: "bundled-ollama",
+      endpoint: "http://127.0.0.1:11434/v1",
+      model: "qwen3:0.6b",
+      credential: null,
+      fetcher,
+    });
+
+    await expect(adapter.generate(textRequest())).resolves.toMatchObject({
+      text: "OLLAMA_TEXT",
+      metadata: { providerId: "bundled-ollama", model: "generic-model" },
+    });
+    expect(adapter.info).toMatchObject({
+      kind: "local",
+      target: "本机（内置 Ollama）",
+    });
+    expect(adapter.capabilities).toEqual({
+      textGeneration: true,
+      structuredOutput: "none",
+      cancellation: true,
+      usageMetadata: false,
+    });
+    const [url, init] = fetcher.mock.calls[0]!;
+    expect(url).toBe("http://127.0.0.1:11434/v1/chat/completions");
+    expect(init.headers.Authorization).toBeUndefined();
+    expect(JSON.parse(init.body)).toMatchObject({
+      model: "generic-model",
+      messages: expect.any(Array),
+      think: false,
+      chat_template_kwargs: { enable_thinking: false },
+      reasoning_effort: "none",
+    });
   });
 
   test("covers cancellation and timeout without retrying", async () => {
