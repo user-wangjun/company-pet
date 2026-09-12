@@ -17,6 +17,7 @@ prd_render/
 output/
 .worktrees/
 .superpowers/
+/.codex/
 .vs/
 /tmp-*.png
 /yuxin-desktop-pet.exe
