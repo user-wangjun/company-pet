@@ -192,11 +192,11 @@ export function PlatformCompanionChatPage({
             <button
               className="platform-companion-chat-back"
               type="button"
-              aria-label="返回首页"
+              aria-label="返回愈心"
               onClick={onBack ?? onClose}
             >
               <span aria-hidden="true">‹</span>
-              返回首页
+              返回愈心
             </button>
             <div className="platform-companion-chat-identity">
               <span

@@ -117,6 +117,7 @@ import {
   getPetIndexUrl,
   getPetManifestUrl,
   type PetCatalogItem,
+  type PetKind,
   type PetManifest,
   resolvePetAssetUrl,
 } from "./pet-core/petAssets";
@@ -778,6 +779,7 @@ function DesktopPetApp() {
     PLATFORM_START_SECTION,
   );
   const [taskListView, setTaskListView] = useState<TaskListView>("today");
+  const [healingKind, setHealingKind] = useState<PetKind>("pet");
   const [petPluginRevision, setPetPluginRevision] = useState(0);
   const [petPluginErrors, setPetPluginErrors] = useState<string[]>([]);
   const [taskDetailId, setTaskDetailId] = useState<string | null>(null);
@@ -1216,6 +1218,8 @@ function DesktopPetApp() {
     [activePetId, availablePetIds, petManifestsById],
   );
   const activePet = petCatalog.find((pet) => pet.id === activePetId);
+  const visiblePetCatalog = petCatalog.filter((pet) => pet.kind === healingKind);
+  const healingLabel = healingKind === "human" ? "陪伴" : "治愈";
   const activePetManifest = petManifestsById[activePetId];
   const dailyReviewSpeakerTexts = useMemo(
     () => ({
@@ -2952,6 +2956,7 @@ function DesktopPetApp() {
   };
 
   const openPlatformCompanionChat = async () => {
+    setHealingKind(activePet?.kind ?? "pet");
     await openCompanionChat();
     setPlatformSection("chat");
   };
@@ -3135,7 +3140,8 @@ function DesktopPetApp() {
   }, [companionChatSurface, isPlatformWindow]);
 
   const closePlatformCompanionChatPage = () => {
-    exitActiveCompanionChat(true, "back");
+    exitActiveCompanionChat(false, "back");
+    setPlatformSection("healing");
   };
 
   const navigatePlatformSection = (section: PlatformSection) => {
@@ -5140,7 +5146,7 @@ function DesktopPetApp() {
               const target = event.target instanceof Element ? event.target : null;
               const isInsideCompanionSurface = Boolean(
                 target?.closest(
-                  ".platform-companion-chat-room-shell,.platform-companion-chat-record-backdrop,.platform-companion-chat-record-drawer",
+                  ".platform-companion-chat-room-shell,.platform-companion-chat-record-backdrop,.platform-companion-chat-record-drawer,.platform-healing-navigation",
                 ),
               );
               if (!isInsideCompanionSurface) exitActiveCompanionChat(true, "outside");
@@ -5170,19 +5176,12 @@ function DesktopPetApp() {
                 首页
               </button>
               <button
-                aria-current={renderedPlatformSection === "chat" ? "page" : undefined}
-                className={renderedPlatformSection === "chat" ? "is-active" : ""}
+                aria-current={renderedPlatformSection === "chat" || renderedPlatformSection === "healing" ? "page" : undefined}
+                className={renderedPlatformSection === "chat" || renderedPlatformSection === "healing" ? "is-active" : ""}
                 type="button"
-                onClick={() => {
-                  if (
-                    renderedPlatformSection !== "chat"
-                    || companionChatState.mode !== "active"
-                  ) {
-                    void openPlatformCompanionChat();
-                  }
-                }}
+                onClick={() => navigatePlatformSection("healing")}
               >
-                陪伴
+                愈心
               </button>
               <button
                 aria-current={renderedPlatformSection === "settings" ? "page" : undefined}
@@ -5294,6 +5293,26 @@ function DesktopPetApp() {
               </div>
             </div>
           </header>
+
+          {(renderedPlatformSection === "healing" || renderedPlatformSection === "chat" || renderedPlatformSection === "pets") && (
+            <nav className="platform-healing-navigation" aria-label={renderedPlatformSection === "pets" ? "伙伴分类" : "愈心子页面"}>
+              {(["pet", "human"] as const).map((kind) => (
+                <button
+                  key={kind}
+                  type="button"
+                  aria-current={healingKind === kind ? "page" : undefined}
+                  className={healingKind === kind ? "is-active" : ""}
+                  onClick={() => {
+                    if (healingKind === kind) return;
+                    setHealingKind(kind);
+                    navigatePlatformSection(renderedPlatformSection === "pets" ? "pets" : "healing");
+                  }}
+                >
+                  {kind === "pet" ? "治愈" : "陪伴"}
+                </button>
+              ))}
+            </nav>
+          )}
 
           {renderedPlatformSection === "chat" && companionChatState.mode === "active" ? (
             <PlatformCompanionChatPage
@@ -5483,7 +5502,7 @@ function DesktopPetApp() {
               companionMemoryPetId={activePetId}
             />
           ) : (
-            <section className="platform-pets" aria-label="伙伴选择">
+            <section className="platform-pets" aria-label={`${healingLabel}伙伴选择`}>
               {isTauriRuntime() && (
                 <div className="platform-plugin-tools">
                   <span>添加角色插件，让更多伙伴来到这里</span>
@@ -5498,21 +5517,21 @@ function DesktopPetApp() {
               {petPluginErrors.length > 0 && <p role="status">{petPluginErrors.join(" ")}</p>}
               <header className="platform-page-heading">
                 <div>
-                  <span>我的伙伴</span>
-                  <h2>选择陪在桌面上的小伙伴</h2>
+                  <span>{healingLabel}</span>
+                  <h2>{healingKind === "human" ? "找一个愿意听你说话的人" : "和小伙伴一起，慢慢放松下来"}</h2>
                 </div>
-                <p>{petCatalog.length} 位伙伴已经来到这里</p>
+                <p>{visiblePetCatalog.length} 位伙伴已经来到这里</p>
               </header>
 
               <div className="platform-pet-library">
                 <header>
-                  <strong>全部伙伴</strong>
+                  <strong>{healingKind === "human" ? "陪伴角色" : "治愈桌宠"}</strong>
                   <span>当前伙伴排在第一位，更换后会自动轮换</span>
                 </header>
                 <div className="pet-grid">
                   {[
-                    ...petCatalog.filter((pet) => pet.isActive),
-                    ...petCatalog.filter((pet) => !pet.isActive),
+                    ...visiblePetCatalog.filter((pet) => pet.isActive),
+                    ...visiblePetCatalog.filter((pet) => !pet.isActive),
                   ].map((pet) => (
                     <article
                       aria-current={pet.isActive ? "true" : undefined}
@@ -5532,21 +5551,29 @@ function DesktopPetApp() {
                         <p>{pet.description}</p>
                         <div className="pet-card-footer">
                           {pet.isActive ? (
-                            <span className="pet-card-status"><i /> 陪伴中</span>
+                            <>
+                              <span className="pet-card-status"><i /> 陪伴中</span>
+                              <button className="pet-card-action" type="button" onClick={() => void openPlatformCompanionChat()}>
+                                {healingKind === "human" ? "开始陪伴" : "进入治愈"}
+                              </button>
+                            </>
                           ) : (
                             <button
                               className="pet-card-action"
                               type="button"
-                              onClick={() => selectPet(pet)}
+                              onClick={() => {
+                                selectPet(pet);
+                                setPlatformSection(renderedPlatformSection === "pets" ? "pets" : "healing");
+                              }}
                             >
-                              换成它
+                              {healingKind === "human" ? "选择这位伙伴" : "换成它"}
                             </button>
                           )}
                         </div>
                       </div>
                     </article>
                   ))}
-                  {petCatalog.length === 0 && (
+                  {visiblePetCatalog.length === 0 && (
                     <div className="platform-pet-empty">
                       新伙伴来到这里后，会出现在这张名单中。
                     </div>

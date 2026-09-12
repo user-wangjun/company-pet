@@ -4,7 +4,7 @@ export const PLATFORM_START_OPEN = true;
 export const PLATFORM_START_SECTION = "home" as const;
 export const INITIAL_WINDOW_MARGIN_PX = 24;
 
-export type PlatformSection = "home" | "tasks" | "pets" | "chat" | "settings";
+export type PlatformSection = "home" | "tasks" | "pets" | "healing" | "chat" | "settings";
 
 export type CompanionExitReason =
   | "back"
