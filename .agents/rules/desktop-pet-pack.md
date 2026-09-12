@@ -9,6 +9,9 @@ This repository is a desktop-pet platform. Keep pet content isolated from platfo
 
 - Every pet package belongs in `public/pets/<pet-id>/`.
 - Every built-in pet id must also be listed in `public/pets/index.json`.
+- The built-in registry contains only public characters. Private, unregistered packages may remain locally under `public/pets/` for development; release pruning must exclude them completely.
+- Separately installed character plugins live in the application's `app_data_dir/pet-plugins/<pet-id>/`, outside the source repository. They use the same `pet.json` package shape and package-relative asset paths.
+- Do not add private character assets or workbench materials to Git or release artifacts. See `docs/pet-plugins.md` for the plugin loading entry.
 - Do not place pet assets in the project root or in `src/`, `src-tauri/`, `dist/`, `output/`, `prd_render/`, or `releases/`.
 - Use lowercase stable ids with hyphens.
 - The package folder name and `pet.json` `id` must match.

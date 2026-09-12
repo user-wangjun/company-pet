@@ -34,6 +34,10 @@ Minimum `pet.json` fields:
 
 ## Asset Loading
 
+- The built-in registry contains only public characters. Private, unregistered packages may remain locally under `public/pets/` for development; release pruning must exclude them completely.
+- Separately installed character plugins live in the application's `app_data_dir/pet-plugins/<pet-id>/`, outside the source repository. They use the same `pet.json` package shape and package-relative asset paths.
+- Do not add private character assets or workbench materials to Git or release artifacts. See `docs/pet-plugins.md` for the plugin loading entry.
+
 - `public/pets/index.json` is the platform registry. Add every built-in pet id to its `pets` array.
 - The built-in default pet id lives in `src/pet-core/petAssets.ts` as `DEFAULT_PET_ID`.
 - Do not hardcode `/pets/<pet-id>` in components. Use `getPetManifestUrl()` and `resolvePetAssetUrl()`.

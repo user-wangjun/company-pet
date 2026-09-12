@@ -5,6 +5,7 @@ import type {
   PointerEvent as ReactPointerEvent,
 } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { loadPetPlugins } from "./pet-core/petPlugins";
 import {
   currentMonitor,
   getCurrentWindow,
@@ -777,6 +778,8 @@ function DesktopPetApp() {
     PLATFORM_START_SECTION,
   );
   const [taskListView, setTaskListView] = useState<TaskListView>("today");
+  const [petPluginRevision, setPetPluginRevision] = useState(0);
+  const [petPluginErrors, setPetPluginErrors] = useState<string[]>([]);
   const [taskDetailId, setTaskDetailId] = useState<string | null>(null);
   const [hiddenTaskReminderIds, setHiddenTaskReminderIds] = useState<Set<string>>(() => new Set());
   const [taskDatabase, setTaskDatabase] = useState<TaskDatabase>(() => {
@@ -1785,13 +1788,20 @@ function DesktopPetApp() {
         }
 
         const index = (await indexResponse.json()) as PetIndex;
-        const petIds =
+        const builtInPetIds =
           Array.isArray(index.pets) && index.pets.length > 0
             ? index.pets
             : [DEFAULT_PET_ID];
-        const manifestEntries = await Promise.all(
-          petIds.map(async (petId) => [petId, await loadPetManifest(petId)] as const),
-        );
+        const plugins = await loadPetPlugins(builtInPetIds, isTauriRuntime(), import.meta.env.DEV);
+        if (disposed) return;
+        setPetPluginErrors(plugins.errors);
+        const petIds = [...builtInPetIds, ...plugins.manifests.map(pet => pet.id)];
+        const manifestEntries = [
+          ...await Promise.all(
+          builtInPetIds.map(async (petId) => [petId, await loadPetManifest(petId)] as const),
+          ),
+          ...plugins.manifests.map(pet => [pet.id, pet] as const),
+        ];
         const manifests = Object.fromEntries(manifestEntries);
         const dialogueEntries = await Promise.all(
           manifestEntries.map(
@@ -1854,6 +1864,12 @@ function DesktopPetApp() {
     return () => {
       disposed = true;
     };
+  }, [petPluginRevision]);
+
+  useEffect(() => {
+    if (!isTauriRuntime()) return;
+    const unlisten = listenToAppEvent("pet-plugins-changed", () => setPetPluginRevision(value => value + 1));
+    return () => { void unlisten.then(dispose => dispose()); };
   }, []);
 
   useEffect(() => {
@@ -5468,6 +5484,18 @@ function DesktopPetApp() {
             />
           ) : (
             <section className="platform-pets" aria-label="伙伴选择">
+              {isTauriRuntime() && (
+                <div className="platform-plugin-tools">
+                  <span>添加角色插件，让更多伙伴来到这里</span>
+                  <button type="button" onClick={() => {
+                    void invoke("open_pet_plugins_folder").catch(() => setPetPluginErrors(["无法打开插件目录，请稍后重试。"]));
+                  }}>打开插件目录</button>
+                  <button type="button" onClick={() => {
+                    void emit("pet-plugins-changed").catch(() => setPetPluginErrors(["插件刷新失败，请重试。"]));
+                  }}>刷新插件</button>
+                </div>
+              )}
+              {petPluginErrors.length > 0 && <p role="status">{petPluginErrors.join(" ")}</p>}
               <header className="platform-page-heading">
                 <div>
                   <span>我的伙伴</span>

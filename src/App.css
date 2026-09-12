@@ -1981,6 +1981,25 @@ button {
   padding: 1px;
 }
 
+.platform-plugin-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--yuxin-muted);
+  font-size: 12px;
+}
+
+.platform-plugin-tools span { margin-right: auto; }
+.platform-plugin-tools button {
+  padding: 6px 10px;
+  border: 1px solid rgba(52, 91, 80, 0.16);
+  border-radius: 8px;
+  background: #f8faf7;
+  color: var(--yuxin-sage-dark);
+  cursor: pointer;
+}
+
 .platform-page-heading {
   display: flex;
   align-items: end;

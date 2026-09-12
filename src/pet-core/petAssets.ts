@@ -7,6 +7,21 @@ export const DEFAULT_PET_ID = "xiaoju-cat";
 
 const PETS_BASE_PATH = "/pets";
 const PET_INDEX_FILE = "index.json";
+const pluginBaseUrls = new Map<string, string>();
+
+export function registerPetPluginBaseUrl(petId: string, baseUrl: string): void {
+  if (!/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(petId)) throw new Error("Invalid plugin id");
+  const url = new URL(baseUrl);
+  if (!["http://pet-plugin.localhost", "https://pet-plugin.localhost"].includes(url.origin)
+    && !(url.protocol === "pet-plugin:" && url.hostname === "localhost")) throw new Error("Invalid plugin origin");
+  if (url.pathname !== `/${petId}` || url.search || url.hash) throw new Error("Invalid plugin package URL");
+  pluginBaseUrls.set(petId, baseUrl);
+}
+
+export function clearPetPluginBaseUrls(): void {
+  pluginBaseUrls.clear();
+}
+
 export type PetSoundCue = {
   path: string;
   volume?: number;
@@ -96,7 +111,7 @@ export function isSafePetRelativePath(value: string): boolean {
 }
 
 export function getPetBasePath(petId: string): string {
-  return `${PETS_BASE_PATH}/${trimSlashes(petId)}`;
+  return pluginBaseUrls.get(petId) ?? `${PETS_BASE_PATH}/${trimSlashes(petId)}`;
 }
 
 export function getPetIndexUrl(): string {

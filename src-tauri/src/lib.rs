@@ -6,6 +6,7 @@ mod companion_provider;
 mod desktop_icons;
 mod installer_update;
 mod ollama_runtime;
+mod pet_plugins;
 mod startup_guard;
 mod task_notifications;
 mod task_scheduler;
@@ -508,6 +509,7 @@ pub fn run() {
     };
 
     let app = tauri::Builder::default()
+        .register_uri_scheme_protocol("pet-plugin", |context, request| pet_plugins::serve(context.app_handle(), request))
         .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
             if let Some(action) = args
                 .iter()
@@ -535,6 +537,8 @@ pub fn run() {
         .manage(ollama_runtime::OllamaRuntimeState::default())
         .invoke_handler(tauri::generate_handler![
             record_interaction,
+            pet_plugins::list_pet_plugins,
+            pet_plugins::open_pet_plugins_folder,
             companion_provider::get_companion_provider_credential,
             companion_provider::set_companion_provider_credential,
             companion_provider::clear_companion_provider_credential,
