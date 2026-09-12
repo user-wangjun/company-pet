@@ -29,6 +29,7 @@ import {
   Texture,
 } from "pixi.js";
 import "./App.css";
+import { Rig2dPetRuntime } from "./pet-core/rig2dPetRuntime";
 import { LetterReader } from "./platform-mail/LetterReader";
 import { MailboxPanel } from "./platform-mail/MailboxPanel";
 import {
@@ -73,6 +74,8 @@ import {
 } from "./pet-core/interaction";
 import {
   buildAnimationFrameRects,
+  LEGACY_SPRITE_CELL_WIDTH as CELL_WIDTH,
+  LEGACY_SPRITE_CELL_HEIGHT as CELL_HEIGHT,
 } from "./pet-core/animationRows";
 import {
   createDragDirectionState,
@@ -86,6 +89,8 @@ import {
   getPetCanvasPosition,
   getPetAnimationTransform,
   PET_BUBBLE_BOTTOM_PX,
+  PET_WINDOW_WIDTH,
+  PET_WINDOW_HEIGHT,
 } from "./pet-core/visual";
 import {
   clampWindowPositionToWorkArea,
@@ -360,9 +365,6 @@ function randomInRange(min: number, max: number): number {
   return Math.random() * (max - min) + min;
 }
 
-const CELL_WIDTH = 192;
-const CELL_HEIGHT = 208;
-
 type AnimationName = string;
 type AvailableUpdate = Extract<UpdateCheckResult, { status: "available" }>;
 type PressSource = "pointer" | "mouse";
@@ -522,6 +524,10 @@ async function revealDedicatedPlatformWindow(): Promise<void> {
 }
 
 function recordInteraction(event: string): Promise<unknown> {
+  if (import.meta.env.DEV && /^(pointer_down|mouse_down|click|double_click|pointer_cancel)$/.test(event)) {
+    const host = document.querySelector<HTMLElement>('.pet-canvas[data-renderer="rig2d"]');
+    if (host) { host.dataset.lastInteraction = event; host.dataset.interactionAt = String(Date.now()); }
+  }
   return invoke("record_interaction", { event }).catch(() => {});
 }
 
@@ -670,6 +676,14 @@ async function setWindowPosition(
 
 function DesktopPetApp() {
   const isPlatformWindow = isDedicatedPlatformWindow();
+  const isRigPreview = import.meta.env.DEV && new URLSearchParams(window.location.search).has('rig2dPreview');
+  const [rigPreviewControls, setRigPreviewControls] = useState(false);
+  useEffect(() => {
+    if (!isRigPreview || isPlatformWindow) return;
+    const toggle = (event: KeyboardEvent) => { if (event.key === 'F8') { event.preventDefault(); setRigPreviewControls(value => !value); } };
+    window.addEventListener('keydown', toggle);
+    return () => window.removeEventListener('keydown', toggle);
+  }, [isRigPreview, isPlatformWindow]);
   const shellRef = useRef<HTMLElement>(null);
   const pixiHost = useRef<HTMLDivElement>(null);
   const startupPetReady = useRef(false);
@@ -677,6 +691,7 @@ function DesktopPetApp() {
   const startupWindowRevealed = useRef(false);
   const startupRevealTimer = useRef<number | null>(null);
   const spriteRef = useRef<AnimatedSprite | null>(null);
+  const rig2dRef = useRef<Rig2dPetRuntime | null>(null);
   const animationsRef = useRef<Record<AnimationName, Texture[]> | null>(null);
   const animationSpecsRef = useRef<Record<AnimationName, PetAnimationSpec> | null>(null);
   const interactionManifestRef = useRef<ResolvedPetInteractionManifest | null>(null);
@@ -724,6 +739,7 @@ function DesktopPetApp() {
     dragDirection?: DragDirectionState;
   } | null>(null);
   const lastPointerEventAt = useRef(0);
+  const pressGeneration = useRef(0);
   const clickCount = useRef(0);
   const clickTimer = useRef<number | null>(null);
   const lastSecondaryClickAt = useRef<number | null>(null);
@@ -963,9 +979,12 @@ function DesktopPetApp() {
   petSoulsByIdRef.current = petSoulsById;
   proactiveTriggerEngineRef.current = proactiveTriggerEngine;
   activePetIdRef.current = activePetId;
+  const petBubbleAnchorBottom = petManifestsById[activePetId]?.rig2d
+    ? PET_WINDOW_HEIGHT - petVisibleBounds.y + 8
+    : PET_BUBBLE_BOTTOM_PX;
   const petWindowLayout = useMemo(
-    () => buildPetWindowLayout(petVisibleBounds, petBubbleSize),
-    [petBubbleSize, petVisibleBounds],
+    () => buildPetWindowLayout(petVisibleBounds, petBubbleSize, petBubbleAnchorBottom),
+    [petBubbleSize, petVisibleBounds, petBubbleAnchorBottom],
   );
   const windowMode = useRef<WindowMode>(isPlatformOpen ? "platform" : "pet");
   const appliedWindowLayout = useRef<AppliedWindowLayout | null>(null);
@@ -1742,6 +1761,23 @@ function DesktopPetApp() {
 
     const loadPetCatalog = async () => {
       try {
+        const candidatePath = import.meta.env.DEV
+          ? new URLSearchParams(window.location.search).get("rig2dPreview")
+          : null;
+        if (candidatePath) {
+          if (!/^[a-z0-9-]+\/[a-zA-Z0-9_./-]+\.json$/.test(candidatePath) || candidatePath.split("/").includes("..")) {
+            throw new Error("Invalid rig preview path");
+          }
+          const response = await fetch(`/pets/${candidatePath}`);
+          if (!response.ok) throw new Error("Failed to load rig preview");
+          const candidate = await response.json() as PetManifest;
+          if (!candidate.rig2d || candidate.id !== candidatePath.split("/")[0]) throw new Error("Invalid rig preview identity");
+          if (disposed) return;
+          setAvailablePetIds([candidate.id]);
+          setPetManifestsById({ [candidate.id]: candidate });
+          setActivePetId(candidate.id);
+          return;
+        }
         const indexResponse = await fetch(getPetIndexUrl());
 
         if (!indexResponse.ok) {
@@ -1837,6 +1873,10 @@ function DesktopPetApp() {
     let cancelled = false;
     void measurePetVisibleBounds(activePetManifest).then((bounds) => {
       if (!cancelled) setPetVisibleBounds(bounds);
+    }).catch(() => {
+      // Runtime reports invalid assets; keep a failed measurement from cropping
+      // the window to the previous pet while the load error is displayed.
+      if (!cancelled) setPetVisibleBounds({x: 0, y: 0, width: PET_WINDOW_WIDTH, height: PET_WINDOW_HEIGHT});
     });
 
     return () => {
@@ -2084,8 +2124,11 @@ function DesktopPetApp() {
           : nextMode === "task-menu"
             ? taskMenuLayout.windowSize
             : isReminderWindowExpanded
-            ? getPetReminderWindowSize(petBubbleSize, PET_REMINDER_WINDOW_SIZE)
+            ? getPetReminderWindowSize(petBubbleSize, PET_REMINDER_WINDOW_SIZE, petBubbleAnchorBottom)
             : petWindowLayout.windowSize;
+    const reviewSize = isRigPreview && rigPreviewControls && nextMode === 'pet'
+      ? { ...desiredSize, width: Math.max(700, desiredSize.width) }
+      : desiredSize;
     const failureEvent = nextMode === "platform"
       ? "platform_layout_failed"
       : nextMode === "quick-create"
@@ -2104,7 +2147,7 @@ function DesktopPetApp() {
         await applyAnchoredWindowLayout(
           appWindow,
           nextMode,
-          desiredSize,
+          reviewSize,
           shouldResetPetAnchor,
           petViewportOverride,
           isLatestLayout,
@@ -2128,9 +2171,12 @@ function DesktopPetApp() {
     isQuickCreateOpen,
     isTaskMenuOpen,
     petBubbleSize,
+    petBubbleAnchorBottom,
     petWindowLayout,
     taskMenuLayout,
     visibleTaskReminders.length,
+    isRigPreview,
+    rigPreviewControls,
   ]);
 
   const stopPlatformEvent = (
@@ -3352,6 +3398,7 @@ function DesktopPetApp() {
   const markAnimationState = (name: AnimationName) => {
     const host = pixiHost.current;
     if (!host) return;
+    if (host.dataset.currentAnimation !== name) host.dataset.previousAnimation = host.dataset.currentAnimation ?? "";
     host.dataset.currentAnimation = name;
     host.dataset.currentFacing = currentFacing.current;
   };
@@ -3390,6 +3437,12 @@ function DesktopPetApp() {
   };
 
   const playAnimation = (name: AnimationName, startFrame = 0) => {
+    if (rig2dRef.current) {
+      const played = rig2dRef.current.play(name);
+      if (import.meta.env.DEV && played && pixiHost.current) pixiHost.current.dataset.rigAction = name;
+      if (played) { currentAnimation.current = name; markAnimationState(name); }
+      return played;
+    }
     const sprite = spriteRef.current;
     const animations = animationsRef.current;
     const spec = getAnimationSpec(name);
@@ -3515,9 +3568,10 @@ function DesktopPetApp() {
       scene,
       fallbackText,
     );
-    const configuredAnimation = feedback.action && animationsRef.current?.[feedback.action]
+    const hasAnimation = (name: string) => rig2dRef.current?.hasAction(name) ?? Boolean(animationsRef.current?.[name]);
+    const configuredAnimation = feedback.action && hasAnimation(feedback.action)
       ? feedback.action
-      : feedback.fallbackAction && animationsRef.current?.[feedback.fallbackAction]
+      : feedback.fallbackAction && hasAnimation(feedback.fallbackAction)
         ? feedback.fallbackAction
         : null;
     const action: PetActionSpec | PetSequenceSpec = configuredAnimation
@@ -3583,7 +3637,7 @@ function DesktopPetApp() {
       }
 
       const resolved = getActiveInteractionManifest();
-      if (!resolved || !animationsRef.current) return;
+      if (!resolved || (!animationsRef.current && !rig2dRef.current)) return;
       const resolvedDelivery = resolveProactiveTaskDelivery(
         queued.decision,
         queued.candidates,
@@ -3918,33 +3972,42 @@ function DesktopPetApp() {
       currentScreenX: screenX,
       currentScreenY: screenY,
     };
+    rig2dRef.current?.beginDrag(screenX, screenY);
+    const startedPress = pointerState.current;
+    const generation = ++pressGeneration.current;
 
     const appWindow = getOptionalCurrentWindow();
     if (!appWindow) return true;
 
     void Promise.all([appWindow.outerPosition(), appWindow.scaleFactor()])
       .then(([position, scaleFactor]) => {
-        const pointer = pointerState.current;
-        if (!pointer || pointer.pointerId !== pointerId) return;
+        if (generation !== pressGeneration.current) return;
+        const pointer = startedPress;
 
         pointer.windowX = position.x;
         pointer.windowY = position.y;
         pointer.scaleFactor = scaleFactor;
-        if (pointer.dragging) {
+        if (pointer.dragging && pointerState.current === pointer) {
           movePress(
             pointer.currentX,
             pointer.currentY,
             pointer.currentScreenX,
             pointer.currentScreenY,
           );
+        } else if (pointer.dragging && windowMode.current === 'pet') {
+          // A quick release can beat the asynchronous native metric reply.
+          // Apply its final endpoint without restarting the released gesture.
+          applyPressWindowPosition(pointer);
         }
       })
       .catch((err) => {
+        if (generation !== pressGeneration.current) return;
         const errMsg = err instanceof Error ? err.message : String(err);
         console.error("Window metrics failed:", err);
         recordInteraction(`window_metrics_failed: ${errMsg}`);
         setBubbleText(`坐标获取失败喵：${errMsg}`);
         pointerState.current = null;
+        rig2dRef.current?.endDrag();
       });
 
     return true;
@@ -3990,6 +4053,7 @@ function DesktopPetApp() {
     }
 
     if (pointer.dragging) {
+      rig2dRef.current?.moveDrag(screenX, screenY);
       const nextDirection = updateDragDirection(
         pointer.dragDirection ??
           createDragDirectionState(currentFacing.current, pointer.screenX),
@@ -4011,6 +4075,10 @@ function DesktopPetApp() {
       }
     }
 
+    applyPressWindowPosition(pointer);
+  };
+
+  const applyPressWindowPosition = (pointer: NonNullable<typeof pointerState.current>) => {
     if (
       !pointer.dragging ||
       pointer.windowX === undefined ||
@@ -4023,8 +4091,8 @@ function DesktopPetApp() {
     const position = getDraggedWindowPosition({
       startPointerX: pointer.screenX,
       startPointerY: pointer.screenY,
-      pointerX: screenX,
-      pointerY: screenY,
+      pointerX: pointer.currentScreenX,
+      pointerY: pointer.currentScreenY,
       startWindowX: pointer.windowX,
       startWindowY: pointer.windowY,
       scaleFactor: pointer.scaleFactor,
@@ -4062,6 +4130,7 @@ function DesktopPetApp() {
 
     pointerState.current = null;
 
+    rig2dRef.current?.endDrag();
     if (!pointer.dragging) {
       clickCount.current += 1;
       if (clickTimer.current !== null) {
@@ -4229,6 +4298,8 @@ function DesktopPetApp() {
     if (!isPointerCancellation(event.type)) return;
 
     pointerState.current = null;
+    rig2dRef.current?.endDrag();
+    pressGeneration.current += 1;
     recordInteraction("pointer_cancel");
     clearHoverEatTimer();
     updateBubbleAfterPetMovement();
@@ -4595,10 +4666,17 @@ function DesktopPetApp() {
     const manifest = activePetManifest;
     if (!host || !manifest) return;
 
+    host.dataset.petLoaded = "false";
+    for (const key of ["petId", "renderer", "spriteSource", "animationCount", "rigDetailMaterials", "dragResponse", "desktopIconEnabled"]) {
+      delete host.dataset[key];
+    }
+
     let disposed = false;
     let initialized = false;
     let destroyed = false;
     const app = new Application();
+    const rigAbort = new AbortController();
+    let ownedRig: Rig2dPetRuntime | null = null;
     const getCanvasOrigin = (petViewport: PetViewport): WindowPosition =>
       isTauriRuntime()
         ? { x: host.offsetLeft, y: host.offsetTop }
@@ -4630,6 +4708,64 @@ function DesktopPetApp() {
 
         const petId = manifest.id;
         const resolvedInteractions = resolvePetInteractionManifest(manifest);
+        if (manifest.rig2d) {
+          ownedRig = await Rig2dPetRuntime.load(app.renderer, petId, manifest.rig2d, rigAbort.signal);
+          ownedRig.validateActionCatalog(manifest.actions);
+          if(import.meta.env.DEV) host.dataset.rigDetailMaterials=String(ownedRig.detailMaterialCount);
+          if (disposed) { ownedRig.destroy(); destroyApp(); return; }
+          rig2dRef.current = ownedRig;
+          animationSpecsRef.current = resolvedInteractions.animations;
+          interactionManifestRef.current = resolvedInteractions;
+          currentAnimation.current = resolvedInteractions.idle.animation;
+          ownedRig.play(currentAnimation.current);
+          app.stage.addChild(ownedRig.container);
+          let previousOverlay = "";
+          const placeRig = () => {
+            if (disposed || destroyed || !ownedRig) return;
+            const position = getPetCanvasPosition(petViewportRef.current, getCanvasOrigin(petViewportRef.current));
+            ownedRig.container.position.set(position.x, position.y);
+            const shell = shellRef.current;
+            if (shell) {
+              const size = ownedRig.displaySize;
+              const x = host.offsetLeft + position.x, bottom = host.offsetTop + position.y;
+              const bubbleHeight = shell.querySelector<HTMLElement>(".bubble")?.offsetHeight ?? 32;
+              const bubbleBottom = Math.max(8, Math.min(shell.clientHeight - bubbleHeight - 4, shell.clientHeight - bottom + size.height + 8));
+              const values = [x - size.width / 2, bottom - size.height, size.width, size.height, x, bubbleBottom];
+              const signature = values.join(",");
+              if (signature !== previousOverlay) {
+                previousOverlay = signature;
+                shell.dataset.petRenderer = "rig2d";
+                ["left", "top", "width", "height", "bubble-x", "bubble-bottom"].forEach((key, i) => shell.style.setProperty(`--rig-${key}`, `${values[i]}px`));
+              }
+            }
+          };
+          placeRig();
+          app.ticker.add(ticker => {
+            if (disposed || destroyed || !ownedRig) return;
+            ownedRig.step(ticker.deltaMS / 1000);
+            if (import.meta.env.DEV && pixiHost.current) {
+              const host = pixiHost.current;
+              host.dataset.dragResponse = String(ownedRig.dragResponse);
+              const status = document.getElementById('rig-runtime-status');
+              const summary = `${host.dataset.currentAnimation ?? 'idle'}; inertia=${ownedRig.dragResponse.toFixed(3)}; input=${host.dataset.lastInteraction ?? 'none'}`;
+              if (status && status.textContent !== summary) status.textContent = summary;
+            }
+            placeRig();
+          });
+          app.renderer.render(app.stage);
+          startupPetReady.current = true;
+          revealStartupWindowIfReady();
+          if (isTauriRuntime()) void emit("startup-pet-ready");
+          host.dataset.petLoaded = "true";
+          host.dataset.petId = petId;
+          host.dataset.renderer = "rig2d";
+          host.dataset.animationCount = String(Object.keys(manifest.actions).length);
+          host.dataset.currentAnimation = currentAnimation.current;
+          host.dataset.desktopIconEnabled = String(resolvedInteractions.desktopIcon.enabled);
+          recordInteraction("app_ready");
+          window.setTimeout(flushProactiveDeliveries, 0);
+          return;
+        }
         const textureCache = new Map<string, Texture>();
         const loadTexture = async (path: string) => {
           const cached = textureCache.get(path);
@@ -4724,6 +4860,7 @@ function DesktopPetApp() {
 
         host.dataset.petLoaded = "true";
         host.dataset.petId = manifest.id;
+        host.dataset.renderer = "spritesheet";
         host.dataset.spriteSource = manifest.spritesheetPath;
         host.dataset.animationCount = String(animationEntries.length);
         host.dataset.desktopIconEnabled = String(resolvedInteractions.desktopIcon.enabled);
@@ -4760,13 +4897,30 @@ function DesktopPetApp() {
           sprite.position.set(spritePosition.x, spritePosition.y);
         });
       })
-      .catch(() => {
+      .catch((error: unknown) => {
+        if (disposed) return;
+        if (initialized) app.stop();
+        if (rig2dRef.current === ownedRig) rig2dRef.current = null;
+        ownedRig?.destroy();
+        ownedRig = null;
+        destroyApp();
+        if (import.meta.env.DEV) console.error("Pet renderer initialization failed", error);
         recordInteraction("app_init_failed");
         revealStartupWindow("startup_window_revealed_after_pet_failure");
       });
 
     return () => {
       disposed = true;
+      host.dataset.petLoaded = "false";
+      rigAbort.abort();
+      if (initialized && !destroyed) app.stop();
+      if (rig2dRef.current === ownedRig) rig2dRef.current = null;
+      ownedRig?.destroy();
+      ownedRig = null;
+      if (shellRef.current?.dataset.petRenderer === "rig2d") {
+        delete shellRef.current.dataset.petRenderer;
+        ["left", "top", "width", "height", "bubble-x", "bubble-bottom"].forEach(key => shellRef.current?.style.removeProperty(`--rig-${key}`));
+      }
       if (returnToIdleTimer.current !== null) {
         window.clearTimeout(returnToIdleTimer.current);
         returnToIdleTimer.current = null;
@@ -4823,6 +4977,17 @@ function DesktopPetApp() {
       data-ui-font-size={taskDatabase.settings.interfaceFontSize as InterfaceFontSize}
       style={shellStyle}
     >
+      {import.meta.env.DEV && new URLSearchParams(window.location.search).has("rig2dPreview") && !isPlatformOpen && (
+        <aside aria-label="网格候选提醒试播" style={{position:"fixed",left:180,top:8,zIndex:30,pointerEvents:"auto",display:"flex",gap:4}}>
+          <output id="rig-runtime-status" aria-label="网格运行状态" style={{fontSize:10,minWidth:130}}>idle</output>
+          {([['eyeCare','护眼'],['water','喝水'],['meal','用餐'],['sleep','睡眠']] as const).map(([kind,label]) => (
+            <button key={kind} type="button" onClick={() => {
+              const action=getActiveInteractionManifest()?.reminders[kind];
+              if(action)playManifestAction(action,false);
+            }}>{label}试播</button>
+          ))}
+        </aside>
+      )}
       {!isPlatformWindow && (
         <>
           <div

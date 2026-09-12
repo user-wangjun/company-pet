@@ -47,9 +47,10 @@ function expandBounds(bounds: Bounds, padding: number): Bounds {
 export function getPetReminderWindowSize(
   bubble: PetBubbleSize | null,
   minimum: WindowSize,
+  bubbleBottom = PET_BUBBLE_BOTTOM_PX,
 ): WindowSize {
   const bubbleHeight = bubble ? finitePositive(bubble.height, 0) : 0;
-  const requiredHeight = PET_BUBBLE_BOTTOM_PX + bubbleHeight + WINDOW_PADDING_PX;
+  const requiredHeight = finitePositive(bubbleBottom, PET_BUBBLE_BOTTOM_PX) + bubbleHeight + WINDOW_PADDING_PX;
 
   return {
     width: Math.max(1, Math.ceil(minimum.width)),
@@ -65,7 +66,9 @@ export function getPetReminderWindowSize(
 export function buildPetWindowLayout(
   petVisibleBounds: Bounds,
   bubble: PetBubbleSize | null = null,
+  bubbleBottom = PET_BUBBLE_BOTTOM_PX,
 ): PetWindowLayout {
+  const anchorBottom = finitePositive(bubbleBottom, PET_BUBBLE_BOTTOM_PX);
   const petBounds = {
     x: Number.isFinite(petVisibleBounds.x) ? petVisibleBounds.x : 0,
     y: Number.isFinite(petVisibleBounds.y) ? petVisibleBounds.y : 0,
@@ -80,7 +83,7 @@ export function buildPetWindowLayout(
   const bubbleBox = bubble
     ? {
         x: PET_WINDOW_WIDTH / 2 - bubbleWidth / 2,
-        y: PET_WINDOW_HEIGHT - PET_BUBBLE_BOTTOM_PX - bubbleHeight,
+        y: PET_WINDOW_HEIGHT - anchorBottom - bubbleHeight,
         width: bubbleWidth,
         height: bubbleHeight + bubbleTailHeight,
       }
@@ -122,7 +125,7 @@ export function buildPetWindowLayout(
       height: PET_WINDOW_HEIGHT,
     },
     bubbleCenterX: PET_WINDOW_WIDTH / 2 - left,
-    bubbleBottom: bottom - (PET_WINDOW_HEIGHT - PET_BUBBLE_BOTTOM_PX),
+    bubbleBottom: bottom - (PET_WINDOW_HEIGHT - anchorBottom),
     petHitArea: {
       x: hitArea.x - left,
       y: hitArea.y - top,

@@ -7,6 +7,20 @@ import {
 const petVisibleBounds = { x: 40, y: 108, width: 85, height: 100 };
 
 describe("compact pet window layout", () => {
+  test("rig head anchor reserves the full bubble and keeps its tail above the character", () => {
+    const bounds = {x: 42, y: 39, width: 81, height: 170};
+    const anchor = 215 - bounds.y + 8;
+    for (const height of [31, 180, 360]) {
+      const layout = buildPetWindowLayout(bounds, {width: 164, height, tailHeight: 8}, anchor);
+      const bubbleTop = layout.windowSize.height - layout.bubbleBottom - height;
+      const bubbleTailBottom = layout.windowSize.height - layout.bubbleBottom + 8;
+      expect(bubbleTop).toBeGreaterThanOrEqual(8);
+      expect(bubbleTailBottom).toBe(bounds.y + layout.petViewport.y);
+      expect(layout.windowSize.height).toBeGreaterThanOrEqual(height + bounds.height + 24);
+      expect(layout.petHitArea.y + layout.petHitArea.height).toBeLessThan(layout.windowSize.height);
+    }
+    expect(getPetReminderWindowSize({width: 164, height: 360}, {width: 240, height: 450}, anchor)).toEqual({width: 240, height: 552});
+  });
   test("shrinks the no-bubble window to the visible pet footprint", () => {
     expect(buildPetWindowLayout(petVisibleBounds)).toEqual({
       windowSize: { width: 101, height: 116 },

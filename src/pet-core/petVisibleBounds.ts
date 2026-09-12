@@ -1,10 +1,8 @@
-import { buildAnimationFrameRects } from "./animationRows";
+import { buildAnimationFrameRects, LEGACY_SPRITE_CELL_WIDTH as FRAME_WIDTH, LEGACY_SPRITE_CELL_HEIGHT as FRAME_HEIGHT } from "./animationRows";
 import type { Bounds } from "./interaction";
-import { resolvePetAssetUrl, type PetManifest } from "./petAssets";
+import { isSafePetRelativePath, resolvePetAssetUrl, type PetManifest } from "./petAssets";
 import { PET_VISUAL_SCALE, PET_WINDOW_HEIGHT, PET_WINDOW_WIDTH } from "./visual";
 
-const FRAME_WIDTH = 192;
-const FRAME_HEIGHT = 208;
 const PET_BOTTOM_INSET_PX = 6;
 const ALPHA_THRESHOLD = 8;
 
@@ -114,6 +112,23 @@ function toWindowBounds(sample: FrameSample, frameBounds: Bounds): Bounds {
 }
 
 export async function measurePetVisibleBounds(manifest: PetManifest): Promise<Bounds> {
+  if (manifest.rig2d) {
+    // Reserve the whole rig canvas. A static preview cannot bound animated limbs.
+    if (!isSafePetRelativePath(manifest.rig2d.meshPath)) throw new Error('Invalid rig canvas path');
+    const response = await fetch(resolvePetAssetUrl(manifest.id, manifest.rig2d.meshPath));
+    if (!response.ok) throw new Error('Unable to load rig canvas bounds');
+    const {canvas} = await response.json();
+    const height = manifest.rig2d.displayHeight;
+    if (!Array.isArray(canvas) || canvas.length !== 2 ||
+        !canvas.every((n: number) => Number.isInteger(n) && n > 0 && n <= 8192) ||
+        !Number.isFinite(height) || height <= 0) throw new Error('Invalid rig canvas bounds');
+    const width = height * canvas[0] / canvas[1];
+    const left = PET_WINDOW_WIDTH / 2 - width / 2;
+    const top = PET_WINDOW_HEIGHT - PET_BOTTOM_INSET_PX - height;
+    return {x: Math.floor(left), y: Math.floor(top),
+      width: Math.ceil(left + width) - Math.floor(left),
+      height: Math.ceil(top + height) - Math.floor(top)};
+  }
   if (typeof window === "undefined" || typeof document === "undefined") {
     return DEFAULT_PET_VISIBLE_BOUNDS;
   }

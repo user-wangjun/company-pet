@@ -77,6 +77,19 @@ button {
   cursor: grabbing;
 }
 
+.pet-shell[data-pet-renderer="rig2d"] .pet-hit-area {
+  left: var(--rig-left);
+  top: var(--rig-top);
+  width: var(--rig-width);
+  height: var(--rig-height);
+  border-radius: 18%;
+}
+
+.pet-shell[data-pet-renderer="rig2d"] .bubble {
+  left: var(--rig-bubble-x);
+  bottom: var(--rig-bubble-bottom);
+}
+
 .platform-open .pet-hit-area,
 .platform-open .bubble,
 .platform-open .companion-chat {

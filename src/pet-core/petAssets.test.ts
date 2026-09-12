@@ -22,18 +22,44 @@ import {
   getPetBasePath,
   getPetIndexUrl,
   getPetManifestUrl,
+  getPetRoomActorUrl,
   isSafePetRelativePath,
   resolvePetAssetUrl,
 } from "./petAssets";
 import type { PetManifest } from "./petAssets";
 import type { PetManifestInteractions } from "./petInteractionManifest";
 
-const xiaojuPetManifest: PetManifest = builtInPetManifest as PetManifest;
-const ikunPetManifest: PetManifest = ikunManifest as PetManifest;
-const dsPetManifest: PetManifest = dsManifest as PetManifest;
-const suanBirdPetManifest: PetManifest = suanBirdManifest as PetManifest;
+type SpriteManifest = Extract<PetManifest, {spritesheetPath: string}>;
+const xiaojuPetManifest = builtInPetManifest as SpriteManifest;
+const ikunPetManifest = ikunManifest as SpriteManifest;
+const dsPetManifest = dsManifest as SpriteManifest;
+const suanBirdPetManifest = suanBirdManifest as SpriteManifest;
+const sampleHuman: PetManifest = {
+  id: "sample-human", displayName: "Sample", description: "Synthetic test character", kind: "human",
+  previewPath: "preview.png",
+  rig2d: { meshPath: "model/meshes.json", modelPath: "model/runtime.json", actionsPath: "model/actions.json", displayHeight: 170 },
+  actions: Object.fromEntries(["idle", "singleClick", "doubleClick", "drag", "eyeCare", "water", "meal", "sleep"].map(name => [name, { loop: name === "idle" }])),
+  interactions: xiaojuPetManifest.interactions,
+};
 
-const builtInManifests: PetManifest[] = [
+test("loads the complete rig pet from package-local model resources", () => {
+  const pet = sampleHuman;
+  expect(pet.id).toBe("sample-human");
+  expect(petIndex.pets).not.toContain(pet.id);
+  expect(pet.rig2d).toBeDefined();
+  for (const name of ["idle", "singleClick", "doubleClick", "drag", "eyeCare", "water", "meal", "sleep"]) {
+    expect(sampleHuman.actions).toHaveProperty(name);
+  }
+  for (const path of [pet.rig2d!.meshPath, pet.rig2d!.modelPath, pet.rig2d!.actionsPath]) {
+    expect(isSafePetRelativePath(path)).toBe(true);
+    expect(path.startsWith("model/")).toBe(true);
+  }
+  expect(createPetCatalog([pet.id], { [pet.id]: pet }, pet.id)[0]).toMatchObject({
+    previewKind: "image", previewUrl: "/pets/sample-human/preview.png", isActive: true,
+  });
+});
+
+const builtInManifests: SpriteManifest[] = [
   xiaojuPetManifest,
   ikunPetManifest,
   dsPetManifest,
@@ -58,6 +84,28 @@ const requiredInteractions: PetManifestInteractions = {
 };
 
 describe("pet asset paths", () => {
+  test("separates human companions from pets without using rendering technology as identity", () => {
+    const human = sampleHuman;
+    const catalog = createPetCatalog(
+      [...builtInManifests.map((pet) => pet.id), human.id],
+      Object.fromEntries([...builtInManifests, human].map((pet) => [pet.id, pet])),
+      human.id,
+    );
+    expect(catalog.filter((pet) => pet.kind === "human").map((pet) => pet.id)).toEqual(["sample-human"]);
+    expect(catalog.filter((pet) => pet.kind === "pet").map((pet) => pet.id)).toEqual([
+      "xiaoju-cat", "ikun", "ds", "suan-bird",
+    ]);
+    const futurePet = { ...human, id: "rig-cat", kind: "pet" as const };
+    expect(createPetCatalog([futurePet.id], { [futurePet.id]: futurePet }, human.id)[0]).toMatchObject({ kind: "pet", isActive: false });
+  });
+
+  test("resolves an optional room actor inside its own package", () => {
+    expect(getPetRoomActorUrl({ ...xiaojuPetManifest, roomActorPath: "room/actor.json" })).toBe("/pets/xiaoju-cat/room/actor.json");
+    expect(getPetRoomActorUrl(xiaojuPetManifest)).toBeNull();
+    expect(() => getPetRoomActorUrl({ ...xiaojuPetManifest, roomActorPath: "../other/actor.json" })).toThrow(/path/i);
+    expect(() => getPetRoomActorUrl({ ...xiaojuPetManifest, id: "../other", roomActorPath: "actor.json" })).toThrow(/id/i);
+    expect(() => getPetRoomActorUrl({ ...xiaojuPetManifest, roomActorPath: "room%00.json" })).toThrow(/path/i);
+  });
   test("uses xiaoju-cat as the built-in pet package", () => {
     expect(DEFAULT_PET_ID).toBe("xiaoju-cat");
     expect(getPetIndexUrl()).toBe("/pets/index.json");

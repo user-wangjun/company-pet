@@ -317,10 +317,12 @@ function parseAnimations(value: unknown): Record<string, PetAnimationSpec> {
   );
 }
 
+type InteractionAnimation = {loop: boolean; frames?: number};
+
 function getAnimation(
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
   name: string,
-): PetAnimationSpec | undefined {
+): InteractionAnimation | undefined {
   return Object.prototype.hasOwnProperty.call(animations, name)
     ? animations[name]
     : undefined;
@@ -329,7 +331,7 @@ function getAnimation(
 function parseAction(
   value: unknown,
   field: string,
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
   finite: boolean,
 ): PetActionSpec {
   const source = requireRecord(value, `interactions.${field}`);
@@ -386,7 +388,7 @@ function parseAction(
 function parseActionOrSequence(
   value: unknown,
   field: string,
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
 ): PetActionSpec | PetSequenceSpec {
   const source = requireRecord(value, `interactions.${field}`);
   if (!Object.prototype.hasOwnProperty.call(source, "sequence")) {
@@ -451,7 +453,7 @@ function isDesktopIconAllowedSide(
 function resolveDesktopIcon(
   petId: string,
   value: unknown,
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
   warn: (message: string) => void,
 ): PetDesktopIconSpec {
   if (value === undefined) return { enabled: false };
@@ -537,7 +539,7 @@ function resolveDesktopIcon(
 function parseRequiredAction(
   source: UnknownRecord,
   key: string,
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
   finite: boolean,
 ): PetActionSpec {
   if (source[key] === undefined) {
@@ -549,7 +551,7 @@ function parseRequiredAction(
 function parseRequiredActionOrSequence(
   source: UnknownRecord,
   key: string,
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
 ): PetActionSpec | PetSequenceSpec {
   if (source[key] === undefined) {
     throw new Error(`Missing interactions.${key}`);
@@ -559,7 +561,7 @@ function parseRequiredActionOrSequence(
 
 function parseDrag(
   value: unknown,
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
 ): PetDragSpec {
   if (value === undefined) throw new Error("Missing interactions.drag");
   const source = requireRecord(value, "interactions.drag");
@@ -586,6 +588,12 @@ function parseDrag(
     );
   }
 
+  if (rightAnimation.frames === undefined || leftAnimation.frames === undefined) {
+    for (const key of Object.keys(source)) {
+      if (!['directionMode', 'right', 'left'].includes(key)) throw new Error(`Sprite frame option on rig drag: ${key}`);
+    }
+    return {directionMode, right, left};
+  }
   const frameCount = Math.min(rightAnimation.frames, leftAnimation.frames);
   const frameOffsetY = parseOptionalNumberArray(
     source.frameOffsetY,
@@ -769,7 +777,7 @@ function parseDrag(
 
 function parseReminders(
   value: unknown,
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
 ): Record<PetReminderKind, PetActionSpec> {
   if (value === undefined) {
     throw new Error("Missing interactions.reminders.eyeCare");
@@ -790,7 +798,7 @@ function parseReminders(
 
 function parseHover(
   value: unknown,
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
 ): PetHoverSpec {
   if (value === undefined) return { enabled: false };
   const source = requireRecord(value, "interactions.hover");
@@ -810,7 +818,7 @@ function parseHover(
 
 function parseIdleQuirks(
   value: unknown,
-  animations: Record<string, PetAnimationSpec>,
+  animations: Record<string, InteractionAnimation>,
 ): PetActionSpec[] {
   if (value === undefined) return [];
   if (!Array.isArray(value)) {
@@ -827,33 +835,41 @@ export function resolvePetInteractionManifest(
 ): ResolvedPetInteractionManifest {
   const source = requireRecord(value, "manifest");
   const id = requireNonEmptyString(source.id, "id");
-  const animations = parseAnimations(source.animations);
+  const animations = source.rig2d ? {} : parseAnimations(source.animations);
+  const actionCatalog: Record<string, InteractionAnimation> = source.rig2d
+    ? Object.fromEntries(Object.entries(requireRecord(source.actions, 'actions')).map(([name, value]) => {
+        requireNonEmptyString(name, 'action key');
+        const action = requireRecord(value, `actions.${name}`);
+        if (typeof action.loop !== 'boolean') throw new Error(`Invalid loop at actions.${name}`);
+        return [name, {loop: action.loop}];
+      }))
+    : animations;
   const interactions =
     source.interactions === undefined
       ? {}
       : requireRecord(source.interactions, "interactions");
-  const idle = parseRequiredAction(interactions, "idle", animations, false);
+  const idle = parseRequiredAction(interactions, "idle", actionCatalog, false);
   const singleClick = parseRequiredActionOrSequence(
     interactions,
     "singleClick",
-    animations,
+    actionCatalog,
   );
   const doubleClick = parseRequiredActionOrSequence(
     interactions,
     "doubleClick",
-    animations,
+    actionCatalog,
   );
-  const drag = parseDrag(interactions.drag, animations);
-  const reminders = parseReminders(interactions.reminders, animations);
-  const hover = parseHover(interactions.hover, animations);
+  const drag = parseDrag(interactions.drag, actionCatalog);
+  const reminders = parseReminders(interactions.reminders, actionCatalog);
+  const hover = parseHover(interactions.hover, actionCatalog);
 
   const desktopIcon = resolveDesktopIcon(
     id,
     interactions.desktopIcon,
-    animations,
+    actionCatalog,
     warn,
   );
-  const idleQuirks = parseIdleQuirks(interactions.idleQuirks, animations);
+  const idleQuirks = parseIdleQuirks(interactions.idleQuirks, actionCatalog);
 
   return {
     animations,
