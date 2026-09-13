@@ -5136,7 +5136,7 @@ function DesktopPetApp() {
               const target = event.target instanceof Element ? event.target : null;
               const isInsideCompanionSurface = Boolean(
                 target?.closest(
-                  ".platform-companion-chat-room-shell,.platform-companion-chat-record-backdrop,.platform-companion-chat-record-drawer,.platform-healing-navigation",
+                  ".platform-companion-chat-room-shell,.platform-companion-chat-record-backdrop,.platform-companion-chat-record-drawer,.platform-healing-navigation,.platform-navigation",
                 ),
               );
               if (!isInsideCompanionSurface) exitActiveCompanionChat(true, "outside");
@@ -5166,8 +5166,8 @@ function DesktopPetApp() {
                 首页
               </button>
               <button
-                aria-current={renderedPlatformSection === "chat" || renderedPlatformSection === "healing" ? "page" : undefined}
-                className={renderedPlatformSection === "chat" || renderedPlatformSection === "healing" ? "is-active" : ""}
+                aria-current={renderedPlatformSection === "healing" || renderedPlatformSection === "pets" ? "page" : undefined}
+                className={renderedPlatformSection === "healing" || renderedPlatformSection === "pets" ? "is-active" : ""}
                 type="button"
                 onClick={() => navigatePlatformSection("healing")}
               >
@@ -5190,12 +5190,14 @@ function DesktopPetApp() {
                 待办
               </button>
               <button
-                aria-current={renderedPlatformSection === "pets" ? "page" : undefined}
-                className={renderedPlatformSection === "pets" ? "is-active" : ""}
+                aria-current={renderedPlatformSection === "chat" ? "page" : undefined}
+                className={renderedPlatformSection === "chat" ? "is-active" : ""}
                 type="button"
-                onClick={() => navigatePlatformSection("pets")}
+                onClick={() => {
+                  if (renderedPlatformSection !== "chat") void openPlatformCompanionChat();
+                }}
               >
-                桌宠
+                聊天
               </button>
             </nav>
             <div className="platform-header-actions">
@@ -5284,7 +5286,7 @@ function DesktopPetApp() {
             </div>
           </header>
 
-          {(renderedPlatformSection === "healing" || renderedPlatformSection === "chat" || renderedPlatformSection === "pets") && (
+          {(renderedPlatformSection === "healing" || renderedPlatformSection === "pets") && (
             <nav className="platform-healing-navigation" aria-label={renderedPlatformSection === "pets" ? "伙伴分类" : "愈心子页面"}>
               {(["pet", "human"] as const).map((kind) => (
                 <button
