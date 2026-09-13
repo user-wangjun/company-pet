@@ -1,7 +1,8 @@
 import { afterEach, expect, test, vi } from "vitest";
-import { clearPetPluginBaseUrls, getPetManifestUrl, registerPetPluginBaseUrl, resolvePetAssetUrl } from "./petAssets";
-import { loadPetPlugins } from "./petPlugins";
+import { clearPetPluginBaseUrls, createPetCatalog, getPetManifestUrl, registerPetPluginBaseUrl, resolvePetAssetUrl } from "./petAssets";
+import { loadPetPlugins, loadPetManifestsWithPlugins } from "./petPlugins";
 import spriteManifest from "../../public/pets/ds/pet.json";
+import petIndex from "../../public/pets/index.json";
 
 const native = vi.hoisted(() => ({ invoke: vi.fn(), convertFileSrc: vi.fn((id: string) => `http://pet-plugin.localhost/${id}`) }));
 vi.mock("@tauri-apps/api/core", () => native);
@@ -31,4 +32,30 @@ test("rejects external servers and mismatched package URL roots", () => {
   for (const url of ["https://example.com/test-human", "http://pet-plugin.localhost/other", "http://pet-plugin.localhost/test-human?file=secret"]) {
     expect(() => registerPetPluginBaseUrl("test-human", url)).toThrow();
   }
+});
+
+test.each(["native", "development"])("shows all built-in pets in healing before %s plugin discovery finishes", async (mode) => {
+  let finishDiscovery!: (value: { pets: string[]; errors: string[] }) => void;
+  const discovery = new Promise<{ pets: string[]; errors: string[] }>(resolve => { finishDiscovery = resolve; });
+  native.invoke.mockReturnValue(discovery);
+  vi.stubGlobal("fetch", vi.fn(async (url: string) => {
+    if (url === "/local-pets.json") return { ok: true, json: () => discovery };
+    const parts = url.split("/");
+    const id = parts[parts.length - 2];
+    return { ok: true, json: async () => ({ ...spriteManifest, id, kind: id === "test-human" ? "human" : undefined }) };
+  }));
+  const onCatalog = vi.fn();
+  let completed = false;
+  const loading = loadPetManifestsWithPlugins(petIndex.pets, mode === "native", mode === "development", onCatalog)
+    .then(value => { completed = true; return value; });
+  await vi.waitFor(() => expect(onCatalog).toHaveBeenCalledTimes(1));
+  expect(completed).toBe(false);
+  const entries = onCatalog.mock.calls[0][0];
+  const builtIns = createPetCatalog(petIndex.pets, Object.fromEntries(entries), petIndex.pets[0]);
+  expect(builtIns.filter(pet => pet.kind === "pet").map(pet => pet.id)).toEqual(petIndex.pets);
+  finishDiscovery({ pets: ["test-human"], errors: [] });
+  const loaded = await loading;
+  const catalog = createPetCatalog(loaded.entries.map(([id]) => id), Object.fromEntries(loaded.entries), petIndex.pets[0]);
+  expect(catalog.filter(pet => pet.kind === "pet").map(pet => pet.id)).toEqual(petIndex.pets);
+  expect(catalog.filter(pet => pet.kind === "human").map(pet => pet.id)).toEqual(["test-human"]);
 });

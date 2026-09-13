@@ -2,6 +2,29 @@ import { convertFileSrc, invoke } from "@tauri-apps/api/core";
 import { clearPetPluginBaseUrls, getPetManifestUrl, isSafePetRelativePath, registerPetPluginBaseUrl, type PetManifest } from "./petAssets";
 import { resolvePetInteractionManifest } from "./petInteractionManifest";
 
+export async function loadPetManifest(petId: string): Promise<PetManifest> {
+  const response = await fetch(getPetManifestUrl(petId));
+  if (!response.ok) throw new Error(`Failed to load pet manifest: ${response.status}`);
+  return response.json() as Promise<PetManifest>;
+}
+
+type ManifestEntry = readonly [string, PetManifest];
+
+export async function loadPetManifestsWithPlugins(
+  builtInIds: string[],
+  native: boolean,
+  development: boolean,
+  onCatalog: (entries: ManifestEntry[]) => void,
+) {
+  const builtIns = await Promise.all(builtInIds.map(async id => [id, await loadPetManifest(id)] as const));
+  // Built-in pets must remain usable even while optional plugin discovery is pending.
+  onCatalog(builtIns);
+  const plugins = await loadPetPlugins(builtInIds, native, development);
+  const entries: ManifestEntry[] = [...builtIns, ...plugins.manifests.map(pet => [pet.id, pet] as const)];
+  onCatalog(entries);
+  return { entries, errors: plugins.errors };
+}
+
 function validatePackagePaths(value: unknown, key = ""): void {
   if (value && typeof value === "object") {
     for (const [childKey, childValue] of Object.entries(value)) validatePackagePaths(childValue, childKey);

@@ -5,7 +5,7 @@ import type {
   PointerEvent as ReactPointerEvent,
 } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { loadPetPlugins } from "./pet-core/petPlugins";
+import { loadPetManifest, loadPetManifestsWithPlugins } from "./pet-core/petPlugins";
 import {
   currentMonitor,
   getCurrentWindow,
@@ -115,7 +115,6 @@ import {
   createPetCatalog,
   DEFAULT_PET_ID,
   getPetIndexUrl,
-  getPetManifestUrl,
   type PetCatalogItem,
   type PetKind,
   type PetManifest,
@@ -480,16 +479,6 @@ function isTauriRuntime(): boolean {
     typeof window !== "undefined" &&
     "__TAURI_INTERNALS__" in window
   );
-}
-
-async function loadPetManifest(petId = DEFAULT_PET_ID): Promise<PetManifest> {
-  const response = await fetch(getPetManifestUrl(petId));
-
-  if (!response.ok) {
-    throw new Error(`Failed to load pet manifest: ${response.status}`);
-  }
-
-  return response.json() as Promise<PetManifest>;
 }
 
 function readSavedPetId(): string | null {
@@ -1796,17 +1785,23 @@ function DesktopPetApp() {
           Array.isArray(index.pets) && index.pets.length > 0
             ? index.pets
             : [DEFAULT_PET_ID];
-        const plugins = await loadPetPlugins(builtInPetIds, isTauriRuntime(), import.meta.env.DEV);
+        const petIdAtLoadStart = activePetIdRef.current;
+        const savedPetId = readSavedPetId();
+        const loadedCatalog = await loadPetManifestsWithPlugins(
+          builtInPetIds, isTauriRuntime(), import.meta.env.DEV,
+          (entries) => {
+            if (disposed) return;
+            setAvailablePetIds(entries.map(([id]) => id));
+            setPetManifestsById(Object.fromEntries(entries));
+          },
+        );
         if (disposed) return;
-        setPetPluginErrors(plugins.errors);
-        const petIds = [...builtInPetIds, ...plugins.manifests.map(pet => pet.id)];
-        const manifestEntries = [
-          ...await Promise.all(
-          builtInPetIds.map(async (petId) => [petId, await loadPetManifest(petId)] as const),
-          ),
-          ...plugins.manifests.map(pet => [pet.id, pet] as const),
-        ];
-        const manifests = Object.fromEntries(manifestEntries);
+        setPetPluginErrors(loadedCatalog.errors);
+        const manifestEntries = loadedCatalog.entries;
+        const petIds = manifestEntries.map(([id]) => id);
+        setActivePetId(current => chooseInitialPetId(
+          petIds, current === petIdAtLoadStart ? savedPetId : current,
+        ));
         const dialogueEntries = await Promise.all(
           manifestEntries.map(
             async ([petId, manifest]) =>
@@ -1831,35 +1826,30 @@ function DesktopPetApp() {
               [petId, await loadTaskFeedbackPackage(manifest)] as const,
           ),
         );
-        const initialPetId = chooseInitialPetId(petIds, readSavedPetId());
-
         if (disposed) return;
-        setAvailablePetIds(petIds);
-        setPetManifestsById(manifests);
         setPetDialoguesById(Object.fromEntries(dialogueEntries));
         setPetCompanionChatsById(Object.fromEntries(companionChatEntries));
         setPetSoulsById(Object.fromEntries(soulEntries));
         setPetTaskFeedbackById(Object.fromEntries(taskFeedbackEntries));
-        setActivePetId(initialPetId);
       } catch {
         const fallbackManifest = await loadPetManifest(DEFAULT_PET_ID).catch(
           () => null,
         );
 
         if (disposed || !fallbackManifest) return;
+        setAvailablePetIds([DEFAULT_PET_ID]);
+        setPetManifestsById({ [DEFAULT_PET_ID]: fallbackManifest });
+        setActivePetId(DEFAULT_PET_ID);
         const fallbackDialogues = await loadPetDialoguePackage(fallbackManifest);
         const fallbackCompanionChat =
           await loadPetCompanionChatPackage(fallbackManifest);
         const fallbackSoul = await loadPetSoulPackage(fallbackManifest);
         const fallbackTaskFeedback = await loadTaskFeedbackPackage(fallbackManifest);
         if (disposed) return;
-        setAvailablePetIds([DEFAULT_PET_ID]);
-        setPetManifestsById({ [DEFAULT_PET_ID]: fallbackManifest });
         setPetDialoguesById({ [DEFAULT_PET_ID]: fallbackDialogues });
         setPetCompanionChatsById({ [DEFAULT_PET_ID]: fallbackCompanionChat });
         setPetSoulsById({ [DEFAULT_PET_ID]: fallbackSoul });
         setPetTaskFeedbackById({ [DEFAULT_PET_ID]: fallbackTaskFeedback });
-        setActivePetId(DEFAULT_PET_ID);
       }
     };
 
