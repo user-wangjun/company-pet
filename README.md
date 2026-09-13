@@ -1,8 +1,8 @@
-# 愈心桌宠
+# 愈心
 
-![愈心桌宠宣传图](public/marketing-assets/marketing-morning.png)
+![愈心宣传图](public/marketing-assets/marketing-morning.png)
 
-愈心桌宠是一个基于 Tauri、React 和 PixiJS 的桌面宠物平台。它不是单个宠物的演示程序，而是一个可以持续扩展不同角色包的桌宠应用：每只宠物都作为独立 package 放在 `public/pets/<pet-id>/` 下，由平台统一加载、渲染和交互。
+愈心是一个基于 Tauri、React 和 PixiJS 的桌面宠物平台。它不是单个宠物的演示程序，而是一个可以持续扩展不同角色包的桌宠应用：每只宠物都作为独立 package 放在 `public/pets/<pet-id>/` 下，由平台统一加载、渲染和交互。
 
 ## 主要功能
 
