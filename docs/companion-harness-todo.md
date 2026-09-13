@@ -2,7 +2,7 @@
 
 > 状态：Phase 8-R4-H 真实 Windows 200% DPI Tauri Settings A-G 复验通过，当前 H 结论为 `TAURI_SETTINGS_PASS`；本轮全量 Vitest 另受工作树既有 pet manifest/test 参数不一致阻断。pre-QA 原始资料未知，真实 Provider、打包、发布和 Git 发布仍未完成
 > 审查日期：2026-08-20
-> 产品：愈心桌宠
+> 产品：愈心
 > 输入文档：`Companion Harness PRD v1.2`、`Companion Harness Technical Design v1.2`
 
 ## 1. 审查结论
